@@ -8,6 +8,9 @@
 static FBSimulatorControl *_control;
 
 + (BOOL)startTest:(SimulatorTestParameters *)params {
+    NSAssert(params.deviceType == kDeviceTypeSimulator,
+             @"Can not run a Simulator test with an instance of %@",
+             NSStringFromClass(params.class));
     NSError *e;
     FBSimulator *simulator = [self simulatorWithDeviceID:params.deviceID];
     if (!simulator) { return NO; }

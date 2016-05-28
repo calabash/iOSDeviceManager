@@ -271,9 +271,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
-					/Library/Frameworks,
+					"$(PROJECT_DIR)/Frameworks",
 				);
+				GENERATE_MASTER_OBJECT_FILE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -284,9 +284,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
-					/Library/Frameworks,
+					"$(PROJECT_DIR)/Frameworks",
 				);
+				GENERATE_MASTER_OBJECT_FILE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
