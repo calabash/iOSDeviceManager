@@ -1,0 +1,3 @@
+[submodule "FacebookSubmodules/FBSimulatorControl"]
+	path = FacebookSubmodules/FBSimulatorControl
+	url = https://github.com/calabash/FBSimulatorControl.git
