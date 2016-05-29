@@ -9,11 +9,22 @@
 /* Begin PBXBuildFile section */
 		89331D471CE222C7003C2E59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89331D461CE222C7003C2E59 /* main.m */; };
 		896F7F071CF9C55C00FD8572 /* DeviceTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */; };
-		896F7F0C1CF9C56800FD8572 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F091CF9C56800FD8572 /* Device.m */; };
+		896F7F0C1CF9C56800FD8572 /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F091CF9C56800FD8572 /* PhysicalDevice.m */; };
 		896F7F0D1CF9C56800FD8572 /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0B1CF9C56800FD8572 /* Simulator.m */; };
 		896F7F101CF9C57600FD8572 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0F1CF9C57600FD8572 /* ShellRunner.m */; };
 		896F7F161CF9F96100FD8572 /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F151CF9F96100FD8572 /* TestParameters.m */; };
 		896F7F191CF9FC3C00FD8572 /* SimulatorTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */; };
+		89EF4ABE1CFA5ACB006DCDC5 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ABD1CFA5ACB006DCDC5 /* Device.m */; };
+		89EF4AC41CFA6008006DCDC5 /* TestControlArgParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */; };
+		89EF4ACC1CFA614F006DCDC5 /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */; };
+		89EF4ADE1CFA6432006DCDC5 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ABD1CFA5ACB006DCDC5 /* Device.m */; };
+		89EF4ADF1CFA6432006DCDC5 /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F151CF9F96100FD8572 /* TestParameters.m */; };
+		89EF4AE01CFA64A0006DCDC5 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0F1CF9C57600FD8572 /* ShellRunner.m */; };
+		89EF4AE11CFA64A0006DCDC5 /* TestControlArgParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */; };
+		89EF4AE21CFA64A0006DCDC5 /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F091CF9C56800FD8572 /* PhysicalDevice.m */; };
+		89EF4AE31CFA64A0006DCDC5 /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0B1CF9C56800FD8572 /* Simulator.m */; };
+		89EF4AE41CFA64A0006DCDC5 /* DeviceTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */; };
+		89EF4AE51CFA64A0006DCDC5 /* SimulatorTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,8 +44,8 @@
 		89331D461CE222C7003C2E59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		896F7F051CF9C55C00FD8572 /* DeviceTestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceTestParameters.h; path = TestParameters/DeviceTestParameters.h; sourceTree = "<group>"; };
 		896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceTestParameters.m; path = TestParameters/DeviceTestParameters.m; sourceTree = "<group>"; };
-		896F7F081CF9C56800FD8572 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = Devices/Device.h; sourceTree = "<group>"; };
-		896F7F091CF9C56800FD8572 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = Devices/Device.m; sourceTree = "<group>"; };
+		896F7F081CF9C56800FD8572 /* PhysicalDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicalDevice.h; path = Devices/PhysicalDevice.h; sourceTree = "<group>"; };
+		896F7F091CF9C56800FD8572 /* PhysicalDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalDevice.m; path = Devices/PhysicalDevice.m; sourceTree = "<group>"; };
 		896F7F0A1CF9C56800FD8572 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Simulator.h; path = Devices/Simulator.h; sourceTree = "<group>"; };
 		896F7F0B1CF9C56800FD8572 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Simulator.m; path = Devices/Simulator.m; sourceTree = "<group>"; };
 		896F7F0E1CF9C57600FD8572 /* ShellRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellRunner.h; path = Utilities/ShellRunner.h; sourceTree = "<group>"; };
@@ -43,10 +54,24 @@
 		896F7F151CF9F96100FD8572 /* TestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestParameters.m; path = TestParameters/TestParameters.m; sourceTree = "<group>"; };
 		896F7F171CF9FC3C00FD8572 /* SimulatorTestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimulatorTestParameters.h; path = TestParameters/SimulatorTestParameters.h; sourceTree = "<group>"; };
 		896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorTestParameters.m; path = TestParameters/SimulatorTestParameters.m; sourceTree = "<group>"; };
+		89EF4ABC1CFA5ACB006DCDC5 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = Devices/Device.h; sourceTree = "<group>"; };
+		89EF4ABD1CFA5ACB006DCDC5 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = Devices/Device.m; sourceTree = "<group>"; };
+		89EF4AC21CFA6008006DCDC5 /* TestControlArgParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestControlArgParser.h; path = Utilities/TestControlArgParser.h; sourceTree = "<group>"; };
+		89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestControlArgParser.m; path = Utilities/TestControlArgParser.m; sourceTree = "<group>"; };
+		89EF4AC91CFA614F006DCDC5 /* TestControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
+		89EF4ACD1CFA614F006DCDC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		89331D401CE222C7003C2E59 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		89EF4AC61CFA614F006DCDC5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -60,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				89331D451CE222C7003C2E59 /* test-control */,
+				89EF4ACA1CFA614F006DCDC5 /* TestControlTests */,
 				89331D441CE222C7003C2E59 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				89331D431CE222C7003C2E59 /* test-control */,
+				89EF4AC91CFA614F006DCDC5 /* TestControlTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,8 +113,10 @@
 		896F7F021CF9C50500FD8572 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
-				896F7F081CF9C56800FD8572 /* Device.h */,
-				896F7F091CF9C56800FD8572 /* Device.m */,
+				89EF4ABC1CFA5ACB006DCDC5 /* Device.h */,
+				89EF4ABD1CFA5ACB006DCDC5 /* Device.m */,
+				896F7F081CF9C56800FD8572 /* PhysicalDevice.h */,
+				896F7F091CF9C56800FD8572 /* PhysicalDevice.m */,
 				896F7F0A1CF9C56800FD8572 /* Simulator.h */,
 				896F7F0B1CF9C56800FD8572 /* Simulator.m */,
 			);
@@ -112,8 +141,19 @@
 			children = (
 				896F7F0E1CF9C57600FD8572 /* ShellRunner.h */,
 				896F7F0F1CF9C57600FD8572 /* ShellRunner.m */,
+				89EF4AC21CFA6008006DCDC5 /* TestControlArgParser.h */,
+				89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		89EF4ACA1CFA614F006DCDC5 /* TestControlTests */ = {
+			isa = PBXGroup;
+			children = (
+				89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */,
+				89EF4ACD1CFA614F006DCDC5 /* Info.plist */,
+			);
+			path = TestControlTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +176,23 @@
 			productReference = 89331D431CE222C7003C2E59 /* test-control */;
 			productType = "com.apple.product-type.tool";
 		};
+		89EF4AC81CFA614F006DCDC5 /* TestControlTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "TestControlTests" */;
+			buildPhases = (
+				89EF4AC51CFA614F006DCDC5 /* Sources */,
+				89EF4AC61CFA614F006DCDC5 /* Frameworks */,
+				89EF4AC71CFA614F006DCDC5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestControlTests;
+			productName = TestControlTests;
+			productReference = 89EF4AC91CFA614F006DCDC5 /* TestControlTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -147,6 +204,9 @@
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
 						CreatedOnToolsVersion = 7.3;
+					};
+					89EF4AC81CFA614F006DCDC5 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
@@ -163,9 +223,20 @@
 			projectRoot = "";
 			targets = (
 				89331D421CE222C7003C2E59 /* test-control */,
+				89EF4AC81CFA614F006DCDC5 /* TestControlTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		89EF4AC71CFA614F006DCDC5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		89331D3F1CE222C7003C2E59 /* Sources */ = {
@@ -173,12 +244,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				896F7F071CF9C55C00FD8572 /* DeviceTestParameters.m in Sources */,
-				896F7F0C1CF9C56800FD8572 /* Device.m in Sources */,
+				89EF4AC41CFA6008006DCDC5 /* TestControlArgParser.m in Sources */,
+				896F7F0C1CF9C56800FD8572 /* PhysicalDevice.m in Sources */,
 				89331D471CE222C7003C2E59 /* main.m in Sources */,
+				89EF4ABE1CFA5ACB006DCDC5 /* Device.m in Sources */,
 				896F7F191CF9FC3C00FD8572 /* SimulatorTestParameters.m in Sources */,
 				896F7F161CF9F96100FD8572 /* TestParameters.m in Sources */,
 				896F7F101CF9C57600FD8572 /* ShellRunner.m in Sources */,
 				896F7F0D1CF9C56800FD8572 /* Simulator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		89EF4AC51CFA614F006DCDC5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89EF4AE01CFA64A0006DCDC5 /* ShellRunner.m in Sources */,
+				89EF4AE11CFA64A0006DCDC5 /* TestControlArgParser.m in Sources */,
+				89EF4AE21CFA64A0006DCDC5 /* PhysicalDevice.m in Sources */,
+				89EF4AE31CFA64A0006DCDC5 /* Simulator.m in Sources */,
+				89EF4AE41CFA64A0006DCDC5 /* DeviceTestParameters.m in Sources */,
+				89EF4AE51CFA64A0006DCDC5 /* SimulatorTestParameters.m in Sources */,
+				89EF4ADE1CFA6432006DCDC5 /* Device.m in Sources */,
+				89EF4ADF1CFA6432006DCDC5 /* TestParameters.m in Sources */,
+				89EF4ACC1CFA614F006DCDC5 /* IntegrationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +363,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_MASTER_OBJECT_FILE = NO;
-				LD_RUNPATH_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -287,7 +376,31 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_MASTER_OBJECT_FILE = NO;
-				LD_RUNPATH_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		89EF4ACF1CFA614F006DCDC5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = $PROJECT_DIR/Frameworks;
+				INFOPLIST_FILE = TestControlTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $HOME/.calabash/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.TestControlTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		89EF4AD01CFA614F006DCDC5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = $PROJECT_DIR/Frameworks;
+				INFOPLIST_FILE = TestControlTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $HOME/.calabash/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.TestControlTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -312,6 +425,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "TestControlTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89EF4ACF1CFA614F006DCDC5 /* Debug */,
+				89EF4AD01CFA614F006DCDC5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -18,7 +18,6 @@
 
 @implementation TestParameters
 
-//F8C4D65B-2FB7-4B8B-89BE-8C3982E65F3F
 + (BOOL)isSimulatorID:(NSString *)did {
     NSArray <NSString *>*parts = [did componentsSeparatedByString:@"-"];
     NSUUID *u = [[NSUUID alloc] initWithUUIDString:did];
@@ -61,9 +60,17 @@
         [self failWith:[NSString stringWithFormat:@"Must provide a test bundle path (.xctest). Use the %@ flag", XCTEST_BUNDLE_PATH_FLAG]];
     }
     
+    if (![self.testBundlePath.pathExtension isEqualToString:@"xctest"]) {
+        [self failWith:[NSString stringWithFormat:@"%@ is not an .xctest bundle", self.testBundlePath]];
+    }
+    
     if (self.testRunnerPath == nil) {
         [self failWith:[NSString stringWithFormat:@"Must provide a path to the TestRunner.app. Use the %@ flag",
                         TEST_RUNNER_PATH_FLAG]];
+    }
+    
+    if (![self.testRunnerPath.pathExtension isEqualToString:@"app"]) {
+        [self failWith:[NSString stringWithFormat:@"%@ is not an .app bundle", self.testRunnerPath]];
     }
     
     if (![fm fileExistsAtPath:self.testBundlePath]) {

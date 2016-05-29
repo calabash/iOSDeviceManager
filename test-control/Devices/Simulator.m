@@ -14,6 +14,7 @@ static FBSimulatorControl *_control;
     NSError *e;
     FBSimulator *simulator = [self simulatorWithDeviceID:params.deviceID];
     if (!simulator) { return NO; }
+   
     FBSimulatorApplication *app = [self app:params.testRunnerPath];
     [[[simulator.interact installApplication:app] startTestRunnerLaunchConfiguration:[self testRunnerLaunchConfig:params.testRunnerPath]
                                                                       testBundlePath:params.testBundlePath
@@ -46,13 +47,33 @@ static FBSimulatorControl *_control;
                                                                   options:0];
 }
 
++ (BOOL)iOS_GTE_9:(NSString *)versionString {
+    NSArray <NSString *> *components = [versionString componentsSeparatedByString:@" "];
+    if (components.count < 2) {
+        NSLog(@"Unparseable version string: %@", versionString);
+        return NO;
+    }
+    NSString *versionNumberString = components[1];
+    float versionNumber = [versionNumberString floatValue];
+    if (versionNumber < 9) {
+        NSLog(@"The simulator you selected has %@ installed. \n\
+%@ is not valid for testing. \n\
+Tests can not be run on iOS less than 9.0",
+              versionString,
+              versionString);
+        return NO;
+    }
+    NSLog(@"%@ is valid for testing.", versionString);
+    return YES;
+}
+
 + (FBSimulator *)simulatorWithDeviceID:(NSString *)deviceID {
     NSError *e;
     FBSimulatorControlConfiguration *controlConfig = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil
                                                                                                              options:0];
     FBSimulatorSet *sims = [FBSimulatorSet setWithConfiguration:controlConfig
                                                         control:self.control
-                                                         logger:nil
+                                                         logger:[self new]
                                                           error:&e];
     if (e) {
         NSLog(@"Error fetching simulator set: %@", e);
@@ -70,6 +91,10 @@ static FBSimulatorControl *_control;
     }
     FBSimulator *sim = results[0];
     NSLog(@"Found simulator match: %@", sim);
+    if (![self iOS_GTE_9:sim.configuration.osVersionString]) {
+        return nil;
+    }
+    
     if (sim.state == FBSimulatorStateShutdown) {
         NSLog(@"Sim is dead, booting...");
         [[sim.interact bootSimulator:FBSimulatorLaunchConfiguration.defaultConfiguration] perform:&e];
@@ -151,37 +176,39 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
-//
-//+ (void)startTest {
-//    NSError *error = nil;
-//    FBSimulator *simulator = [self.control.pool allocateSimulatorWithConfiguration:FBSimulatorConfiguration.iPhone6s
-//                                                                           options:FBSimulatorAllocationOptionsReuse | FBSimulatorAllocationOptionsCreate | FBSimulatorAllocationOptionsEraseOnAllocate
-//                                                                             error:&error];
-//    
-//    NSString *testBundlePath = @"/Users/chrisf/calabash-xcuitest-server/Products/app/DeviceAgent/CBX-Runner.app/PlugIns/CBX.xctest";
-//    NSString *bundleID = @"com.apple.test.CBX-Runner";
-//    
-//    FBSimulatorTestPreparationStrategy *testPrepareStrategy =
-//    [FBSimulatorTestPreparationStrategy strategyWithTestRunnerBundleID:bundleID
-//                                                        testBundlePath:testBundlePath
-//                                                      workingDirectory:@"/Users/chrisf"
-//     ];
-//    
-//    FBSimulatorApplication *app = [FBSimulatorApplication applicationWithPath:@"/Users/chrisf/calabash-xcuitest-server/Products/app/DeviceAgent/CBX-Runner.app" error:&error];
-//    FBApplicationLaunchConfiguration *conf = [FBApplicationLaunchConfiguration configurationWithApplication:app arguments:@[] environment:@{} options:FBProcessLaunchOptionsWriteStdout];
-//    [simulator.interact installApplication:app];
-//    
-//    [simulator.interact launchApplication:conf];
-//    
-////    FBSimulatorControlOperator *operator = [FBSimulatorControlOperator operatorWithSimulator:simulator];
-////    FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:operator
-////                                                                       testPrepareStrategy:testPrepareStrategy
-////                                                                                  reporter:nil
-////                                                                                    logger:simulator.logger];
-////    NSError *innerError = nil;
-////    FBTestManager *testManager = [testRunStrategy startTestManagerWithAttributes:@[]
-////                                                                     environment:@{}
-////                                                                           error:&innerError];
-//    [[NSRunLoop mainRunLoop] run];
-//}
+#pragma mark - FBControlCoreLogger
+- (id<FBControlCoreLogger>)log:(NSString *)string {
+    NSLog(@"%@", string);
+    return self;
+}
+
+- (id<FBControlCoreLogger>)logFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) {
+    va_list args;
+    va_start(args, format);
+    id str = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    NSLog(@"%@", str);
+    return self;
+}
+
+- (id<FBControlCoreLogger>)info {
+    return self;
+}
+
+- (id<FBControlCoreLogger>)debug {
+    return self;
+}
+
+- (id<FBControlCoreLogger>)error {
+    return self;
+}
+
+- (id<FBControlCoreLogger>)onQueue:(dispatch_queue_t)queue {
+    return self;
+}
+
+- (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix {
+    return self;
+}
+
 @end

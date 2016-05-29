@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>TestControlTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>test-control.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -13,6 +18,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>89331D421CE222C7003C2E59</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>89EF4AC81CFA614F006DCDC5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -1,8 +1,7 @@
 
-@import Foundation;
-#import <XCTestBootstrap/XCTestBootstrap.h>
-#import "DeviceTestParameters.h"
+#import "TestParameters.h"
+#import <Foundation/Foundation.h>
 
-@interface Device : NSObject<FBTestManagerTestReporter, FBControlCoreLogger>
-+ (BOOL)startTest:(DeviceTestParameters *)params;
+@interface Device : NSObject
++ (BOOL)startTest:(TestParameters *)params;
 @end
