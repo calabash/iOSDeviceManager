@@ -4,7 +4,7 @@
 
 @implementation TestControlArgParser
 
-static NSString *progname = @"test-control";
+static NSString *progname = @"xctestctl";
 
 static NSDictionary *flagDescriptions;
 static NSDictionary *flagRequirementDict;
@@ -37,7 +37,7 @@ static NSDictionary *flagRequirementDict;
                          };
 
     if (arguments.count == 1) {
-        printf("test-control\n\n");
+        printf("%s\n\n", [progname UTF8String]);
         NSString *licenseInfo;
         licenseInfo = @"Released under BSD 3-Clause License\n\
 https://github.com/calabash/test-control/blob/master/LICENSE\n\

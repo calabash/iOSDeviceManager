@@ -1,11 +1,11 @@
-## test-control
+## xctestctl
 
 A tool for launching xctests on device and simulator.
 
 ### Using
 
 ```
-$ test-control
+$ xctestctl
   -r       Path to Test Runner .app directory
   -t       Path to .xctest bundle
   -c       [Device Only] Codesign Identity
@@ -17,7 +17,7 @@ $ test-control
 
 ### Building
 
-`test-control` has some framework dependencies on the FBSimulatorControl
+`xctestctl` has some framework dependencies on the FBSimulatorControl
 frameworks.  A forked build of them is included in the project and can
 be installed like so:
 
