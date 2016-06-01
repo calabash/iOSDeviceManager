@@ -61,6 +61,8 @@
 		89EF4AC91CFA614F006DCDC5 /* TestControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
 		89EF4ACD1CFA614F006DCDC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,9 +86,11 @@
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
+				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* test-control */,
 				89EF4ACA1CFA614F006DCDC5 /* TestControlTests */,
 				89331D441CE222C7003C2E59 /* Products */,
+				F5169D271CFEAE5900252F52 /* vendor-licenses */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +158,14 @@
 				89EF4ACD1CFA614F006DCDC5 /* Info.plist */,
 			);
 			path = TestControlTests;
+			sourceTree = "<group>";
+		};
+		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
+			isa = PBXGroup;
+			children = (
+				F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */,
+			);
+			path = "vendor-licenses";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,6 +445,7 @@
 				89EF4AD01CFA614F006DCDC5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -37,7 +37,15 @@ static NSDictionary *flagRequirementDict;
                          };
 
     if (arguments.count == 1) {
+        printf("test-control\n\n");
+        NSString *licenseInfo;
+        licenseInfo = @"Released under BSD 3-Clause License\n\
+https://github.com/calabash/test-control/blob/master/LICENSE\n\
+https://github.com/calabash/test-control/blob/master/vendor-licenses\n\n";
+        printf("%s", [licenseInfo UTF8String]);
+
         [self printUsage];
+
         exit(1);
     }
     NSArray *flags = @[
