@@ -40,7 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		89331D431CE222C7003C2E59 /* test-control */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test-control"; sourceTree = BUILT_PRODUCTS_DIR; };
+		89331D431CE222C7003C2E59 /* xctestctl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xctestctl; sourceTree = BUILT_PRODUCTS_DIR; };
 		89331D461CE222C7003C2E59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		896F7F051CF9C55C00FD8572 /* DeviceTestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceTestParameters.h; path = TestParameters/DeviceTestParameters.h; sourceTree = "<group>"; };
 		896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceTestParameters.m; path = TestParameters/DeviceTestParameters.m; sourceTree = "<group>"; };
@@ -61,6 +61,8 @@
 		89EF4AC91CFA614F006DCDC5 /* TestControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
 		89EF4ACD1CFA614F006DCDC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,16 +86,18 @@
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
+				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* test-control */,
 				89EF4ACA1CFA614F006DCDC5 /* TestControlTests */,
 				89331D441CE222C7003C2E59 /* Products */,
+				F5169D271CFEAE5900252F52 /* vendor-licenses */,
 			);
 			sourceTree = "<group>";
 		};
 		89331D441CE222C7003C2E59 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				89331D431CE222C7003C2E59 /* test-control */,
+				89331D431CE222C7003C2E59 /* xctestctl */,
 				89EF4AC91CFA614F006DCDC5 /* TestControlTests.xctest */,
 			);
 			name = Products;
@@ -156,12 +160,20 @@
 			path = TestControlTests;
 			sourceTree = "<group>";
 		};
+		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
+			isa = PBXGroup;
+			children = (
+				F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */,
+			);
+			path = "vendor-licenses";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		89331D421CE222C7003C2E59 /* test-control */ = {
+		89331D421CE222C7003C2E59 /* xctestctl */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "test-control" */;
+			buildConfigurationList = 89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "xctestctl" */;
 			buildPhases = (
 				89331D3F1CE222C7003C2E59 /* Sources */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
@@ -171,9 +183,9 @@
 			);
 			dependencies = (
 			);
-			name = "test-control";
+			name = xctestctl;
 			productName = "test-control";
-			productReference = 89331D431CE222C7003C2E59 /* test-control */;
+			productReference = 89331D431CE222C7003C2E59 /* xctestctl */;
 			productType = "com.apple.product-type.tool";
 		};
 		89EF4AC81CFA614F006DCDC5 /* TestControlTests */ = {
@@ -222,7 +234,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				89331D421CE222C7003C2E59 /* test-control */,
+				89331D421CE222C7003C2E59 /* xctestctl */,
 				89EF4AC81CFA614F006DCDC5 /* TestControlTests */,
 			);
 		};
@@ -417,7 +429,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "test-control" */ = {
+		89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "xctestctl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89331D4B1CE222C7003C2E59 /* Debug */,
@@ -433,6 +445,7 @@
 				89EF4AD01CFA614F006DCDC5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
