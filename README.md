@@ -6,11 +6,13 @@ A tool for launching xctests on device and simulator.
 
 ```
 $ test-control
-       -r       Path to Test Runner .app directory
-       -t       Path to .xctest bundle (probably inside the test runner's PlugIns directory)
-       -c       [Device Only] Codesign Identity (e.g. 'iPhone Developer: Aaron Aaronson (ABCDE12345)')
-       -d       Device ID e.g. 'F8C4D65B-2FB7-4B8B-89BE-8C3982E65F3F' (for Simulators),
-                or 40 char Device ID for physical devices, e.g. 49a29c9e61998623e7909e35e8bae50dd07ef85f
+  -r       Path to Test Runner .app directory
+  -t       Path to .xctest bundle
+  -c       [Device Only] Codesign Identity
+           e.g. "iPhone Developer: Aaron Aaronson (ABCDE12345)"
+  -d       Device UDID
+           e.g. Simulator: "F8C4D65B-2FB7-4B8B-89BE-8C3982E65F3F"
+           e.g. Physical Device: 49a29c9e61998623e7909e35e8bae50dd07ef85f
 ```
 
 ### Building
