@@ -34,6 +34,8 @@ $ make install
 
 ### Contributing
 
+Please see our [CONTRIBUTING](CONTRIBUTING) doc.
+
 The majority of the actual work is inside of the
 FBSimulatorControl fork. Therefore, logic adjustments will generally
 need to be made in https://github.com/calabash/FBSimulatorControl.
