@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>XCTestCtl.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>test-control.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>89331D421CE222C7003C2E59</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8974F51A1D085FDA00C51B0C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

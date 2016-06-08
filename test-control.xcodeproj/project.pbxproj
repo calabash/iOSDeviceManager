@@ -14,6 +14,17 @@
 		896F7F101CF9C57600FD8572 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0F1CF9C57600FD8572 /* ShellRunner.m */; };
 		896F7F161CF9F96100FD8572 /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F151CF9F96100FD8572 /* TestParameters.m */; };
 		896F7F191CF9FC3C00FD8572 /* SimulatorTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */; };
+		8974F5151D085B6800C51B0C /* XCTestControlWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */; };
+		8974F5161D085B6800C51B0C /* XCTestControlWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */; };
+		8974F5251D08603A00C51B0C /* XCTestControlWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */; };
+		8974F5271D08603A00C51B0C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0F1CF9C57600FD8572 /* ShellRunner.m */; };
+		8974F5291D08603A00C51B0C /* TestControlArgParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */; };
+		8974F52B1D08603A00C51B0C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ABD1CFA5ACB006DCDC5 /* Device.m */; };
+		8974F52D1D08603A00C51B0C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F091CF9C56800FD8572 /* PhysicalDevice.m */; };
+		8974F52F1D08603A00C51B0C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0B1CF9C56800FD8572 /* Simulator.m */; };
+		8974F5311D08603A00C51B0C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F151CF9F96100FD8572 /* TestParameters.m */; };
+		8974F5331D08603A00C51B0C /* DeviceTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */; };
+		8974F5351D08603A00C51B0C /* SimulatorTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */; };
 		89EF4ABE1CFA5ACB006DCDC5 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ABD1CFA5ACB006DCDC5 /* Device.m */; };
 		89EF4AC41CFA6008006DCDC5 /* TestControlArgParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */; };
 		89EF4ACC1CFA614F006DCDC5 /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */; };
@@ -54,6 +65,9 @@
 		896F7F151CF9F96100FD8572 /* TestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestParameters.m; path = TestParameters/TestParameters.m; sourceTree = "<group>"; };
 		896F7F171CF9FC3C00FD8572 /* SimulatorTestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimulatorTestParameters.h; path = TestParameters/SimulatorTestParameters.h; sourceTree = "<group>"; };
 		896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorTestParameters.m; path = TestParameters/SimulatorTestParameters.m; sourceTree = "<group>"; };
+		8974F5131D085B6800C51B0C /* XCTestControlWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCTestControlWrapper.h; sourceTree = "<group>"; };
+		8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestControlWrapper.m; sourceTree = "<group>"; };
+		8974F51B1D085FDA00C51B0C /* libXCTestCtl.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libXCTestCtl.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF4ABC1CFA5ACB006DCDC5 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = Devices/Device.h; sourceTree = "<group>"; };
 		89EF4ABD1CFA5ACB006DCDC5 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = Devices/Device.m; sourceTree = "<group>"; };
 		89EF4AC21CFA6008006DCDC5 /* TestControlArgParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestControlArgParser.h; path = Utilities/TestControlArgParser.h; sourceTree = "<group>"; };
@@ -67,6 +81,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		89331D401CE222C7003C2E59 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8974F5181D085FDA00C51B0C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -99,6 +120,7 @@
 			children = (
 				89331D431CE222C7003C2E59 /* xctestctl */,
 				89EF4AC91CFA614F006DCDC5 /* TestControlTests.xctest */,
+				8974F51B1D085FDA00C51B0C /* libXCTestCtl.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				89331D461CE222C7003C2E59 /* main.m */,
+				8974F5131D085B6800C51B0C /* XCTestControlWrapper.h */,
+				8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */,
 				896F7F041CF9C51900FD8572 /* Utilities */,
 				896F7F021CF9C50500FD8572 /* Devices */,
 				896F7F031CF9C51000FD8572 /* TestParameters */,
@@ -170,6 +194,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		8974F5191D085FDA00C51B0C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		89331D421CE222C7003C2E59 /* xctestctl */ = {
 			isa = PBXNativeTarget;
@@ -187,6 +221,23 @@
 			productName = "test-control";
 			productReference = 89331D431CE222C7003C2E59 /* xctestctl */;
 			productType = "com.apple.product-type.tool";
+		};
+		8974F51A1D085FDA00C51B0C /* XCTestCtl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8974F5211D085FDA00C51B0C /* Build configuration list for PBXNativeTarget "XCTestCtl" */;
+			buildPhases = (
+				8974F5171D085FDA00C51B0C /* Sources */,
+				8974F5181D085FDA00C51B0C /* Frameworks */,
+				8974F5191D085FDA00C51B0C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XCTestCtl;
+			productName = XCTestCtl;
+			productReference = 8974F51B1D085FDA00C51B0C /* libXCTestCtl.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 		89EF4AC81CFA614F006DCDC5 /* TestControlTests */ = {
 			isa = PBXNativeTarget;
@@ -217,6 +268,9 @@
 					89331D421CE222C7003C2E59 = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					8974F51A1D085FDA00C51B0C = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					89EF4AC81CFA614F006DCDC5 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -236,6 +290,7 @@
 			targets = (
 				89331D421CE222C7003C2E59 /* xctestctl */,
 				89EF4AC81CFA614F006DCDC5 /* TestControlTests */,
+				8974F51A1D085FDA00C51B0C /* XCTestCtl */,
 			);
 		};
 /* End PBXProject section */
@@ -261,9 +316,26 @@
 				89331D471CE222C7003C2E59 /* main.m in Sources */,
 				89EF4ABE1CFA5ACB006DCDC5 /* Device.m in Sources */,
 				896F7F191CF9FC3C00FD8572 /* SimulatorTestParameters.m in Sources */,
+				8974F5151D085B6800C51B0C /* XCTestControlWrapper.m in Sources */,
 				896F7F161CF9F96100FD8572 /* TestParameters.m in Sources */,
 				896F7F101CF9C57600FD8572 /* ShellRunner.m in Sources */,
 				896F7F0D1CF9C56800FD8572 /* Simulator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8974F5171D085FDA00C51B0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8974F5251D08603A00C51B0C /* XCTestControlWrapper.m in Sources */,
+				8974F5271D08603A00C51B0C /* ShellRunner.m in Sources */,
+				8974F5291D08603A00C51B0C /* TestControlArgParser.m in Sources */,
+				8974F52B1D08603A00C51B0C /* Device.m in Sources */,
+				8974F52D1D08603A00C51B0C /* PhysicalDevice.m in Sources */,
+				8974F52F1D08603A00C51B0C /* Simulator.m in Sources */,
+				8974F5311D08603A00C51B0C /* TestParameters.m in Sources */,
+				8974F5331D08603A00C51B0C /* DeviceTestParameters.m in Sources */,
+				8974F5351D08603A00C51B0C /* SimulatorTestParameters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +349,7 @@
 				89EF4AE31CFA64A0006DCDC5 /* Simulator.m in Sources */,
 				89EF4AE41CFA64A0006DCDC5 /* DeviceTestParameters.m in Sources */,
 				89EF4AE51CFA64A0006DCDC5 /* SimulatorTestParameters.m in Sources */,
+				8974F5161D085B6800C51B0C /* XCTestControlWrapper.m in Sources */,
 				89EF4ADE1CFA6432006DCDC5 /* Device.m in Sources */,
 				89EF4ADF1CFA6432006DCDC5 /* TestParameters.m in Sources */,
 				89EF4ACC1CFA614F006DCDC5 /* IntegrationTests.m in Sources */,
@@ -393,6 +466,30 @@
 			};
 			name = Release;
 		};
+		8974F5221D085FDA00C51B0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8974F5231D085FDA00C51B0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		89EF4ACF1CFA614F006DCDC5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -437,6 +534,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		8974F5211D085FDA00C51B0C /* Build configuration list for PBXNativeTarget "XCTestCtl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8974F5221D085FDA00C51B0C /* Debug */,
+				8974F5231D085FDA00C51B0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "TestControlTests" */ = {
 			isa = XCConfigurationList;

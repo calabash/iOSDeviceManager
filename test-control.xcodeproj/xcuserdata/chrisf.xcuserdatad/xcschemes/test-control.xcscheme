@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89331D421CE222C7003C2E59"
-               BuildableName = "test-control"
-               BlueprintName = "test-control"
+               BuildableName = "xctestctl"
+               BlueprintName = "xctestctl"
                ReferencedContainer = "container:test-control.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "test-control"
-            BlueprintName = "test-control"
+            BuildableName = "xctestctl"
+            BlueprintName = "xctestctl"
             ReferencedContainer = "container:test-control.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "test-control"
-            BlueprintName = "test-control"
+            BuildableName = "xctestctl"
+            BlueprintName = "xctestctl"
             ReferencedContainer = "container:test-control.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "test-control"
-            BlueprintName = "test-control"
+            BuildableName = "xctestctl"
+            BlueprintName = "xctestctl"
             ReferencedContainer = "container:test-control.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
