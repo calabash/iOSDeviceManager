@@ -2,29 +2,66 @@
 #import "XCTestControlWrapper.h"
 #import "DeviceTestParameters.h"
 #import "TestControlArgParser.h"
+#import "Simulator.h"
 #import "Device.h"
 
-void start_test(int argc, const char *argv[]) {
+#define SUCCESS 0
+#define FAILURE 1
+#define STR( cString ) [NSString stringWithCString:( cString ) encoding:NSUTF8StringEncoding]
+
+int start_test(const char *deviceID,
+               const char *testRunnerPath,
+               const char *testBundlePath,
+               const char *codesignID) {
     @autoreleasepool {
-        NSMutableArray<NSString *>*args = [NSMutableArray arrayWithCapacity:argc];
-        for (int i = 0; i < argc; i++) {
-            [args addObject:[[NSString alloc] initWithCString:argv[i] encoding:NSUTF8StringEncoding]];
-        }
-    
-        NSDictionary *parsedArgs = [TestControlArgParser parseArgs:args];
-        TestParameters *params = [TestParameters fromJSON:parsedArgs];
+        TestParameters *params = [TestParameters fromJSON:@{
+                                                            DEVICE_ID_FLAG : STR(deviceID) ?: @"",
+                                                            TEST_RUNNER_PATH_FLAG : STR(testRunnerPath) ?: @"",
+                                                            XCTEST_BUNDLE_PATH_FLAG : STR(testBundlePath) ?: @"",
+                                                            CODESIGN_IDENTITY_FLAG : STR(codesignID) ?: @""
+                                                            }];
         
-        if (![Device startTest:params]) {
-            exit(1);
-        }
+        return [Device startTest:params] ? SUCCESS : FAILURE;
     }
 }
 
-int install_app(const char *czPathToBundle, const char *czDeviceID, const char *czCodesignID) {
-    NSString *pathToBundle = [NSString stringWithCString:czPathToBundle encoding:NSUTF8StringEncoding];
-    NSString *deviceID = [NSString stringWithCString:czDeviceID encoding:NSUTF8StringEncoding];
-    NSString *codesignID = [NSString stringWithCString:czCodesignID encoding:NSUTF8StringEncoding];
-    
-    BOOL success = [Device installApp:pathToBundle deviceID:deviceID codesignID:codesignID];
-    return success ? 0 : 1;
+int install_app(const char *pathToBundle,
+                const char *deviceID,
+                const char *codesignID) {
+    @autoreleasepool {
+        return [Device installApp:STR(pathToBundle)
+                         deviceID:STR(deviceID)
+                       codesignID:STR(codesignID)] ? SUCCESS : FAILURE;
+    }
+}
+
+int launch_simulator(const char *simulatorID) {
+    @autoreleasepool {
+        return [Simulator launchSimulator:STR(simulatorID)] ? SUCCESS : FAILURE;
+    }
+}
+
+int kill_simulator(const char *simulatorID) {
+    @autoreleasepool {
+        return [Simulator killSimulator:STR(simulatorID)] ? SUCCESS : FAILURE;
+    }
+}
+
+int uninstall_app(const char *bundleID, const char *deviceID) {
+    @autoreleasepool {
+        return [Device uninstallApp:STR(bundleID) deviceID:STR(deviceID)] ? SUCCESS : FAILURE;
+    }
+}
+
+int is_installed(const char *bundleID, const char *deviceID) {
+    @autoreleasepool {
+        //Returns 1, 0, or -1 for 'true', 'false', 'error'
+        return [Device appIsInstalled:STR(bundleID) deviceID:STR(deviceID)];
+    }
+}
+
+int clear_app_data(const char *bundleID, const char *deviceID) {
+    @autoreleasepool {
+        return [Device clearAppData:STR(bundleID) deviceID:STR(deviceID)] ? SUCCESS : FAILURE;
+    }
 }

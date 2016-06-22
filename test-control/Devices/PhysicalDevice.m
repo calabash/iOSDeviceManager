@@ -6,6 +6,10 @@
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "ShellRunner.h"
 
+@interface DVTAbstractiOSDevice : NSObject
+- (id)applications;
+@end
+
 @interface Signer : NSObject  <FBCodesignProvider>
 @property (nonatomic, strong) NSString *codesignIdentity;
 @end
@@ -22,18 +26,22 @@
                                                      bundlePath]];
     NSString *entsPlist = [ents componentsJoinedByString:@"\n"];
     NSError *e;
-    if (![entsPlist writeToFile:@"/Users/chrisf/entitlements.plist"
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@",
+                          [[NSProcessInfo processInfo] globallyUniqueString], @"entitlements.plist"];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    
+    if (![entsPlist writeToFile:filePath
                      atomically:YES
                        encoding:NSUTF8StringEncoding
                           error:&e] || e) {
         NSLog(@"Unable to create entitlements file: %@", e);
         exit(1);
     }
-    NSLog(@"Entitlements:\n%@", entsPlist);
+    NSLog(@"Entitlements tmpfile %@:\n%@", filePath, entsPlist);
     
     NSTask *signTask = [NSTask new];
     signTask.launchPath = @"/usr/bin/codesign";
-    signTask.arguments = @[@"-s", self.codesignIdentity, @"-f", bundlePath, @"--entitlements", @"/Users/chrisf/entitlements.plist"];
+    signTask.arguments = @[@"-s", self.codesignIdentity, @"-f", bundlePath, @"--entitlements", filePath];
     [signTask launch];
     [signTask waitUntilExit];
     return (signTask.terminationStatus == 0);
@@ -159,28 +167,38 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return self;
 }
 
++ (Signer *)signer:(NSString *)codesignID {
+    Signer *codesigner = [Signer new];
+    codesigner.codesignIdentity = codesignID;
+    return codesigner;
+}
+
++ (FBiOSDeviceOperator *)opForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {
+    NSError *err;
+    FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:deviceID
+                                                         codesignProvider:signer
+                                                                    error:&err];
+    
+    [op waitForDeviceToBecomeAvailableWithError:&err];
+    if (err) {
+        NSLog(@"Device %@ isn't available: %@", deviceID, err);
+        return nil;
+    }
+    return op;
+}
+
 #pragma mark - App Installation
 + (BOOL)installApp:(NSString *)pathToBundle
           deviceID:(NSString *)deviceID
         codesignID:(NSString *)codesignID {
+    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:codesignID]];
+    if (!op) return NO;
     
     NSError *err;
-    Signer *codesigner = [Signer new];
-    codesigner.codesignIdentity = codesignID;
-    
-    FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:deviceID
-                                                         codesignProvider:codesigner
-                                                                    error:&err];
-    
-    if (err) {
-        NSLog(@"Error creating device operator: %@", err);
-        return NO;
-    }
-    
     //Codesign
     FBProductBundle *app = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
                               withBundlePath:pathToBundle]
-                             withCodesignProvider:codesigner]
+                             withCodesignProvider:[self signer:codesignID]]
                             build];
     
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err]) {
@@ -200,4 +218,73 @@ testCaseDidStartForTestClass:(NSString *)testClass
     
     return YES;
 }
+
++ (BOOL)uninstallApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
+    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
+    if (!op) return NO;
+    
+    NSError *err;
+    if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
+        NSLog(@"Application %@ is not installed on %@", bundleID, deviceID);
+        return NO;
+    }
+    
+    if (err) {
+        NSLog(@"Error checking if application %@ is installed: %@", bundleID, err);
+        return NO;
+    }
+    
+    if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
+        NSLog(@"Error uninstalling app %@: %@", bundleID, err);
+    }
+    return err == nil;
+}
+
++ (int)appIsInstalled:(NSString *)bundleID deviceID:(NSString *)deviceID {
+    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
+    if (!op) return -1;
+    
+    NSError *err;
+    BOOL installed = [op isApplicationInstalledWithBundleID:bundleID error:&err];
+    if (err) {
+        NSLog(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
+        return -1;
+    }
+    return installed ? 1 : 0;
+}
+
++ (BOOL)clearAppData:(NSString *)bundleID
+            deviceID:(NSString *)deviceID {
+    if ([self appIsInstalled:bundleID deviceID:deviceID] != 1) {
+        NSLog(@"Please ensure %@ is installed on %@ and try again.", bundleID, deviceID);
+        return NO;
+    }
+    
+    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
+    if (!op) return NO;
+    
+    NSString *appDataFilename = [[NSString stringWithFormat:@"%@.xcappdata",
+                                 [[NSProcessInfo processInfo] globallyUniqueString]]
+                                 stringByAppendingPathComponent:@"AppData"];
+    NSString *emptyDataBundle = [NSTemporaryDirectory() stringByAppendingString:appDataFilename];
+    NSFileManager *mgr = [NSFileManager defaultManager];
+    
+    NSError *err;
+    if (![mgr createDirectoryAtPath:emptyDataBundle withIntermediateDirectories:YES
+                    attributes:nil
+                              error:&err] || err) {
+        NSLog(@"Unable to create file %@ at path %@: %@", appDataFilename, emptyDataBundle, err);
+        return NO;
+    }
+    
+    
+    
+    if (![op uploadApplicationDataAtPath:emptyDataBundle bundleID:bundleID error:&err]) {
+        NSLog(@"Error clearing data for %@ on device %@: %@", bundleID, deviceID, err);
+        return NO;
+    }
+    
+    return YES;
+}
+
 @end

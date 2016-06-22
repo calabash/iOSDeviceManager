@@ -3,6 +3,7 @@
 
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
+#import <FBDeviceControl/FBDeviceControl.h>
 
 @implementation Simulator
 static FBSimulatorControl *_control;
@@ -16,6 +17,10 @@ static FBSimulatorControl *_control;
     if (!simulator) { return NO; }
     
     if (![self iOS_GTE_9:simulator.configuration.osVersionString]) {
+        return NO;
+    }
+    
+    if (![self launchSimulator:params.deviceID]) {
         return NO;
     }
    
@@ -72,6 +77,11 @@ Tests can not be run on iOS less than 9.0",
 }
 
 + (FBSimulator *)simulatorWithDeviceID:(NSString *)deviceID {
+    if (![TestParameters isSimulatorID:deviceID]) {
+        NSLog(@"'%@' is not a valid sim ID", deviceID);
+        return nil;
+    }
+    
     NSError *e;
     FBSimulatorControlConfiguration *controlConfig = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil
                                                                                                              options:0];
@@ -96,15 +106,6 @@ Tests can not be run on iOS less than 9.0",
     FBSimulator *sim = results[0];
     NSLog(@"Found simulator match: %@", sim);
     
-    if (sim.state == FBSimulatorStateShutdown) {
-        NSLog(@"Sim is dead, booting...");
-        [[sim.interact bootSimulator:FBSimulatorLaunchConfiguration.defaultConfiguration] perform:&e];
-        if (e) {
-            NSLog(@"Failed to boot sim: %@", e);
-            return nil;
-        }
-    }
-    
     return sim;
 }
 
@@ -125,7 +126,7 @@ Tests can not be run on iOS less than 9.0",
     if (!_control) {
         FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                           configurationWithDeviceSetPath:nil
-                                                          options:FBSimulatorManagementOptionsKillSpuriousSimulatorsOnFirstStart | FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+                                                          options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
         
         NSError *error;
         FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
@@ -219,6 +220,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (!simulator) { return NO; }
     
+    if (simulator.state == FBSimulatorStateShutdown ||
+        simulator.state == FBSimulatorStateShuttingDown) {
+        NSLog(@"Simulator %@ is dead. Must launch sim before installing an app.", deviceID);
+        return NO;
+    }
     FBSimulatorApplication *app = [self app:pathToBundle];
     [[simulator.interact installApplication:app] perform:&e];
     if (e) {
@@ -229,6 +235,170 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
     return YES;
     
+}
+
++ (BOOL)launchSimulator:(NSString *)simID {
+    FBSimulator *simulator = [self simulatorWithDeviceID:simID];
+    if (simulator == nil) {
+        NSLog(@"");
+    }
+    NSError *e;
+    if (simulator.state == FBSimulatorStateShutdown ||
+        simulator.state == FBSimulatorStateShuttingDown) {
+        NSLog(@"Sim is dead, booting...");
+        
+        FBSimulatorLaunchConfiguration *launchConfig = [FBSimulatorLaunchConfiguration withOptions:
+                                                        FBSimulatorLaunchOptionsConnectBridge];
+        
+        [[simulator.interact bootSimulator:launchConfig] perform:&e];
+        if (e) {
+            NSLog(@"Failed to boot sim: %@", e);
+            return NO;
+        }
+    }
+    return simulator != nil;
+}
+
++ (BOOL)killSimulator:(NSString *)simID {
+    FBSimulator *simulator = [self simulatorWithDeviceID:simID];
+    if (simulator == nil) {
+        NSLog(@"No such simulator exists!");
+        return NO;
+    }
+    if (simulator.state == FBSimulatorStateShutdown) {
+        NSLog(@"Simulator %@ is already shut down", simID);
+        return YES;
+    } else if (simulator.state == FBSimulatorStateShuttingDown) {
+        NSLog(@"Simulator %@ is already shutting down", simID);
+        return YES;
+    }
+    
+    FBSimulatorControlConfiguration *controlConfig = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil
+                                                                                                             options:0];
+    
+    FBSimulatorTerminationStrategy *terminator = [FBSimulatorTerminationStrategy withConfiguration:controlConfig
+                                                                                    processFetcher:[FBProcessFetcher new]
+                                                                                            logger:nil];
+    
+    NSError *e;
+    [terminator killSimulators:@[simulator] error:&e];
+
+    if (e) {
+        NSLog(@"Error shutting down sim %@: %@", simID, e);
+    }
+    
+    return e == nil;
+}
+
++ (BOOL)uninstallApp:(NSString *)bundleID
+            deviceID:(NSString *)deviceID {
+    FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
+    if (simulator == nil) {
+        NSLog(@"No such simulator exists!");
+        return NO;
+    }
+    if (simulator.state == FBSimulatorStateShutdown ||
+        simulator.state == FBSimulatorStateShuttingDown) {
+        NSLog(@"Simulator %@ is dead. Must launch before uninstalling apps.", deviceID);
+        return NO;
+    }
+    
+    if (![self appIsInstalled:bundleID deviceID:deviceID]) {
+        NSLog(@"App %@ is not installed on %@", bundleID, deviceID);
+        return NO;
+    }
+    
+    NSError *e;
+    [[simulator.interact uninstallApplicationWithBundleID:bundleID] perform:&e];
+    if (e) {
+        NSLog(@"Error uninstalling app: %@", e);
+    }
+    return e == nil;
+}
+
++ (int)appIsInstalled:(NSString *)bundleID deviceID:(NSString *)deviceID {
+    FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
+    if (simulator == nil) {
+        NSLog(@"No such simulator exists!");
+        return -1;
+    }
+    
+    NSError *e;
+    FBSimulatorControlOperator *op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
+    BOOL installed = [op isApplicationInstalledWithBundleID:bundleID error:&e];
+    if (e) {
+        NSLog(@"Error checing if app %@ is installed on %@: %@", bundleID, deviceID, e);
+        return NO;
+    }
+    //FIXME: error is non-nil if the app isn't found...
+    //Maybe this isn't a problem, since an error shouldn't occur if we have a valid sim.
+    
+    return installed ? 1 : 0;
+}
+
++ (NSDictionary *)lastLaunchServicesMapForSim:(NSString *)deviceID {
+    NSString *lastLaunchServicesPlistPath = [[[[[[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                                    stringByAppendingPathComponent:@"Developer"]
+                                                   stringByAppendingPathComponent:@"CoreSimulator"]
+                                                  stringByAppendingPathComponent:@"Devices"]
+                                                 stringByAppendingPathComponent:deviceID]
+                                                stringByAppendingPathComponent:@"data"]
+                                               stringByAppendingPathComponent:@"Library"]
+                                              stringByAppendingPathComponent:@"MobileInstallation"]
+                                             stringByAppendingPathComponent:@"LastLaunchServicesMap.plist"];
+    return [NSDictionary dictionaryWithContentsOfFile:lastLaunchServicesPlistPath];
+}
+
++ (void)deleteAllFilesInDir:(NSString *)dirPath {
+    NSLog(@"Deleting all files in %@", dirPath);
+    NSFileManager *mgr = [NSFileManager defaultManager];
+    for (NSString *file in [mgr enumeratorAtPath:dirPath]) {
+        NSError *e;
+        NSString *path = [dirPath stringByAppendingPathComponent:file];
+        if (![mgr removeItemAtPath:path error:&e] || e) {
+            NSLog(@"Unable to delete %@: %@", [path lastPathComponent], e);
+        } else {
+            NSLog(@"Deleted %@", [path lastPathComponent]);
+        }
+    }
+}
+
++ (BOOL)clearAppData:(NSString *)bundleID
+            deviceID:(NSString *)deviceID {
+    FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
+    if (simulator == nil) {
+        NSLog(@"No such simulator exists!");
+        return NO;
+    }
+    
+    if (![self appIsInstalled:bundleID deviceID:deviceID]) {
+        NSLog(@"Application %@ isn't installed on %@", bundleID, deviceID);
+        return NO;
+    }
+    
+    NSDictionary *launchPlist = [self lastLaunchServicesMapForSim:deviceID];
+    NSString *containerPath = launchPlist[@"User"][bundleID][@"Container"];
+    if (containerPath == nil || ![[NSFileManager defaultManager] fileExistsAtPath:containerPath]) {
+        //TODO: this can happen if the app has just been installed.
+        //Restarting the sim will fix it. Is there a better way.
+        NSLog(@"No container found for app %@ on device %@.", bundleID, deviceID);
+        NSLog(@"Giving reboot a try...");
+        [self killSimulator:deviceID];
+        [self launchSimulator:deviceID];
+        containerPath =  [self lastLaunchServicesMapForSim:deviceID][@"User"][bundleID][@"Container"];
+        if (containerPath == nil || ![[NSFileManager defaultManager] fileExistsAtPath:containerPath]) {
+            NSLog(@"Can not find app %@ on device %@. Are you sure it's installed?", bundleID, deviceID);
+            return NO;
+        }
+    }
+    
+    NSString *libraryPath = [containerPath stringByAppendingPathComponent:@"Library"];
+    NSString *documentsPath = [containerPath stringByAppendingPathComponent:@"Documents"];
+    
+    [self deleteAllFilesInDir:libraryPath];
+    [self deleteAllFilesInDir:documentsPath];
+    
+    return YES;
 }
 
 @end
