@@ -14,6 +14,10 @@ static FBSimulatorControl *_control;
     NSError *e;
     FBSimulator *simulator = [self simulatorWithDeviceID:params.deviceID];
     if (!simulator) { return NO; }
+    
+    if (![self iOS_GTE_9:simulator.configuration.osVersionString]) {
+        return NO;
+    }
    
     FBSimulatorApplication *app = [self app:params.testRunnerPath];
     [[[simulator.interact installApplication:app] startTestRunnerLaunchConfiguration:[self testRunnerLaunchConfig:params.testRunnerPath]
@@ -91,9 +95,6 @@ Tests can not be run on iOS less than 9.0",
     }
     FBSimulator *sim = results[0];
     NSLog(@"Found simulator match: %@", sim);
-    if (![self iOS_GTE_9:sim.configuration.osVersionString]) {
-        return nil;
-    }
     
     if (sim.state == FBSimulatorStateShutdown) {
         NSLog(@"Sim is dead, booting...");
@@ -209,6 +210,25 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix {
     return self;
+}
+
++ (BOOL)installApp:(NSString *)pathToBundle
+          deviceID:(NSString *)deviceID
+        codesignID:(NSString *)codesignID {
+    NSError *e;
+    FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
+    if (!simulator) { return NO; }
+    
+    FBSimulatorApplication *app = [self app:pathToBundle];
+    [[simulator.interact installApplication:app] perform:&e];
+    if (e) {
+        NSLog(@"Error installing %@ to %@: %@", app.bundleID, deviceID, e);
+        return NO;
+    } else {
+        NSLog(@"Installed %@ to %@", app.bundleID, deviceID);
+    }
+    return YES;
+    
 }
 
 @end

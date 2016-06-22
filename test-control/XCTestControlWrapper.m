@@ -19,3 +19,12 @@ void start_test(int argc, const char *argv[]) {
         }
     }
 }
+
+int install_app(const char *czPathToBundle, const char *czDeviceID, const char *czCodesignID) {
+    NSString *pathToBundle = [NSString stringWithCString:czPathToBundle encoding:NSUTF8StringEncoding];
+    NSString *deviceID = [NSString stringWithCString:czDeviceID encoding:NSUTF8StringEncoding];
+    NSString *codesignID = [NSString stringWithCString:czCodesignID encoding:NSUTF8StringEncoding];
+    
+    BOOL success = [Device installApp:pathToBundle deviceID:deviceID codesignID:codesignID];
+    return success ? 0 : 1;
+}

@@ -4,6 +4,42 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import <FBControlCore/FBControlCore.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
+#import "ShellRunner.h"
+
+@interface Signer : NSObject  <FBCodesignProvider>
+@property (nonatomic, strong) NSString *codesignIdentity;
+@end
+
+@implementation Signer
+
+- (BOOL)signBundleAtPath:(NSString *)bundlePath {
+    NSAssert(self.codesignIdentity != nil, @"Can not have a codesign command without an identity name");
+    NSArray<NSString *> *ents = [ShellRunner shell:@"/usr/bin/xcrun"
+                                              args:@[@"codesign",
+                                                     @"-d",
+                                                     @"--entitlements",
+                                                     @":-",
+                                                     bundlePath]];
+    NSString *entsPlist = [ents componentsJoinedByString:@"\n"];
+    NSError *e;
+    if (![entsPlist writeToFile:@"/Users/chrisf/entitlements.plist"
+                     atomically:YES
+                       encoding:NSUTF8StringEncoding
+                          error:&e] || e) {
+        NSLog(@"Unable to create entitlements file: %@", e);
+        exit(1);
+    }
+    NSLog(@"Entitlements:\n%@", entsPlist);
+    
+    NSTask *signTask = [NSTask new];
+    signTask.launchPath = @"/usr/bin/codesign";
+    signTask.arguments = @[@"-s", self.codesignIdentity, @"-f", bundlePath, @"--entitlements", @"/Users/chrisf/entitlements.plist"];
+    [signTask launch];
+    [signTask waitUntilExit];
+    return (signTask.terminationStatus == 0);
+}
+
+@end
 
 @implementation PhysicalDevice
 + (BOOL)startTest:(DeviceTestParameters *)params {
@@ -121,5 +157,47 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix {
     return self;
+}
+
+#pragma mark - App Installation
++ (BOOL)installApp:(NSString *)pathToBundle
+          deviceID:(NSString *)deviceID
+        codesignID:(NSString *)codesignID {
+    
+    NSError *err;
+    Signer *codesigner = [Signer new];
+    codesigner.codesignIdentity = codesignID;
+    
+    FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:deviceID
+                                                         codesignProvider:codesigner
+                                                                    error:&err];
+    
+    if (err) {
+        NSLog(@"Error creating device operator: %@", err);
+        return NO;
+    }
+    
+    //Codesign
+    FBProductBundle *app = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
+                              withBundlePath:pathToBundle]
+                             withCodesignProvider:codesigner]
+                            build];
+    
+    if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err]) {
+        NSLog(@"Application '%@' is already installed.", app.bundleID);
+        return NO;
+    }
+    
+    if (err) {
+        NSLog(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
+        return NO;
+    }
+    
+    if (![op installApplicationWithPath:pathToBundle error:&err] || err) {
+        NSLog(@"Error installing application: %@", err);
+        return NO;
+    }
+    
+    return YES;
 }
 @end

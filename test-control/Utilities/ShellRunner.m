@@ -6,6 +6,7 @@
  http://stackoverflow.com/questions/412562/execute-a-terminal-command-from-a-cocoa-app/696942#696942
  */
 + (NSArray<NSString *> *)shell:(NSString *)cmd args:(NSArray *)args {
+    NSLog(@"$ %@ %@", cmd, args);
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: cmd];
     [task setArguments: args];
