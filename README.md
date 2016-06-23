@@ -1,4 +1,4 @@
-## devicectll
+## devicectl
 
 A tool for launching xctests on device and simulator, and a library
 for device/simulator lifecycle management.
@@ -18,7 +18,7 @@ $ devicectl
 
 ### Building
 
-`xctestctl` has some framework dependencies on the FBSimulatorControl
+`devicectl` has some framework dependencies on the FBSimulatorControl
 frameworks.  A forked build of them is included in the project and can
 be installed like so:
 
@@ -49,7 +49,7 @@ run `make install`.
 
 ### C Library
 
-devicectl has an interface for C interop/FFI. 
+`devicectl` has an interface for C interop/FFI. 
 
 ```C
 /**
