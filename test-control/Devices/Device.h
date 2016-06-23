@@ -11,6 +11,4 @@
         codesignID:(NSString *)codesignID;
 + (int)appIsInstalled:(NSString *)bundleID
              deviceID:(NSString *)deviceID;
-+ (BOOL)clearAppData:(NSString *)bundleID
-            deviceID:(NSString *)deviceID;
 @end

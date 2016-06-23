@@ -75,12 +75,3 @@ int uninstall_app(const char *bundleID, const char *deviceID);
  @return 1 if installed, 0 if not, -1 if error occurred.
  */
 int is_installed(const char *bundleID, const char *deviceID);
-
-/**
- Clears container data for a given app
- @param bundleID bundle identifier of the app whose data you want to clear
- @param deviceID 40 char device ID or simulator GUID.
- @return 0 if successful, 1 otherwise.
- */
-int clear_app_data(const char *bundleID, const char *deviceID);
-

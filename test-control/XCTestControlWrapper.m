@@ -59,9 +59,3 @@ int is_installed(const char *bundleID, const char *deviceID) {
         return [Device appIsInstalled:STR(bundleID) deviceID:STR(deviceID)];
     }
 }
-
-int clear_app_data(const char *bundleID, const char *deviceID) {
-    @autoreleasepool {
-        return [Device clearAppData:STR(bundleID) deviceID:STR(deviceID)] ? SUCCESS : FAILURE;
-    }
-}

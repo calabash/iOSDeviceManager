@@ -75,12 +75,5 @@
     XCTAssertTrue(is_installed(_unitTestAppID, _simID) == 1);
 }
 
-- (void)testClearAppData {
-    if (!is_installed(_taskyID, _simID)) {
-        install_app(_taskyPath, _simID, _codesignIdentity);
-    }
-    clear_app_data(_taskyID, _simID);
-}
-
 
 @end

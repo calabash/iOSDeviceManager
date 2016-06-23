@@ -349,56 +349,5 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return [NSDictionary dictionaryWithContentsOfFile:lastLaunchServicesPlistPath];
 }
 
-+ (void)deleteAllFilesInDir:(NSString *)dirPath {
-    NSLog(@"Deleting all files in %@", dirPath);
-    NSFileManager *mgr = [NSFileManager defaultManager];
-    for (NSString *file in [mgr enumeratorAtPath:dirPath]) {
-        NSError *e;
-        NSString *path = [dirPath stringByAppendingPathComponent:file];
-        if (![mgr removeItemAtPath:path error:&e] || e) {
-            NSLog(@"Unable to delete %@: %@", [path lastPathComponent], e);
-        } else {
-            NSLog(@"Deleted %@", [path lastPathComponent]);
-        }
-    }
-}
-
-+ (BOOL)clearAppData:(NSString *)bundleID
-            deviceID:(NSString *)deviceID {
-    FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
-    if (simulator == nil) {
-        NSLog(@"No such simulator exists!");
-        return NO;
-    }
-    
-    if (![self appIsInstalled:bundleID deviceID:deviceID]) {
-        NSLog(@"Application %@ isn't installed on %@", bundleID, deviceID);
-        return NO;
-    }
-    
-    NSDictionary *launchPlist = [self lastLaunchServicesMapForSim:deviceID];
-    NSString *containerPath = launchPlist[@"User"][bundleID][@"Container"];
-    if (containerPath == nil || ![[NSFileManager defaultManager] fileExistsAtPath:containerPath]) {
-        //TODO: this can happen if the app has just been installed.
-        //Restarting the sim will fix it. Is there a better way.
-        NSLog(@"No container found for app %@ on device %@.", bundleID, deviceID);
-        NSLog(@"Giving reboot a try...");
-        [self killSimulator:deviceID];
-        [self launchSimulator:deviceID];
-        containerPath =  [self lastLaunchServicesMapForSim:deviceID][@"User"][bundleID][@"Container"];
-        if (containerPath == nil || ![[NSFileManager defaultManager] fileExistsAtPath:containerPath]) {
-            NSLog(@"Can not find app %@ on device %@. Are you sure it's installed?", bundleID, deviceID);
-            return NO;
-        }
-    }
-    
-    NSString *libraryPath = [containerPath stringByAppendingPathComponent:@"Library"];
-    NSString *documentsPath = [containerPath stringByAppendingPathComponent:@"Documents"];
-    
-    [self deleteAllFilesInDir:libraryPath];
-    [self deleteAllFilesInDir:documentsPath];
-    
-    return YES;
-}
 
 @end

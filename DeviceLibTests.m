@@ -54,8 +54,4 @@
     XCTAssertTrue(is_installed(_unitTestAppBundleID, _deviceID) == 1);
 }
 
-- (void)testClearAppData {
-    XCTAssertEqual(clear_app_data(_taskyID, _deviceID), SUCCESS);
-}
-
 @end

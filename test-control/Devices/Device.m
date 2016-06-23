@@ -43,13 +43,4 @@
     }
 }
 
-+ (BOOL)clearAppData:(NSString *)bundleID
-            deviceID:(NSString *)deviceID {
-    if ([TestParameters isSimulatorID:deviceID]) {
-        return [Simulator clearAppData:bundleID deviceID:deviceID];
-    } else {
-        return [PhysicalDevice clearAppData:bundleID deviceID:deviceID];
-    }
-}
-
 @end

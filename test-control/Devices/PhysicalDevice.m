@@ -253,38 +253,4 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installed ? 1 : 0;
 }
 
-+ (BOOL)clearAppData:(NSString *)bundleID
-            deviceID:(NSString *)deviceID {
-    if ([self appIsInstalled:bundleID deviceID:deviceID] != 1) {
-        NSLog(@"Please ensure %@ is installed on %@ and try again.", bundleID, deviceID);
-        return NO;
-    }
-    
-    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
-    if (!op) return NO;
-    
-    NSString *appDataFilename = [[NSString stringWithFormat:@"%@.xcappdata",
-                                 [[NSProcessInfo processInfo] globallyUniqueString]]
-                                 stringByAppendingPathComponent:@"AppData"];
-    NSString *emptyDataBundle = [NSTemporaryDirectory() stringByAppendingString:appDataFilename];
-    NSFileManager *mgr = [NSFileManager defaultManager];
-    
-    NSError *err;
-    if (![mgr createDirectoryAtPath:emptyDataBundle withIntermediateDirectories:YES
-                    attributes:nil
-                              error:&err] || err) {
-        NSLog(@"Unable to create file %@ at path %@: %@", appDataFilename, emptyDataBundle, err);
-        return NO;
-    }
-    
-    
-    
-    if (![op uploadApplicationDataAtPath:emptyDataBundle bundleID:bundleID error:&err]) {
-        NSLog(@"Error clearing data for %@ on device %@: %@", bundleID, deviceID, err);
-        return NO;
-    }
-    
-    return YES;
-}
-
 @end
