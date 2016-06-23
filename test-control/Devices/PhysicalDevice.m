@@ -202,8 +202,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                             build];
     
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err]) {
-        NSLog(@"Application '%@' is already installed.", app.bundleID);
-        return NO;
+        NSLog(@"Application '%@' is already installed, attempting to override.", app.bundleID);
     }
     
     if (err) {
