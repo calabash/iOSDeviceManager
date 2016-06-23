@@ -16,11 +16,14 @@ static FBSimulatorControl *_control;
     FBSimulator *simulator = [self simulatorWithDeviceID:params.deviceID];
     if (!simulator) { return NO; }
     
-    if (![self iOS_GTE_9:simulator.configuration.osVersionString]) {
+    
+    if (simulator.state == FBSimulatorStateShutdown ||
+        simulator.state == FBSimulatorStateShuttingDown) {
+        NSLog(@"Simulator %@ is dead. Launch it before running a test.", params.deviceID);
         return NO;
     }
     
-    if (![self launchSimulator:params.deviceID]) {
+    if (![self iOS_GTE_9:simulator.configuration.osVersionString]) {
         return NO;
     }
    
@@ -109,8 +112,7 @@ Tests can not be run on iOS less than 9.0",
     return sim;
 }
 
-+ (FBSimulator *)simulatorWithConfiguration:(FBSimulatorConfiguration *)configuration
-{
++ (FBSimulator *)simulatorWithConfiguration:(FBSimulatorConfiguration *)configuration {
     NSError *error = nil;
     FBSimulator *simulator = [self.control.pool allocateSimulatorWithConfiguration:configuration
                                                                            options:FBSimulatorAllocationOptionsReuse
@@ -121,8 +123,7 @@ Tests can not be run on iOS less than 9.0",
     return simulator;
 }
 
-+ (FBSimulatorControl *)control
-{
++ (FBSimulatorControl *)control {
     if (!_control) {
         FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                           configurationWithDeviceSetPath:nil
