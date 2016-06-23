@@ -47,9 +47,13 @@
     
     NSFileManager *filemanager = [NSFileManager defaultManager];
     NSString *pwd = [filemanager currentDirectoryPath];
-    
-    params.applicationDataPath = [pwd stringByAppendingPathComponent:@"__appData.xcappdata"];
     params.workingDirectory = pwd;
+    
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@",
+                          [[NSProcessInfo processInfo] globallyUniqueString], @"__appData.xcappdata"];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    params.applicationDataPath = filePath;
+    
     
     params.pathToXcodePlatformDir = [self getXcodeDeveloperDir];
     params.deviceID = json[DEVICE_ID_FLAG];
