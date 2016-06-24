@@ -13,7 +13,7 @@
  
  Attempts to install the test runner if not already installed.
  
- Will boot simulator if not already booted.
+ You can get a list of codesign identities by running `security find-identity -p codesigning`
  */
 int start_test(const char *deviceID,
                const char *testRunnerPath,

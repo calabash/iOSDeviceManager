@@ -25,14 +25,28 @@
     _taskyID = "com.xamarin.samples.taskytouch";
     _deviceID = "49a29c9e61998623e7909e35e8bae50dd07ef85f";
     _ipaPath = "/Users/chrisf/calabash-xcuitest-server/Products/ipa/UnitTestApp/UnitTestApp.app";
-    _codesignIdentity = "iPhone Developer: Chris Fuentes (G7R46E5NX7)";
-    _testIpaRunnerPath = "/Users/chrisf/calabash-xcuitest-server/Products/ipa/CBX-Runner.app";
-    _deviceTestBundlePath = "/Users/chrisf/calabash-xcuitest-server/Products/ipa/CBX-Runner.app/PlugIns/CBX.xctest";
+    _codesignIdentity = "iPhone Developer: Chris Fuentes (4S8DGBC2D5)";
+    _testIpaRunnerPath = "/Users/chrisf/calabash-xcuitest-server/Products/ipa/DeviceAgent/CBX-Runner.app";
+    _deviceTestBundlePath = "/Users/chrisf/calabash-xcuitest-server/Products/ipa/DeviceAgent/CBX-Runner.app/PlugIns/CBX.xctest";
 }
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testInstallRunner {
+    if (is_installed("com.apple.test.CBX-Runner", _deviceID) == 1) {
+        uninstall_app("com.apple.test.CBX-Runner", _deviceID);
+    }
+    XCTAssertEqual(install_app(_testIpaRunnerPath, _deviceID, _codesignIdentity), SUCCESS);
+}
+
+- (void)testStartTest {
+    if (is_installed("com.apple.test.CBX-Runner", _deviceID) == 0) {
+        install_app(_testIpaRunnerPath, _deviceID, _codesignIdentity);
+    }
+    XCTAssertEqual(start_test(_deviceID, _testIpaRunnerPath, _deviceTestBundlePath, _codesignIdentity), SUCCESS);
 }
 
 - (void)testUninstallFromDevice {

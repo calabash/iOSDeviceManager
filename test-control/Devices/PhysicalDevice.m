@@ -24,27 +24,40 @@
                                                      @"--entitlements",
                                                      @":-",
                                                      bundlePath]];
-    NSString *entsPlist = [ents componentsJoinedByString:@"\n"];
-    NSError *e;
-    NSString *fileName = [NSString stringWithFormat:@"%@_%@",
-                          [[NSProcessInfo processInfo] globallyUniqueString], @"entitlements.plist"];
-    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
-    
-    if (![entsPlist writeToFile:filePath
-                     atomically:YES
-                       encoding:NSUTF8StringEncoding
-                          error:&e] || e) {
-        NSLog(@"Unable to create entitlements file: %@", e);
-        exit(1);
+    if (ents.count > 1 /* a valid ents plist should have more than one line */) {
+        NSString *entsPlist = [ents componentsJoinedByString:@"\n"];
+        NSError *e;
+        NSString *fileName = [NSString stringWithFormat:@"%@_%@",
+                              [[NSProcessInfo processInfo] globallyUniqueString], @"entitlements.plist"];
+        NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+        
+        if (![entsPlist writeToFile:filePath
+                         atomically:YES
+                           encoding:NSUTF8StringEncoding
+                              error:&e] || e) {
+            NSLog(@"Unable to create entitlements file: %@", e);
+            exit(1);
+        }
+        NSLog(@"Entitlements tmpfile %@:\n%@", filePath, entsPlist);
+        
+        return [ShellRunner shell:@"/usr/bin/xcrun"
+                             args:@[@"codesign",
+                                    @"-s",
+                                    self.codesignIdentity,
+                                    @"-f",
+                                    @"--entitlements",
+                                    filePath,
+                                    @"--deep",
+                                    bundlePath]] != nil;
+    } else {
+        return [ShellRunner shell:@"/usr/bin/xcrun"
+                             args:@[@"codesign",
+                                    @"-s",
+                                    self.codesignIdentity,
+                                    @"-f",
+                                    @"--deep",
+                                    bundlePath]] != nil;
     }
-    NSLog(@"Entitlements tmpfile %@:\n%@", filePath, entsPlist);
-    
-    NSTask *signTask = [NSTask new];
-    signTask.launchPath = @"/usr/bin/codesign";
-    signTask.arguments = @[@"-s", self.codesignIdentity, @"-f", bundlePath, @"--entitlements", filePath];
-    [signTask launch];
-    [signTask waitUntilExit];
-    return (signTask.terminationStatus == 0);
 }
 
 @end
@@ -55,8 +68,6 @@
              @"Can not run a Device test with an instance of %@",
              NSStringFromClass(params.class));
     
-    FBCodeSignCommand *codesigner = [FBCodeSignCommand codeSignCommandWithIdentityName:params.codesignIdentity];
-    
     FBDeviceTestPreparationStrategy *testPrepareStrategy =
     [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:params.testRunnerPath
                                                        applicationDataPath:params.applicationDataPath
@@ -66,7 +77,7 @@
     
     NSError *err;
     FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:params.deviceID
-                                                         codesignProvider:codesigner
+                                                         codesignProvider:[self signer:params.codesignIdentity]
                                                                     error:&err];
     
     if (err) {
