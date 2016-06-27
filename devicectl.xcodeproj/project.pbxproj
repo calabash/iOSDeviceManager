@@ -464,7 +464,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_MASTER_OBJECT_FILE = NO;
-				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -477,7 +477,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_MASTER_OBJECT_FILE = NO;
-				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
