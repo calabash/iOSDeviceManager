@@ -489,7 +489,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../ext/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -501,7 +501,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = $HOME/.calabash/Frameworks;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../ext/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
