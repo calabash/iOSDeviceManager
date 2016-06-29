@@ -7,41 +7,77 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		89331D471CE222C7003C2E59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89331D461CE222C7003C2E59 /* main.m */; };
-		896F7F071CF9C55C00FD8572 /* DeviceTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */; };
-		896F7F0C1CF9C56800FD8572 /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F091CF9C56800FD8572 /* PhysicalDevice.m */; };
-		896F7F0D1CF9C56800FD8572 /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0B1CF9C56800FD8572 /* Simulator.m */; };
-		896F7F101CF9C57600FD8572 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0F1CF9C57600FD8572 /* ShellRunner.m */; };
-		896F7F161CF9F96100FD8572 /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F151CF9F96100FD8572 /* TestParameters.m */; };
-		896F7F191CF9FC3C00FD8572 /* SimulatorTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */; };
-		8974F5151D085B6800C51B0C /* XCTestControlWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */; };
-		8974F5161D085B6800C51B0C /* XCTestControlWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */; };
-		8974F5251D08603A00C51B0C /* XCTestControlWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */; };
-		8974F5271D08603A00C51B0C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0F1CF9C57600FD8572 /* ShellRunner.m */; };
-		8974F5291D08603A00C51B0C /* TestControlArgParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */; };
-		8974F52B1D08603A00C51B0C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ABD1CFA5ACB006DCDC5 /* Device.m */; };
-		8974F52D1D08603A00C51B0C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F091CF9C56800FD8572 /* PhysicalDevice.m */; };
-		8974F52F1D08603A00C51B0C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0B1CF9C56800FD8572 /* Simulator.m */; };
-		8974F5311D08603A00C51B0C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F151CF9F96100FD8572 /* TestParameters.m */; };
-		8974F5331D08603A00C51B0C /* DeviceTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */; };
-		8974F5351D08603A00C51B0C /* SimulatorTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */; };
+		892DE49A1D22F84200E1902C /* Device.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4941D22F84200E1902C /* Device.h */; };
+		892DE49B1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
+		892DE49C1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
+		892DE49D1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
+		892DE49E1D22F84200E1902C /* PhysicalDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4961D22F84200E1902C /* PhysicalDevice.h */; };
+		892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
+		892DE4A01D22F84200E1902C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
+		892DE4A11D22F84200E1902C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
+		892DE4A21D22F84200E1902C /* Simulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4981D22F84200E1902C /* Simulator.h */; };
+		892DE4A31D22F84200E1902C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
+		892DE4A41D22F84200E1902C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
+		892DE4A51D22F84200E1902C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
+		892DE4B41D22F85400E1902C /* TestParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4AA1D22F85400E1902C /* TestParameters.h */; };
+		892DE4B51D22F85400E1902C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
+		892DE4B61D22F85400E1902C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
+		892DE4B71D22F85400E1902C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
+		892DE4BE1D22F85F00E1902C /* Codesigner.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4B81D22F85F00E1902C /* Codesigner.h */; };
+		892DE4BF1D22F85F00E1902C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4B91D22F85F00E1902C /* Codesigner.m */; };
+		892DE4C01D22F85F00E1902C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4B91D22F85F00E1902C /* Codesigner.m */; };
+		892DE4C11D22F85F00E1902C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4B91D22F85F00E1902C /* Codesigner.m */; };
+		892DE4C21D22F85F00E1902C /* ShellRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4BA1D22F85F00E1902C /* ShellRunner.h */; };
+		892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
+		892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
+		892DE4C51D22F85F00E1902C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
+		892DE4CD1D22F87000E1902C /* iOSDeviceManagement.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4CA1D22F87000E1902C /* iOSDeviceManagement.h */; };
+		892DE4CE1D22F87000E1902C /* iOSDeviceManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */; };
+		892DE4CF1D22F87000E1902C /* iOSDeviceManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */; };
+		892DE4D01D22F87000E1902C /* iOSDeviceManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */; };
+		892DE4D11D22F87000E1902C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CC1D22F87000E1902C /* main.m */; };
+		892DE4D21D22F87000E1902C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CC1D22F87000E1902C /* main.m */; };
+		892DE4D31D22F87000E1902C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CC1D22F87000E1902C /* main.m */; };
+		892DE4DD1D22F97A00E1902C /* CLI.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4DB1D22F97A00E1902C /* CLI.h */; };
+		892DE4DE1D22F97A00E1902C /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
+		892DE4DF1D22F97A00E1902C /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
+		892DE4E01D22F97A00E1902C /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
+		892DE4E31D22F99200E1902C /* iOSDeviceManagementCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */; };
+		892DE4E91D230F5F00E1902C /* Command.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4E71D230F5F00E1902C /* Command.h */; };
+		892DE4EA1D230F5F00E1902C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
+		892DE4EB1D230F5F00E1902C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
+		892DE4EC1D230F5F00E1902C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
+		892DE4F51D23109000E1902C /* CommandOption.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4F31D23109000E1902C /* CommandOption.h */; };
+		892DE4F61D23109000E1902C /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
+		892DE4F71D23109000E1902C /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
+		892DE4F81D23109000E1902C /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
+		892DE4FC1D23137100E1902C /* StartTestCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4FA1D23137100E1902C /* StartTestCommand.h */; };
+		892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
+		892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
+		892DE4FF1D23137100E1902C /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
+		892DE5021D236CE400E1902C /* LaunchSimulatorCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */; };
+		892DE5031D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
+		892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
+		892DE5051D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
+		892DE5081D2378AA00E1902C /* KillSimulatorCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */; };
+		892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
+		892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
+		892DE50B1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
+		892DE50E1D237A0800E1902C /* InstallAppCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE50C1D237A0800E1902C /* InstallAppCommand.h */; };
+		892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
+		892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
+		892DE5111D237A0800E1902C /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
+		892DE51A1D237B2B00E1902C /* UninstallAppCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE5181D237B2B00E1902C /* UninstallAppCommand.h */; };
+		892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
+		892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
+		892DE51D1D237B2B00E1902C /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
+		892DE5201D237E7700E1902C /* IsInstalledCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE51E1D237E7700E1902C /* IsInstalledCommand.h */; };
+		892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
+		892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
+		892DE5231D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		897BDC471D1AD80A00873937 /* DeviceLibTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 897BDC461D1AD80A00873937 /* DeviceLibTests.m */; };
-		897BDC491D1B013400873937 /* DeviceTestParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 896F7F051CF9C55C00FD8572 /* DeviceTestParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		897BDC4A1D1B013D00873937 /* TestParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 896F7F141CF9F96100FD8572 /* TestParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		897BDC4B1D1B014400873937 /* SimulatorTestParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 896F7F171CF9FC3C00FD8572 /* SimulatorTestParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		897BDC4C1D1B015600873937 /* XCTestControlWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8974F5131D085B6800C51B0C /* XCTestControlWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		897BDC4E1D1B04D000873937 /* SimulatorLibTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 897BDC4D1D1B04D000873937 /* SimulatorLibTests.m */; };
-		89EF4ABE1CFA5ACB006DCDC5 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ABD1CFA5ACB006DCDC5 /* Device.m */; };
-		89EF4AC41CFA6008006DCDC5 /* TestControlArgParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */; };
 		89EF4ACC1CFA614F006DCDC5 /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */; };
-		89EF4ADE1CFA6432006DCDC5 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4ABD1CFA5ACB006DCDC5 /* Device.m */; };
-		89EF4ADF1CFA6432006DCDC5 /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F151CF9F96100FD8572 /* TestParameters.m */; };
-		89EF4AE01CFA64A0006DCDC5 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0F1CF9C57600FD8572 /* ShellRunner.m */; };
-		89EF4AE11CFA64A0006DCDC5 /* TestControlArgParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */; };
-		89EF4AE21CFA64A0006DCDC5 /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F091CF9C56800FD8572 /* PhysicalDevice.m */; };
-		89EF4AE31CFA64A0006DCDC5 /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F0B1CF9C56800FD8572 /* Simulator.m */; };
-		89EF4AE41CFA64A0006DCDC5 /* DeviceTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */; };
-		89EF4AE51CFA64A0006DCDC5 /* SimulatorTestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,29 +93,44 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		892DE4941D22F84200E1902C /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = iOSDeviceManager/Devices/Device.h; sourceTree = SOURCE_ROOT; };
+		892DE4951D22F84200E1902C /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = iOSDeviceManager/Devices/Device.m; sourceTree = SOURCE_ROOT; };
+		892DE4961D22F84200E1902C /* PhysicalDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicalDevice.h; path = iOSDeviceManager/Devices/PhysicalDevice.h; sourceTree = SOURCE_ROOT; };
+		892DE4971D22F84200E1902C /* PhysicalDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalDevice.m; path = iOSDeviceManager/Devices/PhysicalDevice.m; sourceTree = SOURCE_ROOT; };
+		892DE4981D22F84200E1902C /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Simulator.h; path = iOSDeviceManager/Devices/Simulator.h; sourceTree = SOURCE_ROOT; };
+		892DE4991D22F84200E1902C /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Simulator.m; path = iOSDeviceManager/Devices/Simulator.m; sourceTree = SOURCE_ROOT; };
+		892DE4AA1D22F85400E1902C /* TestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestParameters.h; path = iOSDeviceManager/TestParameters/TestParameters.h; sourceTree = SOURCE_ROOT; };
+		892DE4AB1D22F85400E1902C /* TestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestParameters.m; path = iOSDeviceManager/TestParameters/TestParameters.m; sourceTree = SOURCE_ROOT; };
+		892DE4B81D22F85F00E1902C /* Codesigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Codesigner.h; path = iOSDeviceManager/Utilities/Codesigner.h; sourceTree = SOURCE_ROOT; };
+		892DE4B91D22F85F00E1902C /* Codesigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Codesigner.m; path = iOSDeviceManager/Utilities/Codesigner.m; sourceTree = SOURCE_ROOT; };
+		892DE4BA1D22F85F00E1902C /* ShellRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellRunner.h; path = iOSDeviceManager/Utilities/ShellRunner.h; sourceTree = SOURCE_ROOT; };
+		892DE4BB1D22F85F00E1902C /* ShellRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellRunner.m; path = iOSDeviceManager/Utilities/ShellRunner.m; sourceTree = SOURCE_ROOT; };
+		892DE4CA1D22F87000E1902C /* iOSDeviceManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSDeviceManagement.h; path = iOSDeviceManager/iOSDeviceManagement.h; sourceTree = SOURCE_ROOT; };
+		892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iOSDeviceManagement.m; path = iOSDeviceManager/iOSDeviceManagement.m; sourceTree = SOURCE_ROOT; };
+		892DE4CC1D22F87000E1902C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOSDeviceManager/main.m; sourceTree = SOURCE_ROOT; };
+		892DE4DB1D22F97A00E1902C /* CLI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLI.h; path = iOSDeviceManager/Commands/CLI.h; sourceTree = SOURCE_ROOT; };
+		892DE4DC1D22F97A00E1902C /* CLI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CLI.m; path = iOSDeviceManager/Commands/CLI.m; sourceTree = SOURCE_ROOT; };
+		892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSDeviceManagementCommand.h; path = iOSDeviceManager/Commands/iOSDeviceManagementCommand.h; sourceTree = SOURCE_ROOT; };
+		892DE4E71D230F5F00E1902C /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Command.h; path = iOSDeviceManager/Commands/Command.h; sourceTree = SOURCE_ROOT; };
+		892DE4E81D230F5F00E1902C /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Command.m; path = iOSDeviceManager/Commands/Command.m; sourceTree = SOURCE_ROOT; };
+		892DE4F31D23109000E1902C /* CommandOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommandOption.h; path = iOSDeviceManager/Commands/CommandOption.h; sourceTree = SOURCE_ROOT; };
+		892DE4F41D23109000E1902C /* CommandOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommandOption.m; path = iOSDeviceManager/Commands/CommandOption.m; sourceTree = SOURCE_ROOT; };
+		892DE4FA1D23137100E1902C /* StartTestCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartTestCommand.h; path = iOSDeviceManager/Commands/StartTestCommand.h; sourceTree = SOURCE_ROOT; };
+		892DE4FB1D23137100E1902C /* StartTestCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartTestCommand.m; path = iOSDeviceManager/Commands/StartTestCommand.m; sourceTree = SOURCE_ROOT; };
+		892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LaunchSimulatorCommand.h; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.h; sourceTree = SOURCE_ROOT; };
+		892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchSimulatorCommand.m; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.m; sourceTree = SOURCE_ROOT; };
+		892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KillSimulatorCommand.h; path = iOSDeviceManager/Commands/KillSimulatorCommand.h; sourceTree = SOURCE_ROOT; };
+		892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KillSimulatorCommand.m; path = iOSDeviceManager/Commands/KillSimulatorCommand.m; sourceTree = SOURCE_ROOT; };
+		892DE50C1D237A0800E1902C /* InstallAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstallAppCommand.h; path = iOSDeviceManager/Commands/InstallAppCommand.h; sourceTree = SOURCE_ROOT; };
+		892DE50D1D237A0800E1902C /* InstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstallAppCommand.m; path = iOSDeviceManager/Commands/InstallAppCommand.m; sourceTree = SOURCE_ROOT; };
+		892DE5181D237B2B00E1902C /* UninstallAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UninstallAppCommand.h; path = iOSDeviceManager/Commands/UninstallAppCommand.h; sourceTree = SOURCE_ROOT; };
+		892DE5191D237B2B00E1902C /* UninstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UninstallAppCommand.m; path = iOSDeviceManager/Commands/UninstallAppCommand.m; sourceTree = SOURCE_ROOT; };
+		892DE51E1D237E7700E1902C /* IsInstalledCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IsInstalledCommand.h; path = iOSDeviceManager/Commands/IsInstalledCommand.h; sourceTree = SOURCE_ROOT; };
+		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
-		89331D461CE222C7003C2E59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		896F7F051CF9C55C00FD8572 /* DeviceTestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceTestParameters.h; path = TestParameters/DeviceTestParameters.h; sourceTree = "<group>"; };
-		896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceTestParameters.m; path = TestParameters/DeviceTestParameters.m; sourceTree = "<group>"; };
-		896F7F081CF9C56800FD8572 /* PhysicalDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicalDevice.h; path = Devices/PhysicalDevice.h; sourceTree = "<group>"; };
-		896F7F091CF9C56800FD8572 /* PhysicalDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalDevice.m; path = Devices/PhysicalDevice.m; sourceTree = "<group>"; };
-		896F7F0A1CF9C56800FD8572 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Simulator.h; path = Devices/Simulator.h; sourceTree = "<group>"; };
-		896F7F0B1CF9C56800FD8572 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Simulator.m; path = Devices/Simulator.m; sourceTree = "<group>"; };
-		896F7F0E1CF9C57600FD8572 /* ShellRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellRunner.h; path = Utilities/ShellRunner.h; sourceTree = "<group>"; };
-		896F7F0F1CF9C57600FD8572 /* ShellRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellRunner.m; path = Utilities/ShellRunner.m; sourceTree = "<group>"; };
-		896F7F141CF9F96100FD8572 /* TestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestParameters.h; path = TestParameters/TestParameters.h; sourceTree = "<group>"; };
-		896F7F151CF9F96100FD8572 /* TestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestParameters.m; path = TestParameters/TestParameters.m; sourceTree = "<group>"; };
-		896F7F171CF9FC3C00FD8572 /* SimulatorTestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimulatorTestParameters.h; path = TestParameters/SimulatorTestParameters.h; sourceTree = "<group>"; };
-		896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorTestParameters.m; path = TestParameters/SimulatorTestParameters.m; sourceTree = "<group>"; };
-		8974F5131D085B6800C51B0C /* XCTestControlWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCTestControlWrapper.h; sourceTree = "<group>"; };
-		8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestControlWrapper.m; sourceTree = "<group>"; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		897BDC461D1AD80A00873937 /* DeviceLibTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceLibTests.m; path = ../DeviceLibTests.m; sourceTree = "<group>"; };
 		897BDC4D1D1B04D000873937 /* SimulatorLibTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorLibTests.m; sourceTree = "<group>"; };
-		89EF4ABC1CFA5ACB006DCDC5 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = Devices/Device.h; sourceTree = "<group>"; };
-		89EF4ABD1CFA5ACB006DCDC5 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = Devices/Device.m; sourceTree = "<group>"; };
-		89EF4AC21CFA6008006DCDC5 /* TestControlArgParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestControlArgParser.h; path = Utilities/TestControlArgParser.h; sourceTree = "<group>"; };
-		89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestControlArgParser.m; path = Utilities/TestControlArgParser.m; sourceTree = "<group>"; };
 		89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF4ACB1CFA614F006DCDC5 /* IntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
 		89EF4ACD1CFA614F006DCDC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,11 +163,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		892DE4D41D22F8E100E1902C /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */,
+				892DE4DB1D22F97A00E1902C /* CLI.h */,
+				892DE4DC1D22F97A00E1902C /* CLI.m */,
+				892DE4E71D230F5F00E1902C /* Command.h */,
+				892DE4E81D230F5F00E1902C /* Command.m */,
+				892DE4F31D23109000E1902C /* CommandOption.h */,
+				892DE4F41D23109000E1902C /* CommandOption.m */,
+				892DE4FA1D23137100E1902C /* StartTestCommand.h */,
+				892DE4FB1D23137100E1902C /* StartTestCommand.m */,
+				892DE51E1D237E7700E1902C /* IsInstalledCommand.h */,
+				892DE51F1D237E7700E1902C /* IsInstalledCommand.m */,
+				892DE50C1D237A0800E1902C /* InstallAppCommand.h */,
+				892DE50D1D237A0800E1902C /* InstallAppCommand.m */,
+				892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */,
+				892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */,
+				892DE5181D237B2B00E1902C /* UninstallAppCommand.h */,
+				892DE5191D237B2B00E1902C /* UninstallAppCommand.m */,
+				892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */,
+				892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */,
+			);
+			name = Commands;
+			sourceTree = "<group>";
+		};
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
 				F5169D261CFEAE5900252F52 /* LICENSE */,
-				89331D451CE222C7003C2E59 /* test-control */,
+				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
 				89EF4ACA1CFA614F006DCDC5 /* TestControlTests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				F5169D271CFEAE5900252F52 /* vendor-licenses */,
@@ -133,28 +210,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		89331D451CE222C7003C2E59 /* test-control */ = {
+		89331D451CE222C7003C2E59 /* iOSDeviceManagement */ = {
 			isa = PBXGroup;
 			children = (
-				89331D461CE222C7003C2E59 /* main.m */,
-				8974F5131D085B6800C51B0C /* XCTestControlWrapper.h */,
-				8974F5141D085B6800C51B0C /* XCTestControlWrapper.m */,
+				892DE4CC1D22F87000E1902C /* main.m */,
+				892DE4CA1D22F87000E1902C /* iOSDeviceManagement.h */,
+				892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */,
 				896F7F041CF9C51900FD8572 /* Utilities */,
 				896F7F021CF9C50500FD8572 /* Devices */,
+				892DE4D41D22F8E100E1902C /* Commands */,
 				896F7F031CF9C51000FD8572 /* TestParameters */,
 			);
+			name = iOSDeviceManagement;
 			path = "test-control";
 			sourceTree = "<group>";
 		};
 		896F7F021CF9C50500FD8572 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
-				89EF4ABC1CFA5ACB006DCDC5 /* Device.h */,
-				89EF4ABD1CFA5ACB006DCDC5 /* Device.m */,
-				896F7F081CF9C56800FD8572 /* PhysicalDevice.h */,
-				896F7F091CF9C56800FD8572 /* PhysicalDevice.m */,
-				896F7F0A1CF9C56800FD8572 /* Simulator.h */,
-				896F7F0B1CF9C56800FD8572 /* Simulator.m */,
+				892DE4941D22F84200E1902C /* Device.h */,
+				892DE4951D22F84200E1902C /* Device.m */,
+				892DE4981D22F84200E1902C /* Simulator.h */,
+				892DE4991D22F84200E1902C /* Simulator.m */,
+				892DE4961D22F84200E1902C /* PhysicalDevice.h */,
+				892DE4971D22F84200E1902C /* PhysicalDevice.m */,
 			);
 			name = Devices;
 			sourceTree = "<group>";
@@ -162,12 +241,8 @@
 		896F7F031CF9C51000FD8572 /* TestParameters */ = {
 			isa = PBXGroup;
 			children = (
-				896F7F141CF9F96100FD8572 /* TestParameters.h */,
-				896F7F151CF9F96100FD8572 /* TestParameters.m */,
-				896F7F051CF9C55C00FD8572 /* DeviceTestParameters.h */,
-				896F7F061CF9C55C00FD8572 /* DeviceTestParameters.m */,
-				896F7F171CF9FC3C00FD8572 /* SimulatorTestParameters.h */,
-				896F7F181CF9FC3C00FD8572 /* SimulatorTestParameters.m */,
+				892DE4AA1D22F85400E1902C /* TestParameters.h */,
+				892DE4AB1D22F85400E1902C /* TestParameters.m */,
 			);
 			name = TestParameters;
 			sourceTree = "<group>";
@@ -175,10 +250,10 @@
 		896F7F041CF9C51900FD8572 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				896F7F0E1CF9C57600FD8572 /* ShellRunner.h */,
-				896F7F0F1CF9C57600FD8572 /* ShellRunner.m */,
-				89EF4AC21CFA6008006DCDC5 /* TestControlArgParser.h */,
-				89EF4AC31CFA6008006DCDC5 /* TestControlArgParser.m */,
+				892DE4B81D22F85F00E1902C /* Codesigner.h */,
+				892DE4B91D22F85F00E1902C /* Codesigner.m */,
+				892DE4BA1D22F85F00E1902C /* ShellRunner.h */,
+				892DE4BB1D22F85F00E1902C /* ShellRunner.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -209,10 +284,23 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				897BDC4B1D1B014400873937 /* SimulatorTestParameters.h in Headers */,
-				897BDC4C1D1B015600873937 /* XCTestControlWrapper.h in Headers */,
-				897BDC4A1D1B013D00873937 /* TestParameters.h in Headers */,
-				897BDC491D1B013400873937 /* DeviceTestParameters.h in Headers */,
+				892DE4B41D22F85400E1902C /* TestParameters.h in Headers */,
+				892DE4DD1D22F97A00E1902C /* CLI.h in Headers */,
+				892DE5021D236CE400E1902C /* LaunchSimulatorCommand.h in Headers */,
+				892DE5201D237E7700E1902C /* IsInstalledCommand.h in Headers */,
+				892DE5081D2378AA00E1902C /* KillSimulatorCommand.h in Headers */,
+				892DE4F51D23109000E1902C /* CommandOption.h in Headers */,
+				892DE51A1D237B2B00E1902C /* UninstallAppCommand.h in Headers */,
+				892DE4C21D22F85F00E1902C /* ShellRunner.h in Headers */,
+				892DE50E1D237A0800E1902C /* InstallAppCommand.h in Headers */,
+				892DE4E91D230F5F00E1902C /* Command.h in Headers */,
+				892DE4E31D22F99200E1902C /* iOSDeviceManagementCommand.h in Headers */,
+				892DE4FC1D23137100E1902C /* StartTestCommand.h in Headers */,
+				892DE4A21D22F84200E1902C /* Simulator.h in Headers */,
+				892DE49E1D22F84200E1902C /* PhysicalDevice.h in Headers */,
+				892DE49A1D22F84200E1902C /* Device.h in Headers */,
+				892DE4BE1D22F85F00E1902C /* Codesigner.h in Headers */,
+				892DE4CD1D22F87000E1902C /* iOSDeviceManagement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,16 +412,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				896F7F071CF9C55C00FD8572 /* DeviceTestParameters.m in Sources */,
-				89EF4AC41CFA6008006DCDC5 /* TestControlArgParser.m in Sources */,
-				896F7F0C1CF9C56800FD8572 /* PhysicalDevice.m in Sources */,
-				89331D471CE222C7003C2E59 /* main.m in Sources */,
-				89EF4ABE1CFA5ACB006DCDC5 /* Device.m in Sources */,
-				896F7F191CF9FC3C00FD8572 /* SimulatorTestParameters.m in Sources */,
-				8974F5151D085B6800C51B0C /* XCTestControlWrapper.m in Sources */,
-				896F7F161CF9F96100FD8572 /* TestParameters.m in Sources */,
-				896F7F101CF9C57600FD8572 /* ShellRunner.m in Sources */,
-				896F7F0D1CF9C56800FD8572 /* Simulator.m in Sources */,
+				892DE4D11D22F87000E1902C /* main.m in Sources */,
+				892DE4CE1D22F87000E1902C /* iOSDeviceManagement.m in Sources */,
+				892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */,
+				892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */,
+				892DE4F61D23109000E1902C /* CommandOption.m in Sources */,
+				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */,
+				892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */,
+				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
+				892DE4BF1D22F85F00E1902C /* Codesigner.m in Sources */,
+				892DE4B51D22F85400E1902C /* TestParameters.m in Sources */,
+				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
+				892DE49B1D22F84200E1902C /* Device.m in Sources */,
+				892DE4EA1D230F5F00E1902C /* Command.m in Sources */,
+				892DE4DE1D22F97A00E1902C /* CLI.m in Sources */,
+				892DE4A31D22F84200E1902C /* Simulator.m in Sources */,
+				892DE5031D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,15 +436,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8974F5251D08603A00C51B0C /* XCTestControlWrapper.m in Sources */,
-				8974F5271D08603A00C51B0C /* ShellRunner.m in Sources */,
-				8974F5291D08603A00C51B0C /* TestControlArgParser.m in Sources */,
-				8974F52B1D08603A00C51B0C /* Device.m in Sources */,
-				8974F52D1D08603A00C51B0C /* PhysicalDevice.m in Sources */,
-				8974F52F1D08603A00C51B0C /* Simulator.m in Sources */,
-				8974F5311D08603A00C51B0C /* TestParameters.m in Sources */,
-				8974F5331D08603A00C51B0C /* DeviceTestParameters.m in Sources */,
-				8974F5351D08603A00C51B0C /* SimulatorTestParameters.m in Sources */,
+				892DE4C11D22F85F00E1902C /* Codesigner.m in Sources */,
+				892DE4FF1D23137100E1902C /* StartTestCommand.m in Sources */,
+				892DE4F81D23109000E1902C /* CommandOption.m in Sources */,
+				892DE5231D237E7700E1902C /* IsInstalledCommand.m in Sources */,
+				892DE4B71D22F85400E1902C /* TestParameters.m in Sources */,
+				892DE50B1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				892DE4D01D22F87000E1902C /* iOSDeviceManagement.m in Sources */,
+				892DE5111D237A0800E1902C /* InstallAppCommand.m in Sources */,
+				892DE4A51D22F84200E1902C /* Simulator.m in Sources */,
+				892DE4A11D22F84200E1902C /* PhysicalDevice.m in Sources */,
+				892DE49D1D22F84200E1902C /* Device.m in Sources */,
+				892DE51D1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
+				892DE4EC1D230F5F00E1902C /* Command.m in Sources */,
+				892DE4E01D22F97A00E1902C /* CLI.m in Sources */,
+				892DE4C51D22F85F00E1902C /* ShellRunner.m in Sources */,
+				892DE4D31D22F87000E1902C /* main.m in Sources */,
+				892DE5051D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,17 +461,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				897BDC4E1D1B04D000873937 /* SimulatorLibTests.m in Sources */,
-				89EF4AE01CFA64A0006DCDC5 /* ShellRunner.m in Sources */,
+				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
+				892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */,
+				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
+				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
+				892DE4DF1D22F97A00E1902C /* CLI.m in Sources */,
+				892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
+				892DE4EB1D230F5F00E1902C /* Command.m in Sources */,
+				892DE4C01D22F85F00E1902C /* Codesigner.m in Sources */,
+				892DE4A01D22F84200E1902C /* PhysicalDevice.m in Sources */,
 				897BDC471D1AD80A00873937 /* DeviceLibTests.m in Sources */,
-				89EF4AE11CFA64A0006DCDC5 /* TestControlArgParser.m in Sources */,
-				89EF4AE21CFA64A0006DCDC5 /* PhysicalDevice.m in Sources */,
-				89EF4AE31CFA64A0006DCDC5 /* Simulator.m in Sources */,
-				89EF4AE41CFA64A0006DCDC5 /* DeviceTestParameters.m in Sources */,
-				89EF4AE51CFA64A0006DCDC5 /* SimulatorTestParameters.m in Sources */,
-				8974F5161D085B6800C51B0C /* XCTestControlWrapper.m in Sources */,
-				89EF4ADE1CFA6432006DCDC5 /* Device.m in Sources */,
-				89EF4ADF1CFA6432006DCDC5 /* TestParameters.m in Sources */,
+				892DE4CF1D22F87000E1902C /* iOSDeviceManagement.m in Sources */,
+				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
+				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				892DE4D21D22F87000E1902C /* main.m in Sources */,
+				892DE49C1D22F84200E1902C /* Device.m in Sources */,
+				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				89EF4ACC1CFA614F006DCDC5 /* IntegrationTests.m in Sources */,
+				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
+				892DE4B61D22F85400E1902C /* TestParameters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

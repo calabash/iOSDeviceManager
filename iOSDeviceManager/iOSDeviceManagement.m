@@ -1,7 +1,5 @@
 
-#import "XCTestControlWrapper.h"
-#import "DeviceTestParameters.h"
-#import "TestControlArgParser.h"
+#import "iOSDeviceManagement.h"
 #import "Simulator.h"
 #import "Device.h"
 
@@ -14,14 +12,10 @@ int start_test(const char *deviceID,
                const char *testBundlePath,
                const char *codesignID) {
     @autoreleasepool {
-        TestParameters *params = [TestParameters fromJSON:@{
-                                                            DEVICE_ID_FLAG : STR(deviceID) ?: @"",
-                                                            TEST_RUNNER_PATH_FLAG : STR(testRunnerPath) ?: @"",
-                                                            XCTEST_BUNDLE_PATH_FLAG : STR(testBundlePath) ?: @"",
-                                                            CODESIGN_IDENTITY_FLAG : STR(codesignID) ?: @""
-                                                            }];
-        
-        return [Device startTest:params] ? SUCCESS : FAILURE;
+        return [Device startTestOnDevice:STR(deviceID)
+                          testRunnerPath:STR(testRunnerPath)
+                          testBundlePath:STR(testBundlePath)
+                        codesignIdentity:STR(codesignID)] ? SUCCESS : FAILURE;
     }
 }
 

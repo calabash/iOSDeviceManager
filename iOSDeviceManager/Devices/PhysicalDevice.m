@@ -5,84 +5,46 @@
 #import <FBControlCore/FBControlCore.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "ShellRunner.h"
+#import "Codesigner.h"
 
 @interface DVTAbstractiOSDevice : NSObject
 - (id)applications;
 @end
 
-@interface Signer : NSObject  <FBCodesignProvider>
-@property (nonatomic, strong) NSString *codesignIdentity;
-@end
 
-@implementation Signer
-
-- (BOOL)signBundleAtPath:(NSString *)bundlePath {
-    NSAssert(self.codesignIdentity != nil, @"Can not have a codesign command without an identity name");
-    NSArray<NSString *> *ents = [ShellRunner shell:@"/usr/bin/xcrun"
-                                              args:@[@"codesign",
-                                                     @"-d",
-                                                     @"--entitlements",
-                                                     @":-",
-                                                     bundlePath]];
-    if (ents.count > 1 /* a valid ents plist should have more than one line */) {
-        NSString *entsPlist = [ents componentsJoinedByString:@"\n"];
-        NSError *e;
-        NSString *fileName = [NSString stringWithFormat:@"%@_%@",
-                              [[NSProcessInfo processInfo] globallyUniqueString], @"entitlements.plist"];
-        NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
-        
-        if (![entsPlist writeToFile:filePath
-                         atomically:YES
-                           encoding:NSUTF8StringEncoding
-                              error:&e] || e) {
-            NSLog(@"Unable to create entitlements file: %@", e);
-            exit(1);
-        }
-        NSLog(@"Entitlements tmpfile %@:\n%@", filePath, entsPlist);
-        
-        return [ShellRunner shell:@"/usr/bin/xcrun"
-                             args:@[@"codesign",
-                                    @"-s",
-                                    self.codesignIdentity,
-                                    @"-f",
-                                    @"--entitlements",
-                                    filePath,
-                                    @"--deep",
-                                    bundlePath]] != nil;
-    } else {
-        return [ShellRunner shell:@"/usr/bin/xcrun"
-                             args:@[@"codesign",
-                                    @"-s",
-                                    self.codesignIdentity,
-                                    @"-f",
-                                    @"--deep",
-                                    bundlePath]] != nil;
-    }
-}
-
-@end
 
 @implementation PhysicalDevice
-+ (BOOL)startTest:(DeviceTestParameters *)params {
-    NSAssert(params.deviceType == kDeviceTypeDevice,
-             @"Can not run a Device test with an instance of %@",
-             NSStringFromClass(params.class));
-    
++ (NSString *)applicationDataPath {
+    return nil;
+}
+
++ (NSString *)pathToXcodePlatformDir {
+    return nil;
+}
+
++ (NSString *)workingDirectory {
+    return nil;
+}
+
++ (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
+                          testRunnerPath:(NSString *)testRunnerPath
+                          testBundlePath:(NSString *)testBundlePath
+                        codesignIdentity:(NSString *)codesignIdentity {
     FBDeviceTestPreparationStrategy *testPrepareStrategy =
-    [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:params.testRunnerPath
-                                                       applicationDataPath:params.applicationDataPath
-                                                            testBundlePath:params.testBundlePath
-                                                    pathToXcodePlatformDir:params.pathToXcodePlatformDir
-                                                          workingDirectory:params.workingDirectory];
+    [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:testRunnerPath
+                                                       applicationDataPath:[self applicationDataPath]
+                                                            testBundlePath:testBundlePath
+                                                    pathToXcodePlatformDir:[self pathToXcodePlatformDir]
+                                                          workingDirectory:[self workingDirectory]];
     
     NSError *err;
-    FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:params.deviceID
-                                                         codesignProvider:[self signer:params.codesignIdentity]
+    FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:deviceID
+                                                         codesignProvider:[self signer:codesignIdentity]
                                                                     error:&err];
     
     if (err) {
         NSLog(@"Error creating device operator: %@", err);
-        return NO;
+        return iOSReturnStatusCodeInternalError;
     }
     id reporterLogger = [self new];
     FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:op
@@ -96,9 +58,9 @@
         [[NSRunLoop mainRunLoop] run];
     } else {
         NSLog(@"Err: %@", innerError);
-        return NO;
+        return iOSReturnStatusCodeInternalError;
     }
-    return YES;
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 #pragma mark - Test Reporter Methods
@@ -178,8 +140,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return self;
 }
 
-+ (Signer *)signer:(NSString *)codesignID {
-    Signer *codesigner = [Signer new];
++ (Codesigner *)signer:(NSString *)codesignID {
+    Codesigner *codesigner = [Codesigner new];
     codesigner.codesignIdentity = codesignID;
     return codesigner;
 }
@@ -199,11 +161,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 #pragma mark - App Installation
-+ (BOOL)installApp:(NSString *)pathToBundle
++ (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
           deviceID:(NSString *)deviceID
         codesignID:(NSString *)codesignID {
     FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:codesignID]];
-    if (!op) return NO;
+    if (!op) return iOSReturnStatusCodeInternalError;
     
     NSError *err;
     //Codesign
@@ -218,49 +180,49 @@ testCaseDidStartForTestClass:(NSString *)testClass
     
     if (err) {
         NSLog(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
-        return NO;
+        return iOSReturnStatusCodeInternalError;
     }
     
     if (![op installApplicationWithPath:pathToBundle error:&err] || err) {
         NSLog(@"Error installing application: %@", err);
-        return NO;
+        return iOSReturnStatusCodeInternalError;
     }
     
-    return YES;
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (BOOL)uninstallApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
++ (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
     FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
-    if (!op) return NO;
+    if (!op) return iOSReturnStatusCodeInternalError;
     
     NSError *err;
     if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
         NSLog(@"Application %@ is not installed on %@", bundleID, deviceID);
-        return NO;
+        return iOSReturnStatusCodeInternalError;
     }
     
     if (err) {
         NSLog(@"Error checking if application %@ is installed: %@", bundleID, err);
-        return NO;
+        return iOSReturnStatusCodeInternalError;
     }
     
     if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
         NSLog(@"Error uninstalling app %@: %@", bundleID, err);
     }
-    return err == nil;
+    return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
-+ (int)appIsInstalled:(NSString *)bundleID deviceID:(NSString *)deviceID {
++ (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID deviceID:(NSString *)deviceID {
     FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
-    if (!op) return -1;
+    if (!op) return iOSReturnStatusCodeInternalError;
     
     NSError *err;
     BOOL installed = [op isApplicationInstalledWithBundleID:bundleID error:&err];
     if (err) {
         NSLog(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
-        return -1;
+        return iOSReturnStatusCodeInternalError;
     }
-    return installed ? 1 : 0;
+    return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
 @end
