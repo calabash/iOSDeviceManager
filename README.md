@@ -6,17 +6,37 @@ for device/simulator lifecycle management.
 ### Using
 
 ```
-$ devicectl
-  -r       Path to Test Runner .app directory
-  -t       Path to .xctest bundle
-  -c       [Device Only] Codesign Identity
-           e.g. "iPhone Developer: Aaron Aaronson (ABCDE12345)"
-  -d       Device UDID
-           e.g. Simulator: "F8C4D65B-2FB7-4B8B-89BE-8C3982E65F3F"
-           e.g. Physical Device: 49a29c9e61998623e7909e35e8bae50dd07ef85f
+iOSDeviceManager [command] [flags]
+
+start_test
+-c,--codesign-identity	<codesign-identity>         Identity used to codesign application resources [device only]
+-r,--test-runner        <path/to/testrunner.app>	Path to the test runner application which will run the test bundle
+-t,--test-bundle        <path/to/testbundle.xctest>	Path to the .xctest bundle
+-d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+
+install
+-c,--codesign-identity	<codesign-identity>	Identity used to codesign app bundle [device only]
+-a,--app-bundle         <path/to/app-bundle.app>	Path .app bundle (for .ipas, unzip and look inside of 'Payload')
+-d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+
+launch_simulator
+-d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+
+is_installed
+-b,--bundle-identifier	<bundle-id>                 bundle identifier (e.g. com.my.app)
+-d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+
+kill_simulator
+-d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+
+uninstall
+-b,--bundle-identifier	<bundle-id>                 bundle identifier (e.g. com.my.app)
+-d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
 ```
 
 ### Building
+
+*TODO* Update this... frameworks and executable should be bundled together. 
 
 `devicectl` has some framework dependencies on the FBSimulatorControl
 frameworks.  A forked build of them is included in the project and can
