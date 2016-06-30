@@ -15,7 +15,8 @@ int start_test(const char *deviceID,
         return [Device startTestOnDevice:STR(deviceID)
                           testRunnerPath:STR(testRunnerPath)
                           testBundlePath:STR(testBundlePath)
-                        codesignIdentity:STR(codesignID)] ? SUCCESS : FAILURE;
+                        codesignIdentity:STR(codesignID)
+                               keepAlive:YES];
     }
 }
 
@@ -25,31 +26,33 @@ int install_app(const char *pathToBundle,
     @autoreleasepool {
         return [Device installApp:STR(pathToBundle)
                          deviceID:STR(deviceID)
-                       codesignID:STR(codesignID)] ? SUCCESS : FAILURE;
+                       codesignID:STR(codesignID)];
     }
 }
 
 int launch_simulator(const char *simulatorID) {
     @autoreleasepool {
-        return [Simulator launchSimulator:STR(simulatorID)] ? SUCCESS : FAILURE;
+        return [Simulator launchSimulator:STR(simulatorID)];
     }
 }
 
 int kill_simulator(const char *simulatorID) {
     @autoreleasepool {
-        return [Simulator killSimulator:STR(simulatorID)] ? SUCCESS : FAILURE;
+        return [Simulator killSimulator:STR(simulatorID)];
     }
 }
 
 int uninstall_app(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
-        return [Device uninstallApp:STR(bundleID) deviceID:STR(deviceID)] ? SUCCESS : FAILURE;
+        return [Device uninstallApp:STR(bundleID)
+                           deviceID:STR(deviceID)];
     }
 }
 
 int is_installed(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
         //Returns 1, 0, or -1 for 'true', 'false', 'error'
-        return [Device appIsInstalled:STR(bundleID) deviceID:STR(deviceID)];
+        return [Device appIsInstalled:STR(bundleID)
+                             deviceID:STR(deviceID)];
     }
 }

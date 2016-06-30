@@ -15,11 +15,12 @@ static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
-        [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
-                                               longFlag:@"--codesign-identity"
-                                             optionName:@"codesign-identity"
-                                                   info:@"Identity used to codesign app bundle [device only]"
-                                               required:NO]];
+        
+        [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
+                                               longFlag:@"--device-id"
+                                             optionName:@"device-identifier"
+                                                   info:@"iOS Simulator GUID or 40-digit physical device ID"
+                                               required:YES]];
         
         [options addObject:[CommandOption withShortFlag:APP_BUNDLE_PATH_FLAG
                                                longFlag:@"--app-bundle"
@@ -27,11 +28,11 @@ static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
                                                    info:@"Path .app bundle (for .ipas, unzip and look inside of 'Payload')"
                                                required:YES]];
         
-        [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
-                                               longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
-                                                   info:@"iOS Simulator GUID or 40-digit physical device ID"
-                                               required:YES]];
+        [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
+                                               longFlag:@"--codesign-identity"
+                                             optionName:@"codesign-identity"
+                                                   info:@"Identity used to codesign app bundle [device only]"
+                                               required:NO]];
     });
     return options;
 }

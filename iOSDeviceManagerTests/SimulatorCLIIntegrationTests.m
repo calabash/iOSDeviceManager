@@ -38,11 +38,18 @@ static const NSString *progname = @"iOSDeviceManagement";
     [super tearDown];
 }
 
-//- (void)testStartSimTest {
-//    //FIXME:
-//    //find some way to end the test
-//    XCTAssertEqual(start_test(_simID, _testAppRunnerPath, _simTestBundlePath, _codesignIdentity), SUCCESS);
-//}
+- (void)testStartSimTest {
+    NSArray *args = @[progname, @"launch_simulator", @"-d", _simID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b1/Xcode-beta.app/Contents/Developer", YES);
+    args = @[progname, @"start_test",
+             @"-d", _simID,
+             @"-t", _simTestBundlePath,
+             @"-r", _testAppRunnerPath,
+             @"-k", @"NO"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
 
 - (void)testLaunchSim {
     NSArray *args = @[progname, @"launch_simulator", @"-d", _simID];

@@ -4,6 +4,7 @@
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import <FBDeviceControl/FBDeviceControl.h>
+#import "ShellRunner.h"
 
 @implementation Simulator
 static FBSimulatorControl *_control;
@@ -11,8 +12,8 @@ static FBSimulatorControl *_control;
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity  {
-    
+                        codesignIdentity:(NSString *)codesignIdentity
+                               keepAlive:(BOOL)keepAlive {
     if (![TestParameters isSimulatorID:deviceID]) {
         NSLog(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
@@ -22,26 +23,39 @@ static FBSimulatorControl *_control;
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (!simulator) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    
-    if (simulator.state == FBSimulatorStateShutdown ||
-        simulator.state == FBSimulatorStateShuttingDown) {
-        NSLog(@"Simulator %@ is dead. Launch it before running a test.", deviceID);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-    
     if (![self iOS_GTE_9:simulator.configuration.osVersionString]) {
         return iOSReturnStatusCodeGenericFailure;
     }
-   
+    
     FBSimulatorApplication *app = [self app:testRunnerPath];
-    [[[simulator.interact installApplication:app] startTestRunnerLaunchConfiguration:[self testRunnerLaunchConfig:testRunnerPath]
-                                                                      testBundlePath:testBundlePath
-                                                                            reporter:[self new]] perform:&e];
+    
+    FBSimulatorTestPreparationStrategy *testPrepareStrategy =
+    [FBSimulatorTestPreparationStrategy strategyWithTestRunnerBundleID:app.bundleID
+                                                        testBundlePath:testBundlePath
+                                                      workingDirectory:[ShellRunner pwd]
+     ];
+    
+    
+    [[simulator.interact installApplication:app] perform:&e];
+    if (e) {
+        NSLog(@"Unable to install application %@ to %@: %@", app.bundleID, deviceID, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    FBSimulatorControlOperator *operator = [FBSimulatorControlOperator operatorWithSimulator:simulator];
+    FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:operator
+                                                                       testPrepareStrategy:testPrepareStrategy
+                                                                                  reporter:[self new]
+                                                                                    logger:simulator.logger];
+    NSError *innerError = nil;
+    [testRunStrategy startTestManagerWithAttributes:@[]
+                                        environment:@{}
+                                              error:&innerError];
     
     if (e) {
         NSLog(@"Error starting test runner: %@", e);
         return iOSReturnStatusCodeInternalError;
-    } else {
+    } else if (keepAlive) {
         [[NSRunLoop mainRunLoop] run];
     }
     return iOSReturnStatusCodeEverythingOkay;

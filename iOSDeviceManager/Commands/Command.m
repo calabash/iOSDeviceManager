@@ -23,6 +23,9 @@
     
     for (CommandOption *op in [cmd options]) {
         [usage appendFormat:@"\t\t%@,%@\t<%@>", op.shortFlag, op.longFlag, op.optionName];
+        if (!op.required) {
+            [usage appendString:@" [OPTIONAL] "];
+        }
         if (op.additionalInfo && ![op.additionalInfo isEqualToString:@""]) {
             [usage appendFormat:@"\t%@\n", op.additionalInfo];
         }

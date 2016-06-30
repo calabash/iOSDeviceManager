@@ -7,7 +7,9 @@
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity;
+                        codesignIdentity:(NSString *)codesignIdentity
+                               keepAlive:(BOOL)keepAlive; //helps with integration testing
+
 + (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID
                            deviceID:(NSString *)deviceID;
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle

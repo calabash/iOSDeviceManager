@@ -6,17 +6,20 @@
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity {
+                        codesignIdentity:(NSString *)codesignIdentity
+                               keepAlive:(BOOL)keepAlive {
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice startTestOnDevice:deviceID
                                   testRunnerPath:testRunnerPath
                                   testBundlePath:testBundlePath
-                                codesignIdentity:codesignIdentity];
+                                codesignIdentity:codesignIdentity
+                                       keepAlive:keepAlive];
     } else {
         return [Simulator startTestOnDevice:deviceID
                              testRunnerPath:testRunnerPath
                              testBundlePath:testBundlePath
-                           codesignIdentity:codesignIdentity];
+                           codesignIdentity:codesignIdentity
+                                  keepAlive:keepAlive];
     }
 }
 

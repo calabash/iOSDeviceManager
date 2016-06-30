@@ -29,7 +29,8 @@
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity {
+                        codesignIdentity:(NSString *)codesignIdentity
+                               keepAlive:(BOOL)keepAlive  {
     FBDeviceTestPreparationStrategy *testPrepareStrategy =
     [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:testRunnerPath
                                                        applicationDataPath:[self applicationDataPath]
@@ -48,7 +49,7 @@
     NSError *innerError = nil;
     [testRunStrategy startTestManagerWithAttributes:@[] environment:@{} error:&innerError];
     
-    if (!innerError) {
+    if (!innerError && keepAlive) {
         [[NSRunLoop mainRunLoop] run];
     } else {
         NSLog(@"Err: %@", innerError);
