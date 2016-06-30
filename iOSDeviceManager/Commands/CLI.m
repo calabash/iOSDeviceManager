@@ -35,8 +35,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     printf("\n");
 }
 
-+ (iOSReturnStatusCode)process {
-    NSArray<NSString *> *args = [NSProcessInfo processInfo].arguments;
++ (iOSReturnStatusCode)process:(NSArray<NSString *> *)args {
     if (args.count <= 1) {
         [self printUsage];
         return iOSReturnStatusCodeEverythingOkay;
@@ -44,8 +43,9 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
         NSString *commandName = [args[1] lowercaseString];
         Class <iOSDeviceManagementCommand> command = commandClasses[commandName];
         if (command) {
+            
             //Ensure args can be parsed correctly
-            NSArray *cmdArgs = [args subarrayWithRange:NSMakeRange(2, args.count)];
+            NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
             int ec;
             NSDictionary *parsedArgs = [command parseArgs:cmdArgs exitCode:&ec];
             if (ec != iOSReturnStatusCodeEverythingOkay) {
@@ -63,7 +63,9 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             //Ensure all required args are present
             for (CommandOption *opt in [command options]) {
                 if (opt.required && ![parsedArgs.allKeys containsObject:opt.shortFlag]) {
-                    NSLog(@"Missing required argument '%@'. Use the '%@' flag.", opt.optionName, opt.shortFlag);
+                    printf("Missing required argument '%s'. Use the '%s' flag.\n",
+                           [opt.optionName cStringUsingEncoding:NSUTF8StringEncoding],
+                           [opt.shortFlag cStringUsingEncoding:NSUTF8StringEncoding]);
                     [command printUsage];
                     return iOSReturnStatusCodeMissingArguments;
                 }
@@ -71,12 +73,16 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
-            if (ret != iOSReturnStatusCodeEverythingOkay) {
+            NSLog(@"%@ ==> %d %@", [command name], ret, parsedArgs);
+            if (ret != iOSReturnStatusCodeEverythingOkay &&
+                ret != iOSReturnStatusCodeFalse) {
                 [command printUsage];
             }
             return ret;
         } else {
-            NSLog(@"Unrecognized command: %@", commandName);
+            printf("Unrecognized command: %s\n",
+                   [commandName cStringUsingEncoding:NSUTF8StringEncoding]);
+            [self printUsage];
             return iOSReturnStatusCodeUnrecognizedCommand;
         }
     }

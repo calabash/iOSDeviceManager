@@ -6,31 +6,42 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		mBXKxi6M/h2ft52HmemlXVDQivk=
+		FxuVDcz9ihVPUOVQh8lea7XmHCw=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Headers/FBAMDevice.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NKF8UvfL+l8pR+eAvPC5yYzxwXU=
+			</data>
+			<key>hash2</key>
+			<data>
+			N+DipS8CBq8fY5XCzjxuYXvewyc0PLUGm7tIs5EEyTY=
+			</data>
+		</dict>
 		<key>Headers/FBDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TI+1kA/vDbYZUDs4LMpviU/F0o0=
+			y/WOKE+7gUnlB/THcuuNLC6MkjI=
 			</data>
 			<key>hash2</key>
 			<data>
-			KsNdSgn02pj6YjcgKNELqezyQZNA7ec6mHTpdoz/GOo=
+			WrVrCIr8YU95VNeG2CtrNJUuh2ltxQIPqgyQcZ4Gepc=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControl.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			iM5IahgnedV2bgZ3qzn8L6duq08=
+			DQ4noYdYTISWy0PAVDJtmgM6IlU=
 			</data>
 			<key>hash2</key>
 			<data>
-			fswXZ038RLDYDAY6LqmBd7V1qWtVSW3hv05/37t5SDQ=
+			JD6FylauoVWNaNflWDQ0lKfgVwn+Ll7+ak5pB/GjWf4=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -48,22 +59,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X1MC1uSArtRpIajdJKiDxg+vElk=
+			b0S0K9F+GrOJST6YOfrsEBiEYA4=
 			</data>
 			<key>hash2</key>
 			<data>
-			c8NbZeTa4/J6szxGT52oT6+b19lSUTqtpZ0EdE4rmhg=
+			/vag4eOwv4o6xrU6mlx515F0HHVMv40imsQ7clEthYw=
+			</data>
+		</dict>
+		<key>Headers/FBDeviceSet.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			MvPOEtIf6tWGdksc+TQt0UQuo9A=
+			</data>
+			<key>hash2</key>
+			<data>
+			HlVxrWJ9Nne+Yg0jXJ87h2JKhEa5of1Z549LtTfwCCE=
 			</data>
 		</dict>
 		<key>Headers/FBiOSDeviceOperator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7eCv3zDo8eEMTOaMC0GRBeUIqEE=
+			GASYfj7HlH1wd8x5gLKyrniFNYc=
 			</data>
 			<key>hash2</key>
 			<data>
-			awLfpcVN8gUGutzbLz2FAels9mwRmAOqwHXlC5k15C0=
+			VBdESBGkmcnyVs2WmovfjxdTe0AgRCQedj81EZMiVJU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -77,26 +99,15 @@
 			pI5o0jhqGxublxuklT4wv9asCzKIxSiIEYhZA7q3fbk=
 			</data>
 		</dict>
-		<key>PrivateHeaders/FBAugmentedTestManagerAPIMediator.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			/k2K5WrraB7Dp+OqQLg5UbEjrmY=
-			</data>
-			<key>hash2</key>
-			<data>
-			/rYdU9B0sirsQWVzZmLmm5EPucg0C3cJsTaqgWZ63Fw=
-			</data>
-		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mBXKxi6M/h2ft52HmemlXVDQivk=
+			FxuVDcz9ihVPUOVQh8lea7XmHCw=
 			</data>
 			<key>hash2</key>
 			<data>
-			CVyPpnMFogVe6idrKaDOP2p6aV/jk1iRjpkSmZnIrD8=
+			ZFpdCh/uFQA/menGFwOATguB7ue8VG1p+HeCf1J9aO0=
 			</data>
 		</dict>
 	</dict>

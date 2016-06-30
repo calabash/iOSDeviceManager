@@ -22,7 +22,7 @@
     [usage appendFormat:@"\n\t%@\n", [cmd name]];
     
     for (CommandOption *op in [cmd options]) {
-        [usage appendFormat:@"\t\t%@,%@\t%@", op.shortFlag, op.longFlag, op.optionName];
+        [usage appendFormat:@"\t\t%@,%@\t<%@>", op.shortFlag, op.longFlag, op.optionName];
         if (op.additionalInfo && ![op.additionalInfo isEqualToString:@""]) {
             [usage appendFormat:@"\t%@\n", op.additionalInfo];
         }
@@ -52,15 +52,17 @@
                                            exitCode:(int *)exitCode {
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
     
-    for (int i = 0; i < args.count/2; i+=2) {
+    for (int i = 0; i < args.count; i+=2) {
         CommandOption *op = [self optionForFlag:args[i]];
         if (op == nil) {
-            NSLog(@"Unrecognized flag: %@", args[i]);
+            printf("Unrecognized flag: %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+            [self printUsage];
             *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
             return nil;
         }
-        if (args[i+1] == nil) {
-            NSLog(@"No value provided for %@", args[i]);
+        if (args.count <= i + 1) {
+            printf("No value provided for %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+            [self printUsage];
             *exitCode = iOSReturnStatusCodeMissingArguments;
             return nil;
         }

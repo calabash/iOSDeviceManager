@@ -17,7 +17,7 @@ static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
         options = [NSMutableArray array];
         [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
                                                longFlag:@"--codesign-identity"
-                                             optionName:@"codesign_identity"
+                                             optionName:@"codesign-identity"
                                                    info:@"Identity used to codesign app bundle [device only]"
                                                required:NO]];
         
@@ -29,7 +29,7 @@ static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
         
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
-                                             optionName:@"device_identifier"
+                                             optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
                                                required:YES]];
     });

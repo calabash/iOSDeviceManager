@@ -14,7 +14,6 @@ static NSString *const DEVICE_ID_FLAG = @"-d";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
-
         [options addObject:[CommandOption withShortFlag:BUNDLE_ID_FLAG
                                                longFlag:@"--bundle-identifier"
                                              optionName:@"bundle-id"
@@ -23,7 +22,7 @@ static NSString *const DEVICE_ID_FLAG = @"-d";
         
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
-                                             optionName:@"device_identifier"
+                                             optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
                                                required:YES]];
     });

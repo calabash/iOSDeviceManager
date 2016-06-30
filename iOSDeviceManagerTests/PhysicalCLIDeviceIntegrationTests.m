@@ -1,8 +1,8 @@
 
 #import <XCTest/XCTest.h>
-#import "XCTestControlWrapper.h"
+#import "iOSDeviceManagement.h"
 
-@interface DeviceLibTests : XCTestCase
+@interface PhysicalDeviceCLIIntegrationTests : XCTestCase
 
 @property (nonatomic) const char *deviceID;
 @property (nonatomic) const char *ipaPath;
@@ -13,7 +13,7 @@
 @property (nonatomic) const char *taskyID;
 @end
 
-@implementation DeviceLibTests
+@implementation PhysicalDeviceCLIIntegrationTests
 
 #define SUCCESS 0
 #define FAILURE 1

@@ -3,5 +3,5 @@
 #import <Foundation/Foundation.h>
 
 @interface CLI : NSObject
-+ (iOSReturnStatusCode)process;
++ (iOSReturnStatusCode)process:(NSArray *)args;
 @end

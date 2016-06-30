@@ -3,6 +3,6 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        return [CLI process];
+        return [CLI process:[NSProcessInfo processInfo].arguments];
     }
 }

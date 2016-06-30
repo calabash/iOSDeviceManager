@@ -37,17 +37,11 @@
                                                     pathToXcodePlatformDir:[self pathToXcodePlatformDir]
                                                           workingDirectory:[self workingDirectory]];
     
-    NSError *err;
-    FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:deviceID
-                                                         codesignProvider:[self signer:codesignIdentity]
-                                                                    error:&err];
+    FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    if (err) {
-        NSLog(@"Error creating device operator: %@", err);
-        return iOSReturnStatusCodeInternalError;
-    }
     id reporterLogger = [self new];
-    FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:op
+    FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:device.deviceOperator
                                                                        testPrepareStrategy:testPrepareStrategy
                                                                                   reporter:reporterLogger
                                                                                     logger:reporterLogger];
@@ -146,34 +140,45 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return codesigner;
 }
 
-+ (FBiOSDeviceOperator *)opForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {
++ (FBDevice *)deviceForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {
     NSError *err;
-    FBiOSDeviceOperator *op = [FBiOSDeviceOperator operatorWithDeviceUDID:deviceID
-                                                         codesignProvider:signer
-                                                                    error:&err];
-    
-    [op waitForDeviceToBecomeAvailableWithError:&err];
-    if (err) {
-        NSLog(@"Device %@ isn't available: %@", deviceID, err);
+    FBDevice *device = [[FBDeviceSet defaultSetWithLogger:nil
+                                 error:&err]
+            deviceWithUDID:deviceID];
+    if (!device || err) {
+        NSLog(@"Error getting device with ID %@: %@", deviceID, err);
         return nil;
     }
-    return op;
+    device.deviceOperator.codesignProvider = signer;
+    [device.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
+    if (err) {
+        NSLog(@"Error getting device with ID %@: %@", deviceID, err);
+        return nil;
+    }
+    return device;
 }
 
 #pragma mark - App Installation
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
           deviceID:(NSString *)deviceID
         codesignID:(NSString *)codesignID {
-    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:codesignID]];
-    if (!op) return iOSReturnStatusCodeInternalError;
+    
+    FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignID]];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
     
     NSError *err;
     //Codesign
     FBProductBundle *app = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
                               withBundlePath:pathToBundle]
                              withCodesignProvider:[self signer:codesignID]]
-                            build];
+                            buildWithError:&err];
     
+    if (err) {
+        NSLog(@"Error creating product bundle for %@: %@", pathToBundle, err);
+        return iOSReturnStatusCodeInternalError;
+    }
+    
+    FBiOSDeviceOperator *op = device.deviceOperator;
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err]) {
         NSLog(@"Application '%@' is already installed, attempting to override.", app.bundleID);
     }
@@ -192,8 +197,10 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 + (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
-    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
-    if (!op) return iOSReturnStatusCodeInternalError;
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    FBiOSDeviceOperator *op = device.deviceOperator;
     
     NSError *err;
     if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
@@ -213,11 +220,12 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 + (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID deviceID:(NSString *)deviceID {
-    FBiOSDeviceOperator *op = [self opForID:deviceID codesigner:[self signer:@""]];
-    if (!op) return iOSReturnStatusCodeInternalError;
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
     
     NSError *err;
-    BOOL installed = [op isApplicationInstalledWithBundleID:bundleID error:&err];
+    BOOL installed = [device.deviceOperator isApplicationInstalledWithBundleID:bundleID
+                                                                         error:&err];
     if (err) {
         NSLog(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
         return iOSReturnStatusCodeInternalError;
