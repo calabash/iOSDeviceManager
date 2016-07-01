@@ -14,16 +14,23 @@
 
 
 @implementation PhysicalDevice
+
 + (NSString *)applicationDataPath {
-    return nil;
+    return [[ShellRunner tmpDir] stringByAppendingPathComponent:@"__appData.xcappdata"];
 }
 
 + (NSString *)pathToXcodePlatformDir {
-    return nil;
-}
-
-+ (NSString *)workingDirectory {
-    return nil;
+    NSArray *output  = [ShellRunner xcrun:@[@"xcode-select",
+                                            @"--print-path"]];
+    if (!output.count) {
+        NSLog(@"Error finding developer dir");
+        return nil;
+    }
+    
+    NSString *developerDir = output[0];
+    
+    return [[developerDir stringByAppendingPathComponent:@"Platforms"]
+            stringByAppendingPathComponent:@"iPhoneOS.platform"];
 }
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
@@ -31,12 +38,22 @@
                           testBundlePath:(NSString *)testBundlePath
                         codesignIdentity:(NSString *)codesignIdentity
                                keepAlive:(BOOL)keepAlive  {
+    
+    if (codesignIdentity == nil) {
+        NSLog(@"Must supply a codesign identifier for running tests");
+        return iOSReturnStatusCodeMissingArguments;
+    }
+    
+    if ([self pathToXcodePlatformDir] == nil) {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
     FBDeviceTestPreparationStrategy *testPrepareStrategy =
     [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:testRunnerPath
                                                        applicationDataPath:[self applicationDataPath]
                                                             testBundlePath:testBundlePath
                                                     pathToXcodePlatformDir:[self pathToXcodePlatformDir]
-                                                          workingDirectory:[self workingDirectory]];
+                                                          workingDirectory:[ShellRunner pwd]];
     
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
@@ -47,10 +64,14 @@
                                                                                   reporter:reporterLogger
                                                                                     logger:reporterLogger];
     NSError *innerError = nil;
-    [testRunStrategy startTestManagerWithAttributes:@[] environment:@{} error:&innerError];
+    [testRunStrategy startTestManagerWithAttributes:@[]
+                                        environment:@{}
+                                              error:&innerError];
     
-    if (!innerError && keepAlive) {
-        [[NSRunLoop mainRunLoop] run];
+    if (!innerError) {
+        if (keepAlive) {
+            [[NSRunLoop mainRunLoop] run];
+        }
     } else {
         NSLog(@"Err: %@", innerError);
         return iOSReturnStatusCodeInternalError;
@@ -141,7 +162,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return codesigner;
 }
 
-+ (FBDevice *)deviceForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {
++ (FBDevice *)deviceForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {    
     NSError *err;
     FBDevice *device = [[FBDeviceSet defaultSetWithLogger:nil
                                  error:&err]
@@ -161,8 +182,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 #pragma mark - App Installation
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
-          deviceID:(NSString *)deviceID
-        codesignID:(NSString *)codesignID {
+                         deviceID:(NSString *)deviceID
+                       codesignID:(NSString *)codesignID {
+    
+    if (codesignID == nil) {
+        NSLog(@"Must supply a codesign identifier for installing apps");
+        return iOSReturnStatusCodeMissingArguments;
+    }
     
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignID]];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }

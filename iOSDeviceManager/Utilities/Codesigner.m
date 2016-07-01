@@ -26,7 +26,9 @@
             NSLog(@"Unable to create entitlements file: %@", e);
             exit(1);
         }
-        NSLog(@"Entitlements tmpfile %@:\n%@", filePath, entsPlist);
+        if ([ShellRunner verbose]) {
+            NSLog(@"Entitlements tmpfile %@:\n%@", filePath, entsPlist);
+        }
         
         return [ShellRunner shell:@"/usr/bin/xcrun"
                              args:@[@"codesign",

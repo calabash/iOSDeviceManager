@@ -15,4 +15,13 @@
     co.required = required;
     return co;
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ %@,%@ <%@> [%@]",
+            super.description,
+            self.shortFlag,
+            self.longFlag,
+            self.optionName,
+            self.required ? @"REQUIRED" : @"OPTIONAL"];
+}
 @end

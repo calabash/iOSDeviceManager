@@ -1,8 +1,15 @@
 
 #import "PhysicalDevice.h"
+#import "ShellRunner.h"
 #import "Simulator.h"
 
 @implementation Device
++ (void)initialize {
+    const char *FBLog = [ShellRunner verbose] ? "YES" : "NO";
+    setenv("FBCONTROLCORE_LOGGING", FBLog, 1);
+    setenv("FBCONTROLCORE_DEBUG_LOGGING", FBLog, 1);
+}
+
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath

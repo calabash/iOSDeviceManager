@@ -78,6 +78,7 @@
 		892DE5331D23ED6C00E1902C /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5321D23ED6C00E1902C /* CLITests.m */; };
 		892DE53F1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */; };
 		892DE5421D23FE8700E1902C /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */; };
+		89B397141D25D83A00050DAD /* TestCommon.h in Sources */ = {isa = PBXBuildFile; fileRef = 89B397131D25D83A00050DAD /* TestCommon.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -133,6 +134,7 @@
 		892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorCLIIntegrationTests.m; path = iOSDeviceManagerTests/SimulatorCLIIntegrationTests.m; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		89B397131D25D83A00050DAD /* TestCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestCommon.h; path = iOSDeviceManagerTests/TestCommon.h; sourceTree = SOURCE_ROOT; };
 		89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 			children = (
 				892DE5241D23ED0600E1902C /* Info.plist */,
 				892DE5321D23ED6C00E1902C /* CLITests.m */,
+				89B397131D25D83A00050DAD /* TestCommon.h */,
 				892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */,
 				892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */,
 			);
@@ -476,6 +479,7 @@
 				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
+				89B397141D25D83A00050DAD /* TestCommon.h in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,

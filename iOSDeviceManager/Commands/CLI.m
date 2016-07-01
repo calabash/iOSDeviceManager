@@ -1,6 +1,7 @@
 
 #import "iOSDeviceManagementCommand.h"
 #import <objc/runtime.h>
+#import "ShellRunner.h"
 #import "Command.h"
 #import "CLI.h"
 
@@ -73,7 +74,11 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
-            NSLog(@"%@ ==> %d %@", [command name], ret, parsedArgs);
+            
+            if ([ShellRunner verbose]) {
+                NSLog(@"%@ ==> %d %@", [command name], ret, parsedArgs);
+            }
+            
             if (ret != iOSReturnStatusCodeEverythingOkay &&
                 ret != iOSReturnStatusCodeFalse) {
                 [command printUsage];

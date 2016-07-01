@@ -2,6 +2,11 @@
 #import "ShellRunner.h"
 
 @implementation ShellRunner
+
++ (NSArray<NSString *> *)xcrun:(NSArray *)args {
+    return [self shell:@"/usr/bin/xcrun" args:args];
+}
+
 /*
  http://stackoverflow.com/questions/412562/execute-a-terminal-command-from-a-cocoa-app/696942#696942
  */
@@ -10,7 +15,9 @@
     for (NSString *arg in args) {
         [argString appendFormat:@" %@", arg];
     }
-    NSLog(@"$ %@", argString);
+    if ([self verbose]) {
+        NSLog(@"$ %@", argString);
+    }
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: cmd];
     [task setArguments: args];
@@ -36,5 +43,13 @@
 
 + (NSString *)pwd {
     return [[NSFileManager defaultManager] currentDirectoryPath];
+}
+
++ (NSString *)tmpDir {
+    return NSTemporaryDirectory();
+}
+
++ (BOOL)verbose {
+    return [[NSProcessInfo processInfo].environment[@"VERBOSE"] boolValue];
 }
 @end
