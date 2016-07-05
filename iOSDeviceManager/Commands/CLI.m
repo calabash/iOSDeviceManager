@@ -29,7 +29,8 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
 
 + (void)printUsage {
     printf("USAGE: %s [command] [flags]\n",
-           [[NSProcessInfo processInfo].arguments[0] cStringUsingEncoding:NSUTF8StringEncoding]);
+           [[[NSProcessInfo processInfo].arguments[0] lastPathComponent]
+                cStringUsingEncoding:NSUTF8StringEncoding]);
     for (Class<iOSDeviceManagementCommand> c in [commandClasses allValues]) {
         [c printUsage];
     }

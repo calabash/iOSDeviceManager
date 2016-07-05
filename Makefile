@@ -1,6 +1,9 @@
 
 #
 #	Cleans the build directory used by Xcode
+
+
+.PHONY: build
 #
 clean:
 	rm -rf build
@@ -25,3 +28,7 @@ install:
 	$(MAKE) install_frameworks
 	$(MAKE) build
 	bin/install.sh
+
+
+gem:
+	bin/make/gem.sh

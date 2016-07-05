@@ -6,6 +6,6 @@ Gem::Specification.new do |s|
   s.authors     = ["Chris Fuentes", "Joshua Moody", "Jon Stoneman"] #?
   s.email       = 'chfuen@microsoft.com' #?
   s.executables << 'iOSDeviceManager'
-  s.files       = Dir.glob("{bin,lib}/**/*") + %w(LICENSE)
+  s.files       = Dir.glob("{bin,Frameworks,ipa,app}/**/*") + %w(LICENSE)
   s.license  = 'BSD 3-Clause'
 end
