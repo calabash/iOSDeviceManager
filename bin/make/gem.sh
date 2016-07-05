@@ -46,7 +46,6 @@ HERE=$(pwd)
 (cd "${DEVICEAGENT_PATH}";
  make app-agent;
  make ipa-agent;
- cp -r Products/ipa/DeviceAgent/CBX-Runner.ipa "${HERE}/${GEM_DIR}/ipa";
  cp -r Products/ipa/DeviceAgent/CBX-Runner.app "${HERE}/${GEM_DIR}/ipa";
  cp -r Products/app/DeviceAgent/CBX-Runner.app "${HERE}/${GEM_DIR}/app")
 
