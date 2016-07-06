@@ -30,5 +30,5 @@ install:
 	bin/install.sh
 
 
-gem:
-	bin/make/gem.sh
+nuget:
+	bin/make/nuget.sh

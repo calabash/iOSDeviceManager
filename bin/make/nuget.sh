@@ -11,11 +11,11 @@ GEM_DIR=Distribution/ruby-gem
 rm -rf "${GEM_DIR}/Frameworks/*"
 rm -rf "${GEM_DIR}/app/*"
 rm -rf "${GEM_DIR}/ipa/*"
-rm -rf "${GEM_DIR}/bin/native/*"
+rm -rf "${GEM_DIR}/bin/*"
 
 
 make build
-cp "Products/${EXECUTABLE}" "${GEM_DIR}/bin/native"
+cp "Products/${EXECUTABLE}" "${GEM_DIR}/bin"
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=/path/to/fbsimctl"
