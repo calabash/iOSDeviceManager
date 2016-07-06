@@ -1,0 +1,11 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviceAgent.iOS.Dependencies", "DeviceAgent.iOS.Dependencies\DeviceAgent.iOS.Dependencies.shproj", "{59256F9C-10F1-4A86-9780-1A503997E968}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+	EndGlobalSection
+EndGlobal

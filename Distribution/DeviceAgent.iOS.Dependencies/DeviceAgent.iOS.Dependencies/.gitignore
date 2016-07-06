@@ -4,3 +4,4 @@ bin
 ipa
 app
 lib
+*.nupkg

@@ -30,5 +30,9 @@ install:
 	bin/install.sh
 
 
-nuget:
+dependencies:
+	bin/make/dependencies.sh
+
+nuget: 
+	$(MAKE) dependencies
 	bin/make/nuget.sh

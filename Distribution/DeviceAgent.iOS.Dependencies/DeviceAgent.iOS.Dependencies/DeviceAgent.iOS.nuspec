@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>DeviceAgent.iOS</id>
+    <version>0.1</version>
+    <title>DeviceAgent.iOS</title>
+    <authors>Chris Fuentes, Joshua Moody, Jon Stoneman</authors>
+    <owners>Chris Fuentes, Joshua Moody, Jon Stoneman</owners>
+    <licenseUrl>https://github.com/calabash/DeviceAgent.iOS/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://calaba.sh</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>DeviceAgent.iOS, iOSDeviceManager, and required frameworks</description>
+    <releaseNotes />
+    <copyright>2016</copyright>
+  </metadata>
+  <files>
+    <file src="dependencies/**/*" target="" />
+  </files>
+</package>
