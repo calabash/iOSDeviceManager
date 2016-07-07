@@ -36,22 +36,27 @@ uninstall
 
 ### Building
 
-*TODO* Update this... frameworks and executable should be bundled together. 
+To bundle all of the DeviceAgent dependencies together,
 
-`devicectl` has some framework dependencies on the FBSimulatorControl
-frameworks.  A forked build of them is included in the project and can
-be installed like so:
-
-```
-$ make install_frameworks
+```shell
+FBSIMCONTROL_PATH=/path/to/FBSimulatorControl \
+DEVICEAGENT_PATH=/path/to/DeviceAgent.iOS \
+make dependencies
 ```
 
-You can also run the general install script to build the tool and
-install it to `/usr/local/bin`:
+This will gather all dependencies and put them in Distribution/dependencies.
 
+To build a nuget package:
+
+```shell
+FBSIMCONTROL_PATH=/path/to/FBSimulatorControl \
+DEVICEAGENT_PATH=/path/to/DeviceAgent.iOS \
+make nuget
 ```
-$ make install
-```
+
+The resulting `.nupkg` is just a wrapper around these dependencies. 
+
+*Note* that you should have the calabash fork of FBSimulatorControl cloned. 
 
 ### Contributing
 

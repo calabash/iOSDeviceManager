@@ -30,5 +30,9 @@ install:
 	bin/install.sh
 
 
-gem:
-	bin/make/gem.sh
+dependencies:
+	bin/make/dependencies.sh
+
+nuget: 
+	$(MAKE) dependencies
+	bin/make/nuget.sh

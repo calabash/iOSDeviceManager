@@ -196,7 +196,7 @@
 			children = (
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
-				89EF4ACA1CFA614F006DCDC5 /* TestControlTests */,
+				89EF4ACA1CFA614F006DCDC5 /* iOSDeviceManagerTests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				F5169D271CFEAE5900252F52 /* vendor-licenses */,
 			);
@@ -260,7 +260,7 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
-		89EF4ACA1CFA614F006DCDC5 /* TestControlTests */ = {
+		89EF4ACA1CFA614F006DCDC5 /* iOSDeviceManagerTests */ = {
 			isa = PBXGroup;
 			children = (
 				892DE5241D23ED0600E1902C /* Info.plist */,
@@ -269,6 +269,7 @@
 				892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */,
 				892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */,
 			);
+			name = iOSDeviceManagerTests;
 			path = TestControlTests;
 			sourceTree = "<group>";
 		};

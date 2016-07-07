@@ -8,7 +8,7 @@
 @implementation PhysicalDeviceCLIIntegrationTests
 
 - (void)setUp {
-    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b1/Xcode-beta.app/Contents/Developer", YES);
+    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b2/Xcode-beta.app/Contents/Developer", YES);
 }
 
 - (void)testStartTest {

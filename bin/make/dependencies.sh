@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
 
 source bin/log_functions.sh
 
 EXECUTABLE=iOSDeviceManager
-GEM_DIR=Distribution/ruby-gem
+OUTPUT_DIR=Distribution/dependencies
 
-rm -rf "${GEM_DIR}/Frameworks/*"
-rm -rf "${GEM_DIR}/app/*"
-rm -rf "${GEM_DIR}/ipa/*"
-rm -rf "${GEM_DIR}/bin/native/*"
-
+rm -rf "${OUTPUT_DIR}"
+mkdir -p "${OUTPUT_DIR}/Frameworks"
+mkdir -p "${OUTPUT_DIR}/bin"  
+mkdir -p "${OUTPUT_DIR}/app"  
+mkdir -p "${OUTPUT_DIR}/ipa"  
 
 make build
-cp "Products/${EXECUTABLE}" "${GEM_DIR}/bin/native"
+cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=/path/to/fbsimctl"
@@ -41,15 +40,15 @@ HERE=$(pwd)
 
 (cd "${FBSIMCONTROL_PATH}";
  make frameworks;
- cp -r build/Release/* "${HERE}/${GEM_DIR}/Frameworks")
+ cp -r build/Release/* "${HERE}/${OUTPUT_DIR}/Frameworks")
 
 (cd "${DEVICEAGENT_PATH}";
  make app-agent;
  make ipa-agent;
- cp -r Products/ipa/DeviceAgent/CBX-Runner.app "${HERE}/${GEM_DIR}/ipa";
- cp -r Products/app/DeviceAgent/CBX-Runner.app "${HERE}/${GEM_DIR}/app")
+ cp -r Products/ipa/DeviceAgent/CBX-Runner.app "${HERE}/${OUTPUT_DIR}/ipa";
+ cp -r Products/app/DeviceAgent/CBX-Runner.app "${HERE}/${OUTPUT_DIR}/app")
 
-cd "${GEM_DIR}"
-gem build device-agent.gemspec
+cp LICENSE "${OUTPUT_DIR}"
+cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
 
-info "Built Gem to Distribution/ruby-gem"
+info "Gathered dependencies in ${OUTPUT_DIR}"

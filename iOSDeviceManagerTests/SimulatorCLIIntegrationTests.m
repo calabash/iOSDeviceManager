@@ -25,12 +25,12 @@
     NSArray *args = @[progname, @"launch_simulator", @"-d", simID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
-    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b1/Xcode-beta.app/Contents/Developer", YES);
+    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b2/Xcode-beta.app/Contents/Developer", YES);
     args = @[progname, @"start_test",
              @"-d", simID,
              @"-t", simTestBundlePath,
              @"-r", testAppRunnerPath,
-             @"-k", @"NO"];
+             @"-k", @"YES"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 

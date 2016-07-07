@@ -3,3 +3,5 @@ Frameworks
 bin
 ipa
 app
+lib
+*.nupkg
