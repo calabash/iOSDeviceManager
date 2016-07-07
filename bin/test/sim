@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 
+require 'date'
+require 'json'
+
 BIN='./Distribution/dependencies/bin/iOSDeviceManager'
+OUTDIR="results"
+TEST_RUNNER="#{ENV['HOME']}/calabash-xcuitest-server/Products/app/DeviceAgent/CBX-Runner.app"
+TEST_BUNDLE="#{ENV['HOME']}/calabash-xcuitest-server/Products/app/DeviceAgent/CBX-Runner.app/PlugIns/CBX.xctest"
 
 def launch_sim(sim_id)
   puts "\tLaunch #{sim_id}"
@@ -17,9 +23,19 @@ def install(sim_id)
   system "#{BIN} install -d #{sim_id} -a #{ENV['HOME']}/calabash-xcuitest-server/Products/app/UnitTestApp/UnitTestApp.app"
 end
 
+def uninstall(sim_id)
+  puts "\tUninstall from #{sim_id}"
+  system "#{BIN} uninstall -d #{sim_id} -b sh.calaba.UnitTestApp"
+end
+
+def start_test(sim_id)
+  puts "\tStart test on #{sim_id}"
+  system "#{BIN} start_test -d #{sim_id} -r #{TEST_RUNNER} -t #{TEST_BUNDLE} -k NO" #don't keep alive
+end
 
 def code_to_status(code)
-  case (code)
+  sc = $?.exitstatus
+  case (sc)
       when 0
         "ok"
       when 1
@@ -39,22 +55,40 @@ def code_to_status(code)
       when 8
         "device not found"
       else
-        raise "#{code} not valid"
+        raise "#{sc} not valid"
   end
 end
 
-sims = `instruments -s devices | egrep '(iPhone)|(iPad)' | cut -d[ -f2  | cut -d] -f1`.chomp().split("\n")
-results = {
-  'launch' => {},
-  'kill' => {},
-  'install' => {},
-  'uninstall' => {},
-  'start_test' => {}
-}
+sim_ids = `instruments -s devices | egrep '(iPhone)|(iPad)' | grep -v '+ Apple Watch'`.chomp().split("\n")
 
-sims.each do |sim|
-  results['launch'][sim] = code_to_status (launch_sim sim)
-  results['kill'][sim] = code_to_status (kill_sim sim)
+sims = []
+
+sim_ids.each do |sim_id|
+  name = sim_id.split('(')[0].chomp
+  idx = 1
+  if name.include? 'Pro' 
+    idx = 2
+ 
+
+  os = sim_id.split('(')[1].split(')')[0].chomp
+  id = sim_id.split('[')[1].split(']')[0]
+  sim = { :name => name, :os => os, :id => id, :results => {} }
+  sims << sim
+  
+  results = {}
+  results['launch'] = code_to_status (launch_sim id)
+  results['install'] = code_to_status (install id)
+  results['uninstall'] = code_to_status (uninstall id)
+  results['start_test'] = code_to_status (start_test id)
+  results['kill'] = code_to_status (kill_sim id)
+  sim[:results] = results
+  end
+end
+output = JSON.pretty_generate(sims)
+outfile = File.join OUTDIR, "#{DateTime.now.to_s}.sim.json"
+File.open(outfile,"w") do |f|
+  f.write(output)
 end
 
-puts results
+puts output
+puts "Wrote results to #{outfile}" 

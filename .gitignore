@@ -4,6 +4,7 @@ DerivedData/
 Products/
 tmp
 Distribution/dependencies
+results
 
 ## nuget
 *.nupkg

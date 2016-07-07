@@ -23,18 +23,7 @@ static FBSimulatorControl *_control;
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (!simulator) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    if (![self iOS_GTE_9:simulator.configuration.osVersionString]) {
-        return iOSReturnStatusCodeGenericFailure;
-    }
-    
     FBSimulatorApplication *app = [self app:testRunnerPath];
-    
-    FBSimulatorTestPreparationStrategy *testPrepareStrategy =
-    [FBSimulatorTestPreparationStrategy strategyWithTestRunnerBundleID:app.bundleID
-                                                        testBundlePath:testBundlePath
-                                                      workingDirectory:[ShellRunner pwd]
-     ];
-    
     
     [[simulator.interact installApplication:app] perform:&e];
     if (e) {
@@ -42,15 +31,11 @@ static FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
     
-    FBSimulatorControlOperator *operator = [FBSimulatorControlOperator operatorWithSimulator:simulator];
-    FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:operator
-                                                                       testPrepareStrategy:testPrepareStrategy
-                                                                                  reporter:[self new]
-                                                                                    logger:simulator.logger];
-    NSError *innerError = nil;
-    [testRunStrategy startTestManagerWithAttributes:@[]
-                                        environment:@{}
-                                              error:&innerError];
+    FBApplicationLaunchConfiguration *launch = [FBApplicationLaunchConfiguration configurationWithApplication:app
+                                                                                                    arguments:@[]
+                                                                                                  environment:@{}
+                                                                                                      options:FBProcessLaunchOptionsWriteStdout];
+    [[simulator.interact startTestRunnerLaunchConfiguration:launch testBundlePath:testBundlePath] perform:&e];
     
     if (e) {
         NSLog(@"Error starting test runner: %@", e);
@@ -82,8 +67,8 @@ static FBSimulatorControl *_control;
 + (BOOL)iOS_GTE_9:(NSString *)versionString {
     NSArray <NSString *> *components = [versionString componentsSeparatedByString:@" "];
     if (components.count < 2) {
-        NSLog(@"Unparseable version string: %@", versionString);
-        return NO;
+        NSLog(@"WARNING: Unparseable version string: %@", versionString);
+        return YES;
     }
     NSString *versionNumberString = components[1];
     float versionNumber = [versionNumberString floatValue];
