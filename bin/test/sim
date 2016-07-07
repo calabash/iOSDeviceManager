@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+BIN='./Distribution/dependencies/bin/iOSDeviceManager'
+
+def launch_sim(sim_id)
+  puts "\tLaunch #{sim_id}"
+  system "#{BIN} launch_simulator -d #{sim_id}"
+end
+
+def kill_sim(sim_id)
+  puts "\tKill #{sim_id}"
+  system "#{BIN} kill_simulator -d #{sim_id}"
+end
+
+def install(sim_id)
+  puts "\tInstall to #{sim_id}"
+  system "#{BIN} install -d #{sim_id} -a #{ENV['HOME']}/calabash-xcuitest-server/Products/app/UnitTestApp/UnitTestApp.app"
+end
+
+
+def code_to_status(code)
+  case (code)
+      when 0
+        "ok"
+      when 1
+        "generic failure"
+      when 2
+        false
+      when 3
+        "missing args"
+      when 4
+        "invalid args"
+      when 5
+        "internal error"
+      when 6
+        "unrecognized cmd"
+      when 7
+        "unrecognized flag"
+      when 8
+        "device not found"
+      else
+        raise "#{code} not valid"
+  end
+end
+
+sims = `instruments -s devices | egrep '(iPhone)|(iPad)' | cut -d[ -f2  | cut -d] -f1`.chomp().split("\n")
+results = {
+  'launch' => {},
+  'kill' => {},
+  'install' => {},
+  'uninstall' => {},
+  'start_test' => {}
+}
+
+sims.each do |sim|
+  results['launch'][sim] = code_to_status (launch_sim sim)
+  results['kill'][sim] = code_to_status (kill_sim sim)
+end
+
+puts results

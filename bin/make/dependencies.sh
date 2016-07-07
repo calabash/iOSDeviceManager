@@ -48,4 +48,7 @@ HERE=$(pwd)
  cp -r Products/ipa/DeviceAgent/CBX-Runner.app "${HERE}/${OUTPUT_DIR}/ipa";
  cp -r Products/app/DeviceAgent/CBX-Runner.app "${HERE}/${OUTPUT_DIR}/app")
 
+cp LICENSE "${OUTPUT_DIR}"
+cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
+
 info "Gathered dependencies in ${OUTPUT_DIR}"

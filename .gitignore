@@ -3,6 +3,7 @@ build/
 DerivedData/
 Products/
 tmp
+Distribution/dependencies
 
 ## nuget
 *.nupkg
