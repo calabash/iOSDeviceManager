@@ -65,13 +65,8 @@ sims = []
 
 sim_ids.each do |sim_id|
   name = sim_id.split('(')[0].chomp
-  idx = 1
-  if name.include? 'Pro' 
-    idx = 2
- 
-
-  os = sim_id.split('(')[1].split(')')[0].chomp
-  id = sim_id.split('[')[1].split(']')[0]
+  id = sim_id.match(/\[(?<id>.+)\]/)["id"]
+  os = sim_id.match(/\((?<os>\d+\.\d+)\)/)["os"]
   sim = { :name => name, :os => os, :id => id, :results => {} }
   sims << sim
   
@@ -79,10 +74,13 @@ sim_ids.each do |sim_id|
   results['launch'] = code_to_status (launch_sim id)
   results['install'] = code_to_status (install id)
   results['uninstall'] = code_to_status (uninstall id)
-  results['start_test'] = code_to_status (start_test id)
+  
   results['kill'] = code_to_status (kill_sim id)
+  
+  results['start_test'] = code_to_status (start_test id)
+  kill_sim id
+
   sim[:results] = results
-  end
 end
 output = JSON.pretty_generate(sims)
 outfile = File.join OUTDIR, "#{DateTime.now.to_s}.sim.json"

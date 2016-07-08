@@ -36,3 +36,7 @@ dependencies:
 nuget: 
 	$(MAKE) dependencies
 	bin/make/nuget.sh
+
+fbframeworks:
+	bin/make/frameworks.sh
+

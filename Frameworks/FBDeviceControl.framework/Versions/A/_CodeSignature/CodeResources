@@ -6,31 +6,49 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		FxuVDcz9ihVPUOVQh8lea7XmHCw=
+		bxdA5M+7CFpCc+ctybGgQxlVV70=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Frameworks/FBControlCore.framework</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			AOIWhYeLJUosi0COIdeDln4IYyE=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"be0b72cfccf2c32cb6415dc2e63d5ae030ec8618" or cdhash H"00e21685878b254a2c8b408e21d783967e086321"</string>
+		</dict>
+		<key>Frameworks/XCTestBootstrap.framework</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			3S1ZO4cYwcLNem3yVaCwX0Diqaw=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"c6849ee2965ac95dc701089abfbcd18b2ee96ab7" or cdhash H"dd2d593b8718c1c2cd7a6df255a0b05f40e2a9ac"</string>
+		</dict>
 		<key>Headers/FBAMDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NKF8UvfL+l8pR+eAvPC5yYzxwXU=
+			uvSl9clT8/9aWtwsFPp+DwBtemM=
 			</data>
 			<key>hash2</key>
 			<data>
-			N+DipS8CBq8fY5XCzjxuYXvewyc0PLUGm7tIs5EEyTY=
+			1lJeUhPI3lUuVl9t4T5ZM3kwmcPdwvipPlVw4JU4BcI=
 			</data>
 		</dict>
 		<key>Headers/FBDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			y/WOKE+7gUnlB/THcuuNLC6MkjI=
+			YMiS392d6dc+1qnvjZHoeO4jN2c=
 			</data>
 			<key>hash2</key>
 			<data>
-			WrVrCIr8YU95VNeG2CtrNJUuh2ltxQIPqgyQcZ4Gepc=
+			RKn/vHaPIe35loQbr5I1j5Rpm4lbaVgGWb2BhUNwQlY=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControl.h</key>
@@ -59,11 +77,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			b0S0K9F+GrOJST6YOfrsEBiEYA4=
+			4t6beGTna2uYCTjC7XzdSZTPI08=
 			</data>
 			<key>hash2</key>
 			<data>
-			/vag4eOwv4o6xrU6mlx515F0HHVMv40imsQ7clEthYw=
+			ayF+Sd62z7W08Dokzo0g72CPI9ZcOW7XSMKsgoJbtx8=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceSet.h</key>
@@ -81,11 +99,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GASYfj7HlH1wd8x5gLKyrniFNYc=
+			H+8FVNNC1mpa6eGq6tGSXhz0wAg=
 			</data>
 			<key>hash2</key>
 			<data>
-			VBdESBGkmcnyVs2WmovfjxdTe0AgRCQedj81EZMiVJU=
+			NUGySqE1Hj0eLjQOpPgKFJ3UanZc4AME10V5UqgNe3w=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -103,11 +121,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FxuVDcz9ihVPUOVQh8lea7XmHCw=
+			bxdA5M+7CFpCc+ctybGgQxlVV70=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZFpdCh/uFQA/menGFwOATguB7ue8VG1p+HeCf1J9aO0=
+			RwbVMQ5PcMwmSy2mVQdV+rzCPaGOH26G2dWCdxkP3sY=
 			</data>
 		</dict>
 	</dict>

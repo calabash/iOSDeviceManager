@@ -23,19 +23,31 @@ static FBSimulatorControl *_control;
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (!simulator) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    FBSimulatorApplication *app = [self app:testRunnerPath];
+    if (simulator.state != FBSimulatorStateShutdown) {
+        NSLog(@"Sim must not be booted when running a test. Kill it and try again");
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    [[simulator.interact bootSimulator] perform:&e];
+    if (e) {
+        NSLog(@"Error booting simulator %@ for test: %@", deviceID, e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    
+   
+    
+    FBApplicationDescriptor *app = [self app:testRunnerPath];
     
     [[simulator.interact installApplication:app] perform:&e];
     if (e) {
         NSLog(@"Unable to install application %@ to %@: %@", app.bundleID, deviceID, e);
         return iOSReturnStatusCodeGenericFailure;
     }
+        
+    FBApplicationLaunchConfiguration *launch = [self testRunnerLaunchConfig:testRunnerPath];
     
-    FBApplicationLaunchConfiguration *launch = [FBApplicationLaunchConfiguration configurationWithApplication:app
-                                                                                                    arguments:@[]
-                                                                                                  environment:@{}
-                                                                                                      options:FBProcessLaunchOptionsWriteStdout];
-    [[simulator.interact startTestRunnerLaunchConfiguration:launch testBundlePath:testBundlePath] perform:&e];
+    [[simulator.interact startTestRunnerLaunchConfiguration:launch
+                                             testBundlePath:testBundlePath
+                                                   reporter:[self new]] perform:&e];
     
     if (e) {
         NSLog(@"Error starting test runner: %@", e);
@@ -46,9 +58,9 @@ static FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (FBSimulatorApplication *)app:(NSString *)appPath {
++ (FBApplicationDescriptor *)app:(NSString *)appPath {
     NSError *e;
-    FBSimulatorApplication *app = [FBSimulatorApplication applicationWithPath:appPath error:&e];
+    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:appPath error:&e];
     if (!app || e) {
         NSLog(@"Error creating SimulatorApplication for path %@: %@", appPath, e);
         return nil;
@@ -57,7 +69,7 @@ static FBSimulatorControl *_control;
 }
 
 + (FBApplicationLaunchConfiguration *)testRunnerLaunchConfig:(NSString *)testRunnerPath {
-    FBSimulatorApplication *application = [self app:testRunnerPath];
+    FBApplicationDescriptor *application = [self app:testRunnerPath];
     return [FBApplicationLaunchConfiguration configurationWithApplication:application
                                                                 arguments:@[]
                                                               environment:@{}
@@ -221,7 +233,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"Simulator %@ is dead. Must launch sim before installing an app.", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    FBSimulatorApplication *app = [self app:pathToBundle];
+    FBApplicationDescriptor *app = [self app:pathToBundle];
     [[simulator.interact installApplication:app] perform:&e];
     if (e) {
         NSLog(@"Error installing %@ to %@: %@", app.bundleID, deviceID, e);
