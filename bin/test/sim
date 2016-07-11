@@ -30,7 +30,15 @@ end
 
 def start_test(sim_id)
   puts "\tStart test on #{sim_id}"
-  system "#{BIN} start_test -d #{sim_id} -r #{TEST_RUNNER} -t #{TEST_BUNDLE} -k NO" #don't keep alive
+  r = system "#{BIN} start_test -d #{sim_id} -r #{TEST_RUNNER} -t #{TEST_BUNDLE} &"
+  sleep 10
+  r
+end
+
+def ui_smoke_test
+  system "curl -X POST -d '{\"bundleID\" : \"com.apple.Preferences\"}' http://127.0.0.1:27753/1.0/session"
+  system "curl -X POST -d '{\"type\" : \"cell\"}' http://127.0.0.1:27753/1.0/query"
+  JSON.parse `curl -X POST -d '{\"gesture\" : \"touch\"}' http://127.0.0.1:27753/1.0/gesture/2`
 end
 
 def code_to_status(code)
@@ -65,25 +73,27 @@ sims = []
 
 sim_ids.each do |sim_id|
   name = sim_id.split('(')[0].chomp
-  idx = 1
-  if name.include? 'Pro' 
-    idx = 2
- 
-
-  os = sim_id.split('(')[1].split(')')[0].chomp
-  id = sim_id.split('[')[1].split(']')[0]
-  sim = { :name => name, :os => os, :id => id, :results => {} }
-  sims << sim
-  
-  results = {}
-  results['launch'] = code_to_status (launch_sim id)
-  results['install'] = code_to_status (install id)
-  results['uninstall'] = code_to_status (uninstall id)
-  results['start_test'] = code_to_status (start_test id)
-  results['kill'] = code_to_status (kill_sim id)
-  sim[:results] = results
+  id = sim_id.match(/\[(?<id>.+)\]/)["id"]
+  os = sim_id.match(/\((?<os>\d+\.\d+)\)/)["os"]
+  if os.to_f >= 9 
+    sim = { :name => name, :os => os, :id => id, :results => {} }
+    sims << sim
+    
+    results = {}
+    results['launch'] = code_to_status (launch_sim id)
+    results['install'] = code_to_status (install id)
+    results['uninstall'] = code_to_status (uninstall id)
+    
+    results['kill'] = code_to_status (kill_sim id)
+    
+    results['start_test'] = code_to_status (start_test id)
+    results['ui_smoke_test'] = ui_smoke_test
+    kill_sim id
+    
+    sim[:results] = results
   end
 end
+
 output = JSON.pretty_generate(sims)
 outfile = File.join OUTDIR, "#{DateTime.now.to_s}.sim.json"
 File.open(outfile,"w") do |f|

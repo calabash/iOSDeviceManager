@@ -5,6 +5,7 @@ Products/
 tmp
 Distribution/dependencies
 results
+Frameworks/
 
 ## nuget
 *.nupkg

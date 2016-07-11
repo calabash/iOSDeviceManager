@@ -10,6 +10,10 @@
 
 @implementation SimulatorCLIIntegrationTests
 
+- (void)setUp {
+    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b2/Xcode-beta.app/Contents/Developer", YES);
+    [super setUp];
+}
 
 - (void)testLaunchSim {
     NSArray *args = @[progname, @"launch_simulator", @"-d", simID];
@@ -22,15 +26,14 @@
 }
 
 - (void)testStartTest {
-    NSArray *args = @[progname, @"launch_simulator", @"-d", simID];
+    NSArray *args = @[progname, @"kill_simulator", @"-d", simID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    
-    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b2/Xcode-beta.app/Contents/Developer", YES);
+
     args = @[progname, @"start_test",
              @"-d", simID,
              @"-t", simTestBundlePath,
              @"-r", testAppRunnerPath,
-             @"-k", @"YES"];
+             @"-k", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
