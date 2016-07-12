@@ -28,7 +28,15 @@
 - (void)testStartTest {
     NSArray *args = @[progname, @"kill_simulator", @"-d", simID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
+    
+    //Should launch sim
+    args = @[progname, @"start_test",
+             @"-d", simID,
+             @"-t", simTestBundlePath,
+             @"-r", testAppRunnerPath,
+             @"-k", @"NO"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
     args = @[progname, @"start_test",
              @"-d", simID,
              @"-t", simTestBundlePath,
