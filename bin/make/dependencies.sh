@@ -13,9 +13,6 @@ mkdir -p "${OUTPUT_DIR}/bin"
 mkdir -p "${OUTPUT_DIR}/app"  
 mkdir -p "${OUTPUT_DIR}/ipa"  
 
-make build
-cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
-
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=/path/to/fbsimctl"
   exit 1
@@ -50,5 +47,8 @@ HERE=$(pwd)
 
 cp LICENSE "${OUTPUT_DIR}"
 cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
+
+make build
+cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
 
 info "Gathered dependencies in ${OUTPUT_DIR}"
