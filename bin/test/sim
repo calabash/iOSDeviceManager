@@ -35,10 +35,10 @@ def start_test(sim_id)
   r
 end
 
-def ui_smoke_test
-  system "curl -X POST -d '{\"bundleID\" : \"com.apple.Preferences\"}' http://127.0.0.1:27753/1.0/session"
-  system "curl -X POST -d '{\"type\" : \"cell\"}' http://127.0.0.1:27753/1.0/query"
-  JSON.parse `curl -X POST -d '{\"gesture\" : \"touch\"}' http://127.0.0.1:27753/1.0/gesture/2`
+def ui_smoke_test(ip="http://127.0.0.1:27753")
+  system "curl -X POST -d '{\"bundleID\" : \"com.apple.Preferences\"}' #{ip}/1.0/session"
+  system "curl -X POST -d '{\"type\" : \"cell\"}' #{ip}/1.0/query"
+  JSON.parse `curl -X POST -d '{\"gesture\" : \"touch\"}' #{ip}/1.0/gesture/2`
 end
 
 def code_to_status(code)
@@ -82,13 +82,10 @@ sim_ids.each do |sim_id|
     results = {}
     results['launch'] = code_to_status (launch_sim id)
     results['install'] = code_to_status (install id)
-    results['uninstall'] = code_to_status (uninstall id)
-    
-    results['kill'] = code_to_status (kill_sim id)
-    
+    results['uninstall'] = code_to_status (uninstall id)    
     results['start_test'] = code_to_status (start_test id)
-    results['ui_smoke_test'] = ui_smoke_test
-    kill_sim id
+    results['ui_smoke_test'] = ui_smoke_test ARGV[0]
+    results['kill'] = code_to_status (kill_sim id)
     
     sim[:results] = results
   end
