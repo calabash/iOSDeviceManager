@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source bin/log_functions.sh
+
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=/path/to/fbsimctl"
   exit 1
@@ -21,7 +23,6 @@ if [ ! -d "${DEVICEAGENT_PATH}" ]; then
 fi
 
 set -e
-source bin/log_functions.sh
 EXECUTABLE=iOSDeviceManager
 OUTPUT_DIR=Distribution/dependencies 
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+source bin/log_functions.sh
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   error "Set FBSIMCONTROL_PATH=/path/to/FBSimulatorControl and rerun"
@@ -6,7 +7,6 @@ if [ -z "${FBSIMCONTROL_PATH}" ]; then
 fi
 
 set -e
-source bin/log_functions.sh
 
 rm -rf ./Frameworks/*.framework
 HERE=$(pwd)
