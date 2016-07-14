@@ -348,6 +348,23 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
++ (iOSReturnStatusCode)setLocation:(NSString *)deviceID Lat:(double)lat lng:(double)lng {
+    if (![TestParameters isSimulatorID:deviceID]) {
+        NSLog(@"'%@' is not a valid sim ID", deviceID);
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
+    if (simulator == nil) {
+        NSLog(@"No such simulator exists!");
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
+    
+    
+    
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 + (NSDictionary *)lastLaunchServicesMapForSim:(NSString *)deviceID {
     NSString *lastLaunchServicesPlistPath = [[[[[[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
                                                     stringByAppendingPathComponent:@"Developer"]
