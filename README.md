@@ -36,6 +36,15 @@ uninstall
 
 ### Building
 
+#### Codesigning - 'Karl Krukow' (maintainers only)
+
+If you're a maintainer, you must clone the [codesign](https://github.com/calabash-codesign) repo
+and install the certs/identity. Talk to @jmoody or @sapieneptus for details. 
+
+As of Xcode 8, we are required to have a signing identity, and that identity shall be Karl. 
+
+#### Bundling
+
 To bundle all of the DeviceAgent dependencies together,
 
 ```shell
