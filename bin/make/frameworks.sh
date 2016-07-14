@@ -13,5 +13,6 @@ HERE=$(pwd)
 
 (cd "${FBSIMCONTROL_PATH}";
  make frameworks;
+ mkdir -p "${HERE}/Frameworks"
  cp -r build/Release/* "${HERE}/Frameworks")
 
