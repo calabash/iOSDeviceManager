@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
-source bin/log_functions.sh
-
-EXECUTABLE=iOSDeviceManager
-OUTPUT_DIR=Distribution/dependencies
-
-rm -rf "${OUTPUT_DIR}"
-mkdir -p "${OUTPUT_DIR}/Frameworks"
-mkdir -p "${OUTPUT_DIR}/bin"  
-mkdir -p "${OUTPUT_DIR}/app"  
-mkdir -p "${OUTPUT_DIR}/ipa"  
-
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=/path/to/fbsimctl"
   exit 1
@@ -32,6 +19,17 @@ if [ ! -d "${DEVICEAGENT_PATH}" ]; then
   error "${DEVICEAGENT_PATH} does not exist"
   exit 4
 fi
+
+set -e
+source bin/log_functions.sh
+EXECUTABLE=iOSDeviceManager
+OUTPUT_DIR=Distribution/dependencies 
+
+rm -rf "${OUTPUT_DIR}" 
+mkdir -p "${OUTPUT_DIR}/Frameworks" 
+mkdir -p "${OUTPUT_DIR}/bin" 
+mkdir -p "${OUTPUT_DIR}/app" 
+mkdir -p "${OUTPUT_DIR}/ipa" 
 
 HERE=$(pwd)
 

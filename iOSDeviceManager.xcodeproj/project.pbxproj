@@ -78,7 +78,10 @@
 		892DE5331D23ED6C00E1902C /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5321D23ED6C00E1902C /* CLITests.m */; };
 		892DE53F1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */; };
 		892DE5421D23FE8700E1902C /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */; };
-		89B397141D25D83A00050DAD /* TestCommon.h in Sources */ = {isa = PBXBuildFile; fileRef = 89B397131D25D83A00050DAD /* TestCommon.h */; };
+		896F92011D3694AC0013B0F4 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 896F91FD1D3694AC0013B0F4 /* FBControlCore.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		896F92021D3694AC0013B0F4 /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 896F91FE1D3694AC0013B0F4 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		896F92031D3694AC0013B0F4 /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 896F91FF1D3694AC0013B0F4 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		896F92041D3694AC0013B0F4 /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 896F92001D3694AC0013B0F4 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -90,6 +93,19 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		896F91FC1D36949A0013B0F4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				896F92011D3694AC0013B0F4 /* FBControlCore.framework in CopyFiles */,
+				896F92021D3694AC0013B0F4 /* FBDeviceControl.framework in CopyFiles */,
+				896F92031D3694AC0013B0F4 /* FBSimulatorControl.framework in CopyFiles */,
+				896F92041D3694AC0013B0F4 /* XCTestBootstrap.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -133,6 +149,10 @@
 		892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalCLIDeviceIntegrationTests.m; path = iOSDeviceManagerTests/PhysicalCLIDeviceIntegrationTests.m; sourceTree = SOURCE_ROOT; };
 		892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorCLIIntegrationTests.m; path = iOSDeviceManagerTests/SimulatorCLIIntegrationTests.m; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
+		896F91FD1D3694AC0013B0F4 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
+		896F91FE1D3694AC0013B0F4 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
+		896F91FF1D3694AC0013B0F4 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
+		896F92001D3694AC0013B0F4 /* XCTestBootstrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTestBootstrap.framework; path = Frameworks/XCTestBootstrap.framework; sourceTree = "<group>"; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B397131D25D83A00050DAD /* TestCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestCommon.h; path = iOSDeviceManagerTests/TestCommon.h; sourceTree = SOURCE_ROOT; };
 		89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,6 +214,10 @@
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
+				896F91FD1D3694AC0013B0F4 /* FBControlCore.framework */,
+				896F91FE1D3694AC0013B0F4 /* FBDeviceControl.framework */,
+				896F91FF1D3694AC0013B0F4 /* FBSimulatorControl.framework */,
+				896F92001D3694AC0013B0F4 /* XCTestBootstrap.framework */,
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
 				89EF4ACA1CFA614F006DCDC5 /* iOSDeviceManagerTests */,
@@ -352,6 +376,7 @@
 				89EF4AC51CFA614F006DCDC5 /* Sources */,
 				89EF4AC61CFA614F006DCDC5 /* Frameworks */,
 				89EF4AC71CFA614F006DCDC5 /* Resources */,
+				896F91FC1D36949A0013B0F4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -480,7 +505,6 @@
 				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
-				89B397141D25D83A00050DAD /* TestCommon.h in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
