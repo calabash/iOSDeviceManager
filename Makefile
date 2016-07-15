@@ -30,7 +30,6 @@ install:
 
 
 dependencies:
-	$(MAKE) fbframeworks
 	bin/make/dependencies.sh
 
 nuget:
