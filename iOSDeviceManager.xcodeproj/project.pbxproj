@@ -18,6 +18,7 @@
 		892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
 		892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
 		892A93CA1D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
+		892A93CB1D39347B00154F08 /* SimulateLocationCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */; };
 		892DE49A1D22F84200E1902C /* Device.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4941D22F84200E1902C /* Device.h */; };
 		892DE49B1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
 		892DE49C1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
@@ -344,6 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				892A93C71D392ED000154F08 /* StopSimulatingLocationCommand.h in Headers */,
+				892A93CB1D39347B00154F08 /* SimulateLocationCommand.h in Headers */,
 				892DE4B41D22F85400E1902C /* TestParameters.h in Headers */,
 				892DE4DD1D22F97A00E1902C /* CLI.h in Headers */,
 				892DE5021D236CE400E1902C /* LaunchSimulatorCommand.h in Headers */,
