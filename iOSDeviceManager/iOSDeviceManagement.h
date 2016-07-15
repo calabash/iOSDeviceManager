@@ -75,3 +75,5 @@ int uninstall_app(const char *bundleID, const char *deviceID);
  @return 1 if installed, 0 if not, -1 if error occurred.
  */
 int is_installed(const char *bundleID, const char *deviceID);
+
+int set_location(const char *deviceID, double lat, double lng);

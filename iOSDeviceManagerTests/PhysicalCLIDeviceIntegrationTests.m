@@ -21,6 +21,20 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
+- (void)testSetLocation {
+    //Should fail: invalid latlng
+    NSArray *args = @[progname, @"set_location", @"-d", deviceID, @"-l", @"Banana"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
+    
+    args = @[progname, @"set_location", @"-d", deviceID, @"-l", Stockholm];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
+- (void)testStopSimulatingLocation {
+    NSArray *args = @[progname, @"stop_simulating_location", @"-d", deviceID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
 - (void)testUninstall {
     NSArray *args = @[progname, @"is_installed", @"-b", unitTestAppID, @"-d", deviceID];
     if ([CLI process:args] == iOSReturnStatusCodeFalse) {

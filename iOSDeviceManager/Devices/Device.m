@@ -62,4 +62,18 @@
     }
 }
 
++ (iOSReturnStatusCode)setLocation:(NSString *)deviceID
+                               lat:(double)lat
+                               lng:(double)lng {
+    if ([TestParameters isSimulatorID:deviceID]) {
+        return [Simulator setLocation:deviceID
+                                  lat:lat
+                                  lng:lng];
+    } else {
+        return [PhysicalDevice setLocation:deviceID
+                                       lat:lat
+                                       lng:lng];
+    }
+}
+
 @end

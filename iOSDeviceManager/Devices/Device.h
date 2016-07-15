@@ -17,4 +17,8 @@
                        codesignID:(NSString *)codesignID;
 + (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID
                              deviceID:(NSString *)deviceID;
+
++ (iOSReturnStatusCode)setLocation:(NSString *)deviceID
+                               lat:(double)lat
+                               lng:(double)lng;
 @end

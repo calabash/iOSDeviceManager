@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
+		892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
+		892A93BC1D391D4100154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
+		892A93C11D3928F800154F08 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		892A93C21D3928F800154F08 /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		892A93C31D3928F800154F08 /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		892A93C41D3928F800154F08 /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		892A93C71D392ED000154F08 /* StopSimulatingLocationCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */; };
+		892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
+		892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
+		892A93CA1D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
 		892DE49A1D22F84200E1902C /* Device.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4941D22F84200E1902C /* Device.h */; };
 		892DE49B1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
 		892DE49C1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
@@ -96,16 +107,24 @@
 		};
 		896F91FC1D36949A0013B0F4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				892A93C11D3928F800154F08 /* FBControlCore.framework in CopyFiles */,
+				892A93C21D3928F800154F08 /* FBDeviceControl.framework in CopyFiles */,
+				892A93C31D3928F800154F08 /* FBSimulatorControl.framework in CopyFiles */,
+				892A93C41D3928F800154F08 /* XCTestBootstrap.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimulateLocationCommand.h; path = iOSDeviceManager/Commands/SimulateLocationCommand.h; sourceTree = SOURCE_ROOT; };
+		892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulateLocationCommand.m; path = iOSDeviceManager/Commands/SimulateLocationCommand.m; sourceTree = SOURCE_ROOT; };
+		892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StopSimulatingLocationCommand.h; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.h; sourceTree = SOURCE_ROOT; };
+		892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StopSimulatingLocationCommand.m; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.m; sourceTree = SOURCE_ROOT; };
 		892DE4941D22F84200E1902C /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = iOSDeviceManager/Devices/Device.h; sourceTree = SOURCE_ROOT; };
 		892DE4951D22F84200E1902C /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = iOSDeviceManager/Devices/Device.m; sourceTree = SOURCE_ROOT; };
 		892DE4961D22F84200E1902C /* PhysicalDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicalDevice.h; path = iOSDeviceManager/Devices/PhysicalDevice.h; sourceTree = SOURCE_ROOT; };
@@ -207,6 +226,10 @@
 				892DE5191D237B2B00E1902C /* UninstallAppCommand.m */,
 				892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */,
 				892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */,
+				892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */,
+				892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */,
+				892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */,
+				892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -320,6 +343,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				892A93C71D392ED000154F08 /* StopSimulatingLocationCommand.h in Headers */,
 				892DE4B41D22F85400E1902C /* TestParameters.h in Headers */,
 				892DE4DD1D22F97A00E1902C /* CLI.h in Headers */,
 				892DE5021D236CE400E1902C /* LaunchSimulatorCommand.h in Headers */,
@@ -461,6 +485,7 @@
 				892DE4D11D22F87000E1902C /* main.m in Sources */,
 				892DE4CE1D22F87000E1902C /* iOSDeviceManagement.m in Sources */,
 				892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */,
+				892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				892DE4F61D23109000E1902C /* CommandOption.m in Sources */,
 				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
@@ -468,6 +493,7 @@
 				892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
 				892DE4BF1D22F85F00E1902C /* Codesigner.m in Sources */,
+				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
 				892DE4B51D22F85400E1902C /* TestParameters.m in Sources */,
 				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				892DE49B1D22F84200E1902C /* Device.m in Sources */,
@@ -485,6 +511,7 @@
 				892DE4C11D22F85F00E1902C /* Codesigner.m in Sources */,
 				892DE4FF1D23137100E1902C /* StartTestCommand.m in Sources */,
 				892DE4F81D23109000E1902C /* CommandOption.m in Sources */,
+				892A93CA1D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5231D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				892DE4B71D22F85400E1902C /* TestParameters.m in Sources */,
 				892DE50B1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
@@ -492,6 +519,7 @@
 				892DE5111D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4A51D22F84200E1902C /* Simulator.m in Sources */,
 				892DE4A11D22F84200E1902C /* PhysicalDevice.m in Sources */,
+				892A93BC1D391D4100154F08 /* SimulateLocationCommand.m in Sources */,
 				892DE49D1D22F84200E1902C /* Device.m in Sources */,
 				892DE51D1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				892DE4EC1D230F5F00E1902C /* Command.m in Sources */,
@@ -522,8 +550,10 @@
 				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
+				892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
+				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				892DE4B61D22F85400E1902C /* TestParameters.m in Sources */,
 			);
