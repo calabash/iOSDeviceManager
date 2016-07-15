@@ -19,6 +19,10 @@
 		892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
 		892A93CA1D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
 		892A93CB1D39347B00154F08 /* SimulateLocationCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */; };
+		892A93CC1D3934B600154F08 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		892A93CD1D3934B600154F08 /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		892A93CE1D3934B600154F08 /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		892A93CF1D3934B600154F08 /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		892DE49A1D22F84200E1902C /* Device.h in Headers */ = {isa = PBXBuildFile; fileRef = 892DE4941D22F84200E1902C /* Device.h */; };
 		892DE49B1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
 		892DE49C1D22F84200E1902C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
@@ -103,6 +107,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				892A93CC1D3934B600154F08 /* FBControlCore.framework in CopyFiles */,
+				892A93CD1D3934B600154F08 /* FBDeviceControl.framework in CopyFiles */,
+				892A93CE1D3934B600154F08 /* FBSimulatorControl.framework in CopyFiles */,
+				892A93CF1D3934B600154F08 /* XCTestBootstrap.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};

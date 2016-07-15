@@ -66,6 +66,6 @@ int simulate_location(const char *deviceID, double lat, double lng) {
 
 int stop_simulating_location(const char *deviceID) {
     @autoreleasepool {
-        return [PhysicalDevice stopSimulatingLocation:deviceID];
+        return [PhysicalDevice stopSimulatingLocation:STR(deviceID)];
     }
 }

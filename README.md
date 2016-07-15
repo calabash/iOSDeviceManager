@@ -6,32 +6,41 @@ for device/simulator lifecycle management.
 ### Usage
 
 ```
-iOSDeviceManager [command] [flags]
+USAGE: iOSDeviceManager [command] [flags]
 
 start_test
--c,--codesign-identity	<codesign-identity>         Identity used to codesign application resources [device only]
--r,--test-runner        <path/to/testrunner.app>	  Path to the test runner application which will run the test bundle
--t,--test-bundle        <path/to/testbundle.xctest>	Path to the .xctest bundle
--d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+-d,--device-id	<device-identifier>	iOS Simulator GUID or 40-digit physical device ID
+-r,--test-runner	<path/to/testrunner.app>	Path to the test runner application which will run the test bundle
+-t,--test-bundle	<path/to/testbundle.xctest>	Path to the .xctest bundle
+-c,--codesign-identity	<codesign-identity> [OPTIONAL] 	Identity used to codesign application resources [device only]
+-k,--keep-alive	<true-or-false> [OPTIONAL] 	Only set to false for smoke testing/debugging this tool
 
 install
--c,--codesign-identity	<codesign-identity>	        Identity used to codesign app bundle [device only]
--a,--app-bundle         <path/to/app-bundle.app>	  Path .app bundle (for .ipas, unzip and look inside of 'Payload')
--d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+-d,--device-id	<device-identifier>	iOS Simulator GUID or 40-digit physical device ID
+-a,--app-bundle	<path/to/app-bundle.app>	Path .app bundle (for .ipas, unzip and look inside of 'Payload')
+-c,--codesign-identity	<codesign-identity> [OPTIONAL] 	Identity used to codesign app bundle [device only]
+
+stop_simulating_location
+-d,--device-id	<device-identifier> 40-digit physical device ID
 
 launch_simulator
--d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+-d,--device-id	<device-identifier>	iOS Simulator GUID or 40-digit physical device ID
 
 is_installed
--b,--bundle-identifier	<bundle-id>                 bundle identifier (e.g. com.my.app)
--d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+-b,--bundle-identifier	<bundle-id>	bundle identifier (e.g. com.my.app)
+-d,--device-id	<device-identifier>	iOS Simulator GUID or 40-digit physical device ID
 
 kill_simulator
--d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+-d,--device-id	<device-identifier>	iOS Simulator GUID or 40-digit physical device ID
 
 uninstall
--b,--bundle-identifier	<bundle-id>                 bundle identifier (e.g. com.my.app)
--d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
+-d,--device-id	<device-identifier>	iOS Simulator GUID or 40-digit physical device ID
+-b,--bundle-identifier	<bundle-id>	bundle identifier (e.g. com.my.app)
+
+set_location
+-d,--device-id	<device-identifier>	iOS Simulator GUID or 40-digit physical device ID
+-l,--location	<lat,lng>	latitude and longitude separated by a single comma
+
 ```
 
 ### Building
