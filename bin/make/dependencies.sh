@@ -25,14 +25,15 @@ fi
 bin/make/frameworks.sh
 
 set -e
-EXECUTABLE=iOSDeviceManager
-OUTPUT_DIR=Distribution/dependencies 
 
-rm -rf "${OUTPUT_DIR}" 
-mkdir -p "${OUTPUT_DIR}/Frameworks" 
-mkdir -p "${OUTPUT_DIR}/bin" 
-mkdir -p "${OUTPUT_DIR}/app" 
-mkdir -p "${OUTPUT_DIR}/ipa" 
+EXECUTABLE=iOSDeviceManager
+OUTPUT_DIR=Distribution/dependencies
+
+rm -rf "${OUTPUT_DIR}"
+mkdir -p "${OUTPUT_DIR}/Frameworks"
+mkdir -p "${OUTPUT_DIR}/bin"
+mkdir -p "${OUTPUT_DIR}/app"
+mkdir -p "${OUTPUT_DIR}/ipa"
 
 HERE=$(pwd)
 
