@@ -3,7 +3,7 @@
 source bin/log_functions.sh
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
-  error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=/path/to/fbsimctl"
+  error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=path/to/FBSimulatorControl"
   exit 1
 fi
 
@@ -13,7 +13,7 @@ if [ ! -d "${FBSIMCONTROL_PATH}" ]; then
 fi
 
 if [ -z "${DEVICEAGENT_PATH}" ]; then
-  error "Please specify path to DeviceAgent.iOS repo via DEVICEAGENT_PATH=/path/to/deviceagent"
+  error "Please specify path to DeviceAgent.iOS repo via DEVICEAGENT_PATH=path/to/DeviceAgent.iOS"
   exit 3
 fi
 
