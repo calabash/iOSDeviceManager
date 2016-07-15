@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-
-set -e
-
 source bin/log_functions.sh
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
@@ -9,10 +6,13 @@ if [ -z "${FBSIMCONTROL_PATH}" ]; then
   exit 1
 fi
 
+set -e
+
 rm -rf ./Frameworks/*.framework
 HERE=$(pwd)
 
 (cd "${FBSIMCONTROL_PATH}";
  make frameworks;
+ mkdir -p "${HERE}/Frameworks"
  cp -r build/Release/* "${HERE}/Frameworks")
 

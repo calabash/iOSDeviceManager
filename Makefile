@@ -1,9 +1,8 @@
 
+.PHONY: build
+
 #
 #	Cleans the build directory used by Xcode
-
-
-.PHONY: build
 #
 clean:
 	rm -rf build
@@ -33,7 +32,7 @@ install:
 dependencies:
 	bin/make/dependencies.sh
 
-nuget: 
+nuget:
 	$(MAKE) dependencies
 	bin/make/nuget.sh
 

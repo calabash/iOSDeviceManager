@@ -78,7 +78,10 @@
 		892DE5331D23ED6C00E1902C /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5321D23ED6C00E1902C /* CLITests.m */; };
 		892DE53F1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */; };
 		892DE5421D23FE8700E1902C /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */; };
-		89B397141D25D83A00050DAD /* TestCommon.h in Sources */ = {isa = PBXBuildFile; fileRef = 89B397131D25D83A00050DAD /* TestCommon.h */; };
+		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
+		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
+		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
+		89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -86,10 +89,19 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 10;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		896F91FC1D36949A0013B0F4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -136,6 +148,10 @@
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B397131D25D83A00050DAD /* TestCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestCommon.h; path = iOSDeviceManagerTests/TestCommon.h; sourceTree = SOURCE_ROOT; };
 		89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
+		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
+		89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
+		89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTestBootstrap.framework; path = Frameworks/XCTestBootstrap.framework; sourceTree = "<group>"; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,6 +161,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */,
+				89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */,
+				89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */,
+				89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +214,7 @@
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
+				89F6DB391D37F75F006A0FD5 /* Frameworks */,
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
 				89EF4ACA1CFA614F006DCDC5 /* iOSDeviceManagerTests */,
@@ -271,6 +292,17 @@
 			);
 			name = iOSDeviceManagerTests;
 			path = TestControlTests;
+			sourceTree = "<group>";
+		};
+		89F6DB391D37F75F006A0FD5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89F6DB311D37F746006A0FD5 /* FBControlCore.framework */,
+				89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */,
+				89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */,
+				89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
@@ -352,6 +384,7 @@
 				89EF4AC51CFA614F006DCDC5 /* Sources */,
 				89EF4AC61CFA614F006DCDC5 /* Frameworks */,
 				89EF4AC71CFA614F006DCDC5 /* Resources */,
+				896F91FC1D36949A0013B0F4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -373,12 +406,21 @@
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = FYD86LA7RE;
+						DevelopmentTeamName = "Karl Krukow";
+						ProvisioningStyle = Automatic;
 					};
 					8974F51A1D085FDA00C51B0C = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = FYD86LA7RE;
+						DevelopmentTeamName = "Karl Krukow";
+						ProvisioningStyle = Automatic;
 					};
 					89EF4AC81CFA614F006DCDC5 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = FYD86LA7RE;
+						DevelopmentTeamName = "Karl Krukow";
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -480,7 +522,6 @@
 				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
-				89B397141D25D83A00050DAD /* TestCommon.h in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
@@ -575,32 +616,41 @@
 		89331D4B1CE222C7003C2E59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_MASTER_OBJECT_FILE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		89331D4C1CE222C7003C2E59 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_MASTER_OBJECT_FILE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
 		8974F5221D085FDA00C51B0C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -614,6 +664,7 @@
 		8974F5231D085FDA00C51B0C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -627,8 +678,10 @@
 		89EF4ACF1CFA614F006DCDC5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = $PROJECT_DIR/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				INFOPLIST_FILE = iOSDeviceManagerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.TestControlTests;
@@ -639,8 +692,10 @@
 		89EF4AD01CFA614F006DCDC5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = $PROJECT_DIR/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				INFOPLIST_FILE = iOSDeviceManagerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.TestControlTests;

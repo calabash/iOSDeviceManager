@@ -1,22 +1,22 @@
-## devicectl
+## iOSDeviceManager
 
-A tool for launching xctests on device and simulator, and a library
+A tool for launching XCUITests on device and simulator, and a library
 for device/simulator lifecycle management.
 
-### Using
+### Usage
 
 ```
 iOSDeviceManager [command] [flags]
 
 start_test
 -c,--codesign-identity	<codesign-identity>         Identity used to codesign application resources [device only]
--r,--test-runner        <path/to/testrunner.app>	Path to the test runner application which will run the test bundle
+-r,--test-runner        <path/to/testrunner.app>	  Path to the test runner application which will run the test bundle
 -t,--test-bundle        <path/to/testbundle.xctest>	Path to the .xctest bundle
 -d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
 
 install
--c,--codesign-identity	<codesign-identity>	Identity used to codesign app bundle [device only]
--a,--app-bundle         <path/to/app-bundle.app>	Path .app bundle (for .ipas, unzip and look inside of 'Payload')
+-c,--codesign-identity	<codesign-identity>	        Identity used to codesign app bundle [device only]
+-a,--app-bundle         <path/to/app-bundle.app>	  Path .app bundle (for .ipas, unzip and look inside of 'Payload')
 -d,--device-id          <device-identifier>         iOS Simulator GUID or 40-digit physical device ID
 
 launch_simulator
@@ -36,7 +36,17 @@ uninstall
 
 ### Building
 
-To bundle all of the DeviceAgent dependencies together,
+#### Code Signing
+
+Starting in Xcode 8, a code signing identity is required for building.
+
+Project maintainers must clone the [codesign](https://github.com/calabash-codesign)
+repo and install the certs/identity. Talk to @jmoody or @sapieneptus
+for details.
+
+#### Packaging
+
+To package all of the DeviceAgent dependencies together,
 
 ```shell
 FBSIMCONTROL_PATH=/path/to/FBSimulatorControl \
@@ -54,9 +64,9 @@ DEVICEAGENT_PATH=/path/to/DeviceAgent.iOS \
 make nuget
 ```
 
-The resulting `.nupkg` is just a wrapper around these dependencies. 
+The resulting `.nupkg` is just a wrapper around these dependencies.
 
-*Note* that you should have the calabash fork of FBSimulatorControl cloned. 
+*Note* that you should have the calabash fork of FBSimulatorControl cloned.
 
 ### Contributing
 
@@ -74,21 +84,21 @@ run `make install`.
 
 ### C Library
 
-`devicectl` has an interface for C interop/FFI. 
+`iOSDeviceManager` has an interface for C interop/FFI.
 
 ```C
 /**
  Start XCUITest
  @param deviceID 40 character device ID or Simulator GUID. Use `instruments -s devices` to list Sim IDs.
  @param testRunnerPath absolute path to test runner app (DeviceAgent app bundle)
- @param testBundlePath absolute path to test bundle (CBX.xctest) 
+ @param testBundlePath absolute path to test bundle (CBX.xctest)
  @param codesignID Identity used to codesign (for sims, this value is ignored).
- @return 0 on success, 1 on failure. 
- 
+ @return 0 on success, 1 on failure.
+
  Starts XC(UI)Test bundle specified by `testBundlePath` via the app specified by `testRunnerPath`.
- 
+
  Attempts to install the test runner if not already installed.
- 
+
  Will boot simulator if not already booted.
  */
 int start_test(const char *deviceID,
@@ -100,7 +110,7 @@ int start_test(const char *deviceID,
  Launch simulator by ID
  @param simulatorID A simulator GUID
  @return 0 on success, 1 on failure
- 
+
  If the sim is already running, does nothing.
  */
 int launch_simulator(const char *simulatorID);
@@ -108,30 +118,30 @@ int launch_simulator(const char *simulatorID);
 /**
  Kill simulator by ID
  @param simulatorID A simulator GUID
- @return 0 on success, 1 on failure. 
- 
+ @return 0 on success, 1 on failure.
+
  If sim isn't running, does nothing.
  */
 int kill_simulator(const char *simulatorID);
 
 /**
- Installs an app bundle. Acts as "upgrade install" (i.e. maintains app data of any previous installation). 
- @param pathToBundle Absolute path to an app bundle. Note this must be a .app bundle, even for physical devices. 
+ Installs an app bundle. Acts as "upgrade install" (i.e. maintains app data of any previous installation).
+ @param pathToBundle Absolute path to an app bundle. Note this must be a .app bundle, even for physical devices.
  @param deviceID 40 char device ID or simulator GUID
  @param codesignID Identity used to sign the bundle before installation. Ignored for sims apps.
  @return 0 if successful, 1 otherwise.
- 
+
  As noted, for physical devices you also need an `.app` bundle. This can be found
- inside of an .ipa by unzipping it and looking inside of the resulting 'Payload' 
+ inside of an .ipa by unzipping it and looking inside of the resulting 'Payload'
  directory.
- 
+
  E.g., `cd Foo; unzip -q MyApp.ipa` results in this:
- 
+
  /Foo
  ├── Payload
  │   └── MyApp.app
  └── MyApp.ipa
- 
+
  And what you want is `MyApp.app`.
  */
 int install_app(const char *pathToBundle, const char *deviceID, const char *codesignID);

@@ -23,17 +23,14 @@ static FBSimulatorControl *_control;
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (!simulator) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    if (simulator.state != FBSimulatorStateShutdown) {
-        NSLog(@"Sim must not be booted when running a test. Kill it and try again");
-        return iOSReturnStatusCodeGenericFailure;
+    if (simulator.state == FBSimulatorStateShutdown ) {
+        [[simulator.interact bootSimulator] perform:&e];
+        NSLog(@"Sim is dead, booting.");
+        if (e) {
+            NSLog(@"Error booting simulator %@ for test: %@", deviceID, e);
+            return iOSReturnStatusCodeInternalError;
+        }
     }
-    [[simulator.interact bootSimulator] perform:&e];
-    if (e) {
-        NSLog(@"Error booting simulator %@ for test: %@", deviceID, e);
-        return iOSReturnStatusCodeInternalError;
-    }
-    
-   
     
     FBApplicationDescriptor *app = [self app:testRunnerPath];
     
@@ -349,6 +346,23 @@ testCaseDidStartForTestClass:(NSString *)testClass
     BOOL installed = [simulator isApplicationInstalledWithBundleID:bundleID error:&e];
  
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
+}
+
++ (iOSReturnStatusCode)setLocation:(NSString *)deviceID Lat:(double)lat lng:(double)lng {
+    if (![TestParameters isSimulatorID:deviceID]) {
+        NSLog(@"'%@' is not a valid sim ID", deviceID);
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
+    if (simulator == nil) {
+        NSLog(@"No such simulator exists!");
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
+    
+    
+    
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 + (NSDictionary *)lastLaunchServicesMapForSim:(NSString *)deviceID {

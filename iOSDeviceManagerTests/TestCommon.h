@@ -10,12 +10,12 @@ static const NSString *unitTestAppPath = @"/Users/chrisf/calabash-xcuitest-serve
 static const NSString *taskyPath = @"/Users/chrisf/Library/Developer/CoreSimulator/Devices/F8C4D65B-2FB7-4B8B-89BE-8C3982E65F3F/data/Containers/Bundle/Application/46C8D3C1-281F-418B-AF36-3DCE59FFFEB7/TaskyiOS.app";
 static const NSString *taskyID = @"com.xamarin.samples.taskytouch";
 static const NSString *codesignIdentity = @"iPhone Developer: Chris Fuentes (G7R46E5NX7)";
-static const NSString *testAppRunnerPath = @"/Users/chrisf/calabash-xcuitest-server/Products/app/CBX-Runner.app";
-static const NSString *simTestBundlePath = @"/Users/chrisf/calabash-xcuitest-server/Products/app/CBX-Runner.app/PlugIns/CBX.xctest";
+static const NSString *testAppRunnerPath = @"/Users/chrisf/iOSDeviceManager/Distribution/dependencies/app/CBX-Runner.app";
+static const NSString *simTestBundlePath = @"/Users/chrisf/iOSDeviceManager/Distribution/dependencies/app/CBX-Runner.app/PlugIns/CBX.xctest";
 static const NSString *unitTestAppID = @"sh.calaba.UnitTestApp";
 
 static const NSString *deviceID = @"49a29c9e61998623e7909e35e8bae50dd07ef85f";
 
-static const NSString *unitTestIpaPath = @"/Users/chrisf/calabash-xcuitest-server/Products/ipa/UnitTestApp/UnitTestApp.app";
+static const NSString *unitTestIpaPath = @"/Users/chrisf/iOSDeviceManager/Distribution/dependencies/ipa/UnitTestApp/UnitTestApp.app";
 static const NSString *deviceTestRunnerPath = @"/Users/chrisf/calabash-xcuitest-server/Products/ipa/DeviceAgent/CBX-Runner.app";
 static const NSString *deviceTestBundlePath = @"/Users/chrisf/calabash-xcuitest-server/Products/ipa/DeviceAgent/CBX-Runner.app/PlugIns/CBX.xctest";
