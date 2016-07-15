@@ -3,51 +3,150 @@
 require 'date'
 require 'json'
 
-BIN='./Distribution/dependencies/bin/iOSDeviceManager'
+CLEAN_RUNNER=ENV["CLEAN_RUNNER"] == "1"
+
+def colorize(string, color)
+  "\033[#{color}m#{string}\033[0m"
+end
+
+def cyan(string)
+  colorize(string, 36)
+end
+
+def green(string)
+  colorize(string, 32)
+end
+
+def magenta(string)
+  colorize(string, 35)
+end
+
+def log_unix_cmd(msg)
+  puts cyan("EXEC: #{msg}") if msg
+end
+
+def log_info(msg)
+  puts green("INFO: #{msg}") if msg
+end
+
+def banner(msg)
+  puts ""
+  puts magenta("######## #{msg} ########")
+  puts ""
+end
+
+BIN="./Distribution/dependencies/bin/iOSDeviceManager"
 OUTDIR="results"
-TEST_RUNNER="#{ENV['HOME']}/calabash-xcuitest-server/Products/app/DeviceAgent/CBX-Runner.app"
-TEST_BUNDLE="#{ENV['HOME']}/calabash-xcuitest-server/Products/app/DeviceAgent/CBX-Runner.app/PlugIns/CBX.xctest"
+
+def device_agent_dir
+  ENV["DEVICEAGENT_PATH"] ||
+    File.expand_path(File.join("..", "DeviceAgent.iOS"))
+end
+
+def test_runner
+  File.join(device_agent_dir, "Products", "app", "DeviceAgent", "CBX-Runner.app")
+end
+
+def test_bundle
+  File.join(test_runner, "PlugIns", "CBX.xctest")
+end
+
+def unit_test_app
+  File.join(device_agent_dir, "Products", "app", "UnitTestApp", "UnitTestApp.app")
+end
+
+def expect_device_agent_dir
+  if !File.exist?(device_agent_dir)
+    raise %Q[
+Expected DeviceAgent.iOS at:
+
+#{device_agent_dir}
+
+The default location is: "../DeviceAgent.iOS"
+
+You can override this value using:
+
+$ DEVICEAGENT_PATH=path/to/DeviceAgent.IOS bin/test/sim
+
+]
+  end
+end
+
+def ensure_runner_and_bundle
+  banner("CBXRunner")
+
+  if !File.exist?(test_runner) || CLEAN_RUNNER
+    log_info("Building CBX-Runner.app")
+    Dir.chdir(device_agent_dir) do
+      `make app-agent`
+      if $? != 0
+        raise "Could not build CBX-Runner.app"
+      end
+    end
+  end
+
+  log_info("Runner: #{test_runner}")
+  log_info("Bundle: #{test_bundle}")
+end
+
+def ensure_unit_test_app
+  banner("UnitTestApp")
+  if !File.exist?(unit_test_app)
+    log_info("Building UnitTestApp.app")
+    Dir.chdir(device_agent_dir) do
+      `make app-unit`
+      if $? != 0
+        raise "Could not build UnitTestApp.app"
+      end
+    end
+  end
+
+  log_info("UnitTestApp: #{unit_test_app}")
+end
+
+expect_device_agent_dir
+ensure_runner_and_bundle
+ensure_unit_test_app
 
 def sys(cmd)
-  puts "$ #{cmd}"
+  log_unix_cmd(cmd)
   system(cmd)
 end
 
 def launch_sim(sim_id)
-  puts "\tLaunch #{sim_id}"
+  log_info "Launch #{sim_id}"
   sys "#{BIN} launch_simulator -d #{sim_id}"
 end
 
 def kill_sim(sim_id)
-  puts "\tKill #{sim_id}"
+  log_info "Kill #{sim_id}"
   sys "#{BIN} kill_simulator -d #{sim_id}"
 end
 
 def install(sim_id)
-  puts "\tInstall to #{sim_id}"
-  sys "#{BIN} install -d #{sim_id} -a #{ENV['HOME']}/calabash-xcuitest-server/Products/app/UnitTestApp/UnitTestApp.app"
+  log_info "Install to #{sim_id}"
+  sys "#{BIN} install -d #{sim_id} -a #{unit_test_app}"
 end
 
 def uninstall(sim_id)
-  puts "\tUninstall from #{sim_id}"
+  log_info "Uninstall from #{sim_id}"
   sys "#{BIN} uninstall -d #{sim_id} -b com.apple.test.CBX-Runner"
   sys "#{BIN} uninstall -d #{sim_id} -b sh.calaba.UnitTestApp"
 end
 
 def start_test(sim_id)
-  puts "\tStart test on #{sim_id}"
-  r = sys "#{BIN} start_test -d #{sim_id} -r #{TEST_RUNNER} -t #{TEST_BUNDLE} &"
+  log_info "Start test on #{sim_id}"
+  r = sys "#{BIN} start_test -d #{sim_id} -r #{test_runner} -t #{test_bundle} &"
   sleep 10
   r
 end
 
 def ui_smoke_test(ip)
-  test_pid = $?.pid
-
   if ip.nil? or ip.empty?
     ip = "http://127.0.0.1:27753"
   end
-  puts "IP: #{ip}"
+
+  log_info "IP: #{ip}"
   system "curl -X POST -d '{\"bundleID\" : \"com.apple.Preferences\"}' #{ip}/1.0/session"
   system "curl -X POST -d '{\"type\" : \"cell\"}' #{ip}/1.0/query"
   begin
@@ -84,26 +183,27 @@ def code_to_status(code)
   end
 end
 
-sim_ids = `instruments -s devices | egrep '(iPhone)|(iPad)' | grep -v '+ Apple Watch'`.chomp().split("\n")
+sim_ids = `xcrun instruments -s devices | egrep '(iPhone)|(iPad)' | grep -v '+ Apple Watch'`.chomp().split("\n")
 
 sims = []
 
 sim_ids.each do |sim_id|
-  name = sim_id.split('(')[0].chomp
+  name = sim_id.split('(')[0].strip
   id = sim_id.match(/\[(?<id>.+)\]/)["id"]
   os = sim_id.match(/\((?<os>\d+\.\d+)\)/)["os"]
-  if os.to_f >= 9 
+  if os.to_f >= 9
     sim = { :name => name, :os => os, :id => id, :results => {} }
     sims << sim
-    
+
+    banner("#{sim[:name]} #{sim[:os]} #{sim[:id]}")
     results = {}
-    results['launch'] = code_to_status (launch_sim id)
-    results['install'] = code_to_status (install id)
-    results['uninstall'] = code_to_status (uninstall id)    
-    results['start_test'] = code_to_status (start_test id)
+    results['launch'] = code_to_status(launch_sim id)
+    results['install'] = code_to_status(install id)
+    results['uninstall'] = code_to_status(uninstall id)
+    results['start_test'] = code_to_status(start_test id)
     results['ui_smoke_test'] = ui_smoke_test ARGV[0]
     results['kill'] = code_to_status (kill_sim id)
-    
+
     sim[:results] = results
   end
 end
@@ -115,4 +215,4 @@ File.open(outfile,"w") do |f|
 end
 
 puts output
-puts "Wrote results to #{outfile}" 
+puts "Wrote results to #{outfile}"
