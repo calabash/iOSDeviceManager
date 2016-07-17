@@ -17,6 +17,7 @@
                       @"-t", deviceTestBundlePath,
                       @"-r", deviceTestRunnerPath,
                       @"-c", codesignIdentity,
+                      @"-u", @"YES",
                       @"-k", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }

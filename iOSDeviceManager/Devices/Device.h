@@ -8,6 +8,7 @@
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
                         codesignIdentity:(NSString *)codesignIdentity
+                        updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive; //helps with integration testing
 
 + (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID

@@ -14,18 +14,21 @@
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
                         codesignIdentity:(NSString *)codesignIdentity
+                        updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive {
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice startTestOnDevice:deviceID
                                   testRunnerPath:testRunnerPath
                                   testBundlePath:testBundlePath
                                 codesignIdentity:codesignIdentity
+                                updateTestRunner:updateTestRunner
                                        keepAlive:keepAlive];
     } else {
         return [Simulator startTestOnDevice:deviceID
                              testRunnerPath:testRunnerPath
                              testBundlePath:testBundlePath
                            codesignIdentity:codesignIdentity
+                           updateTestRunner:updateTestRunner
                                   keepAlive:keepAlive];
     }
 }

@@ -53,6 +53,7 @@
              @"-d", simID,
              @"-t", simTestBundlePath,
              @"-r", testAppRunnerPath,
+             @"-u", @"YES",
              @"-k", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
@@ -60,6 +61,7 @@
              @"-d", simID,
              @"-t", simTestBundlePath,
              @"-r", testAppRunnerPath,
+             @"-u", @"YES",
              @"-k", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }

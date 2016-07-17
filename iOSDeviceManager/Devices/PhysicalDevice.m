@@ -7,6 +7,10 @@
 #import "ShellRunner.h"
 #import "Codesigner.h"
 
+@protocol DVTApplication
+- (NSDictionary *)plist;
+@end
+
 @interface DTDKRemoteDeviceToken : NSObject
 - (_Bool)simulateLatitude:(NSNumber *)lat andLongitude:(NSNumber *)lng withError:(NSError **)arg3;
 - (_Bool)stopSimulatingLocationWithError:(NSError **)arg1;
@@ -41,10 +45,52 @@
             stringByAppendingPathComponent:@"iPhoneOS.platform"];
 }
 
++ (NSDictionary *)infoPlistForBundleID:(NSString *)bundleID device:(FBDevice *)device {
+    id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
+    
+    if (!installed) {
+        NSLog(@"Error fetching installed application %@ ", bundleID);
+        return nil;
+    }
+    return [installed plist];
+}
+
++ (BOOL)shouldUpgrade:(NSDictionary *)oldPlist newPlist:(NSString *)newPlist {
+    //TODO: compare CFBundleShortVersionString / CFBundleVersion / ?
+    
+//    NSString *shortVersionString = oldPlist[@"CFBundleShortVersionString"];
+//    NSString *bundleVersion = oldPlist[@"CFBundleVersion"];
+    
+    return YES;
+}
+
++ (iOSReturnStatusCode)updateAppIfRequired:(NSString *)bundlePath
+                                    device:(FBDevice *)device
+                                codesigner:(Codesigner *)codesigner {
+    NSError *e;
+    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:bundlePath
+                                                                          error:&e];
+    if (e) {
+        NSLog(@"Error creating app bundle for %@: %@", bundlePath, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    if ([self appIsInstalled:app.bundleID deviceID:device.udid] == iOSReturnStatusCodeEverythingOkay) {
+        NSDictionary *oldPlist = [self infoPlistForBundleID:app.bundleID device:device];
+        //        NSDictionary *newPlist = nil; //TODO: fetch via FBProductBundle?
+        if ([self shouldUpgrade:oldPlist newPlist:nil]) {
+            //TODO override installation
+        }
+    }
+        
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
                         codesignIdentity:(NSString *)codesignIdentity
+                        updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive  {
     
     if (codesignIdentity == nil) {
@@ -56,15 +102,24 @@
         return iOSReturnStatusCodeGenericFailure;
     }
     
+    FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    if (NO) {
+        iOSReturnStatusCode sc = [self updateAppIfRequired:testRunnerPath
+                                                    device:device
+                                                codesigner:[self signer:codesignIdentity]];
+        if (sc != iOSReturnStatusCodeEverythingOkay) {
+            return sc;
+        }
+    }
+    
     FBDeviceTestPreparationStrategy *testPrepareStrategy =
     [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:testRunnerPath
                                                        applicationDataPath:[self applicationDataPath]
                                                             testBundlePath:testBundlePath
                                                     pathToXcodePlatformDir:[self pathToXcodePlatformDir]
                                                           workingDirectory:[ShellRunner pwd]];
-    
-    FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
     
     id reporterLogger = [self new];
     FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:device.deviceOperator

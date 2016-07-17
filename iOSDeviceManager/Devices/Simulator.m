@@ -13,6 +13,7 @@ static FBSimulatorControl *_control;
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
                         codesignIdentity:(NSString *)codesignIdentity
+                        updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive {
     if (![TestParameters isSimulatorID:deviceID]) {
         NSLog(@"'%@' is not a valid sim ID", deviceID);
