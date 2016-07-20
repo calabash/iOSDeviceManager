@@ -15,6 +15,25 @@
     [super setUp];
 }
 
+- (void)testSetLocation {
+    NSArray *args = @[progname, @"kill_simulator", @"-d", simID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    //Should fail: device is dead
+    args = @[progname, @"set_location", @"-d", simID, @"-l", Stockholm];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
+    
+    args = @[progname, @"launch_simulator", @"-d", simID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    //Should fail: invalid latlng
+    args = @[progname, @"set_location", @"-d", simID, @"-l", @"Banana"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
+    
+    args = @[progname, @"set_location", @"-d", simID, @"-l", Stockholm];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
 - (void)testLaunchSim {
     NSArray *args = @[progname, @"launch_simulator", @"-d", simID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);

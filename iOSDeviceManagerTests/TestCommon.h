@@ -16,6 +16,8 @@ static const NSString *unitTestAppID = @"sh.calaba.UnitTestApp";
 
 static const NSString *deviceID = @"49a29c9e61998623e7909e35e8bae50dd07ef85f";
 
+static const NSString *Stockholm = @"59.333422,18.065130";
+
 static const NSString *unitTestIpaPath = @"/Users/chrisf/iOSDeviceManager/Distribution/dependencies/ipa/UnitTestApp/UnitTestApp.app";
 static const NSString *deviceTestRunnerPath = @"/Users/chrisf/calabash-xcuitest-server/Products/ipa/DeviceAgent/CBX-Runner.app";
 static const NSString *deviceTestBundlePath = @"/Users/chrisf/calabash-xcuitest-server/Products/ipa/DeviceAgent/CBX-Runner.app/PlugIns/CBX.xctest";

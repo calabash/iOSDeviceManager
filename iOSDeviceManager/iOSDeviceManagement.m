@@ -1,7 +1,7 @@
 
 #import "iOSDeviceManagement.h"
+#import "PhysicalDevice.h"
 #import "Simulator.h"
-#import "Device.h"
 
 #define SUCCESS 0
 #define FAILURE 1
@@ -51,8 +51,21 @@ int uninstall_app(const char *bundleID, const char *deviceID) {
 
 int is_installed(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
-        //Returns 1, 0, or -1 for 'true', 'false', 'error'
         return [Device appIsInstalled:STR(bundleID)
                              deviceID:STR(deviceID)];
+    }
+}
+
+int simulate_location(const char *deviceID, double lat, double lng) {
+    @autoreleasepool {
+        return [Device setLocation:STR(deviceID)
+                               lat:lat
+                               lng:lng];
+    }
+}
+
+int stop_simulating_location(const char *deviceID) {
+    @autoreleasepool {
+        return [PhysicalDevice stopSimulatingLocation:STR(deviceID)];
     }
 }

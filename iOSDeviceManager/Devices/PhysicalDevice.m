@@ -7,11 +7,19 @@
 #import "ShellRunner.h"
 #import "Codesigner.h"
 
+@interface DTDKRemoteDeviceToken : NSObject
+- (_Bool)simulateLatitude:(NSNumber *)lat andLongitude:(NSNumber *)lng withError:(NSError **)arg3;
+- (_Bool)stopSimulatingLocationWithError:(NSError **)arg1;
+@end
+
 @interface DVTAbstractiOSDevice : NSObject
+@property (nonatomic, strong) DTDKRemoteDeviceToken *token;
 - (id)applications;
 @end
 
-
+@interface DVTiOSDevice : DVTAbstractiOSDevice
+- (BOOL)supportsLocationSimulation;
+@end
 
 @implementation PhysicalDevice
 
@@ -258,6 +266,47 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return iOSReturnStatusCodeInternalError;
     }
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
+}
+
++ (iOSReturnStatusCode)setLocation:(NSString *)deviceID
+                               lat:(double)lat
+                               lng:(double)lng {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    if (![device.dvtDevice supportsLocationSimulation]) {
+        NSLog(@"Device %@ doesn't support location simulation", deviceID);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    NSError *e;
+    [[device.dvtDevice token] simulateLatitude:@(lat)
+                                  andLongitude:@(lng)
+                                     withError:&e];
+    if (e) {
+        NSLog(@"Unable to set device location: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
++ (iOSReturnStatusCode)stopSimulatingLocation:(NSString *)deviceID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    if (![device.dvtDevice supportsLocationSimulation]) {
+        NSLog(@"Device %@ doesn't support location simulation", deviceID);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    NSError *e;
+    [[device.dvtDevice token] stopSimulatingLocationWithError:&e];
+    if (e) {
+        NSLog(@"Unable to stop simulating device location: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 @end

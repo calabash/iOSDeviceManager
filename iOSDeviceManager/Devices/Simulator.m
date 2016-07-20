@@ -348,7 +348,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
-+ (iOSReturnStatusCode)setLocation:(NSString *)deviceID Lat:(double)lat lng:(double)lng {
++ (iOSReturnStatusCode)setLocation:(NSString *)deviceID
+                               lat:(double)lat
+                               lng:(double)lng {
     if (![TestParameters isSimulatorID:deviceID]) {
         NSLog(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
@@ -360,7 +362,20 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
+    if (simulator.state == FBSimulatorStateShutdown ||
+        simulator.state == FBSimulatorStateShuttingDown) {
+        NSLog(@"Sim is dead! Must boot first");
+        return iOSReturnStatusCodeGenericFailure;
+    }
     
+    NSError *e;
+    FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:simulator error:&e];
+    if (e || !bridge) {
+        NSLog(@"Unable to fetch simulator bridge: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    
+    [bridge setLocationWithLatitude:lat longitude:lng];
     
     return iOSReturnStatusCodeEverythingOkay;
 }
