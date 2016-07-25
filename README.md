@@ -1,5 +1,7 @@
 ## iOSDeviceManager
 
+[![Build Status](http://calabash-ci.macminicolo.net:8080/job/iOSDeviceManager%20Simulator%20Smoke%20Tests/badge/icon)](http://calabash-ci.macminicolo.net:8080/job/iOSDeviceManager%20Simulator%20Smoke%20Tests/)
+
 A tool for launching XCUITests on device and simulator, and a library
 for device/simulator lifecycle management.
 
