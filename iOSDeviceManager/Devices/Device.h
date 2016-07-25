@@ -23,4 +23,7 @@
 + (iOSReturnStatusCode)setLocation:(NSString *)deviceID
                                lat:(double)lat
                                lng:(double)lng;
+
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
+                                       deviceID:(NSString *)deviceID;
 @end

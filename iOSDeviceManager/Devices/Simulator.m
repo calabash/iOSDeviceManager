@@ -10,6 +10,21 @@
 @implementation Simulator
 static FBSimulatorControl *_control;
 
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
+                                       deviceID:(NSString *)deviceID {
+    return [self infoPlistForInstalledBundleID:bundleID
+                                        device:[self simulatorWithDeviceID:deviceID]];
+}
+
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID device:(FBSimulator *)device {
+    FBApplicationDescriptor *installed = [device installedApplicationWithBundleID:bundleID error:nil];
+    if (!installed) {
+        return nil;
+    }
+    NSString *plistPath = [installed.path stringByAppendingPathComponent:@"Info.plist"];
+    return [NSDictionary dictionaryWithContentsOfFile:plistPath];
+}
+
 + (iOSReturnStatusCode)updateInstalledAppIfNecessary:(NSString *)bundlePath
                                               device:(FBSimulator *)device {
     NSError *e;
@@ -29,9 +44,10 @@ static FBSimulatorControl *_control;
     }
     
     NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
-    NSString *oldPlistPath = [installed.path stringByAppendingPathComponent:@"Info.plist"];
     NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
-    NSDictionary *oldPlist = [NSDictionary dictionaryWithContentsOfFile:oldPlistPath];
+    
+    NSDictionary *oldPlist = [self infoPlistForInstalledBundleID:newApp.bundleID
+                                                          device:device];
     
     if (!newPlist) {
         NSLog(@"Unable to locate Info.plist in app bundle: %@", bundlePath);

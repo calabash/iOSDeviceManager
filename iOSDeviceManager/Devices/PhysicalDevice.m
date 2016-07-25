@@ -46,6 +46,12 @@
             stringByAppendingPathComponent:@"iPhoneOS.platform"];
 }
 
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID deviceID:(NSString *)deviceID {
+    return [self infoPlistForInstalledBundleID:bundleID
+                                        device:[self deviceForID:deviceID
+                                                      codesigner:[self signer:@""]]];
+}
+
 + (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID device:(FBDevice *)device {
     id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
     

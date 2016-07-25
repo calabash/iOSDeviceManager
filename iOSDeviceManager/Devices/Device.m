@@ -82,4 +82,15 @@
     }
 }
 
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
+                                       deviceID:(NSString *)deviceID {
+    if ([TestParameters isSimulatorID:deviceID]) {
+        return [Simulator infoPlistForInstalledBundleID:bundleID
+                                               deviceID:deviceID];
+    } else {
+        return [Device infoPlistForInstalledBundleID:bundleID
+                                            deviceID:deviceID];
+    }
+}
+
 @end
