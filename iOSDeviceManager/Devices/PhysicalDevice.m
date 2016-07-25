@@ -6,6 +6,7 @@
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "ShellRunner.h"
 #import "Codesigner.h"
+#import "AppUtils.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -45,7 +46,7 @@
             stringByAppendingPathComponent:@"iPhoneOS.platform"];
 }
 
-+ (NSDictionary *)infoPlistForBundleID:(NSString *)bundleID device:(FBDevice *)device {
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID device:(FBDevice *)device {
     id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
     
     if (!installed) {
@@ -55,14 +56,6 @@
     return [installed plist];
 }
 
-+ (BOOL)shouldUpgrade:(NSDictionary *)oldPlist newPlist:(NSString *)newPlist {
-    //TODO: compare CFBundleShortVersionString / CFBundleVersion / ?
-    
-//    NSString *shortVersionString = oldPlist[@"CFBundleShortVersionString"];
-//    NSString *bundleVersion = oldPlist[@"CFBundleVersion"];
-    
-    return YES;
-}
 
 + (iOSReturnStatusCode)updateAppIfRequired:(NSString *)bundlePath
                                     device:(FBDevice *)device
@@ -76,10 +69,26 @@
     }
     
     if ([self appIsInstalled:app.bundleID deviceID:device.udid] == iOSReturnStatusCodeEverythingOkay) {
-        NSDictionary *oldPlist = [self infoPlistForBundleID:app.bundleID device:device];
-        //        NSDictionary *newPlist = nil; //TODO: fetch via FBProductBundle?
-        if ([self shouldUpgrade:oldPlist newPlist:nil]) {
-            //TODO override installation
+        NSDictionary *oldPlist = [self infoPlistForInstalledBundleID:app.bundleID device:device];
+        NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
+        NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
+        if (!newPlist || newPlist.count == 0) {
+            NSLog(@"Unable to find Info.plist at %@", newPlistPath);
+            return iOSReturnStatusCodeGenericFailure;
+        }
+        
+        if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
+            NSLog(@"Installed version is different, attempting to update %@.", app.bundleID);
+            iOSReturnStatusCode ret = [self uninstallApp:app.bundleID deviceID:device.udid];
+            if (ret != iOSReturnStatusCodeEverythingOkay) {
+                return ret;
+            }
+            return [self installApp:bundlePath
+                           deviceID:device.udid
+                          updateApp:YES
+                         codesignID:codesigner.codesignIdentity];
+        } else {
+            NSLog(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
         
@@ -92,6 +101,7 @@
                         codesignIdentity:(NSString *)codesignIdentity
                         updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive  {
+    NSError *e = nil;
     
     if (codesignIdentity == nil) {
         NSLog(@"Must supply a codesign identifier for running tests");
@@ -104,8 +114,13 @@
     
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
-    if (NO) {
+
+    if (e) {
+        NSLog(@"Error finding application descriptor: %@", e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    if (updateTestRunner) {
         iOSReturnStatusCode sc = [self updateAppIfRequired:testRunnerPath
                                                     device:device
                                                 codesigner:[self signer:codesignIdentity]];
@@ -126,17 +141,16 @@
                                                                        testPrepareStrategy:testPrepareStrategy
                                                                                   reporter:reporterLogger
                                                                                     logger:reporterLogger];
-    NSError *innerError = nil;
     [testRunStrategy startTestManagerWithAttributes:@[]
                                         environment:@{}
-                                              error:&innerError];
+                                              error:&e];
     
-    if (!innerError) {
+    if (!e) {
         if (keepAlive) {
             [[NSRunLoop mainRunLoop] run];
         }
     } else {
-        NSLog(@"Err: %@", innerError);
+        NSLog(@"Err: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
     return iOSReturnStatusCodeEverythingOkay;
@@ -246,6 +260,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 #pragma mark - App Installation
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
                          deviceID:(NSString *)deviceID
+                        updateApp:(BOOL)updateApp
                        codesignID:(NSString *)codesignID {
     
     if (codesignID == nil) {
@@ -269,18 +284,22 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
     
     FBiOSDeviceOperator *op = device.deviceOperator;
-    if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err]) {
-        NSLog(@"Application '%@' is already installed, attempting to override.", app.bundleID);
-    }
-    
-    if (err) {
-        NSLog(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
-        return iOSReturnStatusCodeInternalError;
-    }
-    
-    if (![op installApplicationWithPath:pathToBundle error:&err] || err) {
-        NSLog(@"Error installing application: %@", err);
-        return iOSReturnStatusCodeInternalError;
+    if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
+        if (err) {
+            NSLog(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
+            return iOSReturnStatusCodeInternalError;
+        }
+        iOSReturnStatusCode ret = [self updateAppIfRequired:pathToBundle
+                                                     device:device
+                                                 codesigner:[self signer:codesignID]];
+        if (ret != iOSReturnStatusCodeEverythingOkay) {
+            return ret;
+        }
+    } else {
+        if (![op installApplicationWithPath:pathToBundle error:&err] || err) {
+            NSLog(@"Error installing application: %@", err);
+            return iOSReturnStatusCodeInternalError;
+        }
     }
     
     return iOSReturnStatusCodeEverythingOkay;

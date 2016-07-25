@@ -39,7 +39,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
         
         [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
                                                longFlag:@"--codesign-identity"
-                                             optionName:@"codesign-identity"
+                                             optionName:@"codesign-identity,default=''"
                                                    info:@"Identity used to codesign application resources [device only]"
                                                required:NO]];
         

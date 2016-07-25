@@ -28,6 +28,7 @@ int install_app(const char *pathToBundle,
     @autoreleasepool {
         return [Device installApp:STR(pathToBundle)
                          deviceID:STR(deviceID)
+                        updateApp:YES
                        codesignID:STR(codesignID)];
     }
 }

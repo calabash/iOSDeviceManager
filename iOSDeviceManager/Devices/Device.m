@@ -35,14 +35,17 @@
 
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
                          deviceID:(NSString *)deviceID
+                        updateApp:(BOOL)updateApp
                        codesignID:(NSString *)codesignID {
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice installApp:pathToBundle
                                  deviceID:deviceID
+                                updateApp:updateApp
                                codesignID:codesignID];
     } else {
         return [Simulator installApp:pathToBundle
                             deviceID:deviceID
+                           updateApp:updateApp
                           codesignID:nil];
     }
 }

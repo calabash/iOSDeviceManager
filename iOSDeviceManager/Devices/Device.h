@@ -15,6 +15,7 @@
                            deviceID:(NSString *)deviceID;
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
                          deviceID:(NSString *)deviceID
+                        updateApp:(BOOL)updateApp
                        codesignID:(NSString *)codesignID;
 + (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID
                              deviceID:(NSString *)deviceID;
