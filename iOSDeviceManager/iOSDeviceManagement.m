@@ -10,12 +10,14 @@
 int start_test(const char *deviceID,
                const char *testRunnerPath,
                const char *testBundlePath,
-               const char *codesignID) {
+               const char *codesignID,
+               int updateRunner) {
     @autoreleasepool {
         return [Device startTestOnDevice:STR(deviceID)
                           testRunnerPath:STR(testRunnerPath)
                           testBundlePath:STR(testBundlePath)
                         codesignIdentity:STR(codesignID)
+                        updateTestRunner:updateRunner
                                keepAlive:YES];
     }
 }
@@ -26,6 +28,7 @@ int install_app(const char *pathToBundle,
     @autoreleasepool {
         return [Device installApp:STR(pathToBundle)
                          deviceID:STR(deviceID)
+                        updateApp:YES
                        codesignID:STR(codesignID)];
     }
 }

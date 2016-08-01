@@ -5,14 +5,81 @@
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import <FBDeviceControl/FBDeviceControl.h>
 #import "ShellRunner.h"
+#import "AppUtils.h"
 
 @implementation Simulator
 static FBSimulatorControl *_control;
+
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
+                                       deviceID:(NSString *)deviceID {
+    return [self infoPlistForInstalledBundleID:bundleID
+                                        device:[self simulatorWithDeviceID:deviceID]];
+}
+
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID device:(FBSimulator *)device {
+    FBApplicationDescriptor *installed = [device installedApplicationWithBundleID:bundleID error:nil];
+    if (!installed) {
+        return nil;
+    }
+    NSString *plistPath = [installed.path stringByAppendingPathComponent:@"Info.plist"];
+    return [NSDictionary dictionaryWithContentsOfFile:plistPath];
+}
+
++ (iOSReturnStatusCode)updateInstalledAppIfNecessary:(NSString *)bundlePath
+                                              device:(FBSimulator *)device {
+    NSError *e;
+    FBProductBundle *newApp = [[[FBProductBundleBuilder builder]
+                                withBundlePath:bundlePath]
+                               buildWithError:&e];
+    
+    if (e) {
+        NSLog(@"Unable to create product bundle for application at %@: %@", bundlePath, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    FBApplicationDescriptor *installed = [device installedApplicationWithBundleID:newApp.bundleID error:&e];
+    if (!installed || e) {
+        NSLog(@"Error retrieving installed application %@: %@", newApp.bundleID, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
+    NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
+    
+    NSDictionary *oldPlist = [self infoPlistForInstalledBundleID:newApp.bundleID
+                                                          device:device];
+    
+    if (!newPlist) {
+        NSLog(@"Unable to locate Info.plist in app bundle: %@", bundlePath);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    if (!oldPlist) {
+        NSLog(@"Unable to locate Info.plist in app bundle: %@", installed.path);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
+        NSLog(@"Installed version is different, attempting to update %@.", installed.bundleID);
+        iOSReturnStatusCode ret = [self uninstallApp:newApp.bundleID deviceID:device.udid];
+        if (ret != iOSReturnStatusCodeEverythingOkay) {
+            return ret;
+        }
+        return [self installApp:bundlePath
+                       deviceID:device.udid
+                      updateApp:YES
+                     codesignID:@""];
+    } else {
+        NSLog(@"Latest version of %@ is installed, not reinstalling.", installed.bundleID);
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
+}
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
                         codesignIdentity:(NSString *)codesignIdentity
+                        updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive {
     if (![TestParameters isSimulatorID:deviceID]) {
         NSLog(@"'%@' is not a valid sim ID", deviceID);
@@ -33,8 +100,14 @@ static FBSimulatorControl *_control;
     }
     
     FBApplicationDescriptor *app = [self app:testRunnerPath];
+    if ([self appIsInstalled:app.bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
+        [[simulator.interact installApplication:app] perform:&e];
+    } else if (updateTestRunner) {
+        [self updateInstalledAppIfNecessary:testRunnerPath device:simulator];
+    } else {
+        NSLog(@"Skipping test app installation; user passed --update=false");
+    }
     
-    [[simulator.interact installApplication:app] perform:&e];
     if (e) {
         NSLog(@"Unable to install application %@ to %@: %@", app.bundleID, deviceID, e);
         return iOSReturnStatusCodeGenericFailure;
@@ -215,6 +288,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
                          deviceID:(NSString *)deviceID
+                        updateApp:(BOOL)updateApp
                        codesignID:(NSString *)codesignID {
     if (![TestParameters isSimulatorID:deviceID]) {
         NSLog(@"'%@' is not a valid sim ID", deviceID);
@@ -231,7 +305,16 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return iOSReturnStatusCodeGenericFailure;
     }
     FBApplicationDescriptor *app = [self app:pathToBundle];
-    [[simulator.interact installApplication:app] perform:&e];
+    
+    if ([self appIsInstalled:app.bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
+        [[simulator.interact installApplication:app] perform:&e];
+    } else if (updateApp) {
+        iOSReturnStatusCode ret = [self updateInstalledAppIfNecessary:pathToBundle device:simulator];
+        if (ret != iOSReturnStatusCodeEverythingOkay) {
+            return ret;
+        }
+    }
+    
     if (e) {
         NSLog(@"Error installing %@ to %@: %@", app.bundleID, deviceID, e);
         return iOSReturnStatusCodeInternalError;

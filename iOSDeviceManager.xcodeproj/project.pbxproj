@@ -94,6 +94,11 @@
 		892DE5331D23ED6C00E1902C /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5321D23ED6C00E1902C /* CLITests.m */; };
 		892DE53F1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */; };
 		892DE5421D23FE8700E1902C /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */; };
+		89B50D7F1D466BB800F34D67 /* AppUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 89B50D7D1D466BB800F34D67 /* AppUtils.h */; };
+		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
+		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
+		89B50D821D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
+		89B50D841D46775400F34D67 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D831D46775400F34D67 /* AppUtilTests.m */; };
 		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
@@ -175,6 +180,9 @@
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B397131D25D83A00050DAD /* TestCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestCommon.h; path = iOSDeviceManagerTests/TestCommon.h; sourceTree = SOURCE_ROOT; };
+		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; };
+		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; };
+		89B50D831D46775400F34D67 /* AppUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtilTests.m; path = iOSDeviceManager/Utilities/AppUtilTests.m; sourceTree = SOURCE_ROOT; };
 		89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
@@ -309,6 +317,8 @@
 				892DE4B91D22F85F00E1902C /* Codesigner.m */,
 				892DE4BA1D22F85F00E1902C /* ShellRunner.h */,
 				892DE4BB1D22F85F00E1902C /* ShellRunner.m */,
+				89B50D7D1D466BB800F34D67 /* AppUtils.h */,
+				89B50D7E1D466BB800F34D67 /* AppUtils.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -321,6 +331,7 @@
 				89B397131D25D83A00050DAD /* TestCommon.h */,
 				892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */,
 				892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */,
+				89B50D831D46775400F34D67 /* AppUtilTests.m */,
 			);
 			name = iOSDeviceManagerTests;
 			path = TestControlTests;
@@ -354,6 +365,7 @@
 			files = (
 				892A93C71D392ED000154F08 /* StopSimulatingLocationCommand.h in Headers */,
 				892A93CB1D39347B00154F08 /* SimulateLocationCommand.h in Headers */,
+				89B50D7F1D466BB800F34D67 /* AppUtils.h in Headers */,
 				892DE4B41D22F85400E1902C /* TestParameters.h in Headers */,
 				892DE4DD1D22F97A00E1902C /* CLI.h in Headers */,
 				892DE5021D236CE400E1902C /* LaunchSimulatorCommand.h in Headers */,
@@ -499,6 +511,7 @@
 				892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				892DE4F61D23109000E1902C /* CommandOption.m in Sources */,
 				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				89B50D801D466BB800F34D67 /* AppUtils.m in Sources */,
 				892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */,
 				892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
@@ -525,6 +538,7 @@
 				892DE5231D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				892DE4B71D22F85400E1902C /* TestParameters.m in Sources */,
 				892DE50B1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				89B50D821D466BB800F34D67 /* AppUtils.m in Sources */,
 				892DE4D01D22F87000E1902C /* iOSDeviceManagement.m in Sources */,
 				892DE5111D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4A51D22F84200E1902C /* Simulator.m in Sources */,
@@ -555,12 +569,14 @@
 				892DE4EB1D230F5F00E1902C /* Command.m in Sources */,
 				892DE5331D23ED6C00E1902C /* CLITests.m in Sources */,
 				892DE4C01D22F85F00E1902C /* Codesigner.m in Sources */,
+				89B50D841D46775400F34D67 /* AppUtilTests.m in Sources */,
 				892DE4A01D22F84200E1902C /* PhysicalDevice.m in Sources */,
 				892DE4CF1D22F87000E1902C /* iOSDeviceManagement.m in Sources */,
 				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
 				892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */,
+				89B50D811D466BB800F34D67 /* AppUtils.m in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,

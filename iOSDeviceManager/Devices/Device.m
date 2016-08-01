@@ -14,32 +14,38 @@
                           testRunnerPath:(NSString *)testRunnerPath
                           testBundlePath:(NSString *)testBundlePath
                         codesignIdentity:(NSString *)codesignIdentity
+                        updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive {
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice startTestOnDevice:deviceID
                                   testRunnerPath:testRunnerPath
                                   testBundlePath:testBundlePath
                                 codesignIdentity:codesignIdentity
+                                updateTestRunner:updateTestRunner
                                        keepAlive:keepAlive];
     } else {
         return [Simulator startTestOnDevice:deviceID
                              testRunnerPath:testRunnerPath
                              testBundlePath:testBundlePath
                            codesignIdentity:codesignIdentity
+                           updateTestRunner:updateTestRunner
                                   keepAlive:keepAlive];
     }
 }
 
 + (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
                          deviceID:(NSString *)deviceID
+                        updateApp:(BOOL)updateApp
                        codesignID:(NSString *)codesignID {
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice installApp:pathToBundle
                                  deviceID:deviceID
+                                updateApp:updateApp
                                codesignID:codesignID];
     } else {
         return [Simulator installApp:pathToBundle
                             deviceID:deviceID
+                           updateApp:updateApp
                           codesignID:nil];
     }
 }
@@ -73,6 +79,17 @@
         return [PhysicalDevice setLocation:deviceID
                                        lat:lat
                                        lng:lng];
+    }
+}
+
++ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
+                                       deviceID:(NSString *)deviceID {
+    if ([TestParameters isSimulatorID:deviceID]) {
+        return [Simulator infoPlistForInstalledBundleID:bundleID
+                                               deviceID:deviceID];
+    } else {
+        return [Device infoPlistForInstalledBundleID:bundleID
+                                            deviceID:deviceID];
     }
 }
 

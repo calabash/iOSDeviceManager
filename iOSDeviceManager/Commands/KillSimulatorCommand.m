@@ -17,7 +17,7 @@ static NSString *const DEVICE_ID_FLAG = @"-d";
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
-                                                   info:@"iOS Simulator GUID or 40-digit physical device ID"
+                                                   info:@"iOS Simulator GUIDs"
                                                required:YES]];
     });
     return options;

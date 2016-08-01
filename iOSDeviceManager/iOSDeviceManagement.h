@@ -7,6 +7,7 @@
  @param testRunnerPath absolute path to test runner app (DeviceAgent app bundle)
  @param testBundlePath absolute path to test bundle (CBX.xctest) 
  @param codesignID Identity used to codesign (for sims, this value is ignored).
+ @param updateRunner Reinstalls test runner if out of date
  @return 0 on success
  
  Starts XC(UI)Test bundle specified by `testBundlePath` via the app specified by `testRunnerPath`.
@@ -18,7 +19,8 @@
 int start_test(const char *deviceID,
                const char *testRunnerPath,
                const char *testBundlePath,
-               const char *codesignID);
+               const char *codesignID,
+               int updateRunner);
 
 /**
  Launch simulator by ID
