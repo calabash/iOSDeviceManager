@@ -104,6 +104,8 @@ static FBSimulatorControl *_control;
         [[simulator.interact installApplication:app] perform:&e];
     } else if (updateTestRunner) {
         [self updateInstalledAppIfNecessary:testRunnerPath device:simulator];
+    } else {
+        NSLog(@"Skipping test app installation; user passed --update=false");
     }
     
     if (e) {
