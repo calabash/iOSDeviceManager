@@ -23,4 +23,29 @@
     return NO;
 }
 
++ (NSString *)copyAppBundle:(NSString *)bundlePath {
+    NSError *e;
+    NSString *tempPath = [NSTemporaryDirectory() stringByAppendingPathComponent:
+                          [[NSProcessInfo processInfo] globallyUniqueString]];
+    [[NSFileManager defaultManager] createDirectoryAtPath:tempPath
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:&e];
+    
+    if (e) {
+        NSLog(@"Error creating dir at path %@: %@", bundlePath, e);
+        return nil;
+    }
+
+    NSString *newBundlePath = [tempPath stringByAppendingPathComponent:bundlePath.lastPathComponent];
+    [[NSFileManager defaultManager] copyItemAtPath:bundlePath
+                                            toPath:newBundlePath
+                                             error:&e];
+    if (e) {
+        NSLog(@"Error copying bundle from %@ to %@: %@", bundlePath, tempPath, e);
+        return nil;
+    }
+    return newBundlePath;
+}
+
 @end

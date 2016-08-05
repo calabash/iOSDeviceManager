@@ -1,6 +1,7 @@
 
 #import "PhysicalDevice.h"
 #import "ShellRunner.h"
+#import "AppUtils.h"
 #import "Simulator.h"
 
 @implementation Device
@@ -16,17 +17,21 @@
                         codesignIdentity:(NSString *)codesignIdentity
                         updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive {
+    
+    NSString *runner = [AppUtils copyAppBundle:testRunnerPath],
+        *testBundle = [AppUtils copyAppBundle:testBundlePath];
+    
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice startTestOnDevice:deviceID
-                                  testRunnerPath:testRunnerPath
-                                  testBundlePath:testBundlePath
+                                  testRunnerPath:runner
+                                  testBundlePath:testBundle
                                 codesignIdentity:codesignIdentity
                                 updateTestRunner:updateTestRunner
                                        keepAlive:keepAlive];
     } else {
         return [Simulator startTestOnDevice:deviceID
-                             testRunnerPath:testRunnerPath
-                             testBundlePath:testBundlePath
+                             testRunnerPath:runner
+                             testBundlePath:testBundle
                            codesignIdentity:codesignIdentity
                            updateTestRunner:updateTestRunner
                                   keepAlive:keepAlive];

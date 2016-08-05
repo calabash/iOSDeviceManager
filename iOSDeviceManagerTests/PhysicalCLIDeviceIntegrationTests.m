@@ -8,7 +8,7 @@
 @implementation PhysicalDeviceCLIIntegrationTests
 
 - (void)setUp {
-    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b2/Xcode-beta.app/Contents/Developer", YES);
+    setenv("DEVELOPER_DIR", "/Users/chrisf/Xcodes/8b4/Xcode-beta.app/Contents/Developer", YES);
 }
 
 - (void)testStartTest {
@@ -18,7 +18,7 @@
                       @"-r", deviceTestRunnerPath,
                       @"-c", codesignIdentity,
                       @"-u", @"YES",
-                      @"-k", @"NO"];
+                      @"-k", @"YES"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
