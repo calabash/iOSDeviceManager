@@ -2,6 +2,7 @@
 
 require 'date'
 require 'json'
+require "fileutils"
 
 CLEAN_RUNNER=ENV["CLEAN_RUNNER"] == "1"
 
