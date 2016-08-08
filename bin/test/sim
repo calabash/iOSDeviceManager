@@ -36,7 +36,10 @@ def banner(msg)
 end
 
 BIN="./Distribution/dependencies/bin/iOSDeviceManager"
-OUTDIR="results"
+RESULTS_DIR=File.expand_path("results")
+
+FileUtils.rm_rf(RESULTS_DIR)
+FileUtils.mkdir(RESULTS_DIR)
 
 def device_agent_dir
   ENV["DEVICEAGENT_PATH"] ||
@@ -209,7 +212,7 @@ sim_ids.each do |sim_id|
 end
 
 output = JSON.pretty_generate(sims)
-outfile = File.join OUTDIR, "#{DateTime.now.to_s}.sim.json"
+outfile = File.join(RESULTS_DIR, "#{DateTime.now.to_s}.sim.json")
 File.open(outfile,"w") do |f|
   f.write(output)
 end
