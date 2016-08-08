@@ -51,8 +51,8 @@ def test_bundle
   File.join(test_runner, "PlugIns", "CBX.xctest")
 end
 
-def unit_test_app
-  File.join(device_agent_dir, "Products", "app", "UnitTestApp", "UnitTestApp.app")
+def test_app
+  File.join(device_agent_dir, "Products", "app", "TestApp", "TestApp.app")
 end
 
 def expect_device_agent_dir
@@ -89,24 +89,24 @@ def ensure_runner_and_bundle
   log_info("Bundle: #{test_bundle}")
 end
 
-def ensure_unit_test_app
-  banner("UnitTestApp")
-  if !File.exist?(unit_test_app)
-    log_info("Building UnitTestApp.app")
+def ensure_test_app
+  banner("TestApp")
+  if !File.exist?(test_app)
+    log_info("Building TestApp.app")
     Dir.chdir(device_agent_dir) do
-      `make app-unit`
+      `make test-app`
       if $? != 0
-        raise "Could not build UnitTestApp.app"
+        raise "Could not build TestApp.app"
       end
     end
   end
 
-  log_info("UnitTestApp: #{unit_test_app}")
+  log_info("TestApp: #{test_app}")
 end
 
 expect_device_agent_dir
 ensure_runner_and_bundle
-ensure_unit_test_app
+ensure_test_app
 
 def sys(cmd)
   log_unix_cmd(cmd)
@@ -125,7 +125,7 @@ end
 
 def install(sim_id)
   log_info "Install to #{sim_id}"
-  sys "#{BIN} install -d #{sim_id} -a #{unit_test_app}"
+  sys "#{BIN} install -d #{sim_id} -a #{test_app}"
 end
 
 def uninstall(sim_id)
