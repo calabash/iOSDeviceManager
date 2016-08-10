@@ -5,13 +5,22 @@ set -e
 source bin/log_functions.sh
 
 DEP_STAGING_DIR=Distribution/dependencies
-NUGET_DIR=Distribution/DeviceAgent.iOS.Dependencies/DeviceAgent.iOS.Dependencies
-NUGET_DEP_DIR="${NUGET_DIR}/dependencies"
-NUSPEC="${NUGET_DIR}"/DeviceAgent.iOS.nuspec
+NUGET_DIR=Distribution/DeviceAgent.iOS.Dependencies
+NUGET_DEP_ZIP="${NUGET_DIR}/dependencies.zip"
+VERSION_FILE=Distribution/version.txt
+VERSION=`cat ${VERSION_FILE}`
 
-rm -rf "${NUGET_DEP_DIR}" 
-cp -r "${DEP_STAGING_DIR}" "${NUGET_DEP_DIR}"
+rm -f "${NUGET_DEP_ZIP}"
+zip -qr "${NUGET_DEP_ZIP}" "${DEP_STAGING_DIR}"
+cp -f "${VERSION_FILE}" "${NUGET_DIR}"
 
-nuget pack "${NUSPEC}" -Version `cat Distribution/version.txt`
+CURRENT_DIR=$PWD
 
-info "Built Nuget package to ${NUGET_DIR}"
+cd "${NUGET_DIR}"
+
+dotnet version "${VERSION}"
+dotnet pack -c Release
+
+cd "${CURRENT_DIR}"
+
+info "Built Nuget package ${NUGET_DIR}"
