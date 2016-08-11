@@ -63,7 +63,7 @@ namespace DeviceAgent.iOS.Dependencies
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "/usr/bin/unzip",
-                    Arguments = $"{tempZipPath} -d {directory}", 
+                    Arguments = $"-q {tempZipPath} -d {directory}", 
                     UseShellExecute = false,
                     CreateNoWindow = true
                 }
