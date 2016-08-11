@@ -6,15 +6,23 @@ source bin/log_functions.sh
 
 DEP_STAGING_DIR=Distribution/dependencies
 NUGET_DIR=Distribution/DeviceAgent.iOS.Dependencies
-NUGET_DEP_ZIP="${NUGET_DIR}/dependencies.zip"
+DEP_ZIP=dependencies.zip
 VERSION_FILE=Distribution/version.txt
 VERSION=`cat ${VERSION_FILE}`
+CURRENT_DIR=$PWD
 
 rm -f "${NUGET_DEP_ZIP}"
-zip -qr "${NUGET_DEP_ZIP}" "${DEP_STAGING_DIR}"
 cp -f "${VERSION_FILE}" "${NUGET_DIR}"
 
-CURRENT_DIR=$PWD
+cd "${DEP_STAGING_DIR}"
+
+info "Zipping up dependencies"
+
+zip -qr "${DEP_ZIP}" *
+
+cd "${CURRENT_DIR}"
+
+mv "${DEP_STAGING_DIR}/${DEP_ZIP}" "${NUGET_DIR}"
 
 cd "${NUGET_DIR}"
 
