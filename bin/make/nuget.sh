@@ -26,9 +26,11 @@ mv "${DEP_STAGING_DIR}/${DEP_ZIP}" "${NUGET_DIR}"
 
 cd "${NUGET_DIR}"
 
-dotnet version "${VERSION}"
-dotnet pack -c Release
+info "Building Nuget package"
+
+dotnet version "${VERSION}" > /dev/null
+dotnet pack -c Release > /dev/null
 
 cd "${CURRENT_DIR}"
 
-info "Built Nuget package ${NUGET_DIR}"
+info "Built Nuget package ${NUGET_DIR} v${VERSION}"
