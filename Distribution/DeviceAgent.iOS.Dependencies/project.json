@@ -1,5 +1,12 @@
 {
   "version": "0.1",
+  "description": "DeviceAgent.iOS, iOSDeviceManager, and required frameworks",
+  "authors": [
+    "Chris Fuentes",
+    "Jon Stoneman",
+    "Joshua Moody"
+  ],
+  "copyright": "2016",
   "buildOptions": {
     "debugType": "portable",
     "embed": [
@@ -24,5 +31,13 @@
   },
   "tools": {
     "dotnet-version": "1.1.0"
+  },
+  "packOptions": {
+    "licenseUrl": "https://github.com/calabash/DeviceAgent.iOS/blob/master/LICENSE",
+    "projectUrl": "https://calaba.sh",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/calabash/iOSDeviceManager"
+    }
   }
 }
