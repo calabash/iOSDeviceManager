@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Reflection;
 using System.Text;
 
-namespace DeviceAgent.iOS
+namespace DeviceAgent.iOS.Dependencies
 {
 
     public static class DeploymentManager
     {
         const string VersionFileName = "version.txt";
-        
-        static Lazy<Version> _Version = new Lazy<Version>(() => {
-            var assembly = typeof(DeploymentManager).GetTypeInfo().Assembly;
 
-            using (var versionStream = assembly.GetManifestResourceStream("DeviceAgent.iOS.version.txt"))
+        const string VersionResource = "DeviceAgent.iOS.Dependencies.version.txt";
+        const string DependenciesResource = "DeviceAgent.iOS.Dependencies.dependencies.zip";
+        
+        static Lazy<Version> _version = new Lazy<Version>(() => {
+            using (var versionStream = MyAssembly.GetManifestResourceStream(VersionResource))
             {
                 using (var reader = new StreamReader(versionStream, Encoding.UTF8))
                 {
@@ -23,7 +24,15 @@ namespace DeviceAgent.iOS
             }
         });
 
-        public static string PathToiOSDeviceManager => "bin/iOSDeviceManager";
+        static Assembly MyAssembly => typeof(DeploymentManager).GetTypeInfo().Assembly;
+
+        public static Version DeviceAgentVersion =>  _version.Value;
+
+        public static string PathToiOSDeviceManager { get; } = Path.Combine("bin", "iOSDeviceManager");
+
+        public static string PathToTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
+
+        public static string PathToTestBundle { get; } = Path.Combine(PathToTestRunner, "PlugIns", "CBX.xctest");
 
         public static void InstallOrUpdateIfNecessary(string directory)
         {
@@ -32,20 +41,46 @@ namespace DeviceAgent.iOS
                 return;
             }
 
-            var assembly = typeof(DeploymentManager).GetTypeInfo().Assembly;
-
-            using (var zipStream = assembly.GetManifestResourceStream("DeviceAgent.iOS.dependencies.zip"))
+            if (Directory.Exists(directory))
             {
-                using (var zipArchive = new System.IO.Compression.ZipArchive(zipStream))
+                Directory.Delete(directory, true);
+            }
+
+            Directory.CreateDirectory(directory);
+
+            var tempZipPath = Path.Combine(directory, "dependencies.zip");
+
+            using (var versionStream = MyAssembly.GetManifestResourceStream(DependenciesResource))
+            {
+                using (var tempZip = File.Create(tempZipPath))
                 {
-                    foreach (var entry in zipArchive.Entries)
-                    {
-                        entry.ExtractToFile(Path.Combine(directory, entry.FullName));
-                    }
+                    versionStream.CopyTo(tempZip);
                 }
             }
 
-            File.WriteAllText(Path.Combine(directory, VersionFileName), _Version.Value.ToString());
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/usr/bin/unzip",
+                    Arguments = $"{tempZipPath} -d {directory}", 
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+
+            process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                throw new IOException("Unpacking dependencies failed");
+            }
+
+            File.Delete(tempZipPath);
+
+            File.WriteAllText(Path.Combine(directory, VersionFileName), DeviceAgentVersion.ToString());
         }
 
         static bool IsUpToDate(string directory)
@@ -58,7 +93,7 @@ namespace DeviceAgent.iOS
                 {
                     var currentVersion = new Version(textReader.ReadToEnd());
 
-                    if (currentVersion >= _Version.Value)
+                    if (currentVersion >= DeviceAgentVersion)
                     {
                         return true;
                     }
