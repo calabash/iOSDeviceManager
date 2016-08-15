@@ -1,26 +1,14 @@
-#Autosave files
-*~
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
 
-# Build/test output
-obj
-bin
-test-results
+project.lock.json
 
-# VS sometimes writes these for no apparent reason
-_UpgradeReport_Files
-UpgradeLog.*
-
-# Per-user data
-*.DS_Store
-*.sln.cache
-*.suo
-*.userprefs
-*.usertasks
-*.user
-
-# ReSharper
-*_Resharper.*
-*.Resharper
-
-# dotCover
-*.dotCover
+dependencies.zip
+version.txt
