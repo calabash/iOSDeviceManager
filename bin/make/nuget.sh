@@ -29,6 +29,7 @@ cd "${NUGET_DIR}"
 info "Building Nuget package"
 
 dotnet version "${VERSION}" > /dev/null
+dotnet restore >/dev/null
 dotnet pack -c Release > /dev/null
 
 cd "${CURRENT_DIR}"
