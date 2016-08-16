@@ -49,7 +49,7 @@ set_location
 
 Starting in Xcode 8, a code signing identity is required for building.
 
-Project maintainers must clone the [codesign](https://github.com/calabash-codesign)
+Project maintainers must clone the [codesign](https://github.com/calabash/calabash-codesign)
 repo and install the certs/identity. Talk to @jmoody or @sapieneptus
 for details.
 
