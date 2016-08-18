@@ -31,9 +31,13 @@ namespace DeviceAgent.iOS.Dependencies
 
         public static string PathToiOSDeviceManager { get; } = Path.Combine("bin", "iOSDeviceManager");
 
-        public static string PathToTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
+        public static string PathToDeviceTestRunner { get; } = Path.Combine("ipa", "CBX-Runner.app");
 
-        public static string PathToTestBundle { get; } = Path.Combine(PathToTestRunner, "PlugIns", "CBX.xctest");
+        public static string PathToSimTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
+
+        public static string PathToDeviceTestBundle { get; } = Path.Combine(PathToDeviceTestRunner, "PlugIns", "CBX.xctest");
+        
+        public static string PathToSimTestBundle { get; } = Path.Combine(PathToSimTestRunner, "PlugIns", "CBX.xctest");
 
         public static void InstallOrUpdateIfNecessary(string directory)
         {
