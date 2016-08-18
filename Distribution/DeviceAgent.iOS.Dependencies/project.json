@@ -14,7 +14,9 @@
       "version.txt"
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "semver": "2.0.4"
+  },
   "frameworks": {
     "net451": {
       "frameworkAssemblies": {}
