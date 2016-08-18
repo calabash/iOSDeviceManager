@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.1.0-beta5",
   "description": "DeviceAgent.iOS, iOSDeviceManager, and required frameworks",
   "authors": [
     "Chris Fuentes",
