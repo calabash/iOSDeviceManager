@@ -36,7 +36,7 @@ namespace DeviceAgent.iOS.Dependencies
         public static string PathToSimTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
 
         public static string PathToDeviceTestBundle { get; } = Path.Combine(PathToDeviceTestRunner, "PlugIns", "CBX.xctest");
-        
+
         public static string PathToSimTestBundle { get; } = Path.Combine(PathToSimTestRunner, "PlugIns", "CBX.xctest");
 
         public static void InstallOrUpdateIfNecessary(string directory)
@@ -80,7 +80,8 @@ namespace DeviceAgent.iOS.Dependencies
 
             if (process.ExitCode != 0)
             {
-                throw new IOException("Unpacking dependencies failed");
+                throw new IOException(
+                    $"Unpacking dependencies failed: {process.StartInfo.FileName} {process.StartInfo.Arguments}");
             }
 
             File.Delete(tempZipPath);
