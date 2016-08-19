@@ -173,16 +173,16 @@
 		892DE5191D237B2B00E1902C /* UninstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UninstallAppCommand.m; path = iOSDeviceManager/Commands/UninstallAppCommand.m; sourceTree = SOURCE_ROOT; };
 		892DE51E1D237E7700E1902C /* IsInstalledCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IsInstalledCommand.h; path = iOSDeviceManager/Commands/IsInstalledCommand.h; sourceTree = SOURCE_ROOT; };
 		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; };
-		892DE5241D23ED0600E1902C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = iOSDeviceManagerTests/Info.plist; sourceTree = SOURCE_ROOT; };
-		892DE5321D23ED6C00E1902C /* CLITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CLITests.m; path = iOSDeviceManagerTests/CLITests.m; sourceTree = SOURCE_ROOT; };
-		892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalCLIDeviceIntegrationTests.m; path = iOSDeviceManagerTests/PhysicalCLIDeviceIntegrationTests.m; sourceTree = SOURCE_ROOT; };
-		892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorCLIIntegrationTests.m; path = iOSDeviceManagerTests/SimulatorCLIIntegrationTests.m; sourceTree = SOURCE_ROOT; };
+		892DE5241D23ED0600E1902C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
+		892DE5321D23ED6C00E1902C /* CLITests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CLITests.m; path = Tests/CLITests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalCLIDeviceIntegrationTests.m; path = Tests/PhysicalCLIDeviceIntegrationTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorCLIIntegrationTests.m; path = Tests/SimulatorCLIIntegrationTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		89B397131D25D83A00050DAD /* TestCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestCommon.h; path = iOSDeviceManagerTests/TestCommon.h; sourceTree = SOURCE_ROOT; };
+		89B397131D25D83A00050DAD /* TestCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = TestCommon.h; path = Tests/TestCommon.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; };
-		89B50D831D46775400F34D67 /* AppUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtilTests.m; path = iOSDeviceManager/Utilities/AppUtilTests.m; sourceTree = SOURCE_ROOT; };
+		89B50D831D46775400F34D67 /* AppUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtilTests.m; path = iOSDeviceManager/Utilities/AppUtilTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
@@ -257,7 +257,7 @@
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
-				89EF4ACA1CFA614F006DCDC5 /* iOSDeviceManagerTests */,
+				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				F5169D271CFEAE5900252F52 /* vendor-licenses */,
 			);
@@ -323,7 +323,7 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
-		89EF4ACA1CFA614F006DCDC5 /* iOSDeviceManagerTests */ = {
+		89EF4ACA1CFA614F006DCDC5 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				892DE5241D23ED0600E1902C /* Info.plist */,
@@ -333,8 +333,7 @@
 				892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */,
 				89B50D831D46775400F34D67 /* AppUtilTests.m */,
 			);
-			name = iOSDeviceManagerTests;
-			path = TestControlTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		89F6DB391D37F75F006A0FD5 /* Frameworks */ = {
