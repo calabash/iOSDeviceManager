@@ -7,12 +7,16 @@ source bin/log_functions.sh
 DEP_STAGING_DIR=Distribution/dependencies
 NUGET_DIR=Distribution/DeviceAgent.iOS.Dependencies
 DEP_ZIP=dependencies.zip
-VERSION_FILE=Distribution/version.txt
-VERSION=`cat ${VERSION_FILE}`
+VERSION=`cat Distribution/version.txt`
 CURRENT_DIR=$PWD
 
 rm -f "${NUGET_DEP_ZIP}"
-cp -f "${VERSION_FILE}" "${NUGET_DIR}"
+
+/usr/bin/find ${DEP_STAGING_DIR} -type f -exec /sbin/md5 {} + \
+  | /usr/bin/awk '{print $4}' \
+  | /usr/bin/sort \
+  | /sbin/md5 \
+  > "${NUGET_DIR}/hash.txt"
 
 cd "${DEP_STAGING_DIR}"
 

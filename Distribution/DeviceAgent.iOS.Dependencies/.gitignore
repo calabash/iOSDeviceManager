@@ -11,4 +11,4 @@ bld/
 project.lock.json
 
 dependencies.zip
-version.txt
+hash.txt

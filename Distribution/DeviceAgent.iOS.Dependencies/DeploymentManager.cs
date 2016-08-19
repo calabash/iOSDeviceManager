@@ -3,31 +3,28 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Semver;
 
 namespace DeviceAgent.iOS.Dependencies
 {
 
     public static class DeploymentManager
     {
-        const string VersionFileName = "version.txt";
-
-        const string VersionResource = "DeviceAgent.iOS.Dependencies.version.txt";
+        const string HashResource = "DeviceAgent.iOS.Dependencies.hash.txt";
         const string DependenciesResource = "DeviceAgent.iOS.Dependencies.dependencies.zip";
         
-        static Lazy<SemVersion> _version = new Lazy<SemVersion>(() => {
-            using (var versionStream = MyAssembly.GetManifestResourceStream(VersionResource))
+        static Lazy<string> _hash = new Lazy<string>(() => {
+            using (var versionStream = MyAssembly.GetManifestResourceStream(HashResource))
             {
                 using (var reader = new StreamReader(versionStream, Encoding.UTF8))
                 {
-                    return SemVersion.Parse(reader.ReadToEnd());
+                    return reader.ReadToEnd().Trim();
                 }
             }
         });
 
         static Assembly MyAssembly => typeof(DeploymentManager).GetTypeInfo().Assembly;
 
-        public static SemVersion DeviceAgentVersion =>  _version.Value;
+        public static string HashId =>  _hash.Value;
 
         public static string PathToiOSDeviceManager { get; } = Path.Combine("bin", "iOSDeviceManager");
 
@@ -39,27 +36,25 @@ namespace DeviceAgent.iOS.Dependencies
 
         public static string PathToSimTestBundle { get; } = Path.Combine(PathToSimTestRunner, "PlugIns", "CBX.xctest");
 
-        public static void InstallOrUpdateIfNecessary(string directory)
+        public static void Install(string directory)
         {
-            if (IsUpToDate(directory))
+            if (!Directory.Exists(directory))
             {
-                return;
+                Directory.CreateDirectory(directory);
             }
 
-            if (Directory.Exists(directory))
+            if (Directory.GetFiles(directory).Length > 0)
             {
-                Directory.Delete(directory, true);
+                throw new InvalidOperationException($"Directory {directory} is not empty");
             }
-
-            Directory.CreateDirectory(directory);
 
             var tempZipPath = Path.Combine(directory, "dependencies.zip");
 
-            using (var versionStream = MyAssembly.GetManifestResourceStream(DependenciesResource))
+            using (var dependenciesStream = MyAssembly.GetManifestResourceStream(DependenciesResource))
             {
                 using (var tempZip = File.Create(tempZipPath))
                 {
-                    versionStream.CopyTo(tempZip);
+                    dependenciesStream.CopyTo(tempZip);
                 }
             }
 
@@ -85,28 +80,6 @@ namespace DeviceAgent.iOS.Dependencies
             }
 
             File.Delete(tempZipPath);
-
-            File.WriteAllText(Path.Combine(directory, VersionFileName), DeviceAgentVersion.ToString());
-        }
-
-        static bool IsUpToDate(string directory)
-        {
-            var versionFile = Path.Combine(directory, VersionFileName);
-
-            if (File.Exists(versionFile))
-            {
-                using (var textReader = File.OpenText(versionFile))
-                {
-                    var currentVersion = SemVersion.Parse(textReader.ReadToEnd());
-
-                    if (currentVersion >= _version.Value)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
     }
 }
