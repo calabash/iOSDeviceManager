@@ -44,8 +44,10 @@ HERE=$(pwd)
 (cd "${DEVICEAGENT_PATH}";
  make app-agent;
  make ipa-agent;
- cp -r Products/ipa/DeviceAgent/CBX-Runner.app "${HERE}/${OUTPUT_DIR}/ipa";
- cp -r Products/app/DeviceAgent/CBX-Runner.app "${HERE}/${OUTPUT_DIR}/app")
+ xcrun ditto Products/ipa/DeviceAgent/DeviceAgent-Runner.app \
+   "${HERE}/${OUTPUT_DIR}/ipa/DeviceAgent-Runner.app";
+ xcrun ditto Products/app/DeviceAgent/DeviceAgent-Runner.app \
+   "${HERE}/${OUTPUT_DIR}/app/DeviceAgent-Runner.app")
 
 cp LICENSE "${OUTPUT_DIR}"
 cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
