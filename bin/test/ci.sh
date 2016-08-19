@@ -41,5 +41,7 @@ export FBSIMCONTROL_PATH=./FBSimulatorControl
 export DEVICEAGENT_PATH=./DeviceAgent.iOS
 
 bin/make/dependencies.sh
-bin/test/sim
+
+# Disabling because they take too long to run
+#bin/test/sim
 
