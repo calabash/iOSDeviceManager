@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -135,44 +135,44 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimulateLocationCommand.h; path = iOSDeviceManager/Commands/SimulateLocationCommand.h; sourceTree = SOURCE_ROOT; };
-		892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimulateLocationCommand.m; path = iOSDeviceManager/Commands/SimulateLocationCommand.m; sourceTree = SOURCE_ROOT; };
-		892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StopSimulatingLocationCommand.h; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.h; sourceTree = SOURCE_ROOT; };
+		892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = SimulateLocationCommand.h; path = iOSDeviceManager/Commands/SimulateLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = SimulateLocationCommand.m; path = iOSDeviceManager/Commands/SimulateLocationCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = StopSimulatingLocationCommand.h; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StopSimulatingLocationCommand.m; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.m; sourceTree = SOURCE_ROOT; };
-		892DE4941D22F84200E1902C /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = iOSDeviceManager/Devices/Device.h; sourceTree = SOURCE_ROOT; };
-		892DE4951D22F84200E1902C /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = iOSDeviceManager/Devices/Device.m; sourceTree = SOURCE_ROOT; };
-		892DE4961D22F84200E1902C /* PhysicalDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicalDevice.h; path = iOSDeviceManager/Devices/PhysicalDevice.h; sourceTree = SOURCE_ROOT; };
-		892DE4971D22F84200E1902C /* PhysicalDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalDevice.m; path = iOSDeviceManager/Devices/PhysicalDevice.m; sourceTree = SOURCE_ROOT; };
-		892DE4981D22F84200E1902C /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Simulator.h; path = iOSDeviceManager/Devices/Simulator.h; sourceTree = SOURCE_ROOT; };
-		892DE4991D22F84200E1902C /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Simulator.m; path = iOSDeviceManager/Devices/Simulator.m; sourceTree = SOURCE_ROOT; };
-		892DE4AA1D22F85400E1902C /* TestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestParameters.h; path = iOSDeviceManager/TestParameters/TestParameters.h; sourceTree = SOURCE_ROOT; };
-		892DE4AB1D22F85400E1902C /* TestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestParameters.m; path = iOSDeviceManager/TestParameters/TestParameters.m; sourceTree = SOURCE_ROOT; };
-		892DE4B81D22F85F00E1902C /* Codesigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Codesigner.h; path = iOSDeviceManager/Utilities/Codesigner.h; sourceTree = SOURCE_ROOT; };
-		892DE4B91D22F85F00E1902C /* Codesigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Codesigner.m; path = iOSDeviceManager/Utilities/Codesigner.m; sourceTree = SOURCE_ROOT; };
-		892DE4BA1D22F85F00E1902C /* ShellRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellRunner.h; path = iOSDeviceManager/Utilities/ShellRunner.h; sourceTree = SOURCE_ROOT; };
-		892DE4BB1D22F85F00E1902C /* ShellRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellRunner.m; path = iOSDeviceManager/Utilities/ShellRunner.m; sourceTree = SOURCE_ROOT; };
-		892DE4CA1D22F87000E1902C /* iOSDeviceManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSDeviceManagement.h; path = iOSDeviceManager/iOSDeviceManagement.h; sourceTree = SOURCE_ROOT; };
-		892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iOSDeviceManagement.m; path = iOSDeviceManager/iOSDeviceManagement.m; sourceTree = SOURCE_ROOT; };
-		892DE4CC1D22F87000E1902C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOSDeviceManager/main.m; sourceTree = SOURCE_ROOT; };
-		892DE4DB1D22F97A00E1902C /* CLI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLI.h; path = iOSDeviceManager/Commands/CLI.h; sourceTree = SOURCE_ROOT; };
-		892DE4DC1D22F97A00E1902C /* CLI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CLI.m; path = iOSDeviceManager/Commands/CLI.m; sourceTree = SOURCE_ROOT; };
-		892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSDeviceManagementCommand.h; path = iOSDeviceManager/Commands/iOSDeviceManagementCommand.h; sourceTree = SOURCE_ROOT; };
-		892DE4E71D230F5F00E1902C /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Command.h; path = iOSDeviceManager/Commands/Command.h; sourceTree = SOURCE_ROOT; };
-		892DE4E81D230F5F00E1902C /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Command.m; path = iOSDeviceManager/Commands/Command.m; sourceTree = SOURCE_ROOT; };
-		892DE4F31D23109000E1902C /* CommandOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommandOption.h; path = iOSDeviceManager/Commands/CommandOption.h; sourceTree = SOURCE_ROOT; };
-		892DE4F41D23109000E1902C /* CommandOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommandOption.m; path = iOSDeviceManager/Commands/CommandOption.m; sourceTree = SOURCE_ROOT; };
-		892DE4FA1D23137100E1902C /* StartTestCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartTestCommand.h; path = iOSDeviceManager/Commands/StartTestCommand.h; sourceTree = SOURCE_ROOT; };
-		892DE4FB1D23137100E1902C /* StartTestCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartTestCommand.m; path = iOSDeviceManager/Commands/StartTestCommand.m; sourceTree = SOURCE_ROOT; };
-		892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LaunchSimulatorCommand.h; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.h; sourceTree = SOURCE_ROOT; };
-		892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchSimulatorCommand.m; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.m; sourceTree = SOURCE_ROOT; };
-		892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KillSimulatorCommand.h; path = iOSDeviceManager/Commands/KillSimulatorCommand.h; sourceTree = SOURCE_ROOT; };
-		892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KillSimulatorCommand.m; path = iOSDeviceManager/Commands/KillSimulatorCommand.m; sourceTree = SOURCE_ROOT; };
-		892DE50C1D237A0800E1902C /* InstallAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstallAppCommand.h; path = iOSDeviceManager/Commands/InstallAppCommand.h; sourceTree = SOURCE_ROOT; };
-		892DE50D1D237A0800E1902C /* InstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstallAppCommand.m; path = iOSDeviceManager/Commands/InstallAppCommand.m; sourceTree = SOURCE_ROOT; };
-		892DE5181D237B2B00E1902C /* UninstallAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UninstallAppCommand.h; path = iOSDeviceManager/Commands/UninstallAppCommand.h; sourceTree = SOURCE_ROOT; };
-		892DE5191D237B2B00E1902C /* UninstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UninstallAppCommand.m; path = iOSDeviceManager/Commands/UninstallAppCommand.m; sourceTree = SOURCE_ROOT; };
-		892DE51E1D237E7700E1902C /* IsInstalledCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IsInstalledCommand.h; path = iOSDeviceManager/Commands/IsInstalledCommand.h; sourceTree = SOURCE_ROOT; };
-		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; };
+		892DE4941D22F84200E1902C /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = iOSDeviceManager/Devices/Device.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4951D22F84200E1902C /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = iOSDeviceManager/Devices/Device.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4961D22F84200E1902C /* PhysicalDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = PhysicalDevice.h; path = iOSDeviceManager/Devices/PhysicalDevice.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4971D22F84200E1902C /* PhysicalDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalDevice.m; path = iOSDeviceManager/Devices/PhysicalDevice.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4981D22F84200E1902C /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Simulator.h; path = iOSDeviceManager/Devices/Simulator.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4991D22F84200E1902C /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = Simulator.m; path = iOSDeviceManager/Devices/Simulator.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4AA1D22F85400E1902C /* TestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = TestParameters.h; path = iOSDeviceManager/TestParameters/TestParameters.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4AB1D22F85400E1902C /* TestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = TestParameters.m; path = iOSDeviceManager/TestParameters/TestParameters.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4B81D22F85F00E1902C /* Codesigner.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Codesigner.h; path = iOSDeviceManager/Utilities/Codesigner.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4B91D22F85F00E1902C /* Codesigner.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = Codesigner.m; path = iOSDeviceManager/Utilities/Codesigner.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4BA1D22F85F00E1902C /* ShellRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = ShellRunner.h; path = iOSDeviceManager/Utilities/ShellRunner.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4BB1D22F85F00E1902C /* ShellRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = ShellRunner.m; path = iOSDeviceManager/Utilities/ShellRunner.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4CA1D22F87000E1902C /* iOSDeviceManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = iOSDeviceManagement.h; path = iOSDeviceManager/iOSDeviceManagement.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = iOSDeviceManagement.m; path = iOSDeviceManager/iOSDeviceManagement.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4CC1D22F87000E1902C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOSDeviceManager/main.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4DB1D22F97A00E1902C /* CLI.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = CLI.h; path = iOSDeviceManager/Commands/CLI.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4DC1D22F97A00E1902C /* CLI.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CLI.m; path = iOSDeviceManager/Commands/CLI.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = iOSDeviceManagementCommand.h; path = iOSDeviceManager/Commands/iOSDeviceManagementCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4E71D230F5F00E1902C /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Command.h; path = iOSDeviceManager/Commands/Command.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4E81D230F5F00E1902C /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = Command.m; path = iOSDeviceManager/Commands/Command.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4F31D23109000E1902C /* CommandOption.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = CommandOption.h; path = iOSDeviceManager/Commands/CommandOption.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4F41D23109000E1902C /* CommandOption.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CommandOption.m; path = iOSDeviceManager/Commands/CommandOption.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4FA1D23137100E1902C /* StartTestCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = StartTestCommand.h; path = iOSDeviceManager/Commands/StartTestCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE4FB1D23137100E1902C /* StartTestCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = StartTestCommand.m; path = iOSDeviceManager/Commands/StartTestCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = LaunchSimulatorCommand.h; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchSimulatorCommand.m; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = KillSimulatorCommand.h; path = iOSDeviceManager/Commands/KillSimulatorCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = KillSimulatorCommand.m; path = iOSDeviceManager/Commands/KillSimulatorCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE50C1D237A0800E1902C /* InstallAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = InstallAppCommand.h; path = iOSDeviceManager/Commands/InstallAppCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE50D1D237A0800E1902C /* InstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = InstallAppCommand.m; path = iOSDeviceManager/Commands/InstallAppCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE5181D237B2B00E1902C /* UninstallAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = UninstallAppCommand.h; path = iOSDeviceManager/Commands/UninstallAppCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE5191D237B2B00E1902C /* UninstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = UninstallAppCommand.m; path = iOSDeviceManager/Commands/UninstallAppCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE51E1D237E7700E1902C /* IsInstalledCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = IsInstalledCommand.h; path = iOSDeviceManager/Commands/IsInstalledCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5241D23ED0600E1902C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
 		892DE5321D23ED6C00E1902C /* CLITests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CLITests.m; path = Tests/CLITests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalCLIDeviceIntegrationTests.m; path = Tests/PhysicalCLIDeviceIntegrationTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -180,8 +180,8 @@
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B397131D25D83A00050DAD /* TestCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = TestCommon.h; path = Tests/TestCommon.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; };
-		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; };
+		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D831D46775400F34D67 /* AppUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtilTests.m; path = iOSDeviceManager/Utilities/AppUtilTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89EF4AC91CFA614F006DCDC5 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
@@ -261,7 +261,11 @@
 				89331D441CE222C7003C2E59 /* Products */,
 				F5169D271CFEAE5900252F52 /* vendor-licenses */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 0;
+			wrapsLines = 1;
 		};
 		89331D441CE222C7003C2E59 /* Products */ = {
 			isa = PBXGroup;
@@ -447,7 +451,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = xamarin;
+				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
 						CreatedOnToolsVersion = 7.3;
@@ -470,7 +474,7 @@
 				};
 			};
 			buildConfigurationList = 89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManager" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
