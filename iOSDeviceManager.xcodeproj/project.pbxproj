@@ -183,7 +183,7 @@
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; };
 		89B50D831D46775400F34D67 /* AppUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtilTests.m; path = iOSDeviceManager/Utilities/AppUtilTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		89EF4AC91CFA614F006DCDC5 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
 		89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
@@ -267,7 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				89331D431CE222C7003C2E59 /* iOSDeviceManager */,
-				89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */,
+				89EF4AC91CFA614F006DCDC5 /* Tests.xctest */,
 				8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */,
 			);
 			name = Products;
@@ -422,9 +422,9 @@
 			productReference = 8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		89EF4AC81CFA614F006DCDC5 /* iOSDeviceManagerTests */ = {
+		89EF4AC81CFA614F006DCDC5 /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "iOSDeviceManagerTests" */;
+			buildConfigurationList = 89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				89EF4AC51CFA614F006DCDC5 /* Sources */,
 				89EF4AC61CFA614F006DCDC5 /* Frameworks */,
@@ -435,9 +435,9 @@
 			);
 			dependencies = (
 			);
-			name = iOSDeviceManagerTests;
+			name = Tests;
 			productName = TestControlTests;
-			productReference = 89EF4AC91CFA614F006DCDC5 /* iOSDeviceManagerTests.xctest */;
+			productReference = 89EF4AC91CFA614F006DCDC5 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -482,7 +482,7 @@
 			projectRoot = "";
 			targets = (
 				89331D421CE222C7003C2E59 /* iOSDeviceManager */,
-				89EF4AC81CFA614F006DCDC5 /* iOSDeviceManagerTests */,
+				89EF4AC81CFA614F006DCDC5 /* Tests */,
 				8974F51A1D085FDA00C51B0C /* iOSDeviceManagement */,
 			);
 		};
@@ -788,7 +788,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "iOSDeviceManagerTests" */ = {
+		89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89EF4ACF1CFA614F006DCDC5 /* Debug */,
