@@ -25,7 +25,6 @@ else
 fi
 
 (cd "${CODE_SIGN_DIR}" && ios/create-keychain.sh)
-(cd "${CODE_SIGN_DIR}" && ios/import-profiles.sh)
 
 if [ -d FBSimulatorControl ]; then
 	rm -rf FBSimulatorControl
@@ -40,8 +39,9 @@ git clone git@github.com:calabash/DeviceAgent.iOS.git
 export FBSIMCONTROL_PATH=./FBSimulatorControl
 export DEVICEAGENT_PATH=./DeviceAgent.iOS
 
-bin/make/dependencies.sh
+make dependencies
+make tests
 
-# Disabling because they take too long to run
+# Disabling because they take too long to run.
 #bin/test/sim
 
