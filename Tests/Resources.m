@@ -302,7 +302,11 @@
 }
 
 - (TestDevice *)deviceForTesting {
-    return self.compatibleDevices[0];
+    if (self.compatibleDevices.count > 0) {
+        return self.compatibleDevices[0];
+    } else {
+        return nil;
+    }
 }
 
 - (NSRegularExpression *)UDIDRegex {
