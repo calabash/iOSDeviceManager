@@ -16,6 +16,7 @@ install_frameworks:
 #
 #	Builds the executable
 #
+# If this fails, call 'make clean' and try again.
 build:
 	bin/build.sh
 
@@ -38,4 +39,10 @@ nuget:
 
 fbframeworks:
 	bin/make/frameworks.sh
+
+#
+# 	Runs the XCTests
+#
+xctest:
+	bin/test/xctest.sh
 
