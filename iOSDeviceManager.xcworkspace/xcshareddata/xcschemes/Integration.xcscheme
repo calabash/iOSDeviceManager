@@ -7,13 +7,16 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
+            buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForTesting = "YES">
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "89EF4AC81CFA614F006DCDC5"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
+               BlueprintIdentifier = "F5D583EA1D69FF6C007B0D11"
+               BuildableName = "Integration.xctest"
+               BlueprintName = "Integration"
                ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,22 +32,13 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "89EF4AC81CFA614F006DCDC5"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
+               BlueprintIdentifier = "F5D583EA1D69FF6C007B0D11"
+               BuildableName = "Integration.xctest"
+               BlueprintName = "Integration"
                ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "iOSDeviceManager"
-            BlueprintName = "iOSDeviceManager"
-            ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -58,6 +52,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F5D583EA1D69FF6C007B0D11"
+            BuildableName = "Integration.xctest"
+            BlueprintName = "Integration"
+            ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -67,6 +70,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F5D583EA1D69FF6C007B0D11"
+            BuildableName = "Integration.xctest"
+            BlueprintName = "Integration"
+            ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

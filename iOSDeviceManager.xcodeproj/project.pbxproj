@@ -91,20 +91,52 @@
 		892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		892DE5231D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
-		892DE5331D23ED6C00E1902C /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5321D23ED6C00E1902C /* CLITests.m */; };
-		892DE53F1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */; };
-		892DE5421D23FE8700E1902C /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */; };
 		89B50D7F1D466BB800F34D67 /* AppUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 89B50D7D1D466BB800F34D67 /* AppUtils.h */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D821D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
-		89B50D841D46775400F34D67 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D831D46775400F34D67 /* AppUtilTests.m */; };
 		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
 		F53764981D67A1FB009457C8 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
+		F5D583E41D69FE62007B0D11 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583E01D69FE62007B0D11 /* AppUtilTests.m */; };
+		F5D583E51D69FE62007B0D11 /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583E11D69FE62007B0D11 /* CLITests.m */; };
+		F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */; };
+		F5D583F41D69FFF5007B0D11 /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */; };
+		F5D583F51D6A035F007B0D11 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CC1D22F87000E1902C /* main.m */; };
+		F5D583F61D6A035F007B0D11 /* iOSDeviceManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4CB1D22F87000E1902C /* iOSDeviceManagement.m */; };
+		F5D583F71D6A0363007B0D11 /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4B91D22F85F00E1902C /* Codesigner.m */; };
+		F5D583F81D6A0366007B0D11 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
+		F5D583F91D6A0369007B0D11 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
+		F5D583FA1D6A0372007B0D11 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
+		F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
+		F5D583FC1D6A0378007B0D11 /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
+		F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
+		F5D583FE1D6A0387007B0D11 /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
+		F5D583FF1D6A0387007B0D11 /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
+		F5D584001D6A0387007B0D11 /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
+		F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
+		F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
+		F5D584031D6A0387007B0D11 /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
+		F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
+		F5D584051D6A0387007B0D11 /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
+		F5D584061D6A0387007B0D11 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
+		F5D584071D6A0387007B0D11 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
+		F5D584081D6A038C007B0D11 /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
+		F5D584091D6A039B007B0D11 /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D8211D67B60A00A41EFD /* TestCase.m */; };
+		F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
+		F5D5840B1D6A039B007B0D11 /* ResourcesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */; };
+		F5D5840C1D6A03C0007B0D11 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
+		F5D5840D1D6A03C0007B0D11 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
+		F5D5840E1D6A03C0007B0D11 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
+		F5D5840F1D6A03C0007B0D11 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
+		F5D584101D6A03D3007B0D11 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
+		F5D584121D6A03EA007B0D11 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D584151D6A03EA007B0D11 /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5E8D8201D67A57600A41EFD /* ResourcesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */; };
 		F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D8211D67B60A00A41EFD /* TestCase.m */; };
 		F5F7054C1D68BAA90096E9D4 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
@@ -137,6 +169,19 @@
 				892A93C21D3928F800154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93C31D3928F800154F08 /* FBSimulatorControl.framework in CopyFiles */,
 				892A93C41D3928F800154F08 /* XCTestBootstrap.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5D584111D6A03DB007B0D11 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F5D584121D6A03EA007B0D11 /* FBControlCore.framework in CopyFiles */,
+				F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in CopyFiles */,
+				F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in CopyFiles */,
+				F5D584151D6A03EA007B0D11 /* XCTestBootstrap.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,16 +226,12 @@
 		892DE5191D237B2B00E1902C /* UninstallAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = UninstallAppCommand.m; path = iOSDeviceManager/Commands/UninstallAppCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE51E1D237E7700E1902C /* IsInstalledCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = IsInstalledCommand.h; path = iOSDeviceManager/Commands/IsInstalledCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		892DE5241D23ED0600E1902C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
-		892DE5321D23ED6C00E1902C /* CLITests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CLITests.m; path = Tests/CLITests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalCLIDeviceIntegrationTests.m; path = Tests/PhysicalCLIDeviceIntegrationTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = SimulatorCLIIntegrationTests.m; path = Tests/SimulatorCLIIntegrationTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		892DE5241D23ED0600E1902C /* UnitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UnitInfo.plist; path = Tests/UnitInfo.plist; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		89B50D831D46775400F34D67 /* AppUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtilTests.m; path = Tests/AppUtilTests.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		89EF4AC91CFA614F006DCDC5 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		89EF4AC91CFA614F006DCDC5 /* Unit.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Unit.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
 		89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
@@ -200,6 +241,12 @@
 		F53764961D67A1FB009457C8 /* Resources.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = Resources.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F53764971D67A1FB009457C8 /* Resources.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Resources.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
+		F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalCLIDeviceIntegrationTests.m; sourceTree = "<group>"; };
+		F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorCLIIntegrationTests.m; sourceTree = "<group>"; };
+		F5D583E01D69FE62007B0D11 /* AppUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUtilTests.m; sourceTree = "<group>"; };
+		F5D583E11D69FE62007B0D11 /* CLITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLITests.m; sourceTree = "<group>"; };
+		F5D583EB1D69FF6C007B0D11 /* Integration.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Integration.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5D583EF1D69FF6C007B0D11 /* IntegrationInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IntegrationInfo.plist; sourceTree = "<group>"; };
 		F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ResourcesTest.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F5E8D8211D67B60A00A41EFD /* TestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = TestCase.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F5E8D8231D67B63700A41EFD /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -232,6 +279,17 @@
 				F5F7054D1D68BAA90096E9D4 /* FBDeviceControl.framework in Frameworks */,
 				F5F7054E1D68BAA90096E9D4 /* FBSimulatorControl.framework in Frameworks */,
 				F5F7054F1D68BAA90096E9D4 /* XCTestBootstrap.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5D583E81D69FF6C007B0D11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5D5840C1D6A03C0007B0D11 /* FBControlCore.framework in Frameworks */,
+				F5D5840D1D6A03C0007B0D11 /* FBDeviceControl.framework in Frameworks */,
+				F5D5840E1D6A03C0007B0D11 /* FBSimulatorControl.framework in Frameworks */,
+				F5D5840F1D6A03C0007B0D11 /* XCTestBootstrap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,11 +329,11 @@
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
-				89F6DB391D37F75F006A0FD5 /* Frameworks */,
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
+				89F6DB391D37F75F006A0FD5 /* Frameworks */,
 				F5169D271CFEAE5900252F52 /* vendor-licenses */,
 			);
 			indentWidth = 4;
@@ -288,8 +346,9 @@
 			isa = PBXGroup;
 			children = (
 				89331D431CE222C7003C2E59 /* iOSDeviceManager */,
-				89EF4AC91CFA614F006DCDC5 /* Tests.xctest */,
+				89EF4AC91CFA614F006DCDC5 /* Unit.xctest */,
 				8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */,
+				F5D583EB1D69FF6C007B0D11 /* Integration.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -347,17 +406,15 @@
 		89EF4ACA1CFA614F006DCDC5 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F5A705AC1D67C38D006F05B5 /* Resources */,
-				892DE5241D23ED0600E1902C /* Info.plist */,
 				F5E8D8231D67B63700A41EFD /* TestCase.h */,
 				F5E8D8211D67B60A00A41EFD /* TestCase.m */,
 				F53764961D67A1FB009457C8 /* Resources.h */,
 				F53764971D67A1FB009457C8 /* Resources.m */,
 				F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */,
-				892DE5321D23ED6C00E1902C /* CLITests.m */,
-				892DE53D1D23FE8700E1902C /* SimulatorCLIIntegrationTests.m */,
-				892DE53C1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m */,
-				89B50D831D46775400F34D67 /* AppUtilTests.m */,
+				F5A705AC1D67C38D006F05B5 /* Resources */,
+				F5D583DF1D69FE62007B0D11 /* Unit */,
+				F5D583DC1D69FE62007B0D11 /* Integration */,
+				F5D583E61D69FE8E007B0D11 /* Supporting Files */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -379,6 +436,33 @@
 				F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */,
 			);
 			path = "vendor-licenses";
+			sourceTree = "<group>";
+		};
+		F5D583DC1D69FE62007B0D11 /* Integration */ = {
+			isa = PBXGroup;
+			children = (
+				F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */,
+				F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */,
+			);
+			path = Integration;
+			sourceTree = "<group>";
+		};
+		F5D583DF1D69FE62007B0D11 /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				F5D583E01D69FE62007B0D11 /* AppUtilTests.m */,
+				F5D583E11D69FE62007B0D11 /* CLITests.m */,
+			);
+			path = Unit;
+			sourceTree = "<group>";
+		};
+		F5D583E61D69FE8E007B0D11 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F5D583EF1D69FF6C007B0D11 /* IntegrationInfo.plist */,
+				892DE5241D23ED0600E1902C /* UnitInfo.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -448,9 +532,9 @@
 			productReference = 8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		89EF4AC81CFA614F006DCDC5 /* Tests */ = {
+		89EF4AC81CFA614F006DCDC5 /* Unit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildConfigurationList = 89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "Unit" */;
 			buildPhases = (
 				89EF4AC51CFA614F006DCDC5 /* Sources */,
 				89EF4AC61CFA614F006DCDC5 /* Frameworks */,
@@ -461,9 +545,27 @@
 			);
 			dependencies = (
 			);
-			name = Tests;
+			name = Unit;
 			productName = TestControlTests;
-			productReference = 89EF4AC91CFA614F006DCDC5 /* Tests.xctest */;
+			productReference = 89EF4AC91CFA614F006DCDC5 /* Unit.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F5D583EA1D69FF6C007B0D11 /* Integration */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F5D583F01D69FF6C007B0D11 /* Build configuration list for PBXNativeTarget "Integration" */;
+			buildPhases = (
+				F5D583E71D69FF6C007B0D11 /* Sources */,
+				F5D583E81D69FF6C007B0D11 /* Frameworks */,
+				F5D583E91D69FF6C007B0D11 /* Resources */,
+				F5D584111D6A03DB007B0D11 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Integration;
+			productName = IntegrationTests;
+			productReference = F5D583EB1D69FF6C007B0D11 /* Integration.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -493,6 +595,9 @@
 						DevelopmentTeamName = "Karl Krukow";
 						ProvisioningStyle = Automatic;
 					};
+					F5D583EA1D69FF6C007B0D11 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManager" */;
@@ -508,7 +613,8 @@
 			projectRoot = "";
 			targets = (
 				89331D421CE222C7003C2E59 /* iOSDeviceManager */,
-				89EF4AC81CFA614F006DCDC5 /* Tests */,
+				89EF4AC81CFA614F006DCDC5 /* Unit */,
+				F5D583EA1D69FF6C007B0D11 /* Integration */,
 				8974F51A1D085FDA00C51B0C /* iOSDeviceManagement */,
 			);
 		};
@@ -520,6 +626,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5A705AD1D67C38D006F05B5 /* Resources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5D583E91D69FF6C007B0D11 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5D584101D6A03D3007B0D11 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,19 +699,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
-				892DE5421D23FE8700E1902C /* SimulatorCLIIntegrationTests.m in Sources */,
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */,
 				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
+				F5D583E41D69FE62007B0D11 /* AppUtilTests.m in Sources */,
 				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
+				F5D583E51D69FE62007B0D11 /* CLITests.m in Sources */,
 				892DE4DF1D22F97A00E1902C /* CLI.m in Sources */,
 				892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
-				892DE53F1D23FE8700E1902C /* PhysicalCLIDeviceIntegrationTests.m in Sources */,
 				892DE4EB1D230F5F00E1902C /* Command.m in Sources */,
-				892DE5331D23ED6C00E1902C /* CLITests.m in Sources */,
 				F5E8D8201D67A57600A41EFD /* ResourcesTest.m in Sources */,
 				892DE4C01D22F85F00E1902C /* Codesigner.m in Sources */,
-				89B50D841D46775400F34D67 /* AppUtilTests.m in Sources */,
 				892DE4A01D22F84200E1902C /* PhysicalDevice.m in Sources */,
 				892DE4CF1D22F87000E1902C /* iOSDeviceManagement.m in Sources */,
 				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
@@ -611,6 +723,38 @@
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				892DE4B61D22F85400E1902C /* TestParameters.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5D583E71D69FF6C007B0D11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
+				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,
+				F5D583FF1D6A0387007B0D11 /* CommandOption.m in Sources */,
+				F5D5840B1D6A039B007B0D11 /* ResourcesTest.m in Sources */,
+				F5D584051D6A0387007B0D11 /* LaunchSimulatorCommand.m in Sources */,
+				F5D584091D6A039B007B0D11 /* TestCase.m in Sources */,
+				F5D583F61D6A035F007B0D11 /* iOSDeviceManagement.m in Sources */,
+				F5D583F41D69FFF5007B0D11 /* SimulatorCLIIntegrationTests.m in Sources */,
+				F5D583F71D6A0363007B0D11 /* Codesigner.m in Sources */,
+				F5D584071D6A0387007B0D11 /* StopSimulatingLocationCommand.m in Sources */,
+				F5D584081D6A038C007B0D11 /* TestParameters.m in Sources */,
+				F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */,
+				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
+				F5D584001D6A0387007B0D11 /* StartTestCommand.m in Sources */,
+				F5D583FA1D6A0372007B0D11 /* Device.m in Sources */,
+				F5D583F51D6A035F007B0D11 /* main.m in Sources */,
+				F5D583FE1D6A0387007B0D11 /* Command.m in Sources */,
+				F5D584061D6A0387007B0D11 /* SimulateLocationCommand.m in Sources */,
+				F5D584031D6A0387007B0D11 /* KillSimulatorCommand.m in Sources */,
+				F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */,
+				F5D583FC1D6A0378007B0D11 /* PhysicalDevice.m in Sources */,
+				F5D583F91D6A0369007B0D11 /* AppUtils.m in Sources */,
+				F5D583F81D6A0366007B0D11 /* ShellRunner.m in Sources */,
+				F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */,
+				F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,9 +916,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/UnitInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.TestControlTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -787,9 +931,41 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/UnitInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.TestControlTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F5D583F11D69FF6C007B0D11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F5D583F21D69FF6C007B0D11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -824,7 +1000,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+		89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "Unit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89EF4ACF1CFA614F006DCDC5 /* Debug */,
@@ -832,6 +1008,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		F5D583F01D69FF6C007B0D11 /* Build configuration list for PBXNativeTarget "Integration" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F5D583F11D69FF6C007B0D11 /* Debug */,
+				F5D583F21D69FF6C007B0D11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

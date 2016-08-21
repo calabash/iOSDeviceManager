@@ -6,6 +6,8 @@ tmp
 Distribution/dependencies
 results
 Frameworks/
+reports/*.xml
+reports/*.json
 
 ## nuget
 *.nupkg

@@ -1,5 +1,6 @@
 
 .PHONY: build
+.PHONY: tests
 
 #
 #	Cleans the build directory used by Xcode
@@ -41,8 +42,21 @@ fbframeworks:
 	bin/make/frameworks.sh
 
 #
-# 	Runs the XCTests
+# 	Runs the unit tests.
 #
-xctest:
-	bin/test/xctest.sh
+test-unit:
+	bin/make/test-unit.sh
+
+#
+# 	Runs the integration tests.
+#
+test-integration:
+	bin/make/test-integration.sh
+
+#
+# 	Runs the integration tests.
+#
+tests:
+	$(MAKE) test-unit
+	$(MAKE) test-integration
 
