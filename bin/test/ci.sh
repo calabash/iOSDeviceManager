@@ -40,7 +40,26 @@ export FBSIMCONTROL_PATH=./FBSimulatorControl
 export DEVICEAGENT_PATH=./DeviceAgent.iOS
 
 make dependencies
+
+set +e
+
+pkill iOSDeviceManager
+pkill Simulator
+
 make tests
+
+EXIT_STATUS=$?
+
+pkill iOSDeviceManager
+pkill Simulator
+
+if [ "${EXIT_STATUS}" = "0" ]; then
+  echo "Tests passed"
+  exit 0
+else
+  echo "Tests failed."
+  exit 1
+fi
 
 # Disabling because they take too long to run.
 #bin/test/sim
