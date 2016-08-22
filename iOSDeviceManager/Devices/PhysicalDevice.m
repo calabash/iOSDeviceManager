@@ -120,11 +120,7 @@
     
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-
-    if (e) {
-        NSLog(@"Error finding application descriptor: %@", e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
+    
 
     if (updateTestRunner) {
         iOSReturnStatusCode sc = [self updateAppIfRequired:testRunnerPath
