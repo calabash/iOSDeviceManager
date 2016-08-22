@@ -25,7 +25,6 @@ else
 fi
 
 (cd "${CODE_SIGN_DIR}" && ios/create-keychain.sh)
-(cd "${CODE_SIGN_DIR}" && ios/import-profiles.sh)
 
 if [ -d FBSimulatorControl ]; then
 	rm -rf FBSimulatorControl
@@ -40,6 +39,33 @@ git clone git@github.com:calabash/DeviceAgent.iOS.git
 export FBSIMCONTROL_PATH=./FBSimulatorControl
 export DEVICEAGENT_PATH=./DeviceAgent.iOS
 
-bin/make/dependencies.sh
-bin/test/sim
+make dependencies
+
+set +e
+
+pkill iOSDeviceManager
+pkill Simulator
+
+rm -rf reports/*.xml
+
+make test-unit
+
+# `start_test` fails on Jenkins
+#make tests
+
+EXIT_STATUS=$?
+
+pkill iOSDeviceManager
+pkill Simulator
+
+if [ "${EXIT_STATUS}" = "0" ]; then
+  echo "Tests passed"
+  exit 0
+else
+  echo "Tests failed."
+  exit 1
+fi
+
+# Disabling because they take too long to run.
+#bin/test/sim
 

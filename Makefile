@@ -1,5 +1,6 @@
 
 .PHONY: build
+.PHONY: tests
 
 #
 #	Cleans the build directory used by Xcode
@@ -16,6 +17,7 @@ install_frameworks:
 #
 #	Builds the executable
 #
+# If this fails, call 'make clean' and try again.
 build:
 	bin/build.sh
 
@@ -38,4 +40,23 @@ nuget:
 
 fbframeworks:
 	bin/make/frameworks.sh
+
+#
+# 	Runs the unit tests.
+#
+test-unit:
+	bin/make/test-unit.sh
+
+#
+# 	Runs the integration tests.
+#
+test-integration:
+	bin/make/test-integration.sh
+
+#
+# 	Runs the integration tests.
+#
+tests:
+	$(MAKE) test-unit
+	$(MAKE) test-integration
 
