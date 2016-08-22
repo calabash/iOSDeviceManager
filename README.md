@@ -3,6 +3,10 @@
 A tool for launching XCUITests on device and simulator, and a library
 for device/simulator lifecycle management.
 
+```
+$ git clone --recursive git@github.com:calabash/iOSDeviceManager.git
+```
+
 ### Usage
 
 ```
@@ -50,10 +54,37 @@ set_location
 Starting in Xcode 8, a code signing identity is required for building.
 
 Project maintainers must clone the [codesign](https://github.com/calabash/calabash-codesign)
-repo and install the certs/identity. Talk to @jmoody or @sapieneptus
+repo and install the certs and profiles. Talk to @jmoody or @sapieneptus
 for details.
 
+Contributors need to touch the Xcode project file with valid
+credentials.
+
+#### Testing
+
+If you encounter build errors in the Xcode IDE, clean the DerivedData
+directory (deep clean - Command + Shift + Option + K).  You are likely
+to see errors if you switch Xcode IDEs between runs.
+
+If you have physical device attached and it is compatible with and
+available to the active Xcode (the Xcode IDE or the returned by
+xcode-select), integration tests will be performed against the device.
+If no device is found, the tests are skipped.
+
+From the command line:
+
+```
+$ make test-unit
+$ make test-integration
+$ make tests
+
+# Test against an alternative Xcode
+$ DEVELOPER_DIR=/Xcode/8.0/Xcode-beta.app/Contents/Developer make tests
+```
+
 #### Packaging
+
+**IMPORTANT** Tou should have the calabash fork of FBSimulatorControl cloned.
 
 To package all of the DeviceAgent dependencies together,
 
@@ -75,21 +106,19 @@ make nuget
 
 The resulting `.nupkg` is just a wrapper around these dependencies.
 
-*Note* that you should have the calabash fork of FBSimulatorControl cloned.
 
 ### Contributing
 
 Please see our [CONTRIBUTING](CONTRIBUTING) doc.
 
-The majority of the actual work is inside of the
-FBSimulatorControl fork. Therefore, logic adjustments will generally
-need to be made in https://github.com/calabash/FBSimulatorControl.
+The majority of the behaviors are inside of the FBSimulatorControl fork.
+Therefore, logic adjustments will generally need to be made in
+https://github.com/calabash/FBSimulatorControl.
 
 For convenience, the fork is included in the `FacebookSubmodules`
 directory of the project root. If you decide to branch the fork, it is
 up to you to rebuild the frameworks and move them to the `Frameworks`
-directory in the project root so that they will be installed when you
-run `make install`.
+directory in the project root.
 
 ### C Library
 

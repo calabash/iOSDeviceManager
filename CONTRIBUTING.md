@@ -14,6 +14,7 @@ This repository uses git-flow.
 
 * All pull requests should be based off the `develop` branch.
 * Contributors should never change the version of the product.
+* Contributors should never commit code signing changes.
 
 ### Best Practices
 

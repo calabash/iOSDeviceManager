@@ -39,9 +39,9 @@
         NSLog(@"Error finding developer dir");
         return nil;
     }
-    
+
     NSString *developerDir = output[0];
-    
+
     return [[developerDir stringByAppendingPathComponent:@"Platforms"]
             stringByAppendingPathComponent:@"iPhoneOS.platform"];
 }
@@ -54,7 +54,7 @@
 
 + (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID device:(FBDevice *)device {
     id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
-    
+
     if (!installed) {
         NSLog(@"Error fetching installed application %@ ", bundleID);
         return nil;
@@ -73,7 +73,7 @@
         NSLog(@"Error creating app bundle for %@: %@", bundlePath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     if ([self appIsInstalled:app.bundleID deviceID:device.udid] == iOSReturnStatusCodeEverythingOkay) {
         NSDictionary *oldPlist = [self infoPlistForInstalledBundleID:app.bundleID device:device];
         NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
@@ -82,7 +82,7 @@
             NSLog(@"Unable to find Info.plist at %@", newPlistPath);
             return iOSReturnStatusCodeGenericFailure;
         }
-        
+
         if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
             NSLog(@"Installed version is different, attempting to update %@.", app.bundleID);
             iOSReturnStatusCode ret = [self uninstallApp:app.bundleID deviceID:device.udid];
@@ -97,7 +97,7 @@
             NSLog(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
-        
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -108,16 +108,16 @@
                         updateTestRunner:(BOOL)updateTestRunner
                                keepAlive:(BOOL)keepAlive  {
     NSError *e = nil;
-    
+
     if (codesignIdentity == nil) {
         NSLog(@"Must supply a codesign identifier for running tests");
         return iOSReturnStatusCodeMissingArguments;
     }
-    
+
     if ([self pathToXcodePlatformDir] == nil) {
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
@@ -134,14 +134,14 @@
             return sc;
         }
     }
-    
+
     FBDeviceTestPreparationStrategy *testPrepareStrategy =
     [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:testRunnerPath
                                                        applicationDataPath:[self applicationDataPath]
                                                             testBundlePath:testBundlePath
                                                     pathToXcodePlatformDir:[self pathToXcodePlatformDir]
                                                           workingDirectory:[ShellRunner pwd]];
-    
+
     id reporterLogger = [self new];
     FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:device.deviceOperator
                                                                        testPrepareStrategy:testPrepareStrategy
@@ -150,7 +150,7 @@
     [testRunStrategy startTestManagerWithAttributes:@[]
                                         environment:@{}
                                               error:&e];
-    
+
     if (!e) {
         if (keepAlive) {
             [[NSRunLoop mainRunLoop] run];
@@ -245,7 +245,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return codesigner;
 }
 
-+ (FBDevice *)deviceForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {    
++ (FBDevice *)deviceForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {
     NSError *err;
     FBDevice *device = [[FBDeviceSet defaultSetWithLogger:nil
                                  error:&err]
@@ -268,27 +268,27 @@ testCaseDidStartForTestClass:(NSString *)testClass
                          deviceID:(NSString *)deviceID
                         updateApp:(BOOL)updateApp
                        codesignID:(NSString *)codesignID {
-    
+
     if (codesignID == nil) {
         NSLog(@"Must supply a codesign identifier for installing apps");
         return iOSReturnStatusCodeMissingArguments;
     }
-    
+
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignID]];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     NSError *err;
     //Codesign
     FBProductBundle *app = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
                               withBundlePath:pathToBundle]
                              withCodesignProvider:[self signer:codesignID]]
                             buildWithError:&err];
-    
+
     if (err) {
         NSLog(@"Error creating product bundle for %@: %@", pathToBundle, err);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     FBiOSDeviceOperator *op = device.deviceOperator;
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {
@@ -307,27 +307,27 @@ testCaseDidStartForTestClass:(NSString *)testClass
             return iOSReturnStatusCodeInternalError;
         }
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
 + (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     FBiOSDeviceOperator *op = device.deviceOperator;
-    
+
     NSError *err;
     if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
         NSLog(@"Application %@ is not installed on %@", bundleID, deviceID);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     if (err) {
         NSLog(@"Error checking if application %@ is installed: %@", bundleID, err);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
         NSLog(@"Error uninstalling app %@: %@", bundleID, err);
     }
@@ -337,7 +337,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 + (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID deviceID:(NSString *)deviceID {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     NSError *err;
     BOOL installed = [device.deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                          error:&err];
@@ -353,12 +353,12 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                lng:(double)lng {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     if (![device.dvtDevice supportsLocationSimulation]) {
         NSLog(@"Device %@ doesn't support location simulation", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSError *e;
     [[device.dvtDevice token] simulateLatitude:@(lat)
                                   andLongitude:@(lng)
@@ -367,19 +367,19 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"Unable to set device location: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
 + (iOSReturnStatusCode)stopSimulatingLocation:(NSString *)deviceID {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     if (![device.dvtDevice supportsLocationSimulation]) {
         NSLog(@"Device %@ doesn't support location simulation", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSError *e;
     [[device.dvtDevice token] stopSimulatingLocationWithError:&e];
     if (e) {
