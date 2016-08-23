@@ -9,52 +9,52 @@ namespace DeviceAgent.iOS.Dependencies
 
     public static class DeploymentManager
     {
-        const string VersionFileName = "version.txt";
-
-        const string VersionResource = "DeviceAgent.iOS.Dependencies.version.txt";
+        const string HashResource = "DeviceAgent.iOS.Dependencies.hash.txt";
         const string DependenciesResource = "DeviceAgent.iOS.Dependencies.dependencies.zip";
         
-        static Lazy<Version> _version = new Lazy<Version>(() => {
-            using (var versionStream = MyAssembly.GetManifestResourceStream(VersionResource))
+        static Lazy<string> _hash = new Lazy<string>(() => {
+            using (var versionStream = MyAssembly.GetManifestResourceStream(HashResource))
             {
                 using (var reader = new StreamReader(versionStream, Encoding.UTF8))
                 {
-                    return new Version(reader.ReadToEnd());
+                    return reader.ReadToEnd().Trim();
                 }
             }
         });
 
         static Assembly MyAssembly => typeof(DeploymentManager).GetTypeInfo().Assembly;
 
-        public static Version DeviceAgentVersion =>  _version.Value;
+        public static string HashId =>  _hash.Value;
 
         public static string PathToiOSDeviceManager { get; } = Path.Combine("bin", "iOSDeviceManager");
 
-        public static string PathToTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
+        public static string PathToDeviceTestRunner { get; } = Path.Combine("ipa", "CBX-Runner.app");
 
-        public static string PathToTestBundle { get; } = Path.Combine(PathToTestRunner, "PlugIns", "CBX.xctest");
+        public static string PathToSimTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
 
-        public static void InstallOrUpdateIfNecessary(string directory)
+        public static string PathToDeviceTestBundle { get; } = Path.Combine(PathToDeviceTestRunner, "PlugIns", "CBX.xctest");
+
+        public static string PathToSimTestBundle { get; } = Path.Combine(PathToSimTestRunner, "PlugIns", "CBX.xctest");
+
+        public static void Install(string directory)
         {
-            if (IsUpToDate(directory))
+            if (!Directory.Exists(directory))
             {
-                return;
+                Directory.CreateDirectory(directory);
             }
 
-            if (Directory.Exists(directory))
+            if (Directory.GetFiles(directory).Length > 0)
             {
-                Directory.Delete(directory, true);
+                throw new InvalidOperationException($"Directory {directory} is not empty");
             }
-
-            Directory.CreateDirectory(directory);
 
             var tempZipPath = Path.Combine(directory, "dependencies.zip");
 
-            using (var versionStream = MyAssembly.GetManifestResourceStream(DependenciesResource))
+            using (var dependenciesStream = MyAssembly.GetManifestResourceStream(DependenciesResource))
             {
                 using (var tempZip = File.Create(tempZipPath))
                 {
-                    versionStream.CopyTo(tempZip);
+                    dependenciesStream.CopyTo(tempZip);
                 }
             }
 
@@ -75,32 +75,11 @@ namespace DeviceAgent.iOS.Dependencies
 
             if (process.ExitCode != 0)
             {
-                throw new IOException("Unpacking dependencies failed");
+                throw new IOException(
+                    $"Unpacking dependencies failed: {process.StartInfo.FileName} {process.StartInfo.Arguments}");
             }
 
             File.Delete(tempZipPath);
-
-            File.WriteAllText(Path.Combine(directory, VersionFileName), DeviceAgentVersion.ToString());
-        }
-
-        static bool IsUpToDate(string directory)
-        {
-            var versionFile = Path.Combine(directory, VersionFileName);
-
-            if (File.Exists(versionFile))
-            {
-                using (var textReader = File.OpenText(versionFile))
-                {
-                    var currentVersion = new Version(textReader.ReadToEnd());
-
-                    if (currentVersion >= DeviceAgentVersion)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
     }
 }
