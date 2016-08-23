@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Semver;
 
 namespace DeviceAgent.iOS.Dependencies
 {
@@ -14,25 +15,29 @@ namespace DeviceAgent.iOS.Dependencies
         const string VersionResource = "DeviceAgent.iOS.Dependencies.version.txt";
         const string DependenciesResource = "DeviceAgent.iOS.Dependencies.dependencies.zip";
         
-        static Lazy<Version> _version = new Lazy<Version>(() => {
+        static Lazy<SemVersion> _version = new Lazy<SemVersion>(() => {
             using (var versionStream = MyAssembly.GetManifestResourceStream(VersionResource))
             {
                 using (var reader = new StreamReader(versionStream, Encoding.UTF8))
                 {
-                    return new Version(reader.ReadToEnd());
+                    return SemVersion.Parse(reader.ReadToEnd());
                 }
             }
         });
 
         static Assembly MyAssembly => typeof(DeploymentManager).GetTypeInfo().Assembly;
 
-        public static Version DeviceAgentVersion =>  _version.Value;
+        public static SemVersion DeviceAgentVersion =>  _version.Value;
 
         public static string PathToiOSDeviceManager { get; } = Path.Combine("bin", "iOSDeviceManager");
 
-        public static string PathToTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
+        public static string PathToDeviceTestRunner { get; } = Path.Combine("ipa", "CBX-Runner.app");
 
-        public static string PathToTestBundle { get; } = Path.Combine(PathToTestRunner, "PlugIns", "CBX.xctest");
+        public static string PathToSimTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
+
+        public static string PathToDeviceTestBundle { get; } = Path.Combine(PathToDeviceTestRunner, "PlugIns", "CBX.xctest");
+
+        public static string PathToSimTestBundle { get; } = Path.Combine(PathToSimTestRunner, "PlugIns", "CBX.xctest");
 
         public static void InstallOrUpdateIfNecessary(string directory)
         {
@@ -75,7 +80,8 @@ namespace DeviceAgent.iOS.Dependencies
 
             if (process.ExitCode != 0)
             {
-                throw new IOException("Unpacking dependencies failed");
+                throw new IOException(
+                    $"Unpacking dependencies failed: {process.StartInfo.FileName} {process.StartInfo.Arguments}");
             }
 
             File.Delete(tempZipPath);
@@ -91,9 +97,9 @@ namespace DeviceAgent.iOS.Dependencies
             {
                 using (var textReader = File.OpenText(versionFile))
                 {
-                    var currentVersion = new Version(textReader.ReadToEnd());
+                    var currentVersion = SemVersion.Parse(textReader.ReadToEnd());
 
-                    if (currentVersion >= DeviceAgentVersion)
+                    if (currentVersion >= _version.Value)
                     {
                         return true;
                     }
