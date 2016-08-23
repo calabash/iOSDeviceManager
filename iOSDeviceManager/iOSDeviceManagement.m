@@ -8,16 +8,12 @@
 #define STR( cString ) [NSString stringWithCString:( cString ) encoding:NSUTF8StringEncoding]
 
 int start_test(const char *deviceID,
-               const char *testRunnerPath,
-               const char *testBundlePath,
-               const char *codesignID,
-               int updateRunner) {
+               const char *runnerBundleID,
+               const char *sessionID) {
     @autoreleasepool {
         return [Device startTestOnDevice:STR(deviceID)
-                          testRunnerPath:STR(testRunnerPath)
-                          testBundlePath:STR(testBundlePath)
-                        codesignIdentity:STR(codesignID)
-                        updateTestRunner:updateRunner
+                               sessionID:[[NSUUID alloc] initWithUUIDString:STR(sessionID)]
+                          runnerBundleID:STR(runnerBundleID)
                                keepAlive:YES];
     }
 }

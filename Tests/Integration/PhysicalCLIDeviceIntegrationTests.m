@@ -12,28 +12,19 @@
     [super setUp];
 }
 
-// This is a blocking test.
-//
-// It cannot be automated yet because CLI process: blocks the main thread _and_ it must
-// be run on the main thread.
-//
-//- (void)testStartTest {
-//    if (device_available()) {
-//        NSArray *args = @[
-//                kProgramName, @"start_test",
-//                @"-d", defaultDeviceUDID,
-//                @"-t", xctest(ARM),
-//                @"-r", runner(ARM),
-//                @"-c", kCodeSignIdentityKARL,
-//                @"-u", @"YES",
-//                @"-k", @"YES"
-//        ];
-//
-//        [CLI process:args];
-//    } else {
-//        NSLog(@"No compatible device connected; skipping test");
-//    }
-//}
+- (void)testStartTest {
+    if (device_available()) {
+        NSArray *args = @[
+                kProgramName, @"start_test",
+                @"-d", defaultDeviceUDID,
+                @"-k", @"NO"
+        ];
+
+        [CLI process:args];
+    } else {
+        NSLog(@"No compatible device connected; skipping test");
+    }
+}
 
 - (void)testSetLocation {
     if (device_available()) {

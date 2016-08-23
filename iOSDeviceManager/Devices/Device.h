@@ -5,10 +5,8 @@
 
 @interface Device : NSObject
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
-                          testRunnerPath:(NSString *)testRunnerPath
-                          testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity
-                        updateTestRunner:(BOOL)updateTestRunner
+                               sessionID:(NSUUID *)sessionID
+                          runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive; //helps with integration testing
 
 + (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID

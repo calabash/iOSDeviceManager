@@ -102,51 +102,24 @@
 }
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
-                          testRunnerPath:(NSString *)testRunnerPath
-                          testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity
-                        updateTestRunner:(BOOL)updateTestRunner
+                               sessionID:(NSUUID *)sessionID
+                          runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive  {
     NSError *e = nil;
-
-    if (codesignIdentity == nil) {
-        NSLog(@"Must supply a codesign identifier for running tests");
-        return iOSReturnStatusCodeMissingArguments;
-    }
-
-    if ([self pathToXcodePlatformDir] == nil) {
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
-    FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignIdentity]];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
     
-
-    if (updateTestRunner) {
-        iOSReturnStatusCode sc = [self updateAppIfRequired:testRunnerPath
-                                                    device:device
-                                                codesigner:[self signer:codesignIdentity]];
-        if (sc != iOSReturnStatusCodeEverythingOkay) {
-            return sc;
-        }
-    }
-
-    FBDeviceTestPreparationStrategy *testPrepareStrategy =
-    [FBDeviceTestPreparationStrategy strategyWithTestRunnerApplicationPath:testRunnerPath
-                                                       applicationDataPath:[self applicationDataPath]
-                                                            testBundlePath:testBundlePath
-                                                    pathToXcodePlatformDir:[self pathToXcodePlatformDir]
-                                                          workingDirectory:[ShellRunner pwd]];
+    FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:@""]];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
     id reporterLogger = [self new];
-    FBXCTestRunStrategy *testRunStrategy = [FBXCTestRunStrategy strategyWithDeviceOperator:device.deviceOperator
-                                                                       testPrepareStrategy:testPrepareStrategy
-                                                                                  reporter:reporterLogger
-                                                                                    logger:reporterLogger];
-    [testRunStrategy startTestManagerWithAttributes:@[]
-                                        environment:@{}
-                                              error:&e];
-
+    
+    [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
+                                            runnerBundleID:runnerBundleID
+                                                 sessionID:sessionID
+                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                  reporter:reporterLogger
+                                                    logger:reporterLogger
+                                                     error:&e];
     if (!e) {
         if (keepAlive) {
             [[NSRunLoop mainRunLoop] run];

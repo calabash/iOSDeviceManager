@@ -4,23 +4,16 @@
 /**
  Start XCUITest
  @param deviceID 40 character device ID or Simulator GUID. Use `instruments -s devices` to list Sim IDs.
- @param testRunnerPath absolute path to test runner app (DeviceAgent app bundle)
- @param testBundlePath absolute path to test bundle (CBX.xctest) 
- @param codesignID Identity used to codesign (for sims, this value is ignored).
- @param updateRunner Reinstalls test runner if out of date
+ @param runnerBundleID bundle ID of installed TestRunner
+ @param sessionID session identifer UUID to use during test
  @return 0 on success
  
- Starts XC(UI)Test bundle specified by `testBundlePath` via the app specified by `testRunnerPath`.
+ Starts XC(UI)Test bundle contained in the test bundle specified by `runnerBundleID`
  
- Attempts to install the test runner if not already installed.
- 
- You can get a list of codesign identities by running `security find-identity -p codesigning`
  */
 int start_test(const char *deviceID,
-               const char *testRunnerPath,
-               const char *testBundlePath,
-               const char *codesignID,
-               int updateRunner);
+               const char *runnerBundleID,
+               const char *sessionID);
 
 /**
  Launch simulator by ID

@@ -2,11 +2,12 @@
 #import "StartTestCommand.h"
 
 static NSString *const DEVICE_ID_FLAG = @"-d";
-static NSString *const TEST_BUNDLE_PATH_FLAG = @"-t";
-static NSString *const TEST_RUNNER_PATH_FLAG = @"-r";
-static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
-static NSString *const UPDATE_TEST_RUNNER_FLAG = @"-u";
+static NSString *const TEST_RUNNER_BUNDLE_ID_FLAG = @"-b";
+static NSString *const SESSION_ID_FLAG = @"-s";
 static NSString *const KEEP_ALIVE_FLAG = @"-k";
+
+static NSString *const DEFAULT_BUNDLE_ID = @"com.apple.test.DeviceAgent-Runner";
+static NSString *const DEFAULT_SESSION_ID = @"CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE";
 
 @implementation StartTestCommand
 + (NSString *)name {
@@ -25,30 +26,17 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
                                                required:YES]];
         
-        [options addObject:[CommandOption withShortFlag:TEST_RUNNER_PATH_FLAG
-                                               longFlag:@"--test-runner"
-                                             optionName:@"path/to/testrunner.app"
-                                                   info:@"Path to the test runner application which will run the test bundle"
+        [options addObject:[CommandOption withShortFlag:TEST_RUNNER_BUNDLE_ID_FLAG
+                                               longFlag:@"--test-runner-bundle-id"
+                                             optionName:@"test_runner_bundle_id,default=com.apple.test.DeviceAgent-Runner"
+                                                   info:@"BundleID of the Test Runner application (DeviceAgent)"
                                                required:YES]];
         
-        [options addObject:[CommandOption withShortFlag:TEST_BUNDLE_PATH_FLAG
-                                               longFlag:@"--test-bundle"
-                                             optionName:@"path/to/testbundle.xctest"
-                                                   info:@"Path to the .xctest bundle"
+        [options addObject:[CommandOption withShortFlag:SESSION_ID_FLAG
+                                               longFlag:@"--session-id"
+                                             optionName:@"session_id,default=CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE"
+                                                   info:@"BundleID of the Test Runner application (DeviceAgent)"
                                                required:YES]];
-        
-        [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
-                                               longFlag:@"--codesign-identity"
-                                             optionName:@"codesign-identity,default=''"
-                                                   info:@"Identity used to codesign application resources [device only]"
-                                               required:NO]];
-        
-        [options addObject:[CommandOption withShortFlag:UPDATE_TEST_RUNNER_FLAG
-                                               longFlag:@"--update-runner"
-                                             optionName:@"true-or-false,default=true"
-                                                   info:@"When true, will reinstall the test runner if the device\
-                            contains an older version than the bundle specified"
-                                               required:NO]];
         
         [options addObject:[CommandOption withShortFlag:KEEP_ALIVE_FLAG
                                                longFlag:@"--keep-alive"
@@ -64,15 +52,22 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
     if ([args.allKeys containsObject:KEEP_ALIVE_FLAG]) {
         keepAlive = [args[KEEP_ALIVE_FLAG] boolValue];
     }
-    BOOL update = YES;
-    if ([[args allKeys] containsObject:UPDATE_TEST_RUNNER_FLAG]) {
-        update = [args[UPDATE_TEST_RUNNER_FLAG] boolValue];
+    
+    NSString *bundleID = DEFAULT_BUNDLE_ID;
+    if ([args.allKeys containsObject:TEST_RUNNER_BUNDLE_ID_FLAG]) {
+        bundleID = args[TEST_RUNNER_BUNDLE_ID_FLAG];
     }
+    
+    NSString *sessionID = DEFAULT_SESSION_ID;
+    if ([args.allKeys containsObject:SESSION_ID_FLAG]) {
+        sessionID = args[SESSION_ID_FLAG];
+    }
+    
+    NSUUID *sid = [[NSUUID alloc] initWithUUIDString:sessionID];
+    
     return [Device startTestOnDevice:args[DEVICE_ID_FLAG]
-                      testRunnerPath:args[TEST_RUNNER_PATH_FLAG]
-                      testBundlePath:args[TEST_BUNDLE_PATH_FLAG]
-                    codesignIdentity:args[CODESIGN_IDENTITY_FLAG]
-                    updateTestRunner:update
+                           sessionID:sid
+                      runnerBundleID:bundleID
                            keepAlive:keepAlive];
 }
 
