@@ -1016,6 +1016,7 @@
 				F5D583F21D69FF6C007B0D11 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

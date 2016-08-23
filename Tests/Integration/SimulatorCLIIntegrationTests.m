@@ -60,17 +60,11 @@
     //Should launch sim
     args = @[kProgramName, @"start_test",
              @"-d", defaultSimUDID,
-             @"-t", xctest(SIM),
-             @"-r", runner(SIM),
-             @"-u", @"YES",
              @"-k", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     args = @[kProgramName, @"start_test",
              @"-d", defaultSimUDID,
-             @"-t", xctest(SIM),
-             @"-r", runner(SIM),
-             @"-u", @"YES",
              @"-k", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }

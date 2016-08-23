@@ -105,6 +105,7 @@
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive  {
+    NSLog(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
     NSError *e = nil;
     
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:@""]];

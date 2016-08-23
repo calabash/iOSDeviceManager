@@ -7,7 +7,7 @@ static NSString *const SESSION_ID_FLAG = @"-s";
 static NSString *const KEEP_ALIVE_FLAG = @"-k";
 
 static NSString *const DEFAULT_BUNDLE_ID = @"com.apple.test.DeviceAgent-Runner";
-static NSString *const DEFAULT_SESSION_ID = @"CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE";
+static NSString *const DEFAULT_SESSION_ID = @"BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE";
 
 @implementation StartTestCommand
 + (NSString *)name {
@@ -30,13 +30,13 @@ static NSString *const DEFAULT_SESSION_ID = @"CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBE
                                                longFlag:@"--test-runner-bundle-id"
                                              optionName:@"test_runner_bundle_id,default=com.apple.test.DeviceAgent-Runner"
                                                    info:@"BundleID of the Test Runner application (DeviceAgent)"
-                                               required:YES]];
+                                               required:NO]];
         
         [options addObject:[CommandOption withShortFlag:SESSION_ID_FLAG
                                                longFlag:@"--session-id"
-                                             optionName:@"session_id,default=CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE"
+                                             optionName:@"session_id,default=BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE"
                                                    info:@"BundleID of the Test Runner application (DeviceAgent)"
-                                               required:YES]];
+                                               required:NO]];
         
         [options addObject:[CommandOption withShortFlag:KEEP_ALIVE_FLAG
                                                longFlag:@"--keep-alive"
@@ -64,6 +64,7 @@ static NSString *const DEFAULT_SESSION_ID = @"CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBE
     }
     
     NSUUID *sid = [[NSUUID alloc] initWithUUIDString:sessionID];
+    NSAssert(sid, @"%@ is not a valid UUID", sid);
     
     return [Device startTestOnDevice:args[DEVICE_ID_FLAG]
                            sessionID:sid

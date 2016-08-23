@@ -17,7 +17,7 @@
         NSArray *args = @[
                 kProgramName, @"start_test",
                 @"-d", defaultDeviceUDID,
-                @"-k", @"NO"
+                @"-k", @"YES"
         ];
 
         [CLI process:args];
