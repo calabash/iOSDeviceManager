@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-beta5",
+  "version": "0.1.0-beta6",
   "description": "DeviceAgent.iOS, iOSDeviceManager, and required frameworks",
   "authors": [
     "Chris Fuentes",
@@ -11,11 +11,8 @@
     "debugType": "portable",
     "embed": [
       "dependencies.zip",
-      "version.txt"
+      "hash.txt"
     ]
-  },
-  "dependencies": {
-    "semver": "2.0.4"
   },
   "frameworks": {
     "net451": {
