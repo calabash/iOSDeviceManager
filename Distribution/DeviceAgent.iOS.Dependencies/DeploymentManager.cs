@@ -32,9 +32,6 @@ namespace DeviceAgent.iOS.Dependencies
 
         public static string PathToSimTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
 
-        public static string PathToDeviceTestBundle { get; } = Path.Combine(PathToDeviceTestRunner, "PlugIns", "CBX.xctest");
-
-        public static string PathToSimTestBundle { get; } = Path.Combine(PathToSimTestRunner, "PlugIns", "CBX.xctest");
 
         public static void Install(string directory)
         {
