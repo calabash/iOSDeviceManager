@@ -11,7 +11,8 @@ namespace DeviceAgent.iOS.Dependencies
     {
         const string HashResource = "DeviceAgent.iOS.Dependencies.hash.txt";
         const string DependenciesResource = "DeviceAgent.iOS.Dependencies.dependencies.zip";
-        
+        const string DeviceAgentRunnerApp = "DeviceAgent-Runner.app";
+
         static Lazy<string> _hash = new Lazy<string>(() => {
             using (var versionStream = MyAssembly.GetManifestResourceStream(HashResource))
             {
@@ -28,10 +29,9 @@ namespace DeviceAgent.iOS.Dependencies
 
         public static string PathToiOSDeviceManager { get; } = Path.Combine("bin", "iOSDeviceManager");
 
-        public static string PathToDeviceTestRunner { get; } = Path.Combine("ipa", "CBX-Runner.app");
+        public static string PathToDeviceTestRunner { get; } = Path.Combine("ipa", DeviceAgentRunnerApp);
 
-        public static string PathToSimTestRunner { get; } = Path.Combine("app", "CBX-Runner.app");
-
+        public static string PathToSimTestRunner { get; } = Path.Combine("app", DeviceAgentRunnerApp);
 
         public static void Install(string directory)
         {
