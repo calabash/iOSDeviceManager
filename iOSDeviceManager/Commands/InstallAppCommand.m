@@ -38,8 +38,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         [options addObject:[CommandOption withShortFlag:UPDATE_APP_FLAG
                                                longFlag:@"--update-app"
                                              optionName:@"true-or-false,default=true"
-                                                   info:@"When true, will reinstall the app if the device\
-                            contains an older version than the bundle specified"
+                                                   info:@"When true, will reinstall the app if the device contains an older version than the bundle specified"
                                                required:NO]];
     });
     return options;
