@@ -1,7 +1,7 @@
 
 @import Foundation;
-#import <XCTestBootstrap/XCTestBootstrap.h>
 #import "Device.h"
+#import <XCTestBootstrap/XCTestBootstrap.h>
 
 @interface PhysicalDevice : Device<FBTestManagerTestReporter, FBControlCoreLogger>
 + (iOSReturnStatusCode)stopSimulatingLocation:(NSString *)deviceID;

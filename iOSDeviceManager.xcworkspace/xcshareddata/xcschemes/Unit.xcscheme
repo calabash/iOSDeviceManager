@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89EF4AC81CFA614F006DCDC5"
-               BuildableName = "Unit"
+               BuildableName = "Unit.xctest"
                BlueprintName = "Unit"
                ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89EF4AC81CFA614F006DCDC5"
-               BuildableName = "Unit"
+               BuildableName = "Unit.xctest"
                BlueprintName = "Unit"
                ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
             </BuildableReference>

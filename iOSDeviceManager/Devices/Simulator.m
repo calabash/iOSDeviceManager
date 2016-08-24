@@ -76,10 +76,8 @@ static FBSimulatorControl *_control;
 }
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
-                          testRunnerPath:(NSString *)testRunnerPath
-                          testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity
-                        updateTestRunner:(BOOL)updateTestRunner
+                               sessionID:(NSUUID *)sessionID
+                          runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive {
     if (![TestParameters isSimulatorID:deviceID]) {
         NSLog(@"'%@' is not a valid sim ID", deviceID);
@@ -99,25 +97,21 @@ static FBSimulatorControl *_control;
         }
     }
     
-    FBApplicationDescriptor *app = [self app:testRunnerPath];
-    if ([self appIsInstalled:app.bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
-        [[simulator.interact installApplication:app] perform:&e];
-    } else if (updateTestRunner) {
-        [self updateInstalledAppIfNecessary:testRunnerPath device:simulator];
-    } else {
-        NSLog(@"Skipping test app installation; user passed --update=false");
-    }
-    
-    if (e) {
-        NSLog(@"Unable to install application %@ to %@: %@", app.bundleID, deviceID, e);
+    if ([self appIsInstalled:runnerBundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
+        NSLog(@"TestRunner %@ must be installed before you can run a test.", runnerBundleID);
         return iOSReturnStatusCodeGenericFailure;
     }
-        
-    FBApplicationLaunchConfiguration *launch = [self testRunnerLaunchConfig:testRunnerPath];
     
-    [[simulator.interact startTestRunnerLaunchConfiguration:launch
-                                             testBundlePath:testBundlePath
-                                                   reporter:[self new]] perform:&e];
+    id replog = [self new];
+    id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
+    [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
+                                            runnerBundleID:runnerBundleID
+                                                 sessionID:sessionID
+                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                  reporter:replog
+                                                    logger:replog
+                                                     error:&e];
     
     if (e) {
         NSLog(@"Error starting test runner: %@", e);

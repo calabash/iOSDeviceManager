@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8974F51A1D085FDA00C51B0C"
-               BuildableName = "iOSDeviceManagement"
+               BuildableName = "libiOSDeviceManagement.dylib"
                BlueprintName = "iOSDeviceManagement"
                ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
             </BuildableReference>

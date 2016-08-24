@@ -12,28 +12,19 @@
 }
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
-                          testRunnerPath:(NSString *)testRunnerPath
-                          testBundlePath:(NSString *)testBundlePath
-                        codesignIdentity:(NSString *)codesignIdentity
-                        updateTestRunner:(BOOL)updateTestRunner
+                               sessionID:(NSUUID *)sessionID
+                          runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive {
-    
-    NSString *runner = [AppUtils copyAppBundle:testRunnerPath],
-        *testBundle = [AppUtils copyAppBundle:testBundlePath];
-    
+
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice startTestOnDevice:deviceID
-                                  testRunnerPath:runner
-                                  testBundlePath:testBundle
-                                codesignIdentity:codesignIdentity
-                                updateTestRunner:updateTestRunner
+                                       sessionID:sessionID
+                                  runnerBundleID:runnerBundleID
                                        keepAlive:keepAlive];
     } else {
         return [Simulator startTestOnDevice:deviceID
-                             testRunnerPath:runner
-                             testBundlePath:testBundle
-                           codesignIdentity:codesignIdentity
-                           updateTestRunner:updateTestRunner
+                                  sessionID:sessionID
+                             runnerBundleID:runnerBundleID
                                   keepAlive:keepAlive];
     }
 }

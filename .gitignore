@@ -5,7 +5,7 @@ Products/
 tmp
 Distribution/dependencies
 results
-Frameworks/
+Frameworks/*
 reports/*.xml
 reports/*.json
 
