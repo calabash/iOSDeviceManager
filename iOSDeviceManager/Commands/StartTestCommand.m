@@ -35,7 +35,7 @@ static NSString *const DEFAULT_SESSION_ID = @"BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFA
         [options addObject:[CommandOption withShortFlag:SESSION_ID_FLAG
                                                longFlag:@"--session-id"
                                              optionName:@"session_id,default=BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE"
-                                                   info:@"BundleID of the Test Runner application (DeviceAgent)"
+                                                   info:@"Session ID for the XCUITest"
                                                required:NO]];
         
         [options addObject:[CommandOption withShortFlag:KEEP_ALIVE_FLAG
