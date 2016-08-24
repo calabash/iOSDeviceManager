@@ -21,7 +21,7 @@
         if (![entsPlist writeToFile:filePath
                          atomically:YES
                            encoding:NSUTF8StringEncoding
-                              error:e] || *e) {
+                              error:e]) {
             NSLog(@"Unable to create entitlements file: %@", *e);
             exit(1);
         }
