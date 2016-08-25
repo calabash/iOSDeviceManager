@@ -1,5 +1,9 @@
 #import <Foundation/Foundation.h>
 
+@class ShellResult;
+@class Entitlements;
+@class CodesignIdentity;
+
 #pragma mark - Version Inlines
 
 NS_INLINE BOOL version_eql(NSString* a, NSString *b) {
@@ -120,6 +124,20 @@ static NSString *const SIM = @"SIM";
 - (NSString *)DeviceAgentPath:(NSString *)platform;
 - (NSString *)DeviceAgentXCTestPath:(NSString *)platform;
 - (NSString *)DeviceAgentIdentifier;
+
+- (ShellResult *)successResultSingleLine;
+- (ShellResult *)successResultMultiline;
+- (ShellResult *)successResultWithFakeSigningIdentities;
+- (ShellResult *)timedOutResult;
+- (ShellResult *)failedResult;
+
+- (NSString *)stringPlist;
+- (NSString *)CalabashWildcardPath;
+- (NSString *)provisioningProfilesDirectory;
+- (NSString *)pathToCalabashWildcardPathCertificate;
+- (NSData *)certificateFromCalabashWildcardPath;
+- (Entitlements *)entitlements;
+- (CodesignIdentity *)KarlKrukowIdentity;
 
 - (NSString *)resourcesDirectory;
 - (NSString *)plistPath:(NSString *)bundlePath;
