@@ -4,6 +4,17 @@
 #import "Device.h"
 #import "CLI.h"
 
+@interface CLI (priv)
++ (NSString *)pathToCLIJSON;
+@end
+
+@implementation CLI (priv)
++ (NSString *)pathToCLIJSON {
+    return [[[Resources shared] resourcesDirectory] stringByAppendingPathComponent:@"CLI.json"];
+}
+@end
+
+
 @interface SimulatorCLIIntegrationTests : TestCase
 
 - (NSString *)bundleVersionForInstalledTestApp;

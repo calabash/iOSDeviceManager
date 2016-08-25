@@ -29,11 +29,11 @@ static NSDictionary *CLIDict;
     free(classes);
     
     //Load the CLI.json command line options
-    NSString *cliJSONPath = [[NSBundle mainBundle] pathForResource:@"CLI" ofType:@"json"];
+    NSString *cliJSONPath = [self pathToCLIJSON];
     if (!cliJSONPath || [cliJSONPath isEqualToString:@""]) {
         @throw [NSException exceptionWithName:@"CLI.json error"
                                        reason:@"CLI.json not found."
-                                     userInfo:nil];
+                                     userInfo:@{@"resource path" : [[NSBundle mainBundle] resourcePath] ?: @""}];
     }
     
     NSData *jsonData = [NSData dataWithContentsOfFile:cliJSONPath];
@@ -44,6 +44,10 @@ static NSDictionary *CLIDict;
                                        reason:@"CLI.json not parseable."
                                      userInfo:@{@"inner error" : e ?: @""}];
     }
+}
+
++ (NSString *)pathToCLIJSON {
+    return [[NSBundle mainBundle] pathForResource:@"CLI" ofType:@"json"];
 }
 
 + (NSDictionary *)CLIDict {
