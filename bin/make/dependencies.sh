@@ -52,7 +52,9 @@ HERE=$(pwd)
 cp LICENSE "${OUTPUT_DIR}"
 cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
 
+make clean
 make build
+
 cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
 
 info "Gathered dependencies in ${OUTPUT_DIR}"
