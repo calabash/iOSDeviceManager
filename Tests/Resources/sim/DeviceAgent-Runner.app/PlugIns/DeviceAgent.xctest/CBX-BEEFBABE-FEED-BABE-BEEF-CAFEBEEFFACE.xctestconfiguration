@@ -11,7 +11,17 @@
 			<key>$class</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>8</integer>
+				<integer>15</integer>
+			</dict>
+			<key>aggregateStatisticsBeforeCrash</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>10</integer>
+			</dict>
+			<key>baselineFileRelativePath</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>0</integer>
 			</dict>
 			<key>baselineFileURL</key>
 			<dict>
@@ -20,6 +30,8 @@
 			</dict>
 			<key>disablePerformanceMetrics</key>
 			<false/>
+			<key>initializeForUITesting</key>
+			<true/>
 			<key>pathToXcodeReportingSocket</key>
 			<dict>
 				<key>CF$UID</key>
@@ -28,7 +40,7 @@
 			<key>productModuleName</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>7</integer>
+				<integer>9</integer>
 			</dict>
 			<key>reportActivities</key>
 			<true/>
@@ -42,9 +54,14 @@
 			<key>targetApplicationBundleID</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>0</integer>
+				<integer>8</integer>
 			</dict>
 			<key>targetApplicationPath</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>7</integer>
+			</dict>
+			<key>testBundleRelativePath</key>
 			<dict>
 				<key>CF$UID</key>
 				<integer>0</integer>
@@ -86,7 +103,7 @@
 				<integer>3</integer>
 			</dict>
 		</dict>
-		<string>file://calaba/sh/CBX.xctest/</string>
+		<string>file:///private/var/containers/Bundle/Application/21A83AF9-FACE-FACE-FACE-00605F990879/UITest-Runner.app/PlugIns/UITest.xctest</string>
 		<dict>
 			<key>$classes</key>
 			<array>
@@ -116,7 +133,61 @@
 			<key>$classname</key>
 			<string>NSUUID</string>
 		</dict>
-		<string>CBX</string>
+		<string>/Users/calabash/Library/Developer/Xcode/DerivedData/CBXDriver-thankyouforusingcalabash/Build/Products/Debug-iphoneos/TestApp.app</string>
+		<string>sh.calaba.TestApp</string>
+		<string>UITest</string>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>14</integer>
+			</dict>
+			<key>NS.keys</key>
+			<array>
+				<dict>
+					<key>CF$UID</key>
+					<integer>11</integer>
+				</dict>
+			</array>
+			<key>NS.objects</key>
+			<array>
+				<dict>
+					<key>CF$UID</key>
+					<integer>12</integer>
+				</dict>
+			</array>
+		</dict>
+		<string>XCSuiteRecordsKey</string>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>13</integer>
+			</dict>
+			<key>NS.keys</key>
+			<array/>
+			<key>NS.objects</key>
+			<array/>
+		</dict>
+		<dict>
+			<key>$classes</key>
+			<array>
+				<string>NSMutableDictionary</string>
+				<string>NSDictionary</string>
+				<string>NSObject</string>
+			</array>
+			<key>$classname</key>
+			<string>NSMutableDictionary</string>
+		</dict>
+		<dict>
+			<key>$classes</key>
+			<array>
+				<string>NSDictionary</string>
+				<string>NSObject</string>
+			</array>
+			<key>$classname</key>
+			<string>NSDictionary</string>
+		</dict>
 		<dict>
 			<key>$classes</key>
 			<array>
