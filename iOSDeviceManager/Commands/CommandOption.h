@@ -5,11 +5,14 @@
 @property (nonatomic, strong) NSString *longFlag;
 @property (nonatomic, strong) NSString *optionName;
 @property (nonatomic, strong) NSString *additionalInfo;
+@property (nonatomic, strong) id defaultValue;
 @property (nonatomic)       BOOL required;
 
 + (instancetype)withShortFlag:(NSString *)shortFlag
                      longFlag:(NSString *)longFlag
                    optionName:(NSString *)optionName
                          info:(NSString *)info
-                     required:(BOOL)required;
+                     required:(BOOL)required
+                   defaultVal:(id)defaultValue;
+
 @end

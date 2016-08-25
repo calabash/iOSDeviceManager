@@ -1,8 +1,26 @@
 
 #import "iOSDeviceManagementCommand.h"
 #import "Command.h"
+#import "CLI.h"
 
 @implementation Command
+static NSMutableDictionary <NSString *, NSArray<CommandOption *> *> *classOptionArrayMap;
+static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
+
++ (NSString *)name {
+    @throw [NSException exceptionWithName:@"ProgrammerErrorException"
+                                   reason:@"+(NSString *)name shoudl be overidden by sublass"
+                                 userInfo:@{@"this class" : NSStringFromClass(self.class)}];
+}
+
++ (void)load {
+    static dispatch_once_t oncet;
+    dispatch_once(&oncet, ^{
+        classOptionDictMap = [NSMutableDictionary dictionary];
+        classOptionArrayMap = [NSMutableDictionary dictionary];
+    });
+}
+
 + (void)validateConformsToProtocol {
     if (![self conformsToProtocol:@protocol(iOSDeviceManagementCommand)]) {
         @throw [NSException exceptionWithName:@"ProgrammerErrorException"
@@ -27,8 +45,12 @@
             [usage appendString:@" [OPTIONAL] "];
         }
         if (op.additionalInfo && ![op.additionalInfo isEqualToString:@""]) {
-            [usage appendFormat:@"\t%@\n", op.additionalInfo];
+            [usage appendFormat:@"\t%@", op.additionalInfo];
         }
+        if (op.defaultValue) {
+            [usage appendFormat:@"\tDEFAULT=%@", op.defaultValue];
+        }
+        [usage appendString:@"\n"];
     }
     return usage;
 }
@@ -74,4 +96,49 @@
     *exitCode = iOSReturnStatusCodeEverythingOkay;
     return values;
 }
+
++ (NSDictionary <NSString *, CommandOption *> *)optionDict {
+    if (classOptionDictMap[self.name] == nil) {
+        NSArray <CommandOption *> *options = [self options];
+        NSMutableDictionary <NSString *, CommandOption *> *optionsDict
+            = [NSMutableDictionary dictionaryWithCapacity:options.count];
+        for (CommandOption *opt in options) {
+            optionsDict[opt.shortFlag] = opt;
+        }
+        classOptionDictMap[self.name] = optionsDict;
+    }
+    return classOptionDictMap[self.name];
+}
+
++ (NSArray <CommandOption *> *)options {
+    if (classOptionArrayMap[self.name] == nil) {
+        NSDictionary *commandOptions = [CLI CLIDict][[self name]];
+        if (!commandOptions) {
+            @throw [NSException exceptionWithName:@"ProgrammerErrorException"
+                                           reason:@"CLI.json has no command options for this command, or this command has no name."
+                                         userInfo:@{@"name" : [self name] ?: @""}];
+        }
+        
+        NSMutableArray <CommandOption *> *options = [NSMutableArray arrayWithCapacity:commandOptions.count];
+        for (NSString *shortFlag in commandOptions) {
+            NSDictionary *attrs = commandOptions[shortFlag];
+            NSString *longFlag = attrs[@"longFlag"];
+            NSString *optionName = attrs[@"optionName"];
+            NSString *info = attrs[@"info"];
+            BOOL required = [attrs[@"required"] boolValue];
+            id def = attrs[@"default"];
+            
+            CommandOption *opt = [CommandOption withShortFlag:shortFlag
+                                                     longFlag:longFlag
+                                                   optionName:optionName
+                                                         info:info
+                                                     required:required
+                                                   defaultVal: def];
+            [options addObject:opt];
+        }
+        classOptionArrayMap[self.name] = options;
+    }
+    return classOptionArrayMap[self.name];
+}
+
 @end

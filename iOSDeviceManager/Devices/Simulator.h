@@ -7,3 +7,4 @@
 + (iOSReturnStatusCode)launchSimulator:(NSString *)simID;
 + (iOSReturnStatusCode)killSimulator:(NSString *)simID;
 @end
+

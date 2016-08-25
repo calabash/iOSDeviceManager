@@ -7,6 +7,8 @@
 
 @implementation CLI
 static NSMutableDictionary <NSString *, Class> *commandClasses;
+static NSDictionary *CLIDict;
+
 + (void)load {
     unsigned int outCount;
     Class *classes = objc_copyClassList(&outCount);
@@ -25,6 +27,27 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
         }
     }
     free(classes);
+    
+    //Load the CLI.json command line options
+    NSString *cliJSONPath = [[NSBundle mainBundle] pathForResource:@"CLI" ofType:@"json"];
+    if (!cliJSONPath || [cliJSONPath isEqualToString:@""]) {
+        @throw [NSException exceptionWithName:@"CLI.json error"
+                                       reason:@"CLI.json not found."
+                                     userInfo:nil];
+    }
+    
+    NSData *jsonData = [NSData dataWithContentsOfFile:cliJSONPath];
+    NSError *e;
+    CLIDict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
+    if (!CLIDict) {
+        @throw [NSException exceptionWithName:@"CLI.json error"
+                                       reason:@"CLI.json not parseable."
+                                     userInfo:@{@"inner error" : e ?: @""}];
+    }
+}
+
++ (NSDictionary *)CLIDict {
+    return CLIDict;
 }
 
 + (void)printUsage {
