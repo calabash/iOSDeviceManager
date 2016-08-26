@@ -54,5 +54,6 @@ cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
 
 make build
 cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
+cp "CLI.json" "${OUTPUT_DIR}/bin" 
 
 info "Gathered dependencies in ${OUTPUT_DIR}"
