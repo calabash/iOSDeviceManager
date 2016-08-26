@@ -247,15 +247,21 @@ testCaseDidStartForTestClass:(NSString *)testClass
     FBDevice *device = [self deviceForID:deviceID codesigner:[self signer:codesignID]];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
+    NSString *stagedApp = [AppUtils copyAppBundle:pathToBundle];
+    if (!stagedApp) {
+        NSLog(@"ERROR: Could not stage app for code signing");
+        return iOSReturnStatusCodeInternalError;
+    }
+
     NSError *err;
     //Codesign
     FBProductBundle *app = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
-                              withBundlePath:pathToBundle]
+                              withBundlePath:stagedApp]
                              withCodesignProvider:[self signer:codesignID]]
                             buildWithError:&err];
 
     if (err) {
-        NSLog(@"Error creating product bundle for %@: %@", pathToBundle, err);
+        NSLog(@"Error creating product bundle for %@: %@", stagedApp, err);
         return iOSReturnStatusCodeInternalError;
     }
 
@@ -265,14 +271,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
             NSLog(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
-        iOSReturnStatusCode ret = [self updateAppIfRequired:pathToBundle
+        iOSReturnStatusCode ret = [self updateAppIfRequired:stagedApp
                                                      device:device
                                                  codesigner:[self signer:codesignID]];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
     } else {
-        if (![op installApplicationWithPath:pathToBundle error:&err] || err) {
+        if (![op installApplicationWithPath:stagedApp error:&err] || err) {
             NSLog(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
