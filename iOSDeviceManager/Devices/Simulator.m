@@ -104,6 +104,7 @@ static FBSimulatorControl *_control;
     
     id replog = [self new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
+    [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
                                             runnerBundleID:runnerBundleID
                                                  sessionID:sessionID
