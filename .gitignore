@@ -8,6 +8,8 @@ results
 
 reports/*.xml
 reports/*.json
+Carthage/Checkouts
+!Carthage/Build
 
 ## nuget
 *.nupkg
