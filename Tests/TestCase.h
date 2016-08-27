@@ -13,7 +13,12 @@
 #define defaultDeviceUDID [[Resources shared] defaultDeviceUDID]
 
 NS_INLINE BOOL device_available() {
-    return [[Resources shared] isCompatibleDeviceConnected];
+    if ([[Resources shared] isCompatibleDeviceConnected]) {
+        return YES;
+    } else {
+        NSLog(@"No compatible device connected; skipping test");
+        return NO;
+    }
 }
 
 

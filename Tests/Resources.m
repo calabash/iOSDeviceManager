@@ -1,6 +1,8 @@
 #import "Resources.h"
 #import "ShellRunner.h"
 #import "TestParameters.h"
+#import "Entitlements.h"
+#import "CodesignIdentity.h"
 #import <sys/utsname.h>
 
 @interface Simctl ()
@@ -17,12 +19,11 @@
 
 + (BOOL)ensureValidCoreSimulatorService {
     BOOL success = NO;
-    NSDictionary *hash;
     NSUInteger maxTries = 10;
     for(NSUInteger try = 0; try < maxTries; try++) {
-        hash = [ShellRunner xcrun:@[@"simctl", @"help"] timeout:10];
+        ShellResult *result = [ShellRunner xcrun:@[@"simctl", @"help"] timeout:10];
 
-        if (!hash[@"success"]) {
+        if (!result.success) {
             NSLog(@"Invalid CoreSimulator service for active Xcode: try %@ of %@",
                   @(try + 1), @(maxTries));
         } else {
@@ -50,7 +51,6 @@
 
     NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"simctl", @"list",
                                                       @"devices", @"--json"]];
-    NSLog(@"lines = %@", lines);
     NSString *json = [lines componentsJoinedByString:@"\n"];
 
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
@@ -258,8 +258,7 @@
 - (NSArray<TestDevice *> *)connectedDevices {
     if (_connectedDevices) { return _connectedDevices; }
 
-    NSArray<NSString *> *lines =
-    [ShellRunner xcrun:@[@"instruments", @"-s", @"devices"]];
+    NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"instruments", @"-s", @"devices"]];
 
     NSMutableArray<TestDevice *> *result = [@[] mutableCopy];
 
@@ -369,6 +368,12 @@
 @property(copy, readonly) NSString *XcodeFromProcessPATH;
 @property(copy, readonly) NSString *XcodePath;
 
+@property(strong, readonly) ShellResult *successResultSingleLine;
+@property(strong, readonly) ShellResult *successResultMultiline;
+@property(strong, readonly) ShellResult *successWithFakeSigningIdentities;
+@property(strong, readonly) ShellResult *timedOutResult;
+@property(strong, readonly) ShellResult *failedResult;
+
 - (BOOL)createDirectoryAtPath:(NSString *)path error:(NSError **)error;
 - (void)createDirectoryAtPath:(NSString *)path failureMessage:(NSString *)string;
 
@@ -389,6 +394,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 @synthesize XcodeSelectPath = _XcodeSelectPath;
 @synthesize XcodeFromProcessPATH = _XcodeFromProcessPath;
 @synthesize XcodePath = _XcodePath;
+@synthesize successResultSingleLine = _successResultSingleLine;
+@synthesize successResultMultiline = _successResultMultiline;
+@synthesize successWithFakeSigningIdentities = _successWithFakeSigningIdentities;
+@synthesize timedOutResult = _timedOutResult;
+@synthesize failedResult = _failedResult;
 
 + (Resources *) shared {
     static Resources *shared = nil;
@@ -476,17 +486,16 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return _XcodeVersion;
 }
 
-
 - (BOOL)XcodeGte80 {
     return version_gte(self.XcodeVersion, @"8.0");
 }
 
 - (void)setDeveloperDirectory {
     if (self.OSisSierraOrHigher) {
-        NSLog(@"Only Xcode 8 is allowed on Sierra; "
-              "don't touch the active Xcode version");
+        //NSLog(@"Only Xcode 8 is allowed on Sierra; "
+        //      "don't touch the active Xcode version");
     } else {
-        NSLog(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
+        //NSLog(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
         setenv("DEVELOPER_DIR",
                [self.XcodePath cStringUsingEncoding:NSUTF8StringEncoding],
                YES);
@@ -565,6 +574,114 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)DeviceAgentIdentifier {
     return [self bundleIdentifier:[self DeviceAgentPath:ARM]];
+}
+
+- (ShellResult *)successResultSingleLine {
+    if (_successResultSingleLine) { return _successResultSingleLine; }
+
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/bin/echo"];
+    [task setArguments:@[@"-n", @"Hello"]];
+
+    NSPipe *outPipe = [NSPipe pipe];
+    [task setStandardOutput:outPipe];
+
+    NSPipe *errPipe = [NSPipe pipe];
+    [task setStandardError:errPipe];
+
+    [task launch];
+    [task waitUntilExit];
+
+    _successResultSingleLine = [ShellResult withTask:task elapsed:1.0 didTimeOut:NO];
+    return _successResultSingleLine;
+}
+
+- (ShellResult *)successResultMultiline {
+    if (_successResultMultiline) { return _successResultMultiline; }
+
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/bin/echo"];
+    [task setArguments:@[@"Hello\nNewline"]];
+
+    NSPipe *outPipe = [NSPipe pipe];
+    [task setStandardOutput:outPipe];
+
+    NSPipe *errPipe = [NSPipe pipe];
+    [task setStandardError:errPipe];
+
+    [task launch];
+    [task waitUntilExit];
+
+    _successResultMultiline = [ShellResult withTask:task elapsed:1.0 didTimeOut:NO];
+    return _successResultMultiline;
+}
+
+- (ShellResult *)successResultWithFakeSigningIdentities {
+    if (_successWithFakeSigningIdentities) { return _successWithFakeSigningIdentities; }
+
+    NSString *path = [self.resourcesDirectory stringByAppendingPathComponent:@"identities.out"];
+
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/bin/cat"];
+    [task setArguments:@[path]];
+
+    NSPipe *outPipe = [NSPipe pipe];
+    [task setStandardOutput:outPipe];
+
+    NSPipe *errPipe = [NSPipe pipe];
+    [task setStandardError:errPipe];
+
+    [task launch];
+    [task waitUntilExit];
+
+    _successWithFakeSigningIdentities = [ShellResult withTask:task elapsed:1.0 didTimeOut:NO];
+    return _successWithFakeSigningIdentities;
+}
+
+- (ShellResult *)timedOutResult {
+    if (_timedOutResult) { return _timedOutResult; }
+
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/bin/sleep"];
+    [task setArguments:@[@"1.0"]];
+
+    NSPipe *outPipe = [NSPipe pipe];
+    [task setStandardOutput:outPipe];
+
+    NSPipe *errPipe = [NSPipe pipe];
+    [task setStandardError:errPipe];
+
+    NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:0.05];
+
+    [task launch];
+
+    while ([task isRunning]) {
+        if ([endDate earlierDate:[NSDate date]] == endDate) {
+            [task terminate];
+        }
+    }
+
+    _timedOutResult = [ShellResult withTask:task elapsed:1.0 didTimeOut:YES];
+    return _timedOutResult;
+}
+
+- (ShellResult *)failedResult {
+    if (_failedResult) { return _failedResult; }
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/usr/bin/uname"];
+    [task setArguments:@[@"-q"]];
+
+    NSPipe *outPipe = [NSPipe pipe];
+    [task setStandardOutput:outPipe];
+
+    NSPipe *errPipe = [NSPipe pipe];
+    [task setStandardError:errPipe];
+
+    [task launch];
+    [task waitUntilExit];
+
+    _failedResult = [ShellResult withTask:task elapsed:1.0 didTimeOut:NO];
+    return _failedResult;
 }
 
 - (NSString *)plistPath:(NSString *)bundlePath {
@@ -679,6 +796,58 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     }
 }
 
+#pragma mark - Code Signing
+
+- (NSString *)stringPlist {
+    return @"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
+    "<plist version=\"1.0\">\n"
+    "<dict>\n"
+    "<key>KEY</key>\n"
+    "<string>VALUE</string>\n"
+    "</dict>\n"
+    "</plist>\n";
+}
+
+- (NSString *)CalabashWildcardPath {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"profiles/CalabashWildcard.mobileprovision"];
+}
+
+- (NSString *)provisioningProfilesDirectory {
+    return [self.resourcesDirectory stringByAppendingPathComponent:@"profiles"];
+}
+
+- (NSString *)pathToCalabashWildcardPathCertificate {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"cert-from-CalabashWildcardProfile.cert"];
+
+}
+
+- (NSData *)certificateFromCalabashWildcardPath {
+    NSString *path = [self pathToCalabashWildcardPathCertificate];
+    return [[NSData alloc] initWithContentsOfFile:path
+                                          options:NSDataReadingUncached
+                                            error:nil];
+}
+
+- (Entitlements *)entitlements {
+    NSDictionary *dictionary = @{
+                                 @"application-identifier" : @"FYD86LA7RE.sh.calaba.TestApp",
+                                 @"com.apple.developer.team-identifier" : @"FYD86LA7RE",
+                                 @"get-task-allow" : @(YES),
+                                 @"keychain-access-groups" : @[@"FYD86LA7RE.sh.calaba.TestApp"]
+                                 };
+    return [Entitlements entitlementsWithDictionary:dictionary];
+}
+
+- (CodesignIdentity *)KarlKrukowIdentity {
+    NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
+    NSString *identityShasum = @"316B74B2838787366D1E76D33F3E621E5C2FAFB8";
+    return [[CodesignIdentity alloc] initWithShasum:identityShasum
+                                               name:identityName];
+}
+
 #pragma mark - Simulators
 
 - (Simctl *)simctl {
@@ -738,9 +907,9 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     if (_defaultDeviceUDID) { return _defaultDeviceUDID; }
 
     if (![self isCompatibleDeviceConnected]) { return nil; }
-    
+
     _defaultDeviceUDID = [[self defaultDevice] UDID];
-    
+
     return _defaultDeviceUDID;
 }
 

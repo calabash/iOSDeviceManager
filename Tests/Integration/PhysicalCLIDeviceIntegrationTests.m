@@ -12,6 +12,7 @@
     [super setUp];
 }
 
+/*  Hangs indefinitely.
 - (void)testStartTest {
     if (device_available()) {
         NSArray *args = @[
@@ -21,10 +22,9 @@
         ];
 
         [CLI process:args];
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
+*/
 
 - (void)testSetLocation {
     if (device_available()) {
@@ -42,8 +42,6 @@
                  kStockholmCoord
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -54,8 +52,6 @@
                           @"-d", defaultDeviceUDID
                           ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -80,8 +76,6 @@
                  @"-b", testAppID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -109,8 +103,6 @@
                  @"-c", kCodeSignIdentityKARL
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -160,8 +152,6 @@
                  @"-d", defaultDeviceUDID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
