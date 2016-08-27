@@ -58,9 +58,6 @@
 
         NSLog(@"=== RANKED PROFILES ===");
         NSLog(@"%@", profiles);
-
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 

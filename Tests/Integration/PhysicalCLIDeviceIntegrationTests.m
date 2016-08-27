@@ -21,8 +21,6 @@
         ];
 
         [CLI process:args];
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -42,8 +40,6 @@
                  kStockholmCoord
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -54,8 +50,6 @@
                           @"-d", defaultDeviceUDID
                           ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -80,8 +74,6 @@
                  @"-b", testAppID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -109,8 +101,6 @@
                  @"-c", kCodeSignIdentityKARL
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
@@ -160,8 +150,6 @@
                  @"-d", defaultDeviceUDID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        NSLog(@"No compatible device connected; skipping test");
     }
 }
 
