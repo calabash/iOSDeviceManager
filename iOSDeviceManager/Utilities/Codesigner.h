@@ -3,5 +3,11 @@
 #import <XCTestBootstrap/XCTestBootstrap.h>
 
 @interface Codesigner : NSObject  <FBCodesignProvider>
-@property (nonatomic, strong) NSString *codesignIdentity;
+
++ (Codesigner *)signerThatCannotSign;
+
+- (instancetype)initWithCodeSignIdentity:(NSString *)codeSignIdentity
+                              deviceUDID:(NSString *)deviceUDID;
+
+- (NSString *)codeSignIdentity;
 @end
