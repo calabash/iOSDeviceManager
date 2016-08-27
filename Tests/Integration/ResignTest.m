@@ -33,9 +33,9 @@
 
         BundleResigner *resigner;
         resigner = [[BundleResignerFactory shared]
-                                           resignerWithBundlePath:bundlePath
-                                                       deviceUDID:deviceUDID
-                                            signingIdentityString:identity];
+                    resignerWithBundlePath:bundlePath
+                    deviceUDID:deviceUDID
+                    signingIdentityString:identity];
         expect([resigner resign]).to.equal(YES);
     }
 }
@@ -55,9 +55,9 @@
 
         BundleResigner *resigner;
         resigner = [[BundleResignerFactory shared]
-                                           resignerWithBundlePath:bundlePath
-                                                       deviceUDID:deviceUDID
-                                            signingIdentityString:identity];
+                    resignerWithBundlePath:bundlePath
+                    deviceUDID:deviceUDID
+                    signingIdentityString:identity];
         expect([resigner resign]).to.equal(YES);
     }
 }

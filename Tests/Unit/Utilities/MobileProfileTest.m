@@ -95,333 +95,333 @@
 SpecBegin(MobileProfile)
 
 
-    context(@"Instance Methods", ^{
-        __block MobileProfile *profile;
+context(@"Instance Methods", ^{
+    __block MobileProfile *profile;
 
-        before(^{
+    before(^{
+        profile = [[MobileProfile alloc]
+                   initWithDictionary:@{@"KEY": @"VALUE"}
+                   path:@"path/to/profile"];
+    });
+
+    context(@"#initWithDictionary:path:", ^{
+        it(@"returns an instance with _info and _path set", ^{
+            NSString *path = @"path/to/profile";
+            NSDictionary *info = @{@"KEY": @"VALUE"};
             profile = [[MobileProfile alloc]
-                                      initWithDictionary:@{@"KEY": @"VALUE"}
-                                                    path:@"path/to/profile"];
-        });
+                       initWithDictionary:@{@"KEY": @"VALUE"}
+                       path:@"path/to/profile"];
 
-        context(@"#initWithDictionary:path:", ^{
-            it(@"returns an instance with _info and _path set", ^{
-                NSString *path = @"path/to/profile";
-                NSDictionary *info = @{@"KEY": @"VALUE"};
-                profile = [[MobileProfile alloc]
-                                          initWithDictionary:@{@"KEY": @"VALUE"}
-                                                        path:@"path/to/profile"];
-
-                expect(profile.info).to.equal(info);
-                expect(profile.path).to.equal(path);
-                expect(profile.rank).to.equal(0);
-            });
-        });
-
-        context(@"#objectForKeyedSubscript:", ^{
-            it(@"returns the value for key in info dictionary", ^{
-                expect(profile[@"KEY"]).to.equal(@"VALUE");
-            });
-
-            it(@"returns the value for key in info dictionary", ^{
-                expect(profile[@"OTHER"]).to.equal(nil);
-            });
-        });
-
-        context(@"#isPlatformIOS", ^{
-            __block id mock;
-            __block NSArray<NSString *> *platforms;
-
-            before(^{
-                mock = OCMPartialMock(profile);
-            });
-
-            after(^{
-                OCMVerifyAll(mock);
-            });
-
-            it(@"returns true if platform contains iOS", ^{
-                platforms = @[@"iOS", @"watchOS"];
-                OCMExpect([mock Platform]).andReturn(platforms);
-
-                expect(profile.isPlatformIOS).to.equal(YES);
-            });
-
-            it(@"returns false if platform does not contain iOS", ^{
-                platforms = @[@"watchOS"];
-                OCMExpect([mock Platform]).andReturn(platforms);
-
-                expect(profile.isPlatformIOS).to.equal(NO);
-            });
-        });
-
-        context(@"#isExpired", ^{
-            __block id mock;
-            __block NSDate *date;
-
-            before(^{
-                mock = OCMPartialMock(profile);
-            });
-
-            after(^{
-                OCMVerifyAll(mock);
-            });
-
-            it(@"returns true if profile has expired", ^{
-                date = [NSDate distantPast];
-                OCMExpect([mock ExpirationDate]).andReturn(date);
-
-                expect(profile.isExpired).to.equal(YES);
-            });
-
-            it(@"returns false if profile has not expired", ^{
-                date = [NSDate distantFuture];
-                OCMExpect([mock ExpirationDate]).andReturn(date);
-
-                expect(profile.isExpired).to.equal(NO);
-            });
-        });
-
-        context(@"#containsDeviceUDID:", ^{
-            __block id mock;
-            __block NSString *udid = @"<UDID>";
-
-            before(^{
-                mock = OCMPartialMock(profile);
-            });
-
-            after(^{
-                OCMVerifyAll(mock);
-            });
-
-            it(@"returns true if the device is in this profile", ^{
-                OCMExpect([mock ProvisionedDevices]).andReturn(@[@"<UDID>"]);
-
-                expect([profile containsDeviceUDID:udid]).to.equal(YES);
-            });
-
-            it(@"returns false if the device is not in this profile", ^{
-                OCMExpect([mock ProvisionedDevices]).andReturn(@[]);
-
-                expect([profile containsDeviceUDID:udid]).to.equal(NO);
-            });
+            expect(profile.info).to.equal(info);
+            expect(profile.path).to.equal(path);
+            expect(profile.rank).to.equal(0);
         });
     });
+
+    context(@"#objectForKeyedSubscript:", ^{
+        it(@"returns the value for key in info dictionary", ^{
+            expect(profile[@"KEY"]).to.equal(@"VALUE");
+        });
+
+        it(@"returns the value for key in info dictionary", ^{
+            expect(profile[@"OTHER"]).to.equal(nil);
+        });
+    });
+
+    context(@"#isPlatformIOS", ^{
+        __block id mock;
+        __block NSArray<NSString *> *platforms;
+
+        before(^{
+            mock = OCMPartialMock(profile);
+        });
+
+        after(^{
+            OCMVerifyAll(mock);
+        });
+
+        it(@"returns true if platform contains iOS", ^{
+            platforms = @[@"iOS", @"watchOS"];
+            OCMExpect([mock Platform]).andReturn(platforms);
+
+            expect(profile.isPlatformIOS).to.equal(YES);
+        });
+
+        it(@"returns false if platform does not contain iOS", ^{
+            platforms = @[@"watchOS"];
+            OCMExpect([mock Platform]).andReturn(platforms);
+
+            expect(profile.isPlatformIOS).to.equal(NO);
+        });
+    });
+
+    context(@"#isExpired", ^{
+        __block id mock;
+        __block NSDate *date;
+
+        before(^{
+            mock = OCMPartialMock(profile);
+        });
+
+        after(^{
+            OCMVerifyAll(mock);
+        });
+
+        it(@"returns true if profile has expired", ^{
+            date = [NSDate distantPast];
+            OCMExpect([mock ExpirationDate]).andReturn(date);
+
+            expect(profile.isExpired).to.equal(YES);
+        });
+
+        it(@"returns false if profile has not expired", ^{
+            date = [NSDate distantFuture];
+            OCMExpect([mock ExpirationDate]).andReturn(date);
+
+            expect(profile.isExpired).to.equal(NO);
+        });
+    });
+
+    context(@"#containsDeviceUDID:", ^{
+        __block id mock;
+        __block NSString *udid = @"<UDID>";
+
+        before(^{
+            mock = OCMPartialMock(profile);
+        });
+
+        after(^{
+            OCMVerifyAll(mock);
+        });
+
+        it(@"returns true if the device is in this profile", ^{
+            OCMExpect([mock ProvisionedDevices]).andReturn(@[@"<UDID>"]);
+
+            expect([profile containsDeviceUDID:udid]).to.equal(YES);
+        });
+
+        it(@"returns false if the device is not in this profile", ^{
+            OCMExpect([mock ProvisionedDevices]).andReturn(@[]);
+
+            expect([profile containsDeviceUDID:udid]).to.equal(NO);
+        });
+    });
+});
 
 #pragma mark - Class Method Examples
 
-    context(@".arrayOfProfilePaths:", ^{
-        __block id MockMobileProfile;
-        __block NSArray<NSString *> *actual;
-        __block NSString *directory;
+context(@".arrayOfProfilePaths:", ^{
+    __block id MockMobileProfile;
+    __block NSArray<NSString *> *actual;
+    __block NSString *directory;
 
-        before(^{
-            MockMobileProfile = OCMClassMock([MobileProfile class]);
-        });
-
-        after(^{
-            OCMVerifyAll(MockMobileProfile);
-        });
-
-        it(@"returns an array of paths to profiles from the user's Library", ^{
-            directory = [[Resources shared] provisioningProfilesDirectory];
-            OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
-
-            actual = [MobileProfile arrayOfProfilePaths];
-            expect(actual.count).to.equal(7);
-            expect([[NSFileManager defaultManager]
-                                   fileExistsAtPath:actual[0]]).to.equal(YES);
-        });
-
-        it(@"returns nil if there is an error getting the contents of the directory", ^{
-            directory = @"path/to/some/directory";
-            OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
-
-            actual = [MobileProfile arrayOfProfilePaths];
-            expect(actual).to.equal(nil);
-        });
-
-        it(@"returns nil if no profiles are found", ^{
-            directory = [[Resources shared] tmpDirectoryWithName:@"Provisioning Profiles"];
-            OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
-
-            actual = [MobileProfile arrayOfProfilePaths];
-            expect(actual).to.equal(nil);
-        });
+    before(^{
+        MockMobileProfile = OCMClassMock([MobileProfile class]);
     });
 
-    context(@".stringByExportingProfileWithSecurity:", ^{
-        __block id MockShellRunner;
-        __block ShellResult *shellResult;
-
-        before(^{
-            MockShellRunner = OCMClassMock([ShellRunner class]);
-        });
-
-        after(^{
-            OCMVerifyAll(MockShellRunner);
-        });
-
-        it(@"returns an NSString representation of a profile", ^{
-            shellResult = [[Resources shared] successResultSingleLine];
-            OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
-
-            NSString *expected = @"Hello";
-            NSString *actual = [MobileProfile stringByExportingProfileWithSecurity:@""];
-            expect(actual).to.equal(expected);
-        });
-
-        it(@"returns nil if security cannot export the profile", ^{
-            shellResult = [[Resources shared] failedResult];
-            OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
-
-            NSString *actual = [MobileProfile stringByExportingProfileWithSecurity:@""];
-            expect(actual).to.equal(nil);
-        });
+    after(^{
+        OCMVerifyAll(MockMobileProfile);
     });
 
-    context(@".dictionaryByExportingProfileWithSecurity:", ^{
-        __block id MockMobileProfile;
-        __block NSString *path;
-        __block NSString *plist;
-        __block NSDictionary *actual;
+    it(@"returns an array of paths to profiles from the user's Library", ^{
+        directory = [[Resources shared] provisioningProfilesDirectory];
+        OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
 
-        before(^{
-            MockMobileProfile = OCMClassMock([MobileProfile class]);
-            path = @"path/to/my.mobileprovision";
-            plist = [[Resources shared] stringPlist];
-        });
-
-        after(^{
-            OCMVerifyAll(MockMobileProfile);
-        });
-
-        it(@"returns an NSDictionary representation of a profile", ^{
-            OCMExpect([MockMobileProfile
-                    stringByExportingProfileWithSecurity:path]).andReturn(plist);
-
-            actual = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
-            expect(actual.count).to.equal(1);
-            expect(actual[@"KEY"]).to.equal(@"VALUE");
-        });
-
-        it(@"returns nil if security could not convert profile to a string", ^{
-            OCMExpect([MockMobileProfile
-                    stringByExportingProfileWithSecurity:path]).andReturn(nil);
-
-            actual = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
-            expect(actual).to.equal(nil);
-        });
-
-        it(@"returns nil if plist could not be converted to a dictionary", ^{
-            OCMExpect([MockMobileProfile
-                    stringByExportingProfileWithSecurity:path]).andReturn(@"");
-
-            actual = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
-            expect(actual).to.equal(nil);
-        });
+        actual = [MobileProfile arrayOfProfilePaths];
+        expect(actual.count).to.equal(7);
+        expect([[NSFileManager defaultManager]
+                fileExistsAtPath:actual[0]]).to.equal(YES);
     });
 
-    context(@"embeddedMobileProvision:identity:deviceUDID:", ^{
+    it(@"returns nil if there is an error getting the contents of the directory", ^{
+        directory = @"path/to/some/directory";
+        OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
 
-        __block NSString *bundlePath;
-        __block NSString *provisionPath;
-        __block CodesignIdentity *identity;
-        // denis - Joshua Moody's iPhone 6 Plus - it is in the profile!
-        __block NSString *UDID = @"193688959205dc7eb48d603c558ede919ad8dd0d";
-        __block id MockMobileProfile;
-        __block MobileProfile *embedded;
-
-        before(^{
-            bundlePath = testApp(ARM);
-            provisionPath = [bundlePath stringByAppendingPathComponent:@"embedded.mobileprovision"];
-            identity = [[Resources shared] KarlKrukowIdentity];
-            MockMobileProfile = OCMClassMock([MobileProfile class]);
-            embedded = nil;
-        });
-
-        after(^{
-            OCMVerifyAll(MockMobileProfile);
-        });
-
-        it(@"returns nil if there is no embedded.mobileprovision", ^{
-            id mockManager = OCMPartialMock([NSFileManager defaultManager]);
-            OCMExpect([mockManager fileExistsAtPath:provisionPath]).andReturn(NO);
-
-            embedded = [MobileProfile embeddedMobileProvision:bundlePath
-                                                    identity:identity
-                                                  deviceUDID:UDID];
-            expect(embedded).to.beNil();
-
-            OCMVerifyAll(mockManager);
-            [mockManager stopMocking];
-        });
-
-        it(@"returns nil if the provision cannot be exported with security", ^{
-            OCMExpect(
-                    [MockMobileProfile dictionaryByExportingProfileWithSecurity:provisionPath]
-            ).andReturn(nil);
-
-            embedded = [MobileProfile embeddedMobileProvision:bundlePath
-                                                     identity:identity
-                                                   deviceUDID:UDID];
-            expect(embedded).to.beNil();
-        });
-
-        it(@"returns nil if the profile is expired", ^{
-            OCMExpect([MockMobileProfile alloc]).andReturn(MockMobileProfile);
-            OCMExpect(
-                    [MockMobileProfile initWithDictionary:OCMOCK_ANY
-                                                     path:OCMOCK_ANY]
-            ).andReturn(MockMobileProfile);
-
-            OCMExpect([MockMobileProfile isExpired]).andReturn(YES);
-
-            embedded = [MobileProfile embeddedMobileProvision:bundlePath
-                                                     identity:identity
-                                                   deviceUDID:UDID];
-            expect(embedded).to.beNil();
-        });
-
-        it(@"returns nil if the profile does not contain the device UDID", ^{
-            OCMExpect([MockMobileProfile alloc]).andReturn(MockMobileProfile);
-            OCMExpect(
-                    [MockMobileProfile initWithDictionary:OCMOCK_ANY
-                                                     path:OCMOCK_ANY]
-            ).andReturn(MockMobileProfile);
-
-            OCMExpect([MockMobileProfile isExpired]).andReturn(NO);
-            OCMExpect([MockMobileProfile ProvisionedDevices]).andReturn(@[]);
-
-            embedded = [MobileProfile embeddedMobileProvision:bundlePath
-                                                     identity:identity
-                                                   deviceUDID:UDID];
-            expect(embedded).to.beNil();
-        });
-
-        it(@"returns nil if the identity is not found in the profile certs", ^{
-            OCMExpect([MockMobileProfile alloc]).andReturn(MockMobileProfile);
-            OCMExpect(
-                    [MockMobileProfile initWithDictionary:OCMOCK_ANY
-                                                     path:OCMOCK_ANY]
-            ).andReturn(MockMobileProfile);
-
-            OCMExpect([MockMobileProfile isExpired]).andReturn(NO);
-            OCMExpect([MockMobileProfile ProvisionedDevices]).andReturn(@[UDID]);
-            OCMExpect([MockMobileProfile DeveloperCertificates]).andReturn(@[]);
-
-            embedded = [MobileProfile embeddedMobileProvision:bundlePath
-                                                     identity:identity
-                                                   deviceUDID:UDID];
-            expect(embedded).to.beNil();
-        });
-
-        it(@"returns a MobileProfile if the provision has the device and the cert", ^{
-            embedded = [MobileProfile embeddedMobileProvision:bundlePath
-                                                     identity:identity
-                                                   deviceUDID:UDID];
-            expect(embedded).notTo.beNil();
-        });
+        actual = [MobileProfile arrayOfProfilePaths];
+        expect(actual).to.equal(nil);
     });
+
+    it(@"returns nil if no profiles are found", ^{
+        directory = [[Resources shared] tmpDirectoryWithName:@"Provisioning Profiles"];
+        OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
+
+        actual = [MobileProfile arrayOfProfilePaths];
+        expect(actual).to.equal(nil);
+    });
+});
+
+context(@".stringByExportingProfileWithSecurity:", ^{
+    __block id MockShellRunner;
+    __block ShellResult *shellResult;
+
+    before(^{
+        MockShellRunner = OCMClassMock([ShellRunner class]);
+    });
+
+    after(^{
+        OCMVerifyAll(MockShellRunner);
+    });
+
+    it(@"returns an NSString representation of a profile", ^{
+        shellResult = [[Resources shared] successResultSingleLine];
+        OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
+
+        NSString *expected = @"Hello";
+        NSString *actual = [MobileProfile stringByExportingProfileWithSecurity:@""];
+        expect(actual).to.equal(expected);
+    });
+
+    it(@"returns nil if security cannot export the profile", ^{
+        shellResult = [[Resources shared] failedResult];
+        OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
+
+        NSString *actual = [MobileProfile stringByExportingProfileWithSecurity:@""];
+        expect(actual).to.equal(nil);
+    });
+});
+
+context(@".dictionaryByExportingProfileWithSecurity:", ^{
+    __block id MockMobileProfile;
+    __block NSString *path;
+    __block NSString *plist;
+    __block NSDictionary *actual;
+
+    before(^{
+        MockMobileProfile = OCMClassMock([MobileProfile class]);
+        path = @"path/to/my.mobileprovision";
+        plist = [[Resources shared] stringPlist];
+    });
+
+    after(^{
+        OCMVerifyAll(MockMobileProfile);
+    });
+
+    it(@"returns an NSDictionary representation of a profile", ^{
+        OCMExpect([MockMobileProfile
+                   stringByExportingProfileWithSecurity:path]).andReturn(plist);
+
+        actual = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
+        expect(actual.count).to.equal(1);
+        expect(actual[@"KEY"]).to.equal(@"VALUE");
+    });
+
+    it(@"returns nil if security could not convert profile to a string", ^{
+        OCMExpect([MockMobileProfile
+                   stringByExportingProfileWithSecurity:path]).andReturn(nil);
+
+        actual = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
+        expect(actual).to.equal(nil);
+    });
+
+    it(@"returns nil if plist could not be converted to a dictionary", ^{
+        OCMExpect([MockMobileProfile
+                   stringByExportingProfileWithSecurity:path]).andReturn(@"");
+
+        actual = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
+        expect(actual).to.equal(nil);
+    });
+});
+
+context(@"embeddedMobileProvision:identity:deviceUDID:", ^{
+
+    __block NSString *bundlePath;
+    __block NSString *provisionPath;
+    __block CodesignIdentity *identity;
+    // denis - Joshua Moody's iPhone 6 Plus - it is in the profile!
+    __block NSString *UDID = @"193688959205dc7eb48d603c558ede919ad8dd0d";
+    __block id MockMobileProfile;
+    __block MobileProfile *embedded;
+
+    before(^{
+        bundlePath = testApp(ARM);
+        provisionPath = [bundlePath stringByAppendingPathComponent:@"embedded.mobileprovision"];
+        identity = [[Resources shared] KarlKrukowIdentity];
+        MockMobileProfile = OCMClassMock([MobileProfile class]);
+        embedded = nil;
+    });
+
+    after(^{
+        OCMVerifyAll(MockMobileProfile);
+    });
+
+    it(@"returns nil if there is no embedded.mobileprovision", ^{
+        id mockManager = OCMPartialMock([NSFileManager defaultManager]);
+        OCMExpect([mockManager fileExistsAtPath:provisionPath]).andReturn(NO);
+
+        embedded = [MobileProfile embeddedMobileProvision:bundlePath
+                                                 identity:identity
+                                               deviceUDID:UDID];
+        expect(embedded).to.beNil();
+
+        OCMVerifyAll(mockManager);
+        [mockManager stopMocking];
+    });
+
+    it(@"returns nil if the provision cannot be exported with security", ^{
+        OCMExpect(
+                  [MockMobileProfile dictionaryByExportingProfileWithSecurity:provisionPath]
+                  ).andReturn(nil);
+
+        embedded = [MobileProfile embeddedMobileProvision:bundlePath
+                                                 identity:identity
+                                               deviceUDID:UDID];
+        expect(embedded).to.beNil();
+    });
+
+    it(@"returns nil if the profile is expired", ^{
+        OCMExpect([MockMobileProfile alloc]).andReturn(MockMobileProfile);
+        OCMExpect(
+                  [MockMobileProfile initWithDictionary:OCMOCK_ANY
+                                                   path:OCMOCK_ANY]
+                  ).andReturn(MockMobileProfile);
+
+        OCMExpect([MockMobileProfile isExpired]).andReturn(YES);
+
+        embedded = [MobileProfile embeddedMobileProvision:bundlePath
+                                                 identity:identity
+                                               deviceUDID:UDID];
+        expect(embedded).to.beNil();
+    });
+
+    it(@"returns nil if the profile does not contain the device UDID", ^{
+        OCMExpect([MockMobileProfile alloc]).andReturn(MockMobileProfile);
+        OCMExpect(
+                  [MockMobileProfile initWithDictionary:OCMOCK_ANY
+                                                   path:OCMOCK_ANY]
+                  ).andReturn(MockMobileProfile);
+
+        OCMExpect([MockMobileProfile isExpired]).andReturn(NO);
+        OCMExpect([MockMobileProfile ProvisionedDevices]).andReturn(@[]);
+
+        embedded = [MobileProfile embeddedMobileProvision:bundlePath
+                                                 identity:identity
+                                               deviceUDID:UDID];
+        expect(embedded).to.beNil();
+    });
+
+    it(@"returns nil if the identity is not found in the profile certs", ^{
+        OCMExpect([MockMobileProfile alloc]).andReturn(MockMobileProfile);
+        OCMExpect(
+                  [MockMobileProfile initWithDictionary:OCMOCK_ANY
+                                                   path:OCMOCK_ANY]
+                  ).andReturn(MockMobileProfile);
+
+        OCMExpect([MockMobileProfile isExpired]).andReturn(NO);
+        OCMExpect([MockMobileProfile ProvisionedDevices]).andReturn(@[UDID]);
+        OCMExpect([MockMobileProfile DeveloperCertificates]).andReturn(@[]);
+
+        embedded = [MobileProfile embeddedMobileProvision:bundlePath
+                                                 identity:identity
+                                               deviceUDID:UDID];
+        expect(embedded).to.beNil();
+    });
+
+    it(@"returns a MobileProfile if the provision has the device and the cert", ^{
+        embedded = [MobileProfile embeddedMobileProvision:bundlePath
+                                                 identity:identity
+                                               deviceUDID:UDID];
+        expect(embedded).notTo.beNil();
+    });
+});
 
 SpecEnd

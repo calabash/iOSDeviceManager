@@ -25,7 +25,7 @@
     NSFileHandle *fileHandle = [pipe fileHandleForReading];
     NSData *data = [fileHandle readDataToEndOfFile];
     return [[NSString alloc] initWithData:data
-                             encoding:NSUTF8StringEncoding];
+                                 encoding:NSUTF8StringEncoding];
 }
 
 @synthesize didTimeOut = _didTimeOut;
@@ -48,12 +48,12 @@
 - (instancetype)initWithTask:(NSTask *)task
                      elapsed:(NSTimeInterval)elapsed
                   didTimeOut:(BOOL)didTimeOut {
-     self = [super init];
+    self = [super init];
     if (self) {
         _elapsed = elapsed;
         _command = [NSString stringWithFormat:@"%@ %@",
-                             task.launchPath,
-                             [task.arguments componentsJoinedByString:@" "]];
+                    task.launchPath,
+                    [task.arguments componentsJoinedByString:@" "]];
         _didTimeOut = didTimeOut;
         if (_didTimeOut) {
             _exitStatus = NSIntegerMin;

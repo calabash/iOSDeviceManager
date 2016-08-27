@@ -71,27 +71,27 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
 
 + (NSArray<NSString *> *)entitlementComparisonKeys {
     return
-            @[
-                    // Requires special matching.
-                    kAssociatedDomainsEntitlementKey,
+    @[
+      // Requires special matching.
+      kAssociatedDomainsEntitlementKey,
 
-                    // String Values
-                    @"com.apple.developer.ubiquity-kvstore-identifier",
-                    @"com.apple.developer.icloud-services",
-                    @"aps-environment",
-                    @"com.apple.developer.default-data-protection",
+      // String Values
+      @"com.apple.developer.ubiquity-kvstore-identifier",
+      @"com.apple.developer.icloud-services",
+      @"aps-environment",
+      @"com.apple.developer.default-data-protection",
 
-                    // Array Values
-                    @"keychain-access-groups",
-                    @"com.apple.security.application-groups",
-                    @"com.apple.developer.in-app-payments",
-                    @"com.apple.developer.pass-type-identifiers",
-                    @"com.apple.developer.icloud-container-environment",
-                    @"com.apple.developer.icloud-container-identifiers",
-                    @"com.apple.developer.icloud-container-development-container-identifiers",
-                    @"com.apple.developer.ubiquity-container-identifiers",
-                    @"com.apple.developer.networking.com.apple.developer.in-app-payments.api"
-            ];
+      // Array Values
+      @"keychain-access-groups",
+      @"com.apple.security.application-groups",
+      @"com.apple.developer.in-app-payments",
+      @"com.apple.developer.pass-type-identifiers",
+      @"com.apple.developer.icloud-container-environment",
+      @"com.apple.developer.icloud-container-identifiers",
+      @"com.apple.developer.icloud-container-development-container-identifiers",
+      @"com.apple.developer.ubiquity-container-identifiers",
+      @"com.apple.developer.networking.com.apple.developer.in-app-payments.api"
+      ];
 }
 
 + (NSInteger)rankByComparingProfileEntitlements:(Entitlements *)profileEntitlements

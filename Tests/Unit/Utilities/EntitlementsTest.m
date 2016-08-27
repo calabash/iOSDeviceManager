@@ -67,11 +67,11 @@
     NSError *error;
 
     OCMExpect(
-            [MockSerializer propertyListWithData:OCMOCK_ANY
-                                         options:NSPropertyListImmutable
-                                          format:nil
-                                           error:[OCMArg setTo:error]]
-    ).andReturn(nil);
+              [MockSerializer propertyListWithData:OCMOCK_ANY
+                                           options:NSPropertyListImmutable
+                                            format:nil
+                                             error:[OCMArg setTo:error]]
+              ).andReturn(nil);
 
     NSDictionary *plist = [Entitlements dictionaryOfEntitlementsWithBundlePath:path];
     expect(plist).to.equal(nil);
@@ -85,11 +85,11 @@
     NSError *error;
 
     OCMExpect(
-            [MockSerializer propertyListWithData:OCMOCK_ANY
-                                         options:NSPropertyListImmutable
-                                          format:nil
-                                           error:[OCMArg setTo:error]]
-    ).andReturn(@{});
+              [MockSerializer propertyListWithData:OCMOCK_ANY
+                                           options:NSPropertyListImmutable
+                                            format:nil
+                                             error:[OCMArg setTo:error]]
+              ).andReturn(@{});
 
     NSDictionary *plist = [Entitlements dictionaryOfEntitlementsWithBundlePath:path];
     expect(plist).to.equal(nil);
@@ -111,8 +111,8 @@
 
     id MockEntitlements = OCMClassMock([Entitlements class]);
     OCMExpect(
-            [MockEntitlements dictionaryOfEntitlementsWithBundlePath:path]
-    ).andReturn(nil);
+              [MockEntitlements dictionaryOfEntitlementsWithBundlePath:path]
+              ).andReturn(nil);
 
     Entitlements *entitlements = [Entitlements entitlementsWithBundlePath:path];
 

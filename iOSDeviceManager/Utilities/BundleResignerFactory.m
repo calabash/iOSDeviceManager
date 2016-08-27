@@ -36,7 +36,7 @@
 
 - (void)logExampleShellCommand {
     NSLog(@"ERROR: $ CODE_SIGN_IDENTITY=\"iPhone Developer: Your Name (ABCDEF1234)\""
-                  "iOSDeviceManager < command >");
+          "iOSDeviceManager < command >");
 }
 
 - (void)logValidSigningIdentities {
@@ -52,7 +52,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(CodesignIdentity *identity,
                                                                    NSDictionary *bindings) {
         return [identity.name isEqualToString:string] ||
-                [identity.shasum isEqualToString:string];
+        [identity.shasum isEqualToString:string];
     }];
 
     NSArray<CodesignIdentity *> *matches;
@@ -96,7 +96,7 @@
     MobileProfile *profile = nil;
 
     if (fromAppBundle) {
-         profile = fromAppBundle;
+        profile = fromAppBundle;
     } else {
         NSArray<MobileProfile *> *rankedProfiles;
         rankedProfiles = [self rankedProfilesWithDeviceUDID:deviceUDID
@@ -134,7 +134,7 @@
 
         if (!signingIdentityName) {
             NSLog(@"ERROR: You must provide a signing identity for this version of"
-                          "iOSDeviceManager");
+                  "iOSDeviceManager");
             NSLog(@"ERROR:");
             [self logExampleShellCommand];
             NSLog(@"ERROR:");
@@ -175,10 +175,10 @@
 - (NSArray<MobileProfile *> *)rankedProfilesWithDeviceUDID:(NSString *)deviceUDID
                                            signingIdentity:(CodesignIdentity *)identity
                                              appBundlePath:(NSString *)appBundlePath {
-   return [MobileProfile rankedProfiles:self.mobileProfiles
-                           withIdentity:identity
-                             deviceUDID:deviceUDID
-                          appBundlePath:appBundlePath];
+    return [MobileProfile rankedProfiles:self.mobileProfiles
+                            withIdentity:identity
+                              deviceUDID:deviceUDID
+                           appBundlePath:appBundlePath];
 }
 
 @end

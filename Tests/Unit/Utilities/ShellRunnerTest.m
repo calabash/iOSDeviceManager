@@ -67,7 +67,7 @@
     expect(result.success).to.equal(NO);
     expect(result.elapsed).to.equal(1.0);
     expect(result.stderr).to.equal(@"/usr/bin/uname: illegal option -- q\n"
-                                    "usage: uname [-amnprsv]\n");
+                                   "usage: uname [-amnprsv]\n");
     expect(result.stdout).to.equal(@"");
     expect(result.stdoutLines).to.equal(@[@""]);
 }

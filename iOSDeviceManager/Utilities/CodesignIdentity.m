@@ -18,7 +18,7 @@
 @implementation CodesignIdentity
 
 + (NSString *)codeSignIdentityFromEnvironment {
-   return [[NSProcessInfo processInfo] environment][@"CODE_SIGN_IDENTITY"];
+    return [[NSProcessInfo processInfo] environment][@"CODE_SIGN_IDENTITY"];
 }
 
 + (NSArray<CodesignIdentity *> *)validIOSDeveloperIdentities {
@@ -74,8 +74,8 @@
 
         range = NSMakeRange(0, [line length]);
         match = [identifierRegex rangeOfFirstMatchInString:line
-                                             options:0
-                                               range:range];
+                                                   options:0
+                                                     range:range];
         if (match.location != NSNotFound) {
             shasum = [[line substringWithRange:match] uppercaseString];
         } else {
@@ -83,32 +83,32 @@
         }
 
         if (shasum && name) {
-           identity = [[CodesignIdentity alloc] initWithShasum:shasum name:name];
-           if (![identities containsObject:identity]) {
-              [identities addObject:identity];
-           }
+            identity = [[CodesignIdentity alloc] initWithShasum:shasum name:name];
+            if (![identities containsObject:identity]) {
+                [identities addObject:identity];
+            }
         }
     }
-   return [NSArray arrayWithArray:identities];
+    return [NSArray arrayWithArray:identities];
 }
 
 + (ShellResult *)askSecurityForValidCodesignIdentities {
-   NSArray *args = @[@"security", @"find-identity", @"-v", @"-p", @"codesigning"];
+    NSArray *args = @[@"security", @"find-identity", @"-v", @"-p", @"codesigning"];
 
-   ShellResult *result = [ShellRunner xcrun:args timeout:30];
+    ShellResult *result = [ShellRunner xcrun:args timeout:30];
 
-   if (!result.success) {
-      NSLog(@"Could not find valid codesign identities with:\n    %@", result.command);
-      if (result.didTimeOut) {
-          NSLog(@"Command timed out after %@ seconds", @(result.elapsed));
-      } else {
-          NSLog(@"=== STDERR ===");
-          NSLog(@"%@", result.stderr);
-      }
-      return nil;
-   }
+    if (!result.success) {
+        NSLog(@"Could not find valid codesign identities with:\n    %@", result.command);
+        if (result.didTimeOut) {
+            NSLog(@"Command timed out after %@ seconds", @(result.elapsed));
+        } else {
+            NSLog(@"=== STDERR ===");
+            NSLog(@"%@", result.stderr);
+        }
+        return nil;
+    }
 
-   return result;
+    return result;
 }
 
 #pragma mark - Instance Methods
@@ -117,12 +117,12 @@
 @synthesize name = _name;
 
 - (instancetype)initWithShasum:(NSString *)shasum name:(NSString *)name {
-   self = [super init];
-   if (self) {
-       _shasum = shasum;
-       _name = name;
-   }
-   return self;
+    self = [super init];
+    if (self) {
+        _shasum = shasum;
+        _name = name;
+    }
+    return self;
 }
 
 - (NSString *)description {
@@ -130,12 +130,12 @@
 }
 
 - (BOOL)isEqualToCodesignIdentity:(CodesignIdentity *)other {
-   if (!other) {
-      return NO;
-   } else {
-       return [self.shasum isEqualToString:other.shasum] &&
-               [self.name isEqualToString:other.name];
-   }
+    if (!other) {
+        return NO;
+    } else {
+        return [self.shasum isEqualToString:other.shasum] &&
+        [self.name isEqualToString:other.name];
+    }
 }
 
 - (BOOL)isEqual:(id)object {
@@ -155,7 +155,7 @@
 }
 
 - (BOOL)isIOSDeveloperIdentity {
-  return [self.name containsString:@"iPhone Developer"];
+    return [self.name containsString:@"iPhone Developer"];
 }
 
 - (id)copyWithZone:(NSZone *)zone {

@@ -800,13 +800,13 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)stringPlist {
     return @"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-            "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
-            "<plist version=\"1.0\">\n"
-            "<dict>\n"
-            "<key>KEY</key>\n"
-            "<string>VALUE</string>\n"
-            "</dict>\n"
-            "</plist>\n";
+    "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
+    "<plist version=\"1.0\">\n"
+    "<dict>\n"
+    "<key>KEY</key>\n"
+    "<string>VALUE</string>\n"
+    "</dict>\n"
+    "</plist>\n";
 }
 
 - (NSString *)CalabashWildcardPath {
@@ -833,11 +833,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (Entitlements *)entitlements {
     NSDictionary *dictionary = @{
-            @"application-identifier" : @"FYD86LA7RE.sh.calaba.TestApp",
-            @"com.apple.developer.team-identifier" : @"FYD86LA7RE",
-            @"get-task-allow" : @(YES),
-            @"keychain-access-groups" : @[@"FYD86LA7RE.sh.calaba.TestApp"]
-    };
+                                 @"application-identifier" : @"FYD86LA7RE.sh.calaba.TestApp",
+                                 @"com.apple.developer.team-identifier" : @"FYD86LA7RE",
+                                 @"get-task-allow" : @(YES),
+                                 @"keychain-access-groups" : @[@"FYD86LA7RE.sh.calaba.TestApp"]
+                                 };
     return [Entitlements entitlementsWithDictionary:dictionary];
 }
 

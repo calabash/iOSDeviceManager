@@ -32,7 +32,7 @@
 - (NSString *)description {
     if (self.codeSignIdentity && self.deviceUDID) {
         return [NSString stringWithFormat:@"#<Codesigner %@ : %@>",
-                         self.deviceUDID, self.codeSignIdentity];
+                self.deviceUDID, self.codeSignIdentity];
     } else {
         return @"#<Codesigner *** CANNOT CODESIGN ***>";
     }

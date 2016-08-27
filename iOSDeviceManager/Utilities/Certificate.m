@@ -132,8 +132,8 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"#<Certificate: %@ : %@ : %@>",
-                     [[self shasum] substringToIndex:5],
-                     [self teamName], [self commonName]];
+            [[self shasum] substringToIndex:5],
+            [self teamName], [self commonName]];
 }
 
 - (NSDictionary *)info {
@@ -144,8 +144,8 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
 
     for (NSString *string in components) {
         if ([string containsString:@"="] && ![string containsString:@"subject"]) {
-           NSArray *keyValue = [string componentsSeparatedByString:@"="];
-           hash[keyValue[0]] = keyValue[1];
+            NSArray *keyValue = [string componentsSeparatedByString:@"="];
+            hash[keyValue[0]] = keyValue[1];
         }
     }
 
