@@ -96,6 +96,7 @@
     return YES;
 }
 
+// Unused - please keep this around for testing.
 + (BOOL)removeExtendedAttributesFromFilesInDirectory:(NSString *)directory {
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -175,17 +176,6 @@
 }
 
 - (BOOL)resignAppOrPlugInBundle {
-
-    // On macOS Sierra, resource forks and extended attributes are being created when
-    // files are copied by NSFileManager.  This cannot be present during code signing.
-    //
-    // Error:
-    // resource fork, Finder information, or similar detritus not allowed
-    //
-    // The offending file is _usually_ the new embedded.mobileprovision.
-    //
-    // To be safe, we'll remove all extended attributes before signing.
-    [BundleResigner removeExtendedAttributesFromFilesInDirectory:self.bundlePath];
 
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
@@ -336,6 +326,23 @@
         NSLog(@"ERROR: %@", [error localizedDescription]);
         return NO;
     }
+
+    // On macOS Sierra, resource forks and extended attributes are being created when
+    // files are copied by NSFileManager.  This cannot be present during code signing.
+    //
+    // Error:
+    // resource fork, Finder information, or similar detritus not allowed
+    //
+    // The offending file is _usually_ the new embedded.mobileprovision.
+    //
+    // It might be safer to remove all extended attributes before signing, but it is
+    // very very slow.
+    //
+    // To give an idea of the difference:
+    //
+    // * All files: 40 seconds to sign the DeviceAgent-Runner 3 times
+    // * mobileprovision: 7 seconds to sign the DeviceAgent-Runner 3 times
+    [BundleResigner removeExtendedAttributesFromFileAtPath:targetPath];
 
     return YES;
 }
