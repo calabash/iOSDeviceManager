@@ -27,12 +27,12 @@
 - (void)testInit {
     NSString *subjectLine, *shasumLine;
     subjectLine = @"subject= /UID=QWAW7NSN85/CN=iPhone Developer: Karl Krukow (YTTN6Y2QS9)/"
-            "OU=FYD86LA7RE/O=Karl Krukow/C=US";
+    "OU=FYD86LA7RE/O=Karl Krukow/C=US";
     shasumLine = @"316b74b2838787366d1e76d33f3e621e5c2fafb8 "
-            "Tests/Resources/cert-from-CalabashWildcardProfile.cert";
+    "Tests/Resources/cert-from-CalabashWildcardProfile.cert";
 
-   Certificate *cert = [[Certificate alloc] initWithSubjectLine:subjectLine
-                                                     shasumLine:shasumLine];
+    Certificate *cert = [[Certificate alloc] initWithSubjectLine:subjectLine
+                                                      shasumLine:shasumLine];
 
     expect(cert.userID).to.equal(@"QWAW7NSN85");
     expect(cert.commonName).to.equal(@"iPhone Developer: Karl Krukow (YTTN6Y2QS9)");
@@ -131,16 +131,16 @@
     Certificate *actual;
 
     NSDictionary *hash = @{
-            @"text" : @[@"Unexpected first line"],
-            @"shasum" : @[@"ABCDE path/to/file"]
-    };
+                           @"text" : @[@"Unexpected first line"],
+                           @"shasum" : @[@"ABCDE path/to/file"]
+                           };
 
 
     id MockCertificate = OCMClassMock([Certificate class]);
     OCMExpect(
-            [MockCertificate parseCertificateData:OCMOCK_ANY
-                                           atPath:OCMOCK_ANY]
-    ).andReturn(hash);
+              [MockCertificate parseCertificateData:OCMOCK_ANY
+                                             atPath:OCMOCK_ANY]
+              ).andReturn(hash);
 
     actual = [Certificate certificateWithData:data];
     expect(actual).to.equal(nil);
@@ -153,16 +153,16 @@
     Certificate *actual;
 
     NSDictionary *hash = @{
-            @"text" : @[@"subject=/"],
-            @"shasum" : @[@""]
-    };
+                           @"text" : @[@"subject=/"],
+                           @"shasum" : @[@""]
+                           };
 
 
     id MockCertificate = OCMClassMock([Certificate class]);
     OCMExpect(
-            [MockCertificate parseCertificateData:OCMOCK_ANY
-                                           atPath:OCMOCK_ANY]
-    ).andReturn(hash);
+              [MockCertificate parseCertificateData:OCMOCK_ANY
+                                             atPath:OCMOCK_ANY]
+              ).andReturn(hash);
 
     actual = [Certificate certificateWithData:data];
     expect(actual).to.equal(nil);
@@ -174,58 +174,58 @@
 
 SpecBegin(Certificate)
 
-    context(@"properties", ^{
-        __block Certificate *cert;
-        __block NSString *subject;
+context(@"properties", ^{
+    __block Certificate *cert;
+    __block NSString *subject;
 
-        before(^{
-            subject = @"subject= /UID=QWAW7NSN85/CN=iPhone Developer: Karl Krukow (YTTN6Y2QS9)/"
-                    "OU=FYD86LA7RE/O=Karl Krukow/C=US";
-            cert = [[Certificate alloc] initWithSubjectLine:subject
-                                                 shasumLine:nil];
-        });
-
-        it(@"#userID returns the UID", ^{
-            expect(cert.userID).to.equal(@"QWAW7NSN85");
-        });
-
-        it(@"#commonName returns the CN", ^{
-            expect(cert.commonName).to.equal(@"iPhone Developer: Karl Krukow (YTTN6Y2QS9)");
-        });
-
-        it(@"#teamName returns the OU", ^{
-            expect(cert.teamName).to.equal(@"FYD86LA7RE");
-        });
-
-        it(@"#organization returns the O", ^{
-            expect(cert.organization).to.equal(@"Karl Krukow");
-        });
-
-        it(@"#country returns the C", ^{
-            expect(cert.country).to.equal(@"US");
-        });
+    before(^{
+        subject = @"subject= /UID=QWAW7NSN85/CN=iPhone Developer: Karl Krukow (YTTN6Y2QS9)/"
+        "OU=FYD86LA7RE/O=Karl Krukow/C=US";
+        cert = [[Certificate alloc] initWithSubjectLine:subject
+                                             shasumLine:nil];
     });
 
-    context(@"#shasum", ^{
-        __block Certificate *cert;
-
-        it(@"returns nil if there are no lines from the output", ^{
-            cert = [[Certificate alloc] initWithSubjectLine:@"subject/"
-                                                 shasumLine:nil];
-            expect(cert.shasum).to.equal(nil);
-        });
-
-        it(@"returns nil if the first line of output is an empty string", ^{
-           cert = [[Certificate alloc] initWithSubjectLine:@"subject/"
-                                                 shasumLine:@""];
-            expect(cert.shasum).to.equal(nil);
-        });
-
-        it(@"returns the shasum in all caps from the first line of output", ^{
-            cert = [[Certificate alloc] initWithSubjectLine:@"subject/"
-                                                 shasumLine:@"abcde path/to/cert"];
-            expect(cert.shasum).to.equal(@"ABCDE");
-        });
+    it(@"#userID returns the UID", ^{
+        expect(cert.userID).to.equal(@"QWAW7NSN85");
     });
+
+    it(@"#commonName returns the CN", ^{
+        expect(cert.commonName).to.equal(@"iPhone Developer: Karl Krukow (YTTN6Y2QS9)");
+    });
+
+    it(@"#teamName returns the OU", ^{
+        expect(cert.teamName).to.equal(@"FYD86LA7RE");
+    });
+
+    it(@"#organization returns the O", ^{
+        expect(cert.organization).to.equal(@"Karl Krukow");
+    });
+
+    it(@"#country returns the C", ^{
+        expect(cert.country).to.equal(@"US");
+    });
+});
+
+context(@"#shasum", ^{
+    __block Certificate *cert;
+
+    it(@"returns nil if there are no lines from the output", ^{
+        cert = [[Certificate alloc] initWithSubjectLine:@"subject/"
+                                             shasumLine:nil];
+        expect(cert.shasum).to.equal(nil);
+    });
+
+    it(@"returns nil if the first line of output is an empty string", ^{
+        cert = [[Certificate alloc] initWithSubjectLine:@"subject/"
+                                             shasumLine:@""];
+        expect(cert.shasum).to.equal(nil);
+    });
+
+    it(@"returns the shasum in all caps from the first line of output", ^{
+        cert = [[Certificate alloc] initWithSubjectLine:@"subject/"
+                                             shasumLine:@"abcde path/to/cert"];
+        expect(cert.shasum).to.equal(@"ABCDE");
+    });
+});
 SpecEnd
 

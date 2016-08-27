@@ -34,11 +34,11 @@
 
     // App has the entitlement and so does the profile
     if ([appEntitlement hasNSStringValue] && [profileEntitlement hasNSStringValue]) {
-         if ([appEntitlement.value isEqualToString:profileEntitlement.value]) {
-             return ProfileHasKeyExactly;
-         } else {
-             return ProfileHasKey;
-         }
+        if ([appEntitlement.value isEqualToString:profileEntitlement.value]) {
+            return ProfileHasKeyExactly;
+        } else {
+            return ProfileHasKey;
+        }
     } else if ([appEntitlement hasNSArrayValue] && [profileEntitlement hasNSArrayValue]) {
         NSArray *appArray = (NSArray *)appEntitlement.value;
         NSArray *profileArray = (NSArray *)profileEntitlement.value;
@@ -73,14 +73,14 @@
 
 
 /*
-Tries to match associated-domains entitlements where the values can both be
-either arrays or strings.
+ Tries to match associated-domains entitlements where the values can both be
+ either arrays or strings.
 
-The "*" character is treated as a trump card, such that:
+ The "*" character is treated as a trump card, such that:
 
-1. if profile's value is '*' then it is a match, and
-2. if app's value is star but profile's value is anything but '*', it is not a match.
-*/
+ 1. if profile's value is '*' then it is a match, and
+ 2. if app's value is star but profile's value is anything but '*', it is not a match.
+ */
 + (EntitlementComparisonResult)compareAssociatedDomains:(Entitlement *)profileEntitlement
                                          appEntitlement:(Entitlement *)appEntitlement {
     if ([profileEntitlement hasNSArrayValue]) {
@@ -99,20 +99,20 @@ The "*" character is treated as a trump card, such that:
         }
     } else {
         if ([appEntitlement hasNSArrayValue]) {
-             if (![profileEntitlement.value isEqualToString:@"*"]) {
-                 return ProfileDoesNotHaveRequiredKey;
-             } else {
-                 // TODO this is a match exactly case, right?
-                 // The app has an array of domains.  The profile has "*", so this
-                 // is an exact match? Should it be preferred over an exact array match?
-                 // Should it preferred over an array match with more than the required
-                 // domains?
-                 //
-                 // (>_>)
-             }
+            if (![profileEntitlement.value isEqualToString:@"*"]) {
+                return ProfileDoesNotHaveRequiredKey;
+            } else {
+                // TODO this is a match exactly case, right?
+                // The app has an array of domains.  The profile has "*", so this
+                // is an exact match? Should it be preferred over an exact array match?
+                // Should it preferred over an array match with more than the required
+                // domains?
+                //
+                // (>_>)
+            }
         } else {
             if ([appEntitlement.value isEqualToString:profileEntitlement.value]) {
-                  return ProfileHasKeyExactly;
+                return ProfileHasKeyExactly;
             }
         }
     }
@@ -124,8 +124,8 @@ The "*" character is treated as a trump card, such that:
 @synthesize value = _value;
 
 + (Entitlement *)entitlementWithKey:(NSString *)key value:(id)value {
-   return [[Entitlement alloc] initWithKey:key
-                                     value:value];
+    return [[Entitlement alloc] initWithKey:key
+                                      value:value];
 }
 
 - (instancetype)initWithKey:(NSString *)key value:(id)value {

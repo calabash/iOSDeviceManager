@@ -43,7 +43,7 @@
                                  errorHandler:^BOOL(NSURL *url, NSError *error) {
                                      if (error) {
                                          NSLog(@"ERROR: could not enumerate file in app "
-                                                       "bundle:\n    %@", url);
+                                               "bundle:\n    %@", url);
                                          NSLog(@"ERROR: %@", [error localizedDescription]);
                                      }
                                      return YES;
@@ -109,7 +109,7 @@
                                  errorHandler:^BOOL(NSURL *url, NSError *error) {
                                      if (error) {
                                          NSLog(@"ERROR: could not enumerate file in app "
-                                                       "bundle:\n    %@", url);
+                                               "bundle:\n    %@", url);
                                          NSLog(@"ERROR: %@", [error localizedDescription]);
                                      }
                                      return YES;
@@ -161,18 +161,18 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<BundleResigner: %@\n    %@\n    %@\n    %@\n>",
-                                      [self.bundlePath lastPathComponent],
-                                      self.originalEntitlements,
-                                      self.identity,
-                                      self.mobileProfile];
+            [self.bundlePath lastPathComponent],
+            self.originalEntitlements,
+            self.identity,
+            self.mobileProfile];
 }
 
 - (BOOL)resign {
     return
-            [self replaceEmbeddedMobileProvision] &&
-              [self replaceOrCreateXcentFile] &&
-              [self resignAppPlugIns] &&
-              [self resignDylibsAndFrameworks] && [self resignAppOrPlugInBundle];
+    [self replaceEmbeddedMobileProvision] &&
+    [self replaceOrCreateXcentFile] &&
+    [self resignAppPlugIns] &&
+    [self resignDylibsAndFrameworks] && [self resignAppOrPlugInBundle];
 }
 
 - (BOOL)resignAppOrPlugInBundle {
@@ -236,8 +236,8 @@
 - (BOOL)resignPlugInAtPath:(NSString *)path {
     BundleResigner *resigner;
     resigner = [[BundleResignerFactory shared] resignerWithBundlePath:path
-                                               deviceUDID:self.deviceUDID
-                                                 identity:self.identity];
+                                                           deviceUDID:self.deviceUDID
+                                                             identity:self.identity];
     if (!resigner) {
         return NO;
     } else {
@@ -283,7 +283,7 @@
 }
 
 - (NSString *)embeddedMobileProvisionPath {
-   return [self.bundlePath stringByAppendingPathComponent:@"embedded.mobileprovision"];
+    return [self.bundlePath stringByAppendingPathComponent:@"embedded.mobileprovision"];
 }
 
 - (BOOL)replaceEmbeddedMobileProvision {
@@ -390,7 +390,7 @@
     NSString *appIdentifier = entitlements[@"application-identifier"];
     NSString *appIdentifierPrefix;
     appIdentifierPrefix = [NSString stringWithFormat:@"%@.",
-                                    entitlements[@"com.apple.developer.team-identifier"]];
+                           entitlements[@"com.apple.developer.team-identifier"]];
     return [appIdentifier stringByReplacingOccurrencesOfString:appIdentifierPrefix
                                                     withString:@""];
 }
@@ -413,9 +413,9 @@
     NSString *newAppIdentifierPrefix = self.mobileProfile.ApplicationIdentifierPrefix[0];
 
     if ([newReverseDNS isEqualToString:@"*"]) {
-       _newAppIdentifier = [newAppIdentifierPrefix stringByAppendingFormat:@".%@", oldReverseDNS];
+        _newAppIdentifier = [newAppIdentifierPrefix stringByAppendingFormat:@".%@", oldReverseDNS];
     } else {
-       _newAppIdentifier = newAppIdentifier;
+        _newAppIdentifier = newAppIdentifier;
     }
 
     return _newAppIdentifier;
@@ -425,7 +425,7 @@
     if (_signableAssets) { return _signableAssets; }
 
     _signableAssets =
-            [BundleResigner pathsByRecursivelySearchingForThingsToSign:self.bundlePath];
+    [BundleResigner pathsByRecursivelySearchingForThingsToSign:self.bundlePath];
     return _signableAssets;
 }
 

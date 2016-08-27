@@ -40,12 +40,12 @@
                                                                  error:&error];
     if (!contents) {
         NSLog(@"ERROR: Could not find any mobileprovision files in:\n"
-                      "  %@", directory);
+              "  %@", directory);
         NSLog(@"ERROR: %@", [error localizedDescription]);
         return nil;
     } else if (contents.count == 0) {
         NSLog(@"ERROR: Could not find any mobileprovision files in:\n"
-                      "  %@", directory);
+              "  %@", directory);
         NSLog(@"ERROR: There was no error, but there were no files in that directory");
         return nil;
     }
@@ -65,10 +65,10 @@
 
 + (NSString *)stringByExportingProfileWithSecurity:(NSString *)path {
     NSArray *args = @[
-            @"security",
-            @"cms", @"-D",
-            @"-i", path
-    ];
+                      @"security",
+                      @"cms", @"-D",
+                      @"-i", path
+                      ];
 
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
@@ -239,10 +239,10 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"#<MobileProfile %@  <%@> expired: %@ rank: %@>",
-                                      [[self Platform] componentsJoinedByString:@" "],
-                                      [self AppIDName],
-                                      [self isExpired] ? @"YES" : @"NO",
-                                      @(self.rank)];
+            [[self Platform] componentsJoinedByString:@" "],
+            [self AppIDName],
+            [self isExpired] ? @"YES" : @"NO",
+            @(self.rank)];
 }
 
 - (BOOL)isValidForDeviceUDID:(NSString *)deviceUDID

@@ -81,9 +81,9 @@
 }
 
 - (void)testProcessInfo {
-//    NSProcessInfo *info = [NSProcessInfo processInfo];
-//    NSLog(@"environment = %@", [info environment]);
-//    NSLog(@"arguments = %@", [info arguments]);
+    //    NSProcessInfo *info = [NSProcessInfo processInfo];
+    //    NSLog(@"environment = %@", [info environment]);
+    //    NSLog(@"arguments = %@", [info arguments]);
 }
 
 - (void)testApps {
