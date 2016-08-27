@@ -8,6 +8,8 @@
 @interface BundleResigner ()
 
 + (NSDictionary *)pathsByRecursivelySearchingForThingsToSign:(NSString *)bundlePath;
++ (BOOL)removeExtendedAttributesFromFileAtPath:(NSString *)path;
++ (BOOL)removeExtendedAttributesFromFilesInDirectory:(NSString *)directory;
 
 @property(copy, readonly) NSString *newAppIdentifier;
 @property(copy, readonly) NSDictionary *signableAssets;
@@ -76,6 +78,63 @@
     return @{@"plug-ins": plugIns, @"libraries": libraries};
 }
 
++ (BOOL)removeExtendedAttributesFromFileAtPath:(NSString *)path {
+    NSArray<NSString *> *args = @[@"xattr", @"-c", path];
+
+    ShellResult *result = [ShellRunner xcrun:args timeout:1];
+    if (!result.success) {
+        NSLog(@"ERROR: Could not remove attributes from file:\n    %@", path);
+        NSLog(@"ERROR: with command:\n    %@", result.command);
+        if (result.didTimeOut) {
+            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
+        } else {
+            NSLog(@"ERROR: === STDERR ===");
+            NSLog(@"%@", result.stderr);
+        }
+        return NO;
+    }
+    return YES;
+}
+
++ (BOOL)removeExtendedAttributesFromFilesInDirectory:(NSString *)directory {
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *bundleURL = [NSURL fileURLWithPath:directory];
+
+    NSDirectoryEnumerator *enumerator;
+    enumerator = [fileManager enumeratorAtURL:bundleURL
+                   includingPropertiesForKeys:@[NSURLNameKey, NSURLIsRegularFileKey]
+                                      options:NSDirectoryEnumerationSkipsHiddenFiles
+                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
+                                     if (error) {
+                                         NSLog(@"ERROR: could not enumerate file in app "
+                                                       "bundle:\n    %@", url);
+                                         NSLog(@"ERROR: %@", [error localizedDescription]);
+                                     }
+                                     return YES;
+                                 }];
+
+    BOOL success = YES;
+    for (NSURL *fileURL in enumerator) {
+        NSString *filename;
+        [fileURL getResourceValue:&filename forKey:NSURLNameKey error:nil];
+
+        NSNumber *isRegularFile;
+        [fileURL getResourceValue:&isRegularFile forKey:NSURLIsRegularFileKey error:nil];
+
+        NSString *path;
+        if (isRegularFile) {
+            path = [fileURL path];
+            success = [BundleResigner removeExtendedAttributesFromFileAtPath:path];
+            if (!success) {
+                break;
+            }
+        }
+    }
+
+    return success;
+}
+
 #pragma mark - Instance Methods
 
 @synthesize newAppIdentifier = _newAppIdentifier;
@@ -116,6 +175,18 @@
 }
 
 - (BOOL)resignAppOrPlugInBundle {
+
+    // On macOS Sierra, resource forks and extended attributes are being created when
+    // files are copied by NSFileManager.  This cannot be present during code signing.
+    //
+    // Error:
+    // resource fork, Finder information, or similar detritus not allowed
+    //
+    // The offending file is _usually_ the new embedded.mobileprovision.
+    //
+    // To be safe, we'll remove all extended attributes before signing.
+    [BundleResigner removeExtendedAttributesFromFilesInDirectory:self.bundlePath];
+
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
                                   @"--sign", self.identity.shasum,
