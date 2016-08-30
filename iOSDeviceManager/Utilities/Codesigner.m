@@ -2,6 +2,9 @@
 #import "Codesigner.h"
 #import "BundleResignerFactory.h"
 #import "BundleResigner.h"
+#import "iOSDeviceManagementCommand.h"
+
+static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
 @interface Codesigner ()
 
@@ -49,7 +52,40 @@
     resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
                                                            deviceUDID:self.deviceUDID
                                                 signingIdentityString:self.codeSignIdentity];
-    return [resigner resign];
+    if (!resigner) {
+        if (error) {
+            NSString *description = @"Could not resign with the given arguments";
+            NSString *reason = @"The device UDID and code signing identity were invalid for"
+            "some reason.  Please check the logs.";
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
+                                       NSLocalizedFailureReasonErrorKey: reason
+                                       };
+
+            *error = [NSError errorWithDomain:IDMCodeSignErrorDomain
+                                         code:iOSReturnStatusCodeInternalError
+                                     userInfo:userInfo];
+        }
+        return NO;
+    }
+
+    BOOL success = [resigner resign];
+
+    if (!success) {
+        if (error) {
+            NSString *description = @"Code signing failed";
+            NSString *reason = @"There was a problem code signing. Please check the logs.";
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
+                                       NSLocalizedFailureReasonErrorKey: reason
+                                       };
+
+            *error = [NSError errorWithDomain:IDMCodeSignErrorDomain
+                                         code:iOSReturnStatusCodeInternalError
+                                     userInfo:userInfo];
+        }
+        return NO;
+    }
+
+    return success;
 }
 
 /*
