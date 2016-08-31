@@ -89,7 +89,7 @@
             NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return NO;
     }
@@ -192,7 +192,7 @@
             NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return NO;
     }
@@ -210,7 +210,7 @@
             NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return NO;
     }
@@ -275,7 +275,7 @@
             NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return NO;
     }

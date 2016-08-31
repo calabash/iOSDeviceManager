@@ -103,7 +103,7 @@
             NSLog(@"Command timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return nil;
     }

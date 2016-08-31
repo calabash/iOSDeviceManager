@@ -85,7 +85,7 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
             NSLog(@"ERROR: command timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return nil;
     }
@@ -105,7 +105,7 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
             NSLog(@"ERROR: command timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return nil;
     }
