@@ -42,7 +42,6 @@
 
     string = @"iPhone 5 (9.3) [D1B22B9C-F105-4DF0-8FA3-7AE41E212A9D] (Simulator)";
     actual = [[Instruments shared] extractUDID:string];
-    NSLog(@"actual = %@", actual);
     XCTAssertNil(actual);
 }
 
@@ -61,9 +60,9 @@
 }
 
 - (void)testAvailableAndCompatibleDevices {
-    NSLog(@"%@", [[Instruments shared] connectedDevices]);
-    NSLog(@"%@", [[Instruments shared] compatibleDevices]);
-    NSLog(@"%@", [[Instruments shared] deviceForTesting]);
+    //NSLog(@"%@", [[Instruments shared] connectedDevices]);
+    //NSLog(@"%@", [[Instruments shared] compatibleDevices]);
+    //NSLog(@"%@", [[Instruments shared] deviceForTesting]);
 }
 
 #pragma mark - Xcode
@@ -75,16 +74,16 @@
 #pragma mark - File System
 
 - (void)testXCTestBundle {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSLog(@"RESOURCES DIR: %@", [bundle resourcePath]);
-    NSLog(@"BUNDLE DIR: %@", [bundle bundlePath]);
+    //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    //NSLog(@"RESOURCES DIR: %@", [bundle resourcePath]);
+    //NSLog(@"BUNDLE DIR: %@", [bundle bundlePath]);
     XCTAssertTrue([self fileExists:[self.resources resourcesDirectory]]);
 }
 
 - (void)testProcessInfo {
-    NSProcessInfo *info = [NSProcessInfo processInfo];
-    NSLog(@"environment = %@", [info environment]);
-    NSLog(@"arguments = %@", [info arguments]);
+    //    NSProcessInfo *info = [NSProcessInfo processInfo];
+    //    NSLog(@"environment = %@", [info environment]);
+    //    NSLog(@"arguments = %@", [info arguments]);
 }
 
 - (void)testApps {
@@ -156,17 +155,20 @@
 - (void)testSimulators {
     NSArray *sims = [self.resources simulators];
     XCTAssertTrue([sims count] > 0);
-    NSLog(@"%@", sims);
 }
 
 - (void)testDefaultSimulator {
-    NSLog(@"%@", [self.resources defaultSimulator]);
     XCTAssertNotNil([self.resources defaultSimulator]);
 }
 
 - (void)testDefaultSimulatorUDID {
-    NSLog(@"%@", [self.resources defaultSimulatorUDID]);
     XCTAssertNotNil([self.resources defaultSimulatorUDID]);
+}
+
+#pragma mark - Provisioning Profiles
+
+- (void)testProvisioningProfiles {
+    expect([self fileExists:[self.resources CalabashWildcardPath]]).to.equal(YES);
 }
 
 @end

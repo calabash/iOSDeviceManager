@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>15F34</string>
+	<string>16A294a</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>DeviceAgent</string>
 	<key>CFBundleIdentifier</key>
-	<string>sh.calaba.DeviceAgent</string>
+	<string>com.apple.test.DeviceAgent-Runner</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.0</string>
+	<string>0.1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -25,7 +25,7 @@
 		<string>iPhoneSimulator</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1471638745</string>
+	<string>1472079314</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
@@ -33,15 +33,15 @@
 	<key>DTPlatformName</key>
 	<string>iphonesimulator</string>
 	<key>DTPlatformVersion</key>
-	<string>9.3</string>
+	<string>10.0</string>
 	<key>DTSDKBuild</key>
-	<string>13E230</string>
+	<string>14A5339a</string>
 	<key>DTSDKName</key>
-	<string>iphonesimulator9.3</string>
+	<string>iphonesimulator10.0</string>
 	<key>DTXcode</key>
-	<string>0731</string>
+	<string>0800</string>
 	<key>DTXcodeBuild</key>
-	<string>7D1014</string>
+	<string>8S201h</string>
 	<key>MinimumOSVersion</key>
 	<string>9.0</string>
 	<key>UIDeviceFamily</key>

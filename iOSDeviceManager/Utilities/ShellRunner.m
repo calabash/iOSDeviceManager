@@ -1,6 +1,99 @@
 
 #import "ShellRunner.h"
 
+@interface ShellResult ()
+
+- (instancetype)initWithTask:(NSTask *)task
+                     elapsed:(NSTimeInterval)elapsed
+                  didTimeOut:(BOOL)didTimeOut;
+
+@property(assign) BOOL didTimeOut;
+@property(assign) NSTimeInterval timeout;
+@property(assign, readonly) NSTimeInterval elapsed;
+@property(copy) NSString *command;
+@property(assign, readonly) BOOL success;
+@property(assign, readonly) NSInteger exitStatus;
+@property(copy) NSString *stdoutStr;
+@property(copy) NSString *stderrStr;
+@property(copy) NSArray<NSString  *> *stdoutLines;
+
+@end
+
+@implementation ShellResult
+
++ (NSString *)stringFromPipe:(NSPipe *)pipe {
+    NSFileHandle *fileHandle = [pipe fileHandleForReading];
+    NSData *data = [fileHandle readDataToEndOfFile];
+    return [[NSString alloc] initWithData:data
+                                 encoding:NSUTF8StringEncoding];
+}
+
+@synthesize didTimeOut = _didTimeOut;
+@synthesize elapsed = _elapsed;
+@synthesize command = _command;
+@synthesize success = _success;
+@synthesize exitStatus = _exitStatus;
+@synthesize stdoutStr = _stdoutStr;
+@synthesize stderrStr = _stderrStr;
+@synthesize stdoutLines = _stdoutLines;
+
++ (ShellResult *)withTask:(NSTask *)task
+                  elapsed:(NSTimeInterval)elapsed
+               didTimeOut:(BOOL)didTimeOut {
+    return [[ShellResult alloc] initWithTask:task
+                                     elapsed:elapsed
+                                  didTimeOut:didTimeOut];
+}
+
+- (instancetype)initWithTask:(NSTask *)task
+                     elapsed:(NSTimeInterval)elapsed
+                  didTimeOut:(BOOL)didTimeOut {
+    self = [super init];
+    if (self) {
+        _elapsed = elapsed;
+        _command = [NSString stringWithFormat:@"%@ %@",
+                    task.launchPath,
+                    [task.arguments componentsJoinedByString:@" "]];
+        _didTimeOut = didTimeOut;
+        if (_didTimeOut) {
+            _exitStatus = NSIntegerMin;
+            _success = NO;
+        } else {
+            _exitStatus = task.terminationStatus;
+            _success = _exitStatus == 0;
+        }
+
+        _stdoutStr = [ShellResult stringFromPipe:task.standardOutput];
+        _stderrStr = [ShellResult stringFromPipe:task.standardError];
+
+        _stdoutLines = [_stdoutStr componentsSeparatedByString:@"\n"];
+    }
+    return self;
+}
+
+- (NSString *)stdout { return _stdoutStr; }
+- (NSString *)stderr { return _stderrStr; }
+
+- (void)logStdoutAndStderr {
+    if (!self.didTimeOut) {
+
+        NSLog(@"EXEC: %@", self.command);
+
+        if (!self.stdoutStr && self.stdoutStr.length != 0) {
+            NSLog(@"=== STDOUT ===");
+            NSLog(@"%@", self.stdoutStr);
+        }
+
+        if (!self.stderrStr && self.stderrStr.length != 0) {
+            NSLog(@"=== STDERR ===");
+            NSLog(@"%@", self.stderrStr);
+        }
+    }
+}
+
+
+@end
+
 @implementation ShellRunner
 
 + (NSArray<NSString *> *)xcrun:(NSArray *)args {
@@ -41,15 +134,8 @@
     return [string componentsSeparatedByString:@"\n"];
 }
 
-+ (NSDictionary *)xcrun:(NSArray *)args timeout:(NSTimeInterval)timeout {
++ (ShellResult *)xcrun:(NSArray *)args timeout:(NSTimeInterval)timeout {
     NSString *xcrun = @"/usr/bin/xcrun";
-
-    NSString *cmd = [NSString stringWithFormat:@"%@ %@", xcrun,
-                     [args componentsJoinedByString:@" "]];
-
-    if ([self verbose]) {
-        NSLog(@"EXEC: %@", cmd);
-    }
 
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:xcrun];
@@ -57,16 +143,14 @@
 
     NSPipe *outPipe = [NSPipe pipe];
     [task setStandardOutput:outPipe];
+
     NSPipe *errPipe = [NSPipe pipe];
     [task setStandardError:errPipe];
 
-    NSFileHandle *outFile = [outPipe fileHandleForReading];
-    NSFileHandle *errFile = [errPipe fileHandleForReading];
-
-    NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:timeout];
     BOOL timedOut = NO;
+    NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:timeout];
+    NSDate *startDate = [NSDate date];
 
-    NSDate *start = [NSDate date];
     [task launch];
 
     while ([task isRunning]) {
@@ -76,27 +160,13 @@
         }
     }
 
-    NSTimeInterval elapsed = [start timeIntervalSinceNow];
+    NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];
+    ShellResult *result = [ShellResult withTask:task elapsed:elapsed didTimeOut:timedOut];
 
-    NSMutableDictionary *result = [@{} mutableCopy];
-    result[@"cmd"] = cmd;
-
-    if (timedOut) {
-        NSLog(@"Command timed out after %@ seconds", @(elapsed));
-        result[@"timedOut"] = @(YES);
-    } else {
-        result[@"success"] = @(task.terminationStatus == 0 ? YES : NO);
-        result[@"exitStatus"] = @(task.terminationStatus);
-        NSData *data = [outFile readDataToEndOfFile];
-        NSString *string= [[NSString alloc] initWithData:data
-                                                encoding: NSUTF8StringEncoding];
-        result[@"out"] = [string componentsSeparatedByString:@"\n"];
-
-        data = [errFile readDataToEndOfFile];
-        string= [[NSString alloc] initWithData:data
-                                      encoding: NSUTF8StringEncoding];
-        result[@"err"] = [string componentsSeparatedByString:@"\n"];
+    if ([self verbose]) {
+        [result logStdoutAndStderr];
     }
+
     return result;
 }
 
