@@ -41,8 +41,8 @@
     expect(result.exitStatus).to.equal(0);
     expect(result.success).to.equal(YES);
     expect(result.elapsed).to.equal(1.0);
-    expect(result.stderr).to.equal(@"");
-    expect(result.stdout).to.equal(@"Hello\n");
+    expect(result.stderrStr).to.equal(@"");
+    expect(result.stdoutStr).to.equal(@"Hello\n");
     expect(result.stdoutLines).to.equal(@[@"Hello", @""]);
 }
 
@@ -66,9 +66,9 @@
     expect(result.didTimeOut).to.equal(NO);
     expect(result.success).to.equal(NO);
     expect(result.elapsed).to.equal(1.0);
-    expect(result.stderr).to.equal(@"/usr/bin/uname: illegal option -- q\n"
+    expect(result.stderrStr).to.equal(@"/usr/bin/uname: illegal option -- q\n"
                                    "usage: uname [-amnprsv]\n");
-    expect(result.stdout).to.equal(@"");
+    expect(result.stdoutStr).to.equal(@"");
     expect(result.stdoutLines).to.equal(@[@""]);
 }
 
@@ -102,8 +102,8 @@
     expect(result.didTimeOut).to.equal(YES);
     expect(result.success).to.equal(NO);
     expect(result.elapsed).to.equal(1.0);
-    expect(result.stderr).to.equal(@"");
-    expect(result.stdout).to.equal(@"");
+    expect(result.stderrStr).to.equal(@"");
+    expect(result.stdoutStr).to.equal(@"");
     expect(result.stdoutLines).to.equal(@[@""]);
 }
 

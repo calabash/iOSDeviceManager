@@ -31,12 +31,12 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
             NSLog(@"ERROR: codesign timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return nil;
     }
 
-    NSData *data = [result.stdout dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [result.stdoutStr dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
     NSDictionary *plist;
 
@@ -48,7 +48,7 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
     if (!plist || plist.count == 0) {
         NSLog(@"ERROR: Could not parse plist to dictionary:");
         NSLog(@"=== PLIST BEGIN ===");
-        NSLog(@"%@", result.stdout);
+        NSLog(@"%@", result.stdoutStr);
         NSLog(@"=== PLIST END ===");
         NSLog(@"ERROR: %@", [error localizedDescription]);
         return nil;

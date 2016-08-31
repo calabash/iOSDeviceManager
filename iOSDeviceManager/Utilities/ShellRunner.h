@@ -12,8 +12,8 @@
 - (NSString *)command;
 - (BOOL)success;
 - (NSInteger)exitStatus;
-- (NSString *)stdout;
-- (NSString *)stderr;
+- (NSString *)stdoutStr;
+- (NSString *)stderrStr;
 - (NSArray<NSString *> *)stdoutLines;
 - (void)logStdoutAndStderr;
 

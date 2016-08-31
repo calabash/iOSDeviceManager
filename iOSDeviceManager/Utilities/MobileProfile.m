@@ -78,12 +78,12 @@
             NSLog(@"ERROR: security cms timed out after %@ seconds", @(result.elapsed));
         } else {
             NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderr);
+            NSLog(@"%@", result.stderrStr);
         }
         return nil;
     }
 
-    return result.stdout;
+    return result.stdoutStr;
 }
 
 + (NSDictionary *)dictionaryByExportingProfileWithSecurity:(NSString *) path {
