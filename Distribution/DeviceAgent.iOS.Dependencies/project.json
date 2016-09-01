@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-beta6",
+  "version": "0.1.0-beta7",
   "description": "DeviceAgent.iOS, iOSDeviceManager, and required frameworks",
   "authors": [
     "Chris Fuentes",
@@ -15,7 +15,7 @@
     ]
   },
   "frameworks": {
-    "net451": {
+    "net45": {
       "frameworkAssemblies": {}
     },
     "netstandard1.6": {
