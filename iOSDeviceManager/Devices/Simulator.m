@@ -105,20 +105,25 @@ static FBSimulatorControl *_control;
     id replog = [self new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
-    [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
-                                            runnerBundleID:runnerBundleID
-                                                 sessionID:sessionID
-                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                  reporter:replog
-                                                    logger:replog
-                                                     error:&e];
+    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
+                                                                         runnerBundleID:runnerBundleID
+                                                                              sessionID:sessionID
+                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                               reporter:replog
+                                                                                 logger:replog
+                                                                                  error:&e];
     
     if (e) {
         NSLog(@"Error starting test runner: %@", e);
         return iOSReturnStatusCodeInternalError;
     } else if (keepAlive) {
-        [[NSRunLoop mainRunLoop] run];
+        NSTimeInterval longTime = [[NSDate distantFuture] timeIntervalSinceDate:[NSDate distantPast]];
+        [testManager waitUntilTestingHasFinishedWithTimeout:longTime];
+        if (e) {
+            NSLog(@"Error starting test: %@", e);
+            return iOSReturnStatusCodeInternalError;
+        }
     }
     return iOSReturnStatusCodeEverythingOkay;
 }
