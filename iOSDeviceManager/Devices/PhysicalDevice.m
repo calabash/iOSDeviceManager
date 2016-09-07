@@ -115,7 +115,7 @@
 
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
-    PhysicalDevice *repLog = [self new];
+    PhysicalDevice *repLog = [PhysicalDevice new];
 
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
                                                                          runnerBundleID:runnerBundleID
@@ -127,8 +127,17 @@
                                                                                   error:&e];
     if (!e) {
         if (keepAlive) {
+            /*
+                `testingComplete` will be YES when testmanagerd calls
+                `testManagerMediatorDidFinishExecutingTestPlan:`
+             */
             while (!repLog.testingComplete){
                 [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+                
+                /*
+                    `testingHasFinished` returns YES when the bundle connection AND testmanagerd
+                    connection are finished with the connection (presumably at end of test or failure)
+                 */
                 if ([testManager testingHasFinished]) {
                     break;
                 }
