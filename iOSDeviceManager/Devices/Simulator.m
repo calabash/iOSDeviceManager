@@ -102,7 +102,7 @@ static FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
     
-    id replog = [self new];
+    Simulator *replog = [self new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
@@ -118,8 +118,12 @@ static FBSimulatorControl *_control;
         NSLog(@"Error starting test runner: %@", e);
         return iOSReturnStatusCodeInternalError;
     } else if (keepAlive) {
-        NSTimeInterval longTime = [[NSDate distantFuture] timeIntervalSinceDate:[NSDate distantPast]];
-        [testManager waitUntilTestingHasFinishedWithTimeout:longTime];
+        while (!replog.testingComplete){
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+            if ([testManager testingHasFinished]) {
+                break;
+            }
+        }
         if (e) {
             NSLog(@"Error starting test: %@", e);
             return iOSReturnStatusCodeInternalError;
@@ -246,9 +250,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
-
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
     NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger

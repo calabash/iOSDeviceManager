@@ -115,19 +115,24 @@
 
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
-    id reporterLogger = [self new];
+    PhysicalDevice *repLog = [self new];
 
-    [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
-                                            runnerBundleID:runnerBundleID
-                                                 sessionID:sessionID
-                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                  reporter:reporterLogger
-                                                    logger:reporterLogger
-                                                     error:&e];
+    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
+                                                                         runnerBundleID:runnerBundleID
+                                                                              sessionID:sessionID
+                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                               reporter:repLog
+                                                                                 logger:repLog
+                                                                                  error:&e];
     if (!e) {
         if (keepAlive) {
-            [[NSRunLoop mainRunLoop] run];
+            while (!repLog.testingComplete){
+                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+                if ([testManager testingHasFinished]) {
+                    break;
+                }
+            }
         }
     } else {
         NSLog(@"Err: %@", e);
@@ -176,6 +181,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
     NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger
