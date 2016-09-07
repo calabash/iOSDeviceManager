@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		GP+/Yho23QAifLU8+DU4MkNyQYw=
+		c67gb0qPqViNx5OqS2UrSHiMItQ=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			0v1ECwmtz+wCPo3QEWVxWnglxQM=
+			3SOSQ1cE2AL/3DsKLf2/tGO91xg=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			w20clFme3CQEkM+UG4sF1pMtDhw=
+			UvXL6tB0qr4vB+Fxoby1YTwGEe0=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -121,11 +121,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GP+/Yho23QAifLU8+DU4MkNyQYw=
+			c67gb0qPqViNx5OqS2UrSHiMItQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			qSqqtdcUzdGwKLh3bgDw63v6Yyye4WAV5pJq0fwaH78=
+			EllAe3m5MreXlhOLCDcb++NyBB6ESdNAru90hxXtUes=
 			</data>
 		</dict>
 	</dict>
