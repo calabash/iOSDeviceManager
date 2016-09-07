@@ -38,8 +38,20 @@ mkdir -p "${OUTPUT_DIR}/ipa"
 HERE=$(pwd)
 
 (cd "${FBSIMCONTROL_PATH}";
- make frameworks;
- cp -r build/Release/* "${HERE}/${OUTPUT_DIR}/Frameworks")
+make frameworks;
+
+xcrun ditto build/Release/FBControlCore.framework \
+  "${HERE}/${OUTPUT_DIR}/Frameworks/FBControlCore.framework" ;
+
+xcrun ditto build/Release/FBDeviceControl.framework \
+  "${HERE}/${OUTPUT_DIR}/Frameworks/FBDeviceControl.framework" ;
+
+xcrun ditto build/Release/FBSimulatorControl.framework \
+  "${HERE}/${OUTPUT_DIR}/Frameworks/FBSimulatorControl.framework" ;
+
+xcrun ditto build/Release/XCTestBootstrap.framework \
+  "${HERE}/${OUTPUT_DIR}/Frameworks/XCTestBootstrap.framework" ;
+)
 
 (cd "${DEVICEAGENT_PATH}";
  make app-agent;
@@ -56,6 +68,6 @@ make clean
 make build
 
 cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
-cp "CLI.json" "${OUTPUT_DIR}/bin" 
+cp "CLI.json" "${OUTPUT_DIR}/bin"
 
 info "Gathered dependencies in ${OUTPUT_DIR}"
