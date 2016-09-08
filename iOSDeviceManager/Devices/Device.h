@@ -24,4 +24,6 @@
 
 + (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
                                        deviceID:(NSString *)deviceID;
+
+@property BOOL testingComplete;
 @end

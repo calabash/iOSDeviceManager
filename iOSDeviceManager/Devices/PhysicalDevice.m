@@ -115,19 +115,33 @@
 
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
-    id reporterLogger = [self new];
+    PhysicalDevice *repLog = [PhysicalDevice new];
 
-    [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
-                                            runnerBundleID:runnerBundleID
-                                                 sessionID:sessionID
-                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                  reporter:reporterLogger
-                                                    logger:reporterLogger
-                                                     error:&e];
+    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
+                                                                         runnerBundleID:runnerBundleID
+                                                                              sessionID:sessionID
+                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                               reporter:repLog
+                                                                                 logger:repLog
+                                                                                  error:&e];
     if (!e) {
         if (keepAlive) {
-            [[NSRunLoop mainRunLoop] run];
+            /*
+                `testingComplete` will be YES when testmanagerd calls
+                `testManagerMediatorDidFinishExecutingTestPlan:`
+             */
+            while (!repLog.testingComplete){
+                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+                
+                /*
+                    `testingHasFinished` returns YES when the bundle connection AND testmanagerd
+                    connection are finished with the connection (presumably at end of test or failure)
+                 */
+                if ([testManager testingHasFinished]) {
+                    break;
+                }
+            }
         }
     } else {
         NSLog(@"Err: %@", e);
@@ -176,6 +190,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
     NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger

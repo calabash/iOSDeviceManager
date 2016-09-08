@@ -5,6 +5,14 @@
 #import "Simulator.h"
 
 @implementation Device
+
+- (id)init {
+    if (self = [super init]) {
+        _testingComplete = NO;
+    }
+    return self;
+}
+
 + (void)initialize {
     const char *FBLog = [ShellRunner verbose] ? "YES" : "NO";
     setenv("FBCONTROLCORE_LOGGING", FBLog, 1);

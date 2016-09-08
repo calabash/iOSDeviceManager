@@ -102,23 +102,41 @@ static FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
     
-    id replog = [self new];
+    Simulator *replog = [Simulator new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
-    [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
-                                            runnerBundleID:runnerBundleID
-                                                 sessionID:sessionID
-                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                  reporter:replog
-                                                    logger:replog
-                                                     error:&e];
+    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
+                                                                         runnerBundleID:runnerBundleID
+                                                                              sessionID:sessionID
+                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                               reporter:replog
+                                                                                 logger:replog
+                                                                                  error:&e];
     
     if (e) {
         NSLog(@"Error starting test runner: %@", e);
         return iOSReturnStatusCodeInternalError;
     } else if (keepAlive) {
-        [[NSRunLoop mainRunLoop] run];
+        /*
+         `testingComplete` will be YES when testmanagerd calls
+         `testManagerMediatorDidFinishExecutingTestPlan:`
+         */
+        while (!replog.testingComplete){
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+            
+            /*
+             `testingHasFinished` returns YES when the bundle connection AND testmanagerd
+             connection are finished with the connection (presumably at end of test or failure)
+             */
+            if ([testManager testingHasFinished]) {
+                break;
+            }
+        }
+        if (e) {
+            NSLog(@"Error starting test: %@", e);
+            return iOSReturnStatusCodeInternalError;
+        }
     }
     return iOSReturnStatusCodeEverythingOkay;
 }
@@ -241,9 +259,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
-
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
     NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger
