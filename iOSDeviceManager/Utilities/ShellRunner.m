@@ -223,7 +223,6 @@
     } @finally {
         NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];
         if (raised) {
-
             result = [ShellResult withFailedCommand:command elapsed:elapsed];
         } else {
             result = [ShellResult withTask:task elapsed:elapsed didTimeOut:timedOut];

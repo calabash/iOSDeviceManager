@@ -4,6 +4,7 @@
 #import "Certificate.h"
 #import "Entitlements.h"
 #import "Entitlement.h"
+#import "ThreadUtils.h"
 #import "CodesignIdentity.h"
 
 @interface MobileProfile ()
@@ -165,22 +166,19 @@
     NSArray<NSString *> *paths = [MobileProfile arrayOfProfilePaths];
     if (!paths) { return nil; }
 
-    MobileProfile *profile;
-    NSDictionary *plist;
-
     NSMutableArray<MobileProfile *> *profiles;
     profiles = [NSMutableArray arrayWithCapacity:[paths count]];
 
-    for(NSString *path in paths) {
-        plist = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
+    [ThreadUtils concurrentlyEnumerate:paths withBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
+        NSDictionary *plist = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
         if (plist) {
-            profile = [[MobileProfile alloc] initWithDictionary:plist
+            MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:plist
                                                            path:path];
             if ([profile isPlatformIOS] && ![profile isExpired]) {
                 [profiles addObject:profile];
             }
         }
-    }
+    }];
 
     if ([profiles count] == 0) {
         return nil;
@@ -213,10 +211,10 @@
         return (NSComparisonResult)NSOrderedSame;
     };
 
-    [valid enumerateObjectsUsingBlock:^(MobileProfile *profile, NSUInteger idx, BOOL *stop) {
 
+    [ThreadUtils concurrentlyEnumerate:valid withBlock:^(MobileProfile *profile, NSUInteger idx, BOOL *stop) {
         if ([profile isValidForDeviceUDID:deviceUDID identity:identity]) {
-
+            
             NSInteger score = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements
                                                                appEntitlements:appEntitlements];
             // Reject any profiles that do meet the app requirements.
@@ -231,7 +229,7 @@
             }
         }
     }];
-
+    
     return [NSArray arrayWithArray:satisfyingProfiles];
 }
 
