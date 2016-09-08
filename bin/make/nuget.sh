@@ -18,15 +18,11 @@ rm -f "${NUGET_DEP_ZIP}"
   | /sbin/md5 \
   > "${NUGET_DIR}/hash.txt"
 
-cd "${DEP_STAGING_DIR}"
-
 info "Zipping up dependencies"
 
-zip -qr "${DEP_ZIP}" *
-
-cd "${CURRENT_DIR}"
-
-mv "${DEP_STAGING_DIR}/${DEP_ZIP}" "${NUGET_DIR}"
+xcrun ditto -ck --rsrc --sequesterRsrc \
+    "${DEP_STAGING_DIR}" \
+    "${NUGET_DIR}/${DEP_ZIP}"
 
 cd "${NUGET_DIR}"
 
