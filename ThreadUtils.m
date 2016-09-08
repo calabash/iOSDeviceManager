@@ -66,7 +66,6 @@
     q.maxConcurrentOperationCount = array.count;
     [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         ConcurrentBlock *bl = [ConcurrentBlock withBlock:^{
-            NSLog(@"Op %@: %@", @(idx),  [NSThread currentThread]);
             block(obj, idx, stop);
         }];
         [q addOperation:bl];

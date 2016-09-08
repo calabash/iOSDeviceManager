@@ -81,7 +81,6 @@
 
 - (void)testInstall {
     if (device_available()) {
-        [self measureBlock:^{
             NSArray *args = @[
                               kProgramName, @"is_installed",
                               @"-b", testAppID,
@@ -104,7 +103,6 @@
                      @"-c", kCodeSignIdentityKARL
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        }];
     }
 }
 
