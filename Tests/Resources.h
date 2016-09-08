@@ -133,6 +133,7 @@ static NSString *const SIM = @"SIM";
 
 - (NSString *)stringPlist;
 - (NSString *)CalabashWildcardPath;
+- (NSString *)pathToVeryLongProfile;
 - (NSString *)provisioningProfilesDirectory;
 - (NSString *)pathToCalabashWildcardPathCertificate;
 - (NSData *)certificateFromCalabashWildcardPath;

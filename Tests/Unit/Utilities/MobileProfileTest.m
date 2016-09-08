@@ -52,7 +52,6 @@
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
                                                                   path:path];
-
     expect(profile.AppIDName).to.equal(@"CalabashWildcard");
     expect(profile.ApplicationIdentifierPrefix[0]).to.equal(@"FYD86LA7RE");
     expect(profile.DeveloperCertificates.count).to.equal(1);
@@ -80,6 +79,38 @@
     NSLog(@"%@", entitlements);
 
     NSLog(@"%@", [path pathExtension]);
+}
+
+- (void)testCanImportProblematicProfiles {
+    NSString *path = [self.resources pathToVeryLongProfile];
+    NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
+    MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
+                                                                  path:path];
+    expect(profile.AppIDName).to.equal(@"Xcode iOS App ID app group xam app-cal");
+    expect(profile.ApplicationIdentifierPrefix[0]).to.equal(@"58LM7J37Q8");
+    expect(profile.DeveloperCertificates.count).to.equal(33);
+    expect(profile.DeveloperCertificates[0]).to.beInstanceOf([Certificate class]);
+    expect(profile.ProvisionedDevices.count).to.equal(83);
+    expect(profile.ProvisionedDevices[0]).to.equal(@"f90928195b6e6709405c608f03e0a425b0e4cd10");
+    expect(profile.TeamIdentifier[0]).to.equal(@"58LM7J37Q8");
+    expect(profile.UUID).to.equal(@"64fb01e1-61ed-4bcf-b4fe-16221f047f84");
+    expect(profile.TeamName).to.equal(@"Xamarin Inc");
+    expect(profile.Name).to.equal(@"iOS Team Provisioning Profile: app.group.xam.app-cal");
+    expect(profile.Platform[0]).to.equal(@"iOS");
+    expect(profile.ExpirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
+
+    NSLog(@"%@", profile.info);
+
+    Certificate *cert = profile.DeveloperCertificates[0];
+    expect(cert.userID).to.equal(@"3TNVSMTY3X");
+    expect(cert.commonName).to.equal(@"iPhone Developer: Andrew Chung (28DXNYAUL2)");
+    expect(cert.teamName).to.equal(@"58LM7J37Q8");
+    expect(cert.organization).to.equal(@"Xamarin Inc");
+    expect(cert.country).to.equal(@"US");
+
+    Entitlements *entitlements = profile.Entitlements;
+    expect(entitlements[@"get-task-allow"]).to.equal(@(1));
+    NSLog(@"%@", entitlements);
 }
 
 // Could be an integration test if import is too slow.
@@ -228,7 +259,7 @@ context(@".arrayOfProfilePaths:", ^{
         OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
 
         actual = [MobileProfile arrayOfProfilePaths];
-        expect(actual.count).to.equal(7);
+        expect(actual.count).to.equal(8);
         expect([[NSFileManager defaultManager]
                 fileExistsAtPath:actual[0]]).to.equal(YES);
     });
@@ -262,14 +293,16 @@ context(@".stringByExportingProfileWithSecurity:", ^{
         OCMVerifyAll(MockShellRunner);
     });
 
-    it(@"returns an NSString representation of a profile", ^{
-        shellResult = [[Resources shared] successResultSingleLine];
-        OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
-
-        NSString *expected = @"Hello";
-        NSString *actual = [MobileProfile stringByExportingProfileWithSecurity:@""];
-        expect(actual).to.equal(expected);
-    });
+    // Not easy to test.  The call to [NSString stringWithContentsOfFile:encoding:error]
+    // is not easy to mock.  Covered by other tests.
+//    it(@"returns an NSString representation of a profile", ^{
+//        shellResult = [[Resources shared] successResultSingleLine];
+//        OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
+//
+//        NSString *expected = @"Hello";
+//        NSString *actual = [MobileProfile stringByExportingProfileWithSecurity:@""];
+//        expect(actual).to.equal(expected);
+//    });
 
     it(@"returns nil if security cannot export the profile", ^{
         shellResult = [[Resources shared] failedResult];

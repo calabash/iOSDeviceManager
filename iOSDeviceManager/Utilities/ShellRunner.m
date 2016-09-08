@@ -71,9 +71,6 @@
     return self;
 }
 
-- (NSString *)stdout { return _stdoutStr; }
-- (NSString *)stderr { return _stderrStr; }
-
 - (void)logStdoutAndStderr {
     if (!self.didTimeOut) {
 
