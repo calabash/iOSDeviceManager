@@ -197,6 +197,10 @@
     BOOL raised = NO;
     ShellResult *result = nil;
 
+    NSString *command = [xcrun stringByAppendingFormat:@" %@",
+                         [args componentsJoinedByString:@" "]];
+    NSLog(@"EXEC: %@", command);
+
     @try {
         [task launch];
 
@@ -219,8 +223,7 @@
     } @finally {
         NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];
         if (raised) {
-            NSString *command = [xcrun stringByAppendingFormat:@" %@",
-                                 [args componentsJoinedByString:@" "]];
+
             result = [ShellResult withFailedCommand:command elapsed:elapsed];
         } else {
             result = [ShellResult withTask:task elapsed:elapsed didTimeOut:timedOut];
