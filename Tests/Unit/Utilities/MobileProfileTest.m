@@ -293,17 +293,6 @@ context(@".stringByExportingProfileWithSecurity:", ^{
         OCMVerifyAll(MockShellRunner);
     });
 
-    // Not easy to test.  The call to [NSString stringWithContentsOfFile:encoding:error]
-    // is not easy to mock.  Covered by other tests.
-//    it(@"returns an NSString representation of a profile", ^{
-//        shellResult = [[Resources shared] successResultSingleLine];
-//        OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
-//
-//        NSString *expected = @"Hello";
-//        NSString *actual = [MobileProfile stringByExportingProfileWithSecurity:@""];
-//        expect(actual).to.equal(expected);
-//    });
-
     it(@"returns nil if security cannot export the profile", ^{
         shellResult = [[Resources shared] failedResult];
         OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:10]).andReturn(shellResult);
