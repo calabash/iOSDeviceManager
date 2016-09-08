@@ -1,23 +1,76 @@
 
 #import "ThreadUtils.h"
 
-@implementation ThreadUtils
-+ (void)runUntilAllComplete:(NSArray <NSOperation *> *)ops {
-    NSOperationQueue *q = [NSOperationQueue new];
-    q.maxConcurrentOperationCount = ops.count;
-    [q addOperations:ops waitUntilFinished:YES];
+@interface ConcurrentBlock : NSOperation {
+    BOOL        executing;
+    BOOL        finished;
+    void(^block)(void);
+}
++ (instancetype)withBlock:(void (^)(void))block;
+- (void)completeOperation;
+@end
+
+@implementation ConcurrentBlock
++ (instancetype)withBlock:(void (^)(void))block {
+    return [[self alloc] initWithBlock:block];
 }
 
+- (id)initWithBlock:(void (^)(void))bl {
+    self = [super init];
+    if (self) {
+        finished = NO;
+        executing = NO;
+        block = bl;
+    }
+    return self;
+}
+
+- (BOOL)isConcurrent {
+    return YES;
+}
+
+- (BOOL)isExecuting {
+    return executing;
+}
+
+- (BOOL)isFinished {
+    return finished;
+}
+
+- (void)main {
+    @try {
+        block();
+        [self completeOperation];
+    }
+    @catch(NSException *e) {
+        NSLog(@"Error: %@", e);
+    }
+}
+
+- (void)completeOperation {
+    [self willChangeValueForKey:@"isFinished"];
+    [self willChangeValueForKey:@"isExecuting"];
+    
+    executing = NO;
+    finished = YES;
+    
+    [self didChangeValueForKey:@"isExecuting"];
+    [self didChangeValueForKey:@"isFinished"];
+}
+@end
+
+@implementation ThreadUtils
+
 + (void)concurrentlyEnumerate:(NSArray *)array withBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block {
-    NSMutableArray<NSBlockOperation *> *ops = [NSMutableArray array];
+    NSOperationQueue *q = [NSOperationQueue new];
+    q.maxConcurrentOperationCount = array.count;
     [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSBlockOperation *bop = [NSBlockOperation blockOperationWithBlock:^{
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                block(obj, idx, stop);
-            });
+        ConcurrentBlock *bl = [ConcurrentBlock withBlock:^{
+            NSLog(@"Op %@: %@", @(idx),  [NSThread currentThread]);
+            block(obj, idx, stop);
         }];
-        [ops addObject:bop];
+        [q addOperation:bl];
     }];
-    [self runUntilAllComplete:ops];
+    [q waitUntilAllOperationsAreFinished];
 }
 @end
