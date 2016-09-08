@@ -39,6 +39,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "89331D421CE222C7003C2E59"
+            BuildableName = "iOSDeviceManager"
+            BlueprintName = "iOSDeviceManager"
+            ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
