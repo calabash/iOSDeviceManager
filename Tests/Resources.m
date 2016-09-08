@@ -814,6 +814,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
             stringByAppendingPathComponent:@"profiles/CalabashWildcard.mobileprovision"];
 }
 
+- (NSString *)pathToVeryLongProfile {
+    return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
+}
+
 - (NSString *)provisioningProfilesDirectory {
     return [self.resourcesDirectory stringByAppendingPathComponent:@"profiles"];
 }

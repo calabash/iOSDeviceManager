@@ -64,10 +64,15 @@
 }
 
 + (NSString *)stringByExportingProfileWithSecurity:(NSString *)path {
+    NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSString *name = [NSString stringWithFormat:@"%@.plist", uuid];
+    NSString *plistPath = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
+
     NSArray *args = @[
                       @"security",
                       @"cms", @"-D",
-                      @"-i", path
+                      @"-i", path,
+                      @"-o", plistPath
                       ];
 
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
@@ -83,7 +88,18 @@
         return nil;
     }
 
-    return result.stdoutStr;
+    NSError *error = nil;
+    NSString *fileContents = [NSString stringWithContentsOfFile:plistPath
+                                                   encoding:NSUTF8StringEncoding
+                                                      error:&error];
+    if (!fileContents) {
+        NSLog(@"ERROR: could not read the output file generate by security cms");
+        NSLog(@"ERROR:           profile: %@", path);
+        NSLog(@"ERROR:    exported plist: %@", plistPath);
+        NSLog(@"ERROR: %@", error.localizedDescription);
+    }
+
+    return fileContents;
 }
 
 + (NSDictionary *)dictionaryByExportingProfileWithSecurity:(NSString *) path {
