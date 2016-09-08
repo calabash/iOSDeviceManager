@@ -21,11 +21,29 @@
 
 @implementation ShellResult
 
-+ (NSString *)stringFromPipe:(NSPipe *)pipe {
++ (NSString *)stringFromPipe:(NSPipe *)pipe
+                     command:(NSString *)command
+                    isStdOut:(BOOL)isStdOut {
     NSFileHandle *fileHandle = [pipe fileHandleForReading];
-    NSData *data = [fileHandle readDataToEndOfFile];
-    return [[NSString alloc] initWithData:data
-                                 encoding:NSUTF8StringEncoding];
+
+    NSString *string = nil;
+    @try {
+        NSData *data = [fileHandle readDataToEndOfFile];
+        string =  [[NSString alloc] initWithData:data
+                                        encoding:NSUTF8StringEncoding];
+    } @catch (NSException *exception) {
+        NSLog(@"ERROR: Caught an exception when reading the %@ of command:\n    %@",
+              isStdOut ? @"stdout" : @"stderr", command);
+        NSLog(@"ERROR: ===  EXCEPTION ===");
+        NSLog(@"%@", exception);
+        NSLog(@"");
+        NSLog(@"ERROR: === STACK SYMBOLS === ");
+        NSLog(@"%@", [exception callStackSymbols]);
+        NSLog(@"");
+    } @finally {
+        [fileHandle closeFile];
+    }
+    return string;
 }
 
 @synthesize didTimeOut = _didTimeOut;
@@ -63,8 +81,12 @@
             _success = _exitStatus == 0;
         }
 
-        _stdoutStr = [ShellResult stringFromPipe:task.standardOutput];
-        _stderrStr = [ShellResult stringFromPipe:task.standardError];
+        _stdoutStr = [ShellResult stringFromPipe:task.standardOutput
+                                         command:_command
+                                         isStdOut:YES];
+        _stderrStr = [ShellResult stringFromPipe:task.standardError
+                                         command:_command
+                                         isStdOut:NO];
 
         _stdoutLines = [_stdoutStr componentsSeparatedByString:@"\n"];
     }
