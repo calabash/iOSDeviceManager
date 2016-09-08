@@ -7,6 +7,10 @@
                      elapsed:(NSTimeInterval)elapsed
                   didTimeOut:(BOOL)didTimeOut;
 
+- (instancetype)initWithFailedCommand:(NSString *)command
+                              elapsed:(NSTimeInterval)elapsed;
+
+
 @property(assign) BOOL didTimeOut;
 @property(assign) NSTimeInterval timeout;
 @property(assign, readonly) NSTimeInterval elapsed;
@@ -54,6 +58,27 @@
 @synthesize stdoutStr = _stdoutStr;
 @synthesize stderrStr = _stderrStr;
 @synthesize stdoutLines = _stdoutLines;
+
++ (ShellResult *)withFailedCommand:(NSString *)command
+                           elapsed:(NSTimeInterval)elapsed {
+    return [[ShellResult alloc] initWithFailedCommand:command elapsed:elapsed];
+}
+
+- (instancetype)initWithFailedCommand:(NSString *)command
+                              elapsed:(NSTimeInterval)elapsed {
+    self = [super init];
+    if (self) {
+        _elapsed = elapsed;
+        _command = command;
+        _success = NO;
+        _didTimeOut = NO;
+        _exitStatus = NSIntegerMin;
+        _stdoutStr = nil;
+        _stderrStr = nil;
+        _stdoutLines = nil;
+    }
+    return self;
+}
 
 + (ShellResult *)withTask:(NSTask *)task
                   elapsed:(NSTimeInterval)elapsed
@@ -109,7 +134,6 @@
         }
     }
 }
-
 
 @end
 
@@ -170,17 +194,39 @@
     NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:timeout];
     NSDate *startDate = [NSDate date];
 
-    [task launch];
+    BOOL raised = NO;
+    ShellResult *result = nil;
 
-    while ([task isRunning]) {
-        if ([endDate earlierDate:[NSDate date]] == endDate) {
-            timedOut = YES;
-            [task terminate];
+    @try {
+        [task launch];
+
+        while ([task isRunning]) {
+            if ([endDate earlierDate:[NSDate date]] == endDate) {
+                timedOut = YES;
+                [task terminate];
+            }
         }
+    } @catch (NSException *exception) {
+        NSLog(@"ERROR: Caught an exception trying to execute:\n    %@ %@",
+              xcrun, [args componentsJoinedByString:@" "]);
+        NSLog(@"ERROR: ===  EXCEPTION ===");
+        NSLog(@"%@", exception);
+        NSLog(@"");
+        NSLog(@"ERROR: === STACK SYMBOLS === ");
+        NSLog(@"%@", [exception callStackSymbols]);
+        NSLog(@"");
+        raised = YES;
+    } @finally {
+        NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];
+        if (raised) {
+            NSString *command = [xcrun stringByAppendingFormat:@" %@",
+                                 [args componentsJoinedByString:@" "]];
+            result = [ShellResult withFailedCommand:command elapsed:elapsed];
+        } else {
+            result = [ShellResult withTask:task elapsed:elapsed didTimeOut:timedOut];
+        }
+        task = nil;
     }
-
-    NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];
-    ShellResult *result = [ShellResult withTask:task elapsed:elapsed didTimeOut:timedOut];
 
     if ([self verbose]) {
         [result logStdoutAndStderr];
