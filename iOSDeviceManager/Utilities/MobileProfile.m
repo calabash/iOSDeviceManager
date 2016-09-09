@@ -4,7 +4,6 @@
 #import "Certificate.h"
 #import "Entitlements.h"
 #import "Entitlement.h"
-#import "ThreadUtils.h"
 #import "CodesignIdentity.h"
 
 @interface MobileProfile ()
@@ -169,7 +168,8 @@
     NSMutableArray<MobileProfile *> *profiles;
     profiles = [NSMutableArray arrayWithCapacity:[paths count]];
 
-    [ThreadUtils concurrentlyEnumerate:paths withBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
+    [paths enumerateObjectsWithOptions:NSEnumerationConcurrent
+                            usingBlock:^(NSString * _Nonnull path, NSUInteger idx, BOOL * _Nonnull stop) {
         NSDictionary *plist = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
         if (plist) {
             MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:plist
@@ -212,7 +212,7 @@
     };
 
 
-    [ThreadUtils concurrentlyEnumerate:valid withBlock:^(MobileProfile *profile, NSUInteger idx, BOOL *stop) {
+    [mobileProfiles enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(MobileProfile * _Nonnull profile, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([profile isValidForDeviceUDID:deviceUDID identity:identity]) {
             
             NSInteger score = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements

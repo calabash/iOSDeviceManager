@@ -126,11 +126,6 @@
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D821D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
-		89F3AC0C1D820D090081D7EA /* ThreadUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F3AC0A1D820D090081D7EA /* ThreadUtils.h */; };
-		89F3AC0D1D820D090081D7EA /* ThreadUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F3AC0B1D820D090081D7EA /* ThreadUtils.m */; };
-		89F3AC0E1D820D090081D7EA /* ThreadUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F3AC0B1D820D090081D7EA /* ThreadUtils.m */; };
-		89F3AC0F1D820D090081D7EA /* ThreadUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F3AC0B1D820D090081D7EA /* ThreadUtils.m */; };
-		89F3AC101D820D090081D7EA /* ThreadUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F3AC0B1D820D090081D7EA /* ThreadUtils.m */; };
 		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
@@ -332,8 +327,6 @@
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89EF4AC91CFA614F006DCDC5 /* Unit.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Unit.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		89F3AC0A1D820D090081D7EA /* ThreadUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadUtils.h; sourceTree = SOURCE_ROOT; };
-		89F3AC0B1D820D090081D7EA /* ThreadUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadUtils.m; sourceTree = SOURCE_ROOT; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
 		89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
@@ -532,8 +525,6 @@
 				634246E72644FB7E5C9D3EAB /* BundleResigner.m */,
 				63424EEDC223490E66B7C1BB /* BundleResignerFactory.h */,
 				634242530988C4D64BD8E860 /* BundleResignerFactory.m */,
-				89F3AC0A1D820D090081D7EA /* ThreadUtils.h */,
-				89F3AC0B1D820D090081D7EA /* ThreadUtils.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -634,7 +625,6 @@
 				892A93CB1D39347B00154F08 /* SimulateLocationCommand.h in Headers */,
 				89B50D7F1D466BB800F34D67 /* AppUtils.h in Headers */,
 				892DE4B41D22F85400E1902C /* TestParameters.h in Headers */,
-				89F3AC0C1D820D090081D7EA /* ThreadUtils.h in Headers */,
 				892DE4DD1D22F97A00E1902C /* CLI.h in Headers */,
 				892DE5021D236CE400E1902C /* LaunchSimulatorCommand.h in Headers */,
 				892DE5201D237E7700E1902C /* IsInstalledCommand.h in Headers */,
@@ -830,7 +820,6 @@
 				F5F528301D6BADE500FF39BE /* Certificate.m in Sources */,
 				892DE4EA1D230F5F00E1902C /* Command.m in Sources */,
 				892DE4DE1D22F97A00E1902C /* CLI.m in Sources */,
-				89F3AC0D1D820D090081D7EA /* ThreadUtils.m in Sources */,
 				892DE4A31D22F84200E1902C /* Simulator.m in Sources */,
 				892DE5031D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				63424016FAA1D6E42AA2B639 /* CodesignIdentity.m in Sources */,
@@ -865,7 +854,6 @@
 				892DE4EC1D230F5F00E1902C /* Command.m in Sources */,
 				F5F528371D6BAE2800FF39BE /* CodesignIdentity.m in Sources */,
 				892DE4E01D22F97A00E1902C /* CLI.m in Sources */,
-				89F3AC101D820D090081D7EA /* ThreadUtils.m in Sources */,
 				892DE4C51D22F85F00E1902C /* ShellRunner.m in Sources */,
 				892DE4D31D22F87000E1902C /* main.m in Sources */,
 				892DE5051D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
@@ -910,7 +898,6 @@
 				634244EA233067C089D20553 /* MobileProfile.m in Sources */,
 				634247CB4BEE40EFF301DDC8 /* CodesignerTest.m in Sources */,
 				6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */,
-				89F3AC0E1D820D090081D7EA /* ThreadUtils.m in Sources */,
 				634249A043496142DCD1838A /* CodesignIdentity.m in Sources */,
 				63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */,
 				63424C56537485910D385EB7 /* CertificateTest.m in Sources */,
@@ -952,7 +939,6 @@
 				F5D583F91D6A0369007B0D11 /* AppUtils.m in Sources */,
 				F5D583F81D6A0366007B0D11 /* ShellRunner.m in Sources */,
 				F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */,
-				89F3AC0F1D820D090081D7EA /* ThreadUtils.m in Sources */,
 				F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */,
 				6342433690C3BAAB008A5D30 /* MobileProfile.m in Sources */,
 				F5F528331D6BAE1A00FF39BE /* Certificate.m in Sources */,
