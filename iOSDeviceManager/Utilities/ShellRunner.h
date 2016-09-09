@@ -6,6 +6,8 @@
 + (ShellResult *)withTask:(NSTask *) task
                   elapsed:(NSTimeInterval)elapsed
                didTimeOut:(BOOL)didTimeout;
++ (ShellResult *)withFailedCommand:(NSString *)command
+                           elapsed:(NSTimeInterval)elapsed;
 
 - (BOOL)didTimeOut;
 - (NSTimeInterval)elapsed;

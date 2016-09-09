@@ -165,22 +165,20 @@
     NSArray<NSString *> *paths = [MobileProfile arrayOfProfilePaths];
     if (!paths) { return nil; }
 
-    MobileProfile *profile;
-    NSDictionary *plist;
-
     NSMutableArray<MobileProfile *> *profiles;
     profiles = [NSMutableArray arrayWithCapacity:[paths count]];
 
-    for(NSString *path in paths) {
-        plist = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
+    [paths enumerateObjectsWithOptions:NSEnumerationConcurrent
+                            usingBlock:^(NSString * _Nonnull path, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDictionary *plist = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
         if (plist) {
-            profile = [[MobileProfile alloc] initWithDictionary:plist
+            MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:plist
                                                            path:path];
             if ([profile isPlatformIOS] && ![profile isExpired]) {
                 [profiles addObject:profile];
             }
         }
-    }
+    }];
 
     if ([profiles count] == 0) {
         return nil;
@@ -213,10 +211,10 @@
         return (NSComparisonResult)NSOrderedSame;
     };
 
-    [valid enumerateObjectsUsingBlock:^(MobileProfile *profile, NSUInteger idx, BOOL *stop) {
 
+    [mobileProfiles enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(MobileProfile * _Nonnull profile, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([profile isValidForDeviceUDID:deviceUDID identity:identity]) {
-
+            
             NSInteger score = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements
                                                                appEntitlements:appEntitlements];
             // Reject any profiles that do meet the app requirements.
@@ -231,7 +229,7 @@
             }
         }
     }];
-
+    
     return [NSArray arrayWithArray:satisfyingProfiles];
 }
 
