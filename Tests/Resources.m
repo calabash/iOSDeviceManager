@@ -1,5 +1,6 @@
 #import "Resources.h"
 #import "ShellRunner.h"
+#import "ShellResult.h"
 #import "TestParameters.h"
 #import "Entitlements.h"
 #import "CodesignIdentity.h"

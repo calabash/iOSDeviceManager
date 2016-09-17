@@ -1,6 +1,7 @@
 
 #import "CodesignIdentity.h"
 #import "ShellRunner.h"
+#import "ShellResult.h"
 
 @interface CodesignIdentity ()
 
