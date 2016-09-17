@@ -168,6 +168,7 @@
     NSMutableArray<MobileProfile *> *profiles;
     profiles = [NSMutableArray arrayWithCapacity:[paths count]];
 
+    // The [NSMutableArray addObject:] is not thread safe.
     [paths enumerateObjectsWithOptions:NSEnumerationConcurrent
                             usingBlock:^(NSString * _Nonnull path, NSUInteger idx, BOOL * _Nonnull stop) {
         NSDictionary *plist = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
@@ -175,7 +176,11 @@
             MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:plist
                                                            path:path];
             if ([profile isPlatformIOS] && ![profile isExpired]) {
-                [profiles addObject:profile];
+
+                // This lock might negate any gains seen by concurrent execution.
+                @synchronized (profiles) {
+                    [profiles addObject:profile];
+                }
             }
         }
     }];
@@ -212,7 +217,10 @@
     };
 
 
-    [mobileProfiles enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(MobileProfile * _Nonnull profile, NSUInteger idx, BOOL * _Nonnull stop) {
+    // The [NSMutableArray insertObject:atIndex:] is not thread safe.
+    [mobileProfiles enumerateObjectsWithOptions:NSEnumerationConcurrent
+                                     usingBlock:^(MobileProfile * _Nonnull profile,
+                                                  NSUInteger idx, BOOL * _Nonnull stop) {
         if ([profile isValidForDeviceUDID:deviceUDID identity:identity]) {
             
             NSInteger score = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements
@@ -225,7 +233,11 @@
                                                              inSortedRange:range
                                                                    options:NSBinarySearchingInsertionIndex
                                                            usingComparator:comparator];
-                [satisfyingProfiles insertObject:profile atIndex:insertIndex];
+
+                // This lock might negate any gains seen by concurrent execution.
+                @synchronized (satisfyingProfiles) {
+                    [satisfyingProfiles insertObject:profile atIndex:insertIndex];
+                }
             }
         }
     }];
