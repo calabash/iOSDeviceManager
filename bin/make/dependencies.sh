@@ -15,15 +15,13 @@ if [ ! -d "${DEVICEAGENT_PATH}" ]; then
 fi
 
 EXECUTABLE=iOSDeviceManager
-OUTPUT_DIR=Distribution/dependencies
+OUTPUT_DIR="${PWD}/Distribution/dependencies"
 
 rm -rf "${OUTPUT_DIR}"
 mkdir -p "${OUTPUT_DIR}/Frameworks"
 mkdir -p "${OUTPUT_DIR}/bin"
 mkdir -p "${OUTPUT_DIR}/app"
 mkdir -p "${OUTPUT_DIR}/ipa"
-
-HERE=$(pwd)
 
 banner "Copying Frameworks/ to Dependencies"
 
@@ -40,9 +38,9 @@ done
  make app-agent;
  make ipa-agent;
  xcrun ditto Products/ipa/DeviceAgent/DeviceAgent-Runner.app \
-   "${HERE}/${OUTPUT_DIR}/ipa/DeviceAgent-Runner.app";
+   "${OUTPUT_DIR}/ipa/DeviceAgent-Runner.app";
  xcrun ditto Products/app/DeviceAgent/DeviceAgent-Runner.app \
-   "${HERE}/${OUTPUT_DIR}/app/DeviceAgent-Runner.app")
+   "${OUTPUT_DIR}/app/DeviceAgent-Runner.app")
 
 cp LICENSE "${OUTPUT_DIR}"
 cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
