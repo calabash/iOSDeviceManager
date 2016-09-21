@@ -123,12 +123,12 @@
 
         NSLog(@"EXEC: %@", self.command);
 
-        if (!self.stdoutStr && self.stdoutStr.length != 0) {
+        if (self.stdoutStr && self.stdoutStr.length != 0) {
             NSLog(@"=== STDOUT ===");
             NSLog(@"%@", self.stdoutStr);
         }
 
-        if (!self.stderrStr && self.stderrStr.length != 0) {
+        if (self.stderrStr && self.stderrStr.length != 0) {
             NSLog(@"=== STDERR ===");
             NSLog(@"%@", self.stderrStr);
         }
