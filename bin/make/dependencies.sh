@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
 
+set -e
+
 source bin/log_functions.sh
-
-if [ -z "${FBSIMCONTROL_PATH}" ]; then
-  error "Please specify path to FBSimulatorControl repo via FBSIMCONTROL_PATH=path/to/FBSimulatorControl"
-  exit 1
-fi
-
-if [ ! -d "${FBSIMCONTROL_PATH}" ]; then
-  error "${FBSIMCONTROL_PATH} does not exist"
-  exit 2
-fi
 
 if [ -z "${DEVICEAGENT_PATH}" ]; then
   error "Please specify path to DeviceAgent.iOS repo via DEVICEAGENT_PATH=path/to/DeviceAgent.iOS"
@@ -21,10 +13,6 @@ if [ ! -d "${DEVICEAGENT_PATH}" ]; then
   error "${DEVICEAGENT_PATH} does not exist"
   exit 4
 fi
-
-set -e
-
-bin/make/frameworks.sh
 
 EXECUTABLE=iOSDeviceManager
 OUTPUT_DIR=Distribution/dependencies
@@ -37,21 +25,16 @@ mkdir -p "${OUTPUT_DIR}/ipa"
 
 HERE=$(pwd)
 
-(cd "${FBSIMCONTROL_PATH}";
-make frameworks;
+banner "Copying Frameworks/ to Dependencies"
 
-xcrun ditto build/Release/FBControlCore.framework \
-  "${HERE}/${OUTPUT_DIR}/Frameworks/FBControlCore.framework" ;
+declare -a FBFRAMEWORKS=("FBControlCore" "FBDeviceControl" "FBSimulatorControl" "XCTestBootstrap")
 
-xcrun ditto build/Release/FBDeviceControl.framework \
-  "${HERE}/${OUTPUT_DIR}/Frameworks/FBDeviceControl.framework" ;
-
-xcrun ditto build/Release/FBSimulatorControl.framework \
-  "${HERE}/${OUTPUT_DIR}/Frameworks/FBSimulatorControl.framework" ;
-
-xcrun ditto build/Release/XCTestBootstrap.framework \
-  "${HERE}/${OUTPUT_DIR}/Frameworks/XCTestBootstrap.framework" ;
-)
+for framework in "${FBFRAMEWORKS[@]}"
+do
+  TARGET="${OUTPUT_DIR}/Frameworks/${framework}.framework"
+  xcrun ditto Frameworks/${framework}.framework "${TARGET}"
+  info "Copied ${framework} to ${TARGET}"
+done
 
 (cd "${DEVICEAGENT_PATH}";
  make app-agent;
