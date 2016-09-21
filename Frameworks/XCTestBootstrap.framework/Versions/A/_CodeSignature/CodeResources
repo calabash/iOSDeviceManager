@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		yE8DzxBZQZScsBVX3MJGQsOCi4Y=
+		4sKnBx8H6xXqRqcnBMfJlZ1Lk34=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			LjHWSPu6fLKt7Q47DK+dI9peyWY=
+			I2hcWbu86hqtaY4Aoy/NWyC/Dqo=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -365,11 +365,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yE8DzxBZQZScsBVX3MJGQsOCi4Y=
+			4sKnBx8H6xXqRqcnBMfJlZ1Lk34=
 			</data>
 			<key>hash2</key>
 			<data>
-			v81RGLbepZCmNU2sOlpjaOBT2KYlfsxrRocQSXRRSAc=
+			Zb8J1VljaLDqemdgZB+1GekmxWhvmrJuEcPc2n6Ap+E=
 			</data>
 		</dict>
 	</dict>
