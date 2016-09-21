@@ -22,9 +22,9 @@ if [ ! -d "${DEVICEAGENT_PATH}" ]; then
   exit 4
 fi
 
-bin/make/frameworks.sh
-
 set -e
+
+bin/make/frameworks.sh
 
 EXECUTABLE=iOSDeviceManager
 OUTPUT_DIR=Distribution/dependencies
