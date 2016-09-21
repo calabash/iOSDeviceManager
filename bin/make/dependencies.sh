@@ -34,6 +34,8 @@ do
   info "Copied ${framework} to ${TARGET}"
 done
 
+banner "Making DeviceAgent"
+
 (cd "${DEVICEAGENT_PATH}";
  make app-agent;
  make ipa-agent;
@@ -42,8 +44,12 @@ done
  xcrun ditto Products/app/DeviceAgent/DeviceAgent-Runner.app \
    "${OUTPUT_DIR}/app/DeviceAgent-Runner.app")
 
+banner "Copying Licenses"
+
 cp LICENSE "${OUTPUT_DIR}"
 cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
+
+banner "Making iOSDeviceManager"
 
 make clean
 make build
