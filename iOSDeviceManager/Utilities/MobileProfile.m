@@ -1,6 +1,7 @@
 
 #import "MobileProfile.h"
 #import "ShellRunner.h"
+#import "ShellResult.h"
 #import "Certificate.h"
 #import "Entitlements.h"
 #import "Entitlement.h"

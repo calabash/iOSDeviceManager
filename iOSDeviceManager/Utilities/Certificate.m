@@ -1,6 +1,7 @@
 
 #import "Certificate.h"
 #import "ShellRunner.h"
+#import "ShellResult.h"
 
 // Always always always use Apple's openssl binary.
 static NSString *const kOpenSSLPath = @"/usr/bin/openssl";
