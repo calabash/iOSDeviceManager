@@ -2,6 +2,9 @@
 #import "CodesignIdentity.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
+#import "MobileProfile.h"
+#import "Entitlements.h"
+#import "Entitlement.h"
 
 @interface CodesignIdentity ()
 
@@ -17,6 +20,21 @@
 @end
 
 @implementation CodesignIdentity
+
++ (CodesignIdentity *) getUsableCodesignIdentityForAppBundle:(NSString *)appBundle deviceId:(NSString *)deviceId {
+    Entitlements *appEnts = [Entitlements entitlementsWithBundlePath:appBundle];
+    for(CodesignIdentity *identity in [self validIOSDeveloperIdentities]) {
+        for(MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
+            NSInteger rank = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements appEntitlements:appEnts];
+            if (rank != ProfileDoesNotHaveRequiredKey &&
+                [profile isValidForDeviceUDID:deviceId identity:identity]) {
+                return identity;
+            }
+        }
+    }
+
+    return nil;
+}
 
 + (NSString *)codeSignIdentityFromEnvironment {
     return [[NSProcessInfo processInfo] environment][@"CODE_SIGN_IDENTITY"];

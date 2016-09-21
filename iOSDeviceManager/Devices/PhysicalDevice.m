@@ -7,6 +7,7 @@
 #import "ShellRunner.h"
 #import "Codesigner.h"
 #import "AppUtils.h"
+#import "CodesignIdentity.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -253,8 +254,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
                        codesignID:(NSString *)codesignID {
 
     if (codesignID == nil) {
-        NSLog(@"Must supply a codesign identifier for installing apps");
-        return iOSReturnStatusCodeMissingArguments;
+        CodesignIdentity *identity = [CodesignIdentity getUsableCodesignIdentityForAppBundle:pathToBundle deviceId:deviceID];
+        codesignID = identity.name;
     }
 
     Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
