@@ -9,9 +9,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class FBTestManagerContext;
+
 @protocol FBDeviceOperator;
 @protocol FBControlCoreLogger;
 @protocol FBTestManagerTestReporter;
+
+@class FBTestManagerResult;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,36 +27,36 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates and returns a test manager with given paramenters.
 
+ @param context the Context of the Test Manager.
  @param deviceOperator a device operator used to handle device.
- @param testRunnerPID a process id of test runner (XCTest bundle).
- @param sessionIdentifier a session identifier of test that should be started.
  @param reporter an optional reporter to report test progress to.
  @param logger the logger object to log events to, may be nil.
  @return Prepared FBTestManager
  */
-+ (instancetype)testManagerWithOperator:(id<FBDeviceOperator>)deviceOperator testRunnerPID:(pid_t)testRunnerPID sessionIdentifier:(NSUUID *)sessionIdentifier reporter:(id<FBTestManagerTestReporter>)reporter logger:(id<FBControlCoreLogger>)logger;
++ (instancetype)testManagerWithContext:(FBTestManagerContext *)context operator:(id<FBDeviceOperator>)deviceOperator reporter:(id<FBTestManagerTestReporter>)reporter logger:(id<FBControlCoreLogger>)logger;
 
 /**
- Connects to the 'testmanagerd' daemon.
+ Connects to the 'testmanagerd' daemon and to the test bundle.
 
- @param timeout the Time to wait for the connection to be established.
- @param error If there is an error, upon return contains an NSError object that describes the problem.
- @return YES if operation was successful, NO otherwise.
+ @param timeout the amount of time to wait for the connection to be established.
+ @return A TestManager Result if an early-error occured, nil otherwise.
  */
-- (BOOL)connectWithTimeout:(NSTimeInterval)timeout error:(NSError **)error;
-
-/**
- Disconnects from the 'testmanagerd' daemon.
- */
-- (void)disconnect;
+- (nullable FBTestManagerResult *)connectWithTimeout:(NSTimeInterval)timeout;
 
 /**
  Waits until testing has finished.
 
  @param timeout the the maximum time to wait for test to finish.
- @return YES if the test execution has finished, NO otherwise.
+ @return The TestManager Result.
  */
-- (BOOL)waitUntilTestingHasFinishedWithTimeout:(NSTimeInterval)timeout;
+- (FBTestManagerResult *)waitUntilTestingHasFinishedWithTimeout:(NSTimeInterval)timeout;
+
+/**
+ Disconnects from the 'testmanagerd' daemon.
+
+ @return The TestManager Result.
+ */
+- (FBTestManagerResult *)disconnect;
 
 /**
  @return YES if the test is currently not running.

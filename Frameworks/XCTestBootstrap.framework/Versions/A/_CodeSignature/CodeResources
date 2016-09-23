@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		4sKnBx8H6xXqRqcnBMfJlZ1Lk34=
+		gjrCYjmsTAdZsAUAdp8hSHMXhK4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			I2hcWbu86hqtaY4Aoy/NWyC/Dqo=
+			jXecZPstHUED5uGw+ZIR0H23BNg=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -57,22 +57,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GDnkU9DvYgNYbUs/qvMZkomCTco=
+			ihHJ5nbLF7iurhGg8umlnR0gyXU=
 			</data>
 			<key>hash2</key>
 			<data>
-			Hfn7eQvpxJo7FrgljdaQS9hRccwIBj42dF44eGYKASI=
+			dV1n3hgDRXh3WCI5mVJbd8dco4+faOfR4wGND6iDOeY=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceTestPreparationStrategy.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			zAFoqTRmfPMB1qWczV9AAWaUSCg=
+			cXK8DJrnsJmtXjQO8D8pqqyLLhI=
 			</data>
 			<key>hash2</key>
 			<data>
-			2aAANqZUQiyNio1ERELBBDKqugAIH/Fen876Z1dOJPg=
+			g6QbyhhNZoewQzdFgTv+AlFHHCCDL3kgRf1Zou1XlSI=
 			</data>
 		</dict>
 		<key>Headers/FBFileManager.h</key>
@@ -101,55 +101,66 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Zy85dx62NaCQl07ZjzY6Jqwp3Eo=
+			GICOG6Opng2g9NE34u/uP1xm4kQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			7V1J5IecvqXpGCgdpskV7RwYgoiE+7XfBF1fk10OyWg=
+			tyE0xdX7RPYs0GGXDvO2Y/yKRS9M4mPAbG8T5ZlVmQc=
 			</data>
 		</dict>
 		<key>Headers/FBTestBundle.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FtWP1a4tkgdLUYm3UN/PvnAHiEY=
+			AwTJSAVord5qAS2oXtsTSEfhTOg=
 			</data>
 			<key>hash2</key>
 			<data>
-			0SRBe517glmFaUq48XgNlam2YRiBfacec/R4GJqSe4w=
+			n3KMokgcWc1Ofr2u6A9/2RnpDs7LvEIiUrPs8vWEAwg=
 			</data>
 		</dict>
 		<key>Headers/FBTestConfiguration.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			5t36ZaCxm52449qT86OUIw1hN+Y=
+			PRus2c11SBcUczUEEqGNpxpJf10=
 			</data>
 			<key>hash2</key>
 			<data>
-			oaPK+yNoxzvJl8zHnN3OSLC0udeEZ3DkGMpM9V4UuYE=
+			5dFQlw+mXL6qofx56cvkdTenTDs1nlVWDm8cYPo/Fio=
+			</data>
+		</dict>
+		<key>Headers/FBTestLaunchConfiguration.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			pYjyM7jAWnuCO2SPCWAH3oJuudc=
+			</data>
+			<key>hash2</key>
+			<data>
+			dh6KL8CLG7/6Ye9nyLv8jgdjoTt7ftOXSSZaHIw+gtk=
 			</data>
 		</dict>
 		<key>Headers/FBTestManager.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Rl5fq0zUdBVtRqB61vh/WWqL1TY=
+			1Qb5sXIrhnSrOgcaiF5TiVah/+k=
 			</data>
 			<key>hash2</key>
 			<data>
-			d3EJtgx3fP79bjxI6bwArQpM8L4bmZRuyFQ06SMVPMg=
+			C//Ss5vY1GGOOg/MtDX31lhdaHgERSRcE3w9WRXYRig=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerAPIMediator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			x37EGjFW9p42uEkbiPk7ObLxhOs=
+			PN+g+g55pHiK/Dn3k3jLAj9Vth8=
 			</data>
 			<key>hash2</key>
 			<data>
-			sjBUJj7QHsamojdsf595zKQsasc4B8QaMI7oEMXnoAA=
+			L7bKPcx4zGGPyV3oFNdhJDni2Cv+acO+66BA/jKO3nA=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerProcessInteractionDelegate.h</key>
@@ -161,6 +172,17 @@
 			<key>hash2</key>
 			<data>
 			UEpIgX8BAQCUEHF4Z1KoSx1i8qfYtz415G1o4OuQD5c=
+			</data>
+		</dict>
+		<key>Headers/FBTestManagerResult.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			dvmJCOmjjkJd4PgwzT8nmvwBxdA=
+			</data>
+			<key>hash2</key>
+			<data>
+			qJ7pvMpx4jjvFHgInogijQEYRH3jwdymbvqZ+8k8MfI=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerResultSummary.h</key>
@@ -321,11 +343,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			F3Z2Xr3P5489eGqLdJQRKefVFVg=
+			DT/pP5yn2FLH3+yWbx8G4a9BfrI=
 			</data>
 			<key>hash2</key>
 			<data>
-			RCQpcY0xMRFO8b/OKLxd3MsJCdOdiE2smdKp/pCr5B0=
+			ICZ+BC8Oju42SDOqDJ0o7wuAU7DTFYlph/JewkRi0Hg=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapError.h</key>
@@ -365,11 +387,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4sKnBx8H6xXqRqcnBMfJlZ1Lk34=
+			gjrCYjmsTAdZsAUAdp8hSHMXhK4=
 			</data>
 			<key>hash2</key>
 			<data>
-			Zb8J1VljaLDqemdgZB+1GekmxWhvmrJuEcPc2n6Ap+E=
+			7Qy59XtRAeTXXQtYbsALcklRahc6iJmuhCvow9jCoR0=
 			</data>
 		</dict>
 	</dict>

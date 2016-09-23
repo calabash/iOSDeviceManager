@@ -9,7 +9,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class DVTAbstractiOSDevice;
+@class FBTestManagerContext;
+@class FBTestManagerResult;
 
 @protocol FBTestManagerProcessInteractionDelegate;
 @protocol FBTestManagerTestReporter;
@@ -23,22 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  This is a simplified re-implementation of Apple's _IDETestManagerAPIMediator class.
+ This class 'takes over' after an Application Process has been started.
  The class mediates between:
  - The Host
  - The 'testmanagerd' daemon running on iOS.
  - The 'Test Runner', the Appication in which the XCTest bundle is running.
  */
 @interface FBTestManagerAPIMediator : NSObject
-
-/**
- XCTest session identifier
- */
-@property (nonatomic, copy, readonly) NSUUID *sessionIdentifier;
-
-/**
- Process id of test runner application
- */
-@property (nonatomic, assign, readonly) pid_t testRunnerPID;
 
 /**
  Delegate object used to handle application install & launch request
@@ -53,51 +45,50 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates and returns a mediator with given paramenters
 
+ @param context the Context of the Test Manager.
  @param deviceOperator a device operator for device that test runner is running on
  @param processDelegate the Delegate to handle application interactivity.
  @param reporter the (optional) delegate to report test progress too.
  @param logger the (optional) logger to events to.
- @param testRunnerPID a process id of test runner (XCTest bundle)
- @param sessionIdentifier a session identifier of test that should be started
  @return Prepared FBTestRunnerConfiguration
  */
-+ (instancetype)mediatorWithDeviceOperator:(id<FBDeviceOperator>)deviceOperator processDelegate:(id<FBTestManagerProcessInteractionDelegate>)processDelegate reporter:(id<FBTestManagerTestReporter>)reporter logger:(id<FBControlCoreLogger>)logger testRunnerPID:(pid_t)testRunnerPID sessionIdentifier:(NSUUID *)sessionIdentifier;
++ (instancetype)mediatorWithContext:(FBTestManagerContext *)context deviceOperator:(id<FBDeviceOperator>)deviceOperator processDelegate:(id<FBTestManagerProcessInteractionDelegate>)processDelegate reporter:(id<FBTestManagerTestReporter>)reporter logger:(id<FBControlCoreLogger>)logger;
 
 /**
  Establishes a connection between the host, testmanagerd and the Test Bundle.
  This connection is established synchronously, until a timeout occurs.
 
  @param timeout a maximum time to wait for the connection to be established.
- @param error If there is an error, upon return contains an NSError object that describes the problem.
- @return YES if connection has been established successfuly, NO otherwise.
+ @return A TestManager Result if an early-error occured, nil otherwise.
  */
-- (BOOL)connectTestRunnerWithTestManagerDaemonWithTimeout:(NSTimeInterval)timeout error:(NSError **)error;
+- (nullable FBTestManagerResult *)connectToTestManagerDaemonAndBundleWithTimeout:(NSTimeInterval)timeout;
 
 /**
  Executes the Test Plan over the established connection.
- This should be called after `-[FBTestManagerAPIMediator connectTestRunnerWithTestManagerDaemonWithTimeout:error:]`
+ This should be called after `-[FBTestManagerAPIMediator connectToTestManagerDaemonAndBundleWithTimeout:]`
  has successfully completed.
  Events will be delivered to the reporter asynchronously.
 
  @param timeout a maximum time to wait for the connection to be established.
- @param error If there is an error, upon return contains an NSError object that describes the problem.
- @return YES if the Test Plan execution has started succesfully, NO otherwise.
+ @return A TestManager Result if an early-error occured, nil otherwise.
  */
-- (BOOL)executeTestPlanWithTimeout:(NSTimeInterval)timeout error:(NSError **)error;
-
-/**
- Terminates connection between test runner(XCTest bundle) and testmanagerd
- */
-- (void)disconnectTestRunnerAndTestManagerDaemon;
+- (nullable FBTestManagerResult *)executeTestPlanWithTimeout:(NSTimeInterval)timeout;
 
 /**
  Connecting mediator does not wait till test execution has finished.
  This method can be used in order to wait till test execution has finished.
 
- @param timeout the the maximum time to wait for test to finish.
- @return YES if the test execution has finished, NO otherwise.
+ @param timeout the the maximum time to wait for tests to finish.
+ @return A TestManager Result.
  */
-- (BOOL)waitUntilTestRunnerAndTestManagerDaemonHaveFinishedExecutionWithTimeout:(NSTimeInterval)timeout;
+- (FBTestManagerResult *)waitUntilTestRunnerAndTestManagerDaemonHaveFinishedExecutionWithTimeout:(NSTimeInterval)timeout;
+
+/**
+ Terminates connection between test runner(XCTest bundle) and testmanagerd.
+
+ @return the TestManager Result.
+ */
+- (FBTestManagerResult *)disconnectTestRunnerAndTestManagerDaemon;
 
 /**
  @return YES if the test is currently not running.

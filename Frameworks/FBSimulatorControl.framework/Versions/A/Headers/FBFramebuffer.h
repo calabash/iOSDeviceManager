@@ -11,11 +11,13 @@
 
 #import <FBControlCore/FBControlCore.h>
 
+@class FBFramebufferConfiguration;
 @class FBFramebufferVideo;
 @class FBSimulator;
-@class FBSimulatorLaunchConfiguration;
 @class SimDeviceFramebufferService;
 @protocol FBFramebufferDelegate;
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  A container and client for a Simulator's Framebuffer that forwards important events to delegates.
@@ -29,11 +31,11 @@
  Creates and returns a new FBSimulatorDirectLaunch object for the provided SimDeviceFramebufferService.
 
  @param framebufferService the SimDeviceFramebufferService to connect to.
- @param launchConfiguration the launch configuration to create the service for.
+ @param configuration the configuration of the Framebuffer.
  @param simulator the Simulator to which the Framebuffer belongs.
  @return a new FBSimulatorDirectLaunch instance. Must not be nil.
  */
-+ (instancetype)withFramebufferService:(SimDeviceFramebufferService *)framebufferService configuration:(FBSimulatorLaunchConfiguration *)launchConfiguration simulator:(FBSimulator *)simulator;
++ (instancetype)withFramebufferService:(SimDeviceFramebufferService *)framebufferService configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
 
 /**
  Starts listening for Framebuffer events from the SimDeviceFramebufferService on an internal background queue.
@@ -62,3 +64,5 @@
 @property (nonatomic, strong, readonly) FBFramebufferVideo *video;
 
 @end
+
+NS_ASSUME_NONNULL_END
