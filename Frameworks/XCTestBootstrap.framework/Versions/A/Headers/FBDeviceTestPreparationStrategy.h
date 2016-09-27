@@ -10,6 +10,7 @@
 #import <XCTestBootstrap/FBXCTestPreparationStrategy.h>
 #import "FBCodesignProvider.h"
 
+@class FBTestLaunchConfiguration;
 @protocol FBFileManager;
 
 /**
@@ -26,33 +27,25 @@
 
  @param applicationPath path to test runner application
  @param applicationDataPath path to application data bundle (.xcappdata)
- @param testBundlePath path to test bundle (.xctest)
- @param pathToXcodePlatformDir directory which contains platform SDKs within Xcode.app
- @param workingDirectory directory used to prepare all bundles
+ @param testLaunchConfiguration configuration used to launch test
  @returns Prepared FBLocalDeviceTestRunStrategy
  */
-+ (instancetype)strategyWithTestRunnerApplicationPath:(NSString *)applicationPath
-                                  applicationDataPath:(NSString *)applicationDataPath
-                                       testBundlePath:(NSString *)testBundlePath
-                               pathToXcodePlatformDir:(NSString *)pathToXcodePlatformDir
-                                     workingDirectory:(NSString *)workingDirectory;
++ (instancetype)strategyWithApplicationPath:(NSString *)applicationPath
+                        applicationDataPath:(NSString *)applicationDataPath
+                    testLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration;
 
 /**
  Creates and returns a strategy with given parameters
 
  @param applicationPath path to test runner application
  @param applicationDataPath path to application data bundle (.xcappdata)
- @param testBundlePath path to test bundle (.xctest)
- @param pathToXcodePlatformDir directory which contains platform SDKs within Xcode.app
+ @param testLaunchConfiguration configuration used to launch test
  @param fileManager file manager used to prepare all bundles
- @param workingDirectory directory used to prepare all bundles
  @returns Prepared FBLocalDeviceTestRunStrategy
  */
-+ (instancetype)strategyWithTestRunnerApplicationPath:(NSString *)applicationPath
-                                  applicationDataPath:(NSString *)applicationDataPath
-                                       testBundlePath:(NSString *)testBundlePath
-                               pathToXcodePlatformDir:(NSString *)pathToXcodePlatformDir
-                                     workingDirectory:(NSString *)workingDirectory
-                                          fileManager:(id<FBFileManager>)fileManager;
++ (instancetype)strategyWithApplicationPath:(NSString *)applicationPath
+                        applicationDataPath:(NSString *)applicationDataPath
+                    testLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration
+                                fileManager:(id<FBFileManager>)fileManager;
 
 @end

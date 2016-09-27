@@ -11,9 +11,11 @@
 
 #import <FBSimulatorControl/FBFramebufferDelegate.h>
 
-@class FBFramebufferVideoConfiguration;
+@class FBFramebufferConfiguration;
 @protocol FBControlCoreLogger;
 @protocol FBSimulatorEventSink;
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  A Simulator Framebuffer Delegate that encodes video and writes to a file.
@@ -31,7 +33,7 @@
  @param eventSink an event sink to report video output to.
  @return a new FBFramebufferVideo instance.
  */
-+ (instancetype)withConfiguration:(FBFramebufferVideoConfiguration *)configuration logger:(id<FBControlCoreLogger>)logger eventSink:(id<FBSimulatorEventSink>)eventSink;
++ (instancetype)withConfiguration:(FBFramebufferConfiguration *)configuration logger:(id<FBControlCoreLogger>)logger eventSink:(id<FBSimulatorEventSink>)eventSink;
 
 /**
  Starts Recording Video.
@@ -48,3 +50,5 @@
 - (void)stopRecording:(dispatch_group_t)group;
 
 @end
+
+NS_ASSUME_NONNULL_END
