@@ -23,6 +23,18 @@
 
 + (CodesignIdentity *) getUsableCodesignIdentityForAppBundle:(NSString *)appBundle deviceId:(NSString *)deviceId {
     Entitlements *appEnts = [Entitlements entitlementsWithBundlePath:appBundle];
+    if (!appEnts) {
+        return nil;
+    }
+
+    if (![self validIOSDeveloperIdentities]) {
+        return nil;
+    }
+
+    if (![MobileProfile nonExpiredIOSProfiles]) {
+        return nil;
+    }
+    
     for(CodesignIdentity *identity in [self validIOSDeveloperIdentities]) {
         for(MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
             NSInteger rank = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements appEntitlements:appEnts];
