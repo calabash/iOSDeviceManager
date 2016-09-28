@@ -123,7 +123,7 @@ context(@"#isIOSDeveloperIdentity", ^{
 
 #pragma mark - Class Methods
 
-context(@"identityForAppBundle:deviceId:", ^{
+context(@".identityForAppBundle:deviceId:", ^{
     __block id MockCodesignIdentity;
     __block CodesignIdentity *actual;
 
@@ -137,11 +137,11 @@ context(@"identityForAppBundle:deviceId:", ^{
 
     it(@"returns a valid codesign identity given an app and device id", ^{
         actual = [CodesignIdentity
-                  identityForAppBundle:@"/Users/austinroos/Desktop/UntitledApp/Untitled/Payload/UntitledApp.app"
-                  deviceId:@"e8b4fbb3c8cc57969a517f930ae1957152048979"];
-        expect(actual).notTo.beNil;
-        expect(actual.name).notTo.beNil;
-        expect(actual.shasum).notTo.beNil;
+                  identityForAppBundle:testApp(ARM)
+                  deviceId:defaultDeviceUDID];
+        expect(actual).notTo.equal(nil);
+        expect(actual.name).notTo.equal(nil);
+        expect(actual.shasum).notTo.equal(nil);
         expect(actual.name.length).to.beGreaterThan(0);
         expect(actual.shasum.length).to.beGreaterThan(0);
     });
@@ -149,7 +149,7 @@ context(@"identityForAppBundle:deviceId:", ^{
     it(@"returns nil if there are no valid identities for the app and device", ^{
         actual = [CodesignIdentity
                   identityForAppBundle:@"/path/to/invalid/bundle"
-                  deviceId:@"e8b4fbb3c8cc57969a517f930ae1957152048979"];
+                  deviceId:defaultDeviceUDID];
         expect(actual).to.beNil;
     });
 });
