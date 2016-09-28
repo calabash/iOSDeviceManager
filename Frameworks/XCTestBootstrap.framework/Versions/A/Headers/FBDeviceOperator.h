@@ -16,6 +16,8 @@
 @class FBProductBundle;
 @class FBTestRunnerConfiguration;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Operators are used to control devices
  */
@@ -33,7 +35,7 @@
  @param error If there is an error, upon return contains an NSError object that describes the problem.
  @return DTXTransport if the operation succeeds, otherwise nil.
  */
-- (DTXTransport *)makeTransportForTestManagerServiceWithLogger:(id<FBControlCoreLogger>)logger error:(NSError **)error;
+- (nullable DTXTransport *)makeTransportForTestManagerServiceWithLogger:(id<FBControlCoreLogger>)logger error:(NSError **)error;
 
 /**
  Devices require executables to be codesigned before they can be used.
@@ -55,7 +57,7 @@
  @param error If there is an error, upon return contains an NSError object that describes the problem.
  @return applicationBundle if application is installed, otherwise nil
  */
-- (FBProductBundle *)applicationBundleWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (nullable FBProductBundle *)applicationBundleWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
 /**
  Launches application with given bundleID, arguments & environment variables
@@ -87,6 +89,16 @@
 - (pid_t)processIDWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
 /**
+ Returns the Crash Log for a given bundle id.
+ This is used to augment the reporting of a test report with crash information.
+
+ @param pid the Process ID of the potentially-crashed Application Process.
+ @param bundleID the Bundle ID of the potentially-crashed Application Process.
+ @return a Crash Log Info for the provided Bundle ID, nil otherwise.
+ */
+- (nullable FBDiagnostic *)attemptToFindCrashLogForProcess:(pid_t)pid bundleID:(NSString *)bundleID;
+
+/**
  Removes apllication with given bundleID and it's data
 
  @param bundleID bundle ID of installed application
@@ -102,7 +114,7 @@
  @param error If there is an error, upon return contains an NSError object that describes the problem.
  @return application path on device
  */
-- (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (nullable NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
 /**
  Uploads application data for application with given bundleID
@@ -129,3 +141,5 @@
 - (NSString *)consoleString;
 
 @end
+
+NS_ASSUME_NONNULL_END

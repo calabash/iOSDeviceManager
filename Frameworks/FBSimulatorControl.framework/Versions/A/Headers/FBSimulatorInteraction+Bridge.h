@@ -11,6 +11,8 @@
 
 #import <FBSimulatorControl/FBSimulatorInteraction.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Interactions dependent on the existence of an FBSimulatorConnection on a booted Simulator.
  */
@@ -43,4 +45,16 @@
  */
 - (instancetype)tap:(double)x y:(double)y;
 
+/**
+ Sets latitude and longitude of the Simulator.
+ The behaviour of a directly-launched Simulator differs from Simulator.app slightly, in that the location isn't automatically set.
+ Simulator.app will typically set a location from NSUserDefaults, so Applications will have a default location.
+ 
+ @param latitude the latitude of the location.
+ @param longitude the longitude of the location.
+ */
+- (instancetype)setLocation:(double)latitude longitude:(double)longitude;
+
 @end
+
+NS_ASSUME_NONNULL_END

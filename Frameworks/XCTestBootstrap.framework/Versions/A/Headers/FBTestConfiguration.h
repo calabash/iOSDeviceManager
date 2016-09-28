@@ -36,6 +36,11 @@
  */
 @property (nonatomic, copy, readonly) NSString *path;
 
+/**
+ Determines whether should initialize for UITesting
+ */
+@property (nonatomic, assign, readonly) BOOL shouldInitializeForUITesting;
+
 @end
 
 /**
@@ -73,6 +78,12 @@
  @return builder
  */
 - (instancetype)withTestBundlePath:(NSString *)testBundlePath;
+
+/**
+ @param shouldInitializeForUITesting determines whether should initialize for UITesting
+ @return builder
+ */
+- (instancetype)withUITesting:(BOOL)shouldInitializeForUITesting;
 
 /**
  @param savePath is set, builder will save file at given path that can be loaded directly by XCTestConfiguration
