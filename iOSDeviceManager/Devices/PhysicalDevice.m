@@ -254,9 +254,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
                        codesignID:(NSString *)codesignID {
 
     if (codesignID == nil) {
-        CodesignIdentity *identity = [CodesignIdentity getUsableCodesignIdentityForAppBundle:pathToBundle deviceId:deviceID];
+        CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:pathToBundle deviceId:deviceID];
         if (!identity) {
-            NSLog(@"ERROR: Could not find codesign identity to use with app: %@ and device: %@", pathToBundle, deviceID);
+            NSLog(@"ERROR: Could not find valid codesign identity");
+            NSLog(@"ERROR:   app: %@", pathToBundle);
+            NSLog(@"ERROR:   device udid: %@", deviceID);
             return iOSReturnStatusCodeNoValidCodesignIdentity;
         }
         codesignID = identity.name;

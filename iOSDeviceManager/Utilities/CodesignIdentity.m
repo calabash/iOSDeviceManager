@@ -21,7 +21,8 @@
 
 @implementation CodesignIdentity
 
-+ (CodesignIdentity *) getUsableCodesignIdentityForAppBundle:(NSString *)appBundle deviceId:(NSString *)deviceId {
++ (CodesignIdentity *)identityForAppBundle:(NSString *)appBundle
+                                  deviceId:(NSString *)deviceId {
     Entitlements *appEnts = [Entitlements entitlementsWithBundlePath:appBundle];
     if (!appEnts) {
         return nil;
@@ -34,18 +35,25 @@
     if (![MobileProfile nonExpiredIOSProfiles]) {
         return nil;
     }
+    CodesignIdentity *bestIdentity = nil;
+    NSInteger bestIdentityRank = INT_MAX;
     
     for(CodesignIdentity *identity in [self validIOSDeveloperIdentities]) {
         for(MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
-            NSInteger rank = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements appEntitlements:appEnts];
-            if (rank != ProfileDoesNotHaveRequiredKey &&
-                [profile isValidForDeviceUDID:deviceId identity:identity]) {
-                return identity;
+            if ([profile isValidForDeviceUDID:deviceId identity:identity]) {
+                NSInteger rank = [Entitlements
+                                  rankByComparingProfileEntitlements:profile.Entitlements
+                                  appEntitlements:appEnts];
+
+                if (rank != ProfileDoesNotHaveRequiredKey && rank < bestIdentityRank) {
+                    bestIdentity = identity;
+                    bestIdentityRank = rank;
+                }
             }
         }
     }
 
-    return nil;
+    return bestIdentity;
 }
 
 + (NSString *)codeSignIdentityFromEnvironment {

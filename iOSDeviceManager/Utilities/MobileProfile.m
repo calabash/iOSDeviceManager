@@ -19,9 +19,6 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)info
                               path:(NSString *)path;
-- (BOOL)isValidForDeviceUDID:(NSString *)deviceUDID
-                    identity:(CodesignIdentity *)identity;
-
 @end
 
 @implementation MobileProfile

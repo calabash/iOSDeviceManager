@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 
 @interface CodesignIdentity : NSObject <NSCopying>
-+ (CodesignIdentity *) getUsableCodesignIdentityForAppBundle:(NSString *)appBundle deviceId:(NSString *)deviceId;
++ (CodesignIdentity *)identityForAppBundle:(NSString *)appBundle deviceId:(NSString *)deviceId;
 + (NSArray<CodesignIdentity *> *)validIOSDeveloperIdentities;
 + (NSString *)codeSignIdentityFromEnvironment;
 
