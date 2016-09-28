@@ -123,6 +123,37 @@ context(@"#isIOSDeveloperIdentity", ^{
 
 #pragma mark - Class Methods
 
+context(@"identityForAppBundle:deviceId:", ^{
+    __block id MockCodesignIdentity;
+    __block CodesignIdentity *actual;
+
+    before(^{
+        MockCodesignIdentity = OCMClassMock([CodesignIdentity class]);
+    });
+
+    after(^{
+        OCMVerifyAll(MockCodesignIdentity);
+    });
+
+    it(@"returns a valid codesign identity given an app and device id", ^{
+        actual = [CodesignIdentity
+                  identityForAppBundle:@"/Users/austinroos/Desktop/UntitledApp/Untitled/Payload/UntitledApp.app"
+                  deviceId:@"e8b4fbb3c8cc57969a517f930ae1957152048979"];
+        expect(actual).notTo.beNil;
+        expect(actual.name).notTo.beNil;
+        expect(actual.shasum).notTo.beNil;
+        expect(actual.name.length).to.beGreaterThan(0);
+        expect(actual.shasum.length).to.beGreaterThan(0);
+    });
+
+    it(@"returns nil if there are no valid identities for the app and device", ^{
+        actual = [CodesignIdentity
+                  identityForAppBundle:@"/path/to/invalid/bundle"
+                  deviceId:@"e8b4fbb3c8cc57969a517f930ae1957152048979"];
+        expect(actual).to.beNil;
+    });
+});
+
 context(@".validIOSDeveloperIdentities", ^{
     __block id MockCodesignIdentity;
     __block NSArray<CodesignIdentity *> *actual;
