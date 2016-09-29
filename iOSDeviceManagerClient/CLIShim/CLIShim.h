@@ -1,6 +1,7 @@
 
 #import <Foundation/Foundation.h>
+#import "iOSDeviceManagementCommand.h"
 
 @interface CLIShim : NSObject
-+ (void)process:(NSArray <NSString *> *)args;
++ (iOSReturnStatusCode)process:(NSArray <NSString *> *)args;
 @end

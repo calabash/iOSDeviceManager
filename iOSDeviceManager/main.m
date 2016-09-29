@@ -1,8 +1,8 @@
 
-#import "CLI.h"
+#import "iOSDeviceManagerServer.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        return [CLI process:[NSProcessInfo processInfo].arguments];
+        [iOSDeviceManagerServer start];
     }
 }
