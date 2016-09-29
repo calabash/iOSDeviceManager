@@ -1,6 +1,6 @@
 
 #import <Foundation/Foundation.h>
-#import "iOSDeviceManagementCommand.h"
+#import "ServerConfig.h"
 
 @interface CLIShim : NSObject
 + (iOSReturnStatusCode)process:(NSArray <NSString *> *)args;

@@ -2707,13 +2707,7 @@ enum GCDAsyncSocketConfig
 			// You need to add the Security Framework to your application.
 			
 			SSLClose(sslContext);
-			
-			#if TARGET_OS_IPHONE
 			CFRelease(sslContext);
-			#else
-			SSLDisposeContext(sslContext);
-			#endif
-			
 			sslContext = NULL;
 		}
 	}

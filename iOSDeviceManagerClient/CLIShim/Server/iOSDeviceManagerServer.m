@@ -10,7 +10,6 @@
 
 @implementation iOSDeviceManagerServer
 
-static const int SERVER_PORT = 36063;
 static NSString *const iOSDeviceManagerServerDomain = @"sh.calaba.iOSDeviceManager-server";
 static NSString *const serverName = @"iOSDeviceManagerServer";
 
@@ -31,6 +30,7 @@ static NSString *const serverName = @"iOSDeviceManagerServer";
         NSString *serverName = [NSString stringWithFormat:@"iOSDeviceManagerServer-%@", token];
         [server setName:serverName];
         [server addRoute:[self cliRoute]];
+        [server addRoute:[self healthRoute]];
     });
 
     return server;
@@ -39,6 +39,12 @@ static NSString *const serverName = @"iOSDeviceManagerServer";
 + (CBXRoute *)cliRoute {
     return [CBXRoute post:@"/cli" withBlock:^(RouteRequest *request, id args, RouteResponse *response) {
         [response respondWithJSON:@{@"exit_code" : @([CLI process:args])}];
+    }];
+}
+
++ (CBXRoute *)healthRoute {
+    return [CBXRoute get:@"/health" withBlock:^(RouteRequest *request, NSDictionary *body, RouteResponse *response) {
+        [response respondWithJSON:@{@"status" : @"Reportin' for duty."}];
     }];
 }
 

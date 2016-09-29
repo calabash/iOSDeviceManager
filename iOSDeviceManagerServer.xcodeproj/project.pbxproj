@@ -76,6 +76,10 @@
 		892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		895E63BC1D9D973200F64B07 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66451D9D6CB3001C4C51 /* GCDAsyncSocket.m */; };
+		895E63C51D9D9FD000F64B07 /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 895E63C41D9D9FD000F64B07 /* ServerConfig.m */; };
+		895E63C61D9DA05B00F64B07 /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 895E63C41D9D9FD000F64B07 /* ServerConfig.m */; };
+		895E63C71D9DA0B700F64B07 /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
+		895E63C81D9DA0B700F64B07 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
 		896B63611D9D6486001C4C51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B63601D9D6486001C4C51 /* main.m */; };
 		896B63681D9D66EA001C4C51 /* CLIShim.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B63671D9D66EA001C4C51 /* CLIShim.m */; };
 		896B66461D9D6CB3001C4C51 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66451D9D6CB3001C4C51 /* GCDAsyncSocket.m */; };
@@ -431,6 +435,8 @@
 		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5241D23ED0600E1902C /* UnitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UnitInfo.plist; path = Tests/UnitInfo.plist; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManagerServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManagerServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		895E63C31D9D9FD000F64B07 /* ServerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerConfig.h; path = iOSDeviceManagerClient/CLIShim/Server/ServerConfig.h; sourceTree = SOURCE_ROOT; };
+		895E63C41D9D9FD000F64B07 /* ServerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerConfig.m; path = iOSDeviceManagerClient/CLIShim/Server/ServerConfig.m; sourceTree = SOURCE_ROOT; };
 		896B635E1D9D6485001C4C51 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		896B63601D9D6486001C4C51 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		896B63661D9D66EA001C4C51 /* CLIShim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLIShim.h; path = CLIShim/CLIShim.h; sourceTree = "<group>"; };
@@ -611,6 +617,8 @@
 				89EC3CD41D9D872E00769382 /* CBXRoute.m */,
 				892255FD1D9D7EA4006C7DFB /* iOSDeviceManagerServer.h */,
 				892255FE1D9D7EA4006C7DFB /* iOSDeviceManagerServer.m */,
+				895E63C31D9D9FD000F64B07 /* ServerConfig.h */,
+				895E63C41D9D9FD000F64B07 /* ServerConfig.m */,
 			);
 			name = Server;
 			sourceTree = "<group>";
@@ -1127,7 +1135,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManager" */;
+			buildConfigurationList = 89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManagerServer" */;
 			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1213,6 +1221,7 @@
 				896B66EE1D9D6CFC001C4C51 /* HTTPServer.m in Sources */,
 				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
 				896B67691D9D6D72001C4C51 /* DDASLLogger.m in Sources */,
+				895E63C51D9D9FD000F64B07 /* ServerConfig.m in Sources */,
 				892DE4BF1D22F85F00E1902C /* Codesigner.m in Sources */,
 				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
 				892DE4B51D22F85400E1902C /* TestParameters.m in Sources */,
@@ -1247,6 +1256,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				895E63C71D9DA0B700F64B07 /* ShellResult.m in Sources */,
+				895E63C81D9DA0B700F64B07 /* ShellRunner.m in Sources */,
+				895E63C61D9DA05B00F64B07 /* ServerConfig.m in Sources */,
 				895E63BC1D9D973200F64B07 /* GCDAsyncSocket.m in Sources */,
 				896B66F11D9D6CFC001C4C51 /* HTTPServer.m in Sources */,
 				896B674F1D9D6D33001C4C51 /* RoutingHTTPServer.m in Sources */,
@@ -1679,7 +1691,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManager" */ = {
+		89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManagerServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89331D481CE222C7003C2E59 /* Debug */,
