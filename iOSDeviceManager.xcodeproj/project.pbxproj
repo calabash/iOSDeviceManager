@@ -265,6 +265,8 @@
 		896B63331D9D6276001C4C51 /* RouteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B629F1D9D6276001C4C51 /* RouteResponse.m */; };
 		896B63341D9D6276001C4C51 /* RoutingConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B62A11D9D6276001C4C51 /* RoutingConnection.m */; };
 		896B63351D9D6276001C4C51 /* RoutingHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B62A31D9D6276001C4C51 /* RoutingHTTPServer.m */; };
+		896B63611D9D6486001C4C51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B63601D9D6486001C4C51 /* main.m */; };
+		896B63681D9D66EA001C4C51 /* CLIShim.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B63671D9D66EA001C4C51 /* CLIShim.m */; };
 		897566891D6F59E9008EC08A /* CLI.json in Resources */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
 		8975668A1D6F59E9008EC08A /* CLI.json in Resources */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
 		8975668E1D6F622D008EC08A /* CLI.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
@@ -455,6 +457,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		896B635C1D9D6485001C4C51 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		896F91FC1D36949A0013B0F4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -560,7 +571,7 @@
 		892DE51E1D237E7700E1902C /* IsInstalledCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = IsInstalledCommand.h; path = iOSDeviceManager/Commands/IsInstalledCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5241D23ED0600E1902C /* UnitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UnitInfo.plist; path = Tests/UnitInfo.plist; sourceTree = SOURCE_ROOT; };
-		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
+		89331D431CE222C7003C2E59 /* iOSDeviceManagerServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManagerServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		896B616E1D9D6275001C4C51 /* About.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = About.txt; sourceTree = "<group>"; };
 		896B616F1D9D6275001C4C51 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
 		896B61701D9D6275001C4C51 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
@@ -791,6 +802,10 @@
 		896B62A11D9D6276001C4C51 /* RoutingConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutingConnection.m; sourceTree = "<group>"; };
 		896B62A21D9D6276001C4C51 /* RoutingHTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutingHTTPServer.h; sourceTree = "<group>"; };
 		896B62A31D9D6276001C4C51 /* RoutingHTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutingHTTPServer.m; sourceTree = "<group>"; };
+		896B635E1D9D6485001C4C51 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
+		896B63601D9D6486001C4C51 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		896B63661D9D66EA001C4C51 /* CLIShim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLIShim.h; path = CLIShim/CLIShim.h; sourceTree = "<group>"; };
+		896B63671D9D66EA001C4C51 /* CLIShim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CLIShim.m; path = CLIShim/CLIShim.m; sourceTree = "<group>"; };
 		8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManagement.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		897566881D6F59E9008EC08A /* CLI.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CLI.json; sourceTree = SOURCE_ROOT; };
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -837,6 +852,13 @@
 				89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */,
 				89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */,
 				89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		896B635B1D9D6485001C4C51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -914,6 +936,7 @@
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagerServer */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
+				896B635F1D9D6485001C4C51 /* iOSDeviceManagerClient */,
 				89331D441CE222C7003C2E59 /* Products */,
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
 				F5169D271CFEAE5900252F52 /* vendor-licenses */,
@@ -927,12 +950,13 @@
 		89331D441CE222C7003C2E59 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				89331D431CE222C7003C2E59 /* iOSDeviceManager */,
+				89331D431CE222C7003C2E59 /* iOSDeviceManagerServer */,
 				89EF4AC91CFA614F006DCDC5 /* Unit.xctest */,
 				8974F51B1D085FDA00C51B0C /* libiOSDeviceManagement.dylib */,
 				F5D583EB1D69FF6C007B0D11 /* Integration.xctest */,
 				63424AF13BED437A1CDD00DA /* Certificate.m */,
 				63424E541575B63D1AA8D79F /* Certificate.h */,
+				896B635E1D9D6485001C4C51 /* iOSDeviceManager */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1571,6 +1595,24 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		896B635F1D9D6485001C4C51 /* iOSDeviceManagerClient */ = {
+			isa = PBXGroup;
+			children = (
+				896B63651D9D66D2001C4C51 /* CLIShim */,
+				896B63601D9D6486001C4C51 /* main.m */,
+			);
+			path = iOSDeviceManagerClient;
+			sourceTree = "<group>";
+		};
+		896B63651D9D66D2001C4C51 /* CLIShim */ = {
+			isa = PBXGroup;
+			children = (
+				896B63661D9D66EA001C4C51 /* CLIShim.h */,
+				896B63671D9D66EA001C4C51 /* CLIShim.m */,
+			);
+			name = CLIShim;
+			sourceTree = "<group>";
+		};
 		896F7F021CF9C50500FD8572 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
@@ -1760,7 +1802,24 @@
 			);
 			name = iOSDeviceManager;
 			productName = "test-control";
-			productReference = 89331D431CE222C7003C2E59 /* iOSDeviceManager */;
+			productReference = 89331D431CE222C7003C2E59 /* iOSDeviceManagerServer */;
+			productType = "com.apple.product-type.tool";
+		};
+		896B635D1D9D6485001C4C51 /* iOSDeviceManagerClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 896B63621D9D6486001C4C51 /* Build configuration list for PBXNativeTarget "iOSDeviceManagerClient" */;
+			buildPhases = (
+				896B635A1D9D6485001C4C51 /* Sources */,
+				896B635B1D9D6485001C4C51 /* Frameworks */,
+				896B635C1D9D6485001C4C51 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSDeviceManagerClient;
+			productName = iOSDeviceManagerClient;
+			productReference = 896B635E1D9D6485001C4C51 /* iOSDeviceManager */;
 			productType = "com.apple.product-type.tool";
 		};
 		8974F51A1D085FDA00C51B0C /* iOSDeviceManagement */ = {
@@ -1829,6 +1888,11 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = FYD86LA7RE;
 						DevelopmentTeamName = "Karl Krukow";
+						ProvisioningStyle = Automatic;
+					};
+					896B635D1D9D6485001C4C51 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = FYD86LA7RE;
 						ProvisioningStyle = Automatic;
 					};
 					8974F51A1D085FDA00C51B0C = {
@@ -1911,6 +1975,7 @@
 				89EF4AC81CFA614F006DCDC5 /* Unit */,
 				F5D583EA1D69FF6C007B0D11 /* Integration */,
 				8974F51A1D085FDA00C51B0C /* iOSDeviceManagement */,
+				896B635D1D9D6485001C4C51 /* iOSDeviceManagerClient */,
 			);
 		};
 /* End PBXProject section */
@@ -2118,6 +2183,15 @@
 				63424D088ACDC4BC94DFD35C /* Entitlement.m in Sources */,
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
 				63424FF90B5F065931C9E5E7 /* BundleResignerFactory.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		896B635A1D9D6485001C4C51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				896B63611D9D6486001C4C51 /* main.m in Sources */,
+				896B63681D9D66EA001C4C51 /* CLIShim.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2620,7 +2694,7 @@
 				GENERATE_MASTER_OBJECT_FILE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)Server";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -2638,8 +2712,30 @@
 				GENERATE_MASTER_OBJECT_FILE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)Server";
 				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+		896B63631D9D6486001C4C51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = FYD86LA7RE;
+				PRODUCT_MODULE_NAME = iOSDeviceManager;
+				PRODUCT_NAME = iOSDeviceManager;
+			};
+			name = Debug;
+		};
+		896B63641D9D6486001C4C51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = FYD86LA7RE;
+				PRODUCT_MODULE_NAME = iOSDeviceManager;
+				PRODUCT_NAME = iOSDeviceManager;
 			};
 			name = Release;
 		};
@@ -2765,6 +2861,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		896B63621D9D6486001C4C51 /* Build configuration list for PBXNativeTarget "iOSDeviceManagerClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				896B63631D9D6486001C4C51 /* Debug */,
+				896B63641D9D6486001C4C51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		8974F5211D085FDA00C51B0C /* Build configuration list for PBXNativeTarget "iOSDeviceManagement" */ = {
 			isa = XCConfigurationList;
