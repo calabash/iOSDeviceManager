@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5EDCD4057FECD1A9F2590EFD26FFF63763599B3F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5EDCD4057FECD1A9F2590EFD26FFF63763599B3F" : 9223372036854775807,
+    "2FF32BC86C0EF19D34B9FE8701E2E26A0F151C7C" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "8FC33DEA-3EF4-4EB7-85B9-4F98F86F31C6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5EDCD4057FECD1A9F2590EFD26FFF63763599B3F" : "iOSDeviceManager\/",
+    "2FF32BC86C0EF19D34B9FE8701E2E26A0F151C7C" : "DeviceAgent.iOS\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "iOSDeviceManager",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "iOSDeviceManager.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/calabash\/calabash-xcuitest-server.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2FF32BC86C0EF19D34B9FE8701E2E26A0F151C7C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/calabash\/test-control.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5EDCD4057FECD1A9F2590EFD26FFF63763599B3F"
+    }
+  ]
+}
