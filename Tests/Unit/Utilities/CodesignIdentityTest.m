@@ -126,6 +126,7 @@ context(@"#isIOSDeveloperIdentity", ^{
 context(@".identityForAppBundle:deviceId:", ^{
     __block id MockCodesignIdentity;
     __block CodesignIdentity *actual;
+    __block NSString *deviceId = @"e8b4fbb3c8cc57969a517f930ae1957152048979";
 
     before(^{
         MockCodesignIdentity = OCMClassMock([CodesignIdentity class]);
@@ -138,7 +139,7 @@ context(@".identityForAppBundle:deviceId:", ^{
     it(@"returns a valid codesign identity given an app and device id", ^{
         actual = [CodesignIdentity
                   identityForAppBundle:testApp(ARM)
-                  deviceId:defaultDeviceUDID];
+                  deviceId:deviceId];
         expect(actual).notTo.equal(nil);
         expect(actual.name).notTo.equal(nil);
         expect(actual.shasum).notTo.equal(nil);
@@ -149,7 +150,7 @@ context(@".identityForAppBundle:deviceId:", ^{
     it(@"returns nil if there are no valid identities for the app and device", ^{
         actual = [CodesignIdentity
                   identityForAppBundle:@"/path/to/invalid/bundle"
-                  deviceId:defaultDeviceUDID];
+                  deviceId:deviceId];
         expect(actual).to.beNil;
     });
 });
