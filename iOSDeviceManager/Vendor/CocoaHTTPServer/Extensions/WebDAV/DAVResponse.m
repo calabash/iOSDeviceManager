@@ -20,7 +20,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 @implementation DAVResponse
 
 static void _AddPropertyResponse(NSString* itemPath, NSString* resourcePath, DAVProperties properties, NSMutableString* xmlString) {
-    CFStringRef escapedPath = (__bridge CFStringRef)[resourcePath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"<&>?+"]];
+  CFStringRef escapedPath = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)resourcePath, NULL,
+                                                                    CFSTR("<&>?+"), kCFStringEncodingUTF8);
   if (escapedPath) {
     NSDictionary* attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:itemPath error:NULL];
     BOOL isDirectory = [[attributes fileType] isEqualToString:NSFileTypeDirectory];
@@ -198,7 +199,7 @@ static xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name) {
         return nil;
       }
       NSString* destinationPath = [rootPath stringByAppendingPathComponent:
-        [[destination substringFromIndex:(range.location + range.length)] stringByRemovingPercentEncoding]];
+        [[destination substringFromIndex:(range.location + range.length)] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
       if (![destinationPath hasPrefix:rootPath] || [[NSFileManager defaultManager] fileExistsAtPath:destinationPath]) {
         return nil;
       }

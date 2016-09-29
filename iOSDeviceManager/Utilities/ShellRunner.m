@@ -110,11 +110,6 @@
     return NSTemporaryDirectory();
 }
 
-+ (NSString *)which:(NSString *)prog {
-    NSArray <NSString *> *results = [self shell:@"/usr/bin/which" args:@[prog ?: @""]];
-    return results.count > 0 ? results[0] : nil;
-}
-
 + (BOOL)verbose {
     return [[NSProcessInfo processInfo].environment[@"VERBOSE"] boolValue];
 }
