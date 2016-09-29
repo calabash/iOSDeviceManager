@@ -36,7 +36,7 @@
         return nil;
     }
     CodesignIdentity *bestIdentity = nil;
-    NSInteger bestIdentityRank = INT_MAX;
+    NSInteger bestIdentityRank = NSIntegerMax;
     
     for(CodesignIdentity *identity in [self validIOSDeveloperIdentities]) {
         for(MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
