@@ -34,5 +34,5 @@ xcrun xcodebuild \
   build | $XC_PIPE
 
 mkdir -p Products
-cp build/Release/iOSDeviceManager Products
+cp build/Release/iOSDeviceManagerServer Products
 

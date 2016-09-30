@@ -26,7 +26,7 @@ set -e
 
 bin/make/frameworks.sh
 
-EXECUTABLE=iOSDeviceManager
+EXECUTABLE=iOSDeviceManagerServer
 OUTPUT_DIR=Distribution/dependencies
 
 rm -rf "${OUTPUT_DIR}"

@@ -232,6 +232,8 @@
 		899018661D9DA6CE00E9FB88 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 896B678B1D9D6D8A001C4C51 /* libxml2.2.tbd */; };
 		899018671D9DA70D00E9FB88 /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC3CD41D9D872E00769382 /* CBXRoute.m */; };
 		899018681D9DA71300E9FB88 /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC3CD41D9D872E00769382 /* CBXRoute.m */; };
+		899018691D9DCC9000E9FB88 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
+		8990186A1D9DCCA000E9FB88 /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89EC3CD51D9D872E00769382 /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC3CD41D9D872E00769382 /* CBXRoute.m */; };
@@ -1264,6 +1266,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8990186A1D9DCCA000E9FB88 /* ShellResult.m in Sources */,
+				899018691D9DCC9000E9FB88 /* ShellRunner.m in Sources */,
 				895E63BC1D9D973200F64B07 /* GCDAsyncSocket.m in Sources */,
 				896B66F11D9D6CFC001C4C51 /* HTTPServer.m in Sources */,
 				896B674F1D9D6D33001C4C51 /* RoutingHTTPServer.m in Sources */,
