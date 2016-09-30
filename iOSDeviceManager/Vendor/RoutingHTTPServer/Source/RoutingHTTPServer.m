@@ -1,5 +1,6 @@
 #import "RoutingHTTPServer.h"
 #import "RoutingConnection.h"
+#import "ShellRunner.h"
 #import "CBXRoute.h"
 
 @implementation RoutingHTTPServer {
@@ -122,7 +123,9 @@
 }
 
 - (void)addRoute:(CBXRoute *)route {
-    NSLog(@"Adding route: %@", route);
+    if ([ShellRunner verbose]) {
+        NSLog(@"Adding route: %@", route);
+    }
     [self addRoute:route forMethod:route.HTTPVerb];
 }
 
@@ -219,7 +222,9 @@
                     if ([route isKindOfClass:[CBXRoute class]]) {
                         path = ((CBXRoute *)route).path;
                     }
-                    NSLog(@"%@ %@ %@", request.method, path, [self dataToJSON:request.body] ?: @"");
+                    if ([ShellRunner verbose]) {
+                        NSLog(@"%@ %@ %@", request.method, path, [self dataToJSON:request.body] ?: @"");
+                    }
 					[self handleRoute:route withRequest:request response:response];
 				}
 			});

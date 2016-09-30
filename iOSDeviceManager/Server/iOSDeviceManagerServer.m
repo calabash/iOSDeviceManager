@@ -2,6 +2,7 @@
 #import "iOSDeviceManagerServer.h"
 #import "RoutingHTTPServer.h"
 #import "RoutingConnection.h"
+#import "ShellRunner.h"
 #import "CBXRoute.h"
 #import "CLI.h"
 
@@ -83,7 +84,9 @@ static BOOL alive = YES;
     NSError *error;
     BOOL serverStarted = NO;
 
-    NSLog(@"Attempting to start the iOSDeviceManager server");
+    if ([ShellRunner verbose]) {
+        NSLog(@"Attempting to start the iOSDeviceManager server");
+    }
     serverStarted = [self attemptToStartWithError:&error];
     
     if (!serverStarted) {
