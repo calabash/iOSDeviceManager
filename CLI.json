@@ -70,6 +70,48 @@
             "default" : true
         }
     },
+    "launch_app" : {
+        "-d" : {
+            "longFlag" : "--device-id",
+            "optionName" : "device-identifier",
+            "info" : "40-digit physical device ID",
+            "required" : true
+        },
+        "-b" : {
+            "longFlag" : "--bundle-identifier",
+            "optionName" : "bundle-id",
+            "info" : "bundle identifier (e.g. com.my.app)",
+            "required" : true
+        },
+        "-a" : {
+            "longFlag" : "--app-arguments",
+            "optionName" : "app-args",
+            "info" : "App arguments to be passed on launch",
+            "required" : false,
+            "default" : ""
+        },
+        "-e" : {
+            "longFlag" : "--app-environment",
+            "optionName" : "app-env",
+            "info" : "App environment variables in key:value format seprated by space",
+            "required" : false,
+            "default" : ""
+        }
+    },
+    "kill_app" : {
+        "-d" : {
+            "longFlag" : "--device-id",
+            "optionName" : "device-identifier",
+            "info" : "40-digit physical device ID",
+            "required" : true
+        },
+        "-b" : {
+            "longFlag" : "--bundle-identifier",
+            "optionName" : "bundle-id",
+            "info" : "bundle identifier (e.g. com.my.app)",
+            "required" : true
+        }
+    },
     "kill_simulator" : {
         "-d" : {
             "longFlag" : "--device-id",

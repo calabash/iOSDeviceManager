@@ -55,6 +55,22 @@ int is_installed(const char *bundleID, const char *deviceID) {
     }
 }
 
+int launch_app(const char *bundleID, const char *appArgs, const char *appEnv, const char *deviceID) {
+    @autoreleasepool {
+        return [PhysicalDevice launchApp:STR(bundleID)
+                              appArgs:STR(appArgs)
+                               appEnv:STR(appEnv)
+                             deviceID:STR(deviceID)];
+    }
+}
+
+int kill_app(const char *bundleID, const char *deviceID) {
+    @autoreleasepool {
+        return [PhysicalDevice killApp:STR(bundleID)
+                             deviceID:STR(deviceID)];
+    }
+}
+
 int simulate_location(const char *deviceID, double lat, double lng) {
     @autoreleasepool {
         return [Device setLocation:STR(deviceID)
