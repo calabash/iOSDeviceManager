@@ -74,145 +74,108 @@
 		892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
 		892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
-		895E63BC1D9D973200F64B07 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66451D9D6CB3001C4C51 /* GCDAsyncSocket.m */; };
-		896B63611D9D6486001C4C51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B63601D9D6486001C4C51 /* main.m */; };
-		896B63681D9D66EA001C4C51 /* CLIShim.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B63671D9D66EA001C4C51 /* CLIShim.m */; };
 		896B66461D9D6CB3001C4C51 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66451D9D6CB3001C4C51 /* GCDAsyncSocket.m */; };
 		896B66471D9D6CB3001C4C51 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66451D9D6CB3001C4C51 /* GCDAsyncSocket.m */; };
 		896B66481D9D6CB3001C4C51 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66451D9D6CB3001C4C51 /* GCDAsyncSocket.m */; };
 		896B66D61D9D6CFC001C4C51 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A71D9D6CFC001C4C51 /* DDData.m */; };
 		896B66D71D9D6CFC001C4C51 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A71D9D6CFC001C4C51 /* DDData.m */; };
 		896B66D81D9D6CFC001C4C51 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A71D9D6CFC001C4C51 /* DDData.m */; };
-		896B66D91D9D6CFC001C4C51 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A71D9D6CFC001C4C51 /* DDData.m */; };
 		896B66DA1D9D6CFC001C4C51 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A91D9D6CFC001C4C51 /* DDNumber.m */; };
 		896B66DB1D9D6CFC001C4C51 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A91D9D6CFC001C4C51 /* DDNumber.m */; };
 		896B66DC1D9D6CFC001C4C51 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A91D9D6CFC001C4C51 /* DDNumber.m */; };
-		896B66DD1D9D6CFC001C4C51 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66A91D9D6CFC001C4C51 /* DDNumber.m */; };
 		896B66DE1D9D6CFC001C4C51 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AB1D9D6CFC001C4C51 /* DDRange.m */; };
 		896B66DF1D9D6CFC001C4C51 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AB1D9D6CFC001C4C51 /* DDRange.m */; };
 		896B66E01D9D6CFC001C4C51 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AB1D9D6CFC001C4C51 /* DDRange.m */; };
-		896B66E11D9D6CFC001C4C51 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AB1D9D6CFC001C4C51 /* DDRange.m */; };
 		896B66E21D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AD1D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m */; };
 		896B66E31D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AD1D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m */; };
 		896B66E41D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AD1D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m */; };
-		896B66E51D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AD1D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m */; };
 		896B66E61D9D6CFC001C4C51 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AF1D9D6CFC001C4C51 /* HTTPConnection.m */; };
 		896B66E71D9D6CFC001C4C51 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AF1D9D6CFC001C4C51 /* HTTPConnection.m */; };
 		896B66E81D9D6CFC001C4C51 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AF1D9D6CFC001C4C51 /* HTTPConnection.m */; };
-		896B66E91D9D6CFC001C4C51 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66AF1D9D6CFC001C4C51 /* HTTPConnection.m */; };
 		896B66EA1D9D6CFC001C4C51 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B21D9D6CFC001C4C51 /* HTTPMessage.m */; };
 		896B66EB1D9D6CFC001C4C51 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B21D9D6CFC001C4C51 /* HTTPMessage.m */; };
 		896B66EC1D9D6CFC001C4C51 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B21D9D6CFC001C4C51 /* HTTPMessage.m */; };
-		896B66ED1D9D6CFC001C4C51 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B21D9D6CFC001C4C51 /* HTTPMessage.m */; };
 		896B66EE1D9D6CFC001C4C51 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B51D9D6CFC001C4C51 /* HTTPServer.m */; };
 		896B66EF1D9D6CFC001C4C51 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B51D9D6CFC001C4C51 /* HTTPServer.m */; };
 		896B66F01D9D6CFC001C4C51 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B51D9D6CFC001C4C51 /* HTTPServer.m */; };
-		896B66F11D9D6CFC001C4C51 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B51D9D6CFC001C4C51 /* HTTPServer.m */; };
 		896B66F21D9D6CFC001C4C51 /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B81D9D6CFC001C4C51 /* MultipartFormDataParser.m */; };
 		896B66F31D9D6CFC001C4C51 /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B81D9D6CFC001C4C51 /* MultipartFormDataParser.m */; };
 		896B66F41D9D6CFC001C4C51 /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B81D9D6CFC001C4C51 /* MultipartFormDataParser.m */; };
-		896B66F51D9D6CFC001C4C51 /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66B81D9D6CFC001C4C51 /* MultipartFormDataParser.m */; };
 		896B66F61D9D6CFC001C4C51 /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BA1D9D6CFC001C4C51 /* MultipartMessageHeader.m */; };
 		896B66F71D9D6CFC001C4C51 /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BA1D9D6CFC001C4C51 /* MultipartMessageHeader.m */; };
 		896B66F81D9D6CFC001C4C51 /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BA1D9D6CFC001C4C51 /* MultipartMessageHeader.m */; };
-		896B66F91D9D6CFC001C4C51 /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BA1D9D6CFC001C4C51 /* MultipartMessageHeader.m */; };
 		896B66FA1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BC1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m */; };
 		896B66FB1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BC1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m */; };
 		896B66FC1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BC1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m */; };
-		896B66FD1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BC1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m */; };
 		896B66FE1D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BF1D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m */; };
 		896B66FF1D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BF1D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m */; };
 		896B67001D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BF1D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m */; };
-		896B67011D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66BF1D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m */; };
 		896B67021D9D6CFC001C4C51 /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C11D9D6CFC001C4C51 /* HTTPDataResponse.m */; };
 		896B67031D9D6CFC001C4C51 /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C11D9D6CFC001C4C51 /* HTTPDataResponse.m */; };
 		896B67041D9D6CFC001C4C51 /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C11D9D6CFC001C4C51 /* HTTPDataResponse.m */; };
-		896B67051D9D6CFC001C4C51 /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C11D9D6CFC001C4C51 /* HTTPDataResponse.m */; };
 		896B67061D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C31D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m */; };
 		896B67071D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C31D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m */; };
 		896B67081D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C31D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m */; };
-		896B67091D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C31D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m */; };
 		896B670A1D9D6CFC001C4C51 /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C51D9D6CFC001C4C51 /* HTTPErrorResponse.m */; };
 		896B670B1D9D6CFC001C4C51 /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C51D9D6CFC001C4C51 /* HTTPErrorResponse.m */; };
 		896B670C1D9D6CFC001C4C51 /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C51D9D6CFC001C4C51 /* HTTPErrorResponse.m */; };
-		896B670D1D9D6CFC001C4C51 /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C51D9D6CFC001C4C51 /* HTTPErrorResponse.m */; };
 		896B670E1D9D6CFC001C4C51 /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C71D9D6CFC001C4C51 /* HTTPFileResponse.m */; };
 		896B670F1D9D6CFC001C4C51 /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C71D9D6CFC001C4C51 /* HTTPFileResponse.m */; };
 		896B67101D9D6CFC001C4C51 /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C71D9D6CFC001C4C51 /* HTTPFileResponse.m */; };
-		896B67111D9D6CFC001C4C51 /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C71D9D6CFC001C4C51 /* HTTPFileResponse.m */; };
 		896B67121D9D6CFC001C4C51 /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C91D9D6CFC001C4C51 /* HTTPRedirectResponse.m */; };
 		896B67131D9D6CFC001C4C51 /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C91D9D6CFC001C4C51 /* HTTPRedirectResponse.m */; };
 		896B67141D9D6CFC001C4C51 /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C91D9D6CFC001C4C51 /* HTTPRedirectResponse.m */; };
-		896B67151D9D6CFC001C4C51 /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66C91D9D6CFC001C4C51 /* HTTPRedirectResponse.m */; };
 		896B67161D9D6CFC001C4C51 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CB1D9D6CFC001C4C51 /* WebSocket.m */; };
 		896B67171D9D6CFC001C4C51 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CB1D9D6CFC001C4C51 /* WebSocket.m */; };
 		896B67181D9D6CFC001C4C51 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CB1D9D6CFC001C4C51 /* WebSocket.m */; };
-		896B67191D9D6CFC001C4C51 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CB1D9D6CFC001C4C51 /* WebSocket.m */; };
 		896B671A1D9D6CFC001C4C51 /* DAVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CF1D9D6CFC001C4C51 /* DAVConnection.m */; };
 		896B671B1D9D6CFC001C4C51 /* DAVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CF1D9D6CFC001C4C51 /* DAVConnection.m */; };
 		896B671C1D9D6CFC001C4C51 /* DAVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CF1D9D6CFC001C4C51 /* DAVConnection.m */; };
-		896B671D1D9D6CFC001C4C51 /* DAVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66CF1D9D6CFC001C4C51 /* DAVConnection.m */; };
 		896B671E1D9D6CFC001C4C51 /* DAVResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D11D9D6CFC001C4C51 /* DAVResponse.m */; };
 		896B671F1D9D6CFC001C4C51 /* DAVResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D11D9D6CFC001C4C51 /* DAVResponse.m */; };
 		896B67201D9D6CFC001C4C51 /* DAVResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D11D9D6CFC001C4C51 /* DAVResponse.m */; };
-		896B67211D9D6CFC001C4C51 /* DAVResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D11D9D6CFC001C4C51 /* DAVResponse.m */; };
 		896B67221D9D6CFC001C4C51 /* DELETEResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D31D9D6CFC001C4C51 /* DELETEResponse.m */; };
 		896B67231D9D6CFC001C4C51 /* DELETEResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D31D9D6CFC001C4C51 /* DELETEResponse.m */; };
 		896B67241D9D6CFC001C4C51 /* DELETEResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D31D9D6CFC001C4C51 /* DELETEResponse.m */; };
-		896B67251D9D6CFC001C4C51 /* DELETEResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D31D9D6CFC001C4C51 /* DELETEResponse.m */; };
 		896B67261D9D6CFC001C4C51 /* PUTResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D51D9D6CFC001C4C51 /* PUTResponse.m */; };
 		896B67271D9D6CFC001C4C51 /* PUTResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D51D9D6CFC001C4C51 /* PUTResponse.m */; };
 		896B67281D9D6CFC001C4C51 /* PUTResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D51D9D6CFC001C4C51 /* PUTResponse.m */; };
-		896B67291D9D6CFC001C4C51 /* PUTResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B66D51D9D6CFC001C4C51 /* PUTResponse.m */; };
 		896B67381D9D6D33001C4C51 /* HTTPResponseProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672D1D9D6D33001C4C51 /* HTTPResponseProxy.m */; };
 		896B67391D9D6D33001C4C51 /* HTTPResponseProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672D1D9D6D33001C4C51 /* HTTPResponseProxy.m */; };
 		896B673A1D9D6D33001C4C51 /* HTTPResponseProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672D1D9D6D33001C4C51 /* HTTPResponseProxy.m */; };
-		896B673B1D9D6D33001C4C51 /* HTTPResponseProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672D1D9D6D33001C4C51 /* HTTPResponseProxy.m */; };
 		896B673C1D9D6D33001C4C51 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672F1D9D6D33001C4C51 /* Route.m */; };
 		896B673D1D9D6D33001C4C51 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672F1D9D6D33001C4C51 /* Route.m */; };
 		896B673E1D9D6D33001C4C51 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672F1D9D6D33001C4C51 /* Route.m */; };
-		896B673F1D9D6D33001C4C51 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B672F1D9D6D33001C4C51 /* Route.m */; };
 		896B67401D9D6D33001C4C51 /* RouteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67311D9D6D33001C4C51 /* RouteRequest.m */; };
 		896B67411D9D6D33001C4C51 /* RouteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67311D9D6D33001C4C51 /* RouteRequest.m */; };
 		896B67421D9D6D33001C4C51 /* RouteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67311D9D6D33001C4C51 /* RouteRequest.m */; };
-		896B67431D9D6D33001C4C51 /* RouteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67311D9D6D33001C4C51 /* RouteRequest.m */; };
 		896B67441D9D6D33001C4C51 /* RouteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67331D9D6D33001C4C51 /* RouteResponse.m */; };
 		896B67451D9D6D33001C4C51 /* RouteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67331D9D6D33001C4C51 /* RouteResponse.m */; };
 		896B67461D9D6D33001C4C51 /* RouteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67331D9D6D33001C4C51 /* RouteResponse.m */; };
-		896B67471D9D6D33001C4C51 /* RouteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67331D9D6D33001C4C51 /* RouteResponse.m */; };
 		896B67481D9D6D33001C4C51 /* RoutingConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67351D9D6D33001C4C51 /* RoutingConnection.m */; };
 		896B67491D9D6D33001C4C51 /* RoutingConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67351D9D6D33001C4C51 /* RoutingConnection.m */; };
 		896B674A1D9D6D33001C4C51 /* RoutingConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67351D9D6D33001C4C51 /* RoutingConnection.m */; };
-		896B674B1D9D6D33001C4C51 /* RoutingConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67351D9D6D33001C4C51 /* RoutingConnection.m */; };
 		896B674C1D9D6D33001C4C51 /* RoutingHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67371D9D6D33001C4C51 /* RoutingHTTPServer.m */; };
 		896B674D1D9D6D33001C4C51 /* RoutingHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67371D9D6D33001C4C51 /* RoutingHTTPServer.m */; };
 		896B674E1D9D6D33001C4C51 /* RoutingHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67371D9D6D33001C4C51 /* RoutingHTTPServer.m */; };
-		896B674F1D9D6D33001C4C51 /* RoutingHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67371D9D6D33001C4C51 /* RoutingHTTPServer.m */; };
 		896B67651D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67521D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m */; };
 		896B67661D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67521D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m */; };
 		896B67671D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67521D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m */; };
-		896B67681D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67521D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m */; };
 		896B67691D9D6D72001C4C51 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67541D9D6D72001C4C51 /* DDASLLogger.m */; };
 		896B676A1D9D6D72001C4C51 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67541D9D6D72001C4C51 /* DDASLLogger.m */; };
 		896B676B1D9D6D72001C4C51 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67541D9D6D72001C4C51 /* DDASLLogger.m */; };
-		896B676C1D9D6D72001C4C51 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67541D9D6D72001C4C51 /* DDASLLogger.m */; };
 		896B676D1D9D6D72001C4C51 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67561D9D6D72001C4C51 /* DDFileLogger.m */; };
 		896B676E1D9D6D72001C4C51 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67561D9D6D72001C4C51 /* DDFileLogger.m */; };
 		896B676F1D9D6D72001C4C51 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67561D9D6D72001C4C51 /* DDFileLogger.m */; };
-		896B67701D9D6D72001C4C51 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67561D9D6D72001C4C51 /* DDFileLogger.m */; };
 		896B67711D9D6D72001C4C51 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67581D9D6D72001C4C51 /* DDLog.m */; };
 		896B67721D9D6D72001C4C51 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67581D9D6D72001C4C51 /* DDLog.m */; };
 		896B67731D9D6D72001C4C51 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67581D9D6D72001C4C51 /* DDLog.m */; };
-		896B67741D9D6D72001C4C51 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67581D9D6D72001C4C51 /* DDLog.m */; };
 		896B67751D9D6D72001C4C51 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675A1D9D6D72001C4C51 /* DDTTYLogger.m */; };
 		896B67761D9D6D72001C4C51 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675A1D9D6D72001C4C51 /* DDTTYLogger.m */; };
 		896B67771D9D6D72001C4C51 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675A1D9D6D72001C4C51 /* DDTTYLogger.m */; };
-		896B67781D9D6D72001C4C51 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675A1D9D6D72001C4C51 /* DDTTYLogger.m */; };
 		896B67791D9D6D72001C4C51 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675D1D9D6D72001C4C51 /* ContextFilterLogFormatter.m */; };
-		896B677C1D9D6D72001C4C51 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675D1D9D6D72001C4C51 /* ContextFilterLogFormatter.m */; };
 		896B677D1D9D6D72001C4C51 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675F1D9D6D72001C4C51 /* DispatchQueueLogFormatter.m */; };
 		896B677E1D9D6D72001C4C51 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675F1D9D6D72001C4C51 /* DispatchQueueLogFormatter.m */; };
-		896B67801D9D6D72001C4C51 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B675F1D9D6D72001C4C51 /* DispatchQueueLogFormatter.m */; };
 		896B67811D9D6D72001C4C51 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 896B67601D9D6D72001C4C51 /* README.txt */; };
 		896B67821D9D6D72001C4C51 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 896B67601D9D6D72001C4C51 /* README.txt */; };
 		896B67841D9D6D72001C4C51 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896B67621D9D6D72001C4C51 /* ContextFilterLogFormatter.m */; };
@@ -227,19 +190,14 @@
 		899018611D9DA67800E9FB88 /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 899018601D9DA67800E9FB88 /* ServerConfig.m */; };
 		899018621D9DA67800E9FB88 /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 899018601D9DA67800E9FB88 /* ServerConfig.m */; };
 		899018631D9DA67800E9FB88 /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 899018601D9DA67800E9FB88 /* ServerConfig.m */; };
-		899018641D9DA67800E9FB88 /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 899018601D9DA67800E9FB88 /* ServerConfig.m */; };
 		899018651D9DA6AC00E9FB88 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 896B678B1D9D6D8A001C4C51 /* libxml2.2.tbd */; };
 		899018661D9DA6CE00E9FB88 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 896B678B1D9D6D8A001C4C51 /* libxml2.2.tbd */; };
 		899018671D9DA70D00E9FB88 /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC3CD41D9D872E00769382 /* CBXRoute.m */; };
 		899018681D9DA71300E9FB88 /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC3CD41D9D872E00769382 /* CBXRoute.m */; };
-		899018691D9DCC9000E9FB88 /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
-		8990186A1D9DCCA000E9FB88 /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89EC3CD51D9D872E00769382 /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC3CD41D9D872E00769382 /* CBXRoute.m */; };
-		89EC3CD61D9D872E00769382 /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC3CD41D9D872E00769382 /* CBXRoute.m */; };
 		89EC3CD71D9D8D7300769382 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 896B678B1D9D6D8A001C4C51 /* libxml2.2.tbd */; };
-		89EC3CD81D9D924D00769382 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 896B678B1D9D6D8A001C4C51 /* libxml2.2.tbd */; };
 		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
@@ -327,15 +285,6 @@
 				892A93CF1D3934B600154F08 /* XCTestBootstrap.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		896B635C1D9D6485001C4C51 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 		896F91FC1D36949A0013B0F4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -441,10 +390,6 @@
 		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5241D23ED0600E1902C /* UnitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UnitInfo.plist; path = Tests/UnitInfo.plist; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManagerServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManagerServer; sourceTree = BUILT_PRODUCTS_DIR; };
-		896B635E1D9D6485001C4C51 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
-		896B63601D9D6486001C4C51 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		896B63661D9D66EA001C4C51 /* CLIShim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLIShim.h; path = CLIShim/CLIShim.h; sourceTree = "<group>"; };
-		896B63671D9D66EA001C4C51 /* CLIShim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CLIShim.m; path = CLIShim/CLIShim.m; sourceTree = "<group>"; };
 		896B66441D9D6CB3001C4C51 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.h; sourceTree = SOURCE_ROOT; };
 		896B66451D9D6CB3001C4C51 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.m; sourceTree = SOURCE_ROOT; };
 		896B66A61D9D6CFC001C4C51 /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
@@ -579,14 +524,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		896B635B1D9D6485001C4C51 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				89EC3CD81D9D924D00769382 /* libxml2.2.tbd in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		89EF4AC61CFA614F006DCDC5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -668,7 +605,6 @@
 			children = (
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagerServer */,
-				896B635F1D9D6485001C4C51 /* iOSDeviceManagerClient */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
@@ -688,7 +624,6 @@
 				F5D583EB1D69FF6C007B0D11 /* Integration.xctest */,
 				63424AF13BED437A1CDD00DA /* Certificate.m */,
 				63424E541575B63D1AA8D79F /* Certificate.h */,
-				896B635E1D9D6485001C4C51 /* iOSDeviceManager */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -717,24 +652,6 @@
 				896B66431D9D6CA1001C4C51 /* CocoaAsyncSocket */,
 			);
 			name = Vendor;
-			sourceTree = "<group>";
-		};
-		896B635F1D9D6485001C4C51 /* iOSDeviceManagerClient */ = {
-			isa = PBXGroup;
-			children = (
-				896B63651D9D66D2001C4C51 /* CLIShim */,
-				896B63601D9D6486001C4C51 /* main.m */,
-			);
-			path = iOSDeviceManagerClient;
-			sourceTree = "<group>";
-		};
-		896B63651D9D66D2001C4C51 /* CLIShim */ = {
-			isa = PBXGroup;
-			children = (
-				896B63661D9D66EA001C4C51 /* CLIShim.h */,
-				896B63671D9D66EA001C4C51 /* CLIShim.m */,
-			);
-			name = CLIShim;
 			sourceTree = "<group>";
 		};
 		896B66431D9D6CA1001C4C51 /* CocoaAsyncSocket */ = {
@@ -1061,23 +978,6 @@
 			productReference = 89331D431CE222C7003C2E59 /* iOSDeviceManagerServer */;
 			productType = "com.apple.product-type.tool";
 		};
-		896B635D1D9D6485001C4C51 /* iOSDeviceManagerClient */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 896B63621D9D6486001C4C51 /* Build configuration list for PBXNativeTarget "iOSDeviceManagerClient" */;
-			buildPhases = (
-				896B635A1D9D6485001C4C51 /* Sources */,
-				896B635B1D9D6485001C4C51 /* Frameworks */,
-				896B635C1D9D6485001C4C51 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = iOSDeviceManagerClient;
-			productName = iOSDeviceManagerClient;
-			productReference = 896B635E1D9D6485001C4C51 /* iOSDeviceManager */;
-			productType = "com.apple.product-type.tool";
-		};
 		89EF4AC81CFA614F006DCDC5 /* Unit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89EF4ACE1CFA614F006DCDC5 /* Build configuration list for PBXNativeTarget "Unit" */;
@@ -1129,11 +1029,6 @@
 						DevelopmentTeamName = "Karl Krukow";
 						ProvisioningStyle = Automatic;
 					};
-					896B635D1D9D6485001C4C51 = {
-						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = FYD86LA7RE;
-						ProvisioningStyle = Automatic;
-					};
 					89EF4AC81CFA614F006DCDC5 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = FYD86LA7RE;
@@ -1161,7 +1056,6 @@
 				89331D421CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4AC81CFA614F006DCDC5 /* Unit */,
 				F5D583EA1D69FF6C007B0D11 /* Integration */,
-				896B635D1D9D6485001C4C51 /* iOSDeviceManagerClient */,
 			);
 		};
 /* End PBXProject section */
@@ -1259,54 +1153,6 @@
 				896B67751D9D6D72001C4C51 /* DDTTYLogger.m in Sources */,
 				896B67381D9D6D33001C4C51 /* HTTPResponseProxy.m in Sources */,
 				896B67711D9D6D72001C4C51 /* DDLog.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		896B635A1D9D6485001C4C51 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8990186A1D9DCCA000E9FB88 /* ShellResult.m in Sources */,
-				899018691D9DCC9000E9FB88 /* ShellRunner.m in Sources */,
-				895E63BC1D9D973200F64B07 /* GCDAsyncSocket.m in Sources */,
-				896B66F11D9D6CFC001C4C51 /* HTTPServer.m in Sources */,
-				896B674F1D9D6D33001C4C51 /* RoutingHTTPServer.m in Sources */,
-				896B66E91D9D6CFC001C4C51 /* HTTPConnection.m in Sources */,
-				896B67091D9D6CFC001C4C51 /* HTTPDynamicFileResponse.m in Sources */,
-				896B66E11D9D6CFC001C4C51 /* DDRange.m in Sources */,
-				896B66D91D9D6CFC001C4C51 /* DDData.m in Sources */,
-				896B66FD1D9D6CFC001C4C51 /* MultipartMessageHeaderField.m in Sources */,
-				896B63611D9D6486001C4C51 /* main.m in Sources */,
-				896B677C1D9D6D72001C4C51 /* ContextFilterLogFormatter.m in Sources */,
-				896B673B1D9D6D33001C4C51 /* HTTPResponseProxy.m in Sources */,
-				899018641D9DA67800E9FB88 /* ServerConfig.m in Sources */,
-				896B676C1D9D6D72001C4C51 /* DDASLLogger.m in Sources */,
-				896B670D1D9D6CFC001C4C51 /* HTTPErrorResponse.m in Sources */,
-				896B67291D9D6CFC001C4C51 /* PUTResponse.m in Sources */,
-				896B67801D9D6D72001C4C51 /* DispatchQueueLogFormatter.m in Sources */,
-				896B67151D9D6CFC001C4C51 /* HTTPRedirectResponse.m in Sources */,
-				896B67431D9D6D33001C4C51 /* RouteRequest.m in Sources */,
-				896B66E51D9D6CFC001C4C51 /* HTTPAuthenticationRequest.m in Sources */,
-				896B67681D9D6D72001C4C51 /* DDAbstractDatabaseLogger.m in Sources */,
-				896B66ED1D9D6CFC001C4C51 /* HTTPMessage.m in Sources */,
-				896B67701D9D6D72001C4C51 /* DDFileLogger.m in Sources */,
-				896B67191D9D6CFC001C4C51 /* WebSocket.m in Sources */,
-				896B66DD1D9D6CFC001C4C51 /* DDNumber.m in Sources */,
-				896B673F1D9D6D33001C4C51 /* Route.m in Sources */,
-				896B67781D9D6D72001C4C51 /* DDTTYLogger.m in Sources */,
-				896B63681D9D66EA001C4C51 /* CLIShim.m in Sources */,
-				896B66F91D9D6CFC001C4C51 /* MultipartMessageHeader.m in Sources */,
-				896B67471D9D6D33001C4C51 /* RouteResponse.m in Sources */,
-				896B67111D9D6CFC001C4C51 /* HTTPFileResponse.m in Sources */,
-				896B66F51D9D6CFC001C4C51 /* MultipartFormDataParser.m in Sources */,
-				896B674B1D9D6D33001C4C51 /* RoutingConnection.m in Sources */,
-				89EC3CD61D9D872E00769382 /* CBXRoute.m in Sources */,
-				896B67741D9D6D72001C4C51 /* DDLog.m in Sources */,
-				896B671D1D9D6CFC001C4C51 /* DAVConnection.m in Sources */,
-				896B67051D9D6CFC001C4C51 /* HTTPDataResponse.m in Sources */,
-				896B67011D9D6CFC001C4C51 /* HTTPAsyncFileResponse.m in Sources */,
-				896B67211D9D6CFC001C4C51 /* DAVResponse.m in Sources */,
-				896B67251D9D6CFC001C4C51 /* DELETEResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1606,30 +1452,6 @@
 			};
 			name = Release;
 		};
-		896B63631D9D6486001C4C51 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				DEVELOPMENT_TEAM = FYD86LA7RE;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				PRODUCT_MODULE_NAME = iOSDeviceManager;
-				PRODUCT_NAME = iOSDeviceManager;
-			};
-			name = Debug;
-		};
-		896B63641D9D6486001C4C51 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				DEVELOPMENT_TEAM = FYD86LA7RE;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				PRODUCT_MODULE_NAME = iOSDeviceManager;
-				PRODUCT_NAME = iOSDeviceManager;
-			};
-			name = Release;
-		};
 		89EF4ACF1CFA614F006DCDC5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1723,15 +1545,6 @@
 			buildConfigurations = (
 				89331D4B1CE222C7003C2E59 /* Debug */,
 				89331D4C1CE222C7003C2E59 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		896B63621D9D6486001C4C51 /* Build configuration list for PBXNativeTarget "iOSDeviceManagerClient" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				896B63631D9D6486001C4C51 /* Debug */,
-				896B63641D9D6486001C4C51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
