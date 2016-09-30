@@ -12,6 +12,7 @@
 
 static NSString *const iOSDeviceManagerServerDomain = @"sh.calaba.iOSDeviceManager-server";
 static NSString *const serverName = @"iOSDeviceManagerServer";
+static BOOL alive = YES;
 
 + (RoutingHTTPServer *)router {
     static RoutingHTTPServer *server = nil;
@@ -31,6 +32,7 @@ static NSString *const serverName = @"iOSDeviceManagerServer";
         [server setName:serverName];
         [server addRoute:[self cliRoute]];
         [server addRoute:[self healthRoute]];
+        [server addRoute:[self killRoute]];
     });
 
     return server;
@@ -45,6 +47,13 @@ static NSString *const serverName = @"iOSDeviceManagerServer";
 + (CBXRoute *)healthRoute {
     return [CBXRoute get:@"/health" withBlock:^(RouteRequest *request, NSDictionary *body, RouteResponse *response) {
         [response respondWithJSON:@{@"status" : @"Reportin' for duty."}];
+    }];
+}
+
++ (CBXRoute *)killRoute {
+    return [CBXRoute get:@"/kill" withBlock:^(RouteRequest *request, NSDictionary *body, RouteResponse *response) {
+        [response respondWithJSON:@{@"status" : @"Exiting..."}];
+        alive = NO;
     }];
 }
 
@@ -86,6 +95,8 @@ static NSString *const serverName = @"iOSDeviceManagerServer";
           serverName,
           [self.router port]);
     
-    [[NSRunLoop mainRunLoop] run];
+    while (alive) {
+        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
 }
 @end

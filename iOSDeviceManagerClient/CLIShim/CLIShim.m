@@ -12,6 +12,7 @@
     NSString *$PATH = [NSProcessInfo processInfo].environment[@"PATH"];
     $PATH = [NSString stringWithFormat:@"%@:/usr/local/bin/iOSDeviceManager/bin", $PATH];
     setenv("PATH", [$PATH cStringUsingEncoding:NSUTF8StringEncoding], 1);
+    setenv("VERBOSE", "YES", 1);
     
     //If the server isn't running, try to start it.
     NSArray *response = [ShellRunner shell:@"/usr/bin/curl" args:@[healthURL]];

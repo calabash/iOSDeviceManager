@@ -25,10 +25,7 @@ build:
 # 	Installs to /usr/local/bin
 #
 install:
-	$(MAKE) clean
-	$(MAKE) install_frameworks
-	$(MAKE) build
-	bin/install.sh
+	bin/make/install.sh
 
 
 dependencies:

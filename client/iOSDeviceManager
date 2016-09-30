@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -e
+
+SERVER_BIN="/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer"
+PORT="36063"
+IP="http://localhost:$PORT"
+HEALTH="$IP/health"
+CLI="$IP/cli"
+
+function alive {
+  echo $(curl -q "${HEALTH}" 2>/dev/null)
+}
+
+if [ -z "$(alive)" ]; then
+  BIN=$(which "${SERVER_BIN}" || true)
+  if [ -z "${BIN}" ]; then
+    echo "$SERVER_BIN is not installed!"
+    exit 1
+  fi
+  exec $BIN &
+  sleep 2
+  if [ -z "$(alive)" ]; then
+    echo "$SERVER_BIN failed to start!"
+    exit 2
+  fi
+fi
+
+ARGLIST=""
+for arg in $@
+do
+  if [ "${arg}" == "${1}" ]; then
+    ARGLIST="\"${arg}\""
+  else
+    ARGLIST="${ARGLIST},\"${arg}\""
+  fi
+done
+
+curl -X POST -H "Content-Type: application/json" -d "[ ${ARGLIST} ]" "${CLI}"
