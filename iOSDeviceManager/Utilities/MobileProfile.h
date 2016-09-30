@@ -21,6 +21,8 @@
                                   identity:(CodesignIdentity *)identity
                                 deviceUDID:(NSString *)deviceUDID;
 
+- (BOOL)isValidForDeviceUDID:(NSString *)deviceUDID
+                    identity:(CodesignIdentity *)identity;
 
 - (NSString *)AppIDName;
 - (NSArray<NSString *> *)ApplicationIdentifierPrefix;

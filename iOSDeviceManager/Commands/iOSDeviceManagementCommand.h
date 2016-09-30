@@ -3,6 +3,7 @@
 #import "ServerConfig.h"
 #import "CommandOption.h"
 
+
 @protocol iOSDeviceManagementCommand <NSObject>
 + (NSString *)name;
 + (void)printUsage;
