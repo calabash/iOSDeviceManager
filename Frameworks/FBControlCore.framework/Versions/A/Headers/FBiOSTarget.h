@@ -37,6 +37,7 @@ typedef NS_OPTIONS(NSUInteger, FBiOSTargetType) {
   FBiOSTargetTypeNone = 0,
   FBiOSTargetTypeSimulator = 1 << 0,
   FBiOSTargetTypeDevice = 1 << 1,
+  FBiOSTargetTypeAll = FBiOSTargetTypeSimulator | FBiOSTargetTypeDevice,
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -70,6 +71,11 @@ NS_ASSUME_NONNULL_BEGIN
  Process Information about the launchd process of the iOS Target. Currently only applies to Simulators.
  */
 @property (nonatomic, copy, nullable, readonly) FBProcessInfo *launchdProcess;
+
+/**
+ Process Information about the Container Application of the iOS Target. Currently only applies to Simulators.
+ */
+@property (nonatomic, copy, nullable, readonly) FBProcessInfo *containerApplication;
 
 /**
  The Configuration of the iOS Target's Device.

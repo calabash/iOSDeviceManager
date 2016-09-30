@@ -13,6 +13,8 @@
 
 @class FBSimulator;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface FBSimulatorLaunchConfiguration (Helpers)
 
 /**
@@ -22,7 +24,7 @@
  @param error an error out for any error that occurs.
  @return an NSArray<NSString> of boot arguments, or nil if an error occurred.
  */
- - (NSArray *)xcodeSimulatorApplicationArgumentsForSimulator:(FBSimulator *)simulator error:(NSError **)error;
+ - (NSArray<NSString *> *)xcodeSimulatorApplicationArgumentsForSimulator:(FBSimulator *)simulator error:(NSError **)error;
 
 /**
  Whether the reciever represents a configuration that should call SimDevice booting directly.
@@ -45,3 +47,5 @@
 - (BOOL)shouldConnectBridge;
 
 @end
+
+NS_ASSUME_NONNULL_END

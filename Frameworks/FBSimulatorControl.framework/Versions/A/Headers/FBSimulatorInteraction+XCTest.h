@@ -11,39 +11,39 @@
 
 @class FBApplicationLaunchConfiguration;
 @class FBTestBundle;
+@class FBTestLaunchConfiguration;
 @protocol FBTestManagerTestReporter;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface FBSimulatorInteraction (XCTest)
 
 /**
  Starts testing application using test bundle. It will use simulator's auxillaryDirectory as working directory
 
- @param configuration configuration used to launch test runner application.
- @param testBundlePath path to XCTest bundle used for testing.
+ @param testLaunchConfiguration configuration used to launch test.
  @return the reciever, for chaining.
  */
-- (instancetype)startTestRunnerLaunchConfiguration:(FBApplicationLaunchConfiguration *)configuration testBundlePath:(NSString *)testBundlePath;
-
-/**
- Starts testing application using test bundle. It will use simulator's auxillaryDirectory as working directory
-
- @param configuration configuration used to launch test runner application.
- @param testBundlePath path to XCTest bundle used for testing.
- @param reporter the reporter to report to.
- @return the reciever, for chaining.
- */
-- (instancetype)startTestRunnerLaunchConfiguration:(FBApplicationLaunchConfiguration *)configuration testBundlePath:(NSString *)testBundlePath reporter:(id<FBTestManagerTestReporter>)reporter;
+- (instancetype)startTestWithLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration;
 
 /**
  Starts testing application using test bundle.
 
- @param configuration configuration used to launch test runner application.
- @param testBundlePath path to XCTest bundle used for testing
+ @param testLaunchConfiguration configuration used to launch test.
+ @param reporter the reporter to report to.
+ @return the reciever, for chaining.
+ */
+- (instancetype)startTestWithLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration reporter:(nullable id<FBTestManagerTestReporter>)reporter;
+
+/**
+ Starts testing application using test bundle.
+
+ @param testLaunchConfiguration configuration used to launch test.
  @param reporter the reporter to report to.
  @param workingDirectory xctest working directory.
  @return the reciever, for chaining.
  */
-- (instancetype)startTestRunnerLaunchConfiguration:(FBApplicationLaunchConfiguration *)configuration testBundlePath:(NSString *)testBundlePath reporter:(id<FBTestManagerTestReporter>)reporter workingDirectory:(NSString *)workingDirectory;
+- (instancetype)startTestWithLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration reporter:(nullable id<FBTestManagerTestReporter>)reporter workingDirectory:(nullable NSString *)workingDirectory;
 
 /**
  Starting test runner does not wait till test execution has finished. In same maner as starting application does not wait till application has finished execution.
@@ -55,3 +55,5 @@
 - (instancetype)waitUntilAllTestRunnersHaveFinishedTestingWithTimeout:(NSTimeInterval)timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END
