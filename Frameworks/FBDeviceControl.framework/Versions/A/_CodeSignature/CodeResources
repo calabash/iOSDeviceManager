@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			Z28GFV0vGo15gIm5smHBe7kA/mY=
+			OzZb/kr7jFJw0dL5TDiVUIRMpfo=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			PAkSfQpf4cwU8vZw7Ui6T8TfRI4=
+			VrhCByzV6PCFtuFv4QousZEbero=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
