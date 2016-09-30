@@ -38,8 +38,8 @@
     CodesignIdentity *bestIdentity = nil;
     NSInteger bestIdentityRank = NSIntegerMax;
     
-    for(CodesignIdentity *identity in [self validIOSDeveloperIdentities]) {
-        for(MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
+    for (CodesignIdentity *identity in [self validIOSDeveloperIdentities]) {
+        for (MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
             if ([profile isValidForDeviceUDID:deviceId identity:identity]) {
                 NSInteger rank = [Entitlements
                                   rankByComparingProfileEntitlements:profile.Entitlements
