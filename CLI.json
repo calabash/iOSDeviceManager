@@ -86,7 +86,7 @@
         "-a" : {
             "longFlag" : "--app-arguments",
             "optionName" : "app-args",
-            "info" : "App arguments to be passed on launch",
+            "info" : "App arguments to be passed at launch",
             "required" : false,
             "default" : ""
         },
