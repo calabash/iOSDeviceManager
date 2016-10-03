@@ -14,5 +14,8 @@
 - (BOOL)signBundleAtPath:(NSString *)bundlePath
                    error:(NSError **)error;
 
+- (BOOL)signSimBundleAtPath:(NSString *)bundlePath
+                      error:(NSError **)error;
+
 - (NSString *)codeSignIdentity;
 @end
