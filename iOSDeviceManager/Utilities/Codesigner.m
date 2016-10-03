@@ -51,14 +51,20 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     }
 }
 
-- (BOOL)signSimBundleAtPath:(NSString *)bundlePath
-                      error:(NSError **)error {
+- (BOOL)signBundleAtPath:(NSString *)bundlePath
+                   error:(NSError **)error {
     NSAssert(self.deviceUDID != nil,
              @"Can not have a codesign command without a device");
 
     BundleResigner *resigner;
-    resigner = [[BundleResignerFactory shared] adHocResignerWithBundlePath:bundlePath
-                                                                deviceUDID:self.deviceUDID];
+    if (self.codeSignIdentity != nil) {
+        resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
+                                                           deviceUDID:self.deviceUDID
+                                                signingIdentityString:self.codeSignIdentity];
+    } else {
+        resigner = [[BundleResignerFactory shared] adHocResignerWithBundlePath:bundlePath
+                                                                    deviceUDID:self.deviceUDID];
+    }
 
     if (!resigner) {
         if (error) {
@@ -76,7 +82,12 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
         return NO;
     }
 
-    BOOL success = [resigner resignSimBundle];
+    BOOL success;
+    if (self.codeSignIdentity != nil) {
+        success = [resigner resign];
+    } else {
+        success = [resigner resignSimBundle];
+    }
 
     if (!success) {
         if (error) {
@@ -92,7 +103,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
         }
         return NO;
     }
-    
+
     return success;
 }
 
