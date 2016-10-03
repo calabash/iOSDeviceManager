@@ -95,53 +95,6 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     return success;
 }
 
-- (BOOL)signBundleAtPath:(NSString *)bundlePath
-                   error:(NSError **)error {
-    NSAssert(self.codeSignIdentity != nil,
-             @"Can not have a codesign command without an identity name");
-    NSAssert(self.deviceUDID != nil,
-             @"Can not have a codesign command without a device");
-
-    BundleResigner *resigner;
-    resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
-                                                           deviceUDID:self.deviceUDID
-                                                signingIdentityString:self.codeSignIdentity];
-    if (!resigner) {
-        if (error) {
-            NSString *description = @"Could not resign with the given arguments";
-            NSString *reason = @"The device UDID and code signing identity were invalid for"
-            "some reason.  Please check the logs.";
-            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
-                                       NSLocalizedFailureReasonErrorKey: reason
-                                       };
-
-            *error = [NSError errorWithDomain:IDMCodeSignErrorDomain
-                                         code:iOSReturnStatusCodeInternalError
-                                     userInfo:userInfo];
-        }
-        return NO;
-    }
-
-    BOOL success = [resigner resign];
-
-    if (!success) {
-        if (error) {
-            NSString *description = @"Code signing failed";
-            NSString *reason = @"There was a problem code signing. Please check the logs.";
-            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
-                                       NSLocalizedFailureReasonErrorKey: reason
-                                       };
-
-            *error = [NSError errorWithDomain:IDMCodeSignErrorDomain
-                                         code:iOSReturnStatusCodeInternalError
-                                     userInfo:userInfo];
-        }
-        return NO;
-    }
-
-    return success;
-}
-
 /*
     FBSimulatorControl/FBCodesignCommand.m
     - (nullable NSString *)cdHashForBundleAtPath:(NSString *)bundlePath error:(NSError **)error
