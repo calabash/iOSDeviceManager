@@ -160,6 +160,24 @@
     return self;
 }
 
+- (instancetype)initWithBundlePath:(NSString *)bundlePath
+                          identity:(CodesignIdentity *)identity
+                        deviceUDID:(NSString *)deviceUDID {
+    self = [super init];
+    if (self) {
+        _bundlePath = bundlePath;
+        _originalEntitlements = nil;
+        if (identity) {
+            _identity = identity;
+        } else {
+            _identity = [[CodesignIdentity alloc] initWithShasum:@"-" name:@"-"];
+        }
+        _mobileProfile = nil;
+        _deviceUDID = deviceUDID;
+    }
+    return self;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<BundleResigner: %@\n    %@\n    %@\n    %@\n>",
             [self.bundlePath lastPathComponent],
@@ -174,6 +192,13 @@
     [self replaceOrCreateXcentFile] &&
     [self resignAppPlugIns] &&
     [self resignDylibsAndFrameworks] && [self resignAppOrPlugInBundle];
+}
+
+- (BOOL)resignSimBundle {
+    return
+    [self resignAppPlugIns] &&
+    [self resignDylibsAndFrameworks] &&
+    [self resignAppOrPlugInBundleWithoutEntitlements];
 }
 
 - (BOOL)resignAppOrPlugInBundle {
@@ -218,6 +243,49 @@
 
     return YES;
 }
+
+- (BOOL)resignAppOrPlugInBundleWithoutEntitlements {
+
+    NSArray<NSString *> *args = @[@"codesign",
+                                  @"--force",
+                                  @"--sign", self.identity.shasum,
+                                  @"--verbose=4",
+                                  self.bundlePath];
+
+    ShellResult *result = [ShellRunner xcrun:args timeout:10];
+    if (!result.success) {
+        NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);
+        NSLog(@"ERROR: with command:\n    %@", result.command);
+        if (result.didTimeOut) {
+            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
+        } else {
+            NSLog(@"ERROR: === STDERR ===");
+            NSLog(@"%@", result.stderrStr);
+        }
+        return NO;
+    }
+
+    args = @[@"codesign",
+             @"--verbose=4",
+             @"--verify", [self executablePath]];
+
+    result = [ShellRunner xcrun:args timeout:10];
+
+    if (!result.success) {
+        NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);
+        NSLog(@"ERROR: with command:\n    %@", result.command);
+        if (result.didTimeOut) {
+            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
+        } else {
+            NSLog(@"ERROR: === STDERR ===");
+            NSLog(@"%@", result.stderrStr);
+        }
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 - (BOOL)resignAppPlugIns {
     NSArray *plugIns = self.signableAssets[@"plug-ins"];

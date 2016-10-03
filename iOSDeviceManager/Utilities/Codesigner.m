@@ -32,6 +32,15 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     return self;
 }
 
+- (instancetype)initAdHocWithDeviceUDID:(NSString *)deviceUDID {
+    self = [super init];
+    if (self) {
+        _codeSignIdentity = nil;
+        _deviceUDID = deviceUDID;
+    }
+    return self;
+}
+
 - (NSString *)description {
     if (self.codeSignIdentity && self.deviceUDID) {
         return [NSString stringWithFormat:@"#<Codesigner %@ : %@>",
@@ -39,6 +48,51 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     } else {
         return @"#<Codesigner *** CANNOT CODESIGN ***>";
     }
+}
+
+- (BOOL)signSimBundleAtPath:(NSString *)bundlePath
+                      error:(NSError **)error {
+    NSAssert(self.deviceUDID != nil,
+             @"Can not have a codesign command without a device");
+
+    BundleResigner *resigner;
+    resigner = [[BundleResignerFactory shared] adHocResignerWithBundlePath:bundlePath
+                                                                deviceUDID:self.deviceUDID];
+
+    if (!resigner) {
+        if (error) {
+            NSString *description = @"Could not resign with the given arguments";
+            NSString *reason = @"The device UDID and code signing identity were invalid for"
+            "some reason.  Please check the logs.";
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
+                                       NSLocalizedFailureReasonErrorKey: reason
+                                       };
+
+            *error = [NSError errorWithDomain:IDMCodeSignErrorDomain
+                                         code:iOSReturnStatusCodeInternalError
+                                     userInfo:userInfo];
+        }
+        return NO;
+    }
+
+    BOOL success = [resigner resignSimBundle];
+
+    if (!success) {
+        if (error) {
+            NSString *description = @"Code signing failed";
+            NSString *reason = @"There was a problem code signing. Please check the logs.";
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
+                                       NSLocalizedFailureReasonErrorKey: reason
+                                       };
+
+            *error = [NSError errorWithDomain:IDMCodeSignErrorDomain
+                                         code:iOSReturnStatusCodeInternalError
+                                     userInfo:userInfo];
+        }
+        return NO;
+    }
+    
+    return success;
 }
 
 - (BOOL)signBundleAtPath:(NSString *)bundlePath
