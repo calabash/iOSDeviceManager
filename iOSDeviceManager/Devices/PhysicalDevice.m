@@ -348,6 +348,44 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
++ (iOSReturnStatusCode)launchApp:(NSString *)bundleID appArgs:(NSString *)appArgs appEnv:(NSString *)appEnv deviceID:(NSString *)deviceID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    NSError *err;
+    NSMutableArray<NSString *> *appArgsArray = [NSMutableArray arrayWithArray:[appArgs componentsSeparatedByString:@" "]];
+    NSMutableArray<NSString *> *appEnvArray = [NSMutableArray arrayWithArray:[appEnv componentsSeparatedByString:@" "]];
+    [appArgsArray removeObject:@""];
+    [appEnvArray removeObject:@""];
+    NSMutableDictionary *appEnvDictionary = [[NSMutableDictionary alloc] init];
+    
+    for (NSString *env in appEnvArray) {
+         NSArray<NSString *> *keyValEnv = [env componentsSeparatedByString:@":"];
+        [appEnvDictionary[keyValEnv[0]] addObject:keyValEnv[1]];
+    }
+    
+    BOOL launched = [device.deviceOperator launchApplicationWithBundleID:bundleID arguments:appArgsArray environment: appEnvDictionary                                                             error:&err];
+    if (err) {
+        NSLog(@"Error checking if %@ is launched to %@ with appArgs %@ and appEnv %@: %@", bundleID, deviceID, appArgs, appEnv, err);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return launched ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
+}
+
++ (iOSReturnStatusCode)terminateApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    NSError *err;
+    
+    BOOL killed = [device.deviceOperator killApplicationWithBundleID:bundleID error:&err];
+    if (err) {
+        NSLog(@"Error checking if %@ is killed on %@: %@", bundleID, deviceID, err);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return killed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
+}
+
 + (iOSReturnStatusCode)setLocation:(NSString *)deviceID
                                lat:(double)lat
                                lng:(double)lng {
