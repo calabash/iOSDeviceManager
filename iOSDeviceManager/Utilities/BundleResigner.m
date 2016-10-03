@@ -19,7 +19,7 @@
 
 - (BOOL)resignAppPlugIns;
 - (BOOL)resignPlugInAtPath:(NSString *)path;
-- (BOOL)resignAppOrPlugInBundle;
+- (BOOL)resignAppOrPluginBundleWithEntitlements:(BOOL)withEntitlements;
 - (BOOL)resignLibrary:(NSString *)path;
 - (BOOL)resignDylibsAndFrameworks;
 - (NSString *)embeddedMobileProvisionPath;
@@ -191,24 +191,33 @@
     [self replaceEmbeddedMobileProvision] &&
     [self replaceOrCreateXcentFile] &&
     [self resignAppPlugIns] &&
-    [self resignDylibsAndFrameworks] && [self resignAppOrPlugInBundle];
+    [self resignDylibsAndFrameworks] && [self resignAppOrPluginBundleWithEntitlements:YES];
 }
 
 - (BOOL)resignSimBundle {
     return
     [self resignAppPlugIns] &&
     [self resignDylibsAndFrameworks] &&
-    [self resignAppOrPlugInBundleWithoutEntitlements];
+    [self resignAppOrPluginBundleWithEntitlements:NO];
 }
 
-- (BOOL)resignAppOrPlugInBundle {
+- (BOOL)resignAppOrPluginBundleWithEntitlements:(BOOL)withEntitlements {
+    NSArray<NSString *> *args;
+    if (withEntitlements) {
+        args = @[@"codesign",
+                 @"--force",
+                 @"--sign", self.identity.shasum,
+                 @"--verbose=4",
+                 @"--entitlements", [self xcentPath],
+                 self.bundlePath];
 
-    NSArray<NSString *> *args = @[@"codesign",
-                                  @"--force",
-                                  @"--sign", self.identity.shasum,
-                                  @"--verbose=4",
-                                  @"--entitlements", [self xcentPath],
-                                  self.bundlePath];
+    } else {
+        args = @[@"codesign",
+                 @"--force",
+                 @"--sign", self.identity.shasum,
+                 @"--verbose=4",
+                 self.bundlePath];
+    }
 
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     if (!result.success) {
@@ -243,49 +252,6 @@
 
     return YES;
 }
-
-- (BOOL)resignAppOrPlugInBundleWithoutEntitlements {
-
-    NSArray<NSString *> *args = @[@"codesign",
-                                  @"--force",
-                                  @"--sign", self.identity.shasum,
-                                  @"--verbose=4",
-                                  self.bundlePath];
-
-    ShellResult *result = [ShellRunner xcrun:args timeout:10];
-    if (!result.success) {
-        NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
-        if (result.didTimeOut) {
-            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
-        } else {
-            NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderrStr);
-        }
-        return NO;
-    }
-
-    args = @[@"codesign",
-             @"--verbose=4",
-             @"--verify", [self executablePath]];
-
-    result = [ShellRunner xcrun:args timeout:10];
-
-    if (!result.success) {
-        NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
-        if (result.didTimeOut) {
-            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
-        } else {
-            NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderrStr);
-        }
-        return NO;
-    }
-    
-    return YES;
-}
-
 
 - (BOOL)resignAppPlugIns {
     NSArray *plugIns = self.signableAssets[@"plug-ins"];
