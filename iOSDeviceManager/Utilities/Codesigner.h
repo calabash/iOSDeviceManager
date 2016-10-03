@@ -11,8 +11,8 @@
 
 - (instancetype)initAdHocWithDeviceUDID:(NSString *)deviceUDID;
 
-- (BOOL)signSimBundleAtPath:(NSString *)bundlePath
-                      error:(NSError **)error;
+- (BOOL)signBundleAtPath:(NSString *)bundlePath
+                   error:(NSError **)error;
 
 - (NSString *)codeSignIdentity;
 @end
