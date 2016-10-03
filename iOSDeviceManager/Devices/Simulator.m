@@ -329,7 +329,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"Error resigning sim bundle");
         NSLog(@"  Path to bundle: %@", pathToBundle);
         NSLog(@"  Device UDID: %@", deviceID);
-        NSLog(@"  ERROR: %@", signErr);
+        NSLog(@"  ERROR: %@", signError);
         return iOSReturnStatusCodeGenericFailure;
     }
 
