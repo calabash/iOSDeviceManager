@@ -23,7 +23,9 @@ static NSString *const APPENVIRONMENT_ID_FLAG = @"-e";
         appEnv = args[APPENVIRONMENT_ID_FLAG];
     }
     
-    return [PhysicalDevice launchApp:args[BUNDLE_ID_FLAG] appArgs:appArgs appEnv:appEnv deviceID:args[DEVICE_ID_FLAG]];
+    return [PhysicalDevice launchApp:args[BUNDLE_ID_FLAG] appArgs:appArgs
+                                                           appEnv:appEnv
+                                                         deviceID:args[DEVICE_ID_FLAG]];
 }
 
 @end

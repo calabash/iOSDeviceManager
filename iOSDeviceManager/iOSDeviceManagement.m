@@ -64,9 +64,9 @@ int launch_app(const char *bundleID, const char *appArgs, const char *appEnv, co
     }
 }
 
-int kill_app(const char *bundleID, const char *deviceID) {
+int terminate_app(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
-        return [PhysicalDevice killApp:STR(bundleID)
+        return [PhysicalDevice terminateApp:STR(bundleID)
                              deviceID:STR(deviceID)];
     }
 }

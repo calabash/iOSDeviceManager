@@ -365,7 +365,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return launched ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
-+ (iOSReturnStatusCode)killApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
++ (iOSReturnStatusCode)terminateApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
     

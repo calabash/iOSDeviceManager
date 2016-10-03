@@ -37,7 +37,7 @@
 		63424FEAE76809A65BF90953 /* EntitlementTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6342445D4215DC668C7923B2 /* EntitlementTest.m */; };
 		63424FF90B5F065931C9E5E7 /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 634242530988C4D64BD8E860 /* BundleResignerFactory.m */; };
 		64EE0D871D9E18BB0012E14D /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EE0D841D9E08110012E14D /* LaunchAppCommand.m */; };
-		64EE0D8A1D9E24560012E14D /* KillAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EE0D891D9E24560012E14D /* KillAppCommand.m */; };
+		64EE0D8A1D9E24560012E14D /* TerminateAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EE0D891D9E24560012E14D /* TerminateAppCommand.m */; };
 		892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93BC1D391D4100154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
@@ -292,8 +292,8 @@
 		63424F3CF58B84EE37CCE3FB /* CodesignerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignerTest.m; sourceTree = "<group>"; };
 		64EE0D831D9E07F00012E14D /* LaunchAppCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchAppCommand.h; sourceTree = SOURCE_ROOT; };
 		64EE0D841D9E08110012E14D /* LaunchAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAppCommand.m; sourceTree = SOURCE_ROOT; };
-		64EE0D881D9E24420012E14D /* KillAppCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KillAppCommand.h; sourceTree = SOURCE_ROOT; };
-		64EE0D891D9E24560012E14D /* KillAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KillAppCommand.m; sourceTree = SOURCE_ROOT; };
+		64EE0D881D9E24420012E14D /* TerminateAppCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TerminateAppCommand.h; sourceTree = SOURCE_ROOT; };
+		64EE0D891D9E24560012E14D /* TerminateAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminateAppCommand.m; sourceTree = SOURCE_ROOT; };
 		892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = SimulateLocationCommand.h; path = iOSDeviceManager/Commands/SimulateLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = SimulateLocationCommand.m; path = iOSDeviceManager/Commands/SimulateLocationCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = StopSimulatingLocationCommand.h; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -449,8 +449,8 @@
 				892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */,
 				64EE0D831D9E07F00012E14D /* LaunchAppCommand.h */,
 				64EE0D841D9E08110012E14D /* LaunchAppCommand.m */,
-				64EE0D881D9E24420012E14D /* KillAppCommand.h */,
-				64EE0D891D9E24560012E14D /* KillAppCommand.m */,
+				64EE0D881D9E24420012E14D /* TerminateAppCommand.h */,
+				64EE0D891D9E24560012E14D /* TerminateAppCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -833,7 +833,7 @@
 				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				89B50D801D466BB800F34D67 /* AppUtils.m in Sources */,
 				F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */,
-				64EE0D8A1D9E24560012E14D /* KillAppCommand.m in Sources */,
+				64EE0D8A1D9E24560012E14D /* TerminateAppCommand.m in Sources */,
 				892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */,
 				892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
