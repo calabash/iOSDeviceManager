@@ -322,7 +322,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     Codesigner *signer = [[Codesigner alloc] initAdHocWithDeviceUDID:deviceID];
     NSError *signError;
-    [signer signSimBundleAtPath:pathToBundle
+    [signer signBundleAtPath:pathToBundle
                           error:&signError];
 
     if (signError) {
