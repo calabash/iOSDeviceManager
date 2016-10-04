@@ -4,7 +4,6 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import <FBControlCore/FBControlCore.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
-#import "ServerConfig.h"
 #import "ShellRunner.h"
 #import "Codesigner.h"
 #import "AppUtils.h"
