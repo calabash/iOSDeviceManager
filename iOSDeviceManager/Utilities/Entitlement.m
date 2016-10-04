@@ -44,7 +44,7 @@
                 if ([appSet isEqualToSet:profSet]) {
                     return ProfileHasKeyExactly;
                 } else {
-                    return ProfileHasKeyExactly;
+                    return ProfileHasKey;
                 }
             }
         } else if ([profileEntitlement hasNSStringValue]) {
@@ -93,6 +93,9 @@
         // Somehow we've reached a point where the app entitlement is
         // neither string nor array.  We don't know what to do here
     }
+    // We should never reach this point... if we reached this point, we've hit a
+    // WTF branch.  I am assuming that if we hit a WTF, we should assume it's not
+    // a match
     return ProfileDoesNotHaveRequiredKey;
 }
 
