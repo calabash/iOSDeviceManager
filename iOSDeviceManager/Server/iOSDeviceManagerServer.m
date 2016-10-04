@@ -33,7 +33,7 @@ static BOOL alive = YES;
         [server setName:serverName];
         [server addRoute:[self cliRoute]];
         [server addRoute:[self healthRoute]];
-        [server addRoute:[self killRoute]];
+        [server addRoute:[self shutdownRoute]];
     });
 
     return server;
@@ -51,8 +51,8 @@ static BOOL alive = YES;
     }];
 }
 
-+ (CBXRoute *)killRoute {
-    return [CBXRoute get:@"/kill" withBlock:^(RouteRequest *request, NSDictionary *body, RouteResponse *response) {
++ (CBXRoute *)shutdownRoute {
+    return [CBXRoute get:@"/shutdown" withBlock:^(RouteRequest *request, NSDictionary *body, RouteResponse *response) {
         [response respondWithJSON:@{@"status" : @"Exiting..."}];
         alive = NO;
     }];

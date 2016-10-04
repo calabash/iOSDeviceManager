@@ -11,5 +11,7 @@ typedef NS_ENUM(int, iOSReturnStatusCode) {
     iOSReturnStatusCodeInternalError,
     iOSReturnStatusCodeUnrecognizedCommand,
     iOSReturnStatusCodeUnrecognizedFlag,
-    iOSReturnStatusCodeDeviceNotFound
+    iOSReturnStatusCodeDeviceNotFound,
+    iOSReturnStatusCodeNoValidCodesignIdentity
+
 };
