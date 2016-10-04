@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0810"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89331D421CE222C7003C2E59"
-               BuildableName = "iOSDeviceManager"
+               BuildableName = "iOSDeviceManagerServer"
                BlueprintName = "iOSDeviceManager"
                ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "iOSDeviceManager"
+            BuildableName = "iOSDeviceManagerServer"
             BlueprintName = "iOSDeviceManager"
             ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "iOSDeviceManager"
+            BuildableName = "iOSDeviceManagerServer"
             BlueprintName = "iOSDeviceManager"
             ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "iOSDeviceManager"
+            BuildableName = "iOSDeviceManagerServer"
             BlueprintName = "iOSDeviceManager"
             ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
          </BuildableReference>

@@ -13,6 +13,7 @@
  */
 + (NSArray<NSString *> *)shell:(NSString *)cmd args:(NSArray *)args {
     NSMutableString *argString = [cmd mutableCopy];
+    
     for (NSString *arg in args) {
         [argString appendFormat:@" %@", arg];
     }
@@ -27,6 +28,16 @@
     [task setStandardOutput: pipe];
 
     NSFileHandle *file = [pipe fileHandleForReading];
+    
+    @try {
+        BOOL exists = [[NSFileManager defaultManager] isExecutableFileAtPath:[task launchPath]];
+        if (!exists) {
+            NSLog(@"'%@' does not exist!", task.launchPath);
+            return nil;
+        }
+    } @catch (NSException *e) {
+        NSLog(@"Error executing %@: %@", task.launchPath, e);
+    }
 
     [task launch];
 
@@ -40,6 +51,12 @@
 
     NSString *string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
     return [string componentsSeparatedByString:@"\n"];
+}
+
++ (void)shellInBackground:(NSString *)cmd args:(NSArray *)args {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"%@", [self shell:cmd args:args]);
+    });
 }
 
 + (ShellResult *)xcrun:(NSArray *)args timeout:(NSTimeInterval)timeout {
@@ -108,6 +125,11 @@
 
 + (NSString *)tmpDir {
     return NSTemporaryDirectory();
+}
+
++ (NSString *)which:(NSString *)prog {
+    NSArray <NSString *> *results = [self shell:@"/usr/bin/which" args:@[prog ?: @""]];
+    return results.count > 0 ? results[0] : nil;
 }
 
 + (BOOL)verbose {

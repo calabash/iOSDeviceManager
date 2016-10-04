@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -e
+
+SERVER_BIN="/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer"
+PORT="36063"
+IP="http://localhost:$PORT"
+HEALTH="$IP/health"
+CLI="$IP/cli"
+
+function alive {
+  echo $(curl -q "${HEALTH}" 2>/dev/null)
+}
+
+function error {
+  if [ "${TERM}" = "dumb" ]; then
+    echo "ERROR: $1"
+  else
+    echo "$(tput setaf 1)ERROR: $1$(tput sgr0)"
+  fi
+}
+
+if [ ! -z "${IOSDEVICEMANAGER_PATH}" ]; then
+  SERVER_BIN="${IOSDEVICEMANAGER_PATH}"
+fi
+
+if [ ! -e "${SERVER_BIN}" ]; then
+   error "Can not find iOSDeviceManagerServer"
+   error "Ensure it is installed or set IOSDEVICEMANAGER_PATH=/path/to/iOSDeviceManagerServer"
+   exit 1
+fi 
+
+if [ -z "$(alive)" ]; then
+  BIN=$(which "${SERVER_BIN}" || true)
+  if [ -z "${BIN}" ]; then
+    error "$SERVER_BIN is not installed!"
+    exit 2
+  fi
+  exec $BIN &
+  sleep 2
+  if [ -z "$(alive)" ]; then
+    error "$SERVER_BIN failed to start!"
+    exit 3
+  fi
+fi
+
+ARGLIST=""
+for arg in $@
+do
+  if [ "${arg}" == "${1}" ]; then
+    ARGLIST="\"${arg}\""
+  else
+    ARGLIST="${ARGLIST},\"${arg}\""
+  fi
+done
+
+curl -X POST -H "Content-Type: application/json" -d "[ ${ARGLIST} ]" "${CLI}"
