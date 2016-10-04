@@ -170,7 +170,7 @@
         if (identity) {
             _identity = identity;
         } else {
-            _identity = [[CodesignIdentity alloc] initWithShasum:@"-" name:@"-"];
+            _identity = [CodesignIdentity adHoc];
         }
         _mobileProfile = nil;
         _deviceUDID = deviceUDID;
