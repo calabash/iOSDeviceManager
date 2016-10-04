@@ -3,6 +3,7 @@
 #import "BundleResignerFactory.h"
 #import "BundleResigner.h"
 #import "iOSDeviceManagementCommand.h"
+#import "TestParameters.h"
 
 static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
@@ -56,7 +57,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
              @"Can not have a codesign command without a device");
 
     BundleResigner *resigner;
-    if (self.codeSignIdentity != nil) {
+    if ([TestParameters isDeviceID:self.deviceUDID]) {
         resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
                                                            deviceUDID:self.deviceUDID
                                                 signingIdentityString:self.codeSignIdentity];
@@ -82,7 +83,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     }
 
     BOOL success;
-    if (self.codeSignIdentity != nil) {
+    if ([TestParameters isDeviceID:self.deviceUDID]) {
         success = [resigner resign];
     } else {
         success = [resigner resignSimBundle];
