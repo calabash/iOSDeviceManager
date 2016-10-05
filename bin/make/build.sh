@@ -36,7 +36,7 @@ xcrun xcodebuild \
 rm -rf Products
 mkdir Products
 
-ditto build/Release/iOSDeviceManager Products/iOSDeviceManager
+ditto build/Release/iOSDeviceManagerServer Products/iOSDeviceManagerServer
 ditto build/Release/CLI.json Products/CLI.json
 ditto build/Release/Frameworks Products/Frameworks
 

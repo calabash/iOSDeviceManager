@@ -69,16 +69,16 @@ static NSDictionary *CLIDict;
 }
 
 + (iOSReturnStatusCode)process:(NSArray<NSString *> *)args {
-    if (args.count <= 1) {
+    if (args.count < 1) {
         [self printUsage];
         return iOSReturnStatusCodeEverythingOkay;
     } else {
-        NSString *commandName = [args[1] lowercaseString];
+        NSString *commandName = [args[0] lowercaseString];
         Class <iOSDeviceManagementCommand> command = commandClasses[commandName];
         if (command) {
             
             //Ensure args can be parsed correctly
-            NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
+            NSArray *cmdArgs = args.count == 1 ? @[] : [args subarrayWithRange:NSMakeRange(1, args.count - 1)];
             int ec;
             NSDictionary *parsedArgs = [command parseArgs:cmdArgs exitCode:&ec];
             if (ec != iOSReturnStatusCodeEverythingOkay) {
