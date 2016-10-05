@@ -103,18 +103,15 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
 
     NSInteger sum = 0;
     EntitlementComparisonResult current;
-    BOOL isAssociatedDomainsKey;
 
     for(NSString *key in keys) {
-        isAssociatedDomainsKey = [kAssociatedDomainsEntitlementKey isEqualToString:key];
 
         appEntitlement = [Entitlement entitlementWithKey:key
                                                    value:appEntitlements[key]];
         profileEntitlement = [Entitlement entitlementWithKey:key
                                                        value:profileEntitlements[key]];
         current = [Entitlement compareProfileEntitlement:profileEntitlement
-                                          appEntitlement:appEntitlement
-                                  isAssociatedDomainsKey:isAssociatedDomainsKey];
+                                          appEntitlement:appEntitlement];
         if (current == ProfileDoesNotHaveRequiredKey) {
             sum = ProfileDoesNotHaveRequiredKey;
             break;

@@ -16,8 +16,7 @@ typedef enum : NSInteger {
 @interface Entitlement : NSObject
 
 + (EntitlementComparisonResult)compareProfileEntitlement:(Entitlement *)profileEntitlement
-                                          appEntitlement:(Entitlement *)appEntitlement
-                                  isAssociatedDomainsKey:(BOOL)isAssociatedDomainsKey;
+                                          appEntitlement:(Entitlement *)appEntitlement;
 
 + (Entitlement *)entitlementWithKey:(NSString *)key
                               value:(id)value;

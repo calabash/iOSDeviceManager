@@ -3,10 +3,6 @@
 #import "Entitlement.h"
 
 @interface Entitlement (TEST)
-
-+ (EntitlementComparisonResult)compareAssociatedDomains:(Entitlement *)profileEntitlement
-                                         appEntitlement:(Entitlement *)appEntitlement;
-
 - (BOOL)hasNSArrayValue;
 - (BOOL)hasNSStringValue;
 
@@ -61,52 +57,40 @@ __block Entitlement *profile;
 __block Entitlement *app;
 __block EntitlementComparisonResult actual;
 
-context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
+/*
+ // Reject
+ ProfileDoesNotHaveRequiredKey = -1,
+
+ AppNorProfileHasKey = 0,
+
+ // Accept
+ ProfileHasKeyExactly = 1,
+ ProfileHasKey = 100,
+ ProfileHasUnRequiredKey = 1000,
+ */
+
+// app: string, prof: array,  result: match
+// app: string, prof: array,  result: fail
+// app: array,  prof: array,  result: match
+// app: array,  prof: array,  result: fail
+// app: array,  prof: string, result: match
+// app: array,  prof: string, result: fail
+
+context(@".compareProfileEntitlement:appEntitlement:", ^{
     it(@"returns ProfileDoesNotHaveRequiredKey when profile is missing key", ^{
         profile = [Entitlement entitlementWithKey:@"key" value:nil];
         app = [Entitlement entitlementWithKey:@"key" value:@"value"];
         actual = [Entitlement compareProfileEntitlement:profile
-                                         appEntitlement:app
-                                 isAssociatedDomainsKey:NO];
+                                         appEntitlement:app];
 
         expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
-    });
-
-    it(@"returns ProfileDoesNotHaveRequiredKey when there are mix values outside of an associated domains key comparison", ^{
-        profile = [Entitlement entitlementWithKey:@"key" value:@[@"a"]];
-        app = [Entitlement entitlementWithKey:@"key" value:@"value"];
-        actual = [Entitlement compareProfileEntitlement:profile
-                                         appEntitlement:app
-                                 isAssociatedDomainsKey:NO];
-
-        expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
-    });
-
-    it(@"compares associated-domains in a special way", ^{
-        profile = [Entitlement entitlementWithKey:@"key" value:@[@"a"]];
-        app = [Entitlement entitlementWithKey:@"key" value:@"value"];
-
-        id MockEntitlement = OCMClassMock([Entitlement class]);
-        OCMExpect(
-                  [MockEntitlement compareAssociatedDomains:profile
-                                             appEntitlement:app]
-                  ).andReturn(ProfileHasKeyExactly);
-
-        actual = [Entitlement compareProfileEntitlement:profile
-                                         appEntitlement:app
-                                 isAssociatedDomainsKey:YES];
-
-        expect(actual).to.equal(ProfileHasKeyExactly);
-
-        OCMVerifyAll(MockEntitlement);
     });
 
     it(@"returns AppNorProfileHasKey when neither profile or app has the key", ^{
         profile = [Entitlement entitlementWithKey:@"key" value:nil];
         app = [Entitlement entitlementWithKey:@"key" value:nil];
         actual = [Entitlement compareProfileEntitlement:profile
-                                         appEntitlement:app
-                                 isAssociatedDomainsKey:NO];
+                                         appEntitlement:app];
 
         expect(actual).to.equal(AppNorProfileHasKey);
     });
@@ -115,8 +99,7 @@ context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
         profile = [Entitlement entitlementWithKey:@"key" value:@"value"];
         app = [Entitlement entitlementWithKey:@"key" value:nil];
         actual = [Entitlement compareProfileEntitlement:profile
-                                         appEntitlement:app
-                                 isAssociatedDomainsKey:NO];
+                                         appEntitlement:app];
 
         expect(actual).to.equal(ProfileHasUnRequiredKey);
     });
@@ -126,8 +109,7 @@ context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
             profile = [Entitlement entitlementWithKey:@"key" value:@"value"];
             app = [Entitlement entitlementWithKey:@"key" value:@"value"];
             actual = [Entitlement compareProfileEntitlement:profile
-                                             appEntitlement:app
-                                     isAssociatedDomainsKey:NO];
+                                             appEntitlement:app];
 
             expect(actual).to.equal(ProfileHasKeyExactly);
         });
@@ -136,8 +118,7 @@ context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
             profile = [Entitlement entitlementWithKey:@"key" value:@"b"];
             app = [Entitlement entitlementWithKey:@"key" value:@"a"];
             actual = [Entitlement compareProfileEntitlement:profile
-                                             appEntitlement:app
-                                     isAssociatedDomainsKey:NO];
+                                             appEntitlement:app];
 
             expect(actual).to.equal(ProfileHasKey);
         });
@@ -148,8 +129,7 @@ context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
             profile = [Entitlement entitlementWithKey:@"key" value:@[@"a"]];
             app = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b"]];
             actual = [Entitlement compareProfileEntitlement:profile
-                                             appEntitlement:app
-                                     isAssociatedDomainsKey:NO];
+                                             appEntitlement:app];
 
             expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
         });
@@ -158,8 +138,7 @@ context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
             profile = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b"]];
             app = [Entitlement entitlementWithKey:@"key" value:@[@"a"]];
             actual = [Entitlement compareProfileEntitlement:profile
-                                             appEntitlement:app
-                                     isAssociatedDomainsKey:NO];
+                                             appEntitlement:app];
 
             expect(actual).to.equal(ProfileHasKey);
         });
@@ -168,8 +147,7 @@ context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
             profile = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b"]];
             app = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b"]];
             actual = [Entitlement compareProfileEntitlement:profile
-                                             appEntitlement:app
-                                     isAssociatedDomainsKey:NO];
+                                             appEntitlement:app];
 
             expect(actual).to.equal(ProfileHasKeyExactly);
         });
@@ -178,107 +156,59 @@ context(@".compareProfileEntitlement:appEntitlement:isAssociatedDomainsKey:", ^{
             profile = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b"]];
             app = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"c"]];
             actual = [Entitlement compareProfileEntitlement:profile
-                                             appEntitlement:app
-                                     isAssociatedDomainsKey:NO];
+                                             appEntitlement:app];
 
             expect(actual).to.equal(ProfileHasKey);
         });
     });
 
-    context(@"compareAssociatedDomains:appEntitlement", ^{
-        context(@"profile has array value", ^{
-            context(@"app value is an array", ^{
-                it(@"calls back to compareProfileEntitlement:", ^{
-                    profile = [Entitlement entitlementWithKey:@"key"
-                                                        value:@[@"a", @"b"]];
-                    app = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b"]];
+    context(@"compare mixed values", ^{
+        it(@"returns ProfileHasKey if profile value is '*' and app value is array", ^{
+            profile = [Entitlement entitlementWithKey:@"key" value:@"*"];
+            app = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b", @"c"]];
+            actual = [Entitlement compareProfileEntitlement:profile
+                                             appEntitlement:app];
 
-                    id MockEntitlement = OCMClassMock([Entitlement class]);
-                    OCMExpect([Entitlement compareProfileEntitlement:profile
-                                                      appEntitlement:app
-                                              isAssociatedDomainsKey:NO];).andReturn(
-                                                                                     ProfileHasKeyExactly);
-
-                    actual = [Entitlement compareAssociatedDomains:profile
-                                                    appEntitlement:app];
-
-                    expect(actual).to.equal(ProfileHasKeyExactly);
-
-                    OCMVerifyAll(MockEntitlement);
-                });
-            });
-
-            context(@"app value is a string", ^{
-                it(@"returns ProfileDoesNotHaveRequiredKey if app value is '*'", ^{
-                    profile = [Entitlement entitlementWithKey:@"key"
-                                                        value:@[@"a", @"b"]];
-                    app = [Entitlement entitlementWithKey:@"key" value:@"*"];
-                    actual = [Entitlement compareAssociatedDomains:profile
-                                                    appEntitlement:app];
-
-                    expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
-                });
-
-                it(@"returns ProfileHasKey if app value is not '*'", ^{
-                    profile = [Entitlement entitlementWithKey:@"key"
-                                                        value:@[@"a", @"b"]];
-                    app = [Entitlement entitlementWithKey:@"key" value:@"!*"];
-                    actual = [Entitlement compareAssociatedDomains:profile
-                                                    appEntitlement:app];
-
-                    expect(actual).to.equal(ProfileHasKey);
-                });
-            });
+            expect(actual).to.equal(ProfileHasKey);
         });
 
-        context(@"profile has string value", ^{
-            context(@"app has an array value", ^{
-                it(@"returns ProfileDoesNotHaveRequiredKey if profile value is != '*'", ^{
-                    profile = [Entitlement entitlementWithKey:@"key"
-                                                        value:@"!*"];
-                    app = [Entitlement entitlementWithKey:@"key"
-                                                    value:@[@"a", @"b"]];
-                    actual = [Entitlement compareAssociatedDomains:profile
-                                                    appEntitlement:app];
+        it(@"returns ProfileDoesNotHaveRequiredKey if profile value is string (not '*') and app value is array", ^{
+            profile = [Entitlement entitlementWithKey:@"key" value:@"a"];
+            app = [Entitlement entitlementWithKey:@"key" value:@[@"a", @"b", @"c"]];
+            actual = [Entitlement compareProfileEntitlement:profile
+                                             appEntitlement:app];
 
-                    expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
-                });
+            expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
+        });
 
-                it(@"returns ProfileHasKeyExactly if profile value is '*'", ^{
-                    profile = [Entitlement entitlementWithKey:@"key"
-                                                        value:@"*"];
-                    app = [Entitlement entitlementWithKey:@"key"
-                                                    value:@[@"a", @"b"]];
-                    actual = [Entitlement compareAssociatedDomains:profile
-                                                    appEntitlement:app];
+        it (@"returns ProfileDoesNotHaveRequiredKey if app value is '*' and profile value is array", ^{
+            profile = [Entitlement entitlementWithKey:@"key"
+                                                value:@[@"a", @"b"]];
+            app = [Entitlement entitlementWithKey:@"key" value:@"*"];
+            actual = [Entitlement compareProfileEntitlement:profile
+                                             appEntitlement:app];
 
-                    expect(actual).to.equal(ProfileHasKey);
-                });
-            });
+            expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
+        });
 
-            context(@"app has a string value", ^{
-                it(@"returns ProfileHasKeyExactly if profile value matches app value", ^{
-                    profile = [Entitlement entitlementWithKey:@"key"
-                                                        value:@"value"];
-                    app = [Entitlement entitlementWithKey:@"key"
-                                                    value:@"value"];
-                    actual = [Entitlement compareAssociatedDomains:profile
-                                                    appEntitlement:app];
+        it(@"returns ProfileHasKey if profile value is array and app value is a string in that array", ^{
+            profile = [Entitlement entitlementWithKey:@"key"
+                                                value:@[@"a", @"b"]];
+            app = [Entitlement entitlementWithKey:@"key" value:@"b"];
+            actual = [Entitlement compareProfileEntitlement:profile
+                                             appEntitlement:app];
 
-                    expect(actual).to.equal(ProfileHasKeyExactly);
-                });
+            expect(actual).to.equal(ProfileHasKey);
+        });
 
-                it(@"returns ProfileHasKey if profile value is a non-matching string", ^{
-                    profile = [Entitlement entitlementWithKey:@"key"
-                                                        value:@"a"];
-                    app = [Entitlement entitlementWithKey:@"key"
-                                                    value:@"b"];
-                    actual = [Entitlement compareAssociatedDomains:profile
-                                                    appEntitlement:app];
+        it(@"returns ProfileDoesNotHaveRequiredKey if profile value is array and app value is string not in that array", ^{
+            profile = [Entitlement entitlementWithKey:@"key"
+                                                value:@[@"a", @"b"]];
+            app = [Entitlement entitlementWithKey:@"key" value:@"x"];
+            actual = [Entitlement compareProfileEntitlement:profile
+                                             appEntitlement:app];
 
-                    expect(actual).to.equal(ProfileHasKey);
-                });
-            });
+            expect(actual).to.equal(ProfileDoesNotHaveRequiredKey);
         });
     });
 });

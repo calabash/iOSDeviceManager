@@ -6,15 +6,14 @@
 - (BOOL)hasNSArrayValue;
 - (BOOL)hasNSStringValue;
 
-+ (EntitlementComparisonResult)compareAssociatedDomains:(Entitlement *)profileEntitlement
++ (EntitlementComparisonResult)compareEntitlements:(Entitlement *)profileEntitlement
                                          appEntitlement:(Entitlement *)appEntitlement;
 @end
 
 @implementation Entitlement
 
 + (EntitlementComparisonResult)compareProfileEntitlement:(Entitlement *)profileEntitlement
-                                          appEntitlement:(Entitlement *)appEntitlement
-                                  isAssociatedDomainsKey:(BOOL)isAssociatedDomainsKey {
+                                          appEntitlement:(Entitlement *)appEntitlement {
     if (appEntitlement.value && !profileEntitlement.value) {
         return ProfileDoesNotHaveRequiredKey;
     }
@@ -27,97 +26,81 @@
         }
     }
 
-    if (isAssociatedDomainsKey) {
-        return [Entitlement compareAssociatedDomains:profileEntitlement
-                                      appEntitlement:appEntitlement];
-    }
+    if ([appEntitlement hasNSArrayValue]) {
+        if ([profileEntitlement hasNSArrayValue]) {
+            // App => array
+            // Prof => array
+            NSArray *appArray = (NSArray *)appEntitlement.value;
+            NSArray *profArray = (NSArray *)profileEntitlement.value;
 
-    // App has the entitlement and so does the profile
-    if ([appEntitlement hasNSStringValue] && [profileEntitlement hasNSStringValue]) {
-        if ([appEntitlement.value isEqualToString:profileEntitlement.value]) {
-            return ProfileHasKeyExactly;
+            if (appArray.count > profArray.count) {
+                return ProfileDoesNotHaveRequiredKey;
+            } else if (appArray.count < profArray.count) {
+                // Prefer _less_ entitlements
+                return (profArray.count - appArray.count) * ProfileHasKey;
+            } else {
+                NSSet *appSet = [NSSet setWithArray:appArray];
+                NSSet *profSet = [NSSet setWithArray:profArray];
+                if ([appSet isEqualToSet:profSet]) {
+                    return ProfileHasKeyExactly;
+                } else {
+                    return ProfileHasKey;
+                }
+            }
+        } else if ([profileEntitlement hasNSStringValue]) {
+            // App => array
+            // Prof => string
+            if ([profileEntitlement.value isEqualToString:@"*"]) {
+                return ProfileHasKey;
+            } else {
+                return ProfileDoesNotHaveRequiredKey;
+            }
         } else {
-            return ProfileHasKey;
+            // WTF?!
+            // Somehow we've reached a point where the profile entitlement is
+            // neither string nor array.  We don't know what to do here
         }
-    } else if ([appEntitlement hasNSArrayValue] && [profileEntitlement hasNSArrayValue]) {
-        NSArray *appArray = (NSArray *)appEntitlement.value;
-        NSArray *profileArray = (NSArray *)profileEntitlement.value;
 
-        if (appArray.count > profileArray.count) {
-            return ProfileDoesNotHaveRequiredKey;
-        } else if (appArray.count < profileArray.count) {
-            // TODO scale this value to make _more_ entitlements less attractive
-            //  MAX(ProfileHasKey * (profile.count - app.count), ProfileHasKey)
-            return ProfileHasKey;
-        } else {
-            NSSet *appSet = [NSSet setWithArray:appArray];
-            NSSet *profileSet = [NSSet setWithArray:profileArray];
-            if ([appSet isEqualToSet:profileSet]) {
+    } else if ([appEntitlement hasNSStringValue]) {
+        if ([profileEntitlement hasNSStringValue]) {
+            // App => string
+            // Prof => string
+            if ([appEntitlement.value isEqualToString:profileEntitlement.value]) {
                 return ProfileHasKeyExactly;
             } else {
                 return ProfileHasKey;
             }
-        }
-    } else {
-        // Mixed Array and String values.  If this is not an AssociatedDomain key, we
-        // don't know how to handle it.  Log and punt.
-        NSLog(@"WARN: Unexpected.");
-        NSLog(@"WARN: Entitlement key has mixed string and array values");
-        NSLog(@"WARN:                     key: %@", appEntitlement.key);
-        NSLog(@"WARN:        app entitlements: %@", appEntitlement.value);
-        NSLog(@"WARN:    profile entitlements: %@", appEntitlement.value);
-        NSLog(@"WARN: Assuming that this profile does match.");
-        return ProfileDoesNotHaveRequiredKey;
-    }
-}
-
-
-/*
- Tries to match associated-domains entitlements where the values can both be
- either arrays or strings.
-
- The "*" character is treated as a trump card, such that:
-
- 1. if profile's value is '*' then it is a match, and
- 2. if app's value is star but profile's value is anything but '*', it is not a match.
- */
-+ (EntitlementComparisonResult)compareAssociatedDomains:(Entitlement *)profileEntitlement
-                                         appEntitlement:(Entitlement *)appEntitlement {
-    if ([profileEntitlement hasNSArrayValue]) {
-        if ([appEntitlement hasNSArrayValue]) {
-            return [Entitlement compareProfileEntitlement:profileEntitlement
-                                           appEntitlement:appEntitlement
-                                   isAssociatedDomainsKey:NO];
-        } else {
+        } else if ([profileEntitlement hasNSArrayValue]) {
+            // App => string
+            // Prof => array
             if ([appEntitlement.value isEqualToString:@"*"]) {
-                /* presumably, any array of entries is 'less' than '*' */
                 return ProfileDoesNotHaveRequiredKey;
             } else {
-                // TODO in this case shouldn't we see if the app string is in the
-                // profile array? The calabash-tool did not make this check.
-            }
-        }
-    } else {
-        if ([appEntitlement hasNSArrayValue]) {
-            if (![profileEntitlement.value isEqualToString:@"*"]) {
-                return ProfileDoesNotHaveRequiredKey;
-            } else {
-                // TODO this is a match exactly case, right?
-                // The app has an array of domains.  The profile has "*", so this
-                // is an exact match? Should it be preferred over an exact array match?
-                // Should it preferred over an array match with more than the required
-                // domains?
-                //
-                // (>_>)
+                NSArray *profArray = (NSArray *)profileEntitlement.value;
+                if ([profArray containsObject:appEntitlement.value]) {
+                    return ProfileHasKey;
+                } else {
+                    return ProfileDoesNotHaveRequiredKey;
+                }
             }
         } else {
-            if ([appEntitlement.value isEqualToString:profileEntitlement.value]) {
-                return ProfileHasKeyExactly;
-            }
+            // WTF?!
+            // Somehow we've reached a point where the profile entitlement is
+            // neither string nor array.  We don't know what to do here
         }
+    } else {
+        // WTF?!
+        // Somehow we've reached a point where the app entitlement is
+        // neither string nor array.  We don't know what to do here
     }
-
-    return ProfileHasKey;
+    // We should never reach this point... if we reached this point, we've hit a
+    // WTF branch.  I am assuming that if we hit a WTF, we should assume it's not
+    // a match
+    NSLog(@"ERROR: Unable to match entitlement, unexpected type(s)");
+    NSLog(@"ERROR:                       key: %@", profileEntitlement.key);
+    NSLog(@"ERROR:  profile entitlement type: %@", [profileEntitlement.value class]);
+    NSLog(@"ERROR:      app entitlement type: %@", [appEntitlement.value class]);
+    return ProfileDoesNotHaveRequiredKey;
 }
 
 @synthesize key = _key;
