@@ -152,6 +152,12 @@
 		898D7DE81DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
 		898D7DE91DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
 		898D7DEA1DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
+		898D7DED1DA50508001578FE /* iOSDeviceManagerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */; };
+		898D7DEE1DA50508001578FE /* iOSDeviceManagerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */; };
+		898D7DEF1DA50508001578FE /* iOSDeviceManagerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */; };
+		898D7DF21DA50540001578FE /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DF11DA50540001578FE /* ServerConfig.m */; };
+		898D7DF31DA50540001578FE /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DF11DA50540001578FE /* ServerConfig.m */; };
+		898D7DF41DA50540001578FE /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DF11DA50540001578FE /* ServerConfig.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
@@ -420,6 +426,10 @@
 		898D7DD21DA4758A001578FE /* RoutingHTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoutingHTTPServer.m; path = iOSDeviceManager/Vendor/RoutingHTTPServer/Source/RoutingHTTPServer.m; sourceTree = "<group>"; };
 		898D7DE61DA47672001578FE /* CBXRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBXRoute.h; path = iOSDeviceManager/Server/CBXRoute.h; sourceTree = SOURCE_ROOT; };
 		898D7DE71DA47672001578FE /* CBXRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBXRoute.m; path = iOSDeviceManager/Server/CBXRoute.m; sourceTree = SOURCE_ROOT; };
+		898D7DEB1DA50508001578FE /* iOSDeviceManagerServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSDeviceManagerServer.h; path = iOSDeviceManager/Server/iOSDeviceManagerServer.h; sourceTree = SOURCE_ROOT; };
+		898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iOSDeviceManagerServer.m; path = iOSDeviceManager/Server/iOSDeviceManagerServer.m; sourceTree = SOURCE_ROOT; };
+		898D7DF01DA50540001578FE /* ServerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerConfig.h; path = iOSDeviceManager/Server/ServerConfig.h; sourceTree = SOURCE_ROOT; };
+		898D7DF11DA50540001578FE /* ServerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerConfig.m; path = iOSDeviceManager/Server/ServerConfig.m; sourceTree = SOURCE_ROOT; };
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89C29E181DAE69C500282526 /* ConsoleWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleWriter.h; path = iOSDeviceManager/Utilities/Logging/ConsoleWriter.h; sourceTree = SOURCE_ROOT; };
@@ -767,6 +777,12 @@
 			children = (
 				89C29E181DAE69C500282526 /* ConsoleWriter.h */,
 				89C29E191DAE69C500282526 /* ConsoleWriter.m */,
+				898D7DE61DA47672001578FE /* CBXRoute.h */,
+				898D7DE71DA47672001578FE /* CBXRoute.m */,
+				898D7DEB1DA50508001578FE /* iOSDeviceManagerServer.h */,
+				898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */,
+				898D7DF01DA50540001578FE /* ServerConfig.h */,
+				898D7DF11DA50540001578FE /* ServerConfig.m */,
 			);
 			name = Logging;
 			sourceTree = "<group>";
@@ -1023,6 +1039,7 @@
 				898D7D7F1DA47569001578FE /* HTTPServer.m in Sources */,
 				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
 				892DE4B51D22F85400E1902C /* TestParameters.m in Sources */,
+				898D7DF21DA50540001578FE /* ServerConfig.m in Sources */,
 				898D7D3E1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				898D7D911DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
 				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
@@ -1044,6 +1061,7 @@
 				63424016FAA1D6E42AA2B639 /* CodesignIdentity.m in Sources */,
 				A18622701DE4F47700A05031 /* MachClock.m in Sources */,
 				898D7D971DA47569001578FE /* HTTPFileResponse.m in Sources */,
+				898D7DED1DA50508001578FE /* iOSDeviceManagerServer.m in Sources */,
 				63424D088ACDC4BC94DFD35C /* Entitlement.m in Sources */,
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
 				A1D930C21DC2875E0070573D /* ShasumProvider.m in Sources */,
@@ -1058,6 +1076,7 @@
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
+				898D7DF31DA50540001578FE /* ServerConfig.m in Sources */,
 				892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */,
 				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
@@ -1074,6 +1093,7 @@
 				89C29E1B1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				898D7D8F1DA47569001578FE /* HTTPDataResponse.m in Sources */,
 				F5E8D8201D67A57600A41EFD /* ResourcesTest.m in Sources */,
+				898D7DEE1DA50508001578FE /* iOSDeviceManagerServer.m in Sources */,
 				892DE4C01D22F85F00E1902C /* Codesigner.m in Sources */,
 				898D7D771DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
 				892DE4A01D22F84200E1902C /* PhysicalDevice.m in Sources */,
@@ -1153,6 +1173,7 @@
 				F5D583F71D6A0363007B0D11 /* Codesigner.m in Sources */,
 				F5D584071D6A0387007B0D11 /* StopSimulatingLocationCommand.m in Sources */,
 				F5D584081D6A038C007B0D11 /* TestParameters.m in Sources */,
+				898D7DF41DA50540001578FE /* ServerConfig.m in Sources */,
 				F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
 				898D7D781DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
@@ -1172,6 +1193,7 @@
 				898D7D8A1DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */,
 				898D7D991DA47569001578FE /* HTTPFileResponse.m in Sources */,
+				898D7DEF1DA50508001578FE /* iOSDeviceManagerServer.m in Sources */,
 				898D7D811DA47569001578FE /* HTTPServer.m in Sources */,
 				F5D583FC1D6A0378007B0D11 /* PhysicalDevice.m in Sources */,
 				F5D583F91D6A0369007B0D11 /* AppUtils.m in Sources */,

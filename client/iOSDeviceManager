@@ -6,7 +6,7 @@ SERVER_BIN="/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer"
 PORT="36063"
 IP="http://localhost:$PORT"
 HEALTH="$IP/health"
-CLI="$IP/cli"
+CLI="$IP/"
 
 function alive {
   echo $(curl -q "${HEALTH}" 2>/dev/null)
