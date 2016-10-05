@@ -96,55 +96,8 @@
     // We should never reach this point... if we reached this point, we've hit a
     // WTF branch.  I am assuming that if we hit a WTF, we should assume it's not
     // a match
+
     return ProfileDoesNotHaveRequiredKey;
-}
-
-
-/*
- Tries to match associated-domains entitlements where the values can both be
- either arrays or strings.
-
- The "*" character is treated as a trump card, such that:
-
- 1. if profile's value is '*' then it is a match, and
- 2. if app's value is star but profile's value is anything but '*', it is not a match.
- */
-+ (EntitlementComparisonResult)compareEntitlements:(Entitlement *)profileEntitlement
-                                         appEntitlement:(Entitlement *)appEntitlement {
-    if ([profileEntitlement hasNSArrayValue]) {
-        if ([appEntitlement hasNSArrayValue]) {
-            return [Entitlement compareProfileEntitlement:profileEntitlement
-                                           appEntitlement:appEntitlement];
-        } else {
-            if ([appEntitlement.value isEqualToString:@"*"]) {
-                /* presumably, any array of entries is 'less' than '*' */
-                return ProfileDoesNotHaveRequiredKey;
-            } else {
-                // TODO in this case shouldn't we see if the app string is in the
-                // profile array? The calabash-tool did not make this check.
-            }
-        }
-    } else {
-        if ([appEntitlement hasNSArrayValue]) {
-            if (![profileEntitlement.value isEqualToString:@"*"]) {
-                return ProfileDoesNotHaveRequiredKey;
-            } else {
-                // TODO this is a match exactly case, right?
-                // The app has an array of domains.  The profile has "*", so this
-                // is an exact match? Should it be preferred over an exact array match?
-                // Should it preferred over an array match with more than the required
-                // domains?
-                //
-                // (>_>)
-            }
-        } else {
-            if ([appEntitlement.value isEqualToString:profileEntitlement.value]) {
-                return ProfileHasKeyExactly;
-            }
-        }
-    }
-
-    return ProfileHasKey;
 }
 
 @synthesize key = _key;
