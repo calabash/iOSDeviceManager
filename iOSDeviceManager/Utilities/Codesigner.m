@@ -3,6 +3,7 @@
 #import "BundleResignerFactory.h"
 #import "BundleResigner.h"
 #import "iOSDeviceManagementCommand.h"
+#import "TestParameters.h"
 
 static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
@@ -32,6 +33,15 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     return self;
 }
 
+- (instancetype)initAdHocWithDeviceUDID:(NSString *)deviceUDID {
+    self = [super init];
+    if (self) {
+        _codeSignIdentity = nil;
+        _deviceUDID = deviceUDID;
+    }
+    return self;
+}
+
 - (NSString *)description {
     if (self.codeSignIdentity && self.deviceUDID) {
         return [NSString stringWithFormat:@"#<Codesigner %@ : %@>",
@@ -43,15 +53,11 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
 - (BOOL)signBundleAtPath:(NSString *)bundlePath
                    error:(NSError **)error {
-    NSAssert(self.codeSignIdentity != nil,
-             @"Can not have a codesign command without an identity name");
     NSAssert(self.deviceUDID != nil,
              @"Can not have a codesign command without a device");
 
-    BundleResigner *resigner;
-    resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
-                                                           deviceUDID:self.deviceUDID
-                                                signingIdentityString:self.codeSignIdentity];
+    BundleResigner *resigner = [self bundleResignerForBundleAtPath:bundlePath];
+
     if (!resigner) {
         if (error) {
             NSString *description = @"Could not resign with the given arguments";
@@ -68,7 +74,12 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
         return NO;
     }
 
-    BOOL success = [resigner resign];
+    BOOL success;
+    if ([TestParameters isDeviceID:self.deviceUDID]) {
+        success = [resigner resign];
+    } else {
+        success = [resigner resignSimBundle];
+    }
 
     if (!success) {
         if (error) {
@@ -86,6 +97,25 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     }
 
     return success;
+}
+
+- (BOOL)validateSignatureAtBundlePath:(NSString *)bundlePath {
+    BundleResigner *resigner = [self bundleResignerForBundleAtPath:bundlePath];
+    return resigner && [resigner validateBundleSignature];
+}
+
+- (BundleResigner *)bundleResignerForBundleAtPath:(NSString *)bundlePath {
+    BundleResigner *resigner;
+    if ([TestParameters isDeviceID:self.deviceUDID]) {
+        resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
+                                                               deviceUDID:self.deviceUDID
+                                                    signingIdentityString:self.codeSignIdentity];
+    } else {
+        resigner = [[BundleResignerFactory shared] adHocResignerWithBundlePath:bundlePath
+                                                                    deviceUDID:self.deviceUDID];
+    }
+
+    return resigner;
 }
 
 /*

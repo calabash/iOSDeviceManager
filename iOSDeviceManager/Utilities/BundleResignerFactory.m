@@ -158,6 +158,11 @@
                                identity:identity];
 }
 
+- (nullable BundleResigner *)adHocResignerWithBundlePath:(NSString *)bundlePath
+                                              deviceUDID:(NSString *)deviceUDID {
+    return [[BundleResigner alloc]  initWithBundlePath:bundlePath identity:nil deviceUDID:deviceUDID];
+}
+
 - (NSArray<CodesignIdentity *> *)identities {
     if (_identities) { return _identities; }
 
