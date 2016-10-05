@@ -321,16 +321,20 @@ testCaseDidStartForTestClass:(NSString *)testClass
     FBApplicationDescriptor *app = [self app:pathToBundle];
 
     Codesigner *signer = [[Codesigner alloc] initAdHocWithDeviceUDID:deviceID];
-    NSError *signError;
-    [signer signBundleAtPath:pathToBundle
-                          error:&signError];
 
-    if (signError) {
-        NSLog(@"Error resigning sim bundle");
-        NSLog(@"  Path to bundle: %@", pathToBundle);
-        NSLog(@"  Device UDID: %@", deviceID);
-        NSLog(@"  ERROR: %@", signError);
-        return iOSReturnStatusCodeGenericFailure;
+    if (![signer validateSignatureAtBundlePath:pathToBundle]) {
+        NSError *signError;
+
+        [signer signBundleAtPath:pathToBundle
+                           error:&signError];
+
+        if (signError) {
+            NSLog(@"Error resigning sim bundle");
+            NSLog(@"  Path to bundle: %@", pathToBundle);
+            NSLog(@"  Device UDID: %@", deviceID);
+            NSLog(@"  ERROR: %@", signError);
+            return iOSReturnStatusCodeGenericFailure;
+        }
     }
 
     if ([self appIsInstalled:app.bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {

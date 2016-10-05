@@ -56,15 +56,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSAssert(self.deviceUDID != nil,
              @"Can not have a codesign command without a device");
 
-    BundleResigner *resigner;
-    if ([TestParameters isDeviceID:self.deviceUDID]) {
-        resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
-                                                           deviceUDID:self.deviceUDID
-                                                signingIdentityString:self.codeSignIdentity];
-    } else {
-        resigner = [[BundleResignerFactory shared] adHocResignerWithBundlePath:bundlePath
-                                                                    deviceUDID:self.deviceUDID];
-    }
+    BundleResigner *resigner = [self bundleResignerForBundleAtPath:bundlePath];
 
     if (!resigner) {
         if (error) {
@@ -105,6 +97,25 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     }
 
     return success;
+}
+
+- (BOOL)validateSignatureAtBundlePath:(NSString *)bundlePath {
+    BundleResigner *resigner = [self bundleResignerForBundleAtPath:bundlePath];
+    return resigner && [resigner validateBundleSignature];
+}
+
+- (BundleResigner *)bundleResignerForBundleAtPath:(NSString *)bundlePath {
+    BundleResigner *resigner;
+    if ([TestParameters isDeviceID:self.deviceUDID]) {
+        resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
+                                                               deviceUDID:self.deviceUDID
+                                                    signingIdentityString:self.codeSignIdentity];
+    } else {
+        resigner = [[BundleResignerFactory shared] adHocResignerWithBundlePath:bundlePath
+                                                                    deviceUDID:self.deviceUDID];
+    }
+
+    return resigner;
 }
 
 /*

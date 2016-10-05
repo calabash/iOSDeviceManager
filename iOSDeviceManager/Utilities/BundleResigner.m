@@ -191,14 +191,17 @@
     [self replaceEmbeddedMobileProvision] &&
     [self replaceOrCreateXcentFile] &&
     [self resignAppPlugIns] &&
-    [self resignDylibsAndFrameworks] && [self resignAppOrPluginBundleWithEntitlements:YES];
+    [self resignDylibsAndFrameworks] &&
+    [self resignAppOrPluginBundleWithEntitlements:YES] &&
+    [self validateBundleSignature];
 }
 
 - (BOOL)resignSimBundle {
     return
     [self resignAppPlugIns] &&
     [self resignDylibsAndFrameworks] &&
-    [self resignAppOrPluginBundleWithEntitlements:NO];
+    [self resignAppOrPluginBundleWithEntitlements:NO] &&
+    [self validateBundleSignature];
 }
 
 - (BOOL)resignAppOrPluginBundleWithEntitlements:(BOOL)withEntitlements {
@@ -216,6 +219,8 @@
                  @"--force",
                  @"--sign", self.identity.shasum,
                  @"--verbose=4",
+                 @"--deep",
+                 @"--timestamp=none",
                  self.bundlePath];
     }
 
@@ -232,11 +237,15 @@
         return NO;
     }
 
-    args = @[@"codesign",
-             @"--verbose=4",
-             @"--verify", [self executablePath]];
+    return YES;
+}
 
-    result = [ShellRunner xcrun:args timeout:10];
+- (BOOL)validateBundleSignature {
+    NSArray<NSString *> *args = @[@"codesign",
+                                  @"--verbose=4",
+                                  @"--verify",
+                                  [self executablePath]];
+    ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
     if (!result.success) {
         NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);

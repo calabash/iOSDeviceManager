@@ -6,8 +6,6 @@
 - (BOOL)hasNSArrayValue;
 - (BOOL)hasNSStringValue;
 
-+ (EntitlementComparisonResult)compareEntitlements:(Entitlement *)profileEntitlement
-                                         appEntitlement:(Entitlement *)appEntitlement;
 @end
 
 @implementation Entitlement
