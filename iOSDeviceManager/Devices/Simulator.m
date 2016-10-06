@@ -6,6 +6,7 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import "ShellRunner.h"
 #import "AppUtils.h"
+#import "Codesigner.h"
 
 @implementation Simulator
 static FBSimulatorControl *_control;
@@ -318,6 +319,23 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return iOSReturnStatusCodeGenericFailure;
     }
     FBApplicationDescriptor *app = [self app:pathToBundle];
+
+    Codesigner *signer = [[Codesigner alloc] initAdHocWithDeviceUDID:deviceID];
+
+    if (![signer validateSignatureAtBundlePath:pathToBundle]) {
+        NSError *signError;
+
+        [signer signBundleAtPath:pathToBundle
+                           error:&signError];
+
+        if (signError) {
+            NSLog(@"Error resigning sim bundle");
+            NSLog(@"  Path to bundle: %@", pathToBundle);
+            NSLog(@"  Device UDID: %@", deviceID);
+            NSLog(@"  ERROR: %@", signError);
+            return iOSReturnStatusCodeGenericFailure;
+        }
+    }
 
     if ([self appIsInstalled:app.bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
         [[simulator.interact installApplication:app] perform:&e];
