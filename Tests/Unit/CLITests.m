@@ -27,34 +27,34 @@
 }
 
 - (void)testNoArgs {
-    XCTAssertEqual([CLI process:@[kProgramName]], iOSReturnStatusCodeEverythingOkay);
+    XCTAssertEqual([CLI process:@[]], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testInvalidCommandName {
-    NSArray *args = @[kProgramName, @"foooooozeball"];
+    NSArray *args = @[@"foooooozeball"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeUnrecognizedCommand);
 }
 
 - (void)testNoArguments {
-    NSArray *args = @[kProgramName, @"uninstall"];
+    NSArray *args = @[@"uninstall"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
 }
 
 - (void)testInvalidFlag {
-    NSArray *args = @[kProgramName, @"uninstall", @"-z"];
+    NSArray *args = @[@"uninstall", @"-z"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeUnrecognizedFlag);
 }
 
 - (void)testMissingArg {
-    NSArray *args = @[kProgramName, @"uninstall", @"-b"];
+    NSArray *args = @[@"uninstall", @"-b"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
 
-    args = @[kProgramName, @"install", @"-a", @"fake/path/to/.app", @"-d"];
+    args = @[@"install", @"-a", @"fake/path/to/.app", @"-d"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
 }
 
 - (void)testMissingRequiredOption {
-    NSArray *args = @[kProgramName, @"install", @"-a", @"fake/path/to/.app"];
+    NSArray *args = @[@"install", @"-a", @"fake/path/to/.app"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
 }
 
