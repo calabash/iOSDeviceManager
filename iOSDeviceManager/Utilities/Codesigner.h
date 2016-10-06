@@ -9,5 +9,12 @@
 - (instancetype)initWithCodeSignIdentity:(NSString *)codeSignIdentity
                               deviceUDID:(NSString *)deviceUDID;
 
+- (instancetype)initAdHocWithDeviceUDID:(NSString *)deviceUDID;
+
+- (BOOL)signBundleAtPath:(NSString *)bundlePath
+                   error:(NSError **)error;
+
+- (BOOL)validateSignatureAtBundlePath:(NSString *)bundlePath;
+
 - (NSString *)codeSignIdentity;
 @end
