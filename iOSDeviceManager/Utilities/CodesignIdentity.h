@@ -4,6 +4,7 @@
 @interface CodesignIdentity : NSObject <NSCopying>
 + (CodesignIdentity *)identityForAppBundle:(NSString *)appBundle
                                   deviceId:(NSString *)deviceId;
++ (CodesignIdentity *)adHoc;
 + (NSArray<CodesignIdentity *> *)validIOSDeveloperIdentities;
 + (NSString *)codeSignIdentityFromEnvironment;
 
