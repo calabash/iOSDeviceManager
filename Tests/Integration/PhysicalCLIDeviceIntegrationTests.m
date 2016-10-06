@@ -12,12 +12,14 @@
     [super setUp];
 }
 
-/*  Hangs indefinitely.
+//  Hangs indefinitely.
+/*
 - (void)testStartTest {
     if (device_available()) {
         NSArray *args = @[
-                kProgramName, @"start_test",
+                @"start_test",
                 @"-d", defaultDeviceUDID,
+                @"-s", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
                 @"-k", @"YES"
         ];
 
@@ -30,14 +32,14 @@
     if (device_available()) {
         //Should fail: invalid coordinates
         NSArray *args = @[
-                          kProgramName, @"set_location",
+                          @"set_location",
                           @"-d", defaultDeviceUDID,
                           @"-l", @"Banana"
                           ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 
         args = @[
-                 kProgramName, @"set_location",
+                 @"set_location",
                  @"-d", defaultDeviceUDID, @"-l",
                  kStockholmCoord
                  ];
@@ -48,7 +50,7 @@
 - (void)testStopSimulatingLocation {
     if (device_available()) {
         NSArray *args = @[
-                          kProgramName, @"stop_simulating_location",
+                          @"stop_simulating_location",
                           @"-d", defaultDeviceUDID
                           ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
@@ -58,12 +60,12 @@
 - (void)testUninstall {
     if (device_available()) {
         NSArray *args = @[
-                          kProgramName, @"is_installed",
+                          @"is_installed",
                           @"-b", testApp(ARM),
                           @"-d", testAppID
                           ];
         if ([CLI process:args] == iOSReturnStatusCodeFalse) {
-            args = @[kProgramName, @"install",
+            args = @[@"install",
                      @"-d", defaultDeviceUDID,
                      @"-a", testApp(ARM),
                      @"-c", kCodeSignIdentityKARL];
@@ -71,7 +73,7 @@
         }
 
         args = @[
-                 kProgramName, @"uninstall",
+                 @"uninstall",
                  @"-d", defaultDeviceUDID,
                  @"-b", testAppID
                  ];
@@ -82,14 +84,14 @@
 - (void)testInstall {
     if (device_available()) {
             NSArray *args = @[
-                              kProgramName, @"is_installed",
+                              @"is_installed",
                               @"-b", testAppID,
                               @"-d", defaultDeviceUDID
                               ];
             
             if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
                 args = @[
-                         kProgramName, @"uninstall",
+                         @"uninstall",
                          @"-d", defaultDeviceUDID,
                          @"-b", testAppID
                          ];
@@ -97,7 +99,7 @@
             }
             
             args = @[
-                     kProgramName, @"install",
+                     @"install",
                      @"-d", defaultDeviceUDID,
                      @"-a", testApp(ARM),
                      @"-c", kCodeSignIdentityKARL
@@ -109,7 +111,7 @@
 - (void)testAppIsInstalled {
     if (device_available()) {
         NSArray *args = @[
-                          kProgramName, @"is_installed",
+                          @"is_installed",
                           @"-b", @"com.apple.Preferences",
                           @"-d", defaultDeviceUDID
                           ];
@@ -117,14 +119,14 @@
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
         args = @[
-                 kProgramName, @"is_installed",
+                 @"is_installed",
                  @"-b", testAppID,
                  @"-d", defaultDeviceUDID
                  ];
 
         if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
             args = @[
-                     kProgramName, @"uninstall",
+                     @"uninstall",
                      @"-d", defaultDeviceUDID,
                      @"-b", testAppID
                      ];
@@ -132,14 +134,14 @@
         }
 
         args = @[
-                 kProgramName, @"is_installed",
+                 @"is_installed",
                  @"-b", testAppID,
                  @"-d", defaultDeviceUDID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
 
         args = @[
-                 kProgramName, @"install",
+                 @"install",
                  @"-d", defaultDeviceUDID,
                  @"-a", testApp(ARM),
                  @"-c", kCodeSignIdentityKARL
@@ -147,7 +149,7 @@
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
         args = @[
-                 kProgramName, @"is_installed",
+                 @"is_installed",
                  @"-b", testAppID,
                  @"-d", defaultDeviceUDID
                  ];
