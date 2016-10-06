@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		yE8DzxBZQZScsBVX3MJGQsOCi4Y=
+		gjrCYjmsTAdZsAUAdp8hSHMXhK4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			QCjeS3YQVVlDdkERckqDMs+AH+s=
+			eK/csPhSFV6wO1rWQ2vd33kbLxk=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -31,37 +31,26 @@
 			QSmN8rx+aRNqSt0nkdz9si+Em6Y50NLUbktZ9hCWdi0=
 			</data>
 		</dict>
-		<key>Headers/FBCodeSignCommand.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			FR1Zw2KuxQuh8wcCLXG/ei2qL5s=
-			</data>
-			<key>hash2</key>
-			<data>
-			b/zi6ZqRIN+w3dj/RFPS3OGiMLfzGNeZhGrhbt3hoCU=
-			</data>
-		</dict>
 		<key>Headers/FBCodesignProvider.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			23cC+pUcLhXiDA/kqkiOSCXAaAg=
+			PoT38ZHcTP18tiO0rzuHz8f8Vdc=
 			</data>
 			<key>hash2</key>
 			<data>
-			tDlTgBDznDF4zgDMemz4aHKV5k8lUY1ZaLMpbj6axCQ=
+			p4xi/E7NXSNu8ac82OlsvkvizdpzWwsq7my5lpDd88A=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceOperator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ihHJ5nbLF7iurhGg8umlnR0gyXU=
+			mOD6OfhRECvBNSp54U+CHrPBb3E=
 			</data>
 			<key>hash2</key>
 			<data>
-			dV1n3hgDRXh3WCI5mVJbd8dco4+faOfR4wGND6iDOeY=
+			n7wFaSU0roo06aYv0GD9ElXrRKFPw0rFirZ18iimfOU=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceTestPreparationStrategy.h</key>
@@ -73,17 +62,6 @@
 			<key>hash2</key>
 			<data>
 			g6QbyhhNZoewQzdFgTv+AlFHHCCDL3kgRf1Zou1XlSI=
-			</data>
-		</dict>
-		<key>Headers/FBFileManager.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			WKLtvKE/5OC3/QnPiSvG01oP7i8=
-			</data>
-			<key>hash2</key>
-			<data>
-			uj4DBtk0MWkBlMrKDpLKky+NYxdlxeyGVW1PN8twlRo=
 			</data>
 		</dict>
 		<key>Headers/FBProductBundle.h</key>
@@ -167,11 +145,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			aa0z6U41Ns+4p1VIOig/gIEbTQ4=
+			KSjK/XrZzgJwb4C2cNJhEQpk5hU=
 			</data>
 			<key>hash2</key>
 			<data>
-			UEpIgX8BAQCUEHF4Z1KoSx1i8qfYtz415G1o4OuQD5c=
+			a+LvU+xAb2vRm2E5n4OMYwAPPIn+8wjmLxYph26HggM=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerResult.h</key>
@@ -321,33 +299,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gUvWLJ0RNz40uXRHGbb69V1XmN4=
+			PnRoILwrIn37aSpRV2+BjGRzOc8=
 			</data>
 			<key>hash2</key>
 			<data>
-			R7i7qIbnsnqOOEQoBtcLO8xPL3t9reXl6mMqKseU9ic=
-			</data>
-		</dict>
-		<key>Headers/NSFileManager+FBFileManager.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			CY1wJyXp7U3DAC1jw2zz6/m2pq4=
-			</data>
-			<key>hash2</key>
-			<data>
-			z7/FNgfyuoP1h1xHCS0QtU520QaPx0HxDEqC42V94ao=
+			O4r4Cnesap3x9ow6bSCuu0b4Xgo2rk6lVSSgchkh17E=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrap.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			DT/pP5yn2FLH3+yWbx8G4a9BfrI=
+			rS051hI/QhCIPASr5APgUcr3ZS4=
 			</data>
 			<key>hash2</key>
 			<data>
-			ICZ+BC8Oju42SDOqDJ0o7wuAU7DTFYlph/JewkRi0Hg=
+			JKOovjxWNUH8WBLJYU49pWSt3lT9AZ9Pq9dU1YfpOWw=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapError.h</key>
@@ -387,11 +354,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yE8DzxBZQZScsBVX3MJGQsOCi4Y=
+			gjrCYjmsTAdZsAUAdp8hSHMXhK4=
 			</data>
 			<key>hash2</key>
 			<data>
-			v81RGLbepZCmNU2sOlpjaOBT2KYlfsxrRocQSXRRSAc=
+			7Qy59XtRAeTXXQtYbsALcklRahc6iJmuhCvow9jCoR0=
 			</data>
 		</dict>
 	</dict>

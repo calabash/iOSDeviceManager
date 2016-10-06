@@ -13,7 +13,9 @@
 #import <FBControlCore/FBBatchLogSearch.h>
 #import <FBControlCore/FBBinaryDescriptor.h>
 #import <FBControlCore/FBBinaryParser.h>
+#import <FBControlCore/FBBundleDescriptor.h>
 #import <FBControlCore/FBCapacityQueue.h>
+#import <FBControlCore/FBCodesignProvider.h>
 #import <FBControlCore/FBCollectionInformation.h>
 #import <FBControlCore/FBCollectionOperations.h>
 #import <FBControlCore/FBCommandInteractions.h>
@@ -27,6 +29,7 @@
 #import <FBControlCore/FBDebugDescribeable.h>
 #import <FBControlCore/FBDiagnostic.h>
 #import <FBControlCore/FBFileFinder.h>
+#import <FBControlCore/FBFileManager.h>
 #import <FBControlCore/FBInteraction.h>
 #import <FBControlCore/FBiOSTarget.h>
 #import <FBControlCore/FBiOSTargetFormat.h>
