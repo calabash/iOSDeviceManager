@@ -30,6 +30,81 @@
 		63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */; };
 		63424FEAE76809A65BF90953 /* EntitlementTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6342445D4215DC668C7923B2 /* EntitlementTest.m */; };
 		63424FF90B5F065931C9E5E7 /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 634242530988C4D64BD8E860 /* BundleResignerFactory.m */; };
+		891E9F041DA8056A001F058C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E9F031DA8056A001F058C /* AppDelegate.m */; };
+		891E9F071DA8056A001F058C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E9F061DA8056A001F058C /* main.m */; };
+		891E9F091DA8056A001F058C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 891E9F081DA8056A001F058C /* Assets.xcassets */; };
+		891E9F0C1DA8056A001F058C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 891E9F0A1DA8056A001F058C /* MainMenu.xib */; };
+		891E9F171DA8056A001F058C /* iOSDeviceManagerServerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E9F161DA8056A001F058C /* iOSDeviceManagerServerUITests.m */; };
+		891E9F1F1DA8059B001F058C /* iOSDeviceManagerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */; };
+		891E9F201DA805A1001F058C /* ServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DF11DA50540001578FE /* ServerConfig.m */; };
+		891E9F211DA805BC001F058C /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
+		891E9F221DA805C8001F058C /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
+		891E9F231DA805CB001F058C /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DCA1DA4758A001578FE /* Route.m */; };
+		891E9F241DA805D0001F058C /* RoutingConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DD01DA4758A001578FE /* RoutingConnection.m */; };
+		891E9F251DA805D4001F058C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
+		891E9F261DA805DF001F058C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
+		891E9F271DA805E3001F058C /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D501DA47569001578FE /* HTTPConnection.m */; };
+		891E9F281DA805E8001F058C /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D561DA47569001578FE /* HTTPServer.m */; };
+		891E9F291DA80614001F058C /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
+		891E9F2A1DA80614001F058C /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
+		891E9F2B1DA80614001F058C /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
+		891E9F2C1DA80614001F058C /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
+		891E9F2E1DA8061A001F058C /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 891E9F2D1DA8061A001F058C /* libxml2.2.tbd */; };
+		891E9F2F1DA8066C001F058C /* HTTPResponseProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DC81DA4758A001578FE /* HTTPResponseProxy.m */; };
+		891E9F301DA8066C001F058C /* RouteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DCC1DA4758A001578FE /* RouteRequest.m */; };
+		891E9F311DA8066C001F058C /* RouteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DCE1DA4758A001578FE /* RouteResponse.m */; };
+		891E9F321DA8066C001F058C /* RoutingHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DD21DA4758A001578FE /* RoutingHTTPServer.m */; };
+		891E9F331DA8066C001F058C /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DA11DA47574001578FE /* DDAbstractDatabaseLogger.m */; };
+		891E9F341DA8066C001F058C /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DA31DA47574001578FE /* DDASLLogger.m */; };
+		891E9F351DA8066C001F058C /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DA51DA47574001578FE /* DDFileLogger.m */; };
+		891E9F361DA8066C001F058C /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DA71DA47574001578FE /* DDLog.m */; };
+		891E9F371DA8066C001F058C /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DA91DA47574001578FE /* DDTTYLogger.m */; };
+		891E9F381DA8066C001F058C /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DAC1DA47574001578FE /* ContextFilterLogFormatter.m */; };
+		891E9F391DA8066C001F058C /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DAE1DA47574001578FE /* DispatchQueueLogFormatter.m */; };
+		891E9F3A1DA8066C001F058C /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D481DA47569001578FE /* DDData.m */; };
+		891E9F3B1DA8066C001F058C /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D4A1DA47569001578FE /* DDNumber.m */; };
+		891E9F3C1DA8066C001F058C /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D4C1DA47569001578FE /* DDRange.m */; };
+		891E9F3D1DA8066C001F058C /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D4E1DA47569001578FE /* HTTPAuthenticationRequest.m */; };
+		891E9F3E1DA8066C001F058C /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D531DA47569001578FE /* HTTPMessage.m */; };
+		891E9F3F1DA8066C001F058C /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D591DA47569001578FE /* MultipartFormDataParser.m */; };
+		891E9F401DA8066C001F058C /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D5B1DA47569001578FE /* MultipartMessageHeader.m */; };
+		891E9F411DA8066C001F058C /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D5D1DA47569001578FE /* MultipartMessageHeaderField.m */; };
+		891E9F421DA8066C001F058C /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D601DA47569001578FE /* HTTPAsyncFileResponse.m */; };
+		891E9F431DA8066C001F058C /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D621DA47569001578FE /* HTTPDataResponse.m */; };
+		891E9F441DA8066C001F058C /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D641DA47569001578FE /* HTTPDynamicFileResponse.m */; };
+		891E9F451DA8066C001F058C /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D661DA47569001578FE /* HTTPErrorResponse.m */; };
+		891E9F461DA8066C001F058C /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D681DA47569001578FE /* HTTPFileResponse.m */; };
+		891E9F471DA8066C001F058C /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D6A1DA47569001578FE /* HTTPRedirectResponse.m */; };
+		891E9F481DA8066C001F058C /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D6C1DA47569001578FE /* WebSocket.m */; };
+		891E9F491DA8066C001F058C /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */; };
+		891E9F4A1DA80674001F058C /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
+		891E9F4B1DA80678001F058C /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
+		891E9F4E1DA806A6001F058C /* CLI.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 891E9F4D1DA806A6001F058C /* CLI.json */; };
+		891E9F4F1DA80935001F058C /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
+		891E9F501DA80935001F058C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
+		891E9F511DA80935001F058C /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
+		891E9F521DA80935001F058C /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
+		891E9F531DA80935001F058C /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
+		891E9F541DA80935001F058C /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
+		891E9F551DA80935001F058C /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
+		891E9F561DA80935001F058C /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
+		891E9F571DA80958001F058C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
+		891E9F581DA8095A001F058C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
+		891E9F591DA8095C001F058C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
+		891E9F5A1DA80969001F058C /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
+		891E9F5B1DA8096E001F058C /* CodesignIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6342420C2431007DE0F4756C /* CodesignIdentity.m */; };
+		891E9F5C1DA80974001F058C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4B91D22F85F00E1902C /* Codesigner.m */; };
+		891E9F5D1DA80979001F058C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
+		891E9F5E1DA809B2001F058C /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = F5F5282F1D6BADE500FF39BE /* Certificate.m */; };
+		891E9F5F1DA809B2001F058C /* Entitlement.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424E7B23DD80326DB9FE47 /* Entitlement.m */; };
+		891E9F601DA809B2001F058C /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
+		891E9F611DA809B2001F058C /* MobileProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6342444D6F907EA95A8C8231 /* MobileProfile.m */; };
+		891E9F621DA809B2001F058C /* BundleResigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 634246E72644FB7E5C9D3EAB /* BundleResigner.m */; };
+		891E9F631DA809B2001F058C /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 634242530988C4D64BD8E860 /* BundleResignerFactory.m */; };
+		891E9F651DA809E2001F058C /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		891E9F661DA809E2001F058C /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		891E9F671DA809E2001F058C /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		891E9F681DA809E2001F058C /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93C11D3928F800154F08 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -254,7 +329,40 @@
 		F5F7054F1D68BAA90096E9D4 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		891E9F131DA8056A001F058C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 89331D3B1CE222C7003C2E59 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 891E9EFF1DA8056A001F058C;
+			remoteInfo = iOSDeviceManagerServer;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		891E9F4C1DA80692001F058C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				891E9F4E1DA806A6001F058C /* CLI.json in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		891E9F641DA809D6001F058C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				891E9F651DA809E2001F058C /* FBControlCore.framework in CopyFiles */,
+				891E9F661DA809E2001F058C /* FBDeviceControl.framework in CopyFiles */,
+				891E9F671DA809E2001F058C /* FBSimulatorControl.framework in CopyFiles */,
+				891E9F681DA809E2001F058C /* XCTestBootstrap.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89331D411CE222C7003C2E59 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -335,6 +443,18 @@
 		63424E880030A308875C5973 /* CertificateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CertificateTest.m; sourceTree = "<group>"; };
 		63424EEDC223490E66B7C1BB /* BundleResignerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BundleResignerFactory.h; path = iOSDeviceManager/Utilities/BundleResignerFactory.h; sourceTree = SOURCE_ROOT; };
 		63424F3CF58B84EE37CCE3FB /* CodesignerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignerTest.m; sourceTree = "<group>"; };
+		891E9F001DA8056A001F058C /* iOSDeviceManagerServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDeviceManagerServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		891E9F021DA8056A001F058C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		891E9F031DA8056A001F058C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		891E9F061DA8056A001F058C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		891E9F081DA8056A001F058C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		891E9F0B1DA8056A001F058C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		891E9F0D1DA8056A001F058C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		891E9F121DA8056A001F058C /* iOSDeviceManagerServerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDeviceManagerServerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		891E9F161DA8056A001F058C /* iOSDeviceManagerServerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSDeviceManagerServerUITests.m; sourceTree = "<group>"; };
+		891E9F181DA8056A001F058C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		891E9F2D1DA8061A001F058C /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		891E9F4D1DA806A6001F058C /* CLI.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CLI.json; sourceTree = "<group>"; };
 		892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = SimulateLocationCommand.h; path = iOSDeviceManager/Commands/SimulateLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = SimulateLocationCommand.m; path = iOSDeviceManager/Commands/SimulateLocationCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = StopSimulatingLocationCommand.h; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -481,6 +601,25 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		891E9EFD1DA8056A001F058C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				891E9F2E1DA8061A001F058C /* libxml2.2.tbd in Frameworks */,
+				891E9F291DA80614001F058C /* FBDeviceControl.framework in Frameworks */,
+				891E9F2A1DA80614001F058C /* FBSimulatorControl.framework in Frameworks */,
+				891E9F2B1DA80614001F058C /* XCTestBootstrap.framework in Frameworks */,
+				891E9F2C1DA80614001F058C /* FBControlCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		891E9F0F1DA8056A001F058C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89331D401CE222C7003C2E59 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -526,6 +665,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		891E9F011DA8056A001F058C /* iOSDeviceManagerServer */ = {
+			isa = PBXGroup;
+			children = (
+				891E9F021DA8056A001F058C /* AppDelegate.h */,
+				891E9F031DA8056A001F058C /* AppDelegate.m */,
+				891E9F081DA8056A001F058C /* Assets.xcassets */,
+				891E9F0A1DA8056A001F058C /* MainMenu.xib */,
+				891E9F0D1DA8056A001F058C /* Info.plist */,
+				891E9F051DA8056A001F058C /* Supporting Files */,
+			);
+			path = iOSDeviceManagerServer;
+			sourceTree = "<group>";
+		};
+		891E9F051DA8056A001F058C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				891E9F061DA8056A001F058C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		891E9F151DA8056A001F058C /* iOSDeviceManagerServerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				891E9F161DA8056A001F058C /* iOSDeviceManagerServerUITests.m */,
+				891E9F181DA8056A001F058C /* Info.plist */,
+			);
+			path = iOSDeviceManagerServerUITests;
+			sourceTree = "<group>";
+		};
 		892DE4D41D22F8E100E1902C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,9 +730,12 @@
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
+				891E9F4D1DA806A6001F058C /* CLI.json */,
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
+				891E9F011DA8056A001F058C /* iOSDeviceManagerServer */,
+				891E9F151DA8056A001F058C /* iOSDeviceManagerServerUITests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
 				F5169D271CFEAE5900252F52 /* vendor-licenses */,
@@ -581,6 +753,8 @@
 				89331D431CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4AC91CFA614F006DCDC5 /* Unit.xctest */,
 				F5D583EB1D69FF6C007B0D11 /* Integration.xctest */,
+				891E9F001DA8056A001F058C /* iOSDeviceManagerServer.app */,
+				891E9F121DA8056A001F058C /* iOSDeviceManagerServerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -807,6 +981,7 @@
 			isa = PBXGroup;
 			children = (
 				F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */,
+				891E9F2D1DA8061A001F058C /* libxml2.2.tbd */,
 				89F6DB311D37F746006A0FD5 /* FBControlCore.framework */,
 				89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */,
 				89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */,
@@ -883,6 +1058,43 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		891E9EFF1DA8056A001F058C /* iOSDeviceManagerServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 891E9F191DA8056A001F058C /* Build configuration list for PBXNativeTarget "iOSDeviceManagerServer" */;
+			buildPhases = (
+				891E9EFC1DA8056A001F058C /* Sources */,
+				891E9EFD1DA8056A001F058C /* Frameworks */,
+				891E9EFE1DA8056A001F058C /* Resources */,
+				891E9F4C1DA80692001F058C /* CopyFiles */,
+				891E9F641DA809D6001F058C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSDeviceManagerServer;
+			productName = iOSDeviceManagerServer;
+			productReference = 891E9F001DA8056A001F058C /* iOSDeviceManagerServer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		891E9F111DA8056A001F058C /* iOSDeviceManagerServerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 891E9F1C1DA8056A001F058C /* Build configuration list for PBXNativeTarget "iOSDeviceManagerServerUITests" */;
+			buildPhases = (
+				891E9F0E1DA8056A001F058C /* Sources */,
+				891E9F0F1DA8056A001F058C /* Frameworks */,
+				891E9F101DA8056A001F058C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				891E9F141DA8056A001F058C /* PBXTargetDependency */,
+			);
+			name = iOSDeviceManagerServerUITests;
+			productName = iOSDeviceManagerServerUITests;
+			productReference = 891E9F121DA8056A001F058C /* iOSDeviceManagerServerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		89331D421CE222C7003C2E59 /* iOSDeviceManager */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "iOSDeviceManager" */;
@@ -946,6 +1158,17 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
+					891E9EFF1DA8056A001F058C = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = FYD86LA7RE;
+						ProvisioningStyle = Automatic;
+					};
+					891E9F111DA8056A001F058C = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = FYD86LA7RE;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 891E9EFF1DA8056A001F058C;
+					};
 					89331D421CE222C7003C2E59 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = FYD86LA7RE;
@@ -969,6 +1192,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 89331D3A1CE222C7003C2E59;
 			productRefGroup = 89331D441CE222C7003C2E59 /* Products */;
@@ -978,11 +1202,29 @@
 				89331D421CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4AC81CFA614F006DCDC5 /* Unit */,
 				F5D583EA1D69FF6C007B0D11 /* Integration */,
+				891E9EFF1DA8056A001F058C /* iOSDeviceManagerServer */,
+				891E9F111DA8056A001F058C /* iOSDeviceManagerServerUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		891E9EFE1DA8056A001F058C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				891E9F091DA8056A001F058C /* Assets.xcassets in Resources */,
+				891E9F0C1DA8056A001F058C /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		891E9F101DA8056A001F058C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89EF4AC71CFA614F006DCDC5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1004,6 +1246,83 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		891E9EFC1DA8056A001F058C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				891E9F5E1DA809B2001F058C /* Certificate.m in Sources */,
+				891E9F5F1DA809B2001F058C /* Entitlement.m in Sources */,
+				891E9F601DA809B2001F058C /* Entitlements.m in Sources */,
+				891E9F611DA809B2001F058C /* MobileProfile.m in Sources */,
+				891E9F621DA809B2001F058C /* BundleResigner.m in Sources */,
+				891E9F631DA809B2001F058C /* BundleResignerFactory.m in Sources */,
+				891E9F4F1DA80935001F058C /* StartTestCommand.m in Sources */,
+				891E9F501DA80935001F058C /* IsInstalledCommand.m in Sources */,
+				891E9F511DA80935001F058C /* InstallAppCommand.m in Sources */,
+				891E9F521DA80935001F058C /* KillSimulatorCommand.m in Sources */,
+				891E9F531DA80935001F058C /* UninstallAppCommand.m in Sources */,
+				891E9F541DA80935001F058C /* LaunchSimulatorCommand.m in Sources */,
+				891E9F551DA80935001F058C /* SimulateLocationCommand.m in Sources */,
+				891E9F561DA80935001F058C /* StopSimulatingLocationCommand.m in Sources */,
+				891E9F2F1DA8066C001F058C /* HTTPResponseProxy.m in Sources */,
+				891E9F301DA8066C001F058C /* RouteRequest.m in Sources */,
+				891E9F4A1DA80674001F058C /* CommandOption.m in Sources */,
+				891E9F4B1DA80678001F058C /* ShellResult.m in Sources */,
+				891E9F5C1DA80974001F058C /* Codesigner.m in Sources */,
+				891E9F311DA8066C001F058C /* RouteResponse.m in Sources */,
+				891E9F321DA8066C001F058C /* RoutingHTTPServer.m in Sources */,
+				891E9F331DA8066C001F058C /* DDAbstractDatabaseLogger.m in Sources */,
+				891E9F341DA8066C001F058C /* DDASLLogger.m in Sources */,
+				891E9F351DA8066C001F058C /* DDFileLogger.m in Sources */,
+				891E9F361DA8066C001F058C /* DDLog.m in Sources */,
+				891E9F371DA8066C001F058C /* DDTTYLogger.m in Sources */,
+				891E9F381DA8066C001F058C /* ContextFilterLogFormatter.m in Sources */,
+				891E9F391DA8066C001F058C /* DispatchQueueLogFormatter.m in Sources */,
+				891E9F3A1DA8066C001F058C /* DDData.m in Sources */,
+				891E9F3B1DA8066C001F058C /* DDNumber.m in Sources */,
+				891E9F3C1DA8066C001F058C /* DDRange.m in Sources */,
+				891E9F3D1DA8066C001F058C /* HTTPAuthenticationRequest.m in Sources */,
+				891E9F3E1DA8066C001F058C /* HTTPMessage.m in Sources */,
+				891E9F5A1DA80969001F058C /* AppUtils.m in Sources */,
+				891E9F3F1DA8066C001F058C /* MultipartFormDataParser.m in Sources */,
+				891E9F401DA8066C001F058C /* MultipartMessageHeader.m in Sources */,
+				891E9F411DA8066C001F058C /* MultipartMessageHeaderField.m in Sources */,
+				891E9F5D1DA80979001F058C /* TestParameters.m in Sources */,
+				891E9F421DA8066C001F058C /* HTTPAsyncFileResponse.m in Sources */,
+				891E9F431DA8066C001F058C /* HTTPDataResponse.m in Sources */,
+				891E9F441DA8066C001F058C /* HTTPDynamicFileResponse.m in Sources */,
+				891E9F451DA8066C001F058C /* HTTPErrorResponse.m in Sources */,
+				891E9F571DA80958001F058C /* Device.m in Sources */,
+				891E9F461DA8066C001F058C /* HTTPFileResponse.m in Sources */,
+				891E9F471DA8066C001F058C /* HTTPRedirectResponse.m in Sources */,
+				891E9F5B1DA8096E001F058C /* CodesignIdentity.m in Sources */,
+				891E9F481DA8066C001F058C /* WebSocket.m in Sources */,
+				891E9F491DA8066C001F058C /* GCDAsyncSocket.m in Sources */,
+				891E9F221DA805C8001F058C /* CLI.m in Sources */,
+				891E9F071DA8056A001F058C /* main.m in Sources */,
+				891E9F591DA8095C001F058C /* PhysicalDevice.m in Sources */,
+				891E9F211DA805BC001F058C /* CBXRoute.m in Sources */,
+				891E9F041DA8056A001F058C /* AppDelegate.m in Sources */,
+				891E9F201DA805A1001F058C /* ServerConfig.m in Sources */,
+				891E9F1F1DA8059B001F058C /* iOSDeviceManagerServer.m in Sources */,
+				891E9F281DA805E8001F058C /* HTTPServer.m in Sources */,
+				891E9F271DA805E3001F058C /* HTTPConnection.m in Sources */,
+				891E9F241DA805D0001F058C /* RoutingConnection.m in Sources */,
+				891E9F251DA805D4001F058C /* ShellRunner.m in Sources */,
+				891E9F581DA8095A001F058C /* Simulator.m in Sources */,
+				891E9F231DA805CB001F058C /* Route.m in Sources */,
+				891E9F261DA805DF001F058C /* Command.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		891E9F0E1DA8056A001F058C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				891E9F171DA8056A001F058C /* iOSDeviceManagerServerUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89331D3F1CE222C7003C2E59 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1225,7 +1544,96 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		891E9F141DA8056A001F058C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 891E9EFF1DA8056A001F058C /* iOSDeviceManagerServer */;
+			targetProxy = 891E9F131DA8056A001F058C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		891E9F0A1DA8056A001F058C /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				891E9F0B1DA8056A001F058C /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		891E9F1A1DA8056A001F058C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FYD86LA7RE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				INFOPLIST_FILE = iOSDeviceManagerServer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sh.calabash.iOSDeviceManagerServer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		891E9F1B1DA8056A001F058C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FYD86LA7RE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				INFOPLIST_FILE = iOSDeviceManagerServer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sh.calabash.iOSDeviceManagerServer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		891E9F1D1DA8056A001F058C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FYD86LA7RE;
+				INFOPLIST_FILE = iOSDeviceManagerServerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sh.calabash.iOSDeviceManagerServerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = iOSDeviceManagerServer;
+			};
+			name = Debug;
+		};
+		891E9F1E1DA8056A001F058C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FYD86LA7RE;
+				INFOPLIST_FILE = iOSDeviceManagerServerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sh.calabash.iOSDeviceManagerServerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = iOSDeviceManagerServer;
+			};
+			name = Release;
+		};
 		89331D481CE222C7003C2E59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1424,6 +1832,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		891E9F191DA8056A001F058C /* Build configuration list for PBXNativeTarget "iOSDeviceManagerServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				891E9F1A1DA8056A001F058C /* Debug */,
+				891E9F1B1DA8056A001F058C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		891E9F1C1DA8056A001F058C /* Build configuration list for PBXNativeTarget "iOSDeviceManagerServerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				891E9F1D1DA8056A001F058C /* Debug */,
+				891E9F1E1DA8056A001F058C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

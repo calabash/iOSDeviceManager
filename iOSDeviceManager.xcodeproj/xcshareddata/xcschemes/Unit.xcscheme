@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89331D421CE222C7003C2E59"
-               BuildableName = "iOSDeviceManagerServer"
+               BuildableName = "iOSDeviceManager"
                BlueprintName = "iOSDeviceManager"
                ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "iOSDeviceManagerServer"
+            BuildableName = "iOSDeviceManager"
             BlueprintName = "iOSDeviceManager"
             ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "iOSDeviceManagerServer"
+            BuildableName = "iOSDeviceManager"
             BlueprintName = "iOSDeviceManager"
             ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89331D421CE222C7003C2E59"
-            BuildableName = "iOSDeviceManagerServer"
+            BuildableName = "iOSDeviceManager"
             BlueprintName = "iOSDeviceManager"
             ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
          </BuildableReference>
