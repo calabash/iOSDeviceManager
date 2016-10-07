@@ -20,7 +20,7 @@ static BOOL alive = YES;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         server = [RoutingHTTPServer new];
-        //[server setRouteQueue:dispatch_get_main_queue()];
+        [server setRouteQueue:dispatch_get_main_queue()];
         [server setDefaultHeader:@"CalabusDriver"
                            value:@"CalabashXCUITestServer/1.0"];
         [server setConnectionClass:[RoutingConnection class]];
@@ -55,7 +55,6 @@ static BOOL alive = YES;
     return [CBXRoute get:@"/shutdown" withBlock:^(RouteRequest *request, NSDictionary *body, RouteResponse *response) {
         [response respondWithJSON:@{@"status" : @"Exiting..."}];
         alive = NO;
-        abort();
     }];
 }
 
@@ -99,6 +98,9 @@ static BOOL alive = YES;
           serverName,
           [self.router port]);
     
+    while (alive) {
+        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
     return iOSReturnStatusCodeEverythingOkay;
 }
 @end
