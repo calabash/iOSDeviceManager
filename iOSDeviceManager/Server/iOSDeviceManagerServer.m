@@ -20,7 +20,7 @@ static BOOL alive = YES;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         server = [RoutingHTTPServer new];
-//        [server setRouteQueue:dispatch_get_main_queue()];
+        [server setRouteQueue:dispatch_get_main_queue()];
         [server setDefaultHeader:@"CalabusDriver"
                            value:@"CalabashXCUITestServer/1.0"];
         [server setConnectionClass:[RoutingConnection class]];
