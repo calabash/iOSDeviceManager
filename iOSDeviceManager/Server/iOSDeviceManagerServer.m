@@ -20,16 +20,15 @@ static BOOL alive = YES;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         server = [RoutingHTTPServer new];
-        [server setRouteQueue:dispatch_get_main_queue()];
-        [server setDefaultHeader:@"CalabusDriver"
-                           value:@"CalabashXCUITestServer/1.0"];
+//        [server setRouteQueue:dispatch_get_main_queue()];
+        [server setRouteQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
         [server setConnectionClass:[RoutingConnection class]];
-        [server setType:@"_iOSDeviceManagerServer._tcp."];
+        [server setType:@"_iosdm._tcp."];
         [server setPort:SERVER_PORT];
         
         NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
         NSString *token = [uuid componentsSeparatedByString:@"-"][0];
-        NSString *serverName = [NSString stringWithFormat:@"iOSDeviceManagerServer-%@", token];
+        NSString *serverName = [NSString stringWithFormat:@"iosdm-%@", token];
         [server setName:serverName];
         [server addRoute:[self healthRoute]];
         [server addRoute:[self shutdownRoute]];
