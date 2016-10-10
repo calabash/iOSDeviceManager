@@ -54,4 +54,6 @@ do
   fi
 done
 
-curl -X POST -H "Content-Type: application/json" -d "[ ${ARGLIST} ]" "${CLI}"
+RESULT=$(curl -X POST -H "Content-Type: application/json" -d "[ ${ARGLIST} ]" "${CLI}")
+EC=$(echo "${RESULT}" | cut -d: -f2 | cut -d"}" -f1)
+exit "${EC}"
