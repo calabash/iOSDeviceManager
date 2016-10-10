@@ -51,7 +51,7 @@
 
     Codesigner *signer;
     signer = [[Codesigner alloc] initWithCodeSignIdentity:@"identity"
-                                               deviceUDID:@"udid"];
+                                               deviceUDID:@"123456789abcdef123456789abcdef123456789a"];
 
     BOOL actual = [signer signBundleAtPath:@"bundle path"
                                      error:&error];
@@ -81,7 +81,7 @@
 
     Codesigner *signer;
     signer = [[Codesigner alloc] initWithCodeSignIdentity:@"identity"
-                                               deviceUDID:@"udid"];
+                                               deviceUDID:@"123456789abcdef123456789abcdef123456789a"];
 
     BOOL actual = [signer signBundleAtPath:@"bundle path"
                                      error:&error];
@@ -105,13 +105,12 @@
 
     Codesigner *signer;
     signer = [[Codesigner alloc] initWithCodeSignIdentity:@"identity"
-                                               deviceUDID:@"udid"];
+                                               deviceUDID:@"123456789abcdef123456789abcdef123456789a"];
 
     BOOL actual = [signer signBundleAtPath:@"bundle path"
                                      error:nil];
 
     expect(actual).to.equal(NO);
-
     OCMVerifyAll(mockResignerFactory);
     [mockResignerFactory stopMocking];
 }

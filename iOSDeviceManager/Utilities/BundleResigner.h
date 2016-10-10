@@ -18,6 +18,14 @@
                      mobileProfile:(MobileProfile *)mobileProfile
                         deviceUDID:(NSString *)deviceUDID;
 
+- (instancetype)initWithBundlePath:(NSString *)bundlePath
+                          identity:(CodesignIdentity *)identity
+                        deviceUDID:(NSString *)deviceUDID;
+
 - (BOOL)resign;
+
+- (BOOL)resignSimBundle;
+
+- (BOOL)validateBundleSignature;
 
 @end

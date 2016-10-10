@@ -6,6 +6,7 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import "ShellRunner.h"
 #import "AppUtils.h"
+#import "Codesigner.h"
 
 @implementation Simulator
 static FBSimulatorControl *_control;
@@ -31,24 +32,24 @@ static FBSimulatorControl *_control;
     FBProductBundle *newApp = [[[FBProductBundleBuilder builder]
                                 withBundlePath:bundlePath]
                                buildWithError:&e];
-    
+
     if (e) {
         NSLog(@"Unable to create product bundle for application at %@: %@", bundlePath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     FBApplicationDescriptor *installed = [device installedApplicationWithBundleID:newApp.bundleID error:&e];
     if (!installed || e) {
         NSLog(@"Error retrieving installed application %@: %@", newApp.bundleID, e);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
     NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
-    
+
     NSDictionary *oldPlist = [self infoPlistForInstalledBundleID:newApp.bundleID
                                                           device:device];
-    
+
     if (!newPlist) {
         NSLog(@"Unable to locate Info.plist in app bundle: %@", bundlePath);
         return iOSReturnStatusCodeGenericFailure;
@@ -57,7 +58,7 @@ static FBSimulatorControl *_control;
         NSLog(@"Unable to locate Info.plist in app bundle: %@", installed.path);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
         NSLog(@"Installed version is different, attempting to update %@.", installed.bundleID);
         iOSReturnStatusCode ret = [self uninstallApp:newApp.bundleID deviceID:device.udid];
@@ -71,7 +72,7 @@ static FBSimulatorControl *_control;
     } else {
         NSLog(@"Latest version of %@ is installed, not reinstalling.", installed.bundleID);
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -83,11 +84,11 @@ static FBSimulatorControl *_control;
         NSLog(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     NSError *e;
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (!simulator) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     if (simulator.state == FBSimulatorStateShutdown ) {
         [[simulator.interact bootSimulator] perform:&e];
         NSLog(@"Sim is dead, booting.");
@@ -96,12 +97,12 @@ static FBSimulatorControl *_control;
             return iOSReturnStatusCodeInternalError;
         }
     }
-    
+
     if ([self appIsInstalled:runnerBundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
         NSLog(@"TestRunner %@ must be installed before you can run a test.", runnerBundleID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     Simulator *replog = [Simulator new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
@@ -113,7 +114,7 @@ static FBSimulatorControl *_control;
                                                                                reporter:replog
                                                                                  logger:replog
                                                                                   error:&e];
-    
+
     if (e) {
         NSLog(@"Error starting test runner: %@", e);
         return iOSReturnStatusCodeInternalError;
@@ -124,7 +125,7 @@ static FBSimulatorControl *_control;
          */
         while (!replog.testingComplete){
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-            
+
             /*
              `testingHasFinished` returns YES when the bundle connection AND testmanagerd
              connection are finished with the connection (presumably at end of test or failure)
@@ -182,7 +183,7 @@ Tests can not be run on iOS less than 9.0",
 + (FBSimulator *)simulatorWithDeviceID:(NSString *)deviceID {
     FBSimulatorSet *sims = [self control].set;
     if (!sims) { return nil; }
-    
+
     FBiOSTargetQuery *query = [FBiOSTargetQuery udids:@[deviceID]];
     NSArray <FBSimulator *> *results = [sims query:query];
     if (results.count == 0) {
@@ -212,7 +213,7 @@ Tests can not be run on iOS less than 9.0",
     FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                       configurationWithDeviceSetPath:nil
                                                       options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-    
+
     NSError *error;
     _control = [FBSimulatorControl withConfiguration:configuration error:&error];
     if (error) {
@@ -307,18 +308,35 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     NSError *e;
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (!simulator) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     if (simulator.state == FBSimulatorStateShutdown ||
         simulator.state == FBSimulatorStateShuttingDown) {
         NSLog(@"Simulator %@ is dead. Must launch sim before installing an app.", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
     FBApplicationDescriptor *app = [self app:pathToBundle];
-    
+
+    Codesigner *signer = [[Codesigner alloc] initAdHocWithDeviceUDID:deviceID];
+
+    if (![signer validateSignatureAtBundlePath:pathToBundle]) {
+        NSError *signError;
+
+        [signer signBundleAtPath:pathToBundle
+                           error:&signError];
+
+        if (signError) {
+            NSLog(@"Error resigning sim bundle");
+            NSLog(@"  Path to bundle: %@", pathToBundle);
+            NSLog(@"  Device UDID: %@", deviceID);
+            NSLog(@"  ERROR: %@", signError);
+            return iOSReturnStatusCodeGenericFailure;
+        }
+    }
+
     if ([self appIsInstalled:app.bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
         [[simulator.interact installApplication:app] perform:&e];
     } else if (updateApp) {
@@ -327,7 +345,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
             return ret;
         }
     }
-    
+
     if (e) {
         NSLog(@"Error installing %@ to %@: %@", app.bundleID, deviceID, e);
         return iOSReturnStatusCodeInternalError;
@@ -335,7 +353,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"Installed %@ to %@", app.bundleID, deviceID);
     }
     return iOSReturnStatusCodeEverythingOkay;
-    
+
 }
 
 + (iOSReturnStatusCode)launchSimulator:(NSString *)simID {
@@ -343,7 +361,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"'%@' is not a valid sim ID", simID);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     FBSimulator *simulator = [self simulatorWithDeviceID:simID];
     if (simulator == nil) {
         NSLog(@"");
@@ -352,10 +370,10 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (simulator.state == FBSimulatorStateShutdown ||
         simulator.state == FBSimulatorStateShuttingDown) {
         NSLog(@"Sim is dead, booting...");
-        
+
         FBSimulatorLaunchConfiguration *launchConfig = [FBSimulatorLaunchConfiguration withOptions:
                                                         FBSimulatorLaunchOptionsConnectBridge];
-        
+
         [[simulator.interact bootSimulator:launchConfig] perform:&e];
         if (e) {
             NSLog(@"Failed to boot sim: %@", e);
@@ -370,7 +388,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"'%@' is not a valid sim ID", simID);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     FBSimulator *simulator = [self simulatorWithDeviceID:simID];
     if (simulator == nil) {
         NSLog(@"No such simulator exists!");
@@ -383,14 +401,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"Simulator %@ is already shutting down", simID);
         return iOSReturnStatusCodeEverythingOkay;
     }
-  
+
     NSError *e;
     [[simulator.interact shutdownSimulator] perform:&e];
-    
+
     if (e ) {
         NSLog(@"Error shutting down sim %@: %@", simID, e);
     }
-    
+
     return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
@@ -400,7 +418,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (simulator == nil) {
         NSLog(@"No such simulator exists!");
@@ -411,12 +429,12 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"Simulator %@ is dead. Must launch before uninstalling apps.", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     if ([self appIsInstalled:bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
         NSLog(@"App %@ is not installed on %@", bundleID, deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSError *e;
     [[simulator.interact uninstallApplicationWithBundleID:bundleID] perform:&e];
     if (e) {
@@ -431,16 +449,16 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (simulator == nil) {
         NSLog(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
     }
-    
+
     NSError *e;
     BOOL installed = [simulator isApplicationInstalledWithBundleID:bundleID error:&e];
- 
+
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
@@ -451,28 +469,28 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     FBSimulator *simulator = [self simulatorWithDeviceID:deviceID];
     if (simulator == nil) {
         NSLog(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
     }
-    
+
     if (simulator.state == FBSimulatorStateShutdown ||
         simulator.state == FBSimulatorStateShuttingDown) {
         NSLog(@"Sim is dead! Must boot first");
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSError *e;
     FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:simulator error:&e];
     if (e || !bridge) {
         NSLog(@"Unable to fetch simulator bridge: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     [bridge setLocationWithLatitude:lat longitude:lng];
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 

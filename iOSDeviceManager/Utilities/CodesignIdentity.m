@@ -56,6 +56,10 @@
     return bestIdentity;
 }
 
++ (CodesignIdentity *)adHoc {
+    return [[CodesignIdentity alloc] initWithShasum:@"-" name:@"AdHoc"];
+}
+
 + (NSString *)codeSignIdentityFromEnvironment {
     return [[NSProcessInfo processInfo] environment][@"CODE_SIGN_IDENTITY"];
 }

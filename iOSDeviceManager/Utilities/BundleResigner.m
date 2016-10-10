@@ -19,7 +19,7 @@
 
 - (BOOL)resignAppPlugIns;
 - (BOOL)resignPlugInAtPath:(NSString *)path;
-- (BOOL)resignAppOrPlugInBundle;
+- (BOOL)resignAppOrPluginBundleWithEntitlements:(BOOL)withEntitlements;
 - (BOOL)resignLibrary:(NSString *)path;
 - (BOOL)resignDylibsAndFrameworks;
 - (NSString *)embeddedMobileProvisionPath;
@@ -160,6 +160,24 @@
     return self;
 }
 
+- (instancetype)initWithBundlePath:(NSString *)bundlePath
+                          identity:(CodesignIdentity *)identity
+                        deviceUDID:(NSString *)deviceUDID {
+    self = [super init];
+    if (self) {
+        _bundlePath = bundlePath;
+        _originalEntitlements = nil;
+        if (identity) {
+            _identity = identity;
+        } else {
+            _identity = [CodesignIdentity adHoc];
+        }
+        _mobileProfile = nil;
+        _deviceUDID = deviceUDID;
+    }
+    return self;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<BundleResigner: %@\n    %@\n    %@\n    %@\n>",
             [self.bundlePath lastPathComponent],
@@ -173,17 +191,38 @@
     [self replaceEmbeddedMobileProvision] &&
     [self replaceOrCreateXcentFile] &&
     [self resignAppPlugIns] &&
-    [self resignDylibsAndFrameworks] && [self resignAppOrPlugInBundle];
+    [self resignDylibsAndFrameworks] &&
+    [self resignAppOrPluginBundleWithEntitlements:YES] &&
+    [self validateBundleSignature];
 }
 
-- (BOOL)resignAppOrPlugInBundle {
+- (BOOL)resignSimBundle {
+    return
+    [self resignAppPlugIns] &&
+    [self resignDylibsAndFrameworks] &&
+    [self resignAppOrPluginBundleWithEntitlements:NO] &&
+    [self validateBundleSignature];
+}
 
-    NSArray<NSString *> *args = @[@"codesign",
-                                  @"--force",
-                                  @"--sign", self.identity.shasum,
-                                  @"--verbose=4",
-                                  @"--entitlements", [self xcentPath],
-                                  self.bundlePath];
+- (BOOL)resignAppOrPluginBundleWithEntitlements:(BOOL)withEntitlements {
+    NSArray<NSString *> *args;
+    if (withEntitlements) {
+        args = @[@"codesign",
+                 @"--force",
+                 @"--sign", self.identity.shasum,
+                 @"--verbose=4",
+                 @"--entitlements", [self xcentPath],
+                 self.bundlePath];
+
+    } else {
+        args = @[@"codesign",
+                 @"--force",
+                 @"--sign", self.identity.shasum,
+                 @"--verbose=4",
+                 @"--deep",
+                 @"--timestamp=none",
+                 self.bundlePath];
+    }
 
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     if (!result.success) {
@@ -198,11 +237,15 @@
         return NO;
     }
 
-    args = @[@"codesign",
-             @"--verbose=4",
-             @"--verify", [self executablePath]];
+    return YES;
+}
 
-    result = [ShellRunner xcrun:args timeout:10];
+- (BOOL)validateBundleSignature {
+    NSArray<NSString *> *args = @[@"codesign",
+                                  @"--verbose=4",
+                                  @"--verify",
+                                  [self executablePath]];
+    ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
     if (!result.success) {
         NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);
