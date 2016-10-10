@@ -109,14 +109,14 @@ static FBSimulatorControl *_control;
     Simulator *replog = [Simulator new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
-                                                                         runnerBundleID:runnerBundleID
-                                                                              sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                               reporter:replog
-                                                                                 logger:replog
-                                                                                  error:&e];
+    [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
+                                            runnerBundleID:runnerBundleID
+                                                 sessionID:sessionID
+                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                  reporter:replog
+                                                    logger:replog
+                                                     error:&e];
 
     if (e) {
         ConsoleWriteErr(@"Error starting test runner: %@", e);

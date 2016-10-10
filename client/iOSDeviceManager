@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
-SERVER_BIN="/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer"
+SERVER_BIN=${IOSDEVICEMANAGER_PATH:-/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer}
 PORT="36063"
 IP="http://localhost:$PORT"
 HEALTH="$IP/health"
@@ -19,10 +19,6 @@ function error {
     echo "$(tput setaf 1)ERROR: $1$(tput sgr0)"
   fi
 }
-
-if [ ! -z "${IOSDEVICEMANAGER_PATH}" ]; then
-  SERVER_BIN="${IOSDEVICEMANAGER_PATH}"
-fi
 
 if [ ! -e "${SERVER_BIN}" ]; then
    error "Can not find iOSDeviceManagerServer"
