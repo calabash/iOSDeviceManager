@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
 SERVER_BIN=${IOSDEVICEMANAGER_PATH:-/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer}
 PORT="36063"
@@ -50,6 +50,6 @@ do
   fi
 done
 
-RESULT=$(curl -X POST -H "Content-Type: application/json" -d "[ ${ARGLIST} ]" "${CLI}")
+RESULT=$(curl -q -X POST -H "Content-Type: application/json" -d "[ ${ARGLIST} ]" "${CLI}" 2>/dev/null)
 EC=$(echo "${RESULT}" | cut -d: -f2 | cut -d"}" -f1)
 exit "${EC}"
