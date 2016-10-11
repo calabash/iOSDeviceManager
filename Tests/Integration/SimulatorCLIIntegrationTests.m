@@ -71,13 +71,11 @@
 //
 //    //Should launch sim
 //    args = @[@"start_test",
-//             @"-d", defaultSimUDID,
-//             @"-k", @"NO"];
+//             @"-d", defaultSimUDID];
 //    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 //
 //    args = @[@"start_test",
-//             @"-d", defaultSimUDID,
-//             @"-k", @"NO"];
+//             @"-d", defaultSimUDID];
 //    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 //}
 

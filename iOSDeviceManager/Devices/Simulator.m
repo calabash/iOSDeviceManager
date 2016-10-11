@@ -81,8 +81,7 @@ static FBSimulatorControl *_control;
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive {
+                          runnerBundleID:(NSString *)runnerBundleID {
     if (![TestParameters isSimulatorID:deviceID]) {
         ConsoleWriteErr(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;

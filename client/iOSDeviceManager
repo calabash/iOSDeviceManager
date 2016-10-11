@@ -4,9 +4,10 @@ set -e
 
 SERVER_BIN=${IOSDEVICEMANAGER_PATH:-/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer}
 PORT="36063"
-IP="http://localhost:$PORT"
-HEALTH="$IP/health"
-CLI="$IP/"
+IP="http://localhost:${PORT}"
+SHUTDOWN="${IP}/shutdown"
+HEALTH="${IP}/health"
+CLI="${IP}/"
 
 function alive {
   echo $(curl -q "${HEALTH}" 2>/dev/null)
@@ -19,6 +20,17 @@ function error {
     echo "$(tput setaf 1)ERROR: $1$(tput sgr0)"
   fi
 }
+
+if [ "${1}" = "shutdown" ]; then
+  curl -q "${SHUTDOWN}" > /dev/null 2>&1
+  if [ -z "$(alive)" ]; then
+    error "Failed to shutdown server!"
+    exit 4
+  else
+    echo "Shutdown server"
+    exit 0
+  fi
+fi
 
 if [ ! -e "${SERVER_BIN}" ]; then
    error "Can not find iOSDeviceManagerServer"

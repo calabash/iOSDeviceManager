@@ -4,7 +4,6 @@
 static NSString *const DEVICE_ID_FLAG = @"-d";
 static NSString *const TEST_RUNNER_BUNDLE_ID_FLAG = @"-b";
 static NSString *const SESSION_ID_FLAG = @"-s";
-static NSString *const KEEP_ALIVE_FLAG = @"-k";
 
 @implementation StartTestCommand
 + (NSString *)name {
@@ -12,11 +11,6 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    BOOL keepAlive = YES;
-    if ([args.allKeys containsObject:KEEP_ALIVE_FLAG]) {
-        keepAlive = [args[KEEP_ALIVE_FLAG] boolValue];
-    }
-    
     NSString *bundleID = [self optionDict][TEST_RUNNER_BUNDLE_ID_FLAG].defaultValue;
     if ([args.allKeys containsObject:TEST_RUNNER_BUNDLE_ID_FLAG]) {
         bundleID = args[TEST_RUNNER_BUNDLE_ID_FLAG];
@@ -32,8 +26,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
     
     return [Device startTestOnDevice:args[DEVICE_ID_FLAG]
                            sessionID:sid
-                      runnerBundleID:bundleID
-                           keepAlive:keepAlive];
+                      runnerBundleID:bundleID];
 }
 
 @end

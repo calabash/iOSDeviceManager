@@ -19,8 +19,7 @@
         NSArray *args = @[
                 @"start_test",
                 @"-d", defaultDeviceUDID,
-                @"-s", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
-                @"-k", @"YES"
+                @"-s", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"
         ];
 
         [CLI process:args];
