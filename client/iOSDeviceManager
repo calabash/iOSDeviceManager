@@ -4,10 +4,10 @@ set -e
 
 SERVER_BIN=${IOSDEVICEMANAGER_PATH:-/usr/local/bin/iOSDeviceManagerServer/bin/iOSDeviceManagerServer}
 PORT="36063"
-IP="http://localhost:${PORT}"
-SHUTDOWN="${IP}/shutdown"
-HEALTH="${IP}/health"
-CLI="${IP}/"
+BASE_URI="http://localhost:${PORT}"
+SHUTDOWN="${BASE_URI}/shutdown"
+HEALTH="${BASE_URI}/health"
+CLI="${BASE_URI}/"
 
 function alive {
   echo $(curl -q "${HEALTH}" 2>/dev/null)
