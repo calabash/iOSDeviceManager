@@ -21,7 +21,7 @@ fi
 info "Using DeviceAgent: ${DEVICEAGENT_PATH}"
 
 EXECUTABLE=iOSDeviceManagerServer
-SHIM=client/iOSDeviceManager
+SHIM="${PWD}/client/iOSDeviceManager"
 OUTPUT_DIR="${PWD}/Distribution/dependencies"
 
 rm -rf "${OUTPUT_DIR}"
