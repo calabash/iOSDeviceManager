@@ -21,19 +21,16 @@
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive {
+                          runnerBundleID:(NSString *)runnerBundleID {
 
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice startTestOnDevice:deviceID
                                        sessionID:sessionID
-                                  runnerBundleID:runnerBundleID
-                                       keepAlive:keepAlive];
+                                  runnerBundleID:runnerBundleID ];
     } else {
         return [Simulator startTestOnDevice:deviceID
                                   sessionID:sessionID
-                             runnerBundleID:runnerBundleID
-                                  keepAlive:keepAlive];
+                             runnerBundleID:runnerBundleID];
     }
 }
 
