@@ -389,4 +389,30 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return iOSReturnStatusCodeEverythingOkay;
 }
 
++ (iOSReturnStatusCode)uploadFiles:(NSArray<NSString *> *)filenames
+                          toDevice:(NSString *)deviceID
+                    forApplication:(NSString *)bundleID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
+    
+    NSError *e;
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (NSString *file in filenames) {
+        if (![fm fileExistsAtPath:file]) {
+            NSLog(@"%@ doesn't exist!", file);
+            return iOSReturnStatusCodeInvalidArguments;
+        }
+        [operator uploadApplicationDataAtPath:file bundleID:bundleID error:&e];
+        if (e) {
+            NSLog(@"Error uploading application data: %@", e);
+            return iOSReturnStatusCodeInternalError;
+        }
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 @end
