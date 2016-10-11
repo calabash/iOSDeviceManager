@@ -61,7 +61,7 @@ static BOOL alive = YES;
     NSError *innerError = nil;
     BOOL started = [self.router start:&innerError];
     if (!started) {
-        if (!error) {
+        if (!innerError) {
             return NO;
         }
         
