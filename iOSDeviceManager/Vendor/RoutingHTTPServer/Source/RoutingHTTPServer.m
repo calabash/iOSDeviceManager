@@ -209,9 +209,9 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 		RouteRequest *request = [[RouteRequest alloc] initWithHTTPMessage:httpMessage parameters:params];
 		RouteResponse *response = [[RouteResponse alloc] initWithConnection:connection];
-        if ([ShellRunner verbose]) {
-            NSLog(@"%@ %@ %@", request.method, path, DATA_TO_JSON(request.body) ?: @"");
-        }
+            if ([ShellRunner verbose]) {
+                NSLog(@"%@ %@ %@", request.method, path, DATA_TO_JSON(request.body) ?: @"");
+            }
 		if (!routeQueue) {
 			[self handleRoute:route withRequest:request response:response];
 		} else {

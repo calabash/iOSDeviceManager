@@ -993,14 +993,15 @@ static NSMutableArray *recentNonces;
 	// Note: We already checked to ensure the method was supported in onSocket:didReadData:withTag:
 	
 	// Respond properly to HTTP 'GET' and 'HEAD' commands
-    httpResponse = [self httpResponseForMethod:method URI:uri];
-    
-    if (httpResponse == nil) {
-        [self handleResourceNotFound];
-        return;
-    }
-    
-    [self sendResponseHeadersAndBody];
+	httpResponse = [self httpResponseForMethod:method URI:uri];
+	
+	if (httpResponse == nil)
+	{
+		[self handleResourceNotFound];
+		return;
+	}
+	
+	[self sendResponseHeadersAndBody];
 }
 
 /**
