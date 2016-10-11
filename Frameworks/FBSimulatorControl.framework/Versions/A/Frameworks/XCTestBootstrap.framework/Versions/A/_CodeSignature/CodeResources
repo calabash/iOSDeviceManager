@@ -11,11 +11,42 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Frameworks/CocoaLumberjack.framework</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			SeXM3sAECgVANmUpSSd8kh2Web8=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		</dict>
+		<key>Frameworks/CocoaLumberjack.framework.dSYM/Contents/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GEBqIsXLoDp/FCpEk2dLH9OmaFw=
+			</data>
+			<key>hash2</key>
+			<data>
+			kPch7YEgoza52rt32RlyJwyfO1XjsxuTSmlPi0Aar0Y=
+			</data>
+		</dict>
+		<key>Frameworks/CocoaLumberjack.framework.dSYM/Contents/Resources/DWARF/CocoaLumberjack</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xLIG6jLkVJtWtse5ONFSLRXzxOA=
+			</data>
+			<key>hash2</key>
+			<data>
+			AdjM9b73QwwnzcdOmX+hZfvd5HYsXmcTTtKs+59/JSU=
+			</data>
+		</dict>
 		<key>Frameworks/FBControlCore.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			tgzO/4tmubMU1jjCyMJfUE7eVtE=
+			dO8F0fggUc/xzb/ZIxyx9LaKvBM=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
