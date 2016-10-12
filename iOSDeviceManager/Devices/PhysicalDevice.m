@@ -37,7 +37,7 @@
     NSArray *output  = [ShellRunner xcrun:@[@"xcode-select",
                                             @"--print-path"]];
     if (!output.count) {
-        NSLog(@"Error finding developer dir");
+        ConsoleWriteErr(@"Error finding developer dir");
         return nil;
     }
 
@@ -59,7 +59,7 @@
     id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
 
     if (!installed) {
-        NSLog(@"Error fetching installed application %@ ", bundleID);
+        ConsoleWriteErr(@"Error fetching installed application %@ ", bundleID);
         return nil;
     }
     return [installed plist];
@@ -73,7 +73,7 @@
     FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:bundlePath
                                                                           error:&e];
     if (e) {
-        NSLog(@"Error creating app bundle for %@: %@", bundlePath, e);
+        ConsoleWriteErr(@"Error creating app bundle for %@: %@", bundlePath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
 
@@ -82,12 +82,12 @@
         NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
         NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
         if (!newPlist || newPlist.count == 0) {
-            NSLog(@"Unable to find Info.plist at %@", newPlistPath);
+            ConsoleWriteErr(@"Unable to find Info.plist at %@", newPlistPath);
             return iOSReturnStatusCodeGenericFailure;
         }
 
         if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            NSLog(@"Installed version is different, attempting to update %@.", app.bundleID);
+            DDLogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
             iOSReturnStatusCode ret = [self uninstallApp:app.bundleID deviceID:device.udid];
             if (ret != iOSReturnStatusCodeEverythingOkay) {
                 return ret;
@@ -97,7 +97,7 @@
                           updateApp:YES
                          codesignID:[signerThatCanSign codeSignIdentity]];
         } else {
-            NSLog(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            DDLogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
 
@@ -108,7 +108,7 @@
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive  {
-    NSLog(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
+    DDLogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
     NSError *e = nil;
 
     Codesigner *signer = [Codesigner signerThatCannotSign];
@@ -145,7 +145,7 @@
             }
         }
     } else {
-        NSLog(@"Err: %@", e);
+        ConsoleWriteErr(@"Err: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
     return iOSReturnStatusCodeEverythingOkay;
@@ -154,49 +154,49 @@
 #pragma mark - Test Reporter Methods
 
 - (void)testManagerMediatorDidBeginExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
                   testSuite:(NSString *)testSuite
                  didStartAt:(NSString *)startTime {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFinishForTestClass:(NSString *)testClass method:(NSString *)method withStatus:(FBTestReportStatus)status duration:(NSTimeInterval)duration {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFailForTestClass:(NSString *)testClass method:(NSString *)method withMessage:(NSString *)message file:(NSString *)file line:(NSUInteger)line {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testBundleReadyWithProtocolVersion:(NSInteger)protocolVersion
              minimumVersion:(NSInteger)minimumVersion {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testCaseDidStartForTestClass:(NSString *)testClass
                      method:(NSString *)method {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
         finishedWithSummary:(FBTestManagerResultSummary *)summary {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    NSLog(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
     self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger
 - (id<FBControlCoreLogger>)log:(NSString *)string {
-    NSLog(@"%@", string);
+    DDLogInfo(@"%@", string);
     return self;
 }
 
@@ -205,7 +205,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     va_start(args, format);
     id str = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
-    NSLog(@"%@", str);
+    DDLogInfo(@"%@", str);
     return self;
 }
 
@@ -235,13 +235,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                  error:&err]
             deviceWithUDID:deviceID];
     if (!device || err) {
-        NSLog(@"Error getting device with ID %@: %@", deviceID, err);
+        DDLogInfo(@"Error getting device with ID %@: %@", deviceID, err);
         return nil;
     }
     device.deviceOperator.codesignProvider = signer;
     [device.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
     if (err) {
-        NSLog(@"Error getting device with ID %@: %@", deviceID, err);
+        DDLogInfo(@"Error getting device with ID %@: %@", deviceID, err);
         return nil;
     }
     return device;
@@ -256,9 +256,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (codesignID == nil) {
         CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:pathToBundle deviceId:deviceID];
         if (!identity) {
-            NSLog(@"ERROR: Could not find valid codesign identity");
-            NSLog(@"ERROR:   app: %@", pathToBundle);
-            NSLog(@"ERROR:   device udid: %@", deviceID);
+            ConsoleWriteErr(@"Could not find valid codesign identity");
+            ConsoleWriteErr(@"  app: %@", pathToBundle);
+            ConsoleWriteErr(@"  device udid: %@", deviceID);
             return iOSReturnStatusCodeNoValidCodesignIdentity;
         }
         codesignID = identity.name;
@@ -273,7 +273,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     NSString *stagedApp = [AppUtils copyAppBundle:pathToBundle];
     if (!stagedApp) {
-        NSLog(@"ERROR: Could not stage app for code signing");
+        ConsoleWriteErr(@"Could not stage app for code signing");
         return iOSReturnStatusCodeInternalError;
     }
 
@@ -285,14 +285,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
                             buildWithError:&err];
 
     if (err) {
-        NSLog(@"Error creating product bundle for %@: %@", stagedApp, err);
+        ConsoleWriteErr(@"Error creating product bundle for %@: %@", stagedApp, err);
         return iOSReturnStatusCodeInternalError;
     }
 
     FBiOSDeviceOperator *op = device.deviceOperator;
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {
-            NSLog(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
+            ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
         iOSReturnStatusCode ret = [self updateAppIfRequired:stagedApp
@@ -303,7 +303,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     } else {
         if (![op installApplicationWithPath:stagedApp error:&err] || err) {
-            NSLog(@"Error installing application: %@", err);
+            ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
     }
@@ -319,17 +319,17 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     NSError *err;
     if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
-        NSLog(@"Application %@ is not installed on %@", bundleID, deviceID);
+        ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, deviceID);
         return iOSReturnStatusCodeInternalError;
     }
 
     if (err) {
-        NSLog(@"Error checking if application %@ is installed: %@", bundleID, err);
+        ConsoleWriteErr(@"Error checking if application %@ is installed: %@", bundleID, err);
         return iOSReturnStatusCodeInternalError;
     }
 
     if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
-        NSLog(@"Error uninstalling app %@: %@", bundleID, err);
+        ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
     return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
@@ -342,8 +342,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
     BOOL installed = [device.deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                          error:&err];
     if (err) {
-        NSLog(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
+        DDLogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
         return iOSReturnStatusCodeInternalError;
+    }
+    if (installed) {
+        [ConsoleWriter write:@"true"];
+    } else {
+        [ConsoleWriter write:@"false"];
     }
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
@@ -355,7 +360,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
     if (![device.dvtDevice supportsLocationSimulation]) {
-        NSLog(@"Device %@ doesn't support location simulation", deviceID);
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
 
@@ -364,7 +369,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                   andLongitude:@(lng)
                                      withError:&e];
     if (e) {
-        NSLog(@"Unable to set device location: %@", e);
+        ConsoleWriteErr(@"Unable to set device location: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
 
@@ -376,14 +381,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
     if (![device.dvtDevice supportsLocationSimulation]) {
-        NSLog(@"Device %@ doesn't support location simulation", deviceID);
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     NSError *e;
     [[device.dvtDevice token] stopSimulatingLocationWithError:&e];
     if (e) {
-        NSLog(@"Unable to stop simulating device location: %@", e);
+        ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
     return iOSReturnStatusCodeEverythingOkay;

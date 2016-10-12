@@ -56,8 +56,8 @@
         }];
         expect(index).to.equal(NSNotFound);
 
-        NSLog(@"=== RANKED PROFILES ===");
-        NSLog(@"%@", profiles);
+        DDLogVerbose(@"=== RANKED PROFILES ===");
+        DDLogVerbose(@"%@", profiles);
     }
 }
 

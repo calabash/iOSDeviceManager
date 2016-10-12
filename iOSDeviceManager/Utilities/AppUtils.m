@@ -33,9 +33,9 @@
                                    withIntermediateDirectories:YES
                                                     attributes:nil
                                                          error:&error]) {
-        NSLog(@"ERROR: Could not create directory at path:\n    %@", tempPath);
-        NSLog(@"ERROR: while trying to copy an app bundle:\n    %@", bundlePath);
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        ConsoleWriteErr(@"Could not create directory at path:\n    %@", tempPath);
+        ConsoleWriteErr(@"while trying to copy an app bundle:\n    %@", bundlePath);
+        ConsoleWriteErr(@"%@", [error localizedDescription]);
         return nil;
     }
 
@@ -44,9 +44,9 @@
     if (![[NSFileManager defaultManager] copyItemAtPath:bundlePath
                                                  toPath:newBundlePath
                                                   error:&error]) {
-        NSLog(@"ERROR: Could not copy app bundle:\n    %@", bundlePath);
-        NSLog(@"ERROR: to tmp directory:\n    %@", newBundlePath);
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        ConsoleWriteErr(@"Could not copy app bundle:\n    %@", bundlePath);
+        ConsoleWriteErr(@"to tmp directory:\n    %@", newBundlePath);
+        ConsoleWriteErr(@"%@", [error localizedDescription]);
         return nil;
     }
 

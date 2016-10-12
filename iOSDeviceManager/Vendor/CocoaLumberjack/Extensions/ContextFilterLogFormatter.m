@@ -22,7 +22,7 @@
 
 - (NSArray *)currentSet;
 
-- (BOOL)isInSet:(int)loggingContext;
+- (BOOL)isInSet:(NSInteger)loggingContext;
 
 @end
 
@@ -60,15 +60,15 @@
 	return [contextSet currentSet];
 }
 
-- (BOOL)isOnWhitelist:(int)loggingContext
+- (BOOL)isOnWhitelist:(NSInteger)loggingContext
 {
 	return [contextSet isInSet:loggingContext];
 }
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage
 {
-	if ([self isOnWhitelist:logMessage->logContext])
-		return logMessage->logMsg;
+	if ([self isOnWhitelist:logMessage.context])
+		return logMessage.message;
 	else
 		return nil;
 }
@@ -109,17 +109,17 @@
 	return [contextSet currentSet];
 }
 
-- (BOOL)isOnBlacklist:(int)loggingContext
+- (BOOL)isOnBlacklist:(NSInteger)loggingContext
 {
 	return [contextSet isInSet:loggingContext];
 }
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage
 {
-	if ([self isOnBlacklist:logMessage->logContext])
+	if ([self isOnBlacklist:logMessage.context])
 		return nil;
 	else
-		return logMessage->logMsg;
+		return logMessage.message;
 }
 
 @end
@@ -175,7 +175,7 @@
 	return result;
 }
 
-- (BOOL)isInSet:(int)loggingContext
+- (BOOL)isInSet:(NSInteger)loggingContext
 {
 	BOOL result = NO;
 	
