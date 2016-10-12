@@ -1,5 +1,6 @@
 
 #import "CLI.h"
+#import "LPTTYLogFormatter.h"
 #import <FBControlCore/CalabashUtils.h>
 
 void setup_logger() {
@@ -16,6 +17,7 @@ void setup_logger() {
     fileLogger.rollingFrequency = 60 * 60 * 24;
     fileLogger.maximumFileSize = 1024 * 1024; //1Mb
     fileLogger.logFileManager.maximumNumberOfLogFiles = 10;
+    fileLogger.logFormatter = [LPTTYLogFormatter new];
     [DDLog addLogger:fileLogger];
     
     if (e) {

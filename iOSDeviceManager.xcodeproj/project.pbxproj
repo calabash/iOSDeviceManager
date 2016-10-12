@@ -165,12 +165,15 @@
 		898D7DEA1DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
-		89C29E121DAE4B8100282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E111DAE4B8100282526 /* ConsoleWriter.m */; };
-		89C29E131DAE4B8100282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E111DAE4B8100282526 /* ConsoleWriter.m */; };
-		89C29E141DAE535500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E111DAE4B8100282526 /* ConsoleWriter.m */; };
 		89C29E151DAE537700282526 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */; };
 		89C29E161DAE537F00282526 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A681DAD752E001DFD43 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89C29E171DAE537F00282526 /* CocoaLumberjack.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A691DAD752E001DFD43 /* CocoaLumberjack.framework.dSYM */; };
+		89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
+		89C29E1B1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
+		89C29E1C1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
+		89C29E201DAE6A2C00282526 /* LPTTYLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E1F1DAE6A2C00282526 /* LPTTYLogFormatter.m */; };
+		89C29E211DAE6A2C00282526 /* LPTTYLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E1F1DAE6A2C00282526 /* LPTTYLogFormatter.m */; };
+		89C29E221DAE6A2C00282526 /* LPTTYLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E1F1DAE6A2C00282526 /* LPTTYLogFormatter.m */; };
 		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
@@ -431,8 +434,10 @@
 		898D7DE71DA47672001578FE /* CBXRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBXRoute.m; path = iOSDeviceManager/Server/CBXRoute.m; sourceTree = SOURCE_ROOT; };
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		89C29E101DAE4B8100282526 /* ConsoleWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleWriter.h; path = iOSDeviceManager/Utilities/ConsoleWriter.h; sourceTree = SOURCE_ROOT; };
-		89C29E111DAE4B8100282526 /* ConsoleWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleWriter.m; path = iOSDeviceManager/Utilities/ConsoleWriter.m; sourceTree = SOURCE_ROOT; };
+		89C29E181DAE69C500282526 /* ConsoleWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleWriter.h; path = iOSDeviceManager/Utilities/Logging/ConsoleWriter.h; sourceTree = SOURCE_ROOT; };
+		89C29E191DAE69C500282526 /* ConsoleWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleWriter.m; path = iOSDeviceManager/Utilities/Logging/ConsoleWriter.m; sourceTree = SOURCE_ROOT; };
+		89C29E1E1DAE6A2C00282526 /* LPTTYLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LPTTYLogFormatter.h; path = iOSDeviceManager/Utilities/Logging/LPTTYLogFormatter.h; sourceTree = SOURCE_ROOT; };
+		89C29E1F1DAE6A2C00282526 /* LPTTYLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LPTTYLogFormatter.m; path = iOSDeviceManager/Utilities/Logging/LPTTYLogFormatter.m; sourceTree = SOURCE_ROOT; };
 		89EF4AC91CFA614F006DCDC5 /* Unit.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Unit.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
@@ -634,8 +639,7 @@
 				634246E72644FB7E5C9D3EAB /* BundleResigner.m */,
 				63424EEDC223490E66B7C1BB /* BundleResignerFactory.h */,
 				634242530988C4D64BD8E860 /* BundleResignerFactory.m */,
-				89C29E101DAE4B8100282526 /* ConsoleWriter.h */,
-				89C29E111DAE4B8100282526 /* ConsoleWriter.m */,
+				89C29E1D1DAE69CC00282526 /* Logging */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -777,6 +781,17 @@
 				898D7DE71DA47672001578FE /* CBXRoute.m */,
 			);
 			name = Server;
+			sourceTree = "<group>";
+		};
+		89C29E1D1DAE69CC00282526 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				89C29E1E1DAE6A2C00282526 /* LPTTYLogFormatter.h */,
+				89C29E1F1DAE6A2C00282526 /* LPTTYLogFormatter.m */,
+				89C29E181DAE69C500282526 /* ConsoleWriter.h */,
+				89C29E191DAE69C500282526 /* ConsoleWriter.m */,
+			);
+			name = Logging;
 			sourceTree = "<group>";
 		};
 		89EF4ACA1CFA614F006DCDC5 /* Tests */ = {
@@ -998,6 +1013,7 @@
 			files = (
 				892DE4D11D22F87000E1902C /* main.m in Sources */,
 				898D7D881DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
+				89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				898D7D791DA47569001578FE /* HTTPConnection.m in Sources */,
 				892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */,
 				898D7D761DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
@@ -1020,6 +1036,7 @@
 				898D7D8B1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
 				F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */,
 				892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */,
+				89C29E201DAE6A2C00282526 /* LPTTYLogFormatter.m in Sources */,
 				892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
 				892DE4BF1D22F85F00E1902C /* Codesigner.m in Sources */,
@@ -1047,7 +1064,6 @@
 				898D7D851DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				63424016FAA1D6E42AA2B639 /* CodesignIdentity.m in Sources */,
 				898D7D971DA47569001578FE /* HTTPFileResponse.m in Sources */,
-				89C29E121DAE4B8100282526 /* ConsoleWriter.m in Sources */,
 				63424D088ACDC4BC94DFD35C /* Entitlement.m in Sources */,
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
 				63424FF90B5F065931C9E5E7 /* BundleResignerFactory.m in Sources */,
@@ -1074,6 +1090,7 @@
 				898D7D3F1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				898D7D951DA47569001578FE /* HTTPErrorResponse.m in Sources */,
 				898D7DC01DA47574001578FE /* ContextFilterLogFormatter.m in Sources */,
+				89C29E1B1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				898D7D8F1DA47569001578FE /* HTTPDataResponse.m in Sources */,
 				F5E8D8201D67A57600A41EFD /* ResourcesTest.m in Sources */,
 				892DE4C01D22F85F00E1902C /* Codesigner.m in Sources */,
@@ -1082,6 +1099,7 @@
 				F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */,
 				F5F528321D6BAE1900FF39BE /* Certificate.m in Sources */,
 				892DE4A41D22F84200E1902C /* Simulator.m in Sources */,
+				89C29E211DAE6A2C00282526 /* LPTTYLogFormatter.m in Sources */,
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
 				898D7D741DA47569001578FE /* DDRange.m in Sources */,
@@ -1095,7 +1113,6 @@
 				898D7D831DA47569001578FE /* MultipartFormDataParser.m in Sources */,
 				898D7DC31DA47574001578FE /* DispatchQueueLogFormatter.m in Sources */,
 				898D7DE01DA4758A001578FE /* RoutingConnection.m in Sources */,
-				89C29E131DAE4B8100282526 /* ConsoleWriter.m in Sources */,
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				898D7D6E1DA47569001578FE /* DDData.m in Sources */,
@@ -1134,7 +1151,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89C29E141DAE535500282526 /* ConsoleWriter.m in Sources */,
 				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
 				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,
 				898D7D931DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
@@ -1168,6 +1184,7 @@
 				898D7DDB1DA4758A001578FE /* RouteRequest.m in Sources */,
 				898D7D841DA47569001578FE /* MultipartFormDataParser.m in Sources */,
 				F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */,
+				89C29E221DAE6A2C00282526 /* LPTTYLogFormatter.m in Sources */,
 				898D7DEA1DA47672001578FE /* CBXRoute.m in Sources */,
 				898D7D8A1DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */,
@@ -1192,6 +1209,7 @@
 				898D7D721DA47569001578FE /* DDNumber.m in Sources */,
 				634244D7670D3337D4142B0D /* BundleResigner.m in Sources */,
 				898D7D9C1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
+				89C29E1C1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				634242AE8850C425B7060CD4 /* BundleResignerFactory.m in Sources */,
 				634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */,
 				898D7DC41DA47574001578FE /* DispatchQueueLogFormatter.m in Sources */,
