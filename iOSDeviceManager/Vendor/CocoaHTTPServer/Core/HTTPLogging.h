@@ -46,13 +46,12 @@
  * This means you can pass it multiple variables just like NSLog.
 **/
 
-#import "DDLog.h"
-
 // Define logging context for every log message coming from the HTTP server.
 // The logging context can be extracted from the DDLogMessage from within the logging framework,
 // which gives loggers, formatters, and filters the ability to optionally process them differently.
 
 #define HTTP_LOG_CONTEXT 80
+#import <CocoaLumberjack/DDLog.h>
 
 // Configure log levels.
 

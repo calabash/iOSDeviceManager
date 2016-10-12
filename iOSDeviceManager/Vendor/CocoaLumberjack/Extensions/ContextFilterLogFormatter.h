@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "DDLog.h"
 
 @class ContextFilterLogFormatter;
 
@@ -40,7 +39,7 @@
 
 - (NSArray *)whitelist;
 
-- (BOOL)isOnWhitelist:(int)loggingContext;
+- (BOOL)isOnWhitelist:(NSInteger)loggingContext;
 
 @end
 
@@ -60,6 +59,6 @@
 
 - (NSArray *)blacklist;
 
-- (BOOL)isOnBlacklist:(int)loggingContext;
+- (BOOL)isOnBlacklist:(NSInteger)loggingContext;
 
 @end

@@ -3,6 +3,13 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
+
+//Lumberjack
+#define LOG_LEVEL_DEF ddLogLevel
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
 #endif

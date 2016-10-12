@@ -1,0 +1,10 @@
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#define LOG_LEVEL_DEF ddLogLevel
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+
+#endif /* PrefixHeader_pch */

@@ -2708,12 +2708,8 @@ enum GCDAsyncSocketConfig
 			
 			SSLClose(sslContext);
 			
-			#if TARGET_OS_IPHONE
 			CFRelease(sslContext);
-			#else
-			SSLDisposeContext(sslContext);
-			#endif
-			
+
 			sslContext = NULL;
 		}
 	}
