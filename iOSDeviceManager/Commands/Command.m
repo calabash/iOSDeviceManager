@@ -50,7 +50,9 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         if (op.defaultValue) {
             [usage appendFormat:@"\tDEFAULT=%@", op.defaultValue];
         }
-        [usage appendString:@"\n"];
+        if (op != [[cmd options] lastObject]) {
+            [usage appendString:@"\n"];
+        }
     }
     return usage;
 }

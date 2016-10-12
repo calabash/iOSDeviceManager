@@ -37,7 +37,7 @@
     NSArray *output  = [ShellRunner xcrun:@[@"xcode-select",
                                             @"--print-path"]];
     if (!output.count) {
-        DDLogError(@"Error finding developer dir");
+        ConsoleWriteErr(@"Error finding developer dir");
         return nil;
     }
 
@@ -59,7 +59,7 @@
     id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
 
     if (!installed) {
-        DDLogError(@"Error fetching installed application %@ ", bundleID);
+        ConsoleWriteErr(@"Error fetching installed application %@ ", bundleID);
         return nil;
     }
     return [installed plist];
@@ -73,7 +73,7 @@
     FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:bundlePath
                                                                           error:&e];
     if (e) {
-        DDLogError(@"Error creating app bundle for %@: %@", bundlePath, e);
+        ConsoleWriteErr(@"Error creating app bundle for %@: %@", bundlePath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
 
@@ -82,7 +82,7 @@
         NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
         NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
         if (!newPlist || newPlist.count == 0) {
-            DDLogError(@"Unable to find Info.plist at %@", newPlistPath);
+            ConsoleWriteErr(@"Unable to find Info.plist at %@", newPlistPath);
             return iOSReturnStatusCodeGenericFailure;
         }
 
@@ -145,7 +145,7 @@
             }
         }
     } else {
-        DDLogError(@"Err: %@", e);
+        ConsoleWriteErr(@"Err: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
     return iOSReturnStatusCodeEverythingOkay;
@@ -256,9 +256,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (codesignID == nil) {
         CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:pathToBundle deviceId:deviceID];
         if (!identity) {
-            DDLogError(@"Could not find valid codesign identity");
-            DDLogError(@"  app: %@", pathToBundle);
-            DDLogError(@"  device udid: %@", deviceID);
+            ConsoleWriteErr(@"Could not find valid codesign identity");
+            ConsoleWriteErr(@"  app: %@", pathToBundle);
+            ConsoleWriteErr(@"  device udid: %@", deviceID);
             return iOSReturnStatusCodeNoValidCodesignIdentity;
         }
         codesignID = identity.name;
@@ -273,7 +273,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     NSString *stagedApp = [AppUtils copyAppBundle:pathToBundle];
     if (!stagedApp) {
-        DDLogError(@"Could not stage app for code signing");
+        ConsoleWriteErr(@"Could not stage app for code signing");
         return iOSReturnStatusCodeInternalError;
     }
 
@@ -285,14 +285,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
                             buildWithError:&err];
 
     if (err) {
-        DDLogError(@"Error creating product bundle for %@: %@", stagedApp, err);
+        ConsoleWriteErr(@"Error creating product bundle for %@: %@", stagedApp, err);
         return iOSReturnStatusCodeInternalError;
     }
 
     FBiOSDeviceOperator *op = device.deviceOperator;
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {
-            DDLogError(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
+            ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
         iOSReturnStatusCode ret = [self updateAppIfRequired:stagedApp
@@ -303,7 +303,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     } else {
         if (![op installApplicationWithPath:stagedApp error:&err] || err) {
-            DDLogError(@"Error installing application: %@", err);
+            ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
     }
@@ -319,17 +319,17 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     NSError *err;
     if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
-        DDLogInfo(@"Application %@ is not installed on %@", bundleID, deviceID);
+        ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, deviceID);
         return iOSReturnStatusCodeInternalError;
     }
 
     if (err) {
-        DDLogError(@"Error checking if application %@ is installed: %@", bundleID, err);
+        ConsoleWriteErr(@"Error checking if application %@ is installed: %@", bundleID, err);
         return iOSReturnStatusCodeInternalError;
     }
 
     if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
-        DDLogError(@"Error uninstalling app %@: %@", bundleID, err);
+        ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
     return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
@@ -360,7 +360,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
     if (![device.dvtDevice supportsLocationSimulation]) {
-        DDLogError(@"Device %@ doesn't support location simulation", deviceID);
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
 
@@ -369,7 +369,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                   andLongitude:@(lng)
                                      withError:&e];
     if (e) {
-        DDLogError(@"Unable to set device location: %@", e);
+        ConsoleWriteErr(@"Unable to set device location: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
 
@@ -381,14 +381,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
     if (![device.dvtDevice supportsLocationSimulation]) {
-        DDLogError(@"Device %@ doesn't support location simulation", deviceID);
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     NSError *e;
     [[device.dvtDevice token] stopSimulatingLocationWithError:&e];
     if (e) {
-        DDLogError(@"Unable to stop simulating device location: %@", e);
+        ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
     return iOSReturnStatusCodeEverythingOkay;

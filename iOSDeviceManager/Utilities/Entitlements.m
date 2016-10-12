@@ -26,13 +26,13 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
     if (!result.success) {
-        DDLogError(@" Could not extract entitlements from app:\n   %@", bundlePath);
-        DDLogError(@" with command:\n    %@", result.command);
+        ConsoleWriteErr(@" Could not extract entitlements from app:\n   %@", bundlePath);
+        ConsoleWriteErr(@" with command:\n    %@", result.command);
         if (result.didTimeOut) {
-            DDLogError(@"codesign timed out after %@ seconds", @(result.elapsed));
+            ConsoleWriteErr(@"codesign timed out after %@ seconds", @(result.elapsed));
         } else {
-            DDLogError(@"=== STDERR ===");
-            DDLogError(@"%@", result.stderrStr);
+            ConsoleWriteErr(@"=== STDERR ===");
+            ConsoleWriteErr(@"%@", result.stderrStr);
         }
         return nil;
     }
@@ -47,11 +47,11 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
                                                         error:&error];
 
     if (!plist || plist.count == 0) {
-        DDLogError(@"Could not parse plist to dictionary:");
-        DDLogError(@"=== PLIST BEGIN ===");
-        DDLogError(@"%@", result.stdoutStr);
-        DDLogError(@"=== PLIST END ===");
-        DDLogError(@"%@", [error localizedDescription]);
+        ConsoleWriteErr(@"Could not parse plist to dictionary:");
+        ConsoleWriteErr(@"=== PLIST BEGIN ===");
+        ConsoleWriteErr(@"%@", result.stdoutStr);
+        ConsoleWriteErr(@"=== PLIST END ===");
+        ConsoleWriteErr(@"%@", [error localizedDescription]);
         return nil;
     }
     return plist;

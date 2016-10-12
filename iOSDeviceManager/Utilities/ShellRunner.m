@@ -32,7 +32,7 @@
 
     [task waitUntilExit];
     if (task.terminationStatus != 0) {
-        DDLogError(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
+        ConsoleWriteErr(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
         return nil;
     }
 
@@ -76,14 +76,14 @@
             }
         }
     } @catch (NSException *exception) {
-        DDLogError(@"Caught an exception trying to execute:\n    %@ %@",
+        ConsoleWriteErr(@"Caught an exception trying to execute:\n    %@ %@",
               xcrun, [args componentsJoinedByString:@" "]);
-        DDLogError(@"===  EXCEPTION ===");
-        DDLogError(@"%@", exception);
-        DDLogError(@"");
-        DDLogError(@"=== STACK SYMBOLS === ");
-        DDLogError(@"%@", [exception callStackSymbols]);
-        DDLogError(@"");
+        ConsoleWriteErr(@"===  EXCEPTION ===");
+        ConsoleWriteErr(@"%@", exception);
+        ConsoleWriteErr(@"");
+        ConsoleWriteErr(@"=== STACK SYMBOLS === ");
+        ConsoleWriteErr(@"%@", [exception callStackSymbols]);
+        ConsoleWriteErr(@"");
         raised = YES;
     } @finally {
         NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];

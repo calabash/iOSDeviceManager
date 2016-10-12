@@ -12,7 +12,7 @@ static NSString *const LOCATION_FLAG = @"-l";
     NSString *ll = args[LOCATION_FLAG];
     NSArray *latlng = [ll componentsSeparatedByString:@","];
     if (latlng.count != 2) {
-        DDLogError(@"Expected lat,lng: Got %@", ll);
+        ConsoleWriteErr(@"Expected lat,lng: Got %@", ll);
         return iOSReturnStatusCodeInvalidArguments;
     }
     return [Device setLocation:args[DEVICE_ID_FLAG]

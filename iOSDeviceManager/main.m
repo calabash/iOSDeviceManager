@@ -19,7 +19,7 @@ void setup_logger() {
     [DDLog addLogger:fileLogger];
     
     if (e) {
-        DDLogError(@"Error creating logfile: %@", e);
+        ConsoleWriteErr(@"Error creating logfile: %@", e);
     }
 }
 

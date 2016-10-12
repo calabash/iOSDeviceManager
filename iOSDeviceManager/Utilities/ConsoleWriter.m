@@ -6,9 +6,19 @@
     va_list args;
     va_start(args, fmt);
     NSString *output = [[NSString alloc] initWithFormat:fmt arguments:args];
-    fprintf(stdout, "%s", [output cStringUsingEncoding:NSUTF8StringEncoding]);
+    fprintf(stdout, "%s\n", [output cStringUsingEncoding:NSUTF8StringEncoding]);
     fflush(stdout);
     DDLogVerbose(@"CONSOLE: %@", output);
+    va_end(args);
+}
+
++ (void)err:(NSString *)fmt, ... {
+    va_list args;
+    va_start(args, fmt);
+    NSString *output = [[NSString alloc] initWithFormat:fmt arguments:args];
+    fprintf(stderr, "%s\n", [output cStringUsingEncoding:NSUTF8StringEncoding]);
+    fflush(stderr);
+    DDLogError(@"CONSOLE: %@", output);
     va_end(args);
 }
 @end

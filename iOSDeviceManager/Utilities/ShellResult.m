@@ -36,14 +36,14 @@
         string =  [[NSString alloc] initWithData:data
                                         encoding:NSUTF8StringEncoding];
     } @catch (NSException *exception) {
-        DDLogError(@"Caught an exception when reading the %@ of command:\n    %@",
+        ConsoleWriteErr(@"Caught an exception when reading the %@ of command:\n    %@",
               isStdOut ? @"stdout" : @"stderr", command);
-        DDLogError(@"===  EXCEPTION ===");
-        DDLogError(@"%@", exception);
-        DDLogError(@"");
-        DDLogError(@"=== STACK SYMBOLS === ");
-        DDLogError(@"%@", [exception callStackSymbols]);
-        DDLogError(@"");
+        ConsoleWriteErr(@"===  EXCEPTION ===");
+        ConsoleWriteErr(@"%@", exception);
+        ConsoleWriteErr(@"");
+        ConsoleWriteErr(@"=== STACK SYMBOLS === ");
+        ConsoleWriteErr(@"%@", [exception callStackSymbols]);
+        ConsoleWriteErr(@"");
     } @finally {
         [fileHandle closeFile];
     }
@@ -120,7 +120,6 @@
 
 - (void)logStdoutAndStderr {
     if (!self.didTimeOut) {
-
         DDLogInfo(@"EXEC: %@", self.command);
 
         if (self.stdoutStr && self.stdoutStr.length != 0) {
@@ -129,8 +128,8 @@
         }
 
         if (self.stderrStr && self.stderrStr.length != 0) {
-            DDLogInfo(@"=== STDERR ===");
-            DDLogInfo(@"%@", self.stderrStr);
+            ConsoleWriteErr(@"=== STDERR ===");
+            ConsoleWriteErr(@"%@", self.stderrStr);
         }
     }
 }

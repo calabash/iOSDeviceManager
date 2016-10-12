@@ -37,14 +37,14 @@
     NSArray<NSString *> *contents = [manager contentsOfDirectoryAtPath:directory
                                                                  error:&error];
     if (!contents) {
-        DDLogError(@"Could not find any mobileprovision files in:\n"
+        ConsoleWriteErr(@"Could not find any mobileprovision files in:\n"
               "  %@", directory);
-        DDLogError(@"%@", [error localizedDescription]);
+        ConsoleWriteErr(@"%@", [error localizedDescription]);
         return nil;
     } else if (contents.count == 0) {
-        DDLogError(@"Could not find any mobileprovision files in:\n"
+        ConsoleWriteErr(@"Could not find any mobileprovision files in:\n"
               "  %@", directory);
-        DDLogError(@"There was no error, but there were no files in that directory");
+        ConsoleWriteErr(@"There was no error, but there were no files in that directory");
         return nil;
     }
 
@@ -76,12 +76,12 @@
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
     if (!result.success) {
-        DDLogError(@"security cms failed to parse profile:\n  %@", path);
+        ConsoleWriteErr(@"security cms failed to parse profile:\n  %@", path);
         if (result.didTimeOut) {
-            DDLogError(@"security cms timed out after %@ seconds", @(result.elapsed));
+            ConsoleWriteErr(@"security cms timed out after %@ seconds", @(result.elapsed));
         } else {
-            DDLogError(@"=== STDERR ===");
-            DDLogError(@"%@", result.stderrStr);
+            ConsoleWriteErr(@"=== STDERR ===");
+            ConsoleWriteErr(@"%@", result.stderrStr);
         }
         return nil;
     }
@@ -91,10 +91,10 @@
                                                    encoding:NSUTF8StringEncoding
                                                       error:&error];
     if (!fileContents) {
-        DDLogError(@"could not read the output file generate by security cms");
-        DDLogError(@"          profile: %@", path);
-        DDLogError(@"   exported plist: %@", plistPath);
-        DDLogError(@"%@", error.localizedDescription);
+        ConsoleWriteErr(@"could not read the output file generate by security cms");
+        ConsoleWriteErr(@"          profile: %@", path);
+        ConsoleWriteErr(@"   exported plist: %@", plistPath);
+        ConsoleWriteErr(@"%@", error.localizedDescription);
     }
 
     return fileContents;
@@ -114,11 +114,11 @@
                                                         error:&error];
 
     if (!plist || plist.count == 0) {
-        DDLogError(@"Could not parse plist to dictionary:");
-        DDLogError(@"=== PLIST BEGIN ===");
-        DDLogError(@"%@", string);
-        DDLogError(@"=== PLIST END ===");
-        DDLogError(@"%@", [error localizedDescription]);
+        ConsoleWriteErr(@"Could not parse plist to dictionary:");
+        ConsoleWriteErr(@"=== PLIST BEGIN ===");
+        ConsoleWriteErr(@"%@", string);
+        ConsoleWriteErr(@"=== PLIST END ===");
+        ConsoleWriteErr(@"%@", [error localizedDescription]);
         return nil;
     }
     return plist;

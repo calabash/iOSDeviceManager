@@ -35,14 +35,14 @@
 }
 
 - (void)logExampleShellCommand {
-    DDLogError(@"$ CODE_SIGN_IDENTITY=\"iPhone Developer: Your Name (ABCDEF1234)\""
+    ConsoleWriteErr(@"$ CODE_SIGN_IDENTITY=\"iPhone Developer: Your Name (ABCDEF1234)\""
           "iOSDeviceManager < command >");
 }
 
 - (void)logValidSigningIdentities {
-    DDLogError(@"These are the valid signing identities that are available:");
+    ConsoleWriteErr(@"These are the valid signing identities that are available:");
     for(CodesignIdentity *identity in self.identities) {
-        DDLogError(@"   %@", identity);
+        ConsoleWriteErr(@"   %@", identity);
     }
 }
 
@@ -85,7 +85,7 @@
                                            identity:(nonnull CodesignIdentity *)identity {
     NSArray<MobileProfile *> *validProfiles = self.mobileProfiles;
     if (!validProfiles || validProfiles.count == 0) {
-        DDLogError(@"There are no valid profiles on your machine.");
+        ConsoleWriteErr(@"There are no valid profiles on your machine.");
         return nil;
     }
 
@@ -106,10 +106,10 @@
         DDLogInfo(@"%@", rankedProfiles);
 
         if (!rankedProfiles || rankedProfiles.count == 0) {
-            DDLogError(@"Could not find any Provisioning Profiles suitable for resigning");
-            DDLogError(@"      identity: %@", identity);
-            DDLogError(@"   device UDID: %@", deviceUDID);
-            DDLogError(@"           app: %@", bundlePath);
+            ConsoleWriteErr(@"Could not find any Provisioning Profiles suitable for resigning");
+            ConsoleWriteErr(@"      identity: %@", identity);
+            ConsoleWriteErr(@"   device UDID: %@", deviceUDID);
+            ConsoleWriteErr(@"           app: %@", bundlePath);
             return nil;
         }
 
@@ -133,11 +133,11 @@
         signingIdentityName = [CodesignIdentity codeSignIdentityFromEnvironment];
 
         if (!signingIdentityName) {
-            DDLogError(@"You must provide a signing identity for this version of"
+            ConsoleWriteErr(@"You must provide a signing identity for this version of"
                   "iOSDeviceManager");
-            DDLogError(@"");
+            ConsoleWriteErr(@"");
             [self logExampleShellCommand];
-            DDLogError(@"");
+            ConsoleWriteErr(@"");
             [self logValidSigningIdentities];
             return nil;
         }
@@ -146,9 +146,9 @@
     CodesignIdentity *identity = [self codesignIdentityMatchingString:signingIdentityName];
 
     if (!identity) {
-        DDLogError(@"The signing identity you provided is not valid:\n    %@",
+        ConsoleWriteErr(@"The signing identity you provided is not valid:\n    %@",
               signingIdentityName);
-        DDLogError(@"");
+        ConsoleWriteErr(@"");
         [self logValidSigningIdentities];
         return nil;
     }
