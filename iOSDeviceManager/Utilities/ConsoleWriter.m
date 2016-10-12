@@ -18,7 +18,7 @@
     NSString *output = [[NSString alloc] initWithFormat:fmt arguments:args];
     fprintf(stderr, "%s\n", [output cStringUsingEncoding:NSUTF8StringEncoding]);
     fflush(stderr);
-    DDLogError(@"CONSOLE: %@", output);
+    DDLogError(@"%@", output);
     va_end(args);
 }
 @end
