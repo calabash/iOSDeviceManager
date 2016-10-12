@@ -7,4 +7,6 @@
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
+//We don't want to call NSLog directly, so we will use ConsoleWriter.
+#import "ConsoleWriter.h"
 #endif /* PrefixHeader_pch */

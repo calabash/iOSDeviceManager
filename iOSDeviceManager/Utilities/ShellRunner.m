@@ -17,7 +17,7 @@
         [argString appendFormat:@" %@", arg];
     }
     if ([self verbose]) {
-        NSLog(@"$ %@", argString);
+        DDLogInfo(@"$ %@", argString);
     }
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: cmd];
@@ -32,7 +32,7 @@
 
     [task waitUntilExit];
     if (task.terminationStatus != 0) {
-        NSLog(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
+        DDLogError(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
         return nil;
     }
 
@@ -64,7 +64,7 @@
 
     NSString *command = [xcrun stringByAppendingFormat:@" %@",
                          [args componentsJoinedByString:@" "]];
-    NSLog(@"EXEC: %@", command);
+    DDLogInfo(@"EXEC: %@", command);
 
     @try {
         [task launch];
@@ -76,14 +76,14 @@
             }
         }
     } @catch (NSException *exception) {
-        NSLog(@"ERROR: Caught an exception trying to execute:\n    %@ %@",
+        DDLogError(@"Caught an exception trying to execute:\n    %@ %@",
               xcrun, [args componentsJoinedByString:@" "]);
-        NSLog(@"ERROR: ===  EXCEPTION ===");
-        NSLog(@"%@", exception);
-        NSLog(@"");
-        NSLog(@"ERROR: === STACK SYMBOLS === ");
-        NSLog(@"%@", [exception callStackSymbols]);
-        NSLog(@"");
+        DDLogError(@"===  EXCEPTION ===");
+        DDLogError(@"%@", exception);
+        DDLogError(@"");
+        DDLogError(@"=== STACK SYMBOLS === ");
+        DDLogError(@"%@", [exception callStackSymbols]);
+        DDLogError(@"");
         raised = YES;
     } @finally {
         NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];

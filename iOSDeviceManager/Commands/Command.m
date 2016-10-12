@@ -56,7 +56,7 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (void)printUsage {
-    printf("%s", [[self usage] cStringUsingEncoding:NSUTF8StringEncoding]);
+    [ConsoleWriter write:@"%@", [self usage]];
 }
 
 + (CommandOption *)optionForFlag:(NSString *)flag {

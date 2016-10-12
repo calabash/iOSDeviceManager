@@ -37,14 +37,14 @@
     NSArray<NSString *> *contents = [manager contentsOfDirectoryAtPath:directory
                                                                  error:&error];
     if (!contents) {
-        NSLog(@"ERROR: Could not find any mobileprovision files in:\n"
+        DDLogError(@"Could not find any mobileprovision files in:\n"
               "  %@", directory);
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        DDLogError(@"%@", [error localizedDescription]);
         return nil;
     } else if (contents.count == 0) {
-        NSLog(@"ERROR: Could not find any mobileprovision files in:\n"
+        DDLogError(@"Could not find any mobileprovision files in:\n"
               "  %@", directory);
-        NSLog(@"ERROR: There was no error, but there were no files in that directory");
+        DDLogError(@"There was no error, but there were no files in that directory");
         return nil;
     }
 
@@ -76,12 +76,12 @@
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
     if (!result.success) {
-        NSLog(@"ERROR: security cms failed to parse profile:\n  %@", path);
+        DDLogError(@"security cms failed to parse profile:\n  %@", path);
         if (result.didTimeOut) {
-            NSLog(@"ERROR: security cms timed out after %@ seconds", @(result.elapsed));
+            DDLogError(@"security cms timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            DDLogError(@"=== STDERR ===");
+            DDLogError(@"%@", result.stderrStr);
         }
         return nil;
     }
@@ -91,10 +91,10 @@
                                                    encoding:NSUTF8StringEncoding
                                                       error:&error];
     if (!fileContents) {
-        NSLog(@"ERROR: could not read the output file generate by security cms");
-        NSLog(@"ERROR:           profile: %@", path);
-        NSLog(@"ERROR:    exported plist: %@", plistPath);
-        NSLog(@"ERROR: %@", error.localizedDescription);
+        DDLogError(@"could not read the output file generate by security cms");
+        DDLogError(@"          profile: %@", path);
+        DDLogError(@"   exported plist: %@", plistPath);
+        DDLogError(@"%@", error.localizedDescription);
     }
 
     return fileContents;
@@ -114,11 +114,11 @@
                                                         error:&error];
 
     if (!plist || plist.count == 0) {
-        NSLog(@"ERROR: Could not parse plist to dictionary:");
-        NSLog(@"=== PLIST BEGIN ===");
-        NSLog(@"%@", string);
-        NSLog(@"=== PLIST END ===");
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        DDLogError(@"Could not parse plist to dictionary:");
+        DDLogError(@"=== PLIST BEGIN ===");
+        DDLogError(@"%@", string);
+        DDLogError(@"=== PLIST END ===");
+        DDLogError(@"%@", [error localizedDescription]);
         return nil;
     }
     return plist;

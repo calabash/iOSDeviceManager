@@ -67,7 +67,7 @@
     NSError *e;
     NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:&e];
     if (e) {
-        NSLog(@"Error serializing: %@\n %@", e, json);
+        DDLogError(@"Error serializing: %@\n %@", e, json);
     }
     [self respondWithData:data];
 }

@@ -94,10 +94,10 @@
     // We should never reach this point... if we reached this point, we've hit a
     // WTF branch.  I am assuming that if we hit a WTF, we should assume it's not
     // a match
-    NSLog(@"ERROR: Unable to match entitlement, unexpected type(s)");
-    NSLog(@"ERROR:                       key: %@", profileEntitlement.key);
-    NSLog(@"ERROR:  profile entitlement type: %@", [profileEntitlement.value class]);
-    NSLog(@"ERROR:      app entitlement type: %@", [appEntitlement.value class]);
+    DDLogError(@"Unable to match entitlement, unexpected type(s)");
+    DDLogError(@"                      key: %@", profileEntitlement.key);
+    DDLogError(@" profile entitlement type: %@", [profileEntitlement.value class]);
+    DDLogError(@"     app entitlement type: %@", [appEntitlement.value class]);
     return ProfileDoesNotHaveRequiredKey;
 }
 

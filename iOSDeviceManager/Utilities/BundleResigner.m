@@ -43,9 +43,9 @@
                                       options:NSDirectoryEnumerationSkipsHiddenFiles
                                  errorHandler:^BOOL(NSURL *url, NSError *error) {
                                      if (error) {
-                                         NSLog(@"ERROR: could not enumerate file in app "
+                                         DDLogError(@"could not enumerate file in app "
                                                "bundle:\n    %@", url);
-                                         NSLog(@"ERROR: %@", [error localizedDescription]);
+                                         DDLogError(@"%@", [error localizedDescription]);
                                      }
                                      return YES;
                                  }];
@@ -84,13 +84,13 @@
 
     ShellResult *result = [ShellRunner xcrun:args timeout:1];
     if (!result.success) {
-        NSLog(@"ERROR: Could not remove attributes from file:\n    %@", path);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
+        DDLogError(@"Could not remove attributes from file:\n    %@", path);
+        DDLogError(@"with command:\n    %@", result.command);
         if (result.didTimeOut) {
-            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
+            DDLogError(@"timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            DDLogError(@" === STDERR ===");
+            DDLogError(@"%@", result.stderrStr);
         }
         return NO;
     }
@@ -109,9 +109,9 @@
                                       options:NSDirectoryEnumerationSkipsHiddenFiles
                                  errorHandler:^BOOL(NSURL *url, NSError *error) {
                                      if (error) {
-                                         NSLog(@"ERROR: could not enumerate file in app "
+                                         DDLogError(@"could not enumerate file in app "
                                                "bundle:\n    %@", url);
-                                         NSLog(@"ERROR: %@", [error localizedDescription]);
+                                         DDLogError(@"%@", [error localizedDescription]);
                                      }
                                      return YES;
                                  }];
@@ -226,13 +226,13 @@
 
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     if (!result.success) {
-        NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
+        DDLogError(@"Could not resign app bundle at path:\n    %@", self.bundlePath);
+        DDLogError(@"with command:\n    %@", result.command);
         if (result.didTimeOut) {
-            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
+            DDLogError(@"timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            DDLogError(@"=== STDERR ===");
+            DDLogError(@"%@", result.stderrStr);
         }
         return NO;
     }
@@ -248,13 +248,13 @@
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
     if (!result.success) {
-        NSLog(@"ERROR: Could not resign app bundle at path:\n    %@", self.bundlePath);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
+        DDLogError(@"Could not resign app bundle at path:\n    %@", self.bundlePath);
+        DDLogError(@"with command:\n    %@", result.command);
         if (result.didTimeOut) {
-            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
+            DDLogError(@"timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            DDLogError(@"=== STDERR ===");
+            DDLogError(@"%@", result.stderrStr);
         }
         return NO;
     }
@@ -313,13 +313,13 @@
                                   path];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     if (!result.success) {
-        NSLog(@"ERROR: Could not resign library at path:\n    %@", path);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
+        DDLogError(@"Could not resign library at path:\n    %@", path);
+        DDLogError(@"with command:\n    %@", result.command);
         if (result.didTimeOut) {
-            NSLog(@"ERROR: timed out after %@ seconds", @(result.elapsed));
+            DDLogError(@"timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"ERROR: === STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            DDLogError(@"=== STDERR ===");
+            DDLogError(@"%@", result.stderrStr);
         }
         return NO;
     }
@@ -338,7 +338,7 @@
 
     // Resigning with the original embedded.mobileprovision
     if ([targetPath isEqualToString:sourcePath]) {
-        NSLog(@"Resigning with original embedded.mobileprovision");
+        DDLogInfo(@"Resigning with original embedded.mobileprovision");
         return YES;
     }
 
@@ -346,9 +346,9 @@
     if ([manager fileExistsAtPath:targetPath]) {
         if (![manager removeItemAtPath:targetPath
                                  error:&error]) {
-            NSLog(@"ERROR: Could not remove old embedded.mobileprovision:\n    %@",
+            DDLogError(@"Could not remove old embedded.mobileprovision:\n    %@",
                   targetPath);
-            NSLog(@"ERROR: %@", [error localizedDescription]);
+            DDLogError(@"%@", [error localizedDescription]);
             return NO;
         }
     }
@@ -356,18 +356,18 @@
     if (![manager copyItemAtPath:sourcePath
                           toPath:targetPath
                            error:&error]) {
-        NSLog(@"ERROR: Could not copy new embedded.mobileprovision:");
-        NSLog(@"ERROR:     source: %@", sourcePath);
-        NSLog(@"ERROR:     target: %@", targetPath);
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        DDLogError(@"Could not copy new embedded.mobileprovision:");
+        DDLogError(@"    source: %@", sourcePath);
+        DDLogError(@"    target: %@", targetPath);
+        DDLogError(@"%@", [error localizedDescription]);
         return NO;
     }
 
     NSDictionary *permissions = @{NSFilePosixPermissions : @0666};
 
     if (![manager setAttributes:permissions ofItemAtPath:targetPath error:&error]) {
-        NSLog(@"ERROR: Could not change permissions of . to path:\n %@",    targetPath);
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        DDLogError(@"Could not change permissions of . to path:\n %@",    targetPath);
+        DDLogError(@"%@", [error localizedDescription]);
         return NO;
     }
 
@@ -406,8 +406,8 @@
     if ([manager fileExistsAtPath:path]) {
         if (![manager removeItemAtPath:path error:&error]) {
             // Log failures and wait to see if this blows up later.
-            NSLog(@"WARN: Could not remove .xcent at path:\n    %@", path);
-            NSLog(@"WARN:     %@", [error localizedDescription]);
+            DDLogWarn(@"Could not remove .xcent at path:\n    %@", path);
+            DDLogWarn(@"     %@", [error localizedDescription]);
         }
     }
 
@@ -415,15 +415,15 @@
     Entitlements *news = [olds entitlementsByReplacingApplicationIdentifier:self.newAppIdentifier];
 
     if (![news writeToFile:[self xcentPath]]) {
-        NSLog(@"ERROR: Could not write .xcent to path:\n    %@", path);
+        DDLogError(@"Could not write .xcent to path:\n    %@", path);
         return NO;
     }
 
     NSDictionary *permissions = @{NSFilePosixPermissions : @0666};
 
     if (![manager setAttributes:permissions ofItemAtPath:path error:&error]) {
-        NSLog(@"ERROR: Could not change permissions of .xcent at path:\n    %@", path);
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        DDLogError(@"Could not change permissions of .xcent at path:\n    %@", path);
+        DDLogError(@"%@", [error localizedDescription]);
         return NO;
     }
 

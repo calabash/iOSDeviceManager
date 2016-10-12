@@ -65,7 +65,7 @@
     expect(profile.Platform[0]).to.equal(@"iOS");
     expect(profile.ExpirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
-    NSLog(@"%@", profile.info);
+    DDLogVerbose(@"%@", profile.info);
 
     Certificate *cert = profile.DeveloperCertificates[0];
     expect(cert.userID).to.equal(@"QWAW7NSN85");
@@ -76,9 +76,9 @@
 
     Entitlements *entitlements = profile.Entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
-    NSLog(@"%@", entitlements);
+    DDLogVerbose(@"%@", entitlements);
 
-    NSLog(@"%@", [path pathExtension]);
+    DDLogVerbose(@"%@", [path pathExtension]);
 }
 
 - (void)testCanImportProblematicProfiles {
@@ -99,7 +99,7 @@
     expect(profile.Platform[0]).to.equal(@"iOS");
     expect(profile.ExpirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
-    NSLog(@"%@", profile.info);
+    DDLogVerbose(@"%@", profile.info);
 
     Certificate *cert = profile.DeveloperCertificates[0];
     expect(cert.userID).to.equal(@"3TNVSMTY3X");
@@ -110,7 +110,7 @@
 
     Entitlements *entitlements = profile.Entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
-    NSLog(@"%@", entitlements);
+    DDLogVerbose(@"%@", entitlements);
 }
 
 // Could be an integration test if import is too slow.

@@ -10,6 +10,7 @@
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
+#import "ConsoleWriter.h"
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
 #endif
