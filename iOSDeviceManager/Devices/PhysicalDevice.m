@@ -345,6 +345,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
         DDLogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
         return iOSReturnStatusCodeInternalError;
     }
+    if (installed) {
+        [ConsoleWriter write:@"true"];
+    } else {
+        [ConsoleWriter write:@"false"];
+    }
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 

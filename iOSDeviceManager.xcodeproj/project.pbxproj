@@ -167,6 +167,10 @@
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89C29E121DAE4B8100282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E111DAE4B8100282526 /* ConsoleWriter.m */; };
 		89C29E131DAE4B8100282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E111DAE4B8100282526 /* ConsoleWriter.m */; };
+		89C29E141DAE535500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E111DAE4B8100282526 /* ConsoleWriter.m */; };
+		89C29E151DAE537700282526 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */; };
+		89C29E161DAE537F00282526 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A681DAD752E001DFD43 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		89C29E171DAE537F00282526 /* CocoaLumberjack.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A691DAD752E001DFD43 /* CocoaLumberjack.framework.dSYM */; };
 		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
@@ -289,6 +293,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				89C29E161DAE537F00282526 /* CocoaLumberjack.framework in CopyFiles */,
+				89C29E171DAE537F00282526 /* CocoaLumberjack.framework.dSYM in CopyFiles */,
 				F5D584121D6A03EA007B0D11 /* FBControlCore.framework in CopyFiles */,
 				F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in CopyFiles */,
 				F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in CopyFiles */,
@@ -491,6 +497,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89C29E151DAE537700282526 /* CocoaLumberjack.framework in Frameworks */,
 				F5D5840C1D6A03C0007B0D11 /* FBControlCore.framework in Frameworks */,
 				F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */,
 				F5D5840D1D6A03C0007B0D11 /* FBDeviceControl.framework in Frameworks */,
@@ -1127,6 +1134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89C29E141DAE535500282526 /* ConsoleWriter.m in Sources */,
 				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
 				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,
 				898D7D931DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,

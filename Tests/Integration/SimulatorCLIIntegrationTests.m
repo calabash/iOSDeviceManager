@@ -1,6 +1,5 @@
 
 #import "TestCase.h"
-#import "iOSDeviceManagement.h"
 #import "Device.h"
 #import "CLI.h"
 

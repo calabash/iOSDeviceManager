@@ -459,6 +459,12 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSError *e;
     BOOL installed = [simulator isApplicationInstalledWithBundleID:bundleID error:&e];
 
+    if (installed) {
+        [ConsoleWriter write:@"true"];
+    } else {
+        [ConsoleWriter write:@"false"];
+    }
+    
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
