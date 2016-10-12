@@ -139,7 +139,7 @@
 	BOOL useQueueLabel = YES;
 	BOOL useThreadName = NO;
 	
-	if (logMessage->queueLabel)
+	if (logMessage->_queueLabel)
 	{
 		// If you manually create a thread, it's dispatch_queue will have one of the thread names below.
 		// Since all such threads have the same name, we'd prefer to use the threadName or the machThreadID.
@@ -156,10 +156,10 @@
 		int i;
 		for (i = 0; i < length; i++)
 		{
-			if (strcmp(logMessage->queueLabel, names[i]) == 0)
+			if (strcmp([logMessage.queueLabel cStringUsingEncoding:NSUTF8StringEncoding], names[i]) == 0)
 			{
 				useQueueLabel = NO;
-				useThreadName = [logMessage->threadName length] > 0;
+				useThreadName = [logMessage.threadName length] > 0;
 				break;
 			}
 		}
@@ -167,7 +167,7 @@
 	else
 	{
 		useQueueLabel = NO;
-		useThreadName = [logMessage->threadName length] > 0;
+		useThreadName = [logMessage.threadName length] > 0;
 	}
 	
 	if (useQueueLabel || useThreadName)
@@ -176,9 +176,9 @@
 		NSString *abrvLabel;
 		
 		if (useQueueLabel)
-			fullLabel = @(logMessage->queueLabel);
+			fullLabel = logMessage.queueLabel;
 		else
-			fullLabel = logMessage->threadName;
+			fullLabel = logMessage.threadName;
 		
 		OSSpinLockLock(&lock);
 		{
@@ -193,7 +193,7 @@
 	}
 	else
 	{
-		queueThreadLabel = [NSString stringWithFormat:@"%x", logMessage->machThreadID];
+		queueThreadLabel = [NSString stringWithFormat:@"%@", logMessage.threadID];
 	}
 	
 	// Now use the thread label in the output
@@ -232,10 +232,10 @@
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage
 {
-	NSString *timestamp = [self stringFromDate:(logMessage->timestamp)];
+	NSString *timestamp = [self stringFromDate:(logMessage.timestamp)];
 	NSString *queueThreadLabel = [self queueThreadLabelForLogMessage:logMessage];
 	
-	return [NSString stringWithFormat:@"%@ [%@] %@", timestamp, queueThreadLabel, logMessage->logMsg];
+	return [NSString stringWithFormat:@"%@ [%@] %@", timestamp, queueThreadLabel, logMessage.message];
 }
 
 - (void)didAddToLogger:(id <DDLogger>)logger

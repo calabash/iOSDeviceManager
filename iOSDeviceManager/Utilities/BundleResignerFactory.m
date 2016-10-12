@@ -35,14 +35,14 @@
 }
 
 - (void)logExampleShellCommand {
-    NSLog(@"ERROR: $ CODE_SIGN_IDENTITY=\"iPhone Developer: Your Name (ABCDEF1234)\""
+    ConsoleWriteErr(@"$ CODE_SIGN_IDENTITY=\"iPhone Developer: Your Name (ABCDEF1234)\""
           "iOSDeviceManager < command >");
 }
 
 - (void)logValidSigningIdentities {
-    NSLog(@"ERROR: These are the valid signing identities that are available:");
+    ConsoleWriteErr(@"These are the valid signing identities that are available:");
     for(CodesignIdentity *identity in self.identities) {
-        NSLog(@"ERROR:    %@", identity);
+        ConsoleWriteErr(@"   %@", identity);
     }
 }
 
@@ -64,17 +64,17 @@
 
     if (matches.count == 1) { return match; }
 
-    NSLog(@"WARN: Ambiguous code sign identity detected:\n    %@", string);
-    NSLog(@"WARN: Found these possible matches:");
-    NSLog(@"WARN:     %@", [matches componentsJoinedByString:@"\n    "]);
-    NSLog(@"WARN:");
-    NSLog(@"WARN: Will try code signing with:\n    %@", match);
-    NSLog(@"WARN:");
-    NSLog(@"WARN: If code signing fails, trying using the SHASUM as the identifier");
-    NSLog(@"WARN:");
-    NSLog(@"WARN: Examples:");
+    DDLogWarn(@"Ambiguous code sign identity detected:\n    %@", string);
+    DDLogWarn(@"Found these possible matches:");
+    DDLogWarn(@"    %@", [matches componentsJoinedByString:@"\n    "]);
+    DDLogWarn(@"");
+    DDLogWarn(@"Will try code signing with:\n    %@", match);
+    DDLogWarn(@"");
+    DDLogWarn(@"If code signing fails, trying using the SHASUM as the identifier");
+    DDLogWarn(@"");
+    DDLogWarn(@"Examples:");
     [matches enumerateObjectsUsingBlock:^(CodesignIdentity *identity, NSUInteger idx, BOOL *stop) {
-        NSLog(@"WARN:    CODE_SIGN_IDENTITY=%@ iOSDevice <command>", identity.shasum);
+        DDLogWarn(@"   CODE_SIGN_IDENTITY=%@ iOSDevice <command>", identity.shasum);
     }];
 
     return match;
@@ -85,7 +85,7 @@
                                            identity:(nonnull CodesignIdentity *)identity {
     NSArray<MobileProfile *> *validProfiles = self.mobileProfiles;
     if (!validProfiles || validProfiles.count == 0) {
-        NSLog(@"ERROR: There are no valid profiles on your machine.");
+        ConsoleWriteErr(@"There are no valid profiles on your machine.");
         return nil;
     }
 
@@ -103,13 +103,13 @@
                                             signingIdentity:identity
                                               appBundlePath:bundlePath];
 
-        NSLog(@"%@", rankedProfiles);
+        DDLogInfo(@"%@", rankedProfiles);
 
         if (!rankedProfiles || rankedProfiles.count == 0) {
-            NSLog(@"ERROR: Could not find any Provisioning Profiles suitable for resigning");
-            NSLog(@"ERROR:       identity: %@", identity);
-            NSLog(@"ERROR:    device UDID: %@", deviceUDID);
-            NSLog(@"ERROR:            app: %@", bundlePath);
+            ConsoleWriteErr(@"Could not find any Provisioning Profiles suitable for resigning");
+            ConsoleWriteErr(@"      identity: %@", identity);
+            ConsoleWriteErr(@"   device UDID: %@", deviceUDID);
+            ConsoleWriteErr(@"           app: %@", bundlePath);
             return nil;
         }
 
@@ -133,11 +133,11 @@
         signingIdentityName = [CodesignIdentity codeSignIdentityFromEnvironment];
 
         if (!signingIdentityName) {
-            NSLog(@"ERROR: You must provide a signing identity for this version of"
+            ConsoleWriteErr(@"You must provide a signing identity for this version of"
                   "iOSDeviceManager");
-            NSLog(@"ERROR:");
+            ConsoleWriteErr(@"");
             [self logExampleShellCommand];
-            NSLog(@"ERROR:");
+            ConsoleWriteErr(@"");
             [self logValidSigningIdentities];
             return nil;
         }
@@ -146,9 +146,9 @@
     CodesignIdentity *identity = [self codesignIdentityMatchingString:signingIdentityName];
 
     if (!identity) {
-        NSLog(@"ERROR: The signing identity you provided is not valid:\n    %@",
+        ConsoleWriteErr(@"The signing identity you provided is not valid:\n    %@",
               signingIdentityName);
-        NSLog(@"ERROR:");
+        ConsoleWriteErr(@"");
         [self logValidSigningIdentities];
         return nil;
     }

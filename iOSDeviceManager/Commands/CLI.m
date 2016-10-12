@@ -103,9 +103,7 @@ static NSDictionary *CLIDict;
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
             
-            if ([ShellRunner verbose]) {
-                NSLog(@"%@ ==> %d %@", [command name], ret, parsedArgs);
-            }
+            DDLogVerbose(@"%@ ==> %d %@", [command name], ret, parsedArgs);
             
             if (ret != iOSReturnStatusCodeEverythingOkay &&
                 ret != iOSReturnStatusCodeFalse) {
@@ -113,8 +111,7 @@ static NSDictionary *CLIDict;
             }
             return ret;
         } else {
-            printf("Unrecognized command: %s\n",
-                   [commandName cStringUsingEncoding:NSUTF8StringEncoding]);
+            [ConsoleWriter err:@"Unrecognized command: %@", commandName];
             [self printUsage];
             return iOSReturnStatusCodeUnrecognizedCommand;
         }

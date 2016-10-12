@@ -50,13 +50,15 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         if (op.defaultValue) {
             [usage appendFormat:@"\tDEFAULT=%@", op.defaultValue];
         }
-        [usage appendString:@"\n"];
+        if (op != [[cmd options] lastObject]) {
+            [usage appendString:@"\n"];
+        }
     }
     return usage;
 }
 
 + (void)printUsage {
-    printf("%s", [[self usage] cStringUsingEncoding:NSUTF8StringEncoding]);
+    [ConsoleWriter write:@"%@", [self usage]];
 }
 
 + (CommandOption *)optionForFlag:(NSString *)flag {

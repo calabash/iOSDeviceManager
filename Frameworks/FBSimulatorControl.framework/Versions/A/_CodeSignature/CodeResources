@@ -50,7 +50,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			dO8F0fggUc/xzb/ZIxyx9LaKvBM=
+			6aCDeUyWH9by9/TNoSJDhNFqBZE=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -59,7 +59,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			GkQo3Knf7Ka8G0bExxvmlHNu1ZI=
+			G/r4BvBPud5HqxGgt/BpmpgYqFc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>

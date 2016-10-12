@@ -118,7 +118,7 @@
 }
 
 - (void)addRoute:(CBXRoute *)route {
-    NSLog(@"Adding route: %@", route);
+    DDLogInfo(@"Adding route: %@", route);
     [self addRoute:route forMethod:route.HTTPVerb];
 }
 
@@ -215,7 +215,7 @@
                     if ([route isKindOfClass:[CBXRoute class]]) {
                         path = ((CBXRoute *)route).path;
                     }
-                    NSLog(@"%@ %@ %@", request.method, path, DATA_TO_JSON(request.body) ?: @"");
+                    DDLogInfo(@"%@ %@ %@", request.method, path, DATA_TO_JSON(request.body) ?: @"");
 					[self handleRoute:route withRequest:request response:response];
 				}
 			});

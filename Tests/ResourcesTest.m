@@ -60,9 +60,9 @@
 }
 
 - (void)testAvailableAndCompatibleDevices {
-    //NSLog(@"%@", [[Instruments shared] connectedDevices]);
-    //NSLog(@"%@", [[Instruments shared] compatibleDevices]);
-    //NSLog(@"%@", [[Instruments shared] deviceForTesting]);
+    //DDLogVerbose(@"%@", [[Instruments shared] connectedDevices]);
+    //DDLogVerbose(@"%@", [[Instruments shared] compatibleDevices]);
+    //DDLogVerbose(@"%@", [[Instruments shared] deviceForTesting]);
 }
 
 #pragma mark - Xcode
@@ -75,15 +75,15 @@
 
 - (void)testXCTestBundle {
     //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    //NSLog(@"RESOURCES DIR: %@", [bundle resourcePath]);
-    //NSLog(@"BUNDLE DIR: %@", [bundle bundlePath]);
+    //DDLogVerbose(@"RESOURCES DIR: %@", [bundle resourcePath]);
+    //DDLogVerbose(@"BUNDLE DIR: %@", [bundle bundlePath]);
     XCTAssertTrue([self fileExists:[self.resources resourcesDirectory]]);
 }
 
 - (void)testProcessInfo {
     //    NSProcessInfo *info = [NSProcessInfo processInfo];
-    //    NSLog(@"environment = %@", [info environment]);
-    //    NSLog(@"arguments = %@", [info arguments]);
+    //    DDLogVerbose(@"environment = %@", [info environment]);
+    //    DDLogVerbose(@"arguments = %@", [info arguments]);
 }
 
 - (void)testApps {

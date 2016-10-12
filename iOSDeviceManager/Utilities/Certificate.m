@@ -39,8 +39,8 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     NSString *subjectLine = lines[0];
 
     if (![subjectLine containsString:@"subject"]) {
-        NSLog(@"ERROR: Expected a subject line after exporting certificate with openssl");
-        NSLog(@"ERROR: Found:\n    %@", subjectLine);
+        ConsoleWriteErr(@"Expected a subject line after exporting certificate with openssl");
+        ConsoleWriteErr(@"Found:\n    %@", subjectLine);
         return nil;
     }
 
@@ -49,7 +49,7 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     NSString *shasumLine = lines[0];
 
     if (shasumLine.length == 0) {
-        NSLog(@"ERROR: Expected a shasum after exporting certificate with openssl");
+        ConsoleWriteErr(@"Expected a shasum after exporting certificate with openssl");
         return nil;
     }
 
@@ -60,8 +60,8 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path {
     NSError *error;
     if (![data writeToFile:path options:NSDataWritingAtomic error:&error]) {
-        NSLog(@"ERROR: Could not export certificate data to file");
-        NSLog(@"ERROR: %@", [error localizedDescription]);
+        ConsoleWriteErr(@"Could not export certificate data to file");
+        ConsoleWriteErr(@"%@", [error localizedDescription]);
         return NO;
     }
     return YES;
@@ -80,13 +80,13 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     ShellResult *result = [ShellRunner xcrun:args timeout:20];
 
     if (!result.success) {
-        NSLog(@"ERROR: Could not parse certificate at path:   \n%@", path);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
+        ConsoleWriteErr(@"Could not parse certificate at path:   \n%@", path);
+        ConsoleWriteErr(@"with command:\n    %@", result.command);
         if (result.didTimeOut) {
-            NSLog(@"ERROR: command timed out after %@ seconds", @(result.elapsed));
+            ConsoleWriteErr(@"command timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            ConsoleWriteErr(@"=== STDERR ===");
+            ConsoleWriteErr(@"%@", result.stderrStr);
         }
         return nil;
     }
@@ -100,13 +100,13 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     result = [ShellRunner xcrun:args timeout:10];
 
     if (!result.success) {
-        NSLog(@"ERROR: Could not find the shasum of certificate at path:   \n%@", path);
-        NSLog(@"ERROR: with command:\n    %@", result.command);
+        ConsoleWriteErr(@"Could not find the shasum of certificate at path:   \n%@", path);
+        ConsoleWriteErr(@"with command:\n    %@", result.command);
         if (result.didTimeOut) {
-            NSLog(@"ERROR: command timed out after %@ seconds", @(result.elapsed));
+            ConsoleWriteErr(@"command timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            ConsoleWriteErr(@"=== STDERR ===");
+            ConsoleWriteErr(@"%@", result.stderrStr);
         }
         return nil;
     }

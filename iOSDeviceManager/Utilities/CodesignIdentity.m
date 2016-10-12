@@ -141,12 +141,12 @@
     ShellResult *result = [ShellRunner xcrun:args timeout:30];
 
     if (!result.success) {
-        NSLog(@"Could not find valid codesign identities with:\n    %@", result.command);
+        ConsoleWriteErr(@"Could not find valid codesign identities with:\n    %@", result.command);
         if (result.didTimeOut) {
-            NSLog(@"Command timed out after %@ seconds", @(result.elapsed));
+            ConsoleWriteErr(@"Command timed out after %@ seconds", @(result.elapsed));
         } else {
-            NSLog(@"=== STDERR ===");
-            NSLog(@"%@", result.stderrStr);
+            ConsoleWriteErr(@"=== STDERR ===");
+            ConsoleWriteErr(@"%@", result.stderrStr);
         }
         return nil;
     }
