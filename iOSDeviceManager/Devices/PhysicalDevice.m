@@ -25,6 +25,9 @@
 
 @interface DVTiOSDevice : DVTAbstractiOSDevice
 - (BOOL)supportsLocationSimulation;
+- (BOOL)downloadApplicationDataToPath:(NSString *)arg1
+forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
+                                error:(NSError **)arg3;
 @end
 
 @implementation PhysicalDevice
@@ -394,9 +397,15 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (iOSReturnStatusCode)uploadFiles:(NSArray<NSString *> *)filenames
-                          toDevice:(NSString *)deviceID
-                    forApplication:(NSString *)bundleID {
+/*
+ The algorithm here is to copy the application's container to the host,
+ [over]write the desired file into the appdata bundle, then reupload that
+ bundle since apparently uploading an xcappdata bundle is destructive.
+ */
++ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                         toDevice:(NSString *)deviceID
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
     
@@ -404,19 +413,88 @@ testCaseDidStartForTestClass:(NSString *)testClass
     
     NSError *e;
     
+    //We make an .xcappdata bundle, place the files there, and upload that
     NSFileManager *fm = [NSFileManager defaultManager];
-    for (NSString *file in filenames) {
-        if (![fm fileExistsAtPath:file]) {
-            NSLog(@"%@ doesn't exist!", file);
-            return iOSReturnStatusCodeInvalidArguments;
-        }
-        [operator uploadApplicationDataAtPath:file bundleID:bundleID error:&e];
-        if (e) {
-            NSLog(@"Error uploading application data: %@", e);
-            return iOSReturnStatusCodeInternalError;
+    
+    //Ensure input file exists
+    if (![fm fileExistsAtPath:filepath]) {
+        NSLog(@"%@ doesn't exist!", filepath);
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
+    NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
+    NSString *xcappdataPath = [[NSTemporaryDirectory()
+                                stringByAppendingPathComponent:guid]
+                               stringByAppendingPathComponent:xcappdataName];
+    NSString *dataBundle = [[xcappdataPath
+                             stringByAppendingPathComponent:@"AppData"]
+                            stringByAppendingPathComponent:@"Documents"];
+    
+    DDLogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
+    
+    if (![fm createDirectoryAtPath:xcappdataPath
+       withIntermediateDirectories:YES
+                        attributes:nil
+                             error:&e]) {
+        ConsoleWriteErr(@"Error creating data dir: %@", e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+   
+    if (![device.dvtDevice downloadApplicationDataToPath:xcappdataPath
+             forInstalledApplicationWithBundleIdentifier:bundleID
+                                                   error:&e]) {
+        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+                        bundleID,
+                        xcappdataPath,
+                        e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    DDLogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
+    
+    //TODO: depending on `overwrite`, upsert file
+    NSString *filename = [filepath lastPathComponent];
+    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
+    if ([fm fileExistsAtPath:dest]) {
+        if (!overwrite) {
+            ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
+            return iOSReturnStatusCodeGenericFailure;
+        } else {
+            if (![fm removeItemAtPath:dest error:&e]) {
+                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
+                return iOSReturnStatusCodeGenericFailure;
+            }
         }
     }
     
+    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
+        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
+        NSLog(@"Error uploading files to application container: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
++ (iOSReturnStatusCode)containerPathForApplication:(NSString *)bundleID
+                                          onDevice:(NSString *)deviceID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
+    NSError *e;
+    
+    NSString *path = [operator containerPathForApplicationWithBundleID:bundleID error:&e];
+    if (e) {
+        ConsoleWriteErr(@"Error getting container path for application %@: %@", bundleID, e);
+        return iOSReturnStatusCodeGenericFailure;
+    } else {
+        ConsoleWrite(@"%@", path);
+    }
     return iOSReturnStatusCodeEverythingOkay;
 }
 

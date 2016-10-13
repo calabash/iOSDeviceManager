@@ -524,6 +524,18 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     }
 }
 
+/*
+    Copy the testfile to a unique filename in the tmp dir and return that
+ */
+- (NSString *)uniqueFileToUpload {
+    NSString *uploadFile = [[self resourcesDirectory] stringByAppendingPathComponent:@"testfile.txt"];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSString *tmp = [NSTemporaryDirectory() stringByAppendingPathComponent:guid];
+    [fm copyItemAtPath:uploadFile toPath:tmp error:nil];
+    return tmp;
+}
+
 - (NSString *)TestAppIdentifier {
     return [self bundleIdentifier:[self TestAppPath:ARM]];
 }

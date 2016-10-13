@@ -92,8 +92,26 @@
         return [Simulator infoPlistForInstalledBundleID:bundleID
                                                deviceID:deviceID];
     } else {
-        return [Device infoPlistForInstalledBundleID:bundleID
-                                            deviceID:deviceID];
+        return [PhysicalDevice infoPlistForInstalledBundleID:bundleID
+                                                    deviceID:deviceID];
+    }
+}
+
++ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                         toDevice:(NSString *)deviceID
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
+    if ([TestParameters isSimulatorID:deviceID]) {
+        return [Simulator uploadFile:filepath
+                            toDevice:deviceID
+                      forApplication:bundleID
+                           overwrite:overwrite];
+    } else {
+        return [PhysicalDevice
+                uploadFile:filepath
+                toDevice:deviceID
+                forApplication:bundleID
+                overwrite:overwrite];
     }
 }
 

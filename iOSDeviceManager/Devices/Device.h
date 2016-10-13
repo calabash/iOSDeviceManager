@@ -25,5 +25,10 @@
 + (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
                                        deviceID:(NSString *)deviceID;
 
++ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                         toDevice:(NSString *)deviceID
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite;
+
 @property BOOL testingComplete;
 @end

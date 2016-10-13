@@ -111,6 +111,8 @@ static NSString *const SIM = @"SIM";
 - (TestSimulator *)defaultSimulator;
 - (NSString *)defaultSimulatorUDID;
 
+- (NSString *)uniqueFileToUpload;
+
 - (Instruments *)instruments;
 - (BOOL)isCompatibleDeviceConnected;
 - (TestDevice *)defaultDevice;

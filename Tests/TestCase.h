@@ -11,6 +11,7 @@
 #define defaultSimUDID [[Resources shared] defaultSimulatorUDID]
 #define defaultDevice [[Resources shared] defaultDevice]
 #define defaultDeviceUDID [[Resources shared] defaultDeviceUDID]
+#define uniqueFile() [[Resources shared] uniqueFileToUpload]
 
 NS_INLINE BOOL device_available() {
     if ([[Resources shared] isCompatibleDeviceConnected]) {
