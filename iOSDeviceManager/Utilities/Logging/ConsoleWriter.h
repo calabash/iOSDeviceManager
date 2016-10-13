@@ -6,4 +6,5 @@
 + (void)err:(NSString *)fmt, ...;
 
 #define ConsoleWriteErr(fmt, ...) [ConsoleWriter err:fmt,  ##__VA_ARGS__ ]
+#define ConsoleWrite(fmt, ...) [ConsoleWriter write:fmt, ##__VA_ARGS__ ]
 @end
