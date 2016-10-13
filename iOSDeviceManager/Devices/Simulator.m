@@ -5,8 +5,9 @@
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import <FBDeviceControl/FBDeviceControl.h>
 #import "ShellRunner.h"
-#import "AppUtils.h"
 #import "Codesigner.h"
+#import "AppUtils.h"
+#import <sqlite3.h>
 
 @implementation Simulator
 static FBSimulatorControl *_control;
@@ -557,10 +558,17 @@ testCaseDidStartForTestClass:(NSString *)testClass
                            stringByAppendingPathComponent:@"applicationState.plist"];
     
     if (![fm fileExistsAtPath:plistPath]) {
-        ConsoleWriteErr(@"Can not find applicationState.plist for device %@. Expected path: %@",
-                        simID,
-                        plistPath);
-        return nil;
+        NSString *dbPath = [plistPath stringByReplacingOccurrencesOfString:@"applicationState.plist"
+                                                                withString:@"applicationState.db"];
+        if (![fm fileExistsAtPath:dbPath]) {
+            ConsoleWriteErr(@"Can not find applicationState.plist or .db for device %@. "
+                            "Expected to find in dir: %@",
+                            simID,
+                            plistPath.stringByDeletingLastPathComponent);
+            return nil;
+        } else {
+            return [self containerPathForApplication:bundleID fromSQLiteDB:dbPath];
+        }
     }
     
     NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
@@ -570,6 +578,60 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return nil;
     }
     return plist[bundleID][@"sandboxPath"];
+}
+
++ (NSString *)containerPathForApplication:(NSString *)bundleID
+                             fromSQLiteDB:(NSString *)dbPath {
+    sqlite3 *db;
+    if (sqlite3_open(dbPath.UTF8String, &db) != SQLITE_OK) {
+        ConsoleWriteErr(@"Unable to open %@", [dbPath lastPathComponent]);
+        return nil;
+    }
+    
+    NSError *e;
+    NSString *query = [NSString stringWithFormat:
+                       @"SELECT value FROM kvs_debug "
+                       "WHERE application_identifier = '%@' "
+                       "AND key = 'XBApplicationSnapshotManifest'",
+                       bundleID];
+    sqlite3_stmt *statement;
+    int result = sqlite3_prepare_v2(db, query.UTF8String, -1, &statement, nil);
+    if (result == SQLITE_OK) {
+        if (sqlite3_step(statement) == SQLITE_ROW) {
+            const void *plistBytes = sqlite3_column_blob(statement, 0);
+            int numBytes = sqlite3_column_bytes(statement, 0);
+            //TODO: `plist` is actually an NSKeyedArchiver archive
+            NSData *plistData = [NSData dataWithBytes:plistBytes length:numBytes];
+            NSData *plist = [NSPropertyListSerialization propertyListWithData:plistData
+                                                                            options:0
+                                                                             format:NULL
+                                                                              error:&e];
+            if (e) {
+                ConsoleWriteErr(@"Error serializing data into plist dictionary: %@", e);
+                return nil;
+            }
+            
+            NSDictionary *plistPlist = [NSJSONSerialization JSONObjectWithData:plist options:NSJSONReadingAllowFragments error:&e];
+            ConsoleWrite(@"%@", plistPlist);
+            sqlite3_finalize(statement);
+            if (e) {
+                ConsoleWriteErr(@"Error serializing data into plist dictionary: %@", e);
+                return nil;
+            }
+        } else {
+            ConsoleWriteErr(@"Unable to find installation plist inside of %@",
+                            dbPath.lastPathComponent);
+            return nil;
+        }
+    } else {
+        ConsoleWriteErr(@"Error preparing sql query statement %@. Error code %@",
+                        query,
+                        @(result));
+        return nil;
+    }
+    
+    sqlite3_close(db);
+    return @"";
 }
 
 @end
