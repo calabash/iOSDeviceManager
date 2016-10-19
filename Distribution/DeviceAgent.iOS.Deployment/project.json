@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-beta8",
-  "description": "DeviceAgent.iOS, iOSDeviceManager, and required frameworks",
+  "version": "0.1.0-beta01",
+  "description": "Deployer for DeviceAgent.iOS, iOSDeviceManager, and required frameworks",
   "authors": [
     "Chris Fuentes",
     "Jon Stoneman",

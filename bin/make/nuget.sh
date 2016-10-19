@@ -5,7 +5,7 @@ set -e
 source bin/log_functions.sh
 
 DEP_STAGING_DIR=Distribution/dependencies
-NUGET_DIR=Distribution/DeviceAgent.iOS.Dependencies
+NUGET_DIR=Distribution/DeviceAgent.iOS.Deployment
 DEP_ZIP=dependencies.zip
 VERSION=`cat Distribution/version.txt`
 CURRENT_DIR=$PWD
