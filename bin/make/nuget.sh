@@ -4,10 +4,14 @@ set -e
 
 source bin/log_functions.sh
 
+if [ -e ${BUILD_VERSION} ] ; then
+  echo "The BUILD_VERSION environment variable must be set"
+  exit 1
+fi
+
 DEP_STAGING_DIR=Distribution/dependencies
 NUGET_DIR=Distribution/DeviceAgent.iOS.Dependencies
 DEP_ZIP=dependencies.zip
-VERSION=`cat Distribution/version.txt`
 CURRENT_DIR=$PWD
 
 rm -f "${NUGET_DEP_ZIP}"
@@ -28,10 +32,10 @@ cd "${NUGET_DIR}"
 
 info "Building Nuget package"
 
-dotnet version "${VERSION}" > /dev/null
+dotnet version "${BUILD_VERSION}" > /dev/null
 dotnet restore >/dev/null
 dotnet pack -c Release > /dev/null
 
 cd "${CURRENT_DIR}"
 
-info "Built Nuget package ${NUGET_DIR} v${VERSION}"
+info "Built Nuget package ${NUGET_DIR} v${BUILD_VERSION}"
