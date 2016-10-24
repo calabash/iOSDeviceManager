@@ -575,7 +575,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 + (NSString *)pathToLocateSimContainerScript {
-    return [[NSBundle mainBundle] pathForResource:@"locate_sim_container" ofType:@"sh"];
+    return [[NSBundle bundleForClass:[self class]] pathForResource:@"locate_sim_container" ofType:@"sh"];
 }
 
 + (NSString *)containerPathForApplication:(NSString *)bundleID
