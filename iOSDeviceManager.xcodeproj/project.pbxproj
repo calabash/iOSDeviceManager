@@ -184,6 +184,8 @@
 		89FFB9AC1DB0040300BBF6CB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */; };
 		89FFB9AD1DB0040A00BBF6CB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */; };
 		89FFB9AE1DB0041200BBF6CB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */; };
+		ABAB8DCB1DBEA777007126B5 /* locate_sim_container.sh in Resources */ = {isa = PBXBuildFile; fileRef = ABAB8DCA1DBEA6EF007126B5 /* locate_sim_container.sh */; };
+		ABAB8DCC1DBEA777007126B5 /* locate_sim_container.sh in Resources */ = {isa = PBXBuildFile; fileRef = ABAB8DCA1DBEA6EF007126B5 /* locate_sim_container.sh */; };
 		F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D51D7134FD00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
@@ -452,6 +454,7 @@
 		89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
 		89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTestBootstrap.framework; path = Frameworks/XCTestBootstrap.framework; sourceTree = "<group>"; };
 		89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		ABAB8DCA1DBEA6EF007126B5 /* locate_sim_container.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = locate_sim_container.sh; sourceTree = "<group>"; };
 		F50271CB1D6BE43A00BE0D9D /* Entitlements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entitlements.h; path = iOSDeviceManager/Utilities/Entitlements.h; sourceTree = SOURCE_ROOT; };
 		F50271CC1D6BE43A00BE0D9D /* Entitlements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlements.m; path = iOSDeviceManager/Utilities/Entitlements.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -884,6 +887,7 @@
 		F5D583E61D69FE8E007B0D11 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ABAB8DCA1DBEA6EF007126B5 /* locate_sim_container.sh */,
 				F51AC6D21D6A3F3300BA3988 /* Expecta.framework */,
 				F51AC6D31D6A3F3300BA3988 /* OCMock.framework */,
 				F51AC6D41D6A3F3300BA3988 /* Specta.framework */,
@@ -1005,6 +1009,7 @@
 			files = (
 				897566891D6F59E9008EC08A /* CLI.json in Resources */,
 				898D7DC51DA47574001578FE /* README.txt in Resources */,
+				ABAB8DCB1DBEA777007126B5 /* locate_sim_container.sh in Resources */,
 				F5A705AD1D67C38D006F05B5 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1015,6 +1020,7 @@
 			files = (
 				8975668A1D6F59E9008EC08A /* CLI.json in Resources */,
 				898D7DC61DA47574001578FE /* README.txt in Resources */,
+				ABAB8DCC1DBEA777007126B5 /* locate_sim_container.sh in Resources */,
 				F5D584101D6A03D3007B0D11 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
