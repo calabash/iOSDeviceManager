@@ -535,7 +535,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
     
     if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
-        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+        ConsoleWriteErr(@"Error copying file %@ to data bundle %@: %@", filepath, dest, e);
         return iOSReturnStatusCodeGenericFailure;
     }
     
@@ -544,40 +544,38 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 + (NSString *)containerPathForApplication:(NSString *)bundleID
                                    device:(NSString *)simID {
-    NSFileManager *fm = [NSFileManager defaultManager];
-
-    NSString *plistPath = [[[[[[[[[NSHomeDirectory()
-                                   stringByAppendingPathComponent:@"Library"]
-                                  stringByAppendingPathComponent:@"Developer"]
-                                 stringByAppendingPathComponent:@"CoreSimulator"]
-                                stringByAppendingPathComponent:@"Devices"]
-                               stringByAppendingPathComponent:simID]
-                              stringByAppendingPathComponent:@"data"]
-                             stringByAppendingPathComponent:@"Library"]
-                            stringByAppendingPathComponent:@"FrontBoard"]
-                           stringByAppendingPathComponent:@"applicationState.plist"];
     
-    if (![fm fileExistsAtPath:plistPath]) {
-        NSString *dbPath = [plistPath stringByReplacingOccurrencesOfString:@"applicationState.plist"
-                                                                withString:@"applicationState.db"];
-        if (![fm fileExistsAtPath:dbPath]) {
-            ConsoleWriteErr(@"Can not find applicationState.plist or .db for device %@. "
-                            "Expected to find in dir: %@",
-                            simID,
-                            plistPath.stringByDeletingLastPathComponent);
-            return nil;
-        } else {
-            return [self containerPathForApplication:bundleID fromSQLiteDB:dbPath];
-        }
-    }
+    NSString *path = [self pathToLocateSimContainerScript];
+    NSArray *args = @[simID, bundleID];
+    NSTask *task = [[NSTask alloc] init];
     
-    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-    if (![[plist allKeys] containsObject:bundleID]) {
-        ConsoleWriteErr(@"'%@' not found in applicationState.plist. Is it installed?",
-                        bundleID);
+    [task setLaunchPath:path];
+    [task setArguments:args];
+    [task setStandardOutput:[NSPipe pipe]];
+    
+    [task launch];
+    
+    [task waitUntilExit];
+    
+    if ([task terminationStatus] != 0) {
+        ConsoleWriteErr(@"'%@' not found - is it installed?");
         return nil;
     }
-    return plist[bundleID][@"sandboxPath"];
+    
+    NSString *result;
+    
+    NSData* data = [[[task standardOutput] fileHandleForReading] availableData];
+    
+    if ((data != nil) && [data length]) {
+        result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        result = [result stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    }
+
+    return result;
+}
+
++ (NSString *)pathToLocateSimContainerScript {
+    return [[NSBundle mainBundle] pathForResource:@"locate_sim_container" ofType:@"sh"];
 }
 
 + (NSString *)containerPathForApplication:(NSString *)bundleID
