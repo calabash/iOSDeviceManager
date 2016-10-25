@@ -75,7 +75,6 @@
 		892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		89523A671DAD751D001DFD43 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */; };
-		89523A6A1DAD752E001DFD43 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A681DAD752E001DFD43 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		897566891D6F59E9008EC08A /* CLI.json in Resources */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
 		8975668A1D6F59E9008EC08A /* CLI.json in Resources */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
 		8975668E1D6F622D008EC08A /* CLI.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
@@ -165,7 +164,6 @@
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89C29E151DAE537700282526 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */; };
-		89C29E161DAE537F00282526 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A681DAD752E001DFD43 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
 		89C29E1B1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
 		89C29E1C1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
@@ -194,6 +192,9 @@
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
 		F53764981D67A1FB009457C8 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
+		F54BF90E1DBFA92700E265F9 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F56772A61DC0B7330058C418 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F56772A71DC0B7380058C418 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F578F4671D70A3C4001FC3BE /* ResignTest.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5D583E51D69FE62007B0D11 /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583E11D69FE62007B0D11 /* CLITests.m */; };
@@ -253,7 +254,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				89523A6A1DAD752E001DFD43 /* CocoaLumberjack.framework in CopyFiles */,
+				F54BF90E1DBFA92700E265F9 /* CocoaLumberjack.framework in CopyFiles */,
 				892A93CC1D3934B600154F08 /* FBControlCore.framework in CopyFiles */,
 				892A93CD1D3934B600154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93CE1D3934B600154F08 /* FBSimulatorControl.framework in CopyFiles */,
@@ -267,6 +268,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F56772A61DC0B7330058C418 /* CocoaLumberjack.framework in CopyFiles */,
 				892A93C11D3928F800154F08 /* FBControlCore.framework in CopyFiles */,
 				892A93C21D3928F800154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93C31D3928F800154F08 /* FBSimulatorControl.framework in CopyFiles */,
@@ -293,7 +295,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				89C29E161DAE537F00282526 /* CocoaLumberjack.framework in CopyFiles */,
+				F56772A71DC0B7380058C418 /* CocoaLumberjack.framework in CopyFiles */,
 				F5D584121D6A03EA007B0D11 /* FBControlCore.framework in CopyFiles */,
 				F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in CopyFiles */,
 				F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in CopyFiles */,
@@ -368,7 +370,6 @@
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		89523A651DAD7298001DFD43 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		89523A661DAD751D001DFD43 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/Mac/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		89523A681DAD752E001DFD43 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/Mac/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		897566881D6F59E9008EC08A /* CLI.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CLI.json; sourceTree = SOURCE_ROOT; };
 		898D7D3C1DA47513001578FE /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.m; sourceTree = "<group>"; };
@@ -544,7 +545,6 @@
 		89331D3A1CE222C7003C2E59 = {
 			isa = PBXGroup;
 			children = (
-				89523A681DAD752E001DFD43 /* CocoaLumberjack.framework */,
 				89523A651DAD7298001DFD43 /* PrefixHeader.pch */,
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
