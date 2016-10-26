@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+export DEVELOPER_DIR=/Xcode/8.0/Xcode.app/Contents/Developer
+
+set +e
+
+# Force Xcode 8 CoreSimulator env to be loaded so xcodebuild does not fail.
+for try in {1..4}; do
+  xcrun simctl help &>/dev/null
+  sleep 1.0
+done
+
 set -e
 
 if [ -z "${JENKINS_HOME}" ]; then
@@ -27,12 +37,8 @@ fi
 (cd "${CODE_SIGN_DIR}" && ios/create-keychain.sh)
 
 rm -rf DeviceAgent.iOS
-
 git clone git@github.com:calabash/DeviceAgent.iOS.git
-
-export DEVICEAGENT_PATH=./DeviceAgent.iOS
-
-make dependencies
+DEVICEAGENT_PATH=./DeviceAgent.iOS make dependencies
 
 set +e
 
