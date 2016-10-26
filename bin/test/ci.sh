@@ -26,17 +26,10 @@ fi
 
 (cd "${CODE_SIGN_DIR}" && ios/create-keychain.sh)
 
-if [ -d FBSimulatorControl ]; then
-	rm -rf FBSimulatorControl
-fi
-if [ -d DeviceAgent.iOS ]; then
-	rm -rf DeviceAgent.iOS
-fi
+rm -rf DeviceAgent.iOS
 
-git clone git@github.com:calabash/FBSimulatorControl.git
 git clone git@github.com:calabash/DeviceAgent.iOS.git
 
-export FBSIMCONTROL_PATH=./FBSimulatorControl
 export DEVICEAGENT_PATH=./DeviceAgent.iOS
 
 make dependencies
