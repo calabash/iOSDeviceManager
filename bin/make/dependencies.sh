@@ -5,14 +5,20 @@ set -e
 source bin/log_functions.sh
 
 if [ -z "${DEVICEAGENT_PATH}" ]; then
-  error "Please specify path to DeviceAgent.iOS repo via DEVICEAGENT_PATH=path/to/DeviceAgent.iOS"
-  exit 3
+  if [ -e "../DeviceAgent.iOS" ]; then
+    DEVICEAGENT_PATH="../DeviceAgent.iOS"
+  fi
 fi
 
 if [ ! -d "${DEVICEAGENT_PATH}" ]; then
-  error "${DEVICEAGENT_PATH} does not exist"
+  error "${DEVICEAGENT_PATH} does not exist at path:"
+  error "  ${DEVICEAGENT_PATH}"
+  error "Set the DEVICEAGENT_PATH=path/to/DeviceAgent.iOS or"
+  error "checkout the DeviceAgent.iOS repo to ../"
   exit 4
 fi
+
+info "Using DeviceAgent: ${DEVICEAGENT_PATH}"
 
 EXECUTABLE=iOSDeviceManager
 OUTPUT_DIR="${PWD}/Distribution/dependencies"
@@ -33,6 +39,13 @@ do
   xcrun ditto Frameworks/${framework}.framework "${TARGET}"
   info "Copied ${framework} to ${TARGET}"
 done
+
+banner "Copying CocoaLumberjack.framework to Dependencies"
+
+TARGET="${OUTPUT_DIR}/Frameworks/CocoaLumberjack.framework"
+SOURCE="Carthage/Build/Mac/CocoaLumberjack.framework"
+xcrun ditto "${SOURCE}" "${TARGET}"
+info "Copied CocoaLumberjack.framework to ${TARGET}"
 
 banner "Making DeviceAgent"
 
