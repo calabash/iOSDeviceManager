@@ -40,6 +40,13 @@ do
   info "Copied ${framework} to ${TARGET}"
 done
 
+banner "Copying CocoaLumberjack.framework to Dependencies"
+
+TARGET="${OUTPUT_DIR}/Frameworks/CocoaLumberjack.framework"
+SOURCE="Carthage/Build/Mac/CocoaLumberjack.framework"
+xcrun ditto "${SOURCE}" "${TARGET}"
+info "Copied CocoaLumberjack.framework to ${TARGET}"
+
 banner "Making DeviceAgent"
 
 (cd "${DEVICEAGENT_PATH}";
