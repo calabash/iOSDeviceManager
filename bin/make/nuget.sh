@@ -32,9 +32,23 @@ cd "${NUGET_DIR}"
 
 info "Building Nuget package"
 
-dotnet version "${BUILD_VERSION}" > /dev/null
-dotnet restore >/dev/null
-dotnet pack -c Release > /dev/null
+DOTNET=`dotnet version "${BUILD_VERSION}"`
+if [ $? -ne 0 ] ; then
+  echo "${DOTNET}"
+  exit $?
+fi
+
+DOTNET=`dotnet restore`
+if [ $? -ne 0 ] ; then
+  echo "${DOTNET}"
+  exit $?
+fi
+
+DOTNET=`dotnet pack -c Release`
+if [ $? -ne 0 ] ; then
+  echo "${DOTNET}"
+  exit $?
+fi
 
 cd "${CURRENT_DIR}"
 
