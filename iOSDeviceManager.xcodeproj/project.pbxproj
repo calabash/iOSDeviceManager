@@ -174,6 +174,10 @@
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
+		A1D930C21DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
+		A1D930C31DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
+		A1D930C41DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
+		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
 		F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D51D7134FD00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
@@ -439,6 +443,9 @@
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
 		89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
 		89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTestBootstrap.framework; path = Frameworks/XCTestBootstrap.framework; sourceTree = "<group>"; };
+		A1D930C01DC2873C0070573D /* ShasumProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShasumProvider.h; path = iOSDeviceManager/Utilities/ShasumProvider.h; sourceTree = SOURCE_ROOT; };
+		A1D930C11DC2875E0070573D /* ShasumProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShasumProvider.m; path = iOSDeviceManager/Utilities/ShasumProvider.m; sourceTree = SOURCE_ROOT; };
+		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
 		F50271CB1D6BE43A00BE0D9D /* Entitlements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entitlements.h; path = iOSDeviceManager/Utilities/Entitlements.h; sourceTree = SOURCE_ROOT; };
 		F50271CC1D6BE43A00BE0D9D /* Entitlements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlements.m; path = iOSDeviceManager/Utilities/Entitlements.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -632,6 +639,8 @@
 				63424EEDC223490E66B7C1BB /* BundleResignerFactory.h */,
 				634242530988C4D64BD8E860 /* BundleResignerFactory.m */,
 				89C29E1D1DAE69CC00282526 /* Logging */,
+				A1D930C01DC2873C0070573D /* ShasumProvider.h */,
+				A1D930C11DC2875E0070573D /* ShasumProvider.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -834,6 +843,7 @@
 				634249FF521B476804782B68 /* ShellRunnerTest.m */,
 				63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */,
 				6342445D4215DC668C7923B2 /* EntitlementTest.m */,
+				A1D930C51DC29C620070573D /* ShasumProviderTest.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1058,6 +1068,7 @@
 				898D7D971DA47569001578FE /* HTTPFileResponse.m in Sources */,
 				63424D088ACDC4BC94DFD35C /* Entitlement.m in Sources */,
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
+				A1D930C21DC2875E0070573D /* ShasumProvider.m in Sources */,
 				63424FF90B5F065931C9E5E7 /* BundleResignerFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1068,6 +1079,7 @@
 			files = (
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
+				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
 				892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */,
 				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
@@ -1121,6 +1133,7 @@
 				6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */,
 				634249A043496142DCD1838A /* CodesignIdentity.m in Sources */,
 				898D7D981DA47569001578FE /* HTTPFileResponse.m in Sources */,
+				A1D930C31DC2875E0070573D /* ShasumProvider.m in Sources */,
 				63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */,
 				63424C56537485910D385EB7 /* CertificateTest.m in Sources */,
 				898D7D861DA47569001578FE /* MultipartMessageHeader.m in Sources */,
@@ -1188,6 +1201,7 @@
 				F5D583F81D6A0366007B0D11 /* ShellRunner.m in Sources */,
 				F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */,
 				F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */,
+				A1D930C41DC2875E0070573D /* ShasumProvider.m in Sources */,
 				6342433690C3BAAB008A5D30 /* MobileProfile.m in Sources */,
 				F5F528331D6BAE1A00FF39BE /* Certificate.m in Sources */,
 				898D7DD81DA4758A001578FE /* Route.m in Sources */,

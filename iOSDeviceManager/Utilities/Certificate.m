@@ -1,4 +1,4 @@
-
+#import "ShasumProvider.h"
 #import "Certificate.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
@@ -12,8 +12,8 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
 @interface Certificate ()
 
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path;
-+ (NSDictionary <NSString *, NSArray *> *)parseCertificateData:(NSData *)data
-                                                        atPath:(NSString *)path;
++ (NSArray <NSString *> *)parseCertificateData:(NSData *)data
+                                        atPath:(NSString *)path;
 
 @property(copy, readonly) NSString *subjectLine;
 @property(copy, readonly) NSDictionary *info;
@@ -29,14 +29,12 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     NSString *name = [NSString stringWithFormat:@"%@.cert", uuid];
     NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
 
-    NSDictionary *dictionary;
-    dictionary = [Certificate parseCertificateData:data atPath:path];
+    NSArray <NSString *> *lines;
+    lines = [Certificate parseCertificateData:data atPath:path];
 
-    if (!dictionary) { return nil; }
+    if (!lines) { return nil; }
 
-    // "text" key will always be present and point to an array of strings.
-    NSArray<NSString *> *lines = dictionary[@"text"];
-    NSString *subjectLine = lines[0];
+    NSString *subjectLine = [lines objectAtIndex:0];
 
     if (![subjectLine containsString:@"subject"]) {
         ConsoleWriteErr(@"Expected a subject line after exporting certificate with openssl");
@@ -44,17 +42,15 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
         return nil;
     }
 
-    // "shasum" key will always be present and point to an array of strings.
-    lines = dictionary[@"shasum"];
-    NSString *shasumLine = lines[0];
+    NSString *shasum = [ShasumProvider sha1FromData:data];
 
-    if (shasumLine.length == 0) {
+    if (shasum.length == 0) {
         ConsoleWriteErr(@"Expected a shasum after exporting certificate with openssl");
         return nil;
     }
 
     return [[Certificate alloc] initWithSubjectLine:subjectLine
-                                         shasumLine:shasumLine];
+                                         shasumLine:shasum];
 }
 
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path {
@@ -67,8 +63,8 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     return YES;
 }
 
-+ (NSDictionary <NSString *, NSArray *> *)parseCertificateData:(NSData *)data
-                                                        atPath:(NSString *)path {
++ (NSArray <NSString *> *)parseCertificateData:(NSData *)data
+                                        atPath:(NSString *)path {
     if (![Certificate exportCertificate:data toFile:path]) {
         return nil;
     }
@@ -91,29 +87,7 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
         return nil;
     }
 
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-
-    dictionary[@"text"]  = result.stdoutLines ?: @[@""];
-
-    args = @[kShasumPath, path];
-
-    result = [ShellRunner xcrun:args timeout:10];
-
-    if (!result.success) {
-        ConsoleWriteErr(@"Could not find the shasum of certificate at path:   \n%@", path);
-        ConsoleWriteErr(@"with command:\n    %@", result.command);
-        if (result.didTimeOut) {
-            ConsoleWriteErr(@"command timed out after %@ seconds", @(result.elapsed));
-        } else {
-            ConsoleWriteErr(@"=== STDERR ===");
-            ConsoleWriteErr(@"%@", result.stderrStr);
-        }
-        return nil;
-    }
-
-    dictionary[@"shasum"] = result.stdoutLines ?: @[@""];
-
-    return dictionary;
+    return result.stdoutLines ?: @[@""];
 }
 
 @synthesize subjectLine = _subjectLine;
