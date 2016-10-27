@@ -566,8 +566,6 @@
 				89331D431CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4AC91CFA614F006DCDC5 /* Unit.xctest */,
 				F5D583EB1D69FF6C007B0D11 /* Integration.xctest */,
-				63424AF13BED437A1CDD00DA /* Certificate.m */,
-				63424E541575B63D1AA8D79F /* Certificate.h */,
 			);
 			name = Products;
 			sourceTree = "<group>";
