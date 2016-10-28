@@ -60,7 +60,6 @@
 }
 
 - (void)testDictionaryByParsingCertificate {
-    NSString *path = [self.resources pathToCalabashWildcardPathCertificate];
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
 
     NSString *actual;
@@ -70,7 +69,6 @@
 }
 
 - (void)testDictionaryByParsingCertificateTimedOut {
-    NSString *path = [self.resources pathToCalabashWildcardPathCertificate];
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
 
     id MockShellRunner = OCMClassMock([ShellRunner class]);
@@ -84,7 +82,6 @@
 }
 
 - (void)testStringByParsingCertificateError {
-    NSString *path = [self.resources pathToCalabashWildcardPathCertificate];
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
 
     id MockShellRunner = OCMClassMock([ShellRunner class]);
