@@ -2,12 +2,16 @@
 #import "TestCase.h"
 #import "Certificate.h"
 #import "ShellRunner.h"
+#import "ShasumProvider.h"
 
 @interface Certificate (TEST)
 
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path;
-+ (NSDictionary <NSString *, NSArray *> *)parseCertificateData:(NSData *)data
-                                                        atPath:(NSString *)path;
++ (NSString *)subjectForCertificateData:(NSData *)data;
+@end
+
+@interface ShasumProvider (TEST)
++ (NSString *)sha1FromData:(NSData *)data;
 @end
 
 @interface CertificateTest : TestCase
@@ -56,45 +60,36 @@
 }
 
 - (void)testDictionaryByParsingCertificate {
-    NSString *path = [self.resources pathToCalabashWildcardPathCertificate];
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
 
-    NSDictionary<NSString *, NSArray *> *actual;
-    actual = [Certificate parseCertificateData:data atPath:path];
+    NSString *actual;
+    actual = [Certificate subjectForCertificateData:data];
 
-    expect(actual.count).to.equal(2);
-    expect([actual[@"text"][0] containsString:@"subject"]).to.equal(YES);
-
-    NSArray *shasumLines = actual[@"shasum"];
-    expect(shasumLines.count).to.equal(2);
-    NSString *shasum = @"316b74b2838787366d1e76d33f3e621e5c2fafb8";
-    expect([shasumLines[0] containsString:shasum]).to.equal(YES);
+    expect([actual containsString:@"subject"]).to.equal(YES);
 }
 
 - (void)testDictionaryByParsingCertificateTimedOut {
-    NSString *path = [self.resources pathToCalabashWildcardPathCertificate];
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
 
     id MockShellRunner = OCMClassMock([ShellRunner class]);
     ShellResult *result = [[Resources shared] timedOutResult];
     OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:20]).andReturn(result);
 
-    NSDictionary<NSString *, NSArray *> *actual;
-    actual = [Certificate parseCertificateData:data atPath:path];
+    NSString *actual;
+    actual = [Certificate subjectForCertificateData:data];
 
     expect(actual).to.equal(nil);
 }
 
 - (void)testStringByParsingCertificateError {
-    NSString *path = [self.resources pathToCalabashWildcardPathCertificate];
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
 
     id MockShellRunner = OCMClassMock([ShellRunner class]);
     ShellResult *result = [[Resources shared] failedResult];
     OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:20]).andReturn(result);
 
-    NSDictionary<NSString *, NSArray *> *actual;
-    actual = [Certificate parseCertificateData:data atPath:path];
+    NSString *actual;
+    actual = [Certificate subjectForCertificateData:data];
 
     expect(actual).to.equal(nil);
 
@@ -118,7 +113,7 @@
     Certificate *actual;
 
     id MockCertificate = OCMClassMock([Certificate class]);
-    OCMExpect([MockCertificate parseCertificateData:OCMOCK_ANY atPath:OCMOCK_ANY]).andReturn(nil);
+    OCMExpect([MockCertificate subjectForCertificateData:OCMOCK_ANY]).andReturn(nil);
 
     actual = [Certificate certificateWithData:data];
     expect(actual).to.equal(nil);
@@ -130,17 +125,11 @@
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
     Certificate *actual;
 
-    NSDictionary *hash = @{
-                           @"text" : @[@"Unexpected first line"],
-                           @"shasum" : @[@"ABCDE path/to/file"]
-                           };
-
+    NSString *line = @"Unexpected first line";
 
     id MockCertificate = OCMClassMock([Certificate class]);
-    OCMExpect(
-              [MockCertificate parseCertificateData:OCMOCK_ANY
-                                             atPath:OCMOCK_ANY]
-              ).andReturn(hash);
+    OCMExpect([MockCertificate subjectForCertificateData:OCMOCK_ANY])
+    .andReturn(line);
 
     actual = [Certificate certificateWithData:data];
     expect(actual).to.equal(nil);
@@ -152,22 +141,14 @@
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
     Certificate *actual;
 
-    NSDictionary *hash = @{
-                           @"text" : @[@"subject=/"],
-                           @"shasum" : @[@""]
-                           };
+    id MockShasumProvider = OCMClassMock([ShasumProvider class]);
+    OCMExpect([MockShasumProvider sha1FromData:OCMOCK_ANY]).andReturn(@"");
 
-
-    id MockCertificate = OCMClassMock([Certificate class]);
-    OCMExpect(
-              [MockCertificate parseCertificateData:OCMOCK_ANY
-                                             atPath:OCMOCK_ANY]
-              ).andReturn(hash);
 
     actual = [Certificate certificateWithData:data];
     expect(actual).to.equal(nil);
 
-    OCMVerifyAll(MockCertificate);
+    OCMVerifyAll(MockShasumProvider);
 }
 
 @end
