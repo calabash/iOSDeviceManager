@@ -10,15 +10,12 @@
 // http://stackoverflow.com/questions/8850524/seccertificateref-how-to-get-the-certificate-information
 @interface Certificate : NSObject
 
+@property(copy, readonly) NSString *commonName;
+@property(copy, readonly) NSString *shasum;
+
 + (Certificate *)certificateWithData:(NSData *)data;
 
-- (instancetype)initWithSubjectLine:(NSString *)subjectLine
-                         shasumLine:(NSString *)shasumLine;
-- (NSString *)userID;
-- (NSString *)commonName;
-- (NSString *)teamName;
-- (NSString *)organization;
-- (NSString *)country;
-- (NSString *)shasum;
+- (instancetype)initWithCommonName:(NSString *)commonName
+                            shasum:(NSString *)shasum;
 
 @end
