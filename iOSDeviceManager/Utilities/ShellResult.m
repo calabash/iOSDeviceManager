@@ -1,5 +1,9 @@
 
 #import "ShellResult.h"
+#import "ConsoleWriter.h"
+#import "CocoaLumberjack.h"
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @interface ShellResult ()
 

@@ -8,6 +8,10 @@
 #import "Codesigner.h"
 #import "AppUtils.h"
 #import "CodesignIdentity.h"
+#import "ConsoleWriter.h"
+#import "CocoaLumberjack.h"
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @protocol DVTApplication
 - (NSDictionary *)plist;

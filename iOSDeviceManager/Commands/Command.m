@@ -2,6 +2,7 @@
 #import "iOSDeviceManagementCommand.h"
 #import "Command.h"
 #import "CLI.h"
+#import "ConsoleWriter.h"
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSArray<CommandOption *> *> *classOptionArrayMap;

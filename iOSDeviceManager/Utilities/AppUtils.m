@@ -1,6 +1,7 @@
 
 #import "AppUtils.h"
 #import "ShellRunner.h"
+#import "ConsoleWriter.h"
 
 @implementation AppUtils
 

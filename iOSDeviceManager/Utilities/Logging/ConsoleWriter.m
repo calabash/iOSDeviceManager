@@ -1,5 +1,8 @@
 
 #import "ConsoleWriter.h"
+#import "CocoaLumberjack.h"
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation ConsoleWriter
 + (void)write:(NSString *)fmt, ... {
