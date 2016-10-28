@@ -263,7 +263,7 @@
 		89331D411CE222C7003C2E59 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = "";
+			dstPath = Frameworks;
 			dstSubfolderSpec = 10;
 			files = (
 				892A93CC1D3934B600154F08 /* FBControlCore.framework in CopyFiles */,
