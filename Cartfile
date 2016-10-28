@@ -1,4 +1,3 @@
 github "specta/expecta" "master"
 github "specta/specta" "master"
 github "erikdoe/ocmock" "master"
-github "CocoaLumberjack/CocoaLumberjack" == 3.0.0
