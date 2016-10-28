@@ -11,7 +11,7 @@
 
 // Log levels: off, error, warn, info, verbose
 // Other flags : trace
-static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
+static const int __unused httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 #define TIMEOUT_NONE          -1
 #define TIMEOUT_REQUEST_BODY  10
@@ -176,7 +176,7 @@ static inline NSUInteger WS_PAYLOAD_LENGTH(UInt8 frame)
 #pragma clang diagnostic ignored "-Wunreachable-code"
 			NSData *requestHeaders = [aRequest messageData];
 
-			NSString *temp = [[NSString alloc] initWithData:requestHeaders encoding:NSUTF8StringEncoding];
+			NSString __unused *temp = [[NSString alloc] initWithData:requestHeaders encoding:NSUTF8StringEncoding];
 			HTTPLogVerbose(@"%@[%p] Request Headers:\n%@", THIS_FILE, self, temp);
 #pragma clang diagnostic pop
 		}
@@ -421,7 +421,7 @@ static inline NSUInteger WS_PAYLOAD_LENGTH(UInt8 frame)
 // HTTP_LOG_VERBOSE is always false
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"
-		NSString *temp = [[NSString alloc] initWithData:responseHeaders encoding:NSUTF8StringEncoding];
+		NSString __unused *temp = [[NSString alloc] initWithData:responseHeaders encoding:NSUTF8StringEncoding];
 		HTTPLogVerbose(@"%@[%p] Response Headers:\n%@", THIS_FILE, self, temp);
 #pragma clang diagnostic pop
 	}
@@ -507,13 +507,13 @@ static inline NSUInteger WS_PAYLOAD_LENGTH(UInt8 frame)
 // HTTP_LOG_VERBOSE is always false
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"
-		NSString *s1 = [[NSString alloc] initWithData:d1 encoding:NSASCIIStringEncoding];
-		NSString *s2 = [[NSString alloc] initWithData:d2 encoding:NSASCIIStringEncoding];
-		NSString *s3 = [[NSString alloc] initWithData:d3 encoding:NSASCIIStringEncoding];
+		NSString __unused *s1 = [[NSString alloc] initWithData:d1 encoding:NSASCIIStringEncoding];
+		NSString __unused *s2 = [[NSString alloc] initWithData:d2 encoding:NSASCIIStringEncoding];
+		NSString __unused *s3 = [[NSString alloc] initWithData:d3 encoding:NSASCIIStringEncoding];
 		
-		NSString *s0 = [[NSString alloc] initWithData:d0 encoding:NSASCIIStringEncoding];
+		NSString __unused *s0 = [[NSString alloc] initWithData:d0 encoding:NSASCIIStringEncoding];
 		
-		NSString *sH = [[NSString alloc] initWithData:responseBody encoding:NSASCIIStringEncoding];
+		NSString __unused *sH = [[NSString alloc] initWithData:responseBody encoding:NSASCIIStringEncoding];
 		
 		HTTPLogVerbose(@"key1 result : raw(%@) str(%@)", d1, s1);
 		HTTPLogVerbose(@"key2 result : raw(%@) str(%@)", d2, s2);

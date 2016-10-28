@@ -1,6 +1,9 @@
 #import "RoutingHTTPServer.h"
 #import "RoutingConnection.h"
 #import "CBXRoute.h"
+#import "CocoaLumberjack.h"
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 #define DATA_TO_JSON( data ) [NSJSONSerialization JSONObjectWithData: ( data ) options:0 error:NULL]
 

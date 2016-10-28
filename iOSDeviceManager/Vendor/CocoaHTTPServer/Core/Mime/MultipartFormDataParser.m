@@ -6,9 +6,9 @@
 #pragma mark log level
 
 #ifdef DEBUG
-static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+static const int __unused httpLogLevel = HTTP_LOG_LEVEL_WARN;
 #else
-static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+static const int __unused httpLogLevel = HTTP_LOG_LEVEL_WARN;
 #endif
 
 #ifdef __x86_64__
