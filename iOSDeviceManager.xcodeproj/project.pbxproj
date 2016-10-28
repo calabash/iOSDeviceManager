@@ -326,10 +326,8 @@
 		634249FF521B476804782B68 /* ShellRunnerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShellRunnerTest.m; sourceTree = "<group>"; };
 		63424A05FFD0099A4FD21113 /* BundleResigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BundleResigner.h; path = iOSDeviceManager/Utilities/BundleResigner.h; sourceTree = SOURCE_ROOT; };
 		63424ACEB57BD2E5B9F4D847 /* Tests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tests.pch; sourceTree = "<group>"; };
-		63424AF13BED437A1CDD00DA /* Certificate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Certificate.m; sourceTree = "<group>"; };
 		63424B5EAA3E57132288C79A /* MobileProfileTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileProfileTest.m; sourceTree = "<group>"; };
 		63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntitlementsTest.m; sourceTree = "<group>"; };
-		63424E541575B63D1AA8D79F /* Certificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Certificate.h; sourceTree = "<group>"; };
 		63424E7B23DD80326DB9FE47 /* Entitlement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlement.m; path = iOSDeviceManager/Utilities/Entitlement.m; sourceTree = SOURCE_ROOT; };
 		63424E880030A308875C5973 /* CertificateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CertificateTest.m; sourceTree = "<group>"; };
 		63424EEDC223490E66B7C1BB /* BundleResignerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BundleResignerFactory.h; path = iOSDeviceManager/Utilities/BundleResignerFactory.h; sourceTree = SOURCE_ROOT; };
