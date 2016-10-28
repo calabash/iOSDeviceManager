@@ -90,7 +90,7 @@
         }
     }
     NSTimeInterval elapsed = [startDate timeIntervalSinceNow];
-    DDLogVerbose(@"elapsed: %@", @(-1.0 * elapsed));
+    NSLog(@"elapsed: %@", @(-1.0 * elapsed));
 
     ShellResult *result = [ShellResult withTask:task elapsed:1.0 didTimeOut:YES];
 

@@ -25,10 +25,10 @@
         ShellResult *result = [ShellRunner xcrun:@[@"simctl", @"help"] timeout:10];
 
         if (!result.success) {
-            DDLogInfo(@"Invalid CoreSimulator service for active Xcode: try %@ of %@",
+            NSLog(@"Invalid CoreSimulator service for active Xcode: try %@ of %@",
                   @(try + 1), @(maxTries));
         } else {
-            DDLogInfo(@"Valid CoreSimulator service for active Xcode after %@ tries",
+            NSLog(@"Valid CoreSimulator service for active Xcode after %@ tries",
                   @(try + 1));
             success = YES;
             break;
@@ -453,8 +453,8 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
     if (!_XcodeFromProcessPath ||
         ![_XcodeFromProcessPath containsString:@".app/Contents/Developer"]) {
-        DDLogInfo(@"======= ENVIRONMENT =======");
-        DDLogInfo(@"%@", environment);
+        NSLog(@"======= ENVIRONMENT =======");
+        NSLog(@"%@", environment);
         NSString *reason;
         reason = [NSString
                   stringWithFormat:@"Cannot detect Xcode from process environment:\n"
@@ -493,10 +493,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (void)setDeveloperDirectory {
     if (self.OSisSierraOrHigher) {
-        DDLogInfo(@"Only Xcode 8 is allowed on Sierra; "
+        NSLog(@"Only Xcode 8 is allowed on Sierra; "
               "don't touch the active Xcode version");
     } else {
-        DDLogInfo(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
+        NSLog(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
         setenv("DEVELOPER_DIR",
                [self.XcodePath cStringUsingEncoding:NSUTF8StringEncoding],
                YES);

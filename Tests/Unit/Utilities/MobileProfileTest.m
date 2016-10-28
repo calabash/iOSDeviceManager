@@ -65,7 +65,7 @@
     expect(profile.Platform[0]).to.equal(@"iOS");
     expect(profile.ExpirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
-    DDLogVerbose(@"%@", profile.info);
+    NSLog(@"%@", profile.info);
 
     Certificate *cert = profile.DeveloperCertificates[0];
     expect(cert.userID).to.equal(@"QWAW7NSN85");
@@ -76,9 +76,9 @@
 
     Entitlements *entitlements = profile.Entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
-    DDLogVerbose(@"%@", entitlements);
+    NSLog(@"%@", entitlements);
 
-    DDLogVerbose(@"%@", [path pathExtension]);
+    NSLog(@"%@", [path pathExtension]);
 }
 
 - (void)testCanImportProblematicProfiles {
@@ -99,7 +99,7 @@
     expect(profile.Platform[0]).to.equal(@"iOS");
     expect(profile.ExpirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
-    DDLogVerbose(@"%@", profile.info);
+    NSLog(@"%@", profile.info);
 
     Certificate *cert = profile.DeveloperCertificates[0];
     expect(cert.userID).to.equal(@"3TNVSMTY3X");
@@ -110,8 +110,18 @@
 
     Entitlements *entitlements = profile.Entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
-    DDLogVerbose(@"%@", entitlements);
+    NSLog(@"%@", entitlements);
 }
+
+- (void)testCanImportLJSProfile {
+    NSString *path = [self.resources pathToVeryLongProfile];
+    NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
+    MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
+                                                                  path:path];
+
+    NSLog(@"profile = %@", profile);
+}
+
 
 // Could be an integration test if import is too slow.
 - (void)testCanImportMyProfiles {

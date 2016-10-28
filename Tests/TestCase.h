@@ -16,7 +16,7 @@ NS_INLINE BOOL device_available() {
     if ([[Resources shared] isCompatibleDeviceConnected]) {
         return YES;
     } else {
-        DDLogInfo(@"No compatible device connected; skipping test");
+        NSLog(@"No compatible device connected; skipping test");
         return NO;
     }
 }
