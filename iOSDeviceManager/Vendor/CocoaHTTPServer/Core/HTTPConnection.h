@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@class GCDAsyncSocket;
+#import "GCDAsyncSocket.h"
 @class HTTPMessage;
 @class HTTPServer;
 @class WebSocket;
@@ -33,7 +33,7 @@
 #pragma mark -
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@interface HTTPConnection : NSObject
+@interface HTTPConnection : NSObject<GCDAsyncSocketDelegate>
 {
 	dispatch_queue_t connectionQueue;
 	GCDAsyncSocket *asyncSocket;
