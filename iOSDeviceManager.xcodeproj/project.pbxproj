@@ -456,6 +456,10 @@
 		F53764961D67A1FB009457C8 /* Resources.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = Resources.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F53764971D67A1FB009457C8 /* Resources.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Resources.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F578F4671D70A3C4001FC3BE /* ResignTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResignTest.m; sourceTree = "<group>"; };
+		F57BF4561DC382420074747F /* CocoaAsyncSocket.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaAsyncSocket.LICENSE; sourceTree = "<group>"; };
+		F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaHTTPServer.LICENSE; sourceTree = "<group>"; };
+		F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaLumberjack.LICENSE; sourceTree = "<group>"; };
+		F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = RoutingHTTPServer.LICENSE; sourceTree = "<group>"; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalCLIDeviceIntegrationTests.m; sourceTree = "<group>"; };
 		F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorCLIIntegrationTests.m; sourceTree = "<group>"; };
@@ -824,6 +828,10 @@
 		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
 			isa = PBXGroup;
 			children = (
+				F57BF4561DC382420074747F /* CocoaAsyncSocket.LICENSE */,
+				F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */,
+				F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */,
+				F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */,
 				F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */,
 			);
 			path = "vendor-licenses";
