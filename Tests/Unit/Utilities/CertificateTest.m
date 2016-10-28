@@ -7,8 +7,7 @@
 @interface Certificate (TEST)
 
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path;
-+ (NSArray <NSString *> *)parseCertificateData:(NSData *)data
-                                        atPath:(NSString *)path;
++ (NSString *)subjectForCertificateData:(NSData *)data;
 @end
 
 @interface ShasumProvider (TEST)
@@ -64,11 +63,10 @@
     NSString *path = [self.resources pathToCalabashWildcardPathCertificate];
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
 
-    NSArray<NSString *> *actual;
-    actual = [Certificate parseCertificateData:data atPath:path];
+    NSString *actual;
+    actual = [Certificate subjectForCertificateData:data];
 
-    expect(actual.count).to.beGreaterThanOrEqualTo(1);
-    expect([actual[0] containsString:@"subject"]).to.equal(YES);
+    expect([actual containsString:@"subject"]).to.equal(YES);
 }
 
 - (void)testDictionaryByParsingCertificateTimedOut {
@@ -79,8 +77,8 @@
     ShellResult *result = [[Resources shared] timedOutResult];
     OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:20]).andReturn(result);
 
-    NSArray<NSString *> *actual;
-    actual = [Certificate parseCertificateData:data atPath:path];
+    NSString *actual;
+    actual = [Certificate subjectForCertificateData:data];
 
     expect(actual).to.equal(nil);
 }
@@ -93,8 +91,8 @@
     ShellResult *result = [[Resources shared] failedResult];
     OCMExpect([MockShellRunner xcrun:OCMOCK_ANY timeout:20]).andReturn(result);
 
-    NSArray<NSString *> *actual;
-    actual = [Certificate parseCertificateData:data atPath:path];
+    NSString *actual;
+    actual = [Certificate subjectForCertificateData:data];
 
     expect(actual).to.equal(nil);
 
@@ -118,7 +116,7 @@
     Certificate *actual;
 
     id MockCertificate = OCMClassMock([Certificate class]);
-    OCMExpect([MockCertificate parseCertificateData:OCMOCK_ANY atPath:OCMOCK_ANY]).andReturn(nil);
+    OCMExpect([MockCertificate subjectForCertificateData:OCMOCK_ANY]).andReturn(nil);
 
     actual = [Certificate certificateWithData:data];
     expect(actual).to.equal(nil);
@@ -130,13 +128,11 @@
     NSData *data = [self.resources certificateFromCalabashWildcardPath];
     Certificate *actual;
 
-    NSArray *array = @[@"Unexpected first line"];
+    NSString *line = @"Unexpected first line";
 
     id MockCertificate = OCMClassMock([Certificate class]);
-    OCMExpect(
-              [MockCertificate parseCertificateData:OCMOCK_ANY
-                                             atPath:OCMOCK_ANY]
-              ).andReturn(array);
+    OCMExpect([MockCertificate subjectForCertificateData:OCMOCK_ANY])
+    .andReturn(line);
 
     actual = [Certificate certificateWithData:data];
     expect(actual).to.equal(nil);

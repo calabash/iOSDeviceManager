@@ -12,8 +12,7 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
 @interface Certificate ()
 
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path;
-+ (NSArray <NSString *> *)parseCertificateData:(NSData *)data
-                                        atPath:(NSString *)path;
++ (NSString *)subjectForCertificateData:(NSData *)data;
 
 @property(copy, readonly) NSString *subjectLine;
 @property(copy, readonly) NSDictionary *info;
@@ -25,20 +24,13 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
 @implementation Certificate
 
 + (Certificate *)certificateWithData:(NSData *)data {
-    NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
-    NSString *name = [NSString stringWithFormat:@"%@.cert", uuid];
-    NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
+    NSString *subject = [Certificate subjectForCertificateData:data];
 
-    NSArray <NSString *> *lines;
-    lines = [Certificate parseCertificateData:data atPath:path];
+    if (!subject) { return nil; }
 
-    if (!lines) { return nil; }
-
-    NSString *subjectLine = [lines objectAtIndex:0];
-
-    if (![subjectLine containsString:@"subject"]) {
+    if (![subject containsString:@"subject"]) {
         ConsoleWriteErr(@"Expected a subject line after exporting certificate with openssl");
-        ConsoleWriteErr(@"Found:\n    %@", subjectLine);
+        ConsoleWriteErr(@"Found:\n    %@", subject);
         return nil;
     }
 
@@ -49,7 +41,7 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
         return nil;
     }
 
-    return [[Certificate alloc] initWithSubjectLine:subjectLine
+    return [[Certificate alloc] initWithSubjectLine:subject
                                          shasumLine:shasum];
 }
 
@@ -63,8 +55,10 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     return YES;
 }
 
-+ (NSArray <NSString *> *)parseCertificateData:(NSData *)data
-                                        atPath:(NSString *)path {
++ (NSString *)subjectForCertificateData:(NSData *)data {
+    NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSString *name = [NSString stringWithFormat:@"%@.cert", uuid];
+    NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
     if (![Certificate exportCertificate:data toFile:path]) {
         return nil;
     }
@@ -86,8 +80,11 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
         }
         return nil;
     }
+    if (!result.stdoutLines) {
+        return nil;
+    }
 
-    return result.stdoutLines ?: @[@""];
+    return result.stdoutLines[0];
 }
 
 @synthesize subjectLine = _subjectLine;
