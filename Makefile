@@ -9,12 +9,6 @@ clean:
 	rm -rf build
 
 #
-#	Installs the FBSimulatorControl frameworks to ~/.calabash/Frameworks
-#
-install_frameworks:
-	bin/install_frameworks.sh
-
-#
 #	Builds the executable
 #
 # If this fails, call 'make clean' and try again.
