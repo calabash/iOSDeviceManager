@@ -58,9 +58,10 @@
         ConsoleWriteErr(@"Result code: %@", status);
     }
 
-    NSString *name = (__bridge NSString *)stringRef;
-    CFRelease(certRef);
-    CFRelease(stringRef);
+    NSString *name = (__bridge_transfer NSString *)stringRef;
+
+    if (certRef) { CFRelease(certRef); }
+    if (dataRef) { CFRelease(dataRef); }
 
     return name;
 }
