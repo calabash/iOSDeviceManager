@@ -11,9 +11,8 @@ clean:
 #
 #	Builds the executable
 #
-# If this fails, call 'make clean' and try again.
 build:
-	bin/build.sh
+	bin/make/build.sh
 
 #
 # 	Installs to /usr/local/bin
