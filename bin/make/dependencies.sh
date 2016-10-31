@@ -11,7 +11,7 @@ if [ -z "${DEVICEAGENT_PATH}" ]; then
 fi
 
 if [ ! -d "${DEVICEAGENT_PATH}" ]; then
-  error "${DEVICEAGENT_PATH} does not exist at path:"
+  error "DeviceAgent.iOS does not exist at path:"
   error "  ${DEVICEAGENT_PATH}"
   error "Set the DEVICEAGENT_PATH=path/to/DeviceAgent.iOS or"
   error "checkout the DeviceAgent.iOS repo to ../"
