@@ -103,7 +103,7 @@
 
     expect(entitlements).notTo.equal(nil);
     expect(entitlements.dictionary.count).notTo.equal(0);
-    DDLogInfo(@"%@", entitlements);
+    NSLog(@"%@", entitlements);
 }
 
 - (void)testEntitlementsFromBundlePathFailure {

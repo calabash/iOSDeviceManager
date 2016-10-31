@@ -64,10 +64,7 @@ Disable legacy macros by importing CocoaLumberjack.h or DDLogMacros.h instead of
         do { if(lvl & flg) LOG_MACRO(async, lvl, flg, ctx, nil, fnct, frmt, ##__VA_ARGS__); } while(0)
 
 #define LOG_OBJC_MAYBE(async, lvl, flg, ctx, frmt, ...) \
-        LOG_MAYBE(async, lvl, flg, ctx, nil, [NSStringFromSelector(_cmd) cStringUsingEncoding:NSUTF8StringEncoding], frmt, ## __VA_ARGS__)
-
-#define LOG_C_MAYBE(async, lvl, flg, ctx, frmt, ...) \
-        LOG_MAYBE(async, lvl, flg, ctx, FUNCTION, frmt, ##VA_ARGS)
+        LOG_MAYBE(async, lvl, flg, ctx, __PRETTY_FUNCTION__, frmt, ## __VA_ARGS__)
 
 #define DDLogError(frmt, ...)   LOG_OBJC_MAYBE(LOG_ASYNC_ERROR,   LOG_LEVEL_DEF, LOG_FLAG_ERROR,   0, frmt, ##__VA_ARGS__)
 #define DDLogWarn(frmt, ...)    LOG_OBJC_MAYBE(LOG_ASYNC_WARN,    LOG_LEVEL_DEF, LOG_FLAG_WARN,    0, frmt, ##__VA_ARGS__)

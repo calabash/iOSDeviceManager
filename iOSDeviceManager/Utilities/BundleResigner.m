@@ -5,6 +5,10 @@
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "BundleResignerFactory.h"
+#import "ConsoleWriter.h"
+#import "CocoaLumberjack.h"
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @interface BundleResigner ()
 

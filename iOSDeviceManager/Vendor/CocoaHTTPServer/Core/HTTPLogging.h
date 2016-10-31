@@ -50,8 +50,14 @@
 // The logging context can be extracted from the DDLogMessage from within the logging framework,
 // which gives loggers, formatters, and filters the ability to optionally process them differently.
 
+#ifndef CHSHTTPLoggingEnabled
+#define CHSHTTPLoggingEnabled 0
+#endif
+
+#if CHSHTTPLoggingEnabled
+
 #define HTTP_LOG_CONTEXT 80
-#import <CocoaLumberjack/DDLog.h>
+#import "DDLog.h"
 
 // Configure log levels.
 
@@ -133,3 +139,32 @@
 #define HTTPLogCTrace2(frmt, ...)     LOG_C_MAYBE(HTTP_LOG_ASYNC_TRACE,   httpLogLevel, HTTP_LOG_FLAG_TRACE, \
                                                   HTTP_LOG_CONTEXT, frmt, ##__VA_ARGS__)
 
+#else
+
+#define HTTP_LOG_ERROR   0
+#define HTTP_LOG_WARN    0
+#define HTTP_LOG_INFO    0
+#define HTTP_LOG_VERBOSE 0
+#define HTTP_LOG_TRACE   0
+
+#define HTTP_LOG_LEVEL_OFF     0
+#define HTTP_LOG_LEVEL_ERROR   0
+#define HTTP_LOG_LEVEL_WARN    0
+#define HTTP_LOG_LEVEL_INFO    0
+#define HTTP_LOG_LEVEL_VERBOSE 0
+
+
+#define HTTPLogError(frmt, ...) {}
+#define HTTPLogWarn(frmt, ...) {}
+#define HTTPLogInfo(frmt, ...) {}
+#define HTTPLogVerbose(frmt, ...) {}
+#define HTTPLogTrace() {}
+#define HTTPLogTrace2(frmt, ...) {}
+#define HTTPLogCError(frmt, ...) {}
+#define HTTPLogCWarn(frmt, ...) {}
+#define HTTPLogCInfo(frmt, ...) {}
+#define HTTPLogCVerbose(frmt, ...) {}
+#define HTTPLogCTrace() {}
+#define HTTPLogCTrace2(frmt, ...) {}
+
+#endif

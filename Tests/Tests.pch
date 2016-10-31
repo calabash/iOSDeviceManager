@@ -4,13 +4,6 @@
 #import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
 
-//Lumberjack
-#define LOG_LEVEL_DEF ddLogLevel
-#import <CocoaLumberjack/CocoaLumberjack.h>
-
-static const DDLogLevel ddLogLevel = DDLogLevelDebug;
-
-#import "ConsoleWriter.h"
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
 #endif

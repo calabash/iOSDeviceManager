@@ -4,6 +4,10 @@
 #import "ShellRunner.h"
 #import "Command.h"
 #import "CLI.h"
+#import "ConsoleWriter.h"
+#import "CocoaLumberjack.h"
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation CLI
 static NSMutableDictionary <NSString *, Class> *commandClasses;

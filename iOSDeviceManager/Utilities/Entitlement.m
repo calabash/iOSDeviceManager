@@ -1,5 +1,6 @@
 
 #import "Entitlement.h"
+#import "ConsoleWriter.h"
 
 @interface Entitlement ()
 

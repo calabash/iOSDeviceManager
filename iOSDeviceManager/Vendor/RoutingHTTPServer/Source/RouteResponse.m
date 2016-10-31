@@ -4,6 +4,7 @@
 #import "HTTPFileResponse.h"
 #import "HTTPAsyncFileResponse.h"
 #import "HTTPResponseProxy.h"
+#import "ConsoleWriter.h"
 
 @implementation RouteResponse {
 	NSMutableDictionary *headers;

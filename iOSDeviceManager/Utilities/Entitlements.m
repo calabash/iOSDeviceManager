@@ -3,6 +3,7 @@
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "Entitlement.h"
+#import "ConsoleWriter.h"
 
 static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.associated-domains";
 

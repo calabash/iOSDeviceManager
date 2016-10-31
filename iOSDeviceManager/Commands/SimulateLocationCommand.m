@@ -1,5 +1,7 @@
 
 #import "SimulateLocationCommand.h"
+#import "ConsoleWriter.h"
+
 static NSString *const DEVICE_ID_FLAG = @"-d";
 static NSString *const LOCATION_FLAG = @"-l";
 

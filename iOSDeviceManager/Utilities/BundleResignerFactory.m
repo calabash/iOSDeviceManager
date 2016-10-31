@@ -4,6 +4,10 @@
 #import "MobileProfile.h"
 #import "Entitlements.h"
 #import "CodesignIdentity.h"
+#import "ConsoleWriter.h"
+#import "CocoaLumberjack.h"
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @interface BundleResignerFactory ()
 

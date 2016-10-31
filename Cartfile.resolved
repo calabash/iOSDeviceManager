@@ -1,4 +1,3 @@
-github "CocoaLumberjack/CocoaLumberjack" "3.0.0"
 github "specta/expecta" "7c048e9af9c50cf8782e55abf57a9f4a48d8db1a"
 github "erikdoe/ocmock" "a60730142ea67229ac08e96fb8005f7eb3600760"
 github "specta/specta" "f572fa1a4e5d76462e3775ec12a99aa9737648d4"

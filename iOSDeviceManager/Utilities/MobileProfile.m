@@ -6,6 +6,7 @@
 #import "Entitlements.h"
 #import "Entitlement.h"
 #import "CodesignIdentity.h"
+#import "ConsoleWriter.h"
 
 @interface MobileProfile ()
 
