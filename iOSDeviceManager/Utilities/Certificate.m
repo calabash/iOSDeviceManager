@@ -4,36 +4,19 @@
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
 
-// Always always always use Apple's openssl binary.
-static NSString *const kOpenSSLPath = @"/usr/bin/openssl";
-
-// Always use Apple's shasum binary; results from others may vary.
-static NSString *const kShasumPath = @"/usr/bin/shasum";
-
 @interface Certificate ()
 
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path;
-+ (NSString *)subjectForCertificateData:(NSData *)data;
-
-@property(copy, readonly) NSString *subjectLine;
-@property(copy, readonly) NSDictionary *info;
-@property(copy, readonly) NSString *shasumLine;
-@property(copy, readonly) NSString *shasum;
++ (NSString *)commonNameFromCertificateData:(NSData *)data;
 
 @end
 
 @implementation Certificate
 
 + (Certificate *)certificateWithData:(NSData *)data {
-    NSString *subject = [Certificate subjectForCertificateData:data];
+    NSString *commonName = [Certificate commonNameFromCertificateData:data];
 
-    if (!subject) { return nil; }
-
-    if (![subject containsString:@"subject"]) {
-        ConsoleWriteErr(@"Expected a subject line after exporting certificate with openssl");
-        ConsoleWriteErr(@"Found:\n    %@", subject);
-        return nil;
-    }
+    if (!commonName) { return nil; }
 
     NSString *shasum = [ShasumProvider sha1FromData:data];
 
@@ -42,8 +25,7 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
         return nil;
     }
 
-    return [[Certificate alloc] initWithSubjectLine:subject
-                                         shasumLine:shasum];
+    return [[Certificate alloc] initWithCommonName:commonName shasum:shasum];
 }
 
 + (BOOL)exportCertificate:(NSData *)data toFile:(NSString *)path {
@@ -56,120 +38,56 @@ static NSString *const kShasumPath = @"/usr/bin/shasum";
     return YES;
 }
 
-+ (NSString *)subjectForCertificateData:(NSData *)data {
-    NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
-    NSString *name = [NSString stringWithFormat:@"%@.cert", uuid];
-    NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
-    if (![Certificate exportCertificate:data toFile:path]) {
++ (NSString *)commonNameFromCertificateData:(NSData *)data {
+
+    CFDataRef dataRef = CFDataCreate(NULL, [data bytes], [data length]);
+    if (!dataRef) {
+        ConsoleWriteErr(@"Could not extract the common name for the certificate");
         return nil;
     }
 
-    NSArray<NSString *> *args;
+    SecCertificateRef certRef;
+    certRef = SecCertificateCreateWithData(NULL, dataRef);
 
-    args = @[kOpenSSLPath, @"x509", @"-subject", @"-noout", @"-inform", @"der", @"-in", path];
+    CFStringRef stringRef;
+    OSStatus status;
+    status = SecCertificateCopyCommonName(certRef, &stringRef);
 
-    ShellResult *result = [ShellRunner xcrun:args timeout:20];
+    if (status != errSecSuccess) {
+        ConsoleWriteErr(@"Unsuccessful getting common name from certificate");
+        ConsoleWriteErr(@"Result code: %@", status);
 
-    if (!result.success) {
-        ConsoleWriteErr(@"Could not parse certificate at path:   \n%@", path);
-        ConsoleWriteErr(@"with command:\n    %@", result.command);
-        if (result.didTimeOut) {
-            ConsoleWriteErr(@"command timed out after %@ seconds", @(result.elapsed));
-        } else {
-            ConsoleWriteErr(@"=== STDERR ===");
-            ConsoleWriteErr(@"%@", result.stderrStr);
-        }
-        return nil;
-    }
-    if (!result.stdoutLines) {
+        if (stringRef) { CFRelease(stringRef); }
+        if (certRef) { CFRelease(certRef); }
+        if (dataRef) { CFRelease(dataRef); }
+
         return nil;
     }
 
-    return result.stdoutLines[0];
+    NSString *name = (__bridge_transfer NSString *)stringRef;
+
+    if (certRef) { CFRelease(certRef); }
+    if (dataRef) { CFRelease(dataRef); }
+
+    return name;
 }
 
-@synthesize subjectLine = _subjectLine;
-@synthesize shasumLine = _shasumLine;
-@synthesize info = _info;
+@synthesize commonName = _commonName;
 @synthesize shasum = _shasum;
 
-- (instancetype)initWithSubjectLine:(NSString *)subjectLine
-                         shasumLine:(NSString *)shasumLine {
+- (instancetype)initWithCommonName:(NSString *)commonName
+                            shasum:(NSString *)shasum {
     self = [super init];
     if (self) {
-        _subjectLine = subjectLine;
-        _shasumLine = shasumLine;
+        _commonName = commonName;
+        _shasum = [shasum uppercaseString];
     }
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"#<Certificate: %@ : %@ : %@>",
-            [[self shasum] substringToIndex:5],
-            [self teamName], [self commonName]];
-}
-
-- (NSDictionary *)info {
-    if (_info) { return _info; }
-
-    NSMutableDictionary *hash = [NSMutableDictionary dictionary];
-    NSArray *components = [self.subjectLine componentsSeparatedByString:@"/"];
-
-    for (NSString *string in components) {
-        if ([string containsString:@"="] && ![string containsString:@"subject"]) {
-            NSArray *keyValue = [string componentsSeparatedByString:@"="];
-            hash[keyValue[0]] = keyValue[1];
-        }
-    }
-
-    _info = [NSDictionary dictionaryWithDictionary:hash];
-    return hash;
-}
-
-- (id)objectForKeyedSubscript:(NSString *) key {
-    return self.info[key] ?: nil;
-}
-
-// UID=QWAW7NSN85
-- (NSString *)userID {
-    return self[@"UID"];
-}
-
-// CN=iPhone Developer: Karl Krukow (YTTN6Y2QS9)
-- (NSString *)commonName {
-    return self[@"CN"];
-}
-
-// OU=FYD86LA7RE
-- (NSString *)teamName {
-    return self[@"OU"];
-}
-
-// O=Karl Krukow
-- (NSString *)organization {
-    return self[@"O"];
-}
-
-// C=US
-- (NSString *)country {
-    return self[@"C"];
-}
-
-- (NSString *)shasum {
-    if (_shasum) { return _shasum; }
-
-    // We can safely return nil here because shasum comparison is done with:
-    //     [mySum isEqualToString:otherSum]
-    // which will return NO if the LHS or the RHS is nil.
-    if (!self.shasumLine || self.shasumLine.length == 0) {
-        return nil;
-    }
-
-    NSArray *tokens = [self.shasumLine componentsSeparatedByString:@" "];
-    NSString *first = tokens[0];
-
-    _shasum = [first uppercaseString];
-    return _shasum;
+    return [NSString stringWithFormat:@"#<Certificate: %@ : %@>",
+            [[self shasum] substringToIndex:5], [self commonName]];
 }
 
 @end

@@ -68,11 +68,7 @@
     NSLog(@"%@", profile.info);
 
     Certificate *cert = profile.DeveloperCertificates[0];
-    expect(cert.userID).to.equal(@"QWAW7NSN85");
     expect(cert.commonName).to.equal(@"iPhone Developer: Karl Krukow (YTTN6Y2QS9)");
-    expect(cert.teamName).to.equal(@"FYD86LA7RE");
-    expect(cert.organization).to.equal(@"Karl Krukow");
-    expect(cert.country).to.equal(@"US");
 
     Entitlements *entitlements = profile.Entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
@@ -102,11 +98,7 @@
     NSLog(@"%@", profile.info);
 
     Certificate *cert = profile.DeveloperCertificates[0];
-    expect(cert.userID).to.equal(@"3TNVSMTY3X");
     expect(cert.commonName).to.equal(@"iPhone Developer: Andrew Chung (28DXNYAUL2)");
-    expect(cert.teamName).to.equal(@"58LM7J37Q8");
-    expect(cert.organization).to.equal(@"Xamarin Inc");
-    expect(cert.country).to.equal(@"US");
 
     Entitlements *entitlements = profile.Entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
