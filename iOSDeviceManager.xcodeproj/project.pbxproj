@@ -263,7 +263,7 @@
 		89331D411CE222C7003C2E59 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = "";
+			dstPath = Frameworks;
 			dstSubfolderSpec = 10;
 			files = (
 				892A93CC1D3934B600154F08 /* FBControlCore.framework in CopyFiles */,
@@ -1371,7 +1371,7 @@
 				);
 				GCC_PREFIX_HEADER = "";
 				GENERATE_MASTER_OBJECT_FILE = NO;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1389,7 +1389,7 @@
 				);
 				GCC_PREFIX_HEADER = "";
 				GENERATE_MASTER_OBJECT_FILE = NO;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1409,7 +1409,7 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Tests/UnitInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1428,7 +1428,7 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Tests/UnitInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1446,7 +1446,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1464,7 +1464,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
