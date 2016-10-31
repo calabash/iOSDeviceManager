@@ -994,14 +994,6 @@ typedef NS_ENUM(NSInteger, GCDAsyncSocketError) {
 
 #endif
 
-/**
- * This method is only available from within the context of a performBlock: invocation.
- * See the documentation for the performBlock: method above.
- *
- * Provides access to the socket's SSLContext, if SSL/TLS has been started on the socket.
-**/
-- (SSLContextRef)sslContext;
-
 #pragma mark Utilities
 
 /**
@@ -1039,11 +1031,23 @@ typedef NS_ENUM(NSInteger, GCDAsyncSocketError) {
 + (NSData *)LFData;     // 0x0A
 + (NSData *)ZeroData;   // 0x00
 
+NS_ASSUME_NONNULL_END
+
+/**
+ * This method is only available from within the context of a performBlock: invocation.
+ * See the documentation for the performBlock: method above.
+ *
+ * Provides access to the socket's SSLContext, if SSL/TLS has been started on the socket.
+ **/
+- (nullable SSLContextRef)sslContext;
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol GCDAsyncSocketDelegate
 @optional
@@ -1206,5 +1210,6 @@ typedef NS_ENUM(NSInteger, GCDAsyncSocketError) {
 - (void)socket:(GCDAsyncSocket *)sock didReceiveTrust:(SecTrustRef)trust
                                     completionHandler:(void (^)(BOOL shouldTrustPeer))completionHandler;
 
-@end
 NS_ASSUME_NONNULL_END
+
+@end
