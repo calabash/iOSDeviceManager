@@ -24,6 +24,9 @@ nuget:
 fbframeworks:
 	bin/make/frameworks.sh
 
+facebook-frameworks:
+	bin/make/frameworks.sh
+
 #
 # 	Runs the unit tests.
 #
