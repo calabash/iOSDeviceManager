@@ -3,7 +3,7 @@
 .PHONY: tests
 
 #
-#	Cleans the build directory used by Xcode
+#	Cleans the build directory used by make scripts.
 #
 clean:
 	rm -rf build
