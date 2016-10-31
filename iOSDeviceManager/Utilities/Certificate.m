@@ -56,6 +56,12 @@
     if (status != errSecSuccess) {
         ConsoleWriteErr(@"Unsuccessful getting common name from certificate");
         ConsoleWriteErr(@"Result code: %@", status);
+
+        if (stringRef) { CFRelease(stringRef); }
+        if (certRef) { CFRelease(certRef); }
+        if (dataRef) { CFRelease(dataRef); }
+
+        return nil;
     }
 
     NSString *name = (__bridge_transfer NSString *)stringRef;
