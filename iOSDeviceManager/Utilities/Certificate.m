@@ -39,10 +39,15 @@
 }
 
 + (NSString *)commonNameFromCertificateData:(NSData *)data {
+
+    CFDataRef dataRef = CFDataCreate(NULL, [data bytes], [data length]);
+    if (!dataRef) {
+        ConsoleWriteErr(@"Could not extract the common name for the certificate");
+        return nil;
+    }
+
     SecCertificateRef certRef;
-    certRef = SecCertificateCreateWithData(NULL,CFDataCreate(NULL,
-                                                             [data bytes],
-                                                             [data length]));
+    certRef = SecCertificateCreateWithData(NULL, dataRef);
 
     CFStringRef stringRef;
     OSStatus status;
