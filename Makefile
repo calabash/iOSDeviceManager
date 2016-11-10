@@ -3,33 +3,16 @@
 .PHONY: tests
 
 #
-#	Cleans the build directory used by Xcode
+#	Cleans the build directory used by make scripts.
 #
 clean:
 	rm -rf build
 
 #
-#	Installs the FBSimulatorControl frameworks to ~/.calabash/Frameworks
-#
-install_frameworks:
-	bin/install_frameworks.sh
-
-#
 #	Builds the executable
 #
-# If this fails, call 'make clean' and try again.
 build:
-	bin/build.sh
-
-#
-# 	Installs to /usr/local/bin
-#
-install:
-	$(MAKE) clean
-	$(MAKE) install_frameworks
-	$(MAKE) build
-	bin/install.sh
-
+	bin/make/build.sh
 
 dependencies:
 	bin/make/dependencies.sh
@@ -39,6 +22,9 @@ nuget:
 	bin/make/nuget.sh
 
 fbframeworks:
+	bin/make/frameworks.sh
+
+facebook-frameworks:
 	bin/make/frameworks.sh
 
 #

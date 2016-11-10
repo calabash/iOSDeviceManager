@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
+
+set -e
+
 source bin/log_functions.sh
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
-  error "Set FBSIMCONTROL_PATH=/path/to/FBSimulatorControl and rerun"
-  exit 1
+  if [ -e "../FBSimulatorControl" ]; then
+    FBSIMCONTROL_PATH="../FBSimulatorControl"
+  fi
 fi
 
-set -e
+if [ ! -d "${FBSIMCONTROL_PATH}" ]; then
+  error "FBSimulatorControl does not exist at path:"
+  error "  ${FBSIMCONTROL_PATH}"
+  error "Set the FBSIMCONTROL_PATH=path/to/FBSimulatorControl or"
+  error "checkout the calabash fork of the FBSimulatorControl repo to ../"
+  exit 4
+fi
 
 rm -rf ./Frameworks/*.framework
 HERE=$(pwd)
