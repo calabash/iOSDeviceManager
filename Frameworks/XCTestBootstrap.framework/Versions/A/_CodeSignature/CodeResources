@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		gjrCYjmsTAdZsAUAdp8hSHMXhK4=
+		jYWqQsfOhBmKnGJo1BDvy2u6Crg=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,38 +15,16 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			SeXM3sAECgVANmUpSSd8kh2Web8=
+			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
-		</dict>
-		<key>Frameworks/CocoaLumberjack.framework.dSYM/Contents/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			GEBqIsXLoDp/FCpEk2dLH9OmaFw=
-			</data>
-			<key>hash2</key>
-			<data>
-			kPch7YEgoza52rt32RlyJwyfO1XjsxuTSmlPi0Aar0Y=
-			</data>
-		</dict>
-		<key>Frameworks/CocoaLumberjack.framework.dSYM/Contents/Resources/DWARF/CocoaLumberjack</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xLIG6jLkVJtWtse5ONFSLRXzxOA=
-			</data>
-			<key>hash2</key>
-			<data>
-			AdjM9b73QwwnzcdOmX+hZfvd5HYsXmcTTtKs+59/JSU=
-			</data>
 		</dict>
 		<key>Frameworks/FBControlCore.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			6aCDeUyWH9by9/TNoSJDhNFqBZE=
+			vh7Rr/gvAyhAMxeSH94X2ptGzns=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -341,11 +319,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rS051hI/QhCIPASr5APgUcr3ZS4=
+			BGNI0jbxhI8WBJ7ClV3/XV2XuuI=
 			</data>
 			<key>hash2</key>
 			<data>
-			JKOovjxWNUH8WBLJYU49pWSt3lT9AZ9Pq9dU1YfpOWw=
+			Fq/51eVJ/TGVnLSwForzfSGvgebVZt7BXtwRY85noGw=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapError.h</key>
@@ -385,11 +363,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gjrCYjmsTAdZsAUAdp8hSHMXhK4=
+			jYWqQsfOhBmKnGJo1BDvy2u6Crg=
 			</data>
 			<key>hash2</key>
 			<data>
-			7Qy59XtRAeTXXQtYbsALcklRahc6iJmuhCvow9jCoR0=
+			hah0ltYfNIF45ZYOBtB8hyWzhxSUmW2kgPyBtZsnQ/0=
 			</data>
 		</dict>
 	</dict>
