@@ -2,7 +2,7 @@
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
-#import "CocoaLumberjack.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
