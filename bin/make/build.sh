@@ -33,6 +33,10 @@ xcrun xcodebuild \
   GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
   build | $XC_PIPE
 
-mkdir -p Products
-cp build/Release/iOSDeviceManager Products
+rm -rf Products
+mkdir Products
+
+ditto build/Release/iOSDeviceManager Products/iOSDeviceManager
+ditto build/Release/CLI.json Products/CLI.json
+ditto build/Release/Frameworks Products/Frameworks
 

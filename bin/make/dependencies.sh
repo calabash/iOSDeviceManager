@@ -31,7 +31,7 @@ mkdir -p "${OUTPUT_DIR}/ipa"
 
 banner "Copying Frameworks/ to Dependencies"
 
-declare -a FBFRAMEWORKS=("FBControlCore" "FBDeviceControl" "FBSimulatorControl" "XCTestBootstrap")
+declare -a FBFRAMEWORKS=("FBControlCore" "FBDeviceControl" "FBSimulatorControl" "XCTestBootstrap" "CocoaLumberjack")
 
 for framework in "${FBFRAMEWORKS[@]}"
 do

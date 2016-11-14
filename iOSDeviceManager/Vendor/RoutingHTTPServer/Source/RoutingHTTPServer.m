@@ -1,7 +1,7 @@
 #import "RoutingHTTPServer.h"
 #import "RoutingConnection.h"
 #import "CBXRoute.h"
-#import "CocoaLumberjack.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
