@@ -546,38 +546,36 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                    device:(NSString *)simID {
     NSFileManager *fm = [NSFileManager defaultManager];
 
-    NSString *plistPath = [[[[[[[[[NSHomeDirectory()
-                                   stringByAppendingPathComponent:@"Library"]
-                                  stringByAppendingPathComponent:@"Developer"]
-                                 stringByAppendingPathComponent:@"CoreSimulator"]
-                                stringByAppendingPathComponent:@"Devices"]
-                               stringByAppendingPathComponent:simID]
-                              stringByAppendingPathComponent:@"data"]
-                             stringByAppendingPathComponent:@"Library"]
-                            stringByAppendingPathComponent:@"FrontBoard"]
-                           stringByAppendingPathComponent:@"applicationState.plist"];
+    NSString *applicationPath = [[[[[[[[[NSHomeDirectory()
+                                         stringByAppendingPathComponent:@"Library"]
+                                        stringByAppendingPathComponent:@"Developer"]
+                                       stringByAppendingPathComponent:@"CoreSimulator"]
+                                      stringByAppendingPathComponent:@"Devices"]
+                                     stringByAppendingPathComponent:simID]
+                                    stringByAppendingPathComponent:@"data"]
+                                   stringByAppendingPathComponent:@"Containers"]
+                                  stringByAppendingPathComponent:@"Data"]
+                                 stringByAppendingPathComponent:@"Application"];
     
-    if (![fm fileExistsAtPath:plistPath]) {
-        NSString *dbPath = [plistPath stringByReplacingOccurrencesOfString:@"applicationState.plist"
-                                                                withString:@"applicationState.db"];
-        if (![fm fileExistsAtPath:dbPath]) {
-            ConsoleWriteErr(@"Can not find applicationState.plist or .db for device %@. "
-                            "Expected to find in dir: %@",
-                            simID,
-                            plistPath.stringByDeletingLastPathComponent);
-            return nil;
-        } else {
-            return [self containerPathForApplication:bundleID fromSQLiteDB:dbPath];
+    NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:applicationPath error:nil];
+    
+    for (id bundleFolder in bundleFolders)
+    {
+        NSString *bundleFolderPath = [applicationPath stringByAppendingPathComponent:bundleFolder];
+        NSString *plistFile = [bundleFolderPath
+                               stringByAppendingPathComponent:@".com.apple.mobile_container_manager.metadata.plist"];
+        
+        if ([fm fileExistsAtPath:plistFile])
+        {
+            NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
+            if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID])
+            {
+                return bundleFolderPath;
+            }
         }
     }
     
-    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-    if (![[plist allKeys] containsObject:bundleID]) {
-        ConsoleWriteErr(@"'%@' not found in applicationState.plist. Is it installed?",
-                        bundleID);
-        return nil;
-    }
-    return plist[bundleID][@"sandboxPath"];
+    return nil;
 }
 
 + (NSString *)containerPathForApplication:(NSString *)bundleID
