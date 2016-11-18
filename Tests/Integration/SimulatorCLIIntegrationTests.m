@@ -214,15 +214,11 @@
     args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
     iOSReturnStatusCode launchSimResult;
     
-    for (int i = 1; i <= 30; i++)
-    {
+    for (int i = 1; i <= 30; i++) {
         launchSimResult = [CLI process:args];
-        if (launchSimResult == iOSReturnStatusCodeInternalError)
-        {
+        if (launchSimResult == iOSReturnStatusCodeInternalError) {
             [NSThread sleepForTimeInterval:1.0f];
-        }
-        else
-        {
+        } else {
             break;
         }
     }

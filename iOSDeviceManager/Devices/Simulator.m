@@ -554,29 +554,26 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSFileManager *fm = [NSFileManager defaultManager];
 
     NSString *applicationPath = [[[[[[[[[NSHomeDirectory()
-                                         stringByAppendingPathComponent:@"Library"]
-                                        stringByAppendingPathComponent:@"Developer"]
-                                       stringByAppendingPathComponent:@"CoreSimulator"]
-                                      stringByAppendingPathComponent:@"Devices"]
-                                     stringByAppendingPathComponent:simID]
-                                    stringByAppendingPathComponent:@"data"]
-                                   stringByAppendingPathComponent:@"Containers"]
-                                  stringByAppendingPathComponent:@"Data"]
-                                 stringByAppendingPathComponent:@"Application"];
+                                     stringByAppendingPathComponent:@"Library"]
+                                    stringByAppendingPathComponent:@"Developer"]
+                                   stringByAppendingPathComponent:@"CoreSimulator"]
+                                  stringByAppendingPathComponent:@"Devices"]
+                                 stringByAppendingPathComponent:simID]
+                                stringByAppendingPathComponent:@"data"]
+                               stringByAppendingPathComponent:@"Containers"]
+                              stringByAppendingPathComponent:@"Data"]
+                             stringByAppendingPathComponent:@"Application"];
     
     NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:applicationPath error:nil];
     
-    for (id bundleFolder in bundleFolders)
-    {
         NSString *bundleFolderPath = [applicationPath stringByAppendingPathComponent:bundleFolder];
+    for (id bundleFolder in bundleFolders) {
         NSString *plistFile = [bundleFolderPath
                                stringByAppendingPathComponent:@".com.apple.mobile_container_manager.metadata.plist"];
         
-        if ([fm fileExistsAtPath:plistFile])
-        {
+        if ([fm fileExistsAtPath:plistFile]) {
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
-            if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID])
-            {
+            if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
                 return bundleFolderPath;
             }
         }
