@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		Xt8qK/t4djqkknb34wpCcSiwvF4=
+		mZbR2KZ+fndHNoNcU5fdJnCSMoQ=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
+			takyqZj2DtkQrdKa0W1X9s5qGBc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			vh7Rr/gvAyhAMxeSH94X2ptGzns=
+			rzHCbqT/Gn2MvICB5+sQCogHAJA=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -33,7 +33,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			ejbeSGg6rnRyBbHC2DlOqEJigNg=
+			2n5pXQsfKnSZv1FdhovKiVtgbOk=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -64,11 +64,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			DQ4noYdYTISWy0PAVDJtmgM6IlU=
+			+kHvadnaZ8eg3AI5UpAADOqRgjA=
 			</data>
 			<key>hash2</key>
 			<data>
-			JD6FylauoVWNaNflWDQ0lKfgVwn+Ll7+ak5pB/GjWf4=
+			CZg9lmxLUbr8kmp5VnmVYFtNcEKBFcEBkamUunhQ75k=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -104,15 +104,26 @@
 			HlVxrWJ9Nne+Yg0jXJ87h2JKhEa5of1Z549LtTfwCCE=
 			</data>
 		</dict>
+		<key>Headers/FBDeviceTestRunStrategy.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			t6FgNiPldoA0z+g1+eLVE31S4DA=
+			</data>
+			<key>hash2</key>
+			<data>
+			bBkvhpQM24j5UUSTbLjUSsyPGM4e9qzZp4AQYYUK7FU=
+			</data>
+		</dict>
 		<key>Headers/FBiOSDeviceOperator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			nuDuxRinLM9Tfs1ANzTEfWBeCUs=
+			0MildTcBuDzGWOsX7u4/pU/u1yQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			LdgTC0uezaJeiASlXqycR3PDSgLDCHXsBzGvS2NU69I=
+			PSVAL7n63O0YUJqsn3weae0n6Ch1G+DlKo+ktMaQ0XQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -130,11 +141,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Xt8qK/t4djqkknb34wpCcSiwvF4=
+			mZbR2KZ+fndHNoNcU5fdJnCSMoQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			x5dBFI4qNAJttT2TXuQCKYtYTLwPzvsjGdQewNKe4WE=
+			eFAquHr/yy5WGAPR71LRRfjjx6tMbQeBMTee7NBhZVY=
 			</data>
 		</dict>
 	</dict>
@@ -155,6 +166,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -214,6 +230,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>
