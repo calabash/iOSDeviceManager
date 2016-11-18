@@ -553,7 +553,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                    device:(NSString *)simID {
     NSFileManager *fm = [NSFileManager defaultManager];
 
-    NSString *applicationPath = [[[[[[[[[NSHomeDirectory()
+    NSString *appDataPath = [[[[[[[[[NSHomeDirectory()
                                      stringByAppendingPathComponent:@"Library"]
                                     stringByAppendingPathComponent:@"Developer"]
                                    stringByAppendingPathComponent:@"CoreSimulator"]
@@ -564,10 +564,10 @@ testCaseDidStartForTestClass:(NSString *)testClass
                               stringByAppendingPathComponent:@"Data"]
                              stringByAppendingPathComponent:@"Application"];
     
-    NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:applicationPath error:nil];
+    NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:appDataPath error:nil];
     
-        NSString *bundleFolderPath = [applicationPath stringByAppendingPathComponent:bundleFolder];
     for (id bundleFolder in bundleFolders) {
+        NSString *bundleFolderPath = [appDataPath stringByAppendingPathComponent:bundleFolder];
         NSString *plistFile = [bundleFolderPath
                                stringByAppendingPathComponent:@".com.apple.mobile_container_manager.metadata.plist"];
         
