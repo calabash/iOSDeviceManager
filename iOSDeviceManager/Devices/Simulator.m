@@ -369,17 +369,21 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (simulator == nil) {
         ConsoleWriteErr(@"");
     }
-    NSError *e;
+    NSError *error;
     if (simulator.state == FBSimulatorStateShutdown ||
         simulator.state == FBSimulatorStateShuttingDown) {
         DDLogInfo(@"Sim is dead, booting...");
 
-        FBSimulatorLaunchConfiguration *launchConfig = [FBSimulatorLaunchConfiguration withOptions:
-                                                        FBSimulatorLaunchOptionsConnectBridge];
+        FBSimulatorBootConfiguration *bootConfig;
 
-        [[simulator.interact bootSimulator:launchConfig] perform:&e];
-        if (e) {
-            ConsoleWriteErr(@"Failed to boot sim: %@", e);
+        // FBSimulatorBootOptionsAwaitServices - would this allow us to wait until the
+        // simulator is booted?
+        bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
+        FBSimulatorInteraction *interaction;
+        interaction = [FBSimulatorInteraction withSimulator:simulator];
+
+        if (![[interaction bootSimulator:bootConfig] perform:&error]) {
+            ConsoleWriteErr(@"Failed to boot sim: %@", error);
             return iOSReturnStatusCodeInternalError;
         }
     }
