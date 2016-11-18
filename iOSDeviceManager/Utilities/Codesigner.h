@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
 
-@interface Codesigner : NSObject  <FBCodesignProvider>
+@interface Codesigner : FBCodesignProvider  <FBCodesignProvider>
 
 + (Codesigner *)signerThatCannotSign;
 
