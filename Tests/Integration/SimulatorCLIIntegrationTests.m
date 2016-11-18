@@ -212,25 +212,43 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
     args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    iOSReturnStatusCode launchSimResult;
     
-    //Ensure app installed
+    for (int i = 1; i <= 30; i++) {
+        launchSimResult = [CLI process:args];
+        if (launchSimResult == iOSReturnStatusCodeInternalError) {
+            [NSThread sleepForTimeInterval:1.0f];
+        } else {
+            break;
+        }
+    }
+    
+    XCTAssertEqual(launchSimResult, iOSReturnStatusCodeEverythingOkay);
+    
+    //Ensure app not installed
     args = @[
              kProgramName, @"is_installed",
              @"-b", testAppID,
              @"-d", defaultSimUDID
              ];
     
-    if ([CLI process:args] == iOSReturnStatusCodeFalse) {
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
         args = @[
-                 kProgramName, @"install",
+                 kProgramName, @"uninstall",
+                 @"-b", testAppID,
                  @"-d", defaultSimUDID,
-                 @"-a", testApp(SIM),
-                 @"-c", kCodeSignIdentityKARL
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
     
+    args = @[
+             kProgramName, @"install",
+             @"-d", defaultSimUDID,
+             @"-a", testApp(SIM),
+             @"-c", kCodeSignIdentityKARL
+             ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
     //Upload a unique file
     NSString *file = uniqueFile();
     args = @[
