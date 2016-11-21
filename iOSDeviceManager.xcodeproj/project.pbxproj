@@ -168,9 +168,6 @@
 		A1D930C31DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C41DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
-		89FFB9AC1DB0040300BBF6CB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */; };
-		89FFB9AD1DB0040A00BBF6CB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */; };
-		89FFB9AE1DB0041200BBF6CB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */; };
 		F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D51D7134FD00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
@@ -433,7 +430,6 @@
 		A1D930C01DC2873C0070573D /* ShasumProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShasumProvider.h; path = iOSDeviceManager/Utilities/ShasumProvider.h; sourceTree = SOURCE_ROOT; };
 		A1D930C11DC2875E0070573D /* ShasumProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShasumProvider.m; path = iOSDeviceManager/Utilities/ShasumProvider.m; sourceTree = SOURCE_ROOT; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
-		89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		F50271CB1D6BE43A00BE0D9D /* Entitlements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entitlements.h; path = iOSDeviceManager/Utilities/Entitlements.h; sourceTree = SOURCE_ROOT; };
 		F50271CC1D6BE43A00BE0D9D /* Entitlements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlements.m; path = iOSDeviceManager/Utilities/Entitlements.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -472,8 +468,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89FFB9AE1DB0041200BBF6CB /* libsqlite3.0.tbd in Frameworks */,
-				89523A671DAD751D001DFD43 /* CocoaLumberjack.framework in Frameworks */,
 				89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */,
 				89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */,
 				F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */,
@@ -486,7 +480,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89FFB9AD1DB0040A00BBF6CB /* libsqlite3.0.tbd in Frameworks */,
 				F5F7054C1D68BAA90096E9D4 /* FBControlCore.framework in Frameworks */,
 				F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */,
 				F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */,
@@ -502,8 +495,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89FFB9AC1DB0040300BBF6CB /* libsqlite3.0.tbd in Frameworks */,
-				89C29E151DAE537700282526 /* CocoaLumberjack.framework in Frameworks */,
 				F5D5840C1D6A03C0007B0D11 /* FBControlCore.framework in Frameworks */,
 				F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */,
 				F5BC17891DD4C5A5008DB949 /* CocoaLumberjack.framework in Frameworks */,
@@ -791,7 +782,6 @@
 			isa = PBXGroup;
 			children = (
 				F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */,
-				89FFB9AB1DB0040300BBF6CB /* libsqlite3.0.tbd */,
 				89F6DB311D37F746006A0FD5 /* FBControlCore.framework */,
 				89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */,
 				89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */,
