@@ -482,8 +482,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
 
     // Remove the temporary data bundle
-    [fm removeItemAtPath:dataBundle error:&e];
-    
+    if (![fm removeItemAtPath:dataBundle error:&e]) {
+        NSLog(@"Could not remove temporary data bundle: %@\n%@",
+              dataBundle, e);
+    }
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
