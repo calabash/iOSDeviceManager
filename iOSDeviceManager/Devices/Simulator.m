@@ -5,7 +5,6 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import "ShellRunner.h"
 #import "AppUtils.h"
-#import <sqlite3.h>
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
