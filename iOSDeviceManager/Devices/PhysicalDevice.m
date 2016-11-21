@@ -480,6 +480,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
         NSLog(@"Error uploading files to application container: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
+
+    // Remove the temporary data bundle
+    [fm removeItemAtPath:dataBundle error:&e];
     
     return iOSReturnStatusCodeEverythingOkay;
 }
