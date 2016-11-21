@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		RM+VsW+gNVnMlCbMdJf/FIiu/3E=
+		E+XhkYj9cm80ncy7gGrUygHUgzs=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			takyqZj2DtkQrdKa0W1X9s5qGBc=
+			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,11 +24,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			B5bDctf9o5GEXY5S3I7qAOZh7Nw=
+			L7vljFwsGexhUcjziiwVdJQtco4=
 			</data>
 			<key>hash2</key>
 			<data>
-			nArM02nNfZbcyKbmx6M6o4zwNoi+/FpQKp/qx04kkt4=
+			+6FUdCo4ykptoTgW4dxRhD37khP8YIgSk4UTnVZqEGw=
 			</data>
 		</dict>
 		<key>Headers/FBASLParser.h</key>
@@ -541,11 +541,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vSNhzHmOAfJf0qsSB3IaGvMR/SA=
+			P7l2Cjd+dfO8GJS1x4wNoGjb2uE=
 			</data>
 			<key>hash2</key>
 			<data>
-			HLf46UKOpoHAkdpGr58CCIePX0iLftmbToW7bMq4lIs=
+			2mPjIMihjjIV6C2ACHGuXT7mNwdUO4+xoS6HSS9V8JU=
 			</data>
 		</dict>
 		<key>Headers/FBWeakFramework.h</key>
@@ -640,11 +640,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RM+VsW+gNVnMlCbMdJf/FIiu/3E=
+			E+XhkYj9cm80ncy7gGrUygHUgzs=
 			</data>
 			<key>hash2</key>
 			<data>
-			2ZY84bwrSoPRG7o80ZHRfD68/a2f26Ozs4Ih/p+rr7M=
+			1G0EE4r9BXmh/vRXgKQ0Nmhtxt7hctmvs2bayOXk61g=
 			</data>
 		</dict>
 	</dict>
@@ -665,11 +665,6 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
-		</dict>
-		<key>^Resources/Base\.lproj/</key>
-		<dict>
-			<key>weight</key>
-			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -729,11 +724,6 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
-		</dict>
-		<key>^Resources/Base\.lproj/</key>
-		<dict>
-			<key>weight</key>
-			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>
