@@ -15,7 +15,7 @@
         [sha1 appendFormat:@"%2x", digest[i]];
     }
 
-    return sha1;
+    return [NSString stringWithString:sha1];
 }
 
 @end
