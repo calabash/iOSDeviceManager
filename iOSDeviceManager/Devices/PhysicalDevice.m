@@ -94,7 +94,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         }
 
         if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            DDLogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
+            LogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
             iOSReturnStatusCode ret = [self uninstallApp:app.bundleID deviceID:device.udid];
             if (ret != iOSReturnStatusCodeEverythingOkay) {
                 return ret;
@@ -104,7 +104,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                           updateApp:YES
                          codesignID:[signerThatCanSign codeSignIdentity]];
         } else {
-            DDLogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
 
@@ -115,7 +115,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive  {
-    DDLogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
+    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
     NSError *e = nil;
 
     Codesigner *signer = [Codesigner signerThatCannotSign];
@@ -161,49 +161,49 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 #pragma mark - Test Reporter Methods
 
 - (void)testManagerMediatorDidBeginExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
                   testSuite:(NSString *)testSuite
                  didStartAt:(NSString *)startTime {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFinishForTestClass:(NSString *)testClass method:(NSString *)method withStatus:(FBTestReportStatus)status duration:(NSTimeInterval)duration {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFailForTestClass:(NSString *)testClass method:(NSString *)method withMessage:(NSString *)message file:(NSString *)file line:(NSUInteger)line {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testBundleReadyWithProtocolVersion:(NSInteger)protocolVersion
              minimumVersion:(NSInteger)minimumVersion {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testCaseDidStartForTestClass:(NSString *)testClass
                      method:(NSString *)method {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
         finishedWithSummary:(FBTestManagerResultSummary *)summary {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
     self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger
 - (id<FBControlCoreLogger>)log:(NSString *)string {
-    DDLogInfo(@"%@", string);
+    LogInfo(@"%@", string);
     return self;
 }
 
@@ -212,7 +212,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     va_start(args, format);
     id str = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
-    DDLogInfo(@"%@", str);
+    LogInfo(@"%@", str);
     return self;
 }
 
@@ -242,13 +242,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                  error:&err]
             deviceWithUDID:deviceID];
     if (!device || err) {
-        DDLogInfo(@"Error getting device with ID %@: %@", deviceID, err);
+        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
         return nil;
     }
     device.deviceOperator.codesignProvider = signer;
     [device.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
     if (err) {
-        DDLogInfo(@"Error getting device with ID %@: %@", deviceID, err);
+        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
         return nil;
     }
     return device;
@@ -349,13 +349,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
     BOOL installed = [device.deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                          error:&err];
     if (err) {
-        DDLogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
+        LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
         return iOSReturnStatusCodeInternalError;
     }
     if (installed) {
-        [ConsoleWriter write:@"true"];
+        ConsoleWrite(@"true");
     } else {
-        [ConsoleWriter write:@"false"];
+        ConsoleWrite(@"false");
     }
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
@@ -422,7 +422,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     
     //Ensure input file exists
     if (![fm fileExistsAtPath:filepath]) {
-        NSLog(@"%@ doesn't exist!", filepath);
+        ConsoleWriteErr(@"%@ doesn't exist!", filepath);
         return iOSReturnStatusCodeInvalidArguments;
     }
     
@@ -435,7 +435,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                              stringByAppendingPathComponent:@"AppData"]
                             stringByAppendingPathComponent:@"Documents"];
     
-    DDLogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
+    LogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
     
     if (![fm createDirectoryAtPath:xcappdataPath
        withIntermediateDirectories:YES
@@ -454,7 +454,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                         e);
         return iOSReturnStatusCodeInternalError;
     }
-    DDLogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
+    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
     
     //TODO: depending on `overwrite`, upsert file
     NSString *filename = [filepath lastPathComponent];
@@ -477,13 +477,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
     
     if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
-        NSLog(@"Error uploading files to application container: %@", e);
+        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
 
     // Remove the temporary data bundle
     if (![fm removeItemAtPath:dataBundle error:&e]) {
-        NSLog(@"Could not remove temporary data bundle: %@\n%@",
+        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
               dataBundle, e);
     }
 
