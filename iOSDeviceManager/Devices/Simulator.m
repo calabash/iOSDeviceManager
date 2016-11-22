@@ -372,7 +372,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSError *error;
     if (simulator.state == FBSimulatorStateShutdown ||
         simulator.state == FBSimulatorStateShuttingDown) {
-        DDLogInfo(@"Sim is dead, booting...");
+        LogInfo(@"Sim is dead, booting...");
 
         FBSimulatorBootConfiguration *bootConfig;
 
@@ -573,6 +573,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         if ([fm fileExistsAtPath:plistFile]) {
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
             if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
+                ConsoleWrite(@"%@", bundleFolderPath);
                 return bundleFolderPath;
             }
         }
