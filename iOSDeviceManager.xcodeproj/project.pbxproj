@@ -161,6 +161,9 @@
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
+		A18622701DE4F47700A05031 /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
+		A18622711DE4F47700A05031 /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
+		A18622721DE4F47700A05031 /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		A1D930C21DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C31DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C41DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
@@ -422,6 +425,8 @@
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
 		89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSimulatorControl.framework; path = Frameworks/FBSimulatorControl.framework; sourceTree = "<group>"; };
 		89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTestBootstrap.framework; path = Frameworks/XCTestBootstrap.framework; sourceTree = "<group>"; };
+		A186226E1DE4F44F00A05031 /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = iOSDeviceManager/Utilities/MachClock.h; sourceTree = SOURCE_ROOT; };
+		A186226F1DE4F47700A05031 /* MachClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachClock.m; path = iOSDeviceManager/Utilities/MachClock.m; sourceTree = SOURCE_ROOT; };
 		A1D930C01DC2873C0070573D /* ShasumProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShasumProvider.h; path = iOSDeviceManager/Utilities/ShasumProvider.h; sourceTree = SOURCE_ROOT; };
 		A1D930C11DC2875E0070573D /* ShasumProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShasumProvider.m; path = iOSDeviceManager/Utilities/ShasumProvider.m; sourceTree = SOURCE_ROOT; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
@@ -625,6 +630,8 @@
 				89C29E1D1DAE69CC00282526 /* Logging */,
 				A1D930C01DC2873C0070573D /* ShasumProvider.h */,
 				A1D930C11DC2875E0070573D /* ShasumProvider.m */,
+				A186226E1DE4F44F00A05031 /* MachClock.h */,
+				A186226F1DE4F47700A05031 /* MachClock.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1024,6 +1031,7 @@
 				892DE5031D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				898D7D851DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				63424016FAA1D6E42AA2B639 /* CodesignIdentity.m in Sources */,
+				A18622701DE4F47700A05031 /* MachClock.m in Sources */,
 				898D7D971DA47569001578FE /* HTTPFileResponse.m in Sources */,
 				63424D088ACDC4BC94DFD35C /* Entitlement.m in Sources */,
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
@@ -1095,6 +1103,7 @@
 				898D7D861DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				898D7D891DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				898D7D711DA47569001578FE /* DDNumber.m in Sources */,
+				A18622711DE4F47700A05031 /* MachClock.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
 				634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */,
 				898D7D7A1DA47569001578FE /* HTTPConnection.m in Sources */,
@@ -1122,6 +1131,7 @@
 				F5D584091D6A039B007B0D11 /* TestCase.m in Sources */,
 				898D7D7B1DA47569001578FE /* HTTPConnection.m in Sources */,
 				898D7D401DA47513001578FE /* GCDAsyncSocket.m in Sources */,
+				A18622721DE4F47700A05031 /* MachClock.m in Sources */,
 				898D7D871DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				F5D583F41D69FFF5007B0D11 /* SimulatorCLIIntegrationTests.m in Sources */,
 				898D7D6F1DA47569001578FE /* DDData.m in Sources */,

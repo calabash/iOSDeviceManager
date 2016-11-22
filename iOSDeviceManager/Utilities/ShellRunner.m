@@ -1,4 +1,4 @@
-
+#import "MachClock.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
@@ -60,8 +60,8 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
     [task setStandardError:errPipe];
 
     BOOL timedOut = NO;
-    NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:timeout];
-    NSDate *startDate = [NSDate date];
+    NSTimeInterval startTime = [[MachClock sharedClock] absoluteTime];
+    NSTimeInterval endTime = startTime + timeout;
 
     BOOL raised = NO;
     ShellResult *result = nil;
@@ -74,7 +74,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
         [task launch];
 
         while ([task isRunning]) {
-            if ([endDate earlierDate:[NSDate date]] == endDate) {
+            if ([[MachClock sharedClock] absoluteTime] > endTime) {
                 timedOut = YES;
                 [task terminate];
             }
@@ -90,7 +90,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
         ConsoleWriteErr(@"");
         raised = YES;
     } @finally {
-        NSTimeInterval elapsed = -1.0 * [startDate timeIntervalSinceNow];
+        NSTimeInterval elapsed = [[MachClock sharedClock] absoluteTime] - startTime;
         if (raised) {
             result = [ShellResult withFailedCommand:command elapsed:elapsed];
         } else {
