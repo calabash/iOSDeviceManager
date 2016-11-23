@@ -15,6 +15,14 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
     va_end(args);
 }
 
++ (void)logInfo:(NSString *)fmt, ... {
+    va_list args;
+    va_start(args, fmt);
+    NSString *output = [[NSString alloc] initWithFormat:fmt arguments:args];
+    DDLogInfo(@"%@", output);
+    va_end(args);
+}
+
 + (void)err:(NSString *)fmt, ... {
     va_list args;
     va_start(args, fmt);

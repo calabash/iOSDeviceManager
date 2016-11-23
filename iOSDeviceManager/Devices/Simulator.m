@@ -372,7 +372,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSError *error;
     if (simulator.state == FBSimulatorStateShutdown ||
         simulator.state == FBSimulatorStateShuttingDown) {
-        DDLogInfo(@"Sim is dead, booting...");
+        LogInfo(@"Sim is dead, booting...");
 
         FBSimulatorBootConfiguration *bootConfig;
 
@@ -507,18 +507,79 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (NSDictionary *)lastLaunchServicesMapForSim:(NSString *)deviceID {
-    NSString *lastLaunchServicesPlistPath = [[[[[[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-                                                    stringByAppendingPathComponent:@"Developer"]
-                                                   stringByAppendingPathComponent:@"CoreSimulator"]
-                                                  stringByAppendingPathComponent:@"Devices"]
-                                                 stringByAppendingPathComponent:deviceID]
-                                                stringByAppendingPathComponent:@"data"]
-                                               stringByAppendingPathComponent:@"Library"]
-                                              stringByAppendingPathComponent:@"MobileInstallation"]
-                                             stringByAppendingPathComponent:@"LastLaunchServicesMap.plist"];
-    return [NSDictionary dictionaryWithContentsOfFile:lastLaunchServicesPlistPath];
++ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                         toDevice:(NSString *)deviceID
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:filepath]) {
+        ConsoleWriteErr(@"File does not exist: %@", filepath);
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    NSString *containerPath = [self containerPathForApplication:bundleID device:deviceID];
+    if (!containerPath) {
+        ConsoleWriteErr(@"Unable to find container path for app %@ on device %@", bundleID, deviceID);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    NSString *documentsDir = [containerPath stringByAppendingPathComponent:@"Documents"];
+    NSString *filename = [filepath lastPathComponent];
+    NSString *dest = [documentsDir stringByAppendingPathComponent:filename];
+    NSError *e;
+    
+    if ([fm fileExistsAtPath:dest]) {
+        if (!overwrite) {
+            ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
+            return iOSReturnStatusCodeGenericFailure;
+        } else {
+            if (![fm removeItemAtPath:dest error:&e]) {
+                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
+                return iOSReturnStatusCodeGenericFailure;
+            }
+        }
+    }
+    
+    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
+        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
++ (NSString *)containerPathForApplication:(NSString *)bundleID
+                                   device:(NSString *)simID {
+    NSFileManager *fm = [NSFileManager defaultManager];
+
+    NSString *appDataPath = [[[[[[[[[NSHomeDirectory()
+                                     stringByAppendingPathComponent:@"Library"]
+                                    stringByAppendingPathComponent:@"Developer"]
+                                   stringByAppendingPathComponent:@"CoreSimulator"]
+                                  stringByAppendingPathComponent:@"Devices"]
+                                 stringByAppendingPathComponent:simID]
+                                stringByAppendingPathComponent:@"data"]
+                               stringByAppendingPathComponent:@"Containers"]
+                              stringByAppendingPathComponent:@"Data"]
+                             stringByAppendingPathComponent:@"Application"];
+    
+    NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:appDataPath error:nil];
+    
+    for (id bundleFolder in bundleFolders) {
+        NSString *bundleFolderPath = [appDataPath stringByAppendingPathComponent:bundleFolder];
+        NSString *plistFile = [bundleFolderPath
+                               stringByAppendingPathComponent:@".com.apple.mobile_container_manager.metadata.plist"];
+        
+        if ([fm fileExistsAtPath:plistFile]) {
+            NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
+            if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
+                ConsoleWrite(@"%@", bundleFolderPath);
+                return bundleFolderPath;
+            }
+        }
+    }
+    
+    return nil;
+}
 
 @end

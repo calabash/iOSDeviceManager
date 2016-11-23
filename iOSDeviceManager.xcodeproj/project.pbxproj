@@ -157,6 +157,9 @@
 		89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
 		89C29E1B1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
 		89C29E1C1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
+		89C29E251DAFA93500282526 /* UploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E241DAFA93500282526 /* UploadFileCommand.m */; };
+		89C29E261DAFA93500282526 /* UploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E241DAFA93500282526 /* UploadFileCommand.m */; };
+		89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E241DAFA93500282526 /* UploadFileCommand.m */; };
 		89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
@@ -421,6 +424,8 @@
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89C29E181DAE69C500282526 /* ConsoleWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleWriter.h; path = iOSDeviceManager/Utilities/Logging/ConsoleWriter.h; sourceTree = SOURCE_ROOT; };
 		89C29E191DAE69C500282526 /* ConsoleWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleWriter.m; path = iOSDeviceManager/Utilities/Logging/ConsoleWriter.m; sourceTree = SOURCE_ROOT; };
+		89C29E231DAFA93500282526 /* UploadFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadFileCommand.h; path = iOSDeviceManager/Commands/UploadFileCommand.h; sourceTree = SOURCE_ROOT; };
+		89C29E241DAFA93500282526 /* UploadFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadFileCommand.m; path = iOSDeviceManager/Commands/UploadFileCommand.m; sourceTree = SOURCE_ROOT; };
 		89EF4AC91CFA614F006DCDC5 /* Unit.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Unit.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F6DB311D37F746006A0FD5 /* FBControlCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBControlCore.framework; path = Frameworks/FBControlCore.framework; sourceTree = "<group>"; };
 		89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBDeviceControl.framework; path = Frameworks/FBDeviceControl.framework; sourceTree = "<group>"; };
@@ -537,6 +542,8 @@
 				892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */,
 				892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */,
 				892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */,
+				89C29E231DAFA93500282526 /* UploadFileCommand.h */,
+				89C29E241DAFA93500282526 /* UploadFileCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -1032,6 +1039,7 @@
 				898D7DE21DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				892DE4A31D22F84200E1902C /* Simulator.m in Sources */,
 				892DE5031D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
+				89C29E251DAFA93500282526 /* UploadFileCommand.m in Sources */,
 				898D7D851DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				63424016FAA1D6E42AA2B639 /* CodesignIdentity.m in Sources */,
 				A18622701DE4F47700A05031 /* MachClock.m in Sources */,
@@ -1089,6 +1097,7 @@
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				898D7D6E1DA47569001578FE /* DDData.m in Sources */,
 				892DE4B61D22F85400E1902C /* TestParameters.m in Sources */,
+				89C29E261DAFA93500282526 /* UploadFileCommand.m in Sources */,
 				898D7D801DA47569001578FE /* HTTPServer.m in Sources */,
 				898D7DD71DA4758A001578FE /* Route.m in Sources */,
 				634244EA233067C089D20553 /* MobileProfile.m in Sources */,
@@ -1125,6 +1134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */,
 				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
 				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,
 				898D7D931DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,

@@ -207,4 +207,77 @@
                           @"App was updated even though -u was set to NO");
 }
 
+- (void)testUploadFile {
+    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    iOSReturnStatusCode launchSimResult;
+    
+    for (int i = 1; i <= 30; i++) {
+        launchSimResult = [CLI process:args];
+        if (launchSimResult == iOSReturnStatusCodeInternalError) {
+            [NSThread sleepForTimeInterval:1.0f];
+        } else {
+            break;
+        }
+    }
+    
+    XCTAssertEqual(launchSimResult, iOSReturnStatusCodeEverythingOkay);
+    
+    //Ensure app not installed
+    args = @[
+             kProgramName, @"is_installed",
+             @"-b", testAppID,
+             @"-d", defaultSimUDID
+             ];
+    
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+        args = @[
+                 kProgramName, @"uninstall",
+                 @"-b", testAppID,
+                 @"-d", defaultSimUDID,
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    args = @[
+             kProgramName, @"install",
+             @"-d", defaultSimUDID,
+             @"-a", testApp(SIM),
+             @"-c", kCodeSignIdentityKARL
+             ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+    //Upload a unique file
+    NSString *file = uniqueFile();
+    args = @[
+             kProgramName, @"upload",
+             @"-b", testAppID,
+             @"-d", defaultSimUDID,
+             @"-f", file,
+             @"-o", @"NO"
+             ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    //Now attempt to overwrite with -o false
+    args = @[
+             kProgramName, @"upload",
+             @"-b", testAppID,
+             @"-d", defaultSimUDID,
+             @"-f", file,
+             @"-o", @"NO"
+             ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
+    
+    //Now attempt to overwrite with -o true
+    args = @[
+             kProgramName, @"upload",
+             @"-b", testAppID,
+             @"-d", defaultSimUDID,
+             @"-f", file,
+             @"-o", @"YES"
+             ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
 @end
