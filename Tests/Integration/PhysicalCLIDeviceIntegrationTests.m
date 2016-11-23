@@ -155,4 +155,56 @@
     }
 }
 
+- (void)testUploadFile {
+    if (device_available()) {
+        //Ensure app installed
+        NSArray *args = @[
+                          kProgramName, @"is_installed",
+                          @"-b", testAppID,
+                          @"-d", defaultDeviceUDID
+                          ];
+        
+        if ([CLI process:args] == iOSReturnStatusCodeFalse) {
+            args = @[
+                     kProgramName, @"install",
+                     @"-d", defaultDeviceUDID,
+                     @"-a", testApp(ARM),
+                     @"-c", kCodeSignIdentityKARL
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+        
+        //Upload a unique file
+        NSString *file = uniqueFile();
+        args = @[
+                 kProgramName, @"upload",
+                 @"-b", testAppID,
+                 @"-d", defaultDeviceUDID,
+                 @"-f", file,
+                 @"-o", @"NO"
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        
+        //Now attempt to overwrite with -o false
+        args = @[
+                 kProgramName, @"upload",
+                 @"-b", testAppID,
+                 @"-d", defaultDeviceUDID,
+                 @"-f", file,
+                 @"-o", @"NO"
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
+        
+        //Now attempt to overwrite with -o true
+        args = @[
+                 kProgramName, @"upload",
+                 @"-b", testAppID,
+                 @"-d", defaultDeviceUDID,
+                 @"-f", file,
+                 @"-o", @"YES"
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+}
+
 @end

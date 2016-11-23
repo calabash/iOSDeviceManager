@@ -29,6 +29,9 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @interface DVTiOSDevice : DVTAbstractiOSDevice
 - (BOOL)supportsLocationSimulation;
+- (BOOL)downloadApplicationDataToPath:(NSString *)arg1
+forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
+                                error:(NSError **)arg3;
 @end
 
 @implementation PhysicalDevice
@@ -91,7 +94,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
         }
 
         if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            DDLogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
+            LogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
             iOSReturnStatusCode ret = [self uninstallApp:app.bundleID deviceID:device.udid];
             if (ret != iOSReturnStatusCodeEverythingOkay) {
                 return ret;
@@ -101,7 +104,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
                           updateApp:YES
                          codesignID:[signerThatCanSign codeSignIdentity]];
         } else {
-            DDLogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
 
@@ -112,7 +115,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
                                keepAlive:(BOOL)keepAlive  {
-    DDLogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
+    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
     NSError *e = nil;
 
     Codesigner *signer = [Codesigner signerThatCannotSign];
@@ -158,49 +161,49 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 #pragma mark - Test Reporter Methods
 
 - (void)testManagerMediatorDidBeginExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
                   testSuite:(NSString *)testSuite
                  didStartAt:(NSString *)startTime {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFinishForTestClass:(NSString *)testClass method:(NSString *)method withStatus:(FBTestReportStatus)status duration:(NSTimeInterval)duration {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFailForTestClass:(NSString *)testClass method:(NSString *)method withMessage:(NSString *)message file:(NSString *)file line:(NSUInteger)line {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testBundleReadyWithProtocolVersion:(NSInteger)protocolVersion
              minimumVersion:(NSInteger)minimumVersion {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testCaseDidStartForTestClass:(NSString *)testClass
                      method:(NSString *)method {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
         finishedWithSummary:(FBTestManagerResultSummary *)summary {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    LogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
     self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger
 - (id<FBControlCoreLogger>)log:(NSString *)string {
-    DDLogInfo(@"%@", string);
+    LogInfo(@"%@", string);
     return self;
 }
 
@@ -209,7 +212,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     va_start(args, format);
     id str = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
-    DDLogInfo(@"%@", str);
+    LogInfo(@"%@", str);
     return self;
 }
 
@@ -239,13 +242,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                  error:&err]
             deviceWithUDID:deviceID];
     if (!device || err) {
-        DDLogInfo(@"Error getting device with ID %@: %@", deviceID, err);
+        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
         return nil;
     }
     device.deviceOperator.codesignProvider = signer;
     [device.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
     if (err) {
-        DDLogInfo(@"Error getting device with ID %@: %@", deviceID, err);
+        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
         return nil;
     }
     return device;
@@ -346,13 +349,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
     BOOL installed = [device.deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                          error:&err];
     if (err) {
-        DDLogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
+        LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
         return iOSReturnStatusCodeInternalError;
     }
     if (installed) {
-        [ConsoleWriter write:@"true"];
+        ConsoleWrite(@"true");
     } else {
-        [ConsoleWriter write:@"false"];
+        ConsoleWrite(@"false");
     }
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
@@ -394,6 +397,113 @@ testCaseDidStartForTestClass:(NSString *)testClass
     if (e) {
         ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
         return iOSReturnStatusCodeInternalError;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+/*
+ The algorithm here is to copy the application's container to the host,
+ [over]write the desired file into the appdata bundle, then reupload that
+ bundle since apparently uploading an xcappdata bundle is destructive.
+ */
++ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                         toDevice:(NSString *)deviceID
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
+    
+    NSError *e;
+    
+    //We make an .xcappdata bundle, place the files there, and upload that
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    //Ensure input file exists
+    if (![fm fileExistsAtPath:filepath]) {
+        ConsoleWriteErr(@"%@ doesn't exist!", filepath);
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
+    NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
+    NSString *xcappdataPath = [[NSTemporaryDirectory()
+                                stringByAppendingPathComponent:guid]
+                               stringByAppendingPathComponent:xcappdataName];
+    NSString *dataBundle = [[xcappdataPath
+                             stringByAppendingPathComponent:@"AppData"]
+                            stringByAppendingPathComponent:@"Documents"];
+    
+    LogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
+    
+    if (![fm createDirectoryAtPath:xcappdataPath
+       withIntermediateDirectories:YES
+                        attributes:nil
+                             error:&e]) {
+        ConsoleWriteErr(@"Error creating data dir: %@", e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+   
+    if (![device.dvtDevice downloadApplicationDataToPath:xcappdataPath
+             forInstalledApplicationWithBundleIdentifier:bundleID
+                                                   error:&e]) {
+        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+                        bundleID,
+                        xcappdataPath,
+                        e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
+    
+    //TODO: depending on `overwrite`, upsert file
+    NSString *filename = [filepath lastPathComponent];
+    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
+    if ([fm fileExistsAtPath:dest]) {
+        if (!overwrite) {
+            ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
+            return iOSReturnStatusCodeGenericFailure;
+        } else {
+            if (![fm removeItemAtPath:dest error:&e]) {
+                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
+                return iOSReturnStatusCodeGenericFailure;
+            }
+        }
+    }
+    
+    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
+        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
+        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    // Remove the temporary data bundle
+    if (![fm removeItemAtPath:dataBundle error:&e]) {
+        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
+              dataBundle, e);
+    }
+
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
++ (iOSReturnStatusCode)containerPathForApplication:(NSString *)bundleID
+                                          onDevice:(NSString *)deviceID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
+    NSError *e;
+    
+    NSString *path = [operator containerPathForApplicationWithBundleID:bundleID error:&e];
+    if (e) {
+        ConsoleWriteErr(@"Error getting container path for application %@: %@", bundleID, e);
+        return iOSReturnStatusCodeGenericFailure;
+    } else {
+        ConsoleWrite(@"%@", path);
     }
     return iOSReturnStatusCodeEverythingOkay;
 }
