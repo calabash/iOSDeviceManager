@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		ty9/dTMJC1lnNE8chwrlNWuTk9M=
+		+5RboR8qs8DgtRhRWfti2dT+s2A=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -19,7 +19,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			takyqZj2DtkQrdKa0W1X9s5qGBc=
+			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			rzHCbqT/Gn2MvICB5+sQCogHAJA=
+			tRoN4+RE6T9g2vnkvaUCIvTAcnk=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			2n5pXQsfKnSZv1FdhovKiVtgbOk=
+			EW4+BonRvVyEmsZoJ67lV+U8uj0=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -794,11 +794,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ty9/dTMJC1lnNE8chwrlNWuTk9M=
+			+5RboR8qs8DgtRhRWfti2dT+s2A=
 			</data>
 			<key>hash2</key>
 			<data>
-			MEuEbocDo2PTpWUbkIWGLXNKbkVjvAJeYVImlvmDVm0=
+			7IFIytdxT98E1PyKyfNqS+cxl+dZXdY37yktwIY1MOQ=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
@@ -830,11 +830,6 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
-		</dict>
-		<key>^Resources/Base\.lproj/</key>
-		<dict>
-			<key>weight</key>
-			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -894,11 +889,6 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
-		</dict>
-		<key>^Resources/Base\.lproj/</key>
-		<dict>
-			<key>weight</key>
-			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>
