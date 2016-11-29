@@ -85,6 +85,7 @@
       @"com.apple.developer.icloud-container-environment",
       @"com.apple.developer.icloud-container-identifiers",
       @"com.apple.developer.icloud-container-development-container-identifiers",
+      @"com.apple.developer.icloud-services",
       @"com.apple.developer.ubiquity-container-identifiers",
       @"com.apple.developer.networking.com.apple.developer.in-app-payments.api"
       ];
