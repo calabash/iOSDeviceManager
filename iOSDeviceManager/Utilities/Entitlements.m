@@ -73,15 +73,11 @@
     return
     @[
 
-      // String Values
       @"com.apple.developer.ubiquity-kvstore-identifier",
       @"com.apple.developer.icloud-services",
       @"aps-environment",
       @"com.apple.developer.default-data-protection",
-
       @"com.apple.developer.associated-domains",
-
-      // Array Values
       @"keychain-access-groups",
       @"com.apple.security.application-groups",
       @"com.apple.developer.in-app-payments",
