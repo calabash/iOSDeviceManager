@@ -33,7 +33,17 @@
             NSArray *profArray = (NSArray *)profileEntitlement.value;
 
             if (appArray.count > profArray.count) {
-                return ProfileDoesNotHaveRequiredKey;
+                if (profArray.count == 1) {
+                    NSString *value = profArray[0];
+                    if ([value isEqualToString:@"*"] ||
+                        (value.length == 12 && [value hasSuffix:@"*"])) {
+                        return ProfileHasKey;
+                    } else {
+                        return ProfileDoesNotHaveRequiredKey;
+                    }
+                } else {
+                    return ProfileDoesNotHaveRequiredKey;
+                }
             } else if (appArray.count < profArray.count) {
                 // Prefer _less_ entitlements
                 return (profArray.count - appArray.count) * ProfileHasKey;
