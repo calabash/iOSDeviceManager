@@ -1,4 +1,3 @@
-#import "CommandOption.h"
 #import "Simulator.h"
 #import "KillSimulatorCommand.h"
 
