@@ -768,6 +768,10 @@
 			children = (
 				898D7DE61DA47672001578FE /* CBXRoute.h */,
 				898D7DE71DA47672001578FE /* CBXRoute.m */,
+				898D7DEB1DA50508001578FE /* iOSDeviceManagerServer.h */,
+				898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */,
+				898D7DF01DA50540001578FE /* ServerConfig.h */,
+				898D7DF11DA50540001578FE /* ServerConfig.m */,
 			);
 			name = Server;
 			sourceTree = "<group>";
@@ -777,12 +781,6 @@
 			children = (
 				89C29E181DAE69C500282526 /* ConsoleWriter.h */,
 				89C29E191DAE69C500282526 /* ConsoleWriter.m */,
-				898D7DE61DA47672001578FE /* CBXRoute.h */,
-				898D7DE71DA47672001578FE /* CBXRoute.m */,
-				898D7DEB1DA50508001578FE /* iOSDeviceManagerServer.h */,
-				898D7DEC1DA50508001578FE /* iOSDeviceManagerServer.m */,
-				898D7DF01DA50540001578FE /* ServerConfig.h */,
-				898D7DF11DA50540001578FE /* ServerConfig.m */,
 			);
 			name = Logging;
 			sourceTree = "<group>";
