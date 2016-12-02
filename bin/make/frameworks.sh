@@ -31,7 +31,7 @@ OUTPUT_DIR="${PWD}/Frameworks"
 (cd "${FBSIMCONTROL_PATH}";
 make frameworks;
 
-banner "Copying Facebook Frameworks to iOSDeviceManager"
+info "Copying Facebook Frameworks to iOSDeviceManager"
 
 xcrun ditto build/Release/FBControlCore.framework \
     "${OUTPUT_DIR}/FBControlCore.framework" ;
@@ -49,4 +49,4 @@ xcrun ditto Vendor/CocoaLumberjack.framework \
     "${OUTPUT_DIR}/CocoaLumberjack.framework" ;
 )
 
-banner "Done"
+info "Done"
