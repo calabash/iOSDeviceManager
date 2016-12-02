@@ -5,8 +5,6 @@
 #import "Entitlement.h"
 #import "ConsoleWriter.h"
 
-static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.associated-domains";
-
 @interface Entitlements ()
 
 + (NSDictionary *)dictionaryOfEntitlementsWithBundlePath:(NSString *)bundlePath;
@@ -74,16 +72,12 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
 + (NSArray<NSString *> *)entitlementComparisonKeys {
     return
     @[
-      // Requires special matching.
-      kAssociatedDomainsEntitlementKey,
 
-      // String Values
       @"com.apple.developer.ubiquity-kvstore-identifier",
       @"com.apple.developer.icloud-services",
       @"aps-environment",
       @"com.apple.developer.default-data-protection",
-
-      // Array Values
+      @"com.apple.developer.associated-domains",
       @"keychain-access-groups",
       @"com.apple.security.application-groups",
       @"com.apple.developer.in-app-payments",
@@ -91,6 +85,7 @@ static NSString *const kAssociatedDomainsEntitlementKey = @"com.apple.developer.
       @"com.apple.developer.icloud-container-environment",
       @"com.apple.developer.icloud-container-identifiers",
       @"com.apple.developer.icloud-container-development-container-identifiers",
+      @"com.apple.developer.icloud-services",
       @"com.apple.developer.ubiquity-container-identifiers",
       @"com.apple.developer.networking.com.apple.developer.in-app-payments.api"
       ];
