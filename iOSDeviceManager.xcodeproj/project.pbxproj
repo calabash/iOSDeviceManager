@@ -74,9 +74,6 @@
 		892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
 		892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
-		897566891D6F59E9008EC08A /* CLI.json in Resources */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
-		8975668A1D6F59E9008EC08A /* CLI.json in Resources */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
-		8975668E1D6F622D008EC08A /* CLI.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 897566881D6F59E9008EC08A /* CLI.json */; };
 		898D7D3E1DA47513001578FE /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */; };
 		898D7D3F1DA47513001578FE /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */; };
 		898D7D401DA47513001578FE /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */; };
@@ -280,16 +277,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8975668D1D6F6224008EC08A /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-				8975668E1D6F622D008EC08A /* CLI.json in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F5D584111D6A03DB007B0D11 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -367,7 +354,6 @@
 		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5241D23ED0600E1902C /* UnitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UnitInfo.plist; path = Tests/UnitInfo.plist; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
-		897566881D6F59E9008EC08A /* CLI.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CLI.json; sourceTree = SOURCE_ROOT; };
 		898D7D3C1DA47513001578FE /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		898D7D471DA47569001578FE /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
@@ -857,7 +843,6 @@
 				F51AC6D41D6A3F3300BA3988 /* Specta.framework */,
 				F5D583EF1D69FF6C007B0D11 /* IntegrationInfo.plist */,
 				892DE5241D23ED0600E1902C /* UnitInfo.plist */,
-				897566881D6F59E9008EC08A /* CLI.json */,
 				63424ACEB57BD2E5B9F4D847 /* Tests.pch */,
 				63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */,
 			);
@@ -971,7 +956,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				897566891D6F59E9008EC08A /* CLI.json in Resources */,
 				F5A705AD1D67C38D006F05B5 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -980,7 +964,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8975668A1D6F59E9008EC08A /* CLI.json in Resources */,
 				F5D584101D6A03D3007B0D11 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -61,6 +61,5 @@ make clean
 make build
 
 cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
-cp "CLI.json" "${OUTPUT_DIR}/bin"
 
 info "Gathered dependencies in ${OUTPUT_DIR}"
