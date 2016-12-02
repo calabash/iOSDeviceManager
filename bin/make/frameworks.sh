@@ -4,6 +4,10 @@ set -e
 
 source bin/log_functions.sh
 
+banner "Build FBSimulatorControl"
+
+info "Checking FBSIMCONTROL_PATH"
+
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   if [ -e "../FBSimulatorControl" ]; then
     FBSIMCONTROL_PATH="../FBSimulatorControl"
@@ -18,25 +22,31 @@ if [ ! -d "${FBSIMCONTROL_PATH}" ]; then
   exit 4
 fi
 
+info "Removing old frameworks"
+
 rm -rf ./Frameworks/*.framework
+
 OUTPUT_DIR="${PWD}/Frameworks"
 
 (cd "${FBSIMCONTROL_PATH}";
 make frameworks;
 
+info "Copying Facebook Frameworks to iOSDeviceManager"
+
 xcrun ditto build/Release/FBControlCore.framework \
-  "${OUTPUT_DIR}/FBControlCore.framework" ;
+    "${OUTPUT_DIR}/FBControlCore.framework" ;
 
 xcrun ditto build/Release/FBDeviceControl.framework \
-  "${OUTPUT_DIR}/FBDeviceControl.framework" ;
+    "${OUTPUT_DIR}/FBDeviceControl.framework" ;
 
 xcrun ditto build/Release/FBSimulatorControl.framework \
-  "${OUTPUT_DIR}/FBSimulatorControl.framework" ;
+    "${OUTPUT_DIR}/FBSimulatorControl.framework" ;
 
 xcrun ditto build/Release/XCTestBootstrap.framework \
-  "${OUTPUT_DIR}/XCTestBootstrap.framework" ;
+    "${OUTPUT_DIR}/XCTestBootstrap.framework" ;
 
 xcrun ditto Vendor/CocoaLumberjack.framework \
-  "${OUTPUT_DIR}/CocoaLumberjack.framework" ;
+    "${OUTPUT_DIR}/CocoaLumberjack.framework" ;
 )
 
+info "Done"

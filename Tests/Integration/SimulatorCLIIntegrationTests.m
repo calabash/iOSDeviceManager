@@ -35,129 +35,127 @@
 }
 
 - (void)testSetLocation {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[@"kill_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     //Should fail: device is dead
-    args = @[kProgramName, @"set_location", @"-d", defaultSimUDID, @"-l", kStockholmCoord];
+    args = @[@"set_location", @"-d", defaultSimUDID, @"-l", kStockholmCoord];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
 
-    args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    args = @[@"launch_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     //Should fail: invalid coordinates
-    args = @[kProgramName, @"set_location", @"-d", defaultSimUDID, @"-l", @"Banana"];
+    args = @[@"set_location", @"-d", defaultSimUDID, @"-l", @"Banana"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 
-    args = @[kProgramName, @"set_location", @"-d", defaultSimUDID, @"-l", kStockholmCoord];
+    args = @[@"set_location", @"-d", defaultSimUDID, @"-l", kStockholmCoord];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testLaunchSim {
-    NSArray *args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[@"launch_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testKillSim {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[@"kill_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 // Causes deadlock when run with other tests.
 //
 //- (void)testStartTest {
-//    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+//    NSArray *args = @[@"kill_simulator", @"-d", defaultSimUDID];
 //    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 //
 //    //Should launch sim
-//    args = @[kProgramName, @"start_test",
-//             @"-d", defaultSimUDID,
-//             @"-k", @"NO"];
+//    args = @[@"start_test",
+//             @"-d", defaultSimUDID];
 //    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 //
-//    args = @[kProgramName, @"start_test",
-//             @"-d", defaultSimUDID,
-//             @"-k", @"NO"];
+//    args = @[@"start_test",
+//             @"-d", defaultSimUDID];
 //    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 //}
 
 - (void)testUninstall {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[@"kill_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
+    args = @[@"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
 
-    args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    args = @[@"launch_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
+    args = @[@"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
     if ([CLI process:args] == iOSReturnStatusCodeFalse) {
-        args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a",
+        args = @[@"install", @"-d", defaultSimUDID, @"-a",
                  [self.resources TestAppPath:SIM]];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
 
-    args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
+    args = @[@"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testInstall {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[@"kill_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    args = @[@"launch_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"is_installed", @"-b", taskyAppID, @"-d", defaultSimUDID];
+    args = @[@"is_installed", @"-b", taskyAppID, @"-d", defaultSimUDID];
     if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-        args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", taskyAppID];
+        args = @[@"uninstall", @"-d", defaultSimUDID, @"-b", taskyAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
 
-    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", tasky(SIM)];
+    args = @[@"install", @"-d", defaultSimUDID, @"-a", tasky(SIM)];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testAppIsInstalled {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[@"kill_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    args = @[@"launch_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"is_installed", @"-b", @"com.apple.Preferences", @"-d",
+    args = @[@"is_installed", @"-b", @"com.apple.Preferences", @"-d",
              defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
+    args = @[@"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
     if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-        args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
+        args = @[@"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
 
-    args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
+    args = @[@"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
 
-    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", testApp(SIM)];
+    args = @[@"install", @"-d", defaultSimUDID, @"-a", testApp(SIM)];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
+    args = @[@"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 
 - (void)testAppUpdate {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[@"kill_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    args = @[@"launch_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     //Ensure app is not installed
-    args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
+    args = @[@"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
     if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-        args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
+        args = @[@"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
 
@@ -171,7 +169,7 @@
                                                    key:@"CFBundleVersion"
                                                  value:@"1.0"]);
 
-    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", target];
+    args = @[@"install", @"-d", defaultSimUDID, @"-a", target];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     //Ensure that the installed app has CFBundleVersion 1.0
@@ -185,7 +183,7 @@
                                                  value:@"2.0"]);
 
     //Install the app and ensure that the new version has been installed
-    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", target];
+    args = @[@"install", @"-d", defaultSimUDID, @"-a", target];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     installedVersion = [self bundleVersionForInstalledTestApp];
@@ -199,7 +197,7 @@
                                                    key:@"CFBundleVersion"
                                                  value:@"1.0"]);
 
-    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", target, @"-u", @"NO"];
+    args = @[@"install", @"-d", defaultSimUDID, @"-a", target, @"-u", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     installedVersion = [self bundleVersionForInstalledTestApp];

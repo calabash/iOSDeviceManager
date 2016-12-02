@@ -6,8 +6,7 @@
 @interface Device : NSObject
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive; //helps with integration testing
+                          runnerBundleID:(NSString *)runnerBundleID; 
 
 + (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID
                            deviceID:(NSString *)deviceID;

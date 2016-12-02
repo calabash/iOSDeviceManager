@@ -20,7 +20,8 @@ fi
 
 info "Using DeviceAgent: ${DEVICEAGENT_PATH}"
 
-EXECUTABLE=iOSDeviceManager
+EXECUTABLE=iOSDeviceManagerServer
+SHIM="${PWD}/client/iOSDeviceManager"
 OUTPUT_DIR="${PWD}/Distribution/dependencies"
 
 rm -rf "${OUTPUT_DIR}"
@@ -61,6 +62,7 @@ make clean
 make build
 
 cp "Products/${EXECUTABLE}" "${OUTPUT_DIR}/bin"
+cp "${SHIM}" "${OUTPUT_DIR}"
 cp "CLI.json" "${OUTPUT_DIR}/bin"
 
 info "Gathered dependencies in ${OUTPUT_DIR}"

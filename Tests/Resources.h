@@ -28,8 +28,6 @@ NS_INLINE BOOL version_lte(NSString* a, NSString* b) {
 
 #pragma mark - Constants
 
-static NSString *const kProgramName = @"iOSDeviceManagement";
-
 static NSString *const kCodeSignIdentityKARL =
 @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
 static NSString *const kCodeSignIdentityMOODY =

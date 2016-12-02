@@ -110,8 +110,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive  {
+                          runnerBundleID:(NSString *)runnerBundleID {
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
     NSError *e = nil;
 
@@ -122,33 +121,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     PhysicalDevice *repLog = [PhysicalDevice new];
 
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
-                                                                         runnerBundleID:runnerBundleID
-                                                                              sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                               reporter:repLog
-                                                                                 logger:repLog
-                                                                                  error:&e];
-    if (!e) {
-        if (keepAlive) {
-            /*
-                `testingComplete` will be YES when testmanagerd calls
-                `testManagerMediatorDidFinishExecutingTestPlan:`
-             */
-            while (!repLog.testingComplete){
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-                
-                /*
-                    `testingHasFinished` returns YES when the bundle connection AND testmanagerd
-                    connection are finished with the connection (presumably at end of test or failure)
-                 */
-                if ([testManager testingHasFinished]) {
-                    break;
-                }
-            }
-        }
-    } else {
+    [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
+                                            runnerBundleID:runnerBundleID
+                                                 sessionID:sessionID
+                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                  reporter:repLog
+                                                    logger:repLog
+                                                     error:&e];
+    if (e) {
         ConsoleWriteErr(@"Err: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
@@ -409,20 +390,20 @@ testCaseDidStartForTestClass:(NSString *)testClass
                         overwrite:(BOOL)overwrite {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
-    
+
     NSError *e;
-    
+
     //We make an .xcappdata bundle, place the files there, and upload that
     NSFileManager *fm = [NSFileManager defaultManager];
-    
+
     //Ensure input file exists
     if (![fm fileExistsAtPath:filepath]) {
         ConsoleWriteErr(@"%@ doesn't exist!", filepath);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
     NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
     NSString *xcappdataPath = [[NSTemporaryDirectory()
@@ -431,9 +412,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *dataBundle = [[xcappdataPath
                              stringByAppendingPathComponent:@"AppData"]
                             stringByAppendingPathComponent:@"Documents"];
-    
+
     LogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
-    
+
     if (![fm createDirectoryAtPath:xcappdataPath
        withIntermediateDirectories:YES
                         attributes:nil
@@ -441,7 +422,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         ConsoleWriteErr(@"Error creating data dir: %@", e);
         return iOSReturnStatusCodeGenericFailure;
     }
-   
+
     if (![device.dvtDevice downloadApplicationDataToPath:xcappdataPath
              forInstalledApplicationWithBundleIdentifier:bundleID
                                                    error:&e]) {
@@ -452,7 +433,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return iOSReturnStatusCodeInternalError;
     }
     LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
-    
+
     //TODO: depending on `overwrite`, upsert file
     NSString *filename = [filepath lastPathComponent];
     NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
@@ -467,12 +448,12 @@ testCaseDidStartForTestClass:(NSString *)testClass
             }
         }
     }
-    
+
     if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
         ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
         ConsoleWriteErr(@"Error uploading files to application container: %@", e);
         return iOSReturnStatusCodeInternalError;
@@ -491,10 +472,10 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                           onDevice:(NSString *)deviceID {
     FBDevice *device = [self deviceForID:deviceID codesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
     NSError *e;
-    
+
     NSString *path = [operator containerPathForApplicationWithBundleID:bundleID error:&e];
     if (e) {
         ConsoleWriteErr(@"Error getting container path for application %@: %@", bundleID, e);

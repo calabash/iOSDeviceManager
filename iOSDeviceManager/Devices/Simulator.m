@@ -81,8 +81,7 @@ static FBSimulatorControl *_control;
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive {
+                          runnerBundleID:(NSString *)runnerBundleID {
     if (![TestParameters isSimulatorID:deviceID]) {
         ConsoleWriteErr(@"'%@' is not a valid sim ID", deviceID);
         return iOSReturnStatusCodeInvalidArguments;
@@ -109,38 +108,18 @@ static FBSimulatorControl *_control;
     Simulator *replog = [Simulator new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
-                                                                         runnerBundleID:runnerBundleID
-                                                                              sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                               reporter:replog
-                                                                                 logger:replog
-                                                                                  error:&e];
+    [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
+                                            runnerBundleID:runnerBundleID
+                                                 sessionID:sessionID
+                                            withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                               environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                  reporter:replog
+                                                    logger:replog
+                                                     error:&e];
 
     if (e) {
         ConsoleWriteErr(@"Error starting test runner: %@", e);
         return iOSReturnStatusCodeInternalError;
-    } else if (keepAlive) {
-        /*
-         `testingComplete` will be YES when testmanagerd calls
-         `testManagerMediatorDidFinishExecutingTestPlan:`
-         */
-        while (!replog.testingComplete){
-            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-
-            /*
-             `testingHasFinished` returns YES when the bundle connection AND testmanagerd
-             connection are finished with the connection (presumably at end of test or failure)
-             */
-            if ([testManager testingHasFinished]) {
-                break;
-            }
-        }
-        if (e) {
-            ConsoleWriteErr(@"Error starting test: %@", e);
-            return iOSReturnStatusCodeInternalError;
-        }
     }
     return iOSReturnStatusCodeEverythingOkay;
 }
@@ -471,7 +450,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     } else {
         [ConsoleWriter write:@"false"];
     }
-    
+
     return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
@@ -516,18 +495,18 @@ testCaseDidStartForTestClass:(NSString *)testClass
         ConsoleWriteErr(@"File does not exist: %@", filepath);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
     NSString *containerPath = [self containerPathForApplication:bundleID device:deviceID];
     if (!containerPath) {
         ConsoleWriteErr(@"Unable to find container path for app %@ on device %@", bundleID, deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSString *documentsDir = [containerPath stringByAppendingPathComponent:@"Documents"];
     NSString *filename = [filepath lastPathComponent];
     NSString *dest = [documentsDir stringByAppendingPathComponent:filename];
     NSError *e;
-    
+
     if ([fm fileExistsAtPath:dest]) {
         if (!overwrite) {
             ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
@@ -539,12 +518,12 @@ testCaseDidStartForTestClass:(NSString *)testClass
             }
         }
     }
-    
+
     if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
         ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -562,14 +541,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                stringByAppendingPathComponent:@"Containers"]
                               stringByAppendingPathComponent:@"Data"]
                              stringByAppendingPathComponent:@"Application"];
-    
+
     NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:appDataPath error:nil];
-    
+
     for (id bundleFolder in bundleFolders) {
         NSString *bundleFolderPath = [appDataPath stringByAppendingPathComponent:bundleFolder];
         NSString *plistFile = [bundleFolderPath
                                stringByAppendingPathComponent:@".com.apple.mobile_container_manager.metadata.plist"];
-        
+
         if ([fm fileExistsAtPath:plistFile]) {
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
             if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
@@ -578,7 +557,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
             }
         }
     }
-    
+
     return nil;
 }
 

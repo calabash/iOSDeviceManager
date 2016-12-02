@@ -1,7 +1,3 @@
-//
-//  CBRoute.m
-//  xcuitest-server
-//
 
 #import "CBXRoute.h"
 
@@ -14,7 +10,7 @@
         } @catch (NSException *e) {
             [response setStatusCode:500];
             [response respondWithJSON:@{@"error" : @"Internal exception occurred. See DeviceAgent log",
-                                            @"exception" : e }];
+                                            @"exception" : [e reason] }];
         }
     };
 }
