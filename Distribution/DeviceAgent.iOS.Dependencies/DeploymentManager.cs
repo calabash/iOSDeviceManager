@@ -4,13 +4,13 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace DeviceAgent.iOS.Deployment
+namespace DeviceAgent.iOS.Dependencies
 {
 
     public static class DeploymentManager
     {
-        const string HashResource = "DeviceAgent.iOS.Deployment.hash.txt";
-        const string DependenciesResource = "DeviceAgent.iOS.Deployment.dependencies.zip";
+        const string HashResource = "DeviceAgent.iOS.Dependencies.hash.txt";
+        const string DependenciesResource = "DeviceAgent.iOS.Dependencies.dependencies.zip";
         const string DeviceAgentRunnerApp = "DeviceAgent-Runner.app";
 
         static Lazy<string> _hash = new Lazy<string>(() => {
