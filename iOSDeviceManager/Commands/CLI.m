@@ -24,6 +24,9 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                                reason:@"Commands should subclass the Command class"
                                              userInfo:nil];
             }
+            if ([c class] == [Command class]) {
+                continue;
+            }
             if ([c name]) {
                 commandClasses[[c name]] = c;
             }
