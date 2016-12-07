@@ -63,6 +63,9 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                 [self printUsage];
                 *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
                 return nil;
+            } else if ([[args[i] substringToIndex:1] isEqualToString:@"-"]) {
+                *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
+                return nil;
             } else {
                 values[positionalArgNames[positionalArgIndex]] = args[i];
                 positionalArgIndex++;
