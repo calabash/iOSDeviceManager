@@ -7,6 +7,7 @@
 @property (nonatomic, strong) NSString *additionalInfo;
 @property (nonatomic, strong) id defaultValue;
 @property (nonatomic)       BOOL required;
+@property (nonatomic)       BOOL requiresArgument;
 
 + (instancetype)withShortFlag:(NSString *)shortFlag
                      longFlag:(NSString *)longFlag
@@ -14,5 +15,7 @@
                          info:(NSString *)info
                      required:(BOOL)required
                    defaultVal:(id)defaultValue;
+
+- (instancetype)asBooleanOption;
 
 @end

@@ -42,6 +42,47 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     printf("\n");
 }
 
++ (NSDictionary<NSString *, NSString *> *)parseArgs:(NSArray <NSString *> *)args
+                                         forCommand:(Class <iOSDeviceManagementCommand>)command
+                                           exitCode:(int *)exitCode {
+    NSMutableDictionary *values = [NSMutableDictionary dictionary];
+    
+    NSArray *positionalArgNames = [command positionalArgNames];
+    NSInteger numPositionalArgs = positionalArgNames.count;
+    NSInteger positionalArgIndex = 0;
+    
+    for (int i = 0; i < args.count; i++) {
+        CommandOption *op = [command optionForFlag:args[i]];
+        if (op == nil) {
+            if (positionalArgIndex >= numPositionalArgs) {
+                printf("Unrecognized flag or unsupported argument: %s\n",
+                       [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+                [self printUsage];
+                *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
+                return nil;
+            } else {
+                values[positionalArgNames[positionalArgIndex]] = args[i];
+                positionalArgIndex++;
+                continue;
+            }
+        }
+        if (args.count <= i + 1) {
+            printf("No value provided for %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+            [command printUsage];
+            *exitCode = iOSReturnStatusCodeMissingArguments;
+            return nil;
+        }
+        if (op.requiresArgument) {
+            values[op.shortFlag] = args[i+1];
+            i++;
+        } else {
+            values[op.shortFlag] = @YES;
+        }
+    }
+    *exitCode = iOSReturnStatusCodeEverythingOkay;
+    return values;
+}
+
 + (iOSReturnStatusCode)process:(NSArray<NSString *> *)args {
     if (args.count <= 1) {
         [self printUsage];
@@ -54,7 +95,9 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             //Ensure args can be parsed correctly
             NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
             int ec;
-            NSDictionary *parsedArgs = [command parseArgs:cmdArgs exitCode:&ec];
+            NSDictionary *parsedArgs = [self parseArgs:cmdArgs
+                                            forCommand:command
+                                              exitCode:&ec];
             if (ec != iOSReturnStatusCodeEverythingOkay) {
                 return ec;
             }

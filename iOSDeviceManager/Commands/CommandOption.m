@@ -16,6 +16,7 @@
     co.additionalInfo = info ?: @"";
     co.required = required;
     co.defaultValue = defaultValue;
+    co.requiresArgument = YES;
     return co;
 }
 
@@ -27,5 +28,16 @@
             self.optionName,
             self.defaultValue,
             self.required ? @"REQUIRED" : @"OPTIONAL"];
+}
+
+- (instancetype)asBooleanOption {
+    CommandOption *boolCopy = [CommandOption withShortFlag:self.shortFlag
+                                                  longFlag:self.longFlag
+                                                optionName:self.optionName
+                                                      info:self.additionalInfo
+                                                  required:self.required
+                                                defaultVal:self.defaultValue];
+    boolCopy.requiresArgument = NO;
+    return boolCopy;
 }
 @end

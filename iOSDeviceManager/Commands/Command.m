@@ -4,12 +4,20 @@
 #import "CLI.h"
 #import "ConsoleWriter.h"
 
+const NSString *DEVICE_ID_ARGNAME = @"device_id";
+
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
 + (NSString *)name {
     @throw [NSException exceptionWithName:@"ProgrammerErrorException"
                                    reason:@"+(NSString *)name should be overidden by sublass"
+                                 userInfo:@{@"this class" : NSStringFromClass(self.class)}];
+}
+
++ (iOSReturnStatusCode)execute:(NSDictionary *)args {
+    @throw [NSException exceptionWithName:@"ProgrammerErrorException"
+                                   reason:@"+(iOSReturnStatusCode *)execute: should be overidden by sublass"
                                  userInfo:@{@"this class" : NSStringFromClass(self.class)}];
 }
 
@@ -28,6 +36,12 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     }
 }
 
++ (NSArray <NSString *>*)positionalArgNames {
+    return @[
+             DEVICE_ID_ARGNAME
+             ];
+}
+
 + (id<iOSDeviceManagementCommand>)command {
     [self validateConformsToProtocol];
     return (id<iOSDeviceManagementCommand>)self;
@@ -36,7 +50,13 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 + (NSString *)usage {
     id <iOSDeviceManagementCommand> cmd = [self command];
     NSMutableString *usage = [NSMutableString string];
-    [usage appendFormat:@"\n\t%@\n", [cmd name]];
+    [usage appendFormat:@"\n\t%@", [cmd name]];
+    
+    for (NSString *argname in self.positionalArgNames) {
+        [usage appendFormat:@" <%@>", argname];
+    }
+    
+    [usage appendString:@"\n"];
     
     for (CommandOption *op in [cmd options]) {
         [usage appendFormat:@"\t\t%@,%@\t<%@>", op.shortFlag, op.longFlag, op.optionName];
@@ -72,30 +92,6 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         }
     }
     return nil;
-}
-
-+ (NSDictionary<NSString *, NSString *> *)parseArgs:(NSArray <NSString *> *)args
-                                           exitCode:(int *)exitCode {
-    NSMutableDictionary *values = [NSMutableDictionary dictionary];
-    
-    for (int i = 0; i < args.count; i+=2) {
-        CommandOption *op = [self optionForFlag:args[i]];
-        if (op == nil) {
-            printf("Unrecognized flag: %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
-            [self printUsage];
-            *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
-            return nil;
-        }
-        if (args.count <= i + 1) {
-            printf("No value provided for %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
-            [self printUsage];
-            *exitCode = iOSReturnStatusCodeMissingArguments;
-            return nil;
-        }
-        values[op.shortFlag] = args[i+1];
-    }
-    *exitCode = iOSReturnStatusCodeEverythingOkay;
-    return values;
 }
 
 + (NSDictionary <NSString *, CommandOption *> *)optionDict {
