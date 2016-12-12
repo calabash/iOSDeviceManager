@@ -44,6 +44,9 @@
 - (void)testPositionalArgument {
     NSArray *args = @[kProgramName, @"uninstall", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE", @"-b", @"bundle_id"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
+    
+    args = @[kProgramName, @"install", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE", @"-a", @"path/to/app/bundle"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
 }
 
 - (void)testMissingArg {
