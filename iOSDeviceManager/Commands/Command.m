@@ -4,7 +4,7 @@
 #import "CLI.h"
 #import "ConsoleWriter.h"
 
-const NSString *DEVICE_ID_ARGNAME = @"device_id";
+const NSString *DEVICE_ID_ARG_SHORT_FLAG = @"-d";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
@@ -36,9 +36,9 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     }
 }
 
-+ (NSArray <NSString *>*)positionalArgNames {
++ (NSArray <NSString *>*)positionalArgShortFlags {
     return @[
-             DEVICE_ID_ARGNAME
+             DEVICE_ID_ARG_SHORT_FLAG
              ];
 }
 
@@ -52,7 +52,7 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     NSMutableString *usage = [NSMutableString string];
     [usage appendFormat:@"\n\t%@", [cmd name]];
     
-    for (NSString *argname in self.positionalArgNames) {
+    for (NSString *argname in self.positionalArgShortFlags) {
         [usage appendFormat:@" <%@>", argname];
     }
     

@@ -41,6 +41,11 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeUnrecognizedFlag);
 }
 
+- (void)testPositionalArgument {
+    NSArray *args = @[kProgramName, @"uninstall", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE", @"-b", @"bundle_id"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
+}
+
 - (void)testMissingArg {
     NSArray *args = @[kProgramName, @"uninstall", @"-b"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
