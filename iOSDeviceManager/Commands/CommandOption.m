@@ -3,7 +3,7 @@
 
 @implementation CommandOption
 
-+ (instancetype)withShortFlag:(NSString *)shortFlag
++ (instancetype)withShortFlag:(const NSString *)shortFlag
                      longFlag:(NSString *)longFlag
                    optionName:(NSString *)optionName
                          info:(NSString *)info

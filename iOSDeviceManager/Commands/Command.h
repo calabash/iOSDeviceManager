@@ -6,3 +6,4 @@
 @end
 
 extern const NSString *DEVICE_ID_ARGNAME;
+extern const NSString *DEVICE_ID_FLAG;

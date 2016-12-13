@@ -9,7 +9,8 @@ results
 reports/*.xml
 reports/*.json
 Carthage/Checkouts
-!Carthage/Build
+Carthage/Build/*
+!Carthage/Build/iOS
 Carthage/Build/Mac/CocoaLumberjack.framework.dSYM
 
 ## nuget

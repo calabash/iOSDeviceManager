@@ -149,6 +149,7 @@
 		898D7DE81DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
 		898D7DE91DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
 		898D7DEA1DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
+		89AE36D71DF8318500E21487 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
@@ -538,7 +539,7 @@
 			isa = PBXGroup;
 			children = (
 				F5169D261CFEAE5900252F52 /* LICENSE */,
-				89331D451CE222C7003C2E59 /* iOSDeviceManagement */,
+				89331D451CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
@@ -561,7 +562,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		89331D451CE222C7003C2E59 /* iOSDeviceManagement */ = {
+		89331D451CE222C7003C2E59 /* iOSDeviceManager */ = {
 			isa = PBXGroup;
 			children = (
 				892DE4CC1D22F87000E1902C /* main.m */,
@@ -571,7 +572,7 @@
 				892DE4D41D22F8E100E1902C /* Commands */,
 				896F7F031CF9C51000FD8572 /* TestParameters */,
 			);
-			name = iOSDeviceManagement;
+			name = iOSDeviceManager;
 			path = "test-control";
 			sourceTree = "<group>";
 		};
@@ -859,7 +860,6 @@
 				89331D3F1CE222C7003C2E59 /* Sources */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
 				89331D411CE222C7003C2E59 /* CopyFiles */,
-				8975668D1D6F6224008EC08A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -976,6 +976,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				892DE4D11D22F87000E1902C /* main.m in Sources */,
+				89AE36D71DF8318500E21487 /* Resources.m in Sources */,
 				898D7D881DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				898D7D791DA47569001578FE /* HTTPConnection.m in Sources */,

@@ -1,8 +1,9 @@
 
 #import "PhysicalDevice.h"
 #import "ShellRunner.h"
-#import "AppUtils.h"
+#import "Resources.h"
 #import "Simulator.h"
+#import "AppUtils.h"
 
 @implementation Device
 
@@ -11,6 +12,10 @@
         _testingComplete = NO;
     }
     return self;
+}
+
++ (NSString *)defaultDeviceID {
+    return [[Resources shared] defaultSimulatorUDID] ?: [[Resources shared] defaultDeviceUDID];
 }
 
 + (void)initialize {

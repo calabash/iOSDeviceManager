@@ -1,7 +1,6 @@
 
 #import "InstallAppCommand.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
 static NSString *const APP_BUNDLE_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
 static NSString *const UPDATE_APP_FLAG = @"-u";
@@ -17,7 +16,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
     return [Device installApp:args[APP_BUNDLE_PATH_FLAG]
-                     deviceID:args[DEVICE_ID_FLAG]
+                     deviceID:args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID]
                     updateApp:update
                    codesignID:args[CODESIGN_IDENTITY_FLAG]];
 }
@@ -31,7 +30,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUIDs"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:APP_BUNDLE_PATH_FLAG
                                                longFlag:@"--app-bundle"

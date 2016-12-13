@@ -50,8 +50,8 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                            exitCode:(int *)exitCode {
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
     
-    NSArray *positionalArgShortFlags = [command positionalArgShortFlags];
-    NSInteger numPositionalArgs = positionalArgShortFlags.count;
+    NSArray *positionalArgNames = [command positionalArgNames];
+    NSInteger numPositionalArgs = positionalArgNames.count;
     NSInteger positionalArgIndex = 0;
     
     for (int i = 0; i < args.count; i++) {
@@ -67,7 +67,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                 *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
                 return nil;
             } else {
-                values[positionalArgShortFlags[positionalArgIndex]] = args[i];
+                values[positionalArgNames[positionalArgIndex]] = args[i];
                 positionalArgIndex++;
                 continue;
             }

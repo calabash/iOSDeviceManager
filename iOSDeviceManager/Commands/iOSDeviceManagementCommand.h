@@ -18,7 +18,7 @@ typedef NS_ENUM(int, iOSReturnStatusCode) {
 @protocol iOSDeviceManagementCommand <NSObject>
 + (NSString *)name;
 + (void)printUsage;
-+ (NSArray <NSString *> *)positionalArgShortFlags;
++ (NSArray <NSString *> *)positionalArgNames;
 + (CommandOption *)optionForFlag:(NSString *)flag;
 + (iOSReturnStatusCode)execute:(NSDictionary *)args;
 + (NSArray<CommandOption *> *)options;
