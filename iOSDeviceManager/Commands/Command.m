@@ -9,7 +9,7 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 
 + (NSString *)name {
     @throw [NSException exceptionWithName:@"ProgrammerErrorException"
-                                   reason:@"+(NSString *)name should be overidden by sublass"
+                                   reason:@"+(NSString *)name should be overidden by subclass"
                                  userInfo:@{@"this class" : NSStringFromClass(self.class)}];
 }
 
