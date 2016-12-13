@@ -1,3 +1,10 @@
+### 1.0.4
+
+FBSimulatorControl was not updated.  See the 1.0.3 notes for details.
+
+* Remove DeviceAgent.iOS.Deployment #99
+* CLI.json is no longer necessary for the iOSDeviceManager binary #96
+
 ### 1.0.3
 
 Includes [facebook/FBSimulatorControl 0.2.2 @ f0cc887](https://github.com/calabash/FBSimulatorControl/commit/f0cc8874a9fc1474e278db7571f8c35b9f88a354).
