@@ -47,6 +47,18 @@
     
     args = @[kProgramName, @"install", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE", @"-a", @"path/to/app/bundle"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
+    
+    args = @[kProgramName, @"launch_simulator", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
+    
+    args = @[kProgramName, @"kill_simulator", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
+    
+    args = @[kProgramName, @"stop_simulating_location", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
+
+    args = @[kProgramName, @"set_location", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE", @"-l", @"0,0"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeDeviceNotFound);
 }
 
 - (void)testMissingArg {

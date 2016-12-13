@@ -387,7 +387,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
             return iOSReturnStatusCodeInternalError;
         }
     }
-    return simulator != nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
+    return simulator != nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeDeviceNotFound;
 }
 
 + (iOSReturnStatusCode)killSimulator:(NSString *)simID {
