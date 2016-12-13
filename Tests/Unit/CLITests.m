@@ -69,8 +69,16 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
 }
 
-- (void)testMissingRequiredOption {
+- (void)testOptionalArg {
     NSArray *args = @[kProgramName, @"install", @"-a", @"fake/path/to/.app"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
+    
+    args = @[kProgramName, @"is_installed", @"-b", @"bundle_id"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
+}
+
+- (void)testMissingRequiredOption {
+    NSArray *args = @[kProgramName, @"install", @"-d", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
 }
 
