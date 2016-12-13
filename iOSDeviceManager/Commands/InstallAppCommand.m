@@ -21,4 +21,37 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
                     updateApp:update
                    codesignID:args[CODESIGN_IDENTITY_FLAG]];
 }
+
++ (NSArray <CommandOption *> *)options {
+    static NSMutableArray *options;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        options = [NSMutableArray array];
+        [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
+                                               longFlag:@"--device-id"
+                                             optionName:@"device-identifier"
+                                                   info:@"iOS Simulator GUIDs"
+                                               required:YES
+                                             defaultVal:nil]];
+        [options addObject:[CommandOption withShortFlag:APP_BUNDLE_PATH_FLAG
+                                               longFlag:@"--app-bundle"
+                                             optionName:@"path/to/app-bundle.app"
+                                                   info:@"Path .app bundle (for .ipas, unzip and look inside of 'Payload')"
+                                               required:YES
+                                             defaultVal:nil]];
+        [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
+                                               longFlag:@"--codesign-identity"
+                                             optionName:@"codesign-identity"
+                                                   info:@"Identity used to codesign app bundle [device only]"
+                                               required:NO
+                                             defaultVal:@""]];
+        [options addObject:[CommandOption withShortFlag:UPDATE_APP_FLAG
+                                               longFlag:@"--update-app"
+                                             optionName:@"true-or-false"
+                                                   info:@"When true, will reinstall the app if the device contains an older version than the bundle specified"
+                                               required:NO
+                                             defaultVal:@(YES)]];
+    });
+    return options;
+}
 @end

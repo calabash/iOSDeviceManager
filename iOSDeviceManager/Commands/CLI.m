@@ -11,7 +11,6 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation CLI
 static NSMutableDictionary <NSString *, Class> *commandClasses;
-static NSDictionary *CLIDict;
 
 + (void)load {
     unsigned int outCount;
@@ -31,31 +30,6 @@ static NSDictionary *CLIDict;
         }
     }
     free(classes);
-    
-    //Load the CLI.json command line options
-    NSString *cliJSONPath = [self pathToCLIJSON];
-    if (!cliJSONPath || [cliJSONPath isEqualToString:@""]) {
-        @throw [NSException exceptionWithName:@"CLI.json error"
-                                       reason:@"CLI.json not found."
-                                     userInfo:@{@"resource path" : [[NSBundle mainBundle] resourcePath] ?: @""}];
-    }
-    
-    NSData *jsonData = [NSData dataWithContentsOfFile:cliJSONPath];
-    NSError *e;
-    CLIDict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
-    if (!CLIDict) {
-        @throw [NSException exceptionWithName:@"CLI.json error"
-                                       reason:@"CLI.json not parseable."
-                                     userInfo:@{@"inner error" : e ?: @""}];
-    }
-}
-
-+ (NSString *)pathToCLIJSON {
-    return [[NSBundle mainBundle] pathForResource:@"CLI" ofType:@"json"];
-}
-
-+ (NSDictionary *)CLIDict {
-    return CLIDict;
 }
 
 + (void)printUsage {
@@ -75,8 +49,8 @@ static NSDictionary *CLIDict;
     } else {
         NSString *commandName = [args[1] lowercaseString];
         Class <iOSDeviceManagementCommand> command = commandClasses[commandName];
+        
         if (command) {
-            
             //Ensure args can be parsed correctly
             NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
             int ec;
@@ -92,7 +66,7 @@ static NSDictionary *CLIDict;
                 [command printUsage];
                 return iOSReturnStatusCodeEverythingOkay;
             }
-            
+
             //Ensure all required args are present
             for (CommandOption *opt in [command options]) {
                 if (opt.required && ![parsedArgs.allKeys containsObject:opt.shortFlag]) {
@@ -106,9 +80,9 @@ static NSDictionary *CLIDict;
             
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
-            
+
             DDLogVerbose(@"%@ ==> %d %@", [command name], ret, parsedArgs);
-            
+
             if (ret != iOSReturnStatusCodeEverythingOkay &&
                 ret != iOSReturnStatusCodeFalse) {
                 [command printUsage];
@@ -121,4 +95,5 @@ static NSDictionary *CLIDict;
         }
     }
 }
+
 @end

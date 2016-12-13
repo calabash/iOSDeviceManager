@@ -5,12 +5,11 @@
 #import "ConsoleWriter.h"
 
 @implementation Command
-static NSMutableDictionary <NSString *, NSArray<CommandOption *> *> *classOptionArrayMap;
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
 + (NSString *)name {
     @throw [NSException exceptionWithName:@"ProgrammerErrorException"
-                                   reason:@"+(NSString *)name shoudl be overidden by sublass"
+                                   reason:@"+(NSString *)name should be overidden by subclass"
                                  userInfo:@{@"this class" : NSStringFromClass(self.class)}];
 }
 
@@ -18,7 +17,6 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     static dispatch_once_t oncet;
     dispatch_once(&oncet, ^{
         classOptionDictMap = [NSMutableDictionary dictionary];
-        classOptionArrayMap = [NSMutableDictionary dictionary];
     });
 }
 
@@ -114,34 +112,9 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (NSArray <CommandOption *> *)options {
-    if (classOptionArrayMap[self.name] == nil) {
-        NSDictionary *commandOptions = [CLI CLIDict][[self name]];
-        if (!commandOptions) {
-            @throw [NSException exceptionWithName:@"ProgrammerErrorException"
-                                           reason:@"CLI.json has no command options for this command, or this command has no name."
-                                         userInfo:@{@"name" : [self name] ?: @""}];
-        }
-        
-        NSMutableArray <CommandOption *> *options = [NSMutableArray arrayWithCapacity:commandOptions.count];
-        for (NSString *shortFlag in commandOptions) {
-            NSDictionary *attrs = commandOptions[shortFlag];
-            NSString *longFlag = attrs[@"longFlag"];
-            NSString *optionName = attrs[@"optionName"];
-            NSString *info = attrs[@"info"];
-            BOOL required = [attrs[@"required"] boolValue];
-            id def = attrs[@"default"];
-            
-            CommandOption *opt = [CommandOption withShortFlag:shortFlag
-                                                     longFlag:longFlag
-                                                   optionName:optionName
-                                                         info:info
-                                                     required:required
-                                                   defaultVal: def];
-            [options addObject:opt];
-        }
-        classOptionArrayMap[self.name] = options;
-    }
-    return classOptionArrayMap[self.name];
+    @throw [NSException exceptionWithName:@"ProgrammerErrorException"
+                                   reason:@"+(NSArray <CommandOption *> *)options should be overidden by sublass"
+                                 userInfo:@{@"this class" : NSStringFromClass(self.class)}];
 }
 
 @end
