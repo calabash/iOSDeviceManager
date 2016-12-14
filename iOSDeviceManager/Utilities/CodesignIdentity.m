@@ -29,7 +29,7 @@
         return nil;
     }
     
-    NSArray <CodesignIdentity *>* identities = [self validIOSDeveloperIdentities];
+    NSArray <CodesignIdentity *>* identities = [CodesignIdentity validIOSDeveloperIdentities];
     if (!identities) {
         return nil;
     }
