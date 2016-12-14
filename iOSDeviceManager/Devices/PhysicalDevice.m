@@ -292,7 +292,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         ConsoleWriteErr(@"Error creating product bundle for %@: %@", stagedApp, err);
         return iOSReturnStatusCodeInternalError;
     }
-
+    
     FBiOSDeviceOperator *op = device.deviceOperator;
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {

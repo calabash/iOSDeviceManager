@@ -1,8 +1,10 @@
 
 #import "InstallAppCommand.h"
+#import "ShellRunner.h"
+#import "AppUtils.h"
 
 static NSString *const DEVICE_ID_FLAG = @"-d";
-static NSString *const APP_BUNDLE_PATH_FLAG = @"-a";
+static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
 static NSString *const UPDATE_APP_FLAG = @"-u";
 
@@ -16,7 +18,13 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     if ([[args allKeys] containsObject:UPDATE_APP_FLAG]) {
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
-    return [Device installApp:args[APP_BUNDLE_PATH_FLAG]
+    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
+        NSString *copiedAppPath = [AppUtils copyAppBundle:args[APP_PATH_FLAG]];
+        NSArray *params = [[NSArray alloc] initWithObjects:copiedAppPath, nil];
+        NSArray <NSString *> *results = [ShellRunner shell:@"/usr/bin/unzip" args:params];
+        // TODO Get bundle path from results
+    }
+    return [Device installApp:args[APP_PATH_FLAG]
                      deviceID:args[DEVICE_ID_FLAG]
                     updateApp:update
                    codesignID:args[CODESIGN_IDENTITY_FLAG]];
@@ -33,10 +41,10 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
                                                    info:@"iOS Simulator GUIDs"
                                                required:YES
                                              defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:APP_BUNDLE_PATH_FLAG
-                                               longFlag:@"--app-bundle"
-                                             optionName:@"path/to/app-bundle.app"
-                                                   info:@"Path .app bundle (for .ipas, unzip and look inside of 'Payload')"
+        [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
+                                               longFlag:@"--app-path"
+                                             optionName:@"path/to/app-bundle.app or path/to/app.ipa"
+                                                   info:@"Path .app bundle or .ipa"
                                                required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
