@@ -28,8 +28,9 @@
     if (!appEnts) {
         return nil;
     }
-
-    if (![self validIOSDeveloperIdentities]) {
+    
+    NSArray <CodesignIdentity *>* identities = [self validIOSDeveloperIdentities];
+    if (!identities) {
         return nil;
     }
 
@@ -39,7 +40,7 @@
     CodesignIdentity *bestIdentity = nil;
     NSInteger bestIdentityRank = NSIntegerMax;
     
-    for (CodesignIdentity *identity in [self validIOSDeveloperIdentities]) {
+    for (CodesignIdentity *identity in identities) {
         for (MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
             if ([profile isValidForDeviceUDID:deviceId identity:identity]) {
                 NSInteger rank = [Entitlements
