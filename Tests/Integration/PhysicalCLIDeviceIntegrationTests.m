@@ -207,4 +207,28 @@
     }
 }
 
+- (void)testOptionalArg {
+    if (device_available()) {
+        NSArray *args = @[
+                          kProgramName, @"is_installed",
+                          @"-b", testAppID
+                          ];
+        
+        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+            args = @[
+                     kProgramName, @"uninstall",
+                     @"-b", testAppID
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+        
+        args = @[
+                 kProgramName, @"install",
+                 @"-a", testApp(ARM),
+                 @"-c", kCodeSignIdentityKARL
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+}
+
 @end
