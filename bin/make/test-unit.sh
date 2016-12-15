@@ -25,6 +25,7 @@ else
   XC_PIPE='cat'
 fi
 
+carthage update
 xcrun xcodebuild \
   -derivedDataPath ${BUILD_DIR} \
   -SYMROOT="${BUILD_DIR}" \

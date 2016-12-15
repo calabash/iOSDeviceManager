@@ -18,6 +18,8 @@ else
   XC_PIPE='cat'
 fi
 
+carthage update
+
 # We want to fail on warnings, but linking FBSimulatorControl
 # raises warnings.
 # https://xamarin.atlassian.net/browse/TCFW-127

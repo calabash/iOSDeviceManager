@@ -25,6 +25,7 @@ else
   XC_PIPE='cat'
 fi
 
+carthage update
 xcrun xcodebuild \
   -derivedDataPath ${BUILD_DIR} \
   -SYMROOT="${BUILD_DIR}" \
@@ -34,4 +35,3 @@ xcrun xcodebuild \
   -configuration Debug \
   -sdk macosx \
   test | $XC_PIPE && exit ${PIPESTATUS[0]}
-
