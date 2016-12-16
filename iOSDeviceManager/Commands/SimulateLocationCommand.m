@@ -16,7 +16,7 @@ static NSString *const LOCATION_FLAG = @"-l";
         ConsoleWriteErr(@"Expected lat,lng: Got %@", ll);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    return [Device setLocation:args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID]
+    return [Device setLocation:[self deviceIDFromArgs:args]
                            lat:[latlng[0] doubleValue]
                            lng:[latlng[1] doubleValue]];
 }

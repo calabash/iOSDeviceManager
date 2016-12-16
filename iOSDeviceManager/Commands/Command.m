@@ -6,9 +6,14 @@
 
 const NSString *DEVICE_ID_ARGNAME = @"device_id";
 const NSString *DEVICE_ID_FLAG = @"-d";
+const NSString *DEFAULT_DEVICE_ID_KEY = @"default_device_id";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
+
++ (NSString *)deviceIDFromArgs:(NSDictionary *)args {
+    return args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
+}
 
 + (NSString *)name {
     @throw [NSException exceptionWithName:@"ProgrammerErrorException"

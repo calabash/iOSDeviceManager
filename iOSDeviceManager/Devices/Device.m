@@ -15,7 +15,7 @@
 }
 
 + (NSString *)defaultDeviceID {
-    return [[Resources shared] defaultSimulatorUDID] ?: [[Resources shared] defaultDeviceUDID];
+    return [[Resources shared] defaultDeviceUDID] ?: [[Resources shared] defaultSimulatorUDID];
 }
 
 + (void)initialize {

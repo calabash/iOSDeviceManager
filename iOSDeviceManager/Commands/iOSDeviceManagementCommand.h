@@ -16,6 +16,7 @@ typedef NS_ENUM(int, iOSReturnStatusCode) {
 };
 
 @protocol iOSDeviceManagementCommand <NSObject>
++ (NSString *)deviceIDFromArgs:(NSDictionary *)args;
 + (NSString *)name;
 + (void)printUsage;
 + (NSArray <NSString *> *)positionalArgNames;

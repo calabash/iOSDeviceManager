@@ -8,7 +8,7 @@
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [Simulator launchSimulator:args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID]];
+    return [Simulator launchSimulator:[self deviceIDFromArgs:args]];
 }
 
 + (NSArray <CommandOption *> *)options {

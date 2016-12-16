@@ -16,7 +16,7 @@ static NSString *const OVERWRITE_FLAG = @"-o";
         overwrite = [args[OVERWRITE_FLAG] boolValue];
     }
     return [Device uploadFile:args[FILEPATH_FLAG]
-                     toDevice:args[DEVICE_ID_FLAG]
+                     toDevice:[self deviceIDFromArgs:args]
                forApplication:args[BUNDLE_ID_FLAG]
                     overwrite:overwrite];
 }

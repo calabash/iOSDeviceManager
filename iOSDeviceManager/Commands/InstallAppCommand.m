@@ -16,7 +16,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
     return [Device installApp:args[APP_BUNDLE_PATH_FLAG]
-                     deviceID:args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID]
+                     deviceID:[self deviceIDFromArgs:args]
                     updateApp:update
                    codesignID:args[CODESIGN_IDENTITY_FLAG]];
 }

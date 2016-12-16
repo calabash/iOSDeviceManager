@@ -8,7 +8,7 @@
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [PhysicalDevice stopSimulatingLocation:args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID]];
+    return [PhysicalDevice stopSimulatingLocation:[self deviceIDFromArgs:args]];
 }
 
 + (NSArray <CommandOption *> *)options {

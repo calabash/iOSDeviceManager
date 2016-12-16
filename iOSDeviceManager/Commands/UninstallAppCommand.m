@@ -10,7 +10,7 @@ static NSString *const BUNDLE_ID_FLAG = @"-b";
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
     return [Device uninstallApp:args[BUNDLE_ID_FLAG]
-                       deviceID:args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID]];
+                       deviceID:[self deviceIDFromArgs:args]];
 }
 
 + (NSArray <CommandOption *> *)options {

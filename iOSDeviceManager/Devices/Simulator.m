@@ -340,7 +340,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    if ([self appIsInstalled:app.bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
+    if (![simulator installedApplicationWithBundleID:app.bundleID error:nil]) {
         [[simulator.interact installApplication:app] perform:&e];
     } else if (updateApp) {
         iOSReturnStatusCode ret = [self updateInstalledAppIfNecessary:pathToBundle device:simulator];
@@ -350,8 +350,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
 
     if (e) {
-        ConsoleWriteErr(@"Error installing %@ to %@: %@", app.bundleID, deviceID, e);
-        return iOSReturnStatusCodeInternalError;
+        ConsoleWriteErr(@"Error installing application: %@", e);
+        return iOSReturnStatusCodeGenericFailure;
     } else {
         DDLogInfo(@"Installed %@ to %@", app.bundleID, deviceID);
     }
@@ -437,11 +437,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    if ([self appIsInstalled:bundleID deviceID:deviceID] == iOSReturnStatusCodeFalse) {
+    if (![simulator installedApplicationWithBundleID:bundleID error:nil]) {
         ConsoleWriteErr(@"App %@ is not installed on %@", bundleID, deviceID);
         return iOSReturnStatusCodeGenericFailure;
     }
-
+    
     NSError *e;
     [[simulator.interact uninstallApplicationWithBundleID:bundleID] perform:&e];
     if (e) {

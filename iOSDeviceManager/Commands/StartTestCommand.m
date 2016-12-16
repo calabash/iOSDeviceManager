@@ -29,7 +29,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
     NSUUID *sid = [[NSUUID alloc] initWithUUIDString:sessionID];
     NSAssert(sid, @"%@ is not a valid UUID", sid);
     
-    return [Device startTestOnDevice:args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID]
+    return [Device startTestOnDevice:[self deviceIDFromArgs:args]
                            sessionID:sid
                       runnerBundleID:bundleID
                            keepAlive:keepAlive];

@@ -7,3 +7,4 @@
 
 extern const NSString *DEVICE_ID_ARGNAME;
 extern const NSString *DEVICE_ID_FLAG;
+extern const NSString *DEFAULT_DEVICE_ID_KEY;

@@ -207,7 +207,7 @@
     }
 }
 
-- (void)testOptionalArg {
+- (void)testOptionalDeviceIDArg {
     if (device_available()) {
         NSArray *args = @[
                           kProgramName, @"is_installed",
