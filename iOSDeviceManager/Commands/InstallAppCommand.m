@@ -3,7 +3,6 @@
 #import "ShellRunner.h"
 #import "AppUtils.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
 static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
 static NSString *const UPDATE_APP_FLAG = @"-u";
