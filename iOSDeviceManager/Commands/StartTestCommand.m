@@ -1,7 +1,6 @@
 
 #import "StartTestCommand.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
 static NSString *const TEST_RUNNER_BUNDLE_ID_FLAG = @"-b";
 static NSString *const SESSION_ID_FLAG = @"-s";
 static NSString *const KEEP_ALIVE_FLAG = @"-k";
@@ -30,7 +29,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
     NSUUID *sid = [[NSUUID alloc] initWithUUIDString:sessionID];
     NSAssert(sid, @"%@ is not a valid UUID", sid);
     
-    return [Device startTestOnDevice:args[DEVICE_ID_FLAG]
+    return [Device startTestOnDevice:[self deviceIDFromArgs:args]
                            sessionID:sid
                       runnerBundleID:bundleID
                            keepAlive:keepAlive];
@@ -45,7 +44,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:TEST_RUNNER_BUNDLE_ID_FLAG
                                                longFlag:@"--test-runner-bundle-id"

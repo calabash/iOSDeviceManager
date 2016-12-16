@@ -2,15 +2,13 @@
 #import "LaunchSimulatorCommand.h"
 #import "Simulator.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
-
 @implementation LaunchSimulatorCommand
 + (NSString *)name {
     return @"launch_simulator";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [Simulator launchSimulator:args[DEVICE_ID_FLAG]];
+    return [Simulator launchSimulator:[self deviceIDFromArgs:args]];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -22,7 +20,7 @@ static NSString *const DEVICE_ID_FLAG = @"-d";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUIDs"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
     });
     return options;

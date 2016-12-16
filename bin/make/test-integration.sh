@@ -34,4 +34,3 @@ xcrun xcodebuild \
   -configuration Debug \
   -sdk macosx \
   test | $XC_PIPE && exit ${PIPESTATUS[0]}
-

@@ -47,6 +47,7 @@ pkill Simulator
 
 rm -rf reports/*.xml
 
+carthage bootstrap
 make test-unit
 
 # `start_test` fails on Jenkins

@@ -2,15 +2,13 @@
 #import "StopSimulatingLocationCommand.h"
 #import "PhysicalDevice.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
-
 @implementation StopSimulatingLocationCommand
 + (NSString *)name {
     return @"stop_simulating_location";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [PhysicalDevice stopSimulatingLocation:args[DEVICE_ID_FLAG]];
+    return [PhysicalDevice stopSimulatingLocation:[self deviceIDFromArgs:args]];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -22,7 +20,7 @@ static NSString *const DEVICE_ID_FLAG = @"-d";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUIDs"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
     });
     return options;
