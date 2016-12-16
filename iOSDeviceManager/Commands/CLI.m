@@ -112,7 +112,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             //If no args present and none required, just print usage and exit.
             NSInteger numRequiredArgs = [[command options] filteredArrayUsingPredicate:
                                    [NSPredicate predicateWithFormat:@"SELF.required == YES"]].count;
-            if (cmdArgs.count == 1 /*will always have a default_device_id*/ && numRequiredArgs == 0) {
+            if (cmdArgs.count == 0 && numRequiredArgs == 0) {
                 [command printUsage];
                 return iOSReturnStatusCodeEverythingOkay;
             }

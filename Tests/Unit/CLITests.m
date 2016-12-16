@@ -99,6 +99,9 @@
     
     args = @[kProgramName, @"is_installed", @"-b", @"bundle_id"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
+    
+    args = @[kProgramName, @"launch_simulator"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testMissingRequiredOption {
