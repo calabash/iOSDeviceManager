@@ -4,6 +4,14 @@
 #import <Foundation/Foundation.h>
 
 @interface Device : NSObject
+
+/**
+ Defined as first available launched simulator if any, 
+ else first attached device,
+ else nil.
+ */
++ (NSString *)defaultDeviceID;
+
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID

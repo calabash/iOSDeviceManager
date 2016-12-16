@@ -1,8 +1,6 @@
 #import "Simulator.h"
 #import "KillSimulatorCommand.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
-
 @implementation KillSimulatorCommand
 + (NSString *)name {
     return @"kill_simulator";
@@ -17,13 +15,13 @@ static NSString *const DEVICE_ID_FLAG = @"-d";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUIDs"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
     });
     return options;
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [Simulator killSimulator:args[DEVICE_ID_FLAG]];
+    return [Simulator killSimulator:[self deviceIDFromArgs:args]];
 }
 @end

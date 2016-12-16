@@ -74,6 +74,7 @@ If no device is found, the tests are skipped.
 From the command line:
 
 ```
+$ carthage bootstrap
 $ make test-unit
 $ make test-integration
 $ make tests

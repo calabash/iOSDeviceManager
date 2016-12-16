@@ -41,8 +41,8 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     }
     
     return [Device installApp:installAppPath
-                     deviceID:args[DEVICE_ID_FLAG]
-                    updateApp:update
+                   deviceID:[self deviceIDFromArgs:args]
+                   updateApp:update
                    codesignID:args[CODESIGN_IDENTITY_FLAG]];
 }
 
@@ -55,7 +55,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUIDs"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
                                                longFlag:@"--app-path"
