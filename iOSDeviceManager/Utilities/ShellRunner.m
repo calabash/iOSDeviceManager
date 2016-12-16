@@ -36,6 +36,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
     
     NSData *data = [file readDataToEndOfFile];
 
+    [task waitUntilExit];
     if (task.terminationStatus != 0) {
         ConsoleWriteErr(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
         return nil;
