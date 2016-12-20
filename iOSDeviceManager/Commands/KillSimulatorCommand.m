@@ -22,6 +22,6 @@
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [Simulator killSimulator:[self deviceIDFromArgs:args]];
+    return [[Device withID:[self deviceIDFromArgs:args]] kill];
 }
 @end

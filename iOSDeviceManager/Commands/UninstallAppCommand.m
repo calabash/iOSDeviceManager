@@ -9,8 +9,7 @@ static NSString *const BUNDLE_ID_FLAG = @"-b";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [Device uninstallApp:args[BUNDLE_ID_FLAG]
-                       deviceID:[self deviceIDFromArgs:args]];
+    return [[Device withID:[self deviceIDFromArgs:args]] uninstallApp:args[BUNDLE_ID_FLAG]];
 }
 
 + (NSArray <CommandOption *> *)options {

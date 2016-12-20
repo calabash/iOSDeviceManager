@@ -1,5 +1,6 @@
-
 #import "InstallAppCommand.h"
+#import <FBControlCore/FBControlCore.h>
+#import "ConsoleWriter.h"
 
 static NSString *const APP_BUNDLE_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
@@ -15,10 +16,15 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     if ([[args allKeys] containsObject:UPDATE_APP_FLAG]) {
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
-    return [Device installApp:args[APP_BUNDLE_PATH_FLAG]
-                     deviceID:[self deviceIDFromArgs:args]
-                    updateApp:update
-                   codesignID:args[CODESIGN_IDENTITY_FLAG]];
+
+    NSError *e;
+    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:args[APP_BUNDLE_PATH_FLAG] error:&e];
+    if (e) {
+        ConsoleWriteErr(@"Error creating app bundle for %@: %@", args[APP_BUNDLE_PATH_FLAG], e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    return [[Device withID:[self deviceIDFromArgs:args]] installApp:app updateApp:update];
 }
 
 + (NSArray <CommandOption *> *)options {
