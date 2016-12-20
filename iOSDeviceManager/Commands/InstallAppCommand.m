@@ -20,23 +20,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     
     NSString *installAppPath = args[APP_PATH_FLAG];
     if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        NSString *copiedAppPath = [AppUtils copyAppBundle:args[APP_PATH_FLAG]];
-        NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];
-        NSString *payloadPath = [unzipPath stringByAppendingString:@"/Payload/"];
-        NSArray *params = [[NSArray alloc] initWithObjects:@"-o", copiedAppPath, @"-d", unzipPath, nil];
-        
-        [ShellRunner shell:@"/usr/bin/unzip" args:params];
-        
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *bundlePath;
-        for (NSString * payloadContent in [fileManager contentsOfDirectoryAtPath:payloadPath error:nil]) {
-            if ([payloadContent hasSuffix:@".app"]) {
-                bundlePath = [payloadPath stringByAppendingString:payloadContent];
-                break;
-            }
-        }
-        
-        installAppPath = bundlePath;
+        installAppPath = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
     }
     
     return [Device installApp:installAppPath

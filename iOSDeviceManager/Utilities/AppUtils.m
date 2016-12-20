@@ -54,4 +54,24 @@
     return newBundlePath;
 }
 
++ (NSString *)unzipIpa:(NSString*)ipaPath {
+    NSString *copiedAppPath = [AppUtils copyAppBundle:ipaPath];
+    NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];
+    NSString *payloadPath = [unzipPath stringByAppendingString:@"/Payload/"];
+    NSArray *params = @[@"ditto", @"-xk", copiedAppPath, unzipPath];
+
+    [ShellRunner xcrun:params timeout:20];
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *bundlePath;
+    for (NSString * payloadContent in [fileManager contentsOfDirectoryAtPath:payloadPath error:nil]) {
+        if ([payloadContent hasSuffix:@".app"]) {
+            bundlePath = [payloadPath stringByAppendingString:payloadContent];
+            break;
+        }
+    }
+    
+    return bundlePath;
+}
+
 @end

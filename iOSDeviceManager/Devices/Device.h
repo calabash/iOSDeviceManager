@@ -1,7 +1,6 @@
-
-#import "TestParameters.h"
 #import "iOSDeviceManagementCommand.h"
 #import <Foundation/Foundation.h>
+#import "TestParameters.h"
 
 @interface Device : NSObject
 

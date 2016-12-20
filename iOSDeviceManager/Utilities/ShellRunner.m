@@ -33,15 +33,14 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
     NSFileHandle *file = [pipe fileHandleForReading];
 
     [task launch];
-    
-    NSData *data = [file readDataToEndOfFile];
 
     [task waitUntilExit];
     if (task.terminationStatus != 0) {
         ConsoleWriteErr(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
         return nil;
     }
-
+    
+    NSData *data = [file readDataToEndOfFile];
     NSString *string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
     return [string componentsSeparatedByString:@"\n"];
 }

@@ -1,4 +1,3 @@
-
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "Device.h"
 @import Foundation;
