@@ -1,7 +1,5 @@
 
 #import "PhysicalDevice.h"
-#import <FBSimulatorControl/FBSimulatorControl.h>
-#import <FBDeviceControl/FBDeviceControl.h>
 #import <FBControlCore/FBControlCore.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "ShellRunner.h"
