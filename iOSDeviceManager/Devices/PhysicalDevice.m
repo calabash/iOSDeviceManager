@@ -40,6 +40,25 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return device;
 }
 
+//- (iOSReturnStatusCode)installApp:(FBProductBundle *)app updateApp:(BOOL)updateApp;
+//- (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
+//- (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
+//- (iOSReturnStatusCode)stopSimulatingLocation;
+//- (iOSReturnStatusCode)launchApp:(NSString *)bundleID;
+//- (iOSReturnStatusCode)killApp:(NSString *)bundleID;
+//- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
+//- (FBProductBundle *)installedApp:(NSString *)bundleID;
+//- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
+//- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
+
+- (iOSReturnStatusCode)launch {
+    return iOSReturnStatusCodeGenericFailure;
+}
+
+- (iOSReturnStatusCode)kill {
+    return iOSReturnStatusCodeGenericFailure;
+}
+
 //+ (NSString *)applicationDataPath {
 //    return [[ShellRunner tmpDir] stringByAppendingPathComponent:@"__appData.xcappdata"];
 //}
@@ -239,48 +258,48 @@ testCaseDidStartForTestClass:(NSString *)testClass
 - (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix {
     return self;
 }
-//
-//+ (FBDevice *)deviceForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {
-//    NSError *err;
-//    FBDevice *device = [[FBDeviceSet defaultSetWithLogger:nil
-//                                 error:&err]
-//            deviceWithUDID:deviceID];
-//    if (!device || err) {
-//        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
-//        return nil;
-//    }
-//    device.deviceOperator.codesignProvider = signer;
-//    [device.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
-//    if (err) {
-//        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
-//        return nil;
-//    }
-//    return device;
-//}
-//
+
+- (FBDevice *)fbDeviceForCodesigner:(id<FBCodesignProvider>)signer {
+    NSError *err;
+    FBDevice *device = [[FBDeviceSet defaultSetWithLogger:nil
+                                 error:&err]
+            deviceWithUDID:[self uuid]];
+    if (!device || err) {
+        LogInfo(@"Error getting device with ID %@: %@", [self uuid], err);
+        return nil;
+    }
+    device.deviceOperator.codesignProvider = signer;
+    [device.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
+    if (err) {
+        LogInfo(@"Error getting device with ID %@: %@", [self uuid], err);
+        return nil;
+    }
+    return device;
+}
+
 #pragma mark - App Installation
 - (iOSReturnStatusCode)installApp:(FBApplicationDescriptor *)app
                         updateApp:(BOOL)updateApp {
 
     if (codesignID == nil) {
-        CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:pathToBundle deviceId:deviceID];
+        CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:[app path] deviceId:[self uuid]];
         if (!identity) {
             ConsoleWriteErr(@"Could not find valid codesign identity");
-            ConsoleWriteErr(@"  app: %@", pathToBundle);
-            ConsoleWriteErr(@"  device udid: %@", deviceID);
+            ConsoleWriteErr(@"  app: %@", [app path]);
+            ConsoleWriteErr(@"  device udid: %@", [self uuid]);
             return iOSReturnStatusCodeNoValidCodesignIdentity;
         }
         codesignID = identity.name;
     }
 
     Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
-                                                           deviceUDID:deviceID];
+                                                           deviceUDID:[self uuid]];
 
     FBDevice *device = [self deviceForID:deviceID codesigner:signer];
 
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
-    NSString *stagedApp = [AppUtils copyAppBundle:pathToBundle];
+    NSString *stagedApp = [AppUtils copyAppBundle:[app path]];
     if (!stagedApp) {
         ConsoleWriteErr(@"Could not stage app for code signing");
         return iOSReturnStatusCodeInternalError;
@@ -321,7 +340,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
-    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    FBDevice *device = [self fbDeviceForCodesigner:nil];
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
     FBiOSDeviceOperator *op = device.deviceOperator;

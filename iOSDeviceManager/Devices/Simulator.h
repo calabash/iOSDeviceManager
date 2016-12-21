@@ -4,4 +4,3 @@
 
 @interface Simulator : Device<FBTestManagerTestReporter, FBControlCoreLogger>
 @end
-
