@@ -133,7 +133,7 @@ static FBSimulator *simulator;
         DDLogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
     }
     
-    [[self apps] addObject:app];
+    [[self apps] insertObject:app atIndex:0];
     
     return iOSReturnStatusCodeEverythingOkay;
     
