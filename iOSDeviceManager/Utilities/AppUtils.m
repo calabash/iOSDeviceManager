@@ -2,6 +2,7 @@
 #import "AppUtils.h"
 #import "ShellRunner.h"
 #import "ConsoleWriter.h"
+#import "ShellResult.h"
 
 @implementation AppUtils
 
@@ -60,15 +61,26 @@
     NSString *payloadPath = [unzipPath stringByAppendingString:@"/Payload/"];
     NSArray *params = @[@"ditto", @"-xk", copiedAppPath, unzipPath];
 
-    [ShellRunner xcrun:params timeout:20];
+    ShellResult *result = [ShellRunner xcrun:params timeout:20];
+    if (!result.success) {
+        @throw [NSException exceptionWithName:@"Error unzipping ipa"
+                                       reason:result.stderrStr
+                                     userInfo:nil];
+    }
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *bundlePath;
+    NSString *bundlePath = nil;
     for (NSString * payloadContent in [fileManager contentsOfDirectoryAtPath:payloadPath error:nil]) {
         if ([payloadContent hasSuffix:@".app"]) {
             bundlePath = [payloadPath stringByAppendingString:payloadContent];
             break;
         }
+    }
+    
+    if (bundlePath == nil) {
+        @throw [NSException exceptionWithName:@"Error unzipping ipa"
+                                       reason:@"Unable to find Payload/ in unzipped ipa"
+                                     userInfo:nil];
     }
     
     return bundlePath;
