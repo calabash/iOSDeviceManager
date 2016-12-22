@@ -11,7 +11,6 @@
 @property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSMutableArray <CodesignIdentity *> *identities;
-@property (nonatomic, strong) NSMutableArray <FBApplicationDescriptor *> *apps;
 
 @property BOOL testingComplete;
 
