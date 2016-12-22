@@ -1,8 +1,6 @@
 
 #import "Simulator.h"
-#import <FBSimulatorControl/FBSimulatorControl.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
-#import <FBDeviceControl/FBDeviceControl.h>
 #import "ShellRunner.h"
 #import "AppUtils.h"
 #import "Codesigner.h"

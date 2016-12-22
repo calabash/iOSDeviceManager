@@ -1,7 +1,5 @@
-
 #import "PhysicalDevice.h"
 #import "ShellRunner.h"
-#import "Resources.h"
 #import "Simulator.h"
 #import "AppUtils.h"
 
@@ -22,6 +20,39 @@
                                  userInfo:nil];
 }
 
++ (NSString *)defaultDeviceID {
+    NSArray<FBDevice *> *devices = [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
+    
+    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+                                                      configurationWithDeviceSetPath:nil
+                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+    
+    FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:nil];
+        
+    NSArray<FBSimulator *> *sims = [[simControl set] allSimulators];
+    
+    if ([devices count] > 0) {
+        return [devices firstObject].udid;
+    } else {
+        FBSimulator *candidate;
+        for (FBSimulator *sim in sims) {
+            NSString *deviceName = [sim.deviceConfiguration deviceName];
+            NSDecimalNumber *simVersion = [sim.osConfiguration versionNumber];
+            if ([deviceName containsString:@"iPhone 6s"]) {
+                if (candidate) {
+                    NSDecimalNumber *candidateVersion = [candidate.osConfiguration versionNumber];
+                    if ([simVersion isGreaterThan:candidateVersion]) {
+                        candidate = sim;
+                    }
+                } else {
+                    candidate = sim;
+                }
+            }
+        }
+        return candidate.udid;
+    }
+}
+
 + (BOOL)isSimID:(NSString *)uuid {
     
     if ([TestParameters isSimulatorID:uuid]) {
@@ -38,10 +69,6 @@
     }
     
     return false;
-}
-
-+ (NSString *)defaultDeviceID {
-    return [[Resources shared] defaultDeviceUDID] ?: [[Resources shared] defaultSimulatorUDID];
 }
 
 + (void)initialize {

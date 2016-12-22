@@ -1,6 +1,8 @@
 
 #import "TestParameters.h"
 #import <FBControlCore/FBControlCore.h>
+#import <FBSimulatorControl/FBSimulatorControl.h>
+#import <FBDeviceControl/FBDeviceControl.h>
 #import "iOSDeviceManagementCommand.h"
 #import <Foundation/Foundation.h>
 #import "CodesignIdentity.h"

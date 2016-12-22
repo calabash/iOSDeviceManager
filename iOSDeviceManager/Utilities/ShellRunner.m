@@ -39,9 +39,8 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
         ConsoleWriteErr(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
         return nil;
     }
-
+    
     NSData *data = [file readDataToEndOfFile];
-
     NSString *string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
     return [string componentsSeparatedByString:@"\n"];
 }

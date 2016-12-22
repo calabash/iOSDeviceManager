@@ -2,7 +2,7 @@
 #import <FBControlCore/FBControlCore.h>
 #import "ConsoleWriter.h"
 
-static NSString *const APP_BUNDLE_PATH_FLAG = @"-a";
+static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
 static NSString *const UPDATE_APP_FLAG = @"-u";
 
@@ -18,9 +18,9 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     }
 
     NSError *e;
-    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:args[APP_BUNDLE_PATH_FLAG] error:&e];
+    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:args[APP_PATH_FLAG] error:&e];
     if (e) {
-        ConsoleWriteErr(@"Error creating app bundle for %@: %@", args[APP_BUNDLE_PATH_FLAG], e);
+        ConsoleWriteErr(@"Error creating app bundle for %@: %@", args[APP_PATH_FLAG], e);
         return iOSReturnStatusCodeGenericFailure;
     }
     
@@ -38,10 +38,10 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
                                                    info:@"iOS Simulator GUIDs"
                                                required:NO
                                              defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:APP_BUNDLE_PATH_FLAG
-                                               longFlag:@"--app-bundle"
-                                             optionName:@"path/to/app-bundle.app"
-                                                   info:@"Path .app bundle (for .ipas, unzip and look inside of 'Payload')"
+        [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
+                                               longFlag:@"--app-path"
+                                             optionName:@"path/to/app-bundle.app or path/to/app.ipa"
+                                                   info:@"Path .app bundle or .ipa"
                                                required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
