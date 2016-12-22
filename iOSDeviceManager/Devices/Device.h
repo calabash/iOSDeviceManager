@@ -12,6 +12,8 @@
  else nil.
  */
 + (NSString *)defaultDeviceID;
++ (NSArray<FBDevice *> *)availableDevices;
++ (NSArray<FBSimulator *> *)availableSimulators;
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
