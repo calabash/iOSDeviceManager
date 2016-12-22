@@ -1,7 +1,5 @@
 
 #import "PhysicalDevice.h"
-#import <FBSimulatorControl/FBSimulatorControl.h>
-#import <FBDeviceControl/FBDeviceControl.h>
 #import <FBControlCore/FBControlCore.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "ShellRunner.h"
@@ -292,7 +290,6 @@ testCaseDidStartForTestClass:(NSString *)testClass
         ConsoleWriteErr(@"Error creating product bundle for %@: %@", stagedApp, err);
         return iOSReturnStatusCodeInternalError;
     }
-
     FBiOSDeviceOperator *op = device.deviceOperator;
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {

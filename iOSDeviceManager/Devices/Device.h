@@ -1,7 +1,8 @@
-
-#import "TestParameters.h"
 #import "iOSDeviceManagementCommand.h"
 #import <Foundation/Foundation.h>
+#import "TestParameters.h"
+#import <FBDeviceControl/FBDeviceControl.h>
+#import <FBSimulatorControl/FBSimulatorControl.h>
 
 @interface Device : NSObject
 
