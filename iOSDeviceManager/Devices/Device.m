@@ -26,6 +26,13 @@
     return [[simControl set] allSimulators];
 }
 
++ (FBSimulator *)preferredSimulator:(NSArray<FBSimulator *>*)simulators {
+    NSArray <FBSimulator *> *sorted = [simulators sortedArrayUsingComparator:^NSComparisonResult(id sim1, id sim2) {
+        return ![Device isPreferredSimulator:sim1 comparedTo:sim2];
+    }];
+    return [sorted firstObject];
+}
+
 + (BOOL)isPreferredSimulator:(FBSimulator *)sim comparedTo:(FBSimulator *)otherSim {
     NSDecimalNumber *simVersion = [sim.osConfiguration versionNumber];
     NSDecimalNumber *otherSimVersion = [otherSim.osConfiguration versionNumber];
@@ -33,29 +40,38 @@
     NSString *otherSimDeviceName = [otherSim.deviceConfiguration deviceName];
     
     if ([simVersion isGreaterThan:otherSimVersion]) {
-        return true;
+        return YES;
     } else if ([simVersion isEqual:otherSimVersion]) {
         if ([simDeviceName containsString:@"iPhone"] && [otherSimDeviceName containsString:@"iPhone"]) {
             NSCharacterSet *nonDigitCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
             NSString *simNumber = [[simDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
             NSString *otherSimNumber = [[otherSimDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
             if (simNumber.length == 0) {
-                return false;
+                return NO;
             }
             if (otherSimNumber.length == 0) {
-                return true;
+                return YES;
             }
-            if ([simNumber intValue] > [otherSimNumber intValue]) {
-                return true;
+            if ([simNumber doubleValue] == [otherSimNumber doubleValue]) {
+                // Handle things like 6S vs S
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+s" options:0 error:nil];
+                BOOL simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
+                BOOL otherSimIsS = [regex numberOfMatchesInString:otherSimDeviceName options:0 range:NSMakeRange(0, [otherSimDeviceName length])];
+
+                if (simIsS && !otherSimIsS) {
+                    return YES;
+                }
+            } else if ([simNumber doubleValue] > [otherSimNumber doubleValue]) {
+                return YES;
             } else {
-                return false;
+                return NO;
             }
         } else if ([simDeviceName containsString:@"iPhone"] && ![otherSimDeviceName containsString:@"iPhone"]) {
-            return true;
+            return YES;
         }
     }
     
-    return false;
+    return NO;
 }
 
 + (NSString *)defaultDeviceID {
@@ -65,22 +81,12 @@
     if ([devices count] == 1) {
         return [devices firstObject].udid;
     } else if ([devices count] > 1) {
-        @throw [NSException exceptionWithName:@"ArgumentException"
+        @throw [NSException exceptionWithName:@"AmbiguousArgumentsException"
                                        reason:@"Multiple physical devices detected but none specified"
                                      userInfo:nil];
     } else {
         NSArray<FBSimulator *> *sims = [Device availableSimulators];
-        
-        FBSimulator *candidate = [sims firstObject];
-        for (FBSimulator *sim in sims) {
-            if ([Device isPreferredSimulator:sim comparedTo:candidate]) {
-                candidate = sim;
-            }
-        }
-        
-        
-        NSString *result = candidate.udid;
-        return result;
+        return [Device preferredSimulator:sims].udid;
     }
 }
 
