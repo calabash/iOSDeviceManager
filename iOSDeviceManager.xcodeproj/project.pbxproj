@@ -170,6 +170,7 @@
 		A1D930C31DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C41DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
+		B2039EF51E0C880600649BE3 /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceTest.m */; };
 		F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D51D7134FD00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
@@ -424,6 +425,7 @@
 		A1D930C01DC2873C0070573D /* ShasumProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShasumProvider.h; path = iOSDeviceManager/Utilities/ShasumProvider.h; sourceTree = SOURCE_ROOT; };
 		A1D930C11DC2875E0070573D /* ShasumProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShasumProvider.m; path = iOSDeviceManager/Utilities/ShasumProvider.m; sourceTree = SOURCE_ROOT; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
+		B2039EF41E0C880600649BE3 /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
 		F50271CB1D6BE43A00BE0D9D /* Entitlements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entitlements.h; path = iOSDeviceManager/Utilities/Entitlements.h; sourceTree = SOURCE_ROOT; };
 		F50271CC1D6BE43A00BE0D9D /* Entitlements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlements.m; path = iOSDeviceManager/Utilities/Entitlements.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -806,6 +808,7 @@
 				63424F3CF58B84EE37CCE3FB /* CodesignerTest.m */,
 				634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */,
 				63424E880030A308875C5973 /* CertificateTest.m */,
+				B2039EF41E0C880600649BE3 /* DeviceTest.m */,
 				F5D78DC21D8D327500497000 /* ShellResultTest.m */,
 				634249FF521B476804782B68 /* ShellRunnerTest.m */,
 				63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */,
@@ -1097,6 +1100,7 @@
 				A1D930C31DC2875E0070573D /* ShasumProvider.m in Sources */,
 				63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */,
 				63424C56537485910D385EB7 /* CertificateTest.m in Sources */,
+				B2039EF51E0C880600649BE3 /* DeviceTest.m in Sources */,
 				898D7D861DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				898D7D891DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				898D7D711DA47569001578FE /* DDNumber.m in Sources */,
