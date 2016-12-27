@@ -8,8 +8,8 @@
 
 @implementation DeviceTest
 
-- (void)testPreferredSimulator {
-    FBSimulator *preferredSim = [Device preferredSimulator:[Device availableSimulators]];
+- (void)testDefaultSimulator {
+    FBSimulator *preferredSim = [Device defaultSimulator:[Device availableSimulators]];
     NSString *preferredName = [preferredSim.deviceConfiguration deviceName];
     expect([preferredName containsString:@"iPhone"]).to.equal(YES);
 }

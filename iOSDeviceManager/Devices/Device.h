@@ -14,7 +14,7 @@
 + (NSString *)defaultDeviceID;
 + (NSArray<FBDevice *> *)availableDevices;
 + (NSArray<FBSimulator *> *)availableSimulators;
-+ (FBSimulator *)preferredSimulator:(NSArray<FBSimulator *>*)simulators;
++ (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators;
 
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID

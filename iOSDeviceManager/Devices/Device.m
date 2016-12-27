@@ -26,7 +26,7 @@
     return [[simControl set] allSimulators];
 }
 
-+ (FBSimulator *)preferredSimulator:(NSArray<FBSimulator *>*)simulators {
++ (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
     NSArray <FBSimulator *> *sorted = [simulators sortedArrayUsingComparator:^NSComparisonResult(id sim1, id sim2) {
         return ![Device isPreferredSimulator:sim1 comparedTo:sim2];
     }];
@@ -86,7 +86,7 @@
                                      userInfo:nil];
     } else {
         NSArray<FBSimulator *> *sims = [Device availableSimulators];
-        return [Device preferredSimulator:sims].udid;
+        return [Device defaultSimulator:sims].udid;
     }
 }
 
