@@ -251,7 +251,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
+- (BOOL)isInstalled:(NSString *)bundleID {
 
     NSError *err;
     BOOL installed = [_fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
