@@ -1,6 +1,7 @@
 #import "InstallAppCommand.h"
 #import <FBControlCore/FBControlCore.h>
 #import "ConsoleWriter.h"
+#import "AppUtils.h"
 
 static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
@@ -22,11 +23,16 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
+    
+    NSString *installAppPath = args[APP_PATH_FLAG];
+    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
+        installAppPath = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+    }
 
     NSError *e;
-    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:args[APP_PATH_FLAG] error:&e];
+    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:installAppPath error:&e];
     if (e) {
-        ConsoleWriteErr(@"Error creating app bundle for %@: %@", args[APP_PATH_FLAG], e);
+        ConsoleWriteErr(@"Error creating app bundle for %@: %@", installAppPath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
 
