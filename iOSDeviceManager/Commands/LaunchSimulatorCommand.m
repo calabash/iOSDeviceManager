@@ -8,7 +8,12 @@
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [[Device withID:[self deviceIDFromArgs:args]] launch];
+    Device *device = [Device withID:[self deviceIDFromArgs:args]];
+    
+    if (!device) {
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
+    return [device launch];
 }
 
 + (NSArray <CommandOption *> *)options {

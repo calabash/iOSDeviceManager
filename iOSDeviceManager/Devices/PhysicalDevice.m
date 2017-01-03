@@ -38,7 +38,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @implementation PhysicalDevice
 
 + (Device *)withID:(NSString *)uuid {
-    PhysicalDevice* device = [self init];
+    PhysicalDevice* device = [[PhysicalDevice alloc] init];
     
     device.uuid = uuid;
     device.identities = [[NSMutableArray alloc] init];
@@ -49,6 +49,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                             deviceWithUDID:uuid];
     if (!fbDevice || err) {
         LogInfo(@"Error getting device with ID %@: %@", uuid, err);
+        
         return nil;
     }
     
@@ -102,6 +103,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
     
+    NSError *stagedAppError;
+    FBApplicationDescriptor *stagedAppDescriptor = [FBApplicationDescriptor applicationWithPath:stagedApp error:&stagedAppError];
+    if (!stagedAppError) {
+        ConsoleWriteErr(@"Could not create FBApplicationDescriptor from staged app");
+        return iOSReturnStatusCodeInternalError;
+    }
+    
     NSError *err;
     //Codesign
     FBProductBundle *codesignedApp = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
@@ -120,7 +128,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", codesignedApp.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
-        iOSReturnStatusCode ret = [self updateAppIfRequired:stagedApp
+        iOSReturnStatusCode ret = [self updateAppIfRequired:stagedAppDescriptor
                                                  codesigner:signer];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
@@ -153,9 +161,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             if (ret != iOSReturnStatusCodeEverythingOkay) {
                 return ret;
             }
-            
-            // TODO Fix
-            [[self identities] insertObject:[signerThatCanSign codeSignIdentity] atIndex:0];
+
             return [self installApp:app updateApp:YES];
         } else {
             LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
@@ -245,26 +251,25 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (BOOL)isInstalled:(NSString *)bundleID {
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *err;
     BOOL installed = [_fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                          error:&err];
     if (err) {
         LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
-        return iOSReturnStatusCodeInternalError;
     }
+    
     if (installed) {
         ConsoleWrite(@"true");
+        return YES;
     } else {
         ConsoleWrite(@"false");
+        return NO;
     }
-    return installed;
 }
 
 - (FBApplicationDescriptor *)installedApp:(NSString *)bundleID {
-    
-    FBProductBundle *bundle = [_fbDevice.deviceOperator applicationBundleWithBundleID:bundleID error:nil];
     
     NSString *appPath = [_fbDevice.deviceOperator applicationPathForApplicationWithBundleID:bundleID error:nil];
     

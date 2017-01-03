@@ -15,7 +15,12 @@ static NSString *const OVERWRITE_FLAG = @"-o";
     if ([[args allKeys] containsObject:OVERWRITE_FLAG]) {
         overwrite = [args[OVERWRITE_FLAG] boolValue];
     }
-    return [[Device withID:[self deviceIDFromArgs:args]] uploadFile:args[FILEPATH_FLAG] forApplication:args[BUNDLE_ID_FLAG] overwrite:overwrite];
+    
+    Device *device = [Device withID:[self deviceIDFromArgs:args]];
+    if (!device) {
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
+    return [device uploadFile:args[FILEPATH_FLAG] forApplication:args[BUNDLE_ID_FLAG] overwrite:overwrite];
 }
 
 + (NSArray <CommandOption *> *)options {

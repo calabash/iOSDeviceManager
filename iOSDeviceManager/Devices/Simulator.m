@@ -20,7 +20,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 static const FBSimulatorControl *_control;
 
 + (Device *)withID:(NSString *)uuid {
-    Simulator* simulator = [self init];
+    Simulator* simulator = [[Simulator alloc] init];
     
     simulator.uuid = uuid;
     
@@ -226,11 +226,12 @@ static const FBSimulatorControl *_control;
 
     if (installed) {
         [ConsoleWriter write:@"true"];
+        return YES;
     } else {
         [ConsoleWriter write:@"false"];
+        return NO;
     }
 
-    return installed;
 }
 
 - (FBApplicationDescriptor *)installedApp:(NSString *)bundleID {

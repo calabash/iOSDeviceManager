@@ -16,6 +16,12 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     if ([[args allKeys] containsObject:UPDATE_APP_FLAG]) {
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
+    
+    Device *device = [Device withID:[self deviceIDFromArgs:args]];
+    
+    if (!device) {
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
 
     NSError *e;
     FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:args[APP_PATH_FLAG] error:&e];
@@ -23,8 +29,8 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         ConsoleWriteErr(@"Error creating app bundle for %@: %@", args[APP_PATH_FLAG], e);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
-    return [[Device withID:[self deviceIDFromArgs:args]] installApp:app updateApp:update];
+
+    return [device installApp:app updateApp:update];
 }
 
 + (NSArray <CommandOption *> *)options {

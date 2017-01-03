@@ -122,4 +122,76 @@
     setenv("FBCONTROLCORE_DEBUG_LOGGING", FBLog, 1);
 }
 
+- (iOSReturnStatusCode)launch {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)kill {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)installApp:(FBApplicationDescriptor *)app updateApp:(BOOL)updateApp {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)stopSimulatingLocation {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)killApp:(NSString *)bundleID {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (BOOL)isInstalled:(NSString *)bundleID {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (FBApplicationDescriptor *)installedApp:(NSString *)bundleID {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
 @end
