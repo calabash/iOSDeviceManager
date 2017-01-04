@@ -188,4 +188,10 @@
                                  userInfo:nil];
 }
 
+- (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
 @end
