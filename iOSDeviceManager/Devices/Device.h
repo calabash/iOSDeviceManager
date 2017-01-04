@@ -19,14 +19,13 @@
 + (Device *)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
-- (iOSReturnStatusCode)installApp:(FBApplicationDescriptor *)app updateApp:(BOOL)updateApp;
+- (iOSReturnStatusCode)installApp:(NSString *)pathToBundle updateApp:(BOOL)updateApp;
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
 - (iOSReturnStatusCode)stopSimulatingLocation;
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID;
 - (BOOL)isInstalled:(NSString *)bundleID;
-- (FBApplicationDescriptor *)installedApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
 

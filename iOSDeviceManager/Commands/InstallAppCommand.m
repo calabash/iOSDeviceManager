@@ -24,19 +24,12 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    NSString *installAppPath = args[APP_PATH_FLAG];
+    NSString *pathToBundle= args[APP_PATH_FLAG];
     if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        installAppPath = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+        pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
     }
 
-    NSError *e;
-    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:installAppPath error:&e];
-    if (e) {
-        ConsoleWriteErr(@"Error creating app bundle for %@: %@", installAppPath, e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
-    return [device installApp:app updateApp:update];
+    return [device installApp:pathToBundle updateApp:update];
 }
 
 + (NSArray <CommandOption *> *)options {

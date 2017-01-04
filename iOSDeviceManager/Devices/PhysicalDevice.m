@@ -76,14 +76,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (iOSReturnStatusCode)installApp:(FBApplicationDescriptor *)app updateApp:(BOOL)updateApp {
+- (iOSReturnStatusCode)installApp:(NSString *)pathToBundle updateApp:(BOOL)updateApp {
     
     CodesignIdentity *identity = [[self identities] firstObject];
     if (identity == nil) {
-        identity = [CodesignIdentity identityForAppBundle:[app path] deviceId:[self uuid]];
+        identity = [CodesignIdentity identityForAppBundle:pathToBundle deviceId:[self uuid]];
         if (!identity) {
             ConsoleWriteErr(@"Could not find valid codesign identity");
-            ConsoleWriteErr(@"  app: %@", [app path]);
+            ConsoleWriteErr(@"  app: %@", pathToBundle);
             ConsoleWriteErr(@"  device udid: %@", [self uuid]);
             return iOSReturnStatusCodeNoValidCodesignIdentity;
         }
@@ -97,16 +97,9 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     if (!_fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    NSString *stagedApp = [AppUtils copyAppBundle:[app path]];
+    NSString *stagedApp = [AppUtils copyAppBundle:pathToBundle];
     if (!stagedApp) {
         ConsoleWriteErr(@"Could not stage app for code signing");
-        return iOSReturnStatusCodeInternalError;
-    }
-    
-    NSError *stagedAppError;
-    FBApplicationDescriptor *stagedAppDescriptor = [FBApplicationDescriptor applicationWithPath:stagedApp error:&stagedAppError];
-    if (!stagedAppError) {
-        ConsoleWriteErr(@"Could not create FBApplicationDescriptor from staged app");
         return iOSReturnStatusCodeInternalError;
     }
     
@@ -128,7 +121,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", codesignedApp.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
-        iOSReturnStatusCode ret = [self updateAppIfRequired:stagedAppDescriptor
+        iOSReturnStatusCode ret = [self updateAppIfRequired:codesignedApp
                                                  codesigner:signer];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
@@ -143,7 +136,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-- (iOSReturnStatusCode)updateAppIfRequired:(FBApplicationDescriptor *)app
+- (iOSReturnStatusCode)updateAppIfRequired:(FBProductBundle *)app
                                 codesigner:(Codesigner *)signerThatCanSign {
 
     if ([self isInstalled:app.bundleID] == iOSReturnStatusCodeEverythingOkay) {
@@ -162,7 +155,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                 return ret;
             }
 
-            return [self installApp:app updateApp:YES];
+            return [self installApp:[app path] updateApp:YES];
         } else {
             LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
@@ -267,17 +260,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         ConsoleWrite(@"false");
         return NO;
     }
-}
-
-- (FBApplicationDescriptor *)installedApp:(NSString *)bundleID {
-    
-    NSString *appPath = [_fbDevice.deviceOperator applicationPathForApplicationWithBundleID:bundleID error:nil];
-    
-    if (appPath) {
-        return [FBApplicationDescriptor applicationWithPath:appPath error:nil];
-    }
-    
-    return nil;
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {

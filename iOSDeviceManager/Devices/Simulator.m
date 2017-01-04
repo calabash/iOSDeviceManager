@@ -87,7 +87,7 @@ static const FBSimulatorControl *_control;
     return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
-- (iOSReturnStatusCode)installApp:(FBApplicationDescriptor *)app updateApp:(BOOL)updateApp {
+- (iOSReturnStatusCode)installApp:(NSString *)pathToBundle updateApp:(BOOL)updateApp {
     
     NSError *e;
     if (!_fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
@@ -100,19 +100,27 @@ static const FBSimulatorControl *_control;
     
     Codesigner *signer = [[Codesigner alloc] initAdHocWithDeviceUDID:[self uuid]];
     
-    if (![signer validateSignatureAtBundlePath:app.path]) {
+    if (![signer validateSignatureAtBundlePath:pathToBundle]) {
         NSError *signError;
         
-        [signer signBundleAtPath:app.path
+        [signer signBundleAtPath:pathToBundle
                            error:&signError];
         
         if (signError) {
             ConsoleWriteErr(@"Error resigning sim bundle");
-            ConsoleWriteErr(@"  Path to bundle: %@", app.path);
+            ConsoleWriteErr(@"  Path to bundle: %@", pathToBundle);
             ConsoleWriteErr(@"  Device UDID: %@", [self uuid]);
             ConsoleWriteErr(@"  ERROR: %@", signError);
             return iOSReturnStatusCodeGenericFailure;
         }
+    }
+    
+    NSError *error;
+    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:pathToBundle error:&error];
+    if (error) {
+        ConsoleWriteErr(@"Error creating application descriptor");
+        ConsoleWriteErr(@" Path to bundle: %@", pathToBundle);
+        return iOSReturnStatusCodeGenericFailure;
     }
     
     if (![_fbSimulator installedApplicationWithBundleID:app.bundleID error:nil]) {
@@ -192,13 +200,9 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
-
-    FBApplicationDescriptor *installedApp = [self installedApp:bundleID];
-    if (installedApp) {
-        FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithApplication:installedApp
-                                                             arguments:@[]
-                                                           environment:@{}
-                                                               options:0];
+    
+    if ([self isInstalled:bundleID]) {
+        FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
         if ([_fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
         } else {
@@ -232,10 +236,6 @@ static const FBSimulatorControl *_control;
         return NO;
     }
 
-}
-
-- (FBApplicationDescriptor *)installedApp:(NSString *)bundleID {
-    return [_fbSimulator installedApplicationWithBundleID:bundleID error:nil];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
@@ -380,9 +380,8 @@ static const FBSimulatorControl *_control;
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
-        FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:bundlePath error:nil];
                                         
-        return [self installApp:app updateApp:YES];
+        return [self installApp:bundlePath updateApp:YES];
     } else {
         DDLogInfo(@"Latest version of %@ is installed, not reinstalling.", installed.bundleID);
     }
