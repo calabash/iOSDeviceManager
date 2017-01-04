@@ -25,7 +25,7 @@
 
 - (NSString *)bundleVersionForInstalledTestApp {
     NSDictionary *plist;
-    plist = [[Device withID:defaultSimUDID] infoPlistForInstalledBundleID:testAppID];
+    plist = [[Device withID:defaultSimUDID] installedApp:testAppID].infoPlist;
     return plist[@"CFBundleVersion"];
 }
 

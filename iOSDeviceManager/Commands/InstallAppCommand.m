@@ -28,8 +28,9 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
         pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
     }
-
-    return [device installApp:pathToBundle updateApp:update];
+    
+    Application *app = [Application withBundlePath:pathToBundle];
+    return [device installApp:app updateApp:update];
 }
 
 + (NSArray <CommandOption *> *)options {

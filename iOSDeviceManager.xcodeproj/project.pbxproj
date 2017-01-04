@@ -171,6 +171,9 @@
 		A1D930C41DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
 		B2039EF51E0C880600649BE3 /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceTest.m */; };
+		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D51D7134FD00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
@@ -426,6 +429,8 @@
 		A1D930C11DC2875E0070573D /* ShasumProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShasumProvider.m; path = iOSDeviceManager/Utilities/ShasumProvider.m; sourceTree = SOURCE_ROOT; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
 		B2039EF41E0C880600649BE3 /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
+		B22DC0051E1D799500BDD4CB /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = iOSDeviceManager/Application/Application.m; sourceTree = SOURCE_ROOT; };
+		B22DC0091E1D79C000BDD4CB /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Application.h; path = iOSDeviceManager/Application/Application.h; sourceTree = SOURCE_ROOT; };
 		F50271CB1D6BE43A00BE0D9D /* Entitlements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entitlements.h; path = iOSDeviceManager/Utilities/Entitlements.h; sourceTree = SOURCE_ROOT; };
 		F50271CC1D6BE43A00BE0D9D /* Entitlements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlements.m; path = iOSDeviceManager/Utilities/Entitlements.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -571,6 +576,7 @@
 				898D7DE51DA47652001578FE /* Server */,
 				896F7F041CF9C51900FD8572 /* Utilities */,
 				896F7F021CF9C50500FD8572 /* Devices */,
+				B22DC0031E1D790E00BDD4CB /* Application */,
 				892DE4D41D22F8E100E1902C /* Commands */,
 				896F7F031CF9C51000FD8572 /* TestParameters */,
 			);
@@ -788,6 +794,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B22DC0031E1D790E00BDD4CB /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				B22DC0091E1D79C000BDD4CB /* Application.h */,
+				B22DC0051E1D799500BDD4CB /* Application.m */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
 		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
 			isa = PBXGroup;
 			children = (
@@ -990,6 +1005,7 @@
 				898D7D9A1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				898D7DD91DA4758A001578FE /* RouteRequest.m in Sources */,
 				F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */,
+				B22DC0061E1D799500BDD4CB /* Application.m in Sources */,
 				F5F528351D6BAE2100FF39BE /* MobileProfile.m in Sources */,
 				892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				898D7D8E1DA47569001578FE /* HTTPDataResponse.m in Sources */,
@@ -1042,6 +1058,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
@@ -1175,6 +1192,7 @@
 				898D7DE41DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,
+				B22DC0081E1D799500BDD4CB /* Application.m in Sources */,
 				F5D78DC91D8D32EB00497000 /* ShellResult.m in Sources */,
 				898D7DE11DA4758A001578FE /* RoutingConnection.m in Sources */,
 				6342446F1D176E8240E093B1 /* Entitlement.m in Sources */,

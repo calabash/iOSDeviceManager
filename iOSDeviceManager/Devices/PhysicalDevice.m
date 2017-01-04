@@ -76,14 +76,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (iOSReturnStatusCode)installApp:(NSString *)pathToBundle updateApp:(BOOL)updateApp {
-    
+- (iOSReturnStatusCode)installApp:(Application *)app updateApp:(BOOL)updateApp {
     CodesignIdentity *identity = [[self identities] firstObject];
     if (identity == nil) {
-        identity = [CodesignIdentity identityForAppBundle:pathToBundle deviceId:[self uuid]];
+        identity = [CodesignIdentity identityForAppBundle:app.path deviceId:[self uuid]];
         if (!identity) {
             ConsoleWriteErr(@"Could not find valid codesign identity");
-            ConsoleWriteErr(@"  app: %@", pathToBundle);
+            ConsoleWriteErr(@"  app: %@", app.path);
             ConsoleWriteErr(@"  device udid: %@", [self uuid]);
             return iOSReturnStatusCodeNoValidCodesignIdentity;
         }
@@ -97,7 +96,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     if (!_fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    NSString *stagedApp = [AppUtils copyAppBundle:pathToBundle];
+    NSString *stagedApp = [AppUtils copyAppBundle:app.path];
     if (!stagedApp) {
         ConsoleWriteErr(@"Could not stage app for code signing");
         return iOSReturnStatusCodeInternalError;
@@ -121,7 +120,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", codesignedApp.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
-        iOSReturnStatusCode ret = [self updateAppIfRequired:codesignedApp
+        iOSReturnStatusCode ret = [self updateAppIfRequired:app
                                                  codesigner:signer];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
@@ -136,15 +135,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-- (iOSReturnStatusCode)updateAppIfRequired:(FBProductBundle *)app
+- (iOSReturnStatusCode)updateAppIfRequired:(Application *)app
                                 codesigner:(Codesigner *)signerThatCanSign {
 
     if ([self isInstalled:app.bundleID] == iOSReturnStatusCodeEverythingOkay) {
-        NSDictionary *oldPlist = [self infoPlistForInstalledBundleID:app.bundleID];
-        NSString *newPlistPath = [app.path stringByAppendingPathComponent:@"Info.plist"];
-        NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
+        Application *installedApp = [self installedApp:app.bundleID];
+        NSDictionary *oldPlist = installedApp.infoPlist;
+        NSDictionary *newPlist = app.infoPlist;
         if (!newPlist || newPlist.count == 0) {
-            ConsoleWriteErr(@"Unable to find Info.plist at %@", newPlistPath);
+            ConsoleWriteErr(@"Unable to find Info.plist for bundle path %@", app.path);
             return iOSReturnStatusCodeGenericFailure;
         }
 
@@ -155,28 +154,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                 return ret;
             }
 
-            return [self installApp:[app path] updateApp:YES];
+            return [self installApp:app updateApp:YES];
         } else {
             LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
 
     return iOSReturnStatusCodeEverythingOkay;
-}
-
-- (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID {
-    return [self infoPlistForInstalledBundleID:bundleID
-                                        device:_fbDevice];
-}
-
-- (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID device:(FBDevice *)device {
-    id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
-
-    if (!installed) {
-        ConsoleWriteErr(@"Error fetching installed application %@ ", bundleID);
-        return nil;
-    }
-    return [installed plist];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -260,6 +244,18 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         ConsoleWrite(@"false");
         return NO;
     }
+}
+
+- (Application *)installedApp:(NSString *)bundleID {
+    NSError *err;
+    NSString *pathToBundle = [_fbDevice.deviceOperator applicationPathForApplicationWithBundleID:bundleID error:&err];
+    
+    if (err) {
+        LogInfo(@"Error determining application path for bundle ID: %@", bundleID);
+        return nil;
+    }
+    
+    return [Application withBundlePath:pathToBundle];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {

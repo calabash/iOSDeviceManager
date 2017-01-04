@@ -134,7 +134,7 @@
                                  userInfo:nil];
 }
 
-- (iOSReturnStatusCode)installApp:(NSString *)pathToBundle updateApp:(BOOL)updateApp {
+- (iOSReturnStatusCode)installApp:(Application *)app updateApp:(BOOL)updateApp {
     @throw [NSException exceptionWithName:@"ProgrammerException"
                                    reason:@"PhysicalDevice or Simulator subclass should be used"
                                  userInfo:nil];
@@ -176,6 +176,12 @@
                                  userInfo:nil];
 }
 
+- (Application *)installedApp:(NSString *)bundleID {
+    @throw [NSException exceptionWithName:@"ProgrammerException"
+                                   reason:@"PhysicalDevice or Simulator subclass should be used"
+                                 userInfo:nil];
+}
+
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
     @throw [NSException exceptionWithName:@"ProgrammerException"
                                    reason:@"PhysicalDevice or Simulator subclass should be used"
@@ -183,12 +189,6 @@
 }
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
-}
-
-- (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID {
     @throw [NSException exceptionWithName:@"ProgrammerException"
                                    reason:@"PhysicalDevice or Simulator subclass should be used"
                                  userInfo:nil];

@@ -7,6 +7,7 @@
 #import <Foundation/Foundation.h>
 #import "CodesignIdentity.h"
 #import <XCTestBootstrap/XCTestBootstrap.h>
+#import "Application.h"
 
 @interface Device : NSObject
 
@@ -19,16 +20,16 @@
 + (Device *)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
-- (iOSReturnStatusCode)installApp:(NSString *)pathToBundle updateApp:(BOOL)updateApp;
+- (iOSReturnStatusCode)installApp:(Application *)app updateApp:(BOOL)updateApp;
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
 - (iOSReturnStatusCode)stopSimulatingLocation;
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID;
 - (BOOL)isInstalled:(NSString *)bundleID;
+- (Application *)installedApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
-- (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID;
 
 /**
  Defined as first available launched simulator if any, 
