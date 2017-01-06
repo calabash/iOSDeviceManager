@@ -1,5 +1,4 @@
 
-#import "TestParameters.h"
 #import <FBControlCore/FBControlCore.h>
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <FBDeviceControl/FBDeviceControl.h>
@@ -17,6 +16,8 @@
 
 @property BOOL testingComplete;
 
++ (BOOL)isSimulatorID:(NSString *)did;
++ (BOOL)isDeviceID:(NSString *)did;
 + (Device *)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;

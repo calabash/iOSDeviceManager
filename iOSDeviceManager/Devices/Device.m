@@ -6,6 +6,20 @@
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
 
+@interface NSString(Base64)
+- (BOOL)isBase64;
+@end
+
+@implementation NSString(Base64)
+- (BOOL)isBase64 {
+    for (int i = 0; i < self.length; i++) {
+        char c =  toupper([self characterAtIndex:i]);
+        if (c < '0' || c > 'F') { return NO; }
+    }
+    return YES;
+}
+@end
+
 @implementation Device
 
 - (id)init {
@@ -15,8 +29,25 @@
     return self;
 }
 
++ (BOOL)isSimulatorID:(NSString *)did {
+    NSArray <NSString *>*parts = [did componentsSeparatedByString:@"-"];
+    NSUUID *u = [[NSUUID alloc] initWithUUIDString:did];
+    return did.length == 36
+    && u != nil
+    && parts.count == 5
+    && parts[0].length == 8
+    && parts[1].length == 4
+    && parts[2].length == 4
+    && parts[3].length == 4
+    && parts[4].length == 12;
+}
+
++ (BOOL)isDeviceID:(NSString *)did {
+    return did.length == 40 && [did isBase64];
+}
+
 + (Device *)withID:(NSString *)uuid {
-    if ([self isSimID:uuid]) { return [Simulator withID:uuid]; }
+    if ([self isSimulatorID:uuid]) { return [Simulator withID:uuid]; }
     if ([self isDeviceID:uuid]) { return [PhysicalDevice withID:uuid]; }
     @throw [NSException exceptionWithName:@"InvalidDeviceID"
                                    reason:@"Specified ID does not match simulator or device"
@@ -107,24 +138,6 @@
         NSArray<FBSimulator *> *sims = [Device availableSimulators];
         return [Device defaultSimulator:sims].udid;
     }
-}
-
-+ (BOOL)isSimID:(NSString *)uuid {
-    
-    if ([TestParameters isSimulatorID:uuid]) {
-        return true;
-    }
-    
-    return false;
-}
-
-+ (BOOL)isDeviceID:(NSString *)uuid {
-    
-    if ([TestParameters isDeviceID:uuid]) {
-        return true;
-    }
-    
-    return false;
 }
 
 + (void)initialize {

@@ -1,10 +1,10 @@
 #import "Resources.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
-#import "TestParameters.h"
 #import "Entitlements.h"
 #import "CodesignIdentity.h"
 #import <sys/utsname.h>
+#import "Device.h"
 
 @interface Simctl ()
 
@@ -267,7 +267,7 @@
                                         NSUInteger idx,
                                         BOOL *stop) {
         NSString *udid = [self extractUDID:line];
-        if ([TestParameters isDeviceID:udid]) {
+        if ([Device isDeviceID:udid]) {
             NSMutableDictionary *info = [@{} mutableCopy];
             info[@"UDID"] = udid;
             info[@"OS"] = [self extractVersion:line];
