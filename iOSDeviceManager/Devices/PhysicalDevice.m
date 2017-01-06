@@ -246,8 +246,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     BOOL installed = [_fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                          error:&err];
     if (err) {
-        LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
-        return iOSReturnStatusCodeFalse;
+        ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
+        @throw [NSException exceptionWithName:@"IsInstalledAppException"
+                                       reason:@"Unable to determine if application is installed"
+                                     userInfo:nil];
     }
     
     if (installed) {
