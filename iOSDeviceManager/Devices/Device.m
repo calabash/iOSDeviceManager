@@ -4,6 +4,8 @@
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
 
+#define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
+
 @implementation Device
 
 - (id)init {
@@ -132,75 +134,51 @@
 }
 
 - (iOSReturnStatusCode)launch {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)kill {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)stopSimulatingLocation {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
-    @throw [NSException exceptionWithName:@"ProgrammerException"
-                                   reason:@"PhysicalDevice or Simulator subclass should be used"
-                                 userInfo:nil];
+    MUST_OVERRIDE;
 }
 
 @end
