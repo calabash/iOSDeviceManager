@@ -106,6 +106,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
     
+    if ([self isInstalled:app.bundleID] == iOSReturnStatusCodeEverythingOkay && !shouldUpdate) {
+        return iOSReturnStatusCodeEverythingOkay;
+    }
+    
     NSError *err;
     //Codesign
     FBProductBundle *codesignedApp = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
