@@ -228,21 +228,22 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (BOOL)isInstalled:(NSString *)bundleID {
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *err;
     BOOL installed = [_fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                          error:&err];
     if (err) {
         LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
+        return iOSReturnStatusCodeFalse;
     }
     
     if (installed) {
         ConsoleWrite(@"true");
-        return YES;
+        return iOSReturnStatusCodeEverythingOkay;
     } else {
         ConsoleWrite(@"false");
-        return NO;
+        return iOSReturnStatusCodeFalse;
     }
 }
 

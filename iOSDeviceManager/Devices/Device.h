@@ -26,7 +26,7 @@
 - (iOSReturnStatusCode)stopSimulatingLocation;
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID;
-- (BOOL)isInstalled:(NSString *)bundleID;
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
 - (Application *)installedApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;

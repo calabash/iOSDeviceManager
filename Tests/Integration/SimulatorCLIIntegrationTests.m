@@ -123,22 +123,22 @@
 
     args = @[kProgramName, @"is_installed", @"-b", @"com.apple.Preferences", @"-d",
              defaultSimUDID];
-    XCTAssertTrue([CLI process:args]);
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
-    if ([CLI process:args]) {
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
         args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
 
     args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
-    XCTAssertFalse([CLI process:args]);
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
 
     args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", testApp(SIM)];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
-    XCTAssertTrue([CLI process:args]);
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 

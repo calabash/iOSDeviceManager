@@ -200,7 +200,7 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
     
-    if ([self isInstalled:bundleID]) {
+    if ([self isInstalled:bundleID] == iOSReturnStatusCodeEverythingOkay) {
         FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
         if ([_fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
@@ -222,17 +222,22 @@ static const FBSimulatorControl *_control;
     }
 }
 
-- (BOOL)isInstalled:(NSString *)bundleID {
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *e;
     BOOL installed = [_fbSimulator isApplicationInstalledWithBundleID:bundleID error:&e];
+    
+    if (e) {
+        LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], e);
+        return iOSReturnStatusCodeFalse;
+    }
 
     if (installed) {
         [ConsoleWriter write:@"true"];
-        return YES;
+        return iOSReturnStatusCodeEverythingOkay;
     } else {
         [ConsoleWriter write:@"false"];
-        return NO;
+        return iOSReturnStatusCodeFalse;
     }
 
 }

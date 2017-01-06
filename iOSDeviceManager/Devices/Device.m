@@ -179,7 +179,7 @@
                                  userInfo:nil];
 }
 
-- (BOOL)isInstalled:(NSString *)bundleID {
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
     @throw [NSException exceptionWithName:@"ProgrammerException"
                                    reason:@"PhysicalDevice or Simulator subclass should be used"
                                  userInfo:nil];
