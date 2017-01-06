@@ -2,6 +2,7 @@
 #import "ShellRunner.h"
 #import "Simulator.h"
 #import "AppUtils.h"
+#import "ConsoleWriter.h"
 
 @implementation Device
 
@@ -29,57 +30,65 @@
                                                       configurationWithDeviceSetPath:nil
                                                       options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
     
-    FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:nil];
+    NSError *err;
+    FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
+    if (err) {
+        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
+        @throw [NSException exceptionWithName:@"GenericException"
+                                       reason:@"Failed detecting available simulators"
+                                     userInfo:nil];
+    }
     
     return [[simControl set] allSimulators];
 }
 
 + (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
-    NSArray <FBSimulator *> *sorted = [simulators sortedArrayUsingComparator:^NSComparisonResult(id sim1, id sim2) {
-        return ![Device isPreferredSimulator:sim1 comparedTo:sim2];
+    NSArray <FBSimulator *> *sorted = [simulators sortedArrayUsingComparator:^NSComparisonResult(id sim2, id sim1) {
+        return [Device comparePreferredSimulator:sim1 to:sim2];
     }];
     return [sorted firstObject];
 }
 
-+ (BOOL)isPreferredSimulator:(FBSimulator *)sim comparedTo:(FBSimulator *)otherSim {
++ (NSComparisonResult)comparePreferredSimulator:(FBSimulator *)sim to:(FBSimulator *)otherSim {
     NSDecimalNumber *simVersion = [sim.osConfiguration versionNumber];
     NSDecimalNumber *otherSimVersion = [otherSim.osConfiguration versionNumber];
     NSString *simDeviceName = [sim.deviceConfiguration deviceName];
     NSString *otherSimDeviceName = [otherSim.deviceConfiguration deviceName];
     
     if ([simVersion isGreaterThan:otherSimVersion]) {
-        return YES;
+        // NSOrderedAscending - The left operand is smaller than the right operand.
+        return NSOrderedDescending;
     } else if ([simVersion isEqual:otherSimVersion]) {
         if ([simDeviceName containsString:@"iPhone"] && [otherSimDeviceName containsString:@"iPhone"]) {
             NSCharacterSet *nonDigitCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
             NSString *simNumber = [[simDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
             NSString *otherSimNumber = [[otherSimDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
             if (simNumber.length == 0) {
-                return NO;
+                return NSOrderedAscending;
             }
             if (otherSimNumber.length == 0) {
-                return YES;
+                return NSOrderedDescending;
             }
-            if ([simNumber doubleValue] == [otherSimNumber doubleValue]) {
-                // Handle things like 6S vs S
-                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+s" options:0 error:nil];
+            if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < 0.001) {
+                // Handle things like 6S vs 6
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+[Ss]" options:0 error:nil];
                 BOOL simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
                 BOOL otherSimIsS = [regex numberOfMatchesInString:otherSimDeviceName options:0 range:NSMakeRange(0, [otherSimDeviceName length])];
 
                 if (simIsS && !otherSimIsS) {
-                    return YES;
+                    return NSOrderedDescending;
                 }
-            } else if ([simNumber doubleValue] > [otherSimNumber doubleValue]) {
-                return YES;
+            } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > 0.001) {
+                return NSOrderedDescending;
             } else {
-                return NO;
+                return NSOrderedAscending;
             }
         } else if ([simDeviceName containsString:@"iPhone"] && ![otherSimDeviceName containsString:@"iPhone"]) {
-            return YES;
+            return NSOrderedDescending;
         }
     }
     
-    return NO;
+    return NSOrderedAscending;;
 }
 
 + (NSString *)defaultDeviceID {
