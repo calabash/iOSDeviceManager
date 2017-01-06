@@ -20,7 +20,7 @@
 + (Device *)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
-- (iOSReturnStatusCode)installApp:(Application *)app updateApp:(BOOL)updateApp;
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
 - (iOSReturnStatusCode)stopSimulatingLocation;

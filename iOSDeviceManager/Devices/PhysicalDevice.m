@@ -76,7 +76,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app updateApp:(BOOL)updateApp {
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
     CodesignIdentity *identity = [[self identities] firstObject];
     if (identity == nil) {
         identity = [CodesignIdentity identityForAppBundle:app.path deviceId:[self uuid]];
@@ -154,7 +154,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                 return ret;
             }
 
-            return [self installApp:app updateApp:YES];
+            return [self installApp:app shouldUpdate:YES];
         } else {
             LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }

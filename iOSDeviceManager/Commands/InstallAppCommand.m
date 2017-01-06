@@ -30,7 +30,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     }
     
     Application *app = [Application withBundlePath:pathToBundle];
-    return [device installApp:app updateApp:update];
+    return [device installApp:app shouldUpdate:update];
 }
 
 + (NSArray <CommandOption *> *)options {

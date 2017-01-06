@@ -143,7 +143,7 @@
                                  userInfo:nil];
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app updateApp:(BOOL)updateApp {
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
     @throw [NSException exceptionWithName:@"ProgrammerException"
                                    reason:@"PhysicalDevice or Simulator subclass should be used"
                                  userInfo:nil];

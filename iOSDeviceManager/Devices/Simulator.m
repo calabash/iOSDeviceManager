@@ -87,7 +87,7 @@ static const FBSimulatorControl *_control;
     return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app updateApp:(BOOL)updateApp {
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
     NSError *e;
     if (!_fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
     
@@ -124,7 +124,7 @@ static const FBSimulatorControl *_control;
     
     if (![_fbSimulator installedApplicationWithBundleID:app.bundleID error:nil]) {
         [[_fbSimulator.interact installApplication:appDescriptor] perform:&e];
-    } else if (updateApp) {
+    } else if (shouldUpdate) {
         iOSReturnStatusCode ret = [self updateInstalledAppIfNecessary:app];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
@@ -377,7 +377,7 @@ static const FBSimulatorControl *_control;
             return ret;
         }
                                         
-        return [self installApp:app updateApp:YES];
+        return [self installApp:app shouldUpdate:YES];
     } else {
         DDLogInfo(@"Latest version of %@ is installed, not reinstalling.", installed.bundleID);
     }
