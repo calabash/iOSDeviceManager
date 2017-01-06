@@ -5,7 +5,7 @@
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) NSString *bundleID;
 @property (nonatomic, strong) NSDictionary *infoPlist;
-@property (nonatomic, strong) NSArray<NSString *> *arches;
+@property (nonatomic, strong) NSSet<NSString *> *arches;
 
 + (Application *)withBundlePath:(NSString *)pathToBundle;
 
