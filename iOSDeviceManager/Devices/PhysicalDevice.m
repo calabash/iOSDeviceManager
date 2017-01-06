@@ -225,11 +225,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
-    return iOSReturnStatusCodeGenericFailure;
+    @throw [NSException exceptionWithName:@"NotImplementedException"
+                                   reason:@""
+                                 userInfo:nil];
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    return iOSReturnStatusCodeGenericFailure;
+    @throw [NSException exceptionWithName:@"NotImplementedException"
+                                   reason:@""
+                                 userInfo:nil];
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
