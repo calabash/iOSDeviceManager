@@ -50,7 +50,9 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if (!fbDevice || err) {
         LogInfo(@"Error getting device with ID %@: %@", uuid, err);
         
-        return nil;
+        @throw [NSException exceptionWithName:@"DeviceNotFoundException"
+                                       reason:@"Error getting device"
+                                     userInfo:nil];
     }
     
     Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:nil
@@ -60,7 +62,9 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     [fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
     if (err) {
         LogInfo(@"Error getting device with ID %@: %@", uuid, err);
-        return nil;
+        @throw [NSException exceptionWithName:@"DeviceAvailabilityTimeoutException"
+                                       reason:@"Failed waiting for device to become available"
+                                     userInfo:nil];
     }
     
     device.fbDevice = fbDevice;
