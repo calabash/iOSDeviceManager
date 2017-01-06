@@ -100,7 +100,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     if (!_fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    NSString *stagedApp = [AppUtils copyAppBundle:app.path];
+    NSString *stagedApp = [AppUtils copyAppBundleToTmpDir:app.path];
     if (!stagedApp) {
         ConsoleWriteErr(@"Could not stage app for code signing");
         return iOSReturnStatusCodeInternalError;
