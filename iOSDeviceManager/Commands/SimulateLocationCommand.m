@@ -17,8 +17,10 @@ static NSString *const LOCATION_FLAG = @"-l";
         return iOSReturnStatusCodeInvalidArguments;
     }
     
-    Device *device = [Device withID:[self deviceIDFromArgs:args]];
-    if (!device) {
+    Device *device;
+    @try {
+        [Device withID:[self deviceIDFromArgs:args]];
+    } @catch (NSException *e) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
     return [device simulateLocationWithLat:[latlng[0] doubleValue] lng:[latlng[1] doubleValue]];

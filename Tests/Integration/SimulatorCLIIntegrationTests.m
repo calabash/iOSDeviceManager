@@ -277,7 +277,7 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    XCTAssertTrue([TestParameters isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
+    XCTAssertTrue([Device isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
     NSArray *args = @[kProgramName, @"kill_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     

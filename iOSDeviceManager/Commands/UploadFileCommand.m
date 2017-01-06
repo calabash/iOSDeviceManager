@@ -16,8 +16,10 @@ static NSString *const OVERWRITE_FLAG = @"-o";
         overwrite = [args[OVERWRITE_FLAG] boolValue];
     }
     
-    Device *device = [Device withID:[self deviceIDFromArgs:args]];
-    if (!device) {
+    Device *device;
+    @try {
+        device = [Device withID:[self deviceIDFromArgs:args]];
+    } @catch (NSException *e) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
     return [device uploadFile:args[FILEPATH_FLAG] forApplication:args[BUNDLE_ID_FLAG] overwrite:overwrite];

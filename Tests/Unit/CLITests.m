@@ -98,7 +98,7 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
     
     args = @[kProgramName, @"is_installed", @"-b", @"bundle_id"];
-    XCTAssertFalse([CLI process:args]);
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
     
     args = @[kProgramName, @"launch_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
