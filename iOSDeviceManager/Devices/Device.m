@@ -6,6 +6,8 @@
 
 @implementation Device
 
+const double ZERO_THRESHOLD = 0.001;
+
 - (id)init {
     if (self = [super init]) {
         _testingComplete = NO;
@@ -48,7 +50,6 @@
     NSString *otherSimDeviceName = [otherSim.deviceConfiguration deviceName];
     
     if ([simVersion isGreaterThan:otherSimVersion]) {
-        // NSOrderedAscending - The left operand is smaller than the right operand.
         return NSOrderedDescending;
     } else if ([simVersion isEqual:otherSimVersion]) {
         if ([simDeviceName containsString:@"iPhone"] && [otherSimDeviceName containsString:@"iPhone"]) {
@@ -59,9 +60,9 @@
                 return NSOrderedAscending;
             }
             if (otherSimNumber.length == 0) {
-                return NSOrderedDescending;
+                return NSOrderedSame;
             }
-            if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < 0.001) {
+            if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < ZERO_THRESHOLD) {
                 // Handle things like 6S vs 6
                 NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+[Ss]" options:0 error:nil];
                 BOOL simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
@@ -70,7 +71,7 @@
                 if (simIsS && !otherSimIsS) {
                     return NSOrderedDescending;
                 }
-            } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > 0.001) {
+            } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > ZERO_THRESHOLD) {
                 return NSOrderedDescending;
             } else {
                 return NSOrderedAscending;
@@ -80,7 +81,7 @@
         }
     }
     
-    return NSOrderedAscending;;
+    return NSOrderedAscending;
 }
 
 + (NSString *)defaultDeviceID {
