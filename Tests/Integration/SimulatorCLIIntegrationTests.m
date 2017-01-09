@@ -294,4 +294,31 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
+- (void)testPositionalArgs {
+    XCTAssertTrue([Device isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
+    NSArray *args = @[kProgramName, @"kill_simulator"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"launch_simulator"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"is_installed", @"-b", testAppID];
+    if ([CLI process:args]) {
+        args = @[kProgramName, @"uninstall", @"-b", testAppID];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    args = @[kProgramName, @"install", testApp(SIM), [Device defaultDeviceID]];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"is_installed", @"-b", testAppID];
+    if ([CLI process:args]) {
+        args = @[kProgramName, @"uninstall", @"-b", testAppID];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM)];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
 @end

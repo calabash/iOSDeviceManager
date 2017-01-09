@@ -49,15 +49,12 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                          forCommand:(Class <iOSDeviceManagementCommand>)command
                                            exitCode:(int *)exitCode {
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
-    
-    NSArray *positionalArgNames = [command positionalArgNames];
-    NSInteger numPositionalArgs = positionalArgNames.count;
-    NSInteger positionalArgIndex = 0;
+    NSMutableArray<NSString *> *possiblePositionalArgShortFlags = [NSMutableArray arrayWithArray:[command positionalArgShortFlags]];
     
     for (int i = 0; i < args.count; i++) {
         CommandOption *op = [command optionForFlag:args[i]];
         if (op == nil) {
-            if (positionalArgIndex >= numPositionalArgs) {
+            if ([possiblePositionalArgShortFlags count] == 0) {
                 printf("Unrecognized flag or unsupported argument: %s\n",
                        [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
                 [self printUsage];
@@ -67,8 +64,18 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                 *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
                 return nil;
             } else {
-                values[positionalArgNames[positionalArgIndex]] = args[i];
-                positionalArgIndex++;
+                NSString *positionalArgShortFlag = [command positionalArgShortFlag:args[i]];
+                if (positionalArgShortFlag.length) {
+                    values[positionalArgShortFlag] = args[i];
+                    [possiblePositionalArgShortFlags removeObject:positionalArgShortFlag];
+                } else{
+                    printf("Unrecognized flag or unsupported argument: %s\n",
+                           [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+                    [self printUsage];
+                    *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
+                    return nil;
+
+                }
                 continue;
             }
         }
