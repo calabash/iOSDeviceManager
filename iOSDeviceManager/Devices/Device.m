@@ -6,7 +6,7 @@
 
 @implementation Device
 
-const double ZERO_THRESHOLD = 0.001;
+const double EPSILON = 0.001;
 
 - (id)init {
     if (self = [super init]) {
@@ -62,7 +62,7 @@ const double ZERO_THRESHOLD = 0.001;
             if (otherSimNumber.length == 0) {
                 return NSOrderedSame;
             }
-            if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < ZERO_THRESHOLD) {
+            if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < EPSILON) {
                 // Handle things like 6S vs 6
                 NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+[Ss]" options:0 error:nil];
                 BOOL simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
@@ -71,7 +71,7 @@ const double ZERO_THRESHOLD = 0.001;
                 if (simIsS && !otherSimIsS) {
                     return NSOrderedDescending;
                 }
-            } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > ZERO_THRESHOLD) {
+            } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > EPSILON) {
                 return NSOrderedDescending;
             } else {
                 return NSOrderedAscending;
