@@ -7,6 +7,7 @@
 #import "AppUtils.h"
 #import "CodesignIdentity.h"
 #import "ConsoleWriter.h"
+#import "Application.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -262,15 +263,18 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    NSError *err;
-    NSString *pathToBundle = [_fbDevice.deviceOperator applicationPathForApplicationWithBundleID:bundleID error:&err];
-    
-    if (err) {
-        LogInfo(@"Error determining application path for bundle ID: %@", bundleID);
+    if (![self isInstalled:bundleID]) {
         return nil;
     }
     
-    return [Application withBundlePath:pathToBundle];
+    id<DVTApplication> installedDVTApplication = [((FBiOSDeviceOperator *)_fbDevice.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
+
+    Application *app = [Application new];
+    app.bundleID = bundleID;
+    app.infoPlist = [installedDVTApplication plist];
+    app.arches = _fbDevice.supportedArchitectures;
+    
+    return app;
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
