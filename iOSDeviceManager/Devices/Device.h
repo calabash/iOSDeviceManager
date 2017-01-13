@@ -2,18 +2,17 @@
 #import <FBControlCore/FBControlCore.h>
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <FBDeviceControl/FBDeviceControl.h>
-#import "iOSDeviceManagementCommand.h"
 #import <Foundation/Foundation.h>
 #import "CodesignIdentity.h"
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "Application.h"
+#import "iOSReturnStatusCode.h"
 
 @interface Device : NSObject
 
 @property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSMutableArray <CodesignIdentity *> *identities;
-
 @property BOOL testingComplete;
 
 + (BOOL)isSimulatorID:(NSString *)did;

@@ -49,23 +49,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                                     error:&err]
                                             deviceWithUDID:uuid];
     if (!fbDevice || err) {
-        LogInfo(@"Error getting device with ID %@: %@", uuid, err);
-        
-        @throw [NSException exceptionWithName:@"DeviceNotFoundException"
-                                       reason:@"Error getting device"
-                                     userInfo:nil];
+        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
+        return nil;
     }
-    
-    Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:nil
-                                                           deviceUDID:uuid];
-    fbDevice.deviceOperator.codesignProvider = signer;
 
     [fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
     if (err) {
-        LogInfo(@"Error getting device with ID %@: %@", uuid, err);
-        @throw [NSException exceptionWithName:@"DeviceAvailabilityTimeoutException"
-                                       reason:@"Failed waiting for device to become available"
-                                     userInfo:nil];
+        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
+        return nil;
     }
     
     device.fbDevice = fbDevice;
@@ -82,6 +73,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    
     CodesignIdentity *identity = [[self identities] firstObject];
     if (identity == nil) {
         identity = [CodesignIdentity identityForAppBundle:app.path deviceId:[self uuid]];
@@ -151,13 +143,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
-        if (!newPlist || newPlist.count == 0) {
+        if (!newPlist.count) {
             ConsoleWriteErr(@"Unable to find Info.plist for bundle path %@", app.path);
             return iOSReturnStatusCodeGenericFailure;
         }
 
         if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            LogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
+            ConsoleWriteErr(@"Installed version is different, attempting to update %@.", app.bundleID);
             iOSReturnStatusCode ret = [self uninstallApp:app.bundleID];
             if (ret != iOSReturnStatusCodeEverythingOkay) {
                 return ret;
@@ -165,7 +157,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
             return [self installApp:app shouldUpdate:YES];
         } else {
-            LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            ConsoleWriteErr(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
 

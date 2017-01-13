@@ -32,16 +32,7 @@ const double EPSILON = 0.001;
 }
 
 + (BOOL)isSimulatorID:(NSString *)did {
-    NSArray <NSString *>*parts = [did componentsSeparatedByString:@"-"];
-    NSUUID *u = [[NSUUID alloc] initWithUUIDString:did];
-    return did.length == 36
-    && u != nil
-    && parts.count == 5
-    && parts[0].length == 8
-    && parts[1].length == 4
-    && parts[2].length == 4
-    && parts[3].length == 4
-    && parts[4].length == 12;
+    return [[NSUUID alloc] initWithUUIDString:did] != nil;
 }
 
 + (BOOL)isDeviceID:(NSString *)did {
@@ -51,9 +42,8 @@ const double EPSILON = 0.001;
 + (Device *)withID:(NSString *)uuid {
     if ([self isSimulatorID:uuid]) { return [Simulator withID:uuid]; }
     if ([self isDeviceID:uuid]) { return [PhysicalDevice withID:uuid]; }
-    @throw [NSException exceptionWithName:@"InvalidDeviceID"
-                                   reason:@"Specified ID does not match simulator or device"
-                                 userInfo:nil];
+    ConsoleWriteErr(@"Specified device ID does not match simulator or device");
+    return nil;
 }
 
 + (NSArray<FBDevice *> *)availableDevices {
