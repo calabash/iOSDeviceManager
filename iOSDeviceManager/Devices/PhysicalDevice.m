@@ -33,6 +33,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
+@property (nonatomic, strong) Codesigner *signer;
 
 @end
 
@@ -87,9 +88,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     NSString *codesignID = identity.name;
     
-    Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
+    if (!_signer || _signer.identityName != identity.name) {
+        _signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
                                                            deviceUDID:[self uuid]];
-    _fbDevice.deviceOperator.codesignProvider = signer;
+        _fbDevice.deviceOperator.codesignProvider = _signer;
+    }
     
     if (!_fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
@@ -107,7 +110,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     //Codesign
     FBProductBundle *codesignedApp = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
                               withBundlePath:stagedApp]
-                             withCodesignProvider:signer]
+                             withCodesignProvider:_signer]
                             buildWithError:&err];
     
     if (err) {
@@ -122,7 +125,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             return iOSReturnStatusCodeInternalError;
         }
         iOSReturnStatusCode ret = [self updateAppIfRequired:app
-                                                 codesigner:signer];
+                                                 codesigner:_signer];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
