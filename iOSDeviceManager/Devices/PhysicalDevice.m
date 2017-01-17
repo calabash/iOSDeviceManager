@@ -261,12 +261,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     id<DVTApplication> installedDVTApplication = [((FBiOSDeviceOperator *)_fbDevice.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
 
-    Application *app = [Application new];
-    app.bundleID = bundleID;
-    app.infoPlist = [installedDVTApplication plist];
-    app.arches = _fbDevice.supportedArchitectures;
-    
-    return app;
+    return [Application withBundleID:bundleID plist:[installedDVTApplication plist] architectures:_fbDevice.supportedArchitectures];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {

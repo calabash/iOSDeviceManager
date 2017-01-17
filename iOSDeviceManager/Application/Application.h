@@ -8,5 +8,6 @@
 @property (nonatomic, strong) NSSet<NSString *> *arches;
 
 + (Application *)withBundlePath:(NSString *)pathToBundle;
++ (Application *)withBundleID:(NSString *)bundleID plist:(NSDictionary *)plist architectures:(NSSet *)architectures;
 
 @end

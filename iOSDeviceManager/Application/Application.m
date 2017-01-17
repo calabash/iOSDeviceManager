@@ -58,4 +58,14 @@
     return app;
 }
 
++ (Application *)withBundleID:(NSString *)bundleID plist:(NSDictionary *)plist architectures:(NSSet *)architectures {
+    Application *app = [Application new];
+    app.bundleID = bundleID;
+    app.infoPlist = plist;
+    app.arches = architectures;
+    
+    return app;
+}
+
+
 @end
