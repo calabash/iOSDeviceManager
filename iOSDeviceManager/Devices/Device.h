@@ -15,8 +15,6 @@
 @property (nonatomic, strong) NSMutableArray <CodesignIdentity *> *identities;
 @property BOOL testingComplete;
 
-+ (BOOL)isSimulatorID:(NSString *)did;
-+ (BOOL)isDeviceID:(NSString *)did;
 + (Device *)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;

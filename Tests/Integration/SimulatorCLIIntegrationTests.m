@@ -2,6 +2,7 @@
 #import "TestCase.h"
 #import "Device.h"
 #import "CLI.h"
+#import "DeviceUtils.h"
 
 @interface CLI (priv)
 @end
@@ -277,7 +278,7 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    XCTAssertTrue([Device isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
+    XCTAssertTrue([DeviceUtils isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
     NSArray *args = @[kProgramName, @"kill_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     

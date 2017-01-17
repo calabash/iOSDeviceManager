@@ -5,6 +5,7 @@
 #import "CodesignIdentity.h"
 #import <sys/utsname.h>
 #import "Device.h"
+#import "DeviceUtils.h"
 
 @interface Simctl ()
 
@@ -267,7 +268,7 @@
                                         NSUInteger idx,
                                         BOOL *stop) {
         NSString *udid = [self extractUDID:line];
-        if ([Device isDeviceID:udid]) {
+        if ([DeviceUtils isDeviceID:udid]) {
             NSMutableDictionary *info = [@{} mutableCopy];
             info[@"UDID"] = udid;
             info[@"OS"] = [self extractVersion:line];

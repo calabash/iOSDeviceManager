@@ -3,22 +3,9 @@
 #import "Simulator.h"
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
+#import "DeviceUtils.h"
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
-
-@interface NSString(Base64)
-- (BOOL)isBase64;
-@end
-
-@implementation NSString(Base64)
-- (BOOL)isBase64 {
-    for (int i = 0; i < self.length; i++) {
-        char c =  toupper([self characterAtIndex:i]);
-        if (c < '0' || c > 'F') { return NO; }
-    }
-    return YES;
-}
-@end
 
 @implementation Device
 
@@ -31,17 +18,9 @@ const double EPSILON = 0.001;
     return self;
 }
 
-+ (BOOL)isSimulatorID:(NSString *)did {
-    return [[NSUUID alloc] initWithUUIDString:did] != nil;
-}
-
-+ (BOOL)isDeviceID:(NSString *)did {
-    return did.length == 40 && [did isBase64];
-}
-
 + (Device *)withID:(NSString *)uuid {
-    if ([self isSimulatorID:uuid]) { return [Simulator withID:uuid]; }
-    if ([self isDeviceID:uuid]) { return [PhysicalDevice withID:uuid]; }
+    if ([DeviceUtils isSimulatorID:uuid]) { return [Simulator withID:uuid]; }
+    if ([DeviceUtils isDeviceID:uuid]) { return [PhysicalDevice withID:uuid]; }
     ConsoleWriteErr(@"Specified device ID does not match simulator or device");
     return nil;
 }
