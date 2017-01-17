@@ -12,7 +12,6 @@
     [super setUp];
 }
 
-/*  Hangs indefinitely.
 - (void)testStartTest {
     if (device_available()) {
         NSArray *args = @[
@@ -24,7 +23,7 @@
         [CLI process:args];
     }
 }
-*/
+
 
 - (void)testSetLocation {
     if (device_available()) {

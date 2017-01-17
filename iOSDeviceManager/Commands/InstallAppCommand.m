@@ -18,10 +18,8 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
     
-    Device *device;
-    @try {
-        device = [Device withID:[self deviceIDFromArgs:args]];
-    } @catch (NSException *e) {
+    Device *device = [self deviceFromArgs:args];
+    if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
@@ -30,12 +28,12 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
     }
     
-    @try {
-        Application *app = [Application withBundlePath:pathToBundle];
-        return [device installApp:app shouldUpdate:update];
-    } @catch(NSException *e) {
+    
+    Application *app = [Application withBundlePath:pathToBundle];
+    if (!app) {
         return iOSReturnStatusCodeGenericFailure;
     }
+    return [device installApp:app shouldUpdate:update];
 }
 
 + (NSArray <CommandOption *> *)options {

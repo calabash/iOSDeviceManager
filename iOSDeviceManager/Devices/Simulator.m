@@ -26,18 +26,15 @@ static const FBSimulatorControl *_control;
     
     FBSimulatorSet *sims = _control.set;
     if (!sims) {
-        @throw [NSException exceptionWithName:@"DeviceNotFoundException"
-                                       reason:@"Unable to retrieve simulators"
-                                     userInfo:nil];
+        ConsoleWriteErr(@"Unable to retrieve simulators");
+        return nil;
     }
     
     FBiOSTargetQuery *query = [FBiOSTargetQuery udids:@[uuid]];
     NSArray <FBSimulator *> *results = [sims query:query];
     if (results.count == 0) {
         ConsoleWriteErr(@"No simulators found for ID %@", uuid);
-        @throw [NSException exceptionWithName:@"DeviceNotFoundException"
-                                       reason:@"No simulator with specified id found"
-                                     userInfo:nil];
+        return nil;
     }
     
     simulator.fbSimulator = results[0];

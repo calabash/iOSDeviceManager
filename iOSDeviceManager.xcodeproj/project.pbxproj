@@ -172,6 +172,9 @@
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
+		B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
+		B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D51D7134FD00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
@@ -426,6 +429,9 @@
 		B2039EF41E0C880600649BE3 /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
 		B22DC0051E1D799500BDD4CB /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = iOSDeviceManager/Application/Application.m; sourceTree = SOURCE_ROOT; };
 		B22DC0091E1D79C000BDD4CB /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Application.h; path = iOSDeviceManager/Application/Application.h; sourceTree = SOURCE_ROOT; };
+		B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSReturnStatusCode.h; path = iOSDeviceManager/Commands/iOSReturnStatusCode.h; sourceTree = SOURCE_ROOT; };
+		B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtils.h; path = iOSDeviceManager/Utilities/DeviceUtils.h; sourceTree = SOURCE_ROOT; };
+		B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtils.m; path = iOSDeviceManager/Utilities/DeviceUtils.m; sourceTree = SOURCE_ROOT; };
 		F50271CB1D6BE43A00BE0D9D /* Entitlements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entitlements.h; path = iOSDeviceManager/Utilities/Entitlements.h; sourceTree = SOURCE_ROOT; };
 		F50271CC1D6BE43A00BE0D9D /* Entitlements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlements.m; path = iOSDeviceManager/Utilities/Entitlements.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -508,6 +514,7 @@
 		892DE4D41D22F8E100E1902C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
+				B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */,
 				892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */,
 				892DE4DB1D22F97A00E1902C /* CLI.h */,
 				892DE4DC1D22F97A00E1902C /* CLI.m */,
@@ -606,6 +613,8 @@
 				F5F5282F1D6BADE500FF39BE /* Certificate.m */,
 				634244A3DB1410F8CB2EBE77 /* CodesignIdentity.h */,
 				6342420C2431007DE0F4756C /* CodesignIdentity.m */,
+				B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */,
+				B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */,
 				63424343F84B1572E56BE049 /* Entitlement.h */,
 				63424E7B23DD80326DB9FE47 /* Entitlement.m */,
 				F50271CB1D6BE43A00BE0D9D /* Entitlements.h */,
@@ -1031,6 +1040,7 @@
 				63424016FAA1D6E42AA2B639 /* CodesignIdentity.m in Sources */,
 				A18622701DE4F47700A05031 /* MachClock.m in Sources */,
 				898D7D971DA47569001578FE /* HTTPFileResponse.m in Sources */,
+				B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				63424D088ACDC4BC94DFD35C /* Entitlement.m in Sources */,
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
 				A1D930C21DC2875E0070573D /* ShasumProvider.m in Sources */,
@@ -1113,6 +1123,7 @@
 				898D7DDA1DA4758A001578FE /* RouteRequest.m in Sources */,
 				63424FEAE76809A65BF90953 /* EntitlementTest.m in Sources */,
 				634249A64C4A255650ADBB9C /* BundleResigner.m in Sources */,
+				B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				6342401D84BA2E8307FF6BD6 /* BundleResignerFactory.m in Sources */,
 				898D7D8C1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
 			);
@@ -1183,6 +1194,7 @@
 				898D7D9C1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				89C29E1C1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				634242AE8850C425B7060CD4 /* BundleResignerFactory.m in Sources */,
+				B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */,
 				898D7D8D1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
 				898D7D9F1DA47569001578FE /* WebSocket.m in Sources */,

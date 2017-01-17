@@ -33,6 +33,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
+@property (nonatomic, strong) Codesigner *signer;
 
 @end
 
@@ -49,23 +50,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                                     error:&err]
                                             deviceWithUDID:uuid];
     if (!fbDevice || err) {
-        LogInfo(@"Error getting device with ID %@: %@", uuid, err);
-        
-        @throw [NSException exceptionWithName:@"DeviceNotFoundException"
-                                       reason:@"Error getting device"
-                                     userInfo:nil];
+        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
+        return nil;
     }
-    
-    Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:nil
-                                                           deviceUDID:uuid];
-    fbDevice.deviceOperator.codesignProvider = signer;
 
     [fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
     if (err) {
-        LogInfo(@"Error getting device with ID %@: %@", uuid, err);
-        @throw [NSException exceptionWithName:@"DeviceAvailabilityTimeoutException"
-                                       reason:@"Failed waiting for device to become available"
-                                     userInfo:nil];
+        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
+        return nil;
     }
     
     device.fbDevice = fbDevice;
@@ -82,6 +74,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    
     CodesignIdentity *identity = [[self identities] firstObject];
     if (identity == nil) {
         identity = [CodesignIdentity identityForAppBundle:app.path deviceId:[self uuid]];
@@ -95,9 +88,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     NSString *codesignID = identity.name;
     
-    Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
+    if (!_signer || _signer.identityName != identity.name) {
+        _signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
                                                            deviceUDID:[self uuid]];
-    _fbDevice.deviceOperator.codesignProvider = signer;
+        _fbDevice.deviceOperator.codesignProvider = _signer;
+    }
     
     if (!_fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
@@ -115,7 +110,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     //Codesign
     FBProductBundle *codesignedApp = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
                               withBundlePath:stagedApp]
-                             withCodesignProvider:signer]
+                             withCodesignProvider:_signer]
                             buildWithError:&err];
     
     if (err) {
@@ -130,7 +125,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             return iOSReturnStatusCodeInternalError;
         }
         iOSReturnStatusCode ret = [self updateAppIfRequired:app
-                                                 codesigner:signer];
+                                                 codesigner:_signer];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
@@ -151,13 +146,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
-        if (!newPlist || newPlist.count == 0) {
+        if (!newPlist.count) {
             ConsoleWriteErr(@"Unable to find Info.plist for bundle path %@", app.path);
             return iOSReturnStatusCodeGenericFailure;
         }
 
         if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            LogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
+            ConsoleWriteErr(@"Installed version is different, attempting to update %@.", app.bundleID);
             iOSReturnStatusCode ret = [self uninstallApp:app.bundleID];
             if (ret != iOSReturnStatusCodeEverythingOkay) {
                 return ret;
@@ -165,7 +160,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
             return [self installApp:app shouldUpdate:YES];
         } else {
-            LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            ConsoleWriteErr(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
         }
     }
 
@@ -269,12 +264,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     id<DVTApplication> installedDVTApplication = [((FBiOSDeviceOperator *)_fbDevice.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
 
-    Application *app = [Application new];
-    app.bundleID = bundleID;
-    app.infoPlist = [installedDVTApplication plist];
-    app.arches = _fbDevice.supportedArchitectures;
-    
-    return app;
+    return [Application withBundleID:bundleID plist:[installedDVTApplication plist] architectures:_fbDevice.supportedArchitectures];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
@@ -295,17 +285,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                 `testingComplete` will be YES when testmanagerd calls
                 `testManagerMediatorDidFinishExecutingTestPlan:`
              */
-            while (!self.testingComplete){
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-
-                /*
-                    `testingHasFinished` returns YES when the bundle connection AND testmanagerd
-                    connection are finished with the connection (presumably at end of test or failure)
-                 */
-                if ([testManager testingHasFinished]) {
-                    break;
-                }
-            }
+            
+            FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
+            [spinner spinUntilTrue:^BOOL () {
+                return ([testManager testingHasFinished] && self.testingComplete);
+            }];
         }
     } else {
         ConsoleWriteErr(@"Err: %@", e);

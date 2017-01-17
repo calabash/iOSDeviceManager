@@ -1,23 +1,12 @@
 
 #import <Foundation/Foundation.h>
 #import "CommandOption.h"
-
-typedef NS_ENUM(int, iOSReturnStatusCode) {
-    iOSReturnStatusCodeEverythingOkay = 0,
-    iOSReturnStatusCodeGenericFailure,
-    iOSReturnStatusCodeFalse,
-    iOSReturnStatusCodeMissingArguments,
-    iOSReturnStatusCodeInvalidArguments,
-    iOSReturnStatusCodeInternalError,
-    iOSReturnStatusCodeUnrecognizedCommand,
-    iOSReturnStatusCodeUnrecognizedFlag,
-    iOSReturnStatusCodeDeviceNotFound,
-    iOSReturnStatusCodeNoValidCodesignIdentity
-};
+#import "Device.h"
+#import "iOSReturnStatusCode.h"
 
 @protocol iOSDeviceManagementCommand <NSObject>
-+ (NSString *)deviceIDFromArgs:(NSDictionary *)args;
 + (NSString *)positionalArgShortFlag:(NSString *)arg;
++ (Device *)deviceFromArgs:(NSDictionary *)args;
 + (NSString *)name;
 + (void)printUsage;
 + (NSArray <NSString *> *)positionalArgShortFlags;

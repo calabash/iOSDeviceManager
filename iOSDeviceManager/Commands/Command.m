@@ -4,6 +4,7 @@
 #import "CLI.h"
 #import "ConsoleWriter.h"
 #import "Device.h"
+#import "DeviceUtils.h"
 
 NSString * const DEVICE_ID_FLAG = @"-d";
 NSString * const APP_ID_FLAG = @"-a";
@@ -14,16 +15,12 @@ NSString * const APP_ID_ARGNAME = @"app_id";
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
-+ (NSString *)deviceIDFromArgs:(NSDictionary *)args {
-    return args[DEVICE_ID_FLAG] ?: args[DEFAULT_DEVICE_ID_KEY];
-}
-
 + (NSString *)positionalArgShortFlag:(NSString *)arg {
     if ([arg hasSuffix:@".app"] || [arg hasSuffix:@".ipa"]) {
         return APP_ID_FLAG;
     }
     
-    if ([Device isSimulatorID:arg] || [Device isDeviceID:arg]) {
+    if ([DeviceUtils isSimulatorID:arg] || [DeviceUtils isDeviceID:arg]) {
         return DEVICE_ID_FLAG;
     }
     
@@ -35,6 +32,11 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
              DEVICE_ID_ARGNAME,
              APP_ID_ARGNAME
              ];
+}
+
++ (Device *)deviceFromArgs:(NSDictionary *)args {
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
+    return [Device withID:deviceID];
 }
 
 + (NSString *)name {

@@ -10,10 +10,8 @@ static NSString *const BUNDLE_ID_FLAG = @"-b";
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
     
-    Device *device;
-    @try {
-        device = [Device withID:[self deviceIDFromArgs:args]];
-    } @catch (NSException *e) {
+    Device *device = [self deviceFromArgs:args];
+    if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
