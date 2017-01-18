@@ -102,7 +102,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
     
-    if ([self isInstalled:app.bundleID] == iOSReturnStatusCodeEverythingOkay && !shouldUpdate) {
+    NSError *isInstalledError;
+    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay && !shouldUpdate) {
         return iOSReturnStatusCodeEverythingOkay;
     }
     
@@ -142,7 +143,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)updateAppIfRequired:(Application *)app
                                 codesigner:(Codesigner *)signerThatCanSign {
 
-    if ([self isInstalled:app.bundleID] == iOSReturnStatusCodeEverythingOkay) {
+    NSError *isInstalledError;
+    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay) {
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
@@ -236,11 +238,21 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                  userInfo:nil];
 }
 
+- (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
+    BOOL installed = [self.fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
+                                                                                error:&error];
+    if (installed) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *err;
-    BOOL installed = [self.fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
-                                                                         error:&err];
+    BOOL installed = [self isInstalled:bundleID withError:err];
+    
     if (err) {
         ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
         @throw [NSException exceptionWithName:@"IsInstalledAppException"
@@ -258,7 +270,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    if (![self isInstalled:bundleID]) {
+    NSError *err;
+    if (![self isInstalled:bundleID withError:err] || err) {
         return nil;
     }
     

@@ -203,7 +203,8 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
     
-    if ([self isInstalled:bundleID] == iOSReturnStatusCodeEverythingOkay) {
+    NSError *error;
+    if ([self isInstalled:bundleID withError:error] == iOSReturnStatusCodeEverythingOkay) {
         FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
         if ([self.fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
@@ -225,10 +226,21 @@ static const FBSimulatorControl *_control;
     }
 }
 
+- (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
+    
+    BOOL installed = [self.fbSimulator isApplicationInstalledWithBundleID:bundleID error:&error];
+
+    if (installed) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *e;
-    BOOL installed = [self.fbSimulator isApplicationInstalledWithBundleID:bundleID error:&e];
+    BOOL installed = [self isInstalled:bundleID withError:e];
     
     if (e) {
         LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], e);
@@ -266,7 +278,8 @@ static const FBSimulatorControl *_control;
         }
     }
 
-    if ([self isInstalled:runnerID] == iOSReturnStatusCodeFalse) {
+    NSError *error;
+    if ([self isInstalled:runnerID withError:error] == iOSReturnStatusCodeFalse) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
