@@ -2,6 +2,7 @@
 #import "TestCase.h"
 #import "Device.h"
 #import "CLI.h"
+#import "DeviceUtils.h"
 
 @interface CLI (priv)
 @end
@@ -25,8 +26,7 @@
 
 - (NSString *)bundleVersionForInstalledTestApp {
     NSDictionary *plist;
-    plist = [Device infoPlistForInstalledBundleID:testAppID
-                                         deviceID:defaultSimUDID];
+    plist = [[Device withID:defaultSimUDID] installedApp:testAppID].infoPlist;
     return plist[@"CFBundleVersion"];
 }
 
@@ -88,7 +88,7 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
-    if ([CLI process:args] == iOSReturnStatusCodeFalse) {
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
         args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a",
                  [self.resources TestAppPath:SIM]];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
@@ -278,7 +278,7 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    XCTAssertTrue([TestParameters isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
+    XCTAssertTrue([DeviceUtils isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
     NSArray *args = @[kProgramName, @"kill_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     

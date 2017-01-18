@@ -3,6 +3,9 @@
 #import "Simulator.h"
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
+#import "DeviceUtils.h"
+
+#define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
 
 @implementation Device
 
@@ -13,6 +16,13 @@ const double EPSILON = 0.001;
         _testingComplete = NO;
     }
     return self;
+}
+
++ (Device *)withID:(NSString *)uuid {
+    if ([DeviceUtils isSimulatorID:uuid]) { return [Simulator withID:uuid]; }
+    if ([DeviceUtils isDeviceID:uuid]) { return [PhysicalDevice withID:uuid]; }
+    ConsoleWriteErr(@"Specified device ID does not match simulator or device");
+    return nil;
 }
 
 + (NSArray<FBDevice *> *)availableDevices {
@@ -106,100 +116,52 @@ const double EPSILON = 0.001;
     setenv("FBCONTROLCORE_DEBUG_LOGGING", FBLog, 1);
 }
 
-+ (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
-                               sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive {
-
-    if ([TestParameters isDeviceID:deviceID]) {
-        return [PhysicalDevice startTestOnDevice:deviceID
-                                       sessionID:sessionID
-                                  runnerBundleID:runnerBundleID
-                                       keepAlive:keepAlive];
-    } else {
-        return [Simulator startTestOnDevice:deviceID
-                                  sessionID:sessionID
-                             runnerBundleID:runnerBundleID
-                                  keepAlive:keepAlive];
-    }
+- (iOSReturnStatusCode)launch {
+    MUST_OVERRIDE;
 }
 
-+ (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
-                         deviceID:(NSString *)deviceID
-                        updateApp:(BOOL)updateApp
-                       codesignID:(NSString *)codesignID {
-    if ([TestParameters isDeviceID:deviceID]) {
-        return [PhysicalDevice installApp:pathToBundle
-                                 deviceID:deviceID
-                                updateApp:updateApp
-                               codesignID:codesignID];
-    } else {
-        return [Simulator installApp:pathToBundle
-                            deviceID:deviceID
-                           updateApp:updateApp
-                          codesignID:nil];
-    }
+- (iOSReturnStatusCode)kill {
+    MUST_OVERRIDE;
 }
 
-+ (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID
-                           deviceID:(NSString *)deviceID {
-    if ([TestParameters isSimulatorID:deviceID]) {
-        return [Simulator uninstallApp:bundleID deviceID:deviceID];
-    } else {
-        return [PhysicalDevice uninstallApp:bundleID deviceID:deviceID];
-    }
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
 }
 
-+ (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID
-                             deviceID:(NSString *)deviceID {
-    if ([TestParameters isSimulatorID:deviceID]) {
-        return [Simulator appIsInstalled:bundleID deviceID:deviceID];
-    } else {
-        return [PhysicalDevice appIsInstalled:bundleID deviceID:deviceID];
-    }
+- (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
+    MUST_OVERRIDE;
 }
 
-+ (iOSReturnStatusCode)setLocation:(NSString *)deviceID
-                               lat:(double)lat
-                               lng:(double)lng {
-    if ([TestParameters isSimulatorID:deviceID]) {
-        return [Simulator setLocation:deviceID
-                                  lat:lat
-                                  lng:lng];
-    } else {
-        return [PhysicalDevice setLocation:deviceID
-                                       lat:lat
-                                       lng:lng];
-    }
+- (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
+    MUST_OVERRIDE;
 }
 
-+ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
-                                       deviceID:(NSString *)deviceID {
-    if ([TestParameters isSimulatorID:deviceID]) {
-        return [Simulator infoPlistForInstalledBundleID:bundleID
-                                               deviceID:deviceID];
-    } else {
-        return [PhysicalDevice infoPlistForInstalledBundleID:bundleID
-                                                    deviceID:deviceID];
-    }
+- (iOSReturnStatusCode)stopSimulatingLocation {
+    MUST_OVERRIDE;
 }
 
-+ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
-                         toDevice:(NSString *)deviceID
-                   forApplication:(NSString *)bundleID
-                        overwrite:(BOOL)overwrite {
-    if ([TestParameters isSimulatorID:deviceID]) {
-        return [Simulator uploadFile:filepath
-                            toDevice:deviceID
-                      forApplication:bundleID
-                           overwrite:overwrite];
-    } else {
-        return [PhysicalDevice
-                uploadFile:filepath
-                toDevice:deviceID
-                forApplication:bundleID
-                overwrite:overwrite];
-    }
+- (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)killApp:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (Application *)installedApp:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+    MUST_OVERRIDE;
 }
 
 @end

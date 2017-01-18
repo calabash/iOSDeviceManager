@@ -1,6 +1,6 @@
-
 #import "InstallAppCommand.h"
-#import "ShellRunner.h"
+#import <FBControlCore/FBControlCore.h>
+#import "ConsoleWriter.h"
 #import "AppUtils.h"
 
 static NSString *const APP_PATH_FLAG = @"-a";
@@ -18,15 +18,22 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
     
-    NSString *installAppPath = args[APP_PATH_FLAG];
-    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        installAppPath = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+    Device *device = [self deviceFromArgs:args];
+    if (!device) {
+        return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    return [Device installApp:installAppPath
-                   deviceID:[self deviceIDFromArgs:args]
-                   updateApp:update
-                   codesignID:args[CODESIGN_IDENTITY_FLAG]];
+    NSString *pathToBundle= args[APP_PATH_FLAG];
+    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
+        pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+    }
+    
+    
+    Application *app = [Application withBundlePath:pathToBundle];
+    if (!app) {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    return [device installApp:app shouldUpdate:update];
 }
 
 + (NSArray <CommandOption *> *)options {

@@ -48,8 +48,6 @@
 		892DE4A01D22F84200E1902C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
 		892DE4A31D22F84200E1902C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
 		892DE4A41D22F84200E1902C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
-		892DE4B51D22F85400E1902C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
-		892DE4B61D22F85400E1902C /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
 		892DE4BF1D22F85F00E1902C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4B91D22F85F00E1902C /* Codesigner.m */; };
 		892DE4C01D22F85F00E1902C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4B91D22F85F00E1902C /* Codesigner.m */; };
 		892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
@@ -171,6 +169,12 @@
 		A1D930C41DC2875E0070573D /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C11DC2875E0070573D /* ShasumProvider.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
 		B2039EF51E0C880600649BE3 /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceTest.m */; };
+		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
+		B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
+		B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		F50271CD1D6BE43A00BE0D9D /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D51D7134FD00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
 		F51106D61D7134FE00AFC948 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = F50271CC1D6BE43A00BE0D9D /* Entitlements.m */; };
@@ -218,7 +222,6 @@
 		F5D584051D6A0387007B0D11 /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
 		F5D584061D6A0387007B0D11 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		F5D584071D6A0387007B0D11 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
-		F5D584081D6A038C007B0D11 /* TestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4AB1D22F85400E1902C /* TestParameters.m */; };
 		F5D584091D6A039B007B0D11 /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D8211D67B60A00A41EFD /* TestCase.m */; };
 		F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
 		F5D5840B1D6A039B007B0D11 /* ResourcesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */; };
@@ -328,8 +331,6 @@
 		892DE4971D22F84200E1902C /* PhysicalDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = PhysicalDevice.m; path = iOSDeviceManager/Devices/PhysicalDevice.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE4981D22F84200E1902C /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Simulator.h; path = iOSDeviceManager/Devices/Simulator.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE4991D22F84200E1902C /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = Simulator.m; path = iOSDeviceManager/Devices/Simulator.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		892DE4AA1D22F85400E1902C /* TestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = TestParameters.h; path = iOSDeviceManager/TestParameters/TestParameters.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		892DE4AB1D22F85400E1902C /* TestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = TestParameters.m; path = iOSDeviceManager/TestParameters/TestParameters.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE4B81D22F85F00E1902C /* Codesigner.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Codesigner.h; path = iOSDeviceManager/Utilities/Codesigner.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE4B91D22F85F00E1902C /* Codesigner.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = Codesigner.m; path = iOSDeviceManager/Utilities/Codesigner.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE4BA1D22F85F00E1902C /* ShellRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = ShellRunner.h; path = iOSDeviceManager/Utilities/ShellRunner.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -426,6 +427,11 @@
 		A1D930C11DC2875E0070573D /* ShasumProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShasumProvider.m; path = iOSDeviceManager/Utilities/ShasumProvider.m; sourceTree = SOURCE_ROOT; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
 		B2039EF41E0C880600649BE3 /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
+		B22DC0051E1D799500BDD4CB /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = iOSDeviceManager/Application/Application.m; sourceTree = SOURCE_ROOT; };
+		B22DC0091E1D79C000BDD4CB /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Application.h; path = iOSDeviceManager/Application/Application.h; sourceTree = SOURCE_ROOT; };
+		B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSReturnStatusCode.h; path = iOSDeviceManager/Commands/iOSReturnStatusCode.h; sourceTree = SOURCE_ROOT; };
+		B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtils.h; path = iOSDeviceManager/Utilities/DeviceUtils.h; sourceTree = SOURCE_ROOT; };
+		B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtils.m; path = iOSDeviceManager/Utilities/DeviceUtils.m; sourceTree = SOURCE_ROOT; };
 		F50271CB1D6BE43A00BE0D9D /* Entitlements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entitlements.h; path = iOSDeviceManager/Utilities/Entitlements.h; sourceTree = SOURCE_ROOT; };
 		F50271CC1D6BE43A00BE0D9D /* Entitlements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Entitlements.m; path = iOSDeviceManager/Utilities/Entitlements.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -508,6 +514,7 @@
 		892DE4D41D22F8E100E1902C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
+				B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */,
 				892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */,
 				892DE4DB1D22F97A00E1902C /* CLI.h */,
 				892DE4DC1D22F97A00E1902C /* CLI.m */,
@@ -571,8 +578,8 @@
 				898D7DE51DA47652001578FE /* Server */,
 				896F7F041CF9C51900FD8572 /* Utilities */,
 				896F7F021CF9C50500FD8572 /* Devices */,
+				B22DC0031E1D790E00BDD4CB /* Application */,
 				892DE4D41D22F8E100E1902C /* Commands */,
-				896F7F031CF9C51000FD8572 /* TestParameters */,
 			);
 			name = iOSDeviceManager;
 			path = "test-control";
@@ -591,15 +598,6 @@
 			name = Devices;
 			sourceTree = "<group>";
 		};
-		896F7F031CF9C51000FD8572 /* TestParameters */ = {
-			isa = PBXGroup;
-			children = (
-				892DE4AA1D22F85400E1902C /* TestParameters.h */,
-				892DE4AB1D22F85400E1902C /* TestParameters.m */,
-			);
-			name = TestParameters;
-			sourceTree = "<group>";
-		};
 		896F7F041CF9C51900FD8572 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -615,6 +613,8 @@
 				F5F5282F1D6BADE500FF39BE /* Certificate.m */,
 				634244A3DB1410F8CB2EBE77 /* CodesignIdentity.h */,
 				6342420C2431007DE0F4756C /* CodesignIdentity.m */,
+				B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */,
+				B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */,
 				63424343F84B1572E56BE049 /* Entitlement.h */,
 				63424E7B23DD80326DB9FE47 /* Entitlement.m */,
 				F50271CB1D6BE43A00BE0D9D /* Entitlements.h */,
@@ -786,6 +786,15 @@
 				89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B22DC0031E1D790E00BDD4CB /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				B22DC0091E1D79C000BDD4CB /* Application.h */,
+				B22DC0051E1D799500BDD4CB /* Application.m */,
+			);
+			name = Application;
 			sourceTree = "<group>";
 		};
 		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
@@ -990,6 +999,7 @@
 				898D7D9A1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				898D7DD91DA4758A001578FE /* RouteRequest.m in Sources */,
 				F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */,
+				B22DC0061E1D799500BDD4CB /* Application.m in Sources */,
 				F5F528351D6BAE2100FF39BE /* MobileProfile.m in Sources */,
 				892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				898D7D8E1DA47569001578FE /* HTTPDataResponse.m in Sources */,
@@ -1009,7 +1019,6 @@
 				892DE4BF1D22F85F00E1902C /* Codesigner.m in Sources */,
 				898D7D7F1DA47569001578FE /* HTTPServer.m in Sources */,
 				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
-				892DE4B51D22F85400E1902C /* TestParameters.m in Sources */,
 				898D7D3E1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				898D7D911DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
 				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
@@ -1031,6 +1040,7 @@
 				63424016FAA1D6E42AA2B639 /* CodesignIdentity.m in Sources */,
 				A18622701DE4F47700A05031 /* MachClock.m in Sources */,
 				898D7D971DA47569001578FE /* HTTPFileResponse.m in Sources */,
+				B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				63424D088ACDC4BC94DFD35C /* Entitlement.m in Sources */,
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
 				A1D930C21DC2875E0070573D /* ShasumProvider.m in Sources */,
@@ -1042,6 +1052,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
@@ -1083,7 +1094,6 @@
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				898D7D6E1DA47569001578FE /* DDData.m in Sources */,
-				892DE4B61D22F85400E1902C /* TestParameters.m in Sources */,
 				89C29E261DAFA93500282526 /* UploadFileCommand.m in Sources */,
 				898D7D801DA47569001578FE /* HTTPServer.m in Sources */,
 				898D7DD71DA4758A001578FE /* Route.m in Sources */,
@@ -1113,6 +1123,7 @@
 				898D7DDA1DA4758A001578FE /* RouteRequest.m in Sources */,
 				63424FEAE76809A65BF90953 /* EntitlementTest.m in Sources */,
 				634249A64C4A255650ADBB9C /* BundleResigner.m in Sources */,
+				B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				6342401D84BA2E8307FF6BD6 /* BundleResignerFactory.m in Sources */,
 				898D7D8C1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
 			);
@@ -1140,7 +1151,6 @@
 				898D7DD51DA4758A001578FE /* HTTPResponseProxy.m in Sources */,
 				F5D583F71D6A0363007B0D11 /* Codesigner.m in Sources */,
 				F5D584071D6A0387007B0D11 /* StopSimulatingLocationCommand.m in Sources */,
-				F5D584081D6A038C007B0D11 /* TestParameters.m in Sources */,
 				F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
 				898D7D781DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
@@ -1175,6 +1185,7 @@
 				898D7DE41DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,
+				B22DC0081E1D799500BDD4CB /* Application.m in Sources */,
 				F5D78DC91D8D32EB00497000 /* ShellResult.m in Sources */,
 				898D7DE11DA4758A001578FE /* RoutingConnection.m in Sources */,
 				6342446F1D176E8240E093B1 /* Entitlement.m in Sources */,
@@ -1183,6 +1194,7 @@
 				898D7D9C1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				89C29E1C1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				634242AE8850C425B7060CD4 /* BundleResignerFactory.m in Sources */,
+				B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */,
 				898D7D8D1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
 				898D7D9F1DA47569001578FE /* WebSocket.m in Sources */,

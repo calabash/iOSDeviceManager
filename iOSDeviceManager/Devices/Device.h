@@ -1,10 +1,33 @@
-#import "iOSDeviceManagementCommand.h"
-#import <Foundation/Foundation.h>
-#import "TestParameters.h"
-#import <FBDeviceControl/FBDeviceControl.h>
+
+#import <FBControlCore/FBControlCore.h>
 #import <FBSimulatorControl/FBSimulatorControl.h>
+#import <FBDeviceControl/FBDeviceControl.h>
+#import <Foundation/Foundation.h>
+#import "CodesignIdentity.h"
+#import <XCTestBootstrap/XCTestBootstrap.h>
+#import "Application.h"
+#import "iOSReturnStatusCode.h"
 
 @interface Device : NSObject
+
+@property (nonatomic, strong) NSString *uuid;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSMutableArray <CodesignIdentity *> *identities;
+@property BOOL testingComplete;
+
++ (Device *)withID:(NSString *)uuid;
+- (iOSReturnStatusCode)launch;
+- (iOSReturnStatusCode)kill;
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
+- (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
+- (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
+- (iOSReturnStatusCode)stopSimulatingLocation;
+- (iOSReturnStatusCode)launchApp:(NSString *)bundleID;
+- (iOSReturnStatusCode)killApp:(NSString *)bundleID;
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
+- (Application *)installedApp:(NSString *)bundleID;
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
 
 /**
  Defined as first available launched simulator if any, 
@@ -16,31 +39,4 @@
 + (NSArray<FBSimulator *> *)availableSimulators;
 + (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators;
 
-+ (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
-                               sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive; //helps with integration testing
-
-+ (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID
-                           deviceID:(NSString *)deviceID;
-+ (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
-                         deviceID:(NSString *)deviceID
-                        updateApp:(BOOL)updateApp
-                       codesignID:(NSString *)codesignID;
-+ (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID
-                             deviceID:(NSString *)deviceID;
-
-+ (iOSReturnStatusCode)setLocation:(NSString *)deviceID
-                               lat:(double)lat
-                               lng:(double)lng;
-
-+ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID
-                                       deviceID:(NSString *)deviceID;
-
-+ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
-                         toDevice:(NSString *)deviceID
-                   forApplication:(NSString *)bundleID
-                        overwrite:(BOOL)overwrite;
-
-@property BOOL testingComplete;
 @end

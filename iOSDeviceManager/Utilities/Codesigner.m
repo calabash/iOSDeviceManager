@@ -3,7 +3,7 @@
 #import "BundleResignerFactory.h"
 #import "BundleResigner.h"
 #import "iOSDeviceManagementCommand.h"
-#import "TestParameters.h"
+#import "DeviceUtils.h"
 
 static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
@@ -75,7 +75,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     }
 
     BOOL success;
-    if ([TestParameters isDeviceID:self.deviceUDID]) {
+    if ([DeviceUtils isDeviceID:self.deviceUDID]) {
         success = [resigner resign];
     } else {
         success = [resigner resignSimBundle];
@@ -106,7 +106,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
 - (BundleResigner *)bundleResignerForBundleAtPath:(NSString *)bundlePath {
     BundleResigner *resigner;
-    if ([TestParameters isDeviceID:self.deviceUDID]) {
+    if ([DeviceUtils isDeviceID:self.deviceUDID]) {
         resigner = [[BundleResignerFactory shared] resignerWithBundlePath:bundlePath
                                                                deviceUDID:self.deviceUDID
                                                     signingIdentityString:self.codeSignIdentity];

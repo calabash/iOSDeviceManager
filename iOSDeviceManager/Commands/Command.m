@@ -11,8 +11,9 @@ const NSString *DEFAULT_DEVICE_ID_KEY = @"default_device_id";
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
-+ (NSString *)deviceIDFromArgs:(NSDictionary *)args {
-    return args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
++ (Device *)deviceFromArgs:(NSDictionary *)args {
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
+    return [Device withID:deviceID];
 }
 
 + (NSString *)name {

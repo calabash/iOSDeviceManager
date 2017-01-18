@@ -22,6 +22,12 @@
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    return [Simulator killSimulator:[self deviceIDFromArgs:args]];
+    
+    Device *device = [self deviceFromArgs:args];
+    if (!device) {
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
+    
+    return [device kill];
 }
 @end

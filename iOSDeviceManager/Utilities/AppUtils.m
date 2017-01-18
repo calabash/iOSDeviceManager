@@ -26,7 +26,7 @@
     return NO;
 }
 
-+ (NSString *)copyAppBundle:(NSString *)bundlePath {
++ (NSString *)copyAppBundleToTmpDir:(NSString *)bundlePath {
     NSError *error;
     NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
     NSString *tempPath = [NSTemporaryDirectory() stringByAppendingPathComponent:UUID];
@@ -56,7 +56,7 @@
 }
 
 + (NSString *)unzipIpa:(NSString*)ipaPath {
-    NSString *copiedAppPath = [AppUtils copyAppBundle:ipaPath];
+    NSString *copiedAppPath = [AppUtils copyAppBundleToTmpDir:ipaPath];
     NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];
     NSString *payloadPath = [unzipPath stringByAppendingString:@"/Payload/"];
     NSArray *params = @[@"ditto", @"-xk", copiedAppPath, unzipPath];
