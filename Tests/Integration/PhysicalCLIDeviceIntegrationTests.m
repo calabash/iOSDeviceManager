@@ -12,6 +12,7 @@
     [super setUp];
 }
 
+/* Hangs indefinitely until a POST 1.0/shutdown is received
 - (void)testStartTest {
     if (device_available()) {
         NSArray *args = @[
@@ -23,6 +24,7 @@
         [CLI process:args];
     }
 }
+*/
 
 
 - (void)testSetLocation {
