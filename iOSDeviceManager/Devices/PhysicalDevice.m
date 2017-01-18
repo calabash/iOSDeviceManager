@@ -88,13 +88,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     NSString *codesignID = identity.name;
     
-    if (!_signer || _signer.identityName != identity.name) {
-        _signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
+    if (!self.signer || ![self.signer.identityName isEqualToString:identity.name]) {
+        self.signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
                                                            deviceUDID:[self uuid]];
-        _fbDevice.deviceOperator.codesignProvider = _signer;
+        self.fbDevice.deviceOperator.codesignProvider = self.signer;
     }
     
-    if (!_fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
+    if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
     NSString *stagedApp = [AppUtils copyAppBundleToTmpDir:app.path];
     if (!stagedApp) {
@@ -102,7 +102,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
     
-    if ([self isInstalled:app.bundleID] == iOSReturnStatusCodeEverythingOkay && !shouldUpdate) {
+    NSError *isInstalledError;
+    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay && !shouldUpdate) {
         return iOSReturnStatusCodeEverythingOkay;
     }
     
@@ -110,7 +111,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     //Codesign
     FBProductBundle *codesignedApp = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
                               withBundlePath:stagedApp]
-                             withCodesignProvider:_signer]
+                             withCodesignProvider:self.signer]
                             buildWithError:&err];
     
     if (err) {
@@ -118,14 +119,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
     
-    FBiOSDeviceOperator *op = _fbDevice.deviceOperator;
+    FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
     if ([op isApplicationInstalledWithBundleID:codesignedApp.bundleID error:&err] || err) {
         if (err) {
             ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", codesignedApp.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
         iOSReturnStatusCode ret = [self updateAppIfRequired:app
-                                                 codesigner:_signer];
+                                                 codesigner:self.signer];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
@@ -142,7 +143,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)updateAppIfRequired:(Application *)app
                                 codesigner:(Codesigner *)signerThatCanSign {
 
-    if ([self isInstalled:app.bundleID] == iOSReturnStatusCodeEverythingOkay) {
+    NSError *isInstalledError;
+    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay) {
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
@@ -169,7 +171,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
     
-    FBiOSDeviceOperator *op = _fbDevice.deviceOperator;
+    FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
     
     NSError *err;
     if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
@@ -191,13 +193,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
 
-    if (![_fbDevice.dvtDevice supportsLocationSimulation]) {
+    if (![self.fbDevice.dvtDevice supportsLocationSimulation]) {
         ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     NSError *e;
-    [[_fbDevice.dvtDevice token] simulateLatitude:@(lat)
+    [[self.fbDevice.dvtDevice token] simulateLatitude:@(lat)
                                   andLongitude:@(lng)
                                      withError:&e];
     if (e) {
@@ -210,13 +212,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)stopSimulatingLocation {
 
-    if (![_fbDevice.dvtDevice supportsLocationSimulation]) {
+    if (![self.fbDevice.dvtDevice supportsLocationSimulation]) {
         ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     NSError *e;
-    [[_fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
+    [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
     if (e) {
         ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
         return iOSReturnStatusCodeInternalError;
@@ -236,11 +238,21 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                  userInfo:nil];
 }
 
+- (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
+    BOOL installed = [self.fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
+                                                                                error:&error];
+    if (installed) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *err;
-    BOOL installed = [_fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
-                                                                         error:&err];
+    BOOL installed = [self isInstalled:bundleID withError:err];
+    
     if (err) {
         ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
         @throw [NSException exceptionWithName:@"IsInstalledAppException"
@@ -258,20 +270,21 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    if (![self isInstalled:bundleID]) {
+    NSError *err;
+    if (![self isInstalled:bundleID withError:err] || err) {
         return nil;
     }
     
-    id<DVTApplication> installedDVTApplication = [((FBiOSDeviceOperator *)_fbDevice.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
+    id<DVTApplication> installedDVTApplication = [((FBiOSDeviceOperator *)self.fbDevice.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
 
-    return [Application withBundleID:bundleID plist:[installedDVTApplication plist] architectures:_fbDevice.supportedArchitectures];
+    return [Application withBundleID:bundleID plist:[installedDVTApplication plist] architectures:self.fbDevice.supportedArchitectures];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
     NSError *e = nil;
 
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:_fbDevice.deviceOperator
+    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:self.fbDevice.deviceOperator
                                                                          runnerBundleID:runnerID
                                                                               sessionID:sessionID
                                                                          withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
@@ -305,7 +318,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 // */
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
 
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)_fbDevice.deviceOperator);
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
 
     NSError *e;
 
@@ -337,7 +350,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    if (![_fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
+    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
              forInstalledApplicationWithBundleIdentifier:bundleID
                                                    error:&e]) {
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
