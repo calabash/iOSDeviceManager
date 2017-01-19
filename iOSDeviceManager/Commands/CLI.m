@@ -45,8 +45,11 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     printf("\n");
 }
 
-// For parsing args - positional values may be used (regardless of order) and their corresponding property is determined by `positionalArgShortFlag`. Currently,
-// if positional args are specified as well as a matching flagged arg for the same property - the last specified value for that property will be used.
+/*
+ For parsing args - positional values may be used (regardless of order) and their
+ corresponding property is determined by `positionalArgShortFlag`. Using redundant 
+ args will result in iOSReturnStatusCodeInvalidArguments response.
+*/
 + (NSDictionary<NSString *, NSString *> *)parseArgs:(NSArray <NSString *> *)args
                                          forCommand:(Class <iOSDeviceManagementCommand>)command
                                            exitCode:(int *)exitCode {
@@ -55,7 +58,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     
     for (int i = 0; i < args.count; i++) {
         CommandOption *op = [command optionForFlag:args[i]];
-        if (op == nil) {
+        if (op == nil) { // This is true when the arg provided isn't a recognized flag or isn't a flag
             if ([possiblePositionalArgShortFlags count] == 0) {
                 ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %s\n",
                        [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -68,6 +71,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             } else {
                 NSString *positionalArgShortFlag = [command positionalArgShortFlag:args[i]];
                 if (positionalArgShortFlag) {
+                    // Check if redundant positional args specified
                     if (![possiblePositionalArgShortFlags containsObject:positionalArgShortFlag]) {
                         ConsoleWriteErr(@"Multiple arguments detected for %@", positionalArgShortFlag);
                         [self printUsage];

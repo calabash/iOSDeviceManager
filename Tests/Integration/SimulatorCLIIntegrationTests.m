@@ -326,6 +326,12 @@
     
     args = @[kProgramName, @"install", [Device defaultDeviceID]];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
+    
+    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM), @"-a", @"/path/to/another/app"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
+    
+    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM), @"-d", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 }
 
 @end
