@@ -68,6 +68,12 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             } else {
                 NSString *positionalArgShortFlag = [command positionalArgShortFlag:args[i]];
                 if (positionalArgShortFlag) {
+                    if (![possiblePositionalArgShortFlags containsObject:positionalArgShortFlag]) {
+                        ConsoleWriteErr(@"Multiple arguments detected for %@", positionalArgShortFlag);
+                        [self printUsage];
+                        *exitCode = iOSReturnStatusCodeInvalidArguments;
+                        return nil;
+                    }
                     values[positionalArgShortFlag] = args[i];
                     [possiblePositionalArgShortFlags removeObject:positionalArgShortFlag];
                 } else{
@@ -85,6 +91,12 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             ConsoleWriteErr(@"No value provided for %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
             [command printUsage];
             *exitCode = iOSReturnStatusCodeMissingArguments;
+            return nil;
+        }
+        if ([values objectForKey:op.shortFlag]) {
+            ConsoleWriteErr(@"Multiple arguments detected for %@", op.longFlag);
+            [command printUsage];
+            *exitCode = iOSReturnStatusCodeInvalidArguments;
             return nil;
         }
         if (op.requiresArgument) {
