@@ -1,3 +1,12 @@
+### 1.0.5
+
+* Reorganize resigning classes #107
+* Update device model to be an instance variable #105
+* Improve default device detection #104
+* Add support for app lifecycle events on .ipa archives #103
+* Allow positional argument for device ID #102
+* Stores identities rather than making multiple find-identity calls #101
+
 ### 1.0.4
 
 FBSimulatorControl was not updated.  See the 1.0.3 notes for details.

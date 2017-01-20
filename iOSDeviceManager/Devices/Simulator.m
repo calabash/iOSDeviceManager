@@ -21,53 +21,53 @@ static const FBSimulatorControl *_control;
 
 + (Device *)withID:(NSString *)uuid {
     Simulator* simulator = [[Simulator alloc] init];
-    
+
     simulator.uuid = uuid;
-    
+
     FBSimulatorSet *sims = _control.set;
     if (!sims) {
         ConsoleWriteErr(@"Unable to retrieve simulators");
         return nil;
     }
-    
+
     FBiOSTargetQuery *query = [FBiOSTargetQuery udids:@[uuid]];
     NSArray <FBSimulator *> *results = [sims query:query];
     if (results.count == 0) {
         ConsoleWriteErr(@"No simulators found for ID %@", uuid);
         return nil;
     }
-    
+
     simulator.fbSimulator = results[0];
-    
+
     return simulator;
 }
 
 - (iOSReturnStatusCode)launch {
-    
+
     NSError *error;
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         LogInfo(@"Sim is dead, booting...");
-        
+
         FBSimulatorBootConfiguration *bootConfig;
-        
+
         // FBSimulatorBootOptionsAwaitServices - would this allow us to wait until the
         // simulator is booted?
         bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
         FBSimulatorInteraction *interaction;
         interaction = [FBSimulatorInteraction withSimulator:self.fbSimulator];
-        
+
         if (![[interaction bootSimulator:bootConfig] perform:&error]) {
             ConsoleWriteErr(@"Failed to boot sim: %@", error);
             return iOSReturnStatusCodeInternalError;
         }
     }
-    
+
     return self.fbSimulator != nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeDeviceNotFound;
 }
 
 - (iOSReturnStatusCode)kill {
-    
+
     if (self.fbSimulator == nil) {
         ConsoleWriteErr(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
@@ -79,35 +79,35 @@ static const FBSimulatorControl *_control;
         ConsoleWriteErr(@"Simulator %@ is already shutting down", [self uuid]);
         return iOSReturnStatusCodeEverythingOkay;
     }
-    
+
     NSError *e;
     [[self.fbSimulator.interact shutdownSimulator] perform:&e];
-    
+
     if (e ) {
         ConsoleWriteErr(@"Error shutting down sim %@: %@", [self uuid], e);
     }
-    
+
     return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
     NSError *e;
     if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         ConsoleWriteErr(@"Simulator %@ is dead. Must launch sim before installing an app.", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     Codesigner *signer = [[Codesigner alloc] initAdHocWithDeviceUDID:[self uuid]];
-    
+
     if (![signer validateSignatureAtBundlePath:app.path]) {
         NSError *signError;
-        
+
         [signer signBundleAtPath:app.path
                            error:&signError];
-        
+
         if (signError) {
             ConsoleWriteErr(@"Error resigning sim bundle");
             ConsoleWriteErr(@"  Path to bundle: %@", app.path);
@@ -116,7 +116,7 @@ static const FBSimulatorControl *_control;
             return iOSReturnStatusCodeGenericFailure;
         }
     }
-    
+
     NSError *error;
     FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path error:&error];
     if (error) {
@@ -124,7 +124,7 @@ static const FBSimulatorControl *_control;
         ConsoleWriteErr(@" Path to bundle: %@", app.path);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     if (![self.fbSimulator installedApplicationWithBundleID:app.bundleID error:nil]) {
         [[self.fbSimulator.interact installApplication:appDescriptor] perform:&e];
     } else if (shouldUpdate) {
@@ -133,67 +133,67 @@ static const FBSimulatorControl *_control;
             return ret;
         }
     }
-    
+
     if (e) {
         ConsoleWriteErr(@"Error installing application: %@", e);
         return iOSReturnStatusCodeGenericFailure;
     } else {
         DDLogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
-    
+
     if (self.fbSimulator == nil) {
         ConsoleWriteErr(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
     }
-    
+
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         ConsoleWriteErr(@"Simulator %@ is dead. Must launch before uninstalling apps.", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     if (![self.fbSimulator installedApplicationWithBundleID:bundleID error:nil]) {
         ConsoleWriteErr(@"App %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSError *e;
     [[self.fbSimulator.interact uninstallApplicationWithBundleID:bundleID] perform:&e];
     if (e) {
         ConsoleWriteErr(@"Error uninstalling app: %@", e);
     }
-    
+
     return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat
                                            lng:(double)lng {
-    
+
     if (self.fbSimulator == nil) {
         ConsoleWriteErr(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
     }
-    
+
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         ConsoleWriteErr(@"Sim is dead! Must boot first");
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     NSError *e;
     FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:self.fbSimulator error:&e];
     if (e || !bridge) {
         ConsoleWriteErr(@"Unable to fetch simulator bridge: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     [bridge setLocationWithLatitude:lat longitude:lng];
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -202,7 +202,7 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
-    
+
     NSError *error;
     if ([self isInstalled:bundleID withError:error] == iOSReturnStatusCodeEverythingOkay) {
         FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
@@ -212,13 +212,13 @@ static const FBSimulatorControl *_control;
             return iOSReturnStatusCodeInternalError;
         }
     }
-    
+
     return iOSReturnStatusCodeGenericFailure;
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
     BOOL result = [self.fbSimulator killApplicationWithBundleID:bundleID error:nil];
-    
+
     if (result) {
         return iOSReturnStatusCodeEverythingOkay;
     } else {
@@ -227,7 +227,7 @@ static const FBSimulatorControl *_control;
 }
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
-    
+
     BOOL installed = [self.fbSimulator isApplicationInstalledWithBundleID:bundleID error:&error];
 
     if (installed) {
@@ -241,7 +241,7 @@ static const FBSimulatorControl *_control;
 
     NSError *e;
     BOOL installed = [self isInstalled:bundleID withError:e];
-    
+
     if (e) {
         LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], e);
         return iOSReturnStatusCodeFalse;
@@ -262,7 +262,7 @@ static const FBSimulatorControl *_control;
     if (!installed) {
         return nil;
     }
-    
+
     return [Application withBundlePath:installed.path];
 }
 
@@ -283,6 +283,7 @@ static const FBSimulatorControl *_control;
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
+
 
     Simulator *replog = [Simulator new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:self.fbSimulator];
@@ -324,7 +325,7 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
-    
+
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:filepath]) {
         ConsoleWriteErr(@"File does not exist: %@", filepath);
@@ -358,7 +359,7 @@ static const FBSimulatorControl *_control;
         ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -392,7 +393,7 @@ static const FBSimulatorControl *_control;
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
-                                        
+
         return [self installApp:app shouldUpdate:YES];
     } else {
         DDLogInfo(@"Latest version of %@ is installed, not reinstalling.", installed.bundleID);
@@ -556,12 +557,12 @@ testCaseDidStartForTestClass:(NSString *)testClass
                              stringByAppendingPathComponent:@"Application"];
     
     NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:appDataPath error:nil];
-    
+
     for (id bundleFolder in bundleFolders) {
         NSString *bundleFolderPath = [appDataPath stringByAppendingPathComponent:bundleFolder];
         NSString *plistFile = [bundleFolderPath
                                stringByAppendingPathComponent:@".com.apple.mobile_container_manager.metadata.plist"];
-        
+
         if ([fm fileExistsAtPath:plistFile]) {
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
             if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
@@ -570,7 +571,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
             }
         }
     }
-    
+
     return nil;
 }
 
