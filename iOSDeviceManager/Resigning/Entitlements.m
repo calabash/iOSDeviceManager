@@ -151,10 +151,14 @@
 - (NSString *)applicationIdentifier {
     return self[@"application-identifier"];
 }
+
+/*
+    ABCDEF12345.com.my.app => com.my.app
+ */
 - (NSString *)applicationIdentifierWithoutPrefix {
     NSString *teamID = self[@"com.apple.developer.team-identifier"];
     NSString *appID = [self applicationIdentifier];
-    return [appID replace:teamID with:@""];
+    return [appID replace:[NSString stringWithFormat:@"%@.", teamID] with:@""];
 }
 
 @end
