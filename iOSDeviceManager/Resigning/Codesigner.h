@@ -13,7 +13,6 @@ typedef void(^appResigningCompleteBlock)(Application *app);
 
  @param app Application to resign
  @param profile Profile to use to resign
- @param error Error buff in case of problems
  @return YES if successful, NO otherwise.
  @warn Resigns in-place (i.e. destructively)
  
@@ -29,7 +28,6 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  @param app Application to resign
  @param profile Profile to use to resign
  @param resourcePaths Paths to objects to inject. Intended use case is .dylibs
- @param error Error buff in case of problems
  @return YES if successful, NO otherwise.
  @warn Resigns in-place (i.e. destructively)
  
@@ -43,14 +41,13 @@ typedef void(^appResigningCompleteBlock)(Application *app);
 
 /**
  
- "resign_all"
+ "resign-all"
  
  Resigns a the contents of an Application app dir once for each profile in `profiles`
  
  @param app Application to resign
  @param profiles Profiles to use to resign
  @param resourcePaths Paths to objects to inject. Intended use case is .dylibs
- @param error Error buff in case of problems
  @param handler Handler block to deal with each app as they become resigned. Since resigning occurs in-place,
                 the caller should copy each application bundle over to a new location every time `handler` is
                 invoked.
