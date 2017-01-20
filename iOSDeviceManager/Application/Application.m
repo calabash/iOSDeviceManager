@@ -67,5 +67,19 @@
     return app;
 }
 
+- (NSString *)baseDir {
+    NSString *dir = [self.path stringByDeletingLastPathComponent];
+    NSString *parentDirname = [dir lastPathComponent];
+    if ([parentDirname isEqualToString:@"Payload"]) {
+        //It's an unzipped ipa: /path/to/somewhere/Payload/MyApp.app
+        //We want to return '/path/to/somewhere'
+        return [dir stringByDeletingLastPathComponent];
+    } else {
+        //It's a simulator app or .app outside of a Payload context.
+        //We just return the parent dir.
+        return dir;
+    }
+}
+
 
 @end

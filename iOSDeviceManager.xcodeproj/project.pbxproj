@@ -140,6 +140,12 @@
 		89A1CEF41E302FC200D9FEC5 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE91E302FC200D9FEC5 /* Entitlements.m */; };
 		89A1CEF51E302FC200D9FEC5 /* MobileProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEEB1E302FC200D9FEC5 /* MobileProfile.m */; };
 		89A1CEF61E302FC200D9FEC5 /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEED1E302FC200D9FEC5 /* ShasumProvider.m */; };
+		89A1CEF91E32217500D9FEC5 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEF81E32217500D9FEC5 /* StringUtils.m */; };
+		89A1CEFA1E32217500D9FEC5 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEF81E32217500D9FEC5 /* StringUtils.m */; };
+		89A1CF011E326A1E00D9FEC5 /* JSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */; };
+		89A1CF021E326A1E00D9FEC5 /* JSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */; };
+		89A1CF051E326A2900D9FEC5 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF041E326A2900D9FEC5 /* FileUtils.m */; };
+		89A1CF061E326A2900D9FEC5 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF041E326A2900D9FEC5 /* FileUtils.m */; };
 		89AE36D71DF8318500E21487 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
@@ -415,6 +421,12 @@
 		89A1CEEB1E302FC200D9FEC5 /* MobileProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MobileProfile.m; path = iOSDeviceManager/Resigning/MobileProfile.m; sourceTree = SOURCE_ROOT; };
 		89A1CEEC1E302FC200D9FEC5 /* ShasumProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShasumProvider.h; path = iOSDeviceManager/Resigning/ShasumProvider.h; sourceTree = SOURCE_ROOT; };
 		89A1CEED1E302FC200D9FEC5 /* ShasumProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShasumProvider.m; path = iOSDeviceManager/Resigning/ShasumProvider.m; sourceTree = SOURCE_ROOT; };
+		89A1CEF71E32217500D9FEC5 /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringUtils.h; path = iOSDeviceManager/Utilities/StringUtils.h; sourceTree = SOURCE_ROOT; };
+		89A1CEF81E32217500D9FEC5 /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringUtils.m; path = iOSDeviceManager/Utilities/StringUtils.m; sourceTree = SOURCE_ROOT; };
+		89A1CEFF1E326A1E00D9FEC5 /* JSONUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONUtils.h; path = iOSDeviceManager/Utilities/JSONUtils.h; sourceTree = SOURCE_ROOT; };
+		89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONUtils.m; path = iOSDeviceManager/Utilities/JSONUtils.m; sourceTree = SOURCE_ROOT; };
+		89A1CF031E326A2900D9FEC5 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = iOSDeviceManager/Utilities/FileUtils.h; sourceTree = SOURCE_ROOT; };
+		89A1CF041E326A2900D9FEC5 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileUtils.m; path = iOSDeviceManager/Utilities/FileUtils.m; sourceTree = SOURCE_ROOT; };
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89C29E181DAE69C500282526 /* ConsoleWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleWriter.h; path = iOSDeviceManager/Utilities/Logging/ConsoleWriter.h; sourceTree = SOURCE_ROOT; };
@@ -602,6 +614,8 @@
 		896F7F041CF9C51900FD8572 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				89A1CEF71E32217500D9FEC5 /* StringUtils.h */,
+				89A1CEF81E32217500D9FEC5 /* StringUtils.m */,
 				F5D78DC41D8D32EB00497000 /* ShellResult.h */,
 				F5D78DC51D8D32EB00497000 /* ShellResult.m */,
 				892DE4BA1D22F85F00E1902C /* ShellRunner.h */,
@@ -610,9 +624,13 @@
 				89B50D7E1D466BB800F34D67 /* AppUtils.m */,
 				B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */,
 				B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */,
+				89A1CEFF1E326A1E00D9FEC5 /* JSONUtils.h */,
+				89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */,
 				89C29E1D1DAE69CC00282526 /* Logging */,
 				A186226E1DE4F44F00A05031 /* MachClock.h */,
 				A186226F1DE4F47700A05031 /* MachClock.m */,
+				89A1CF031E326A2900D9FEC5 /* FileUtils.h */,
+				89A1CF041E326A2900D9FEC5 /* FileUtils.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1023,11 +1041,13 @@
 				898D7D8B1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
 				892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */,
 				892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */,
+				89A1CF051E326A2900D9FEC5 /* FileUtils.m in Sources */,
 				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
 				89A1CEF11E302FC200D9FEC5 /* Codesigner.m in Sources */,
 				898D7D7F1DA47569001578FE /* HTTPServer.m in Sources */,
 				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
 				898D7D3E1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
+				89A1CF011E326A1E00D9FEC5 /* JSONUtils.m in Sources */,
 				898D7D911DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
 				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				892DE49B1D22F84200E1902C /* Device.m in Sources */,
@@ -1047,6 +1067,7 @@
 				892DE5031D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				89A1CEF31E302FC200D9FEC5 /* Entitlement.m in Sources */,
 				89C29E251DAFA93500282526 /* UploadFileCommand.m in Sources */,
+				89A1CEF91E32217500D9FEC5 /* StringUtils.m in Sources */,
 				89A1CEF01E302FC200D9FEC5 /* Certificate.m in Sources */,
 				89A1CEF61E302FC200D9FEC5 /* ShasumProvider.m in Sources */,
 				898D7D851DA47569001578FE /* MultipartMessageHeader.m in Sources */,
@@ -1061,6 +1082,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
+				89A1CEFA1E32217500D9FEC5 /* StringUtils.m in Sources */,
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
@@ -1096,6 +1118,7 @@
 				F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */,
 				892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */,
 				89B50D811D466BB800F34D67 /* AppUtils.m in Sources */,
+				89A1CF061E326A2900D9FEC5 /* FileUtils.m in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */,
@@ -1112,6 +1135,7 @@
 				634247CB4BEE40EFF301DDC8 /* CodesignerTest.m in Sources */,
 				B296D6FB1E31441400D365F3 /* CodesignIdentity.m in Sources */,
 				898D7DD41DA4758A001578FE /* HTTPResponseProxy.m in Sources */,
+				89A1CF021E326A1E00D9FEC5 /* JSONUtils.m in Sources */,
 				898D7DDD1DA4758A001578FE /* RouteResponse.m in Sources */,
 				898D7D9E1DA47569001578FE /* WebSocket.m in Sources */,
 				F5D78DC81D8D32EB00497000 /* ShellResult.m in Sources */,

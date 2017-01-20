@@ -4,6 +4,8 @@
 #import "ShellResult.h"
 #import "Entitlement.h"
 #import "ConsoleWriter.h"
+#import "StringUtils.h"
+#import "JSONUtils.h"
 
 @interface Entitlements ()
 
@@ -129,7 +131,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"#<Entitlements: %@>", self.dictionary];
+    return [NSString stringWithFormat:@"#<Entitlements: %@>", self.dictionary.pretty];
 }
 
 - (id)objectForKeyedSubscript:(NSString *)key {
@@ -144,6 +146,15 @@
 
 - (BOOL)writeToFile:(NSString *)path {
     return [self.dictionary writeToFile:path atomically:YES];
+}
+
+- (NSString *)applicationIdentifier {
+    return self[@"application-identifier"];
+}
+- (NSString *)applicationIdentifierWithoutPrefix {
+    NSString *teamID = self[@"com.apple.developer.team-identifier"];
+    NSString *appID = [self applicationIdentifier];
+    return [appID replace:teamID with:@""];
 }
 
 @end

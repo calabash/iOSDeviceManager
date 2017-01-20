@@ -1,20 +1,69 @@
 
-#import <Foundation/Foundation.h>
-#import <XCTestBootstrap/XCTestBootstrap.h>
+#import "MobileProfile.h"
+#import "Application.h"
 
-@interface Codesigner : FBCodesignProvider  <FBCodesignProvider>
+@interface Codesigner : NSObject
 
-+ (Codesigner *)signerThatCannotSign;
+typedef void(^appResigningCompleteBlock)(Application *app);
 
-- (instancetype)initWithCodeSignIdentity:(NSString *)codeSignIdentity
-                              deviceUDID:(NSString *)deviceUDID;
+/**
+ "resign"
 
-- (instancetype)initAdHocWithDeviceUDID:(NSString *)deviceUDID;
+ Resigns a the contents of an Application app dir.
 
-- (BOOL)signBundleAtPath:(NSString *)bundlePath
-                   error:(NSError **)error;
+ @param app Application to resign
+ @param profile Profile to use to resign
+ @param error Error buff in case of problems
+ @return YES if successful, NO otherwise.
+ @warn Resigns in-place (i.e. destructively)
+ 
+ */
++ (void)resignApplication:(Application *)app
+  withProvisioningProfile:(MobileProfile *)profile;
 
-- (BOOL)validateSignatureAtBundlePath:(NSString *)bundlePath;
+/**
+ "resign"
+ 
+ Resigns a the contents of an Application app dir.
+ 
+ @param app Application to resign
+ @param profile Profile to use to resign
+ @param resourcePaths Paths to objects to inject. Intended use case is .dylibs
+ @param error Error buff in case of problems
+ @return YES if successful, NO otherwise.
+ @warn Resigns in-place (i.e. destructively)
+ 
+ Note that the objects pointed to by `resourcePaths` are simply inserted into the bundle
+ prior to resigning. They are *NOT* dynamically linked with any binary executable within
+ the bundle.
+ */
++ (void)resignApplication:(Application *)app
+  withProvisioningProfile:(MobileProfile *)profile
+        resourcesToInject:(NSArray<NSString *> *)resourcePaths;
 
-- (NSString *)codeSignIdentity;
+/**
+ 
+ "resign_all"
+ 
+ Resigns a the contents of an Application app dir once for each profile in `profiles`
+ 
+ @param app Application to resign
+ @param profiles Profiles to use to resign
+ @param resourcePaths Paths to objects to inject. Intended use case is .dylibs
+ @param error Error buff in case of problems
+ @param handler Handler block to deal with each app as they become resigned. Since resigning occurs in-place,
+                the caller should copy each application bundle over to a new location every time `handler` is
+                invoked.
+ @return YES if successful, NO otherwise.
+ @warn Resigns in-place (i.e. destructively)
+ 
+ Note that the objects pointed to by `resourcePaths` are simply inserted into the bundle
+ prior to resigning. They are *NOT* dynamically linked with any binary executable within
+ the bundle.
+ */
++ (void)resignApplication:(Application *)app
+              forProfiles:(NSArray <MobileProfile *> *)profiles
+        resourcesToInject:(NSArray<NSString *> *)resourcePaths
+         resigningHandler:(appResigningCompleteBlock)handler;
+
 @end

@@ -295,11 +295,11 @@
     return self[@"AppIDName"];
 }
 
-- (NSArray<NSString *> *)ApplicationIdentifierPrefix {
+- (NSArray<NSString *> *)applicationIdentifierPrefix {
     return (NSArray<NSString *> *)self[@"ApplicationIdentifierPrefix"];
 }
 
-- (NSArray<Certificate *> *)DeveloperCertificates {
+- (NSArray<Certificate *> *)developerCertificates {
     if (_certificates) { return _certificates; }
 
     NSArray<NSData *> *datum = (NSArray<NSData *> *)self[@"DeveloperCertificates"];
@@ -318,7 +318,7 @@
     return _certificates;
 }
 
-- (Entitlements *)Entitlements {
+- (Entitlements *)entitlements {
     NSDictionary *dictionary = (NSDictionary *)self[@"Entitlements"];
     return [Entitlements entitlementsWithDictionary:dictionary];
 }
@@ -331,7 +331,7 @@
     return (NSArray<NSString *> *)self[@"TeamIdentifier"];
 }
 
-- (NSString *)UUID {
+- (NSString *)uuid {
     return self[@"UUID"];
 }
 
@@ -339,7 +339,7 @@
     return self[@"TeamName"];
 }
 
-- (NSString *)Name {
+- (NSString *)name {
     return self[@"Name"];
 }
 

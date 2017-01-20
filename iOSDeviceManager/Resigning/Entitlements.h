@@ -10,6 +10,8 @@
 + (NSInteger)rankByComparingProfileEntitlements:(Entitlements *)profileEntitlements
                                 appEntitlements:(Entitlements *)appEntitlements;
 
+- (NSString *)applicationIdentifier;
+- (NSString *)applicationIdentifierWithoutPrefix;
 - (BOOL)writeToFile:(NSString *)path;
 - (id)objectForKeyedSubscript:(NSString *)key;
 

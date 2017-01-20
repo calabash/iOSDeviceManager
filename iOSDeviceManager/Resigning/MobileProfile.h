@@ -1,8 +1,7 @@
 
-#import <Foundation/Foundation.h>
+#import "Entitlements.h"
 
 @class Certificate;
-@class Entitlements;
 @class CodesignIdentity;
 
 @interface MobileProfile : NSObject
@@ -25,14 +24,14 @@
                     identity:(CodesignIdentity *)identity;
 
 - (NSString *)AppIDName;
-- (NSArray<NSString *> *)ApplicationIdentifierPrefix;
-- (NSArray<Certificate *> *)DeveloperCertificates;
-- (Entitlements *)Entitlements;
+- (NSArray<NSString *> *)applicationIdentifierPrefix;
+- (NSArray<Certificate *> *)developerCertificates;
+- (Entitlements *)entitlements;
 - (NSArray<NSString *> *)ProvisionedDevices;
 - (NSArray<NSString *> *)TeamIdentifier;
-- (NSString *)UUID;
+- (NSString *)uuid;
 - (NSString *)TeamName;
-- (NSString *)Name;
+- (NSString *)name;
 - (NSArray<NSString *> *)Platform;
 - (NSDate *)ExpirationDate;
 - (BOOL)isPlatformIOS;
