@@ -143,7 +143,7 @@
     if (![profile.ProvisionedDevices containsObject:deviceUDID]) {
         return nil;
     } else {
-        NSArray<Certificate *> *certificates = profile.DeveloperCertificates;
+        NSArray<Certificate *> *certificates = profile.developerCertificates;
         BOOL match = NO;
         for(Certificate *cert in certificates) {
             if ([cert.shasum isEqualToString:identity.shasum]) {
@@ -222,7 +222,7 @@
                                                   NSUInteger idx, BOOL * _Nonnull stop) {
         if ([profile isValidForDeviceUDID:deviceUDID identity:identity]) {
             
-            NSInteger score = [Entitlements rankByComparingProfileEntitlements:profile.Entitlements
+            NSInteger score = [Entitlements rankByComparingProfileEntitlements:profile.entitlements
                                                                appEntitlements:appEntitlements];
             // Reject any profiles that do meet the app requirements.
             if (score != ProfileDoesNotHaveRequiredKey) {
@@ -275,7 +275,7 @@
     if (![self.ProvisionedDevices containsObject:deviceUDID]) {
         return NO;
     } else {
-        NSArray<Certificate *> *certificates = self.DeveloperCertificates;
+        NSArray<Certificate *> *certificates = self.developerCertificates;
         BOOL match = NO;
         for (Certificate *cert in certificates) {
             if ([cert.shasum isEqualToString:identity.shasum]) {

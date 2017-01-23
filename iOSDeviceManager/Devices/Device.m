@@ -116,6 +116,45 @@ const double EPSILON = 0.001;
     setenv("FBCONTROLCORE_DEBUG_LOGGING", FBLog, 1);
 }
 
+#pragma mark - Instance Methods
+
+- (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc {
+    NSError *isInstalledError;
+    *sc = [self isInstalled:app.bundleID withError:&isInstalledError];
+    if (*sc == iOSReturnStatusCodeEverythingOkay) {
+        Application *installedApp = [self installedApp:app.bundleID];
+        NSDictionary *oldPlist = installedApp.infoPlist;
+        NSDictionary *newPlist = app.infoPlist;
+        
+        if (!oldPlist.count) {
+            ConsoleWriteErr(@"Error fetching/parsing plist from installed application $@", installedApp.bundleID);
+            *sc = iOSReturnStatusCodeGenericFailure;
+            return NO;
+        }
+        
+        if (!newPlist.count) {
+            ConsoleWriteErr(@"Unable to find Info.plist for bundle path %@", app.path);
+            *sc = iOSReturnStatusCodeGenericFailure;
+            return NO;
+        }
+        
+        if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
+            ConsoleWriteErr(@"Installed version is different, attempting to update %@.", app.bundleID);
+            return YES;
+        } else {
+            ConsoleWriteErr(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            return NO;
+        }
+    }
+    
+    //If it's not installed, it should be 'updated'
+    return NO;
+}
+
+- (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
+    MUST_OVERRIDE;
+}
+
 - (iOSReturnStatusCode)launch {
     MUST_OVERRIDE;
 }

@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSMutableArray <CodesignIdentity *> *identities;
 @property BOOL testingComplete;
 
 + (Device *)withID:(NSString *)uuid;
@@ -22,9 +21,13 @@
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
 - (iOSReturnStatusCode)stopSimulatingLocation;
+
+//TODO: this should accept Env and Args
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID;
+- (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc;
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
+- (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error;
 - (Application *)installedApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;

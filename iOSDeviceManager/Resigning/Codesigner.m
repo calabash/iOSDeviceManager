@@ -86,7 +86,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 /**
  Resigns a .app, .appex, or .xctest bundle.
  */
-+ (BOOL)resignBundle:(NSString *)pathToBundle
++ (void)resignBundle:(NSString *)pathToBundle
     bundleExecutable:(NSString *)bundleExecutableFile
  appEntitlementsFile:(NSString *)pathToEntitlementsFile
     codesignIdentity:(NSString *)codesignID {
@@ -109,7 +109,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     return [appId isEqualToString:@"*"];
 }
 
-+ (NSString *)getOldBundleId:(Entitlements *)oldEntitlements infoPlist:(NSDictionary *)infoPlist {
++ (NSString *)getOldBundleId:(Entitlements *)oldEntitlements
+                   infoPlist:(NSDictionary *)infoPlist {
     if ([oldEntitlements applicationIdentifier] && oldEntitlements[@"com.apple.developer.team-identifier"]) {
         return [oldEntitlements applicationIdentifierWithoutPrefix];
     } else {
@@ -126,7 +127,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     
     for (NSString *resourcePath in resourcePaths) {
         NSAssert([mgr fileExistsAtPath:resourcePath],
-                 @"Failed to inject resources: ile '%@' does not exist!",
+                 @"Failed to inject resources: file '%@' does not exist!",
                  resourcePath);
         NSString *targetFile = [appDir stringByAppendingPathComponent:[resourcePath lastPathComponent]];
         [mgr copyItemAtPath:resourcePath
@@ -210,10 +211,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSString *mobileProfileAppID = [newEntitlements applicationIdentifierWithoutPrefix];
     NSString *infoPlistPath = [appDir joinPath:@"Info.plist"];
     NSFileManager *mgr = [NSFileManager defaultManager];
-    if (![mgr fileExistsAtPath:infoPlistPath]) {
-        ConsoleWriteErr(@"No Info.plist found for bundle: %@", appDir);
-        return NO;
-    }
+    NSAssert([mgr fileExistsAtPath:infoPlistPath], @"No Info.plist found for bundle: %@", appDir);
+
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
     NSString *oldBundleID = [self getOldBundleId:oldEntitlements infoPlist:infoPlist];
     NSString *finalAppIdentifier = [self isWildcardAppId:mobileProfileAppID] ?
@@ -249,11 +248,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                       };
     
     NSString *entitlementsMapFile = [appDir joinPath:@"XTCEntitlementsMeta.plist"];
-    if (![entitlementsMap writeToFile:entitlementsMapFile
-                           atomically:YES]) {
-        ConsoleWriteErr(@"Unable to write EntitlementsMeta to application.");
-        return NO;
-    }
+    NSAssert([entitlementsMap writeToFile:entitlementsMapFile
+                               atomically:YES], @"Unable to write EntitlementsMeta to application.");
     
     [self injectResources:resourcesToInject
                intoAppDir:appDir

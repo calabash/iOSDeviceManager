@@ -44,7 +44,7 @@
         for (MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
             if ([profile isValidForDeviceUDID:deviceId identity:identity]) {
                 NSInteger rank = [Entitlements
-                                  rankByComparingProfileEntitlements:profile.Entitlements
+                                  rankByComparingProfileEntitlements:profile.entitlements
                                   appEntitlements:appEnts];
 
                 if (rank != ProfileDoesNotHaveRequiredKey && rank < bestIdentityRank) {

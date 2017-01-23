@@ -43,7 +43,6 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)launch {
-
     NSError *error;
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
@@ -67,7 +66,6 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)kill {
-
     if (self.fbSimulator == nil) {
         ConsoleWriteErr(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
@@ -91,54 +89,65 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    //Ensure device exists
     NSError *e;
     if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
 
+    //Ensure device is in a good state (i.e., active)
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         ConsoleWriteErr(@"Simulator %@ is dead. Must launch sim before installing an app.", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    Codesigner *signer = [[Codesigner alloc] initAdHocWithDeviceUDID:[self uuid]];
-
-    if (![signer validateSignatureAtBundlePath:app.path]) {
-        NSError *signError;
-
-        [signer signBundleAtPath:app.path
-                           error:&signError];
-
-        if (signError) {
-            ConsoleWriteErr(@"Error resigning sim bundle");
-            ConsoleWriteErr(@"  Path to bundle: %@", app.path);
-            ConsoleWriteErr(@"  Device UDID: %@", [self uuid]);
-            ConsoleWriteErr(@"  ERROR: %@", signError);
-            return iOSReturnStatusCodeGenericFailure;
-        }
-    }
-
-    NSError *error;
-    FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path error:&error];
-    if (error) {
+    //We need an `FBApplicationDescriptor` instead of `Application` because `FBSimulator` requires it
+    FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
+                                                                                    error:&e];
+    if (e) {
         ConsoleWriteErr(@"Error creating application descriptor");
         ConsoleWriteErr(@" Path to bundle: %@", app.path);
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    if (![self.fbSimulator installedApplicationWithBundleID:app.bundleID error:nil]) {
-        [[self.fbSimulator.interact installApplication:appDescriptor] perform:&e];
-    } else if (shouldUpdate) {
-        iOSReturnStatusCode ret = [self updateInstalledAppIfNecessary:app];
+    BOOL needsToInstall = YES;
+    
+    //First, check if the app is installed
+    if ([self.fbSimulator installedApplicationWithBundleID:app.bundleID error:&e]) {
+        if (e) {
+            ConsoleWriteErr(@"Error checking if application is installed: %@", e);
+            return iOSReturnStatusCodeInternalError;
+        }
+        
+        //If the user doesn't want to update, we're done.
+        if (!shouldUpdate) {
+            return iOSReturnStatusCodeEverythingOkay;
+        }
+        
+        iOSReturnStatusCode ret;
+        needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
     }
-
-    if (e) {
-        ConsoleWriteErr(@"Error installing application: %@", e);
-        return iOSReturnStatusCodeGenericFailure;
-    } else {
-        DDLogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
+    
+    if (needsToInstall) {
+        //TODO: get profile from args or auto-select for device
+        MobileProfile *profile = nil;
+        
+        //TODO: Do we _still_ need to resign for simulators?
+        //
+        //TODO: Skip resigning if the app is already signed for the device?
+        //Requires reading provisioning profiles on the device and comparing
+        //entitlements...
+        Application *stagedApp = [Application withBundlePath:[AppUtils copyAppBundleToTmpDir:app.path]];
+        [Codesigner resignApplication:stagedApp withProvisioningProfile:profile];
+        
+        if (![[self.fbSimulator.interact installApplication:appDescriptor] perform:&e] || e) {
+            ConsoleWriteErr(@"Error installing application: %@", e);
+            return iOSReturnStatusCodeGenericFailure;
+        } else {
+            LogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
+        }
     }
 
     return iOSReturnStatusCodeEverythingOkay;
@@ -185,7 +194,7 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    NSError *e;
+    NSError *e = nil;
     FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:self.fbSimulator error:&e];
     if (e || !bridge) {
         ConsoleWriteErr(@"Unable to fetch simulator bridge: %@", e);
@@ -202,9 +211,8 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
-
     NSError *error;
-    if ([self isInstalled:bundleID withError:error] == iOSReturnStatusCodeEverythingOkay) {
+    if ([self isInstalled:bundleID withError:&error] == iOSReturnStatusCodeEverythingOkay) {
         FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
         if ([self.fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
@@ -226,21 +234,14 @@ static const FBSimulatorControl *_control;
     }
 }
 
-- (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
-
-    BOOL installed = [self.fbSimulator isApplicationInstalledWithBundleID:bundleID error:&error];
-
-    if (installed) {
-        return YES;
-    } else {
-        return NO;
-    }
+- (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
+    return [self.fbSimulator isApplicationInstalledWithBundleID:bundleID error:error];
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *e;
-    BOOL installed = [self isInstalled:bundleID withError:e];
+    BOOL installed = [self isInstalled:bundleID withError:&e];
 
     if (e) {
         LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], e);
@@ -279,7 +280,7 @@ static const FBSimulatorControl *_control;
     }
 
     NSError *error;
-    if ([self isInstalled:runnerID withError:error] == iOSReturnStatusCodeFalse) {
+    if ([self isInstalled:runnerID withError:&error] == iOSReturnStatusCodeFalse) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
@@ -358,45 +359,6 @@ static const FBSimulatorControl *_control;
     if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
         ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
         return iOSReturnStatusCodeGenericFailure;
-    }
-
-    return iOSReturnStatusCodeEverythingOkay;
-}
-
-- (iOSReturnStatusCode)updateInstalledAppIfNecessary:(Application *)app {
-
-    NSError *e;
-    FBApplicationDescriptor *installed = [self.fbSimulator installedApplicationWithBundleID:app.bundleID error:&e];
-    if (!installed || e) {
-        ConsoleWriteErr(@"Error retrieving installed application %@: %@", app.bundleID, e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
-    NSString *newPlistPath = [app.path stringByAppendingPathComponent:@"Info.plist"];
-    NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
-
-    Application *installedApp = [self installedApp:installed.bundleID];
-    NSDictionary *oldPlist = installedApp.infoPlist;
-
-    if (!newPlist) {
-        ConsoleWriteErr(@"Unable to locate Info.plist in app bundle: %@", app.path);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-    if (!oldPlist) {
-        ConsoleWriteErr(@"Unable to locate Info.plist in app bundle: %@", installed.path);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
-    if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-        ConsoleWriteErr(@"Installed version is different, attempting to update %@.", installed.bundleID);
-        iOSReturnStatusCode ret = [self uninstallApp:app.bundleID];
-        if (ret != iOSReturnStatusCodeEverythingOkay) {
-            return ret;
-        }
-
-        return [self installApp:app shouldUpdate:YES];
-    } else {
-        DDLogInfo(@"Latest version of %@ is installed, not reinstalling.", installed.bundleID);
     }
 
     return iOSReturnStatusCodeEverythingOkay;

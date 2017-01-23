@@ -415,7 +415,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
         }
     }
 
-    Entitlements *olds = self.mobileProfile.Entitlements;
+    Entitlements *olds = self.mobileProfile.entitlements;
     Entitlements *news = [olds entitlementsByReplacingApplicationIdentifier:self.newAppIdentifier];
 
     if (![news writeToFile:[self xcentPath]]) {
@@ -451,14 +451,14 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 - (NSString *)newAppIdentifier {
     if (_newAppIdentifier) { return _newAppIdentifier; }
 
-    Entitlements *new = self.mobileProfile.Entitlements;
+    Entitlements *new = self.mobileProfile.entitlements;
     NSString *newReverseDNS = [self reverseDNSIdentifierByRemovingTeam:new];
 
     Entitlements *old = self.originalEntitlements;
     NSString *oldReverseDNS = [self reverseDNSIdentifierByRemovingTeam:old];
 
-    NSString *newAppIdentifier = self.mobileProfile.Entitlements[@"application-identifier"];
-    NSString *newAppIdentifierPrefix = self.mobileProfile.ApplicationIdentifierPrefix[0];
+    NSString *newAppIdentifier = self.mobileProfile.entitlements[@"application-identifier"];
+    NSString *newAppIdentifierPrefix = self.mobileProfile.applicationIdentifierPrefix[0];
 
     if ([newReverseDNS isEqualToString:@"*"]) {
         _newAppIdentifier = [newAppIdentifierPrefix stringByAppendingFormat:@".%@", oldReverseDNS];
