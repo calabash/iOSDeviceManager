@@ -1,6 +1,7 @@
 
 #import "LaunchSimulatorCommand.h"
 #import "Simulator.h"
+#import "DeviceUtils.h"
 
 @implementation LaunchSimulatorCommand
 + (NSString *)name {
@@ -12,6 +13,8 @@
     Device *device = [self deviceFromArgs:args];
     if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;
+    } else if ([DeviceUtils isDeviceID:device.uuid]) {
+        device = [Device withID:[Device defaultSimulatorID]];
     }
 
     return [device launch];

@@ -94,10 +94,14 @@ const double EPSILON = 0.001;
     return NSOrderedAscending;
 }
 
-+ (NSString *)defaultDeviceID {
-    
++ (NSString *)defaultSimulatorID {
+    NSArray<FBSimulator *> *sims = [Device availableSimulators];
+    return [Device defaultSimulator:sims].udid;
+}
+
++ (NSString *)defaultPhysicalDeviceID {
     NSArray<FBDevice *> *devices = [Device availableDevices];
-    
+
     if ([devices count] == 1) {
         return [devices firstObject].udid;
     } else if ([devices count] > 1) {
@@ -105,9 +109,25 @@ const double EPSILON = 0.001;
                                        reason:@"Multiple physical devices detected but none specified"
                                      userInfo:nil];
     } else {
-        NSArray<FBSimulator *> *sims = [Device availableSimulators];
-        return [Device defaultSimulator:sims].udid;
+        return nil;
     }
+}
+
++ (NSString *)defaultDeviceID {
+    
+    NSString *physicalDeviceID = [self defaultPhysicalDeviceID];
+    if (physicalDeviceID.length) {
+        return physicalDeviceID;
+    }
+    
+    NSString *simulatorDeviceID = [self defaultSimulatorID];
+    if (simulatorDeviceID.length) {
+        return simulatorDeviceID;
+    }
+    
+    @throw [NSException exceptionWithName:@"MissingDeviceException"
+                                   reason:@"Unable to determine default device"
+                                   userInfo:nil];
 }
 
 + (void)initialize {
