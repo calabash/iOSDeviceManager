@@ -6,6 +6,7 @@
 
 @protocol iOSDeviceManagementCommand <NSObject>
 + (Device *)deviceFromArgs:(NSDictionary *)args;
++ (Device *)simulatorFromArgs:(NSDictionary *)args;
 + (NSString *)name;
 + (void)printUsage;
 + (NSArray <NSString *> *)positionalArgNames;

@@ -3,16 +3,30 @@
 #import "Command.h"
 #import "CLI.h"
 #import "ConsoleWriter.h"
+#import "DeviceUtils.h"
 
 const NSString *DEVICE_ID_ARGNAME = @"device_id";
 const NSString *DEVICE_ID_FLAG = @"-d";
 const NSString *DEFAULT_DEVICE_ID_KEY = @"default_device_id";
+const NSString *DEFAULT_SIMULATOR_ID_KEY = @"default_simulator_id";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
 + (Device *)deviceFromArgs:(NSDictionary *)args {
     NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
+    return [Device withID:deviceID];
+}
+
++ (Device *)simulatorFromArgs:(NSDictionary *)args {
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_SIMULATOR_ID_KEY];
+    
+    if (![DeviceUtils isSimulatorID:deviceID]) {
+        @throw [NSException exceptionWithName:@"InvalidArgumentException"
+                                       reason:@"The specified device id does not match a simulator id"
+                                       userInfo:nil];
+    }
+    
     return [Device withID:deviceID];
 }
 

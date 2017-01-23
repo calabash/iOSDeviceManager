@@ -86,6 +86,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
         }
     }
     values[DEFAULT_DEVICE_ID_KEY] = [Device defaultDeviceID];
+    values[DEFAULT_SIMULATOR_ID_KEY] = [Device defaultSimulatorID];
     *exitCode = iOSReturnStatusCodeEverythingOkay;
     return values;
 }
