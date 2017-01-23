@@ -81,7 +81,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     values[positionalArgShortFlag] = args[i];
                     [possiblePositionalArgShortFlags removeObject:positionalArgShortFlag];
                 } else{
-                    ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %s\n",
+                    ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %@\n",
                            [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
                     [self printUsage];
                     *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
@@ -92,7 +92,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             }
         }
         if (args.count <= i + 1) {
-            ConsoleWriteErr(@"No value provided for %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+            ConsoleWriteErr(@"No value provided for %@\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
             [command printUsage];
             *exitCode = iOSReturnStatusCodeMissingArguments;
             return nil;
