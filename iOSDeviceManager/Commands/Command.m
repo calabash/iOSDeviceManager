@@ -6,11 +6,11 @@
 #import "Device.h"
 #import "DeviceUtils.h"
 
-NSString * const DEVICE_ID_FLAG = @"-d";
-NSString * const APP_ID_FLAG = @"-a";
-NSString * const DEFAULT_DEVICE_ID_KEY = @"default_device_id";
-NSString * const DEVICE_ID_ARGNAME = @"device_id";
-NSString * const APP_ID_ARGNAME = @"app_id";
+NSString *const DEVICE_ID_FLAG = @"-d";
+NSString *const APP_ID_FLAG = @"-a";
+NSString *const DEFAULT_DEVICE_ID_KEY = @"default_device_id";
+NSString *const DEVICE_ID_ARGNAME = @"device_id";
+NSString *const APP_ID_ARGNAME = @"app_id";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
