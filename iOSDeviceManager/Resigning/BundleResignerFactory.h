@@ -1,8 +1,7 @@
 
 #import <Foundation/Foundation.h>
-
-@class BundleResigner;
-@class CodesignIdentity;
+#import "CodesignIdentity.h"
+#import "BundleResigner.h"
 
 @interface BundleResignerFactory : NSObject
 

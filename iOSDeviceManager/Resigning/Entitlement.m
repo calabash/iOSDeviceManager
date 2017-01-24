@@ -36,6 +36,8 @@
                 if (profArray.count == 1) {
                     NSString *value = profArray[0];
                     if ([value isEqualToString:@"*"] ||
+                        
+                        //FIXME: Why is this 12? TeamID length?
                         (value.length == 12 && [value hasSuffix:@"*"])) {
                         return ProfileHasKey;
                     } else {

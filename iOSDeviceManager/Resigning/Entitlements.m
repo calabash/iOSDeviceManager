@@ -103,7 +103,6 @@
     EntitlementComparisonResult current;
 
     for(NSString *key in keys) {
-
         appEntitlement = [Entitlement entitlementWithKey:key
                                                    value:appEntitlements[key]];
         profileEntitlement = [Entitlement entitlementWithKey:key

@@ -26,6 +26,24 @@
 
 #pragma mark - Class Methods
 
+/*
+    Profile "Auto-detection"
+ */
++ (MobileProfile *)bestMatchProfileForApplication:(Application *)app device:(Device *)device {
+    CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:app.path
+                                                               deviceId:device.uuid];
+    NSAssert(identity,
+             @"Unable to find appropriate codesign identity for device %@ / app %@ combo",
+             device.uuid,
+             app.bundleID);
+    
+    NSArray<MobileProfile *> *profiles = [MobileProfile rankedProfiles:[self nonExpiredIOSProfiles]
+                                                          withIdentity:identity
+                                                            deviceUDID:device.uuid
+                                                         appBundlePath:app.path];
+    return profiles.count ? profiles[0] : nil;
+}
+
 + (NSString *)profilesDirectory {
     NSString *path = @"Library/MobileDevice/Provisioning Profiles";
     return [NSHomeDirectory() stringByAppendingPathComponent:path];
@@ -140,7 +158,7 @@
 
     if ([profile isExpired]) { return nil; }
 
-    if (![profile.ProvisionedDevices containsObject:deviceUDID]) {
+    if (![profile.provisionedDevices containsObject:deviceUDID]) {
         return nil;
     } else {
         NSArray<Certificate *> *certificates = profile.developerCertificates;
@@ -169,11 +187,13 @@
 
     // The [NSMutableArray addObject:] is not thread safe.
     [paths enumerateObjectsWithOptions:NSEnumerationConcurrent
-                            usingBlock:^(NSString * _Nonnull path, NSUInteger idx, BOOL * _Nonnull stop) {
+                            usingBlock:^(NSString * _Nonnull path,
+                                         NSUInteger idx,
+                                         BOOL * _Nonnull stop) {
         NSDictionary *plist = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
         if (plist) {
             MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:plist
-                                                           path:path];
+                                                                          path:path];
             if ([profile isPlatformIOS] && ![profile isExpired]) {
 
                 // This lock might negate any gains seen by concurrent execution.
@@ -191,6 +211,9 @@
     return [NSArray arrayWithArray:profiles];
 }
 
+/*
+    Ranked by most-preferred first
+ */
 + (NSArray<MobileProfile *> *)rankedProfiles:(NSArray<MobileProfile *> *)mobileProfiles
                                 withIdentity:(CodesignIdentity *)identity
                                   deviceUDID:(NSString *)deviceUDID
@@ -221,7 +244,6 @@
                                      usingBlock:^(MobileProfile * _Nonnull profile,
                                                   NSUInteger idx, BOOL * _Nonnull stop) {
         if ([profile isValidForDeviceUDID:deviceUDID identity:identity]) {
-            
             NSInteger score = [Entitlements rankByComparingProfileEntitlements:profile.entitlements
                                                                appEntitlements:appEntitlements];
             // Reject any profiles that do meet the app requirements.
@@ -264,15 +286,15 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"#<MobileProfile %@  <%@> expired: %@ rank: %@>",
-            [[self Platform] componentsJoinedByString:@" "],
-            [self AppIDName],
+            [[self platform] componentsJoinedByString:@" "],
+            [self appIDName],
             [self isExpired] ? @"YES" : @"NO",
             @(self.rank)];
 }
 
 - (BOOL)isValidForDeviceUDID:(NSString *)deviceUDID
                     identity:(CodesignIdentity *)identity {
-    if (![self.ProvisionedDevices containsObject:deviceUDID]) {
+    if (![self.provisionedDevices containsObject:deviceUDID]) {
         return NO;
     } else {
         NSArray<Certificate *> *certificates = self.developerCertificates;
@@ -291,7 +313,7 @@
     return self.info[key] ?: nil;
 }
 
-- (NSString *)AppIDName {
+- (NSString *)appIDName {
     return self[@"AppIDName"];
 }
 
@@ -300,22 +322,35 @@
 }
 
 - (NSArray<Certificate *> *)developerCertificates {
-    if (_certificates) { return _certificates; }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray<NSData *> *data = (NSArray<NSData *> *)self[@"DeveloperCertificates"];
+        
+        NSMutableArray<Certificate *> *certs = [NSMutableArray arrayWithCapacity:[data count]];
+        Certificate *cert;
+        
+        //'datum' is singular :)
+        for (NSData *datum in data) {
+            cert = [Certificate certificateWithData:datum];
+            if (cert) {
+                [certs addObject:cert];
+            }
+        }
+        
+        _certificates = [NSArray arrayWithArray:certs];
+    });
+    return _certificates;
+}
 
-    NSArray<NSData *> *datum = (NSArray<NSData *> *)self[@"DeveloperCertificates"];
-
-    NSMutableArray<Certificate *> *certs = [NSMutableArray arrayWithCapacity:[datum count]];
-    Certificate *cert;
-
-    for (NSData *data in datum) {
-        cert = [Certificate certificateWithData:data];
-        if (cert) {
-            [certs addObject:cert];
+- (CodesignIdentity *)findValidIdentity {
+    NSArray *validCodesignIdentities = [CodesignIdentity validIOSDeveloperIdentities];
+    for (Certificate *cert in self.developerCertificates) {
+        CodesignIdentity *identity = [[CodesignIdentity alloc] initWithShasum:cert.shasum name:cert.commonName];
+        if ([validCodesignIdentities containsObject:identity]) {
+            return identity;
         }
     }
-
-    _certificates = [NSArray arrayWithArray:certs];
-    return _certificates;
+    return nil;
 }
 
 - (Entitlements *)entitlements {
@@ -323,11 +358,11 @@
     return [Entitlements entitlementsWithDictionary:dictionary];
 }
 
-- (NSArray<NSString *> *)ProvisionedDevices {
+- (NSArray<NSString *> *)provisionedDevices {
     return (NSArray<NSString *> *)self[@"ProvisionedDevices"];
 }
 
-- (NSArray<NSString *> *)TeamIdentifier {
+- (NSArray<NSString *> *)teamIdentifier {
     return (NSArray<NSString *> *)self[@"TeamIdentifier"];
 }
 
@@ -335,7 +370,7 @@
     return self[@"UUID"];
 }
 
-- (NSString *)TeamName {
+- (NSString *)teamName {
     return self[@"TeamName"];
 }
 
@@ -343,25 +378,25 @@
     return self[@"Name"];
 }
 
-- (NSArray<NSString *> *)Platform {
+- (NSArray<NSString *> *)platform {
     return (NSArray<NSString *> *)self[@"Platform"];
 }
 
-- (NSDate *)ExpirationDate {
+- (NSDate *)expirationDate {
     return (NSDate *)self[@"ExpirationDate"];
 }
 
 - (BOOL)isPlatformIOS {
-    return [self.Platform containsObject:@"iOS"];
+    return [self.platform containsObject:@"iOS"];
 }
 
 - (BOOL)isExpired {
-    NSDate *expiration = self.ExpirationDate;
+    NSDate *expiration = self.expirationDate;
     return [expiration earlierDate:[NSDate date]] == expiration;
 }
 
 - (BOOL)containsDeviceUDID:(NSString *)deviceUDID {
-    return [self.ProvisionedDevices containsObject:deviceUDID];
+    return [self.provisionedDevices containsObject:deviceUDID];
 }
 
 @end

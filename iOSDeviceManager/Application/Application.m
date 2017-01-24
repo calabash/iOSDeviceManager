@@ -9,7 +9,6 @@
 @implementation Application
 
 + (Application *)withBundlePath:(NSString *)pathToBundle {
-    Application *app = [Application new];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     if (!([fileManager fileExistsAtPath:pathToBundle] && [pathToBundle hasSuffix:@".app"])) {
@@ -17,17 +16,15 @@
         return nil;
     }
     
-    app.path = pathToBundle;
-    
     NSString *plistPath = [pathToBundle stringByAppendingPathComponent:@"Info.plist"];
     if (![fileManager fileExistsAtPath:plistPath]) {
         ConsoleWriteErr(@"Could not find plist as path: %@", plistPath);
         return nil;
     }
     
-    app.infoPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     
-    NSString *executableName = app.infoPlist[@"CFBundleExecutable"];
+    NSString *executableName = infoPlist[@"CFBundleExecutable"];
     NSString *executablePath = [pathToBundle stringByAppendingPathComponent:executableName];
     if (![fileManager fileExistsAtPath:executablePath]) {
         ConsoleWriteErr(@"Could not find bundle executable at path: %@", executablePath);
@@ -42,8 +39,6 @@
         return nil;
     }
     
-    app.arches = arches;
-    
     NSError *productBundleErr;
     FBProductBundle *productBundle = [[[FBProductBundleBuilder builder]
                                       withBundlePath:pathToBundle]
@@ -53,9 +48,10 @@
         return nil;
     }
     
-    app.bundleID = productBundle.bundleID;
 
-    return app;
+    return [self withBundleID:productBundle.bundleID
+                        plist:infoPlist
+                architectures:arches];
 }
 
 + (Application *)withBundleID:(NSString *)bundleID plist:(NSDictionary *)plist architectures:(NSSet *)architectures {
@@ -63,6 +59,18 @@
     app.bundleID = bundleID;
     app.infoPlist = plist;
     app.arches = architectures;
+    
+    if ([architectures containsObject:@"x86_64"] ||
+        [architectures containsObject:@"i386"]) {
+        app.type = kApplicationTypeSimulator;
+    } else if ([architectures containsObject:@"arm"] ||
+               [architectures containsObject:@"armv7"] ||
+               [architectures containsObject:@"armv7s"] ||
+               [architectures containsObject:@"arm64"]) {
+        app.type = kApplicationTypePhysicalDevice;
+    } else {
+        app.type = kApplicationTypeUnknown;
+    }
     
     return app;
 }

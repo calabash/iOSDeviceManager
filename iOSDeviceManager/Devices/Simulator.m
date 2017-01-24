@@ -131,17 +131,20 @@ static const FBSimulatorControl *_control;
     }
     
     if (needsToInstall) {
-        //TODO: get profile from args or auto-select for device
-        MobileProfile *profile = nil;
-        
         //TODO: Do we _still_ need to resign for simulators?
-        //
+        
+        Application *stagedApp = [Application withBundlePath:[AppUtils copyAppBundleToTmpDir:app.path]];
+        
+        //TODO: get profile from args if specified
+        MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:app
+                                                                        device:self];
+        
         //TODO: Skip resigning if the app is already signed for the device?
         //Requires reading provisioning profiles on the device and comparing
         //entitlements...
-        Application *stagedApp = [Application withBundlePath:[AppUtils copyAppBundleToTmpDir:app.path]];
         [Codesigner resignApplication:stagedApp withProvisioningProfile:profile];
         
+        //TODO: if we do need to resign, we should install the profile to the device right here as well.
         if (![[self.fbSimulator.interact installApplication:appDescriptor] perform:&e] || e) {
             ConsoleWriteErr(@"Error installing application: %@", e);
             return iOSReturnStatusCodeGenericFailure;

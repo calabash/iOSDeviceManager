@@ -4,6 +4,7 @@
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
 #import "DeviceUtils.h"
+#import "JSONUtils.h"
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
 
@@ -26,7 +27,10 @@ const double EPSILON = 0.001;
 }
 
 + (NSArray<FBDevice *> *)availableDevices {
-    return [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
+    NSError *e = nil;
+    NSArray<FBDevice *> *devs = [[FBDeviceSet defaultSetWithLogger:nil error:&e] allDevices];
+    NSAssert(e == nil, @"Error fetching available device list: %@", e);
+    return devs;
 }
 
 + (NSArray<FBSimulator *> *)availableSimulators {
@@ -95,14 +99,22 @@ const double EPSILON = 0.001;
 }
 
 + (NSString *)defaultDeviceID {
-    
     NSArray<FBDevice *> *devices = [Device availableDevices];
     
     if ([devices count] == 1) {
         return [devices firstObject].udid;
     } else if ([devices count] > 1) {
+        NSMutableArray *deviceIDs = [NSMutableArray new];
+        for (FBDevice *dev in devices) {
+            [deviceIDs addObject:dev.udid];
+        }
+        NSString *reason =
+            [NSString stringWithFormat:@"Multiple physical devices detected but none specified.\n"
+             "Specify a device using -d, or ensure only one device is plugged in\n"
+             "Detected attached devices: %@",
+             deviceIDs.pretty];
         @throw [NSException exceptionWithName:@"AmbiguousArgumentsException"
-                                       reason:@"Multiple physical devices detected but none specified"
+                                       reason:reason
                                      userInfo:nil];
     } else {
         NSArray<FBSimulator *> *sims = [Device availableSimulators];

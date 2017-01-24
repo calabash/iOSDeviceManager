@@ -10,32 +10,33 @@
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @interface BundleResignerFactory ()
-
 @property(strong, readonly) NSArray<CodesignIdentity *> *identities;
 @property(strong, readonly) NSArray<MobileProfile *> *mobileProfiles;
-
 @end
 
-@implementation BundleResignerFactory
+static BundleResignerFactory *_shared = nil;
 
-@synthesize identities = _identities;
-@synthesize mobileProfiles = _mobileProfiles;
+@implementation BundleResignerFactory
+@synthesize identities = _identities,
+        mobileProfiles = _mobileProfiles;
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-
+    @synchronized ([self class]) {
+        self = [super init];
+        NSAssert(_shared == nil,
+                 @"Attempted to instantiate duplicate instance of %@ singleton.",
+                 NSStringFromClass(self.class));
+        return self;
     }
-    return self;
 }
 
+
 + (BundleResignerFactory *)shared {
-    static BundleResignerFactory *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        shared = [[BundleResignerFactory alloc] init];
+        _shared = [BundleResignerFactory new];
     });
-    return shared;
+    return _shared;
 }
 
 - (void)logExampleShellCommand {
@@ -170,16 +171,18 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 }
 
 - (NSArray<CodesignIdentity *> *)identities {
-    if (_identities) { return _identities; }
-
-    _identities = [CodesignIdentity validIOSDeveloperIdentities];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _identities = [CodesignIdentity validIOSDeveloperIdentities];
+    });
     return _identities;
 }
 
 - (NSArray<MobileProfile *> *)mobileProfiles {
-    if (_mobileProfiles) {return _mobileProfiles;}
-
-    _mobileProfiles = [MobileProfile nonExpiredIOSProfiles];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _mobileProfiles = [MobileProfile nonExpiredIOSProfiles];
+    });
     return _mobileProfiles;
 }
 

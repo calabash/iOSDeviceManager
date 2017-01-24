@@ -111,15 +111,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     //Only codesign/install if we actually need to.
     if (needsToInstall) {
-        
-        //TODO: get profile from args or auto-select for device
-        MobileProfile *profile = nil;
+        //TODO: get profile from args if specified
+        MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:stagedApp device:self];
         
         //TODO: Skip resigning if the app is already signed for the device?
         //Requires reading provisioning profiles on the device and comparing
         //entitlements...
         [Codesigner resignApplication:stagedApp withProvisioningProfile:profile];
         
+        //TODO: install the profile to the device!
         if (![op installApplicationWithPath:stagedApp.path error:&err] || err) {
             ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;

@@ -28,6 +28,14 @@
 - (NSString *)pretty {
     return [JSONUtils beautify:self];
 }
+
+- (BOOL)hasKey:(id<NSCopying>)key {
+    return [[self allKeys] containsObject:key];
+}
+
+- (BOOL)hasValue:(id)val {
+    return [[self allValues] containsObject:val];
+}
 @end
 
 @implementation NSArray (CBXUtils)

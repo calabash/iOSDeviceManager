@@ -7,12 +7,15 @@
 const NSString *DEVICE_ID_ARGNAME = @"device_id";
 const NSString *DEVICE_ID_FLAG = @"-d";
 const NSString *DEFAULT_DEVICE_ID_KEY = @"default_device_id";
+NSString *HELP_SHORT_FLAG = @"-h";
+NSString *HELP_LONG_FLAG = @"--help";
+
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
 + (Device *)deviceFromArgs:(NSDictionary *)args {
-    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID];
     return [Device withID:deviceID];
 }
 
@@ -97,6 +100,18 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         if ([op.longFlag isEqualToString:flag]) {
             return op;
         }
+    }
+    
+    CommandOption *helpCommand = [CommandOption withShortFlag:HELP_SHORT_FLAG
+                                                     longFlag:HELP_LONG_FLAG
+                                                   optionName:@"help"
+                                                         info:@"prints help"
+                                                     required:NO
+                                                   defaultVal:@NO].asBooleanOption;
+    
+    if ([flag isEqualToString:HELP_SHORT_FLAG] ||
+        [flag isEqualToString:HELP_LONG_FLAG]) {
+        return helpCommand;
     }
     return nil;
 }

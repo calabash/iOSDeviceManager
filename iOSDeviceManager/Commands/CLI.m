@@ -1,11 +1,12 @@
 
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "iOSDeviceManagementCommand.h"
+#import "ConsoleWriter.h"
 #import <objc/runtime.h>
 #import "ShellRunner.h"
+#import "JSONUtils.h"
 #import "Command.h"
 #import "CLI.h"
-#import "ConsoleWriter.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -72,7 +73,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                 continue;
             }
         }
-        if (args.count <= i + 1) {
+        if (args.count <= i + 1 && op.requiresArgument) {
             printf("No value provided for %s\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
             [command printUsage];
             *exitCode = iOSReturnStatusCodeMissingArguments;
@@ -85,7 +86,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             values[op.shortFlag] = @YES;
         }
     }
-    values[DEFAULT_DEVICE_ID_KEY] = [Device defaultDeviceID];
+    
     *exitCode = iOSReturnStatusCodeEverythingOkay;
     return values;
 }
@@ -107,6 +108,13 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                               exitCode:&ec];
             if (ec != iOSReturnStatusCodeEverythingOkay) {
                 return ec;
+            }
+            
+            //If the user specified they want help, just print help and exit.
+            if ([parsedArgs hasKey:HELP_SHORT_FLAG] ||
+                [parsedArgs hasKey:HELP_LONG_FLAG]) {
+                [command printUsage];
+                return iOSReturnStatusCodeEverythingOkay;
             }
 
             //Ensure all required args are present

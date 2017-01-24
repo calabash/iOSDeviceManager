@@ -76,7 +76,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   @"--deep",
                                   pathToObject];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
-    NSAssert(result.success, @"Error codesigning %@: %@", pathToObject, result.stderrStr);
+    BOOL success = result.success;
+    NSAssert(success, @"Error codesigning %@: %@", pathToObject, result.stderrStr);
     LogInfo(@"Codesigned %@: '%@' => '%@'",
             [pathToObject lastPathComponent],
             originalSigningID,
@@ -98,7 +99,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   @"--entitlements", pathToEntitlementsFile,
                                   pathToBundle];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
-    NSAssert(result.success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
+    BOOL success = result.success;
+    NSAssert(success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
     LogInfo(@"Codesigned %@: '%@' => '%@'",
             [pathToBundle lastPathComponent],
             originalSigningID,
@@ -200,11 +202,10 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                        mobileProfileUUID);
     }
     NSString *appIDPrefix = prefixes[0];
-    //Any valid profile should have at least one developer certificate
-    //TODO: Either accept the cert to use as a param, or iterate
-    //through certs to get a valid one.
-    Certificate *codesignCert = [profile developerCertificates][0];
-    NSString *codesignIdentity = [codesignCert shasum];
+    
+    NSString *codesignIdentity = [profile findValidIdentity].shasum;
+    NSAssert(codesignIdentity, @"Unable to find valid codesign identity from profile %@", profile.name);
+    
     Entitlements *newEntitlements = [profile entitlements];
     Entitlements *oldEntitlements = [Entitlements entitlementsWithBundlePath:appDir];
     
@@ -248,8 +249,9 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                       };
     
     NSString *entitlementsMapFile = [appDir joinPath:@"XTCEntitlementsMeta.plist"];
-    NSAssert([entitlementsMap writeToFile:entitlementsMapFile
-                               atomically:YES], @"Unable to write EntitlementsMeta to application.");
+    BOOL success = [entitlementsMap writeToFile:entitlementsMapFile
+                                     atomically:YES];
+    NSAssert(success, @"Unable to write EntitlementsMeta to application.");
     
     [self injectResources:resourcesToInject
                intoAppDir:appDir
@@ -266,7 +268,9 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
         }
     }
     
-    NSString *bundleID = infoPlist[@"CFBundleIdentifier"];
+    //Sanity check
+    NSAssert(infoPlist[@"CFBundleIdentifier"] != nil, @"Bundle identifier is nil! Plist: %@", infoPlist);
+    
     NSString *bundleExec = infoPlist[@"CFBundleExecutable"];
     NSString *bundleExecPath = [appDir joinPath:bundleExec];
     NSString *appDirName = [appDir lastPathComponent];
@@ -279,7 +283,6 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSString *newTeamId = finalEntitlements[@"com.apple.developer.team-identifier"];
     
     NSAssert([mgr fileExistsAtPath:bundleExecPath], @"Bundle executable %@ does not exist!", bundleExecPath);
-    NSAssert(bundleID != nil, @"Bundle identifier is nil! Plist: %@", infoPlist);
     LogInfo(@"Original entitlements:");
     LogInfo(@"%@", oldEntitlements);
     LogInfo(@"New Entitlements");
@@ -301,7 +304,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
      from the parent.
     
      Note also that the objects resigned above won't be resigned again because
-    `should-resign?` should return false once they've already been resigned. 
+    `+ (BOOL)shouldResign` should return false once they've already been resigned.
     */
     
     NSString *pluginsPath = [appDir joinPath:@"Plugins"];
