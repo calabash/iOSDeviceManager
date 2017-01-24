@@ -82,7 +82,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     [possiblePositionalArgShortFlags removeObject:positionalArgShortFlag];
                 } else{
                     ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %@\n",
-                           [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+                           args[i]);
                     [self printUsage];
                     *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
                     return nil;
@@ -92,7 +92,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             }
         }
         if (args.count <= i + 1) {
-            ConsoleWriteErr(@"No value provided for %@\n", [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+            ConsoleWriteErr(@"No value provided for %@\n", args[i]);
             [command printUsage];
             *exitCode = iOSReturnStatusCodeMissingArguments;
             return nil;
