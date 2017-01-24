@@ -1,5 +1,6 @@
 #import "Simulator.h"
 #import "KillSimulatorCommand.h"
+#import "DeviceUtils.h"
 
 @implementation KillSimulatorCommand
 + (NSString *)name {
@@ -23,7 +24,7 @@
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
     
-    Device *device = [self deviceFromArgs:args];
+    Device *device = [self simulatorFromArgs:args];
     if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;
     }

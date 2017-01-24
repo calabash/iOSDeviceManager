@@ -110,7 +110,6 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             values[op.shortFlag] = @YES;
         }
     }
-    values[DEFAULT_DEVICE_ID_KEY] = [Device defaultDeviceID];
     *exitCode = iOSReturnStatusCodeEverythingOkay;
     return values;
 }

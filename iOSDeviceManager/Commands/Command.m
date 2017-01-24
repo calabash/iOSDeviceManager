@@ -8,7 +8,6 @@
 
 NSString *const DEVICE_ID_FLAG = @"-d";
 NSString *const APP_ID_FLAG = @"-a";
-NSString *const DEFAULT_DEVICE_ID_KEY = @"default_device_id";
 NSString *const DEVICE_ID_ARGNAME = @"device_id";
 NSString *const APP_ID_ARGNAME = @"app_id";
 
@@ -35,7 +34,19 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (Device *)deviceFromArgs:(NSDictionary *)args {
-    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID];
+    return [Device withID:deviceID];
+}
+
++ (Device *)simulatorFromArgs:(NSDictionary *)args {
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultSimulatorID];
+    
+    if (![DeviceUtils isSimulatorID:deviceID]) {
+        @throw [NSException exceptionWithName:@"InvalidArgumentException"
+                                       reason:@"The specified device id does not match a simulator id"
+                                       userInfo:nil];
+    }
+    
     return [Device withID:deviceID];
 }
 
