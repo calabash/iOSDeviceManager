@@ -149,6 +149,9 @@
 		89A1CF071E36CCCA00D9FEC5 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF041E326A2900D9FEC5 /* FileUtils.m */; };
 		89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */; };
 		89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEF81E32217500D9FEC5 /* StringUtils.m */; };
+		89A1CF0C1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF0B1E36F94A00D9FEC5 /* ExceptionUtils.m */; };
+		89A1CF0D1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF0B1E36F94A00D9FEC5 /* ExceptionUtils.m */; };
+		89A1CF0E1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF0B1E36F94A00D9FEC5 /* ExceptionUtils.m */; };
 		89AE36D71DF8318500E21487 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
@@ -430,6 +433,8 @@
 		89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONUtils.m; path = iOSDeviceManager/Utilities/JSONUtils.m; sourceTree = SOURCE_ROOT; };
 		89A1CF031E326A2900D9FEC5 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = iOSDeviceManager/Utilities/FileUtils.h; sourceTree = SOURCE_ROOT; };
 		89A1CF041E326A2900D9FEC5 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileUtils.m; path = iOSDeviceManager/Utilities/FileUtils.m; sourceTree = SOURCE_ROOT; };
+		89A1CF0A1E36F94A00D9FEC5 /* ExceptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExceptionUtils.h; path = iOSDeviceManager/Utilities/ExceptionUtils.h; sourceTree = SOURCE_ROOT; };
+		89A1CF0B1E36F94A00D9FEC5 /* ExceptionUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExceptionUtils.m; path = iOSDeviceManager/Utilities/ExceptionUtils.m; sourceTree = SOURCE_ROOT; };
 		89B50D7D1D466BB800F34D67 /* AppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = AppUtils.h; path = iOSDeviceManager/Utilities/AppUtils.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89B50D7E1D466BB800F34D67 /* AppUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtils.m; path = iOSDeviceManager/Utilities/AppUtils.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		89C29E181DAE69C500282526 /* ConsoleWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleWriter.h; path = iOSDeviceManager/Utilities/Logging/ConsoleWriter.h; sourceTree = SOURCE_ROOT; };
@@ -634,6 +639,8 @@
 				A186226F1DE4F47700A05031 /* MachClock.m */,
 				89A1CF031E326A2900D9FEC5 /* FileUtils.h */,
 				89A1CF041E326A2900D9FEC5 /* FileUtils.m */,
+				89A1CF0A1E36F94A00D9FEC5 /* ExceptionUtils.h */,
+				89A1CF0B1E36F94A00D9FEC5 /* ExceptionUtils.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1057,6 +1064,7 @@
 				898D7D9D1DA47569001578FE /* WebSocket.m in Sources */,
 				89A1CEF21E302FC200D9FEC5 /* CodesignIdentity.m in Sources */,
 				898D7D701DA47569001578FE /* DDNumber.m in Sources */,
+				89A1CF0C1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */,
 				892DE4EA1D230F5F00E1902C /* Command.m in Sources */,
 				892DE4DE1D22F97A00E1902C /* CLI.m in Sources */,
 				898D7DDC1DA4758A001578FE /* RouteResponse.m in Sources */,
@@ -1099,6 +1107,7 @@
 				B296D6FE1E3144DD00D365F3 /* MobileProfile.m in Sources */,
 				F5D583E51D69FE62007B0D11 /* CLITests.m in Sources */,
 				898D7D9B1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
+				89A1CF0D1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */,
 				892DE4DF1D22F97A00E1902C /* CLI.m in Sources */,
 				B296D6F61E31437C00D365F3 /* BundleResigner.m in Sources */,
 				892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
@@ -1183,6 +1192,7 @@
 				F5D584091D6A039B007B0D11 /* TestCase.m in Sources */,
 				898D7D7B1DA47569001578FE /* HTTPConnection.m in Sources */,
 				898D7D401DA47513001578FE /* GCDAsyncSocket.m in Sources */,
+				89A1CF0E1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */,
 				89A1CF071E36CCCA00D9FEC5 /* FileUtils.m in Sources */,
 				A18622721DE4F47700A05031 /* MachClock.m in Sources */,
 				B296D7021E31474500D365F3 /* Codesigner.m in Sources */,

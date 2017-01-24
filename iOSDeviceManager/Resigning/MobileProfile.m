@@ -1,5 +1,6 @@
 
 #import "CodesignIdentity.h"
+#import "ExceptionUtils.h"
 #import "MobileProfile.h"
 #import "ConsoleWriter.h"
 #import "Entitlements.h"
@@ -33,7 +34,7 @@
 + (MobileProfile *)bestMatchProfileForApplication:(Application *)app device:(Device *)device {
     CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:app.path
                                                                deviceId:device.uuid];
-    NSAssert(identity != nil,
+    CBXAssert(identity,
              @"Unable to find appropriate codesign identity for device %@ / app %@ combo",
              device.uuid,
              app.bundleID);

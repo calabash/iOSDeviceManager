@@ -75,9 +75,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
     if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    //stage it
-    app = [Application withBundlePath:[AppUtils copyAppBundleToTmpDir:app.path]];
-    
     NSError *err;
     FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
     BOOL needsToInstall = YES;
