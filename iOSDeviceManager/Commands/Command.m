@@ -3,15 +3,37 @@
 #import "Command.h"
 #import "CLI.h"
 #import "ConsoleWriter.h"
+#import "Device.h"
 #import "DeviceUtils.h"
 
-const NSString *DEVICE_ID_ARGNAME = @"device_id";
-const NSString *DEVICE_ID_FLAG = @"-d";
-const NSString *DEFAULT_DEVICE_ID_KEY = @"default_device_id";
-const NSString *DEFAULT_SIMULATOR_ID_KEY = @"default_simulator_id";
+NSString *const DEVICE_ID_FLAG = @"-d";
+NSString *const APP_ID_FLAG = @"-a";
+NSString *const DEFAULT_DEVICE_ID_KEY = @"default_device_id";
+NSString *const DEFAULT_SIMULATOR_ID_KEY = @"default_simulator_id";
+NSString *const DEVICE_ID_ARGNAME = @"device_id";
+NSString *const APP_ID_ARGNAME = @"app_id";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
+
++ (NSString *)positionalArgShortFlag:(NSString *)arg {
+    if ([arg hasSuffix:@".app"] || [arg hasSuffix:@".ipa"]) {
+        return APP_ID_FLAG;
+    }
+    
+    if ([DeviceUtils isSimulatorID:arg] || [DeviceUtils isDeviceID:arg]) {
+        return DEVICE_ID_FLAG;
+    }
+    
+    return nil;
+}
+
++(NSArray <NSString *> *) positionalArgNames {
+    return @[
+             DEVICE_ID_ARGNAME,
+             APP_ID_ARGNAME
+             ];
+}
 
 + (Device *)deviceFromArgs:(NSDictionary *)args {
     NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: args[DEFAULT_DEVICE_ID_KEY];
@@ -57,9 +79,10 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     }
 }
 
-+ (NSArray <NSString *>*)positionalArgNames {
++ (NSArray <NSString *>*)positionalArgShortFlags {
     return @[
-             DEVICE_ID_ARGNAME
+             DEVICE_ID_FLAG,
+             APP_ID_FLAG
              ];
 }
 
