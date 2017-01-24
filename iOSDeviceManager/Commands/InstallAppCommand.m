@@ -26,11 +26,13 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     NSString *pathToBundle= args[APP_PATH_FLAG];
     if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
         pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+    } else {
+        pathToBundle = [AppUtils copyAppBundleToTmpDir:args[APP_PATH_FLAG]];
     }
     
-    
     Application *app = [Application withBundlePath:pathToBundle];
-    if (!app) {
+    if (!app || !app.path) {
+        ConsoleWriteErr(@"Error creating application object for path: %@", pathToBundle);
         return iOSReturnStatusCodeGenericFailure;
     }
     return [device installApp:app shouldUpdate:update];

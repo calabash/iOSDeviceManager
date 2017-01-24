@@ -75,23 +75,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
     if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
-    //Stage app.
-    //We may be modifying the app contents via codesigning so we don't want to
-    //damage the original file.
-    Application *stagedApp = [Application withBundlePath:[AppUtils copyAppBundleToTmpDir:app.path]];
-    if (!stagedApp) {
-        ConsoleWriteErr(@"Could not stage app for code signing");
-        return iOSReturnStatusCodeInternalError;
-    }
-    
     NSError *err;
     FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
     BOOL needsToInstall = YES;
     
     //First check if the app is installed
-    if ([op isApplicationInstalledWithBundleID:stagedApp.bundleID error:&err] || err) {
+    if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {
-            ConsoleWriteErr(@"Error checking if app (%@) is installed. %@", stagedApp.bundleID, err);
+            ConsoleWriteErr(@"Error checking if app (%@) is installed. %@", app.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
         
@@ -103,7 +94,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
         
         //Check if the app differs from the installed version
-        needsToInstall = [self shouldUpdateApp:stagedApp statusCode:&ret];
+        needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
@@ -112,15 +103,19 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     //Only codesign/install if we actually need to.
     if (needsToInstall) {
         //TODO: get profile from args if specified
-        MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:stagedApp device:self];
+        MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:app device:self];
+        NSAssert(profile != nil,
+                 @"Unable to find profile matching app %@ and device %@",
+                 app.path,
+                 self.uuid);
         
         //TODO: Skip resigning if the app is already signed for the device?
         //Requires reading provisioning profiles on the device and comparing
         //entitlements...
-        [Codesigner resignApplication:stagedApp withProvisioningProfile:profile];
+        [Codesigner resignApplication:app withProvisioningProfile:profile];
         
         //TODO: install the profile to the device!
-        if (![op installApplicationWithPath:stagedApp.path error:&err] || err) {
+        if (![op installApplicationWithPath:app.path error:&err] || err) {
             ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }

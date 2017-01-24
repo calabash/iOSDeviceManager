@@ -71,6 +71,11 @@
     return [[Entitlements alloc] initWithDictionary:dictionary];
 }
 
+/*
+    TODO: Remove this! We shouldn't need to hard code entitlement keys.
+    Not only does the keyset grow without warning, but the values are 
+    unpredictable.
+ */
 + (NSArray<NSString *> *)entitlementComparisonKeys {
     return
     @[
@@ -120,6 +125,10 @@
 }
 
 @synthesize dictionary = _dictionary;
+
+- (NSInteger)count {
+    return self.dictionary.count;
+}
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];

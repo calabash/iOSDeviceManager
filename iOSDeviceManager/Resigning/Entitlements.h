@@ -10,6 +10,7 @@
 + (NSInteger)rankByComparingProfileEntitlements:(Entitlements *)profileEntitlements
                                 appEntitlements:(Entitlements *)appEntitlements;
 
+- (NSInteger)count;
 - (NSString *)applicationIdentifier;
 - (NSString *)applicationIdentifierWithoutPrefix;
 - (BOOL)writeToFile:(NSString *)path;

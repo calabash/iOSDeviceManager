@@ -1,12 +1,13 @@
 
+#import "CodesignIdentity.h"
 #import "MobileProfile.h"
+#import "ConsoleWriter.h"
+#import "Entitlements.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "Certificate.h"
-#import "Entitlements.h"
 #import "Entitlement.h"
-#import "CodesignIdentity.h"
-#import "ConsoleWriter.h"
+#import "JSONUtils.h"
 
 @interface MobileProfile ()
 
@@ -32,16 +33,21 @@
 + (MobileProfile *)bestMatchProfileForApplication:(Application *)app device:(Device *)device {
     CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:app.path
                                                                deviceId:device.uuid];
-    NSAssert(identity,
+    NSAssert(identity != nil,
              @"Unable to find appropriate codesign identity for device %@ / app %@ combo",
              device.uuid,
              app.bundleID);
+    
+    LogInfo(@"Using signing identity %@ to select best match profile.", identity);
     
     NSArray<MobileProfile *> *profiles = [MobileProfile rankedProfiles:[self nonExpiredIOSProfiles]
                                                           withIdentity:identity
                                                             deviceUDID:device.uuid
                                                          appBundlePath:app.path];
-    return profiles.count ? profiles[0] : nil;
+    
+    MobileProfile *match = profiles.count ? profiles[0] : nil;
+    LogInfo(@"Selected profile %@ for device %@ app %@", match, device.uuid, app.bundleID);
+    return match;
 }
 
 + (NSString *)profilesDirectory {
@@ -180,7 +186,10 @@
 
 + (NSArray<MobileProfile *> *)nonExpiredIOSProfiles {
     NSArray<NSString *> *paths = [MobileProfile arrayOfProfilePaths];
-    if (!paths) { return nil; }
+    if (!paths) {
+        ConsoleWriteErr(@"Error getting list of non-expired profiles;");
+        return nil;
+    }
 
     NSMutableArray<MobileProfile *> *profiles;
     profiles = [NSMutableArray arrayWithCapacity:[paths count]];
@@ -218,14 +227,18 @@
                                 withIdentity:(CodesignIdentity *)identity
                                   deviceUDID:(NSString *)deviceUDID
                                appBundlePath:(NSString *)appBundlePath {
+    NSParameterAssert(mobileProfiles);
+    NSParameterAssert(mobileProfiles.count);
+    
     NSArray<MobileProfile *> *valid = mobileProfiles;
-
-    if (!valid || valid.count == 0) { return nil; }
 
     Entitlements *appEntitlements;
     appEntitlements = [Entitlements entitlementsWithBundlePath:appBundlePath];
 
-    if (!appEntitlements) { return nil; }
+    if (!appEntitlements) {
+        ConsoleWriteErr(@"App %@ has no entitlements, refusing to rank profiles.", appBundlePath);
+        return nil;
+    }
 
     NSMutableArray<MobileProfile *> *satisfyingProfiles;
     satisfyingProfiles = [NSMutableArray arrayWithCapacity:valid.count];
@@ -322,8 +335,7 @@
 }
 
 - (NSArray<Certificate *> *)developerCertificates {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if (!_certificates.count) {
         NSArray<NSData *> *data = (NSArray<NSData *> *)self[@"DeveloperCertificates"];
         
         NSMutableArray<Certificate *> *certs = [NSMutableArray arrayWithCapacity:[data count]];
@@ -338,7 +350,7 @@
         }
         
         _certificates = [NSArray arrayWithArray:certs];
-    });
+    };
     return _certificates;
 }
 

@@ -81,17 +81,18 @@
 }
 
 - (void)testInstall {
+    id udid = @"fc9ea0c8eb97fac5198139fb382e52947a757c1a";
     if (device_available()) {
             NSArray *args = @[
                               kProgramName, @"is_installed",
                               @"-b", testAppID,
-                              @"-d", defaultDeviceUDID
+                              @"-d", udid
                               ];
             
             if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
                 args = @[
                          kProgramName, @"uninstall",
-                         @"-d", defaultDeviceUDID,
+                         @"-d", udid,
                          @"-b", testAppID
                          ];
                 XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
@@ -99,8 +100,8 @@
             
             args = @[
                      kProgramName, @"install",
-                     @"-d", defaultDeviceUDID,
-                     @"-a", testApp(ARM),
+                     @"-d", udid,
+                     @"-a", @"/Users/chrisf/test-cloud-test-ios-resigning/apps/WebDriverAgentRunner-Runner.ipa",
                      @"-c", kCodeSignIdentityKARL
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);

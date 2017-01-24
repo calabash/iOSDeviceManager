@@ -25,18 +25,22 @@
 + (CodesignIdentity *)identityForAppBundle:(NSString *)appBundle
                                   deviceId:(NSString *)deviceId {
     Entitlements *appEnts = [Entitlements entitlementsWithBundlePath:appBundle];
-    if (!appEnts) {
+    if (!appEnts.count) {
+        ConsoleWriteErr(@"No entitlements found for app bundle: %@", appBundle);
         return nil;
     }
     
     NSArray <CodesignIdentity *>* identities = [CodesignIdentity validIOSDeveloperIdentities];
-    if (!identities) {
+    if (!identities.count) {
+        ConsoleWriteErr(@"No valid iOSDeveloperIdentities found on system.");
         return nil;
     }
 
-    if (![MobileProfile nonExpiredIOSProfiles]) {
+    if (![MobileProfile nonExpiredIOSProfiles].count) {
+        ConsoleWrite(@"No non-expired iOSProfiles found on system.");
         return nil;
     }
+    
     CodesignIdentity *bestIdentity = nil;
     NSInteger bestIdentityRank = NSIntegerMax;
     
@@ -127,7 +131,7 @@
             shasum = nil;
         }
 
-        if (shasum && name) {
+        if (shasum.length && name.length) {
             identity = [[CodesignIdentity alloc] initWithShasum:shasum name:name];
             if (![identities containsObject:identity]) {
                 [identities addObject:identity];

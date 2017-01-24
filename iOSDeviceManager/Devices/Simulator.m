@@ -133,16 +133,18 @@ static const FBSimulatorControl *_control;
     if (needsToInstall) {
         //TODO: Do we _still_ need to resign for simulators?
         
-        Application *stagedApp = [Application withBundlePath:[AppUtils copyAppBundleToTmpDir:app.path]];
-        
         //TODO: get profile from args if specified
         MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:app
                                                                         device:self];
+        NSAssert(profile,
+                 @"Unable to find profile matching app %@ and device %@",
+                 app.path,
+                 self.uuid);
         
         //TODO: Skip resigning if the app is already signed for the device?
         //Requires reading provisioning profiles on the device and comparing
         //entitlements...
-        [Codesigner resignApplication:stagedApp withProvisioningProfile:profile];
+        [Codesigner resignApplication:app withProvisioningProfile:profile];
         
         //TODO: if we do need to resign, we should install the profile to the device right here as well.
         if (![[self.fbSimulator.interact installApplication:appDescriptor] perform:&e] || e) {

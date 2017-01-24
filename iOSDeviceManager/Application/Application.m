@@ -49,9 +49,11 @@
     }
     
 
-    return [self withBundleID:productBundle.bundleID
-                        plist:infoPlist
-                architectures:arches];
+    Application *app = [self withBundleID:productBundle.bundleID
+                                    plist:infoPlist
+                            architectures:arches];
+    app.path = pathToBundle;
+    return app;
 }
 
 + (Application *)withBundleID:(NSString *)bundleID plist:(NSDictionary *)plist architectures:(NSSet *)architectures {

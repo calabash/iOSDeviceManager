@@ -17,6 +17,11 @@
 + (Device *)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
+
+/**
+    @warn Application should have already been staged into an alternate location when calling this,
+    as this method may codesign whatever application path is passed in.
+ */
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;

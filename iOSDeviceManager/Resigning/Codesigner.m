@@ -78,7 +78,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
     NSAssert(success, @"Error codesigning %@: %@", pathToObject, result.stderrStr);
-    LogInfo(@"Codesigned %@: '%@' => '%@'",
+    ConsoleWriteErr(@"Codesigned %@: '%@' => '%@'",
             [pathToObject lastPathComponent],
             originalSigningID,
             [self getObjectSigningID:pathToObject]);
@@ -95,13 +95,13 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
                                   @"--sign", codesignID,
-                                  @"--vv", bundleExecutableFile,
+                                  @"-vv", bundleExecutableFile,
                                   @"--entitlements", pathToEntitlementsFile,
                                   pathToBundle];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
     NSAssert(success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
-    LogInfo(@"Codesigned %@: '%@' => '%@'",
+    ConsoleWriteErr(@"Codesigned %@: '%@' => '%@'",
             [pathToBundle lastPathComponent],
             originalSigningID,
             [self getObjectSigningID:pathToBundle]);
@@ -176,13 +176,15 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 }
 
 + (BOOL)shouldResign:(NSString *)objectPath
-           inBaseDir:(NSString *)baseDir {
-    NSString *baseSigningID = [self getObjectSigningID:baseDir];
-    NSString *objectSigningID = [self getObjectSigningID:baseDir];
-    return ![self isCodesigned:baseDir] ||
-            baseSigningID == nil ||
-            [baseSigningID isEqualToString:objectSigningID] ||
-            [baseSigningID isEqualToString:@"not set"];
+            inAppDir:(NSString *)appDir {
+    if (![self isCodesigned:appDir]) {
+        return YES;
+    }
+    NSString *appSigningID = [self getObjectSigningID:appDir];
+    NSString *objectSigningID = [self getObjectSigningID:objectPath];
+    return  appSigningID == nil ||
+            [appSigningID isEqualToString:objectSigningID] ||
+            [appSigningID isEqualToString:@"not set"];
 }
 
 + (BOOL)isResignableBundle:(NSString *)bundlePath {
@@ -220,7 +222,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                     [NSString stringWithFormat:@"%@.%@", appIDPrefix, oldBundleID] :
                                     [newEntitlements applicationIdentifier];
     
-    LogInfo(@"Resigning bundle %@ with profile %@", appDir, [profile name]);
+    ConsoleWriteErr(@"Resigning bundle %@ with profile %@", appDir.lastPathComponent, [profile name]);
     
     NSString *appGroupKey = @"com.apple.security.application-groups";
     NSArray *appGroups = oldEntitlements[appGroupKey] ?: @[];
@@ -260,8 +262,10 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     
     NSString *embeddedMobileProvision = [appDir joinPath:@"embedded.mobileprovision"];
     if ([mgr fileExistsAtPath:embeddedMobileProvision]) {
-        if ([mgr removeItemAtPath:embeddedMobileProvision error:nil]) {
-            LogInfo(@"Removed embedded.mobileprovision from %@", appDir);
+        //We are choosing to continue even if there's an error.
+        NSError *e;
+        if ([mgr removeItemAtPath:embeddedMobileProvision error:&e]) {
+            LogInfo(@"Removed embedded.mobileprovision from %@: %@", appDir, e);
         } else {
             //I do not think this will block resigning so we don't need to NSAssert - CF
             ConsoleWriteErr(@"Unable to remove embedded.mobileprovision from app dir %@", appDir);
@@ -279,6 +283,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSString *appId = [appDirName subsFrom:0 length:appDirName.length - @".app".length];
     NSString *xcentFilename = [appId plus:@".xcent"];
     NSString *appEntitlementsFile = [appDir joinPath:xcentFilename];
+    
     Entitlements *finalEntitlements = [newEntitlements entitlementsByReplacingApplicationIdentifier:finalAppIdentifier];
     NSString *newTeamId = finalEntitlements[@"com.apple.developer.team-identifier"];
     
@@ -286,11 +291,15 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     LogInfo(@"Original entitlements:");
     LogInfo(@"%@", oldEntitlements);
     LogInfo(@"New Entitlements");
-    LogInfo(@"%@", newEntitlements);
+    LogInfo(@"%@", finalEntitlements);
     LogInfo(@"Resigning to new teamID: %@", newTeamId);
     
+    NSAssert([finalEntitlements writeToFile:appEntitlementsFile],
+             @"Unable to write app entitlements to %@",
+             appEntitlementsFile);
+    
     [FileUtils fileSeq:appDir handler:^(NSString *filepath) {
-        if ([FileUtils isDylibOrFramework:filepath] && [self shouldResign:filepath inBaseDir:appDir]) {
+        if ([FileUtils isDylibOrFramework:filepath] && [self shouldResign:filepath inAppDir:appDir]) {
             [self resignObject:filepath
               codesignIdentity:codesignIdentity];
         }
@@ -308,15 +317,17 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     */
     
     NSString *pluginsPath = [appDir joinPath:@"Plugins"];
-    [FileUtils fileSeq:pluginsPath handler:^(NSString *filepath) {
-        if ([self isResignableBundle:filepath] &&
-            [self shouldResign:filepath inBaseDir:baseDir]) {
-            [self resignAppDir:filepath
-                       baseDir:baseDir
-           provisioningProfile:profile
-             resourcesToInject:nil];
-        }
-    }];
+    if ([mgr fileExistsAtPath:pluginsPath]) {
+        [FileUtils fileSeq:pluginsPath handler:^(NSString *filepath) {
+            if ([self isResignableBundle:filepath] &&
+                [self shouldResign:filepath inAppDir:appDir]) {
+                [self resignAppDir:filepath
+                           baseDir:baseDir
+               provisioningProfile:profile
+                 resourcesToInject:nil];
+            }
+        }];
+    }
     
     /*
      Given everything else is signed, we can now sign the main executable

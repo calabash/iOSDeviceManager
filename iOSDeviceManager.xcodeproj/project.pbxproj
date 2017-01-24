@@ -148,6 +148,7 @@
 		89A1CF061E326A2900D9FEC5 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF041E326A2900D9FEC5 /* FileUtils.m */; };
 		89A1CF071E36CCCA00D9FEC5 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF041E326A2900D9FEC5 /* FileUtils.m */; };
 		89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */; };
+		89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEF81E32217500D9FEC5 /* StringUtils.m */; };
 		89AE36D71DF8318500E21487 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
 		89B50D801D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
 		89B50D811D466BB800F34D67 /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
@@ -1223,6 +1224,7 @@
 				898D7DD81DA4758A001578FE /* Route.m in Sources */,
 				898D7DE41DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
+				89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */,
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,
 				B22DC0081E1D799500BDD4CB /* Application.m in Sources */,
 				F5D78DC91D8D32EB00497000 /* ShellResult.m in Sources */,

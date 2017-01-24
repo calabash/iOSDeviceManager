@@ -1,8 +1,9 @@
 
-#import "AppUtils.h"
-#import "ShellRunner.h"
 #import "ConsoleWriter.h"
+#import "ShellRunner.h"
 #import "ShellResult.h"
+#import "StringUtils.h"
+#import "AppUtils.h"
 
 @implementation AppUtils
 
@@ -27,9 +28,10 @@
 }
 
 + (NSString *)copyAppBundleToTmpDir:(NSString *)bundlePath {
+    NSAssert(bundlePath, @"Can not copy application, bundle path is nil!");
     NSError *error;
     NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
-    NSString *tempPath = [NSTemporaryDirectory() stringByAppendingPathComponent:UUID];
+    NSString *tempPath = [NSTemporaryDirectory() joinPath:UUID];
 
     if (![[NSFileManager defaultManager] createDirectoryAtPath:tempPath
                                    withIntermediateDirectories:YES
@@ -41,7 +43,7 @@
         return nil;
     }
 
-    NSString *newBundlePath = [tempPath stringByAppendingPathComponent:bundlePath.lastPathComponent];
+    NSString *newBundlePath = [tempPath joinPath:bundlePath.lastPathComponent];
 
     if (![[NSFileManager defaultManager] copyItemAtPath:bundlePath
                                                  toPath:newBundlePath
@@ -58,8 +60,12 @@
 + (NSString *)unzipIpa:(NSString*)ipaPath {
     NSString *copiedAppPath = [AppUtils copyAppBundleToTmpDir:ipaPath];
     NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];
-    NSString *payloadPath = [unzipPath stringByAppendingString:@"/Payload/"];
-    NSArray *params = @[@"ditto", @"-xk", copiedAppPath, unzipPath];
+    NSString *payloadPath = [unzipPath stringByAppendingPathComponent:@"Payload"];
+    NSArray *params = @[@"ditto",
+                        @"-xk",
+                        @"--sequesterRsrc",
+                        copiedAppPath,
+                        unzipPath];
 
     ShellResult *result = [ShellRunner xcrun:params timeout:20];
     if (!result.success) {
@@ -72,7 +78,7 @@
     NSString *bundlePath = nil;
     for (NSString * payloadContent in [fileManager contentsOfDirectoryAtPath:payloadPath error:nil]) {
         if ([payloadContent hasSuffix:@".app"]) {
-            bundlePath = [payloadPath stringByAppendingString:payloadContent];
+            bundlePath = [payloadPath stringByAppendingPathComponent:payloadContent];
             break;
         }
     }

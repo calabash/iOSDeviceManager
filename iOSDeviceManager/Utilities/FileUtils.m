@@ -1,4 +1,5 @@
 
+#import "StringUtils.h"
 #import "FileUtils.h"
 
 @implementation FileUtils
@@ -7,18 +8,22 @@
     
     NSError *e = nil;
     NSArray *children = [mgr contentsOfDirectoryAtPath:dir error:&e];
-    NSAssert(e == nil, @"Unable to enumerate children of %@", dir);
+    NSAssert(e == nil, @"Unable to enumerate children of %@", dir, e);
     BOOL isDir = NO;
     [mgr fileExistsAtPath:dir isDirectory:&isDir];
     NSAssert(isDir, @"Tried to enumerate children of '%@', but it's not a dir.", dir);
     
     for (NSString *file in children) {
-        handler(file);
+        NSString *filePath = [dir joinPath:file];
+        handler(filePath);
         isDir = NO;
         
-        [mgr fileExistsAtPath:file isDirectory:&isDir];
+        NSAssert([mgr fileExistsAtPath:filePath isDirectory:&isDir],
+                 @"Error performing %@ on %@: file does not exist!",
+                 NSStringFromSelector(_cmd),
+                 filePath);
         if (isDir) {
-            [self fileSeq:file handler:handler];
+            [self fileSeq:filePath handler:handler];
         }
     }
 }
