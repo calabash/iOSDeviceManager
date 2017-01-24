@@ -295,4 +295,43 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
+- (void)testPositionalArgs {
+    XCTAssertTrue([DeviceUtils isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
+    NSArray *args = @[kProgramName, @"kill_simulator"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"launch_simulator"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"is_installed", @"-b", testAppID];
+    if ([CLI process:args]) {
+        args = @[kProgramName, @"uninstall", @"-b", testAppID];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    args = @[kProgramName, @"install", testApp(SIM), [Device defaultDeviceID]];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"is_installed", @"-b", testAppID];
+    if ([CLI process:args]) {
+        args = @[kProgramName, @"uninstall", @"-b", testAppID];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM)];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"install", testApp(SIM)];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"install", [Device defaultDeviceID]];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
+    
+    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM), @"-a", @"/path/to/another/app"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
+    
+    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM), @"-d", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
+}
+
 @end
