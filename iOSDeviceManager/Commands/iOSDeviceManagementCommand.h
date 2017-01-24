@@ -5,10 +5,12 @@
 #import "iOSReturnStatusCode.h"
 
 @protocol iOSDeviceManagementCommand <NSObject>
++ (NSString *)positionalArgShortFlag:(NSString *)arg;
 + (Device *)deviceFromArgs:(NSDictionary *)args;
++ (Device *)simulatorFromArgs:(NSDictionary *)args;
 + (NSString *)name;
 + (void)printUsage;
-+ (NSArray <NSString *> *)positionalArgNames;
++ (NSArray <NSString *> *)positionalArgShortFlags;
 + (CommandOption *)optionForFlag:(NSString *)flag;
 + (iOSReturnStatusCode)execute:(NSDictionary *)args;
 + (NSArray<CommandOption *> *)options;

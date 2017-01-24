@@ -37,11 +37,8 @@
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
 
-/**
- Defined as first available launched simulator if any, 
- else first attached device,
- else nil.
- */
++ (NSString *)defaultSimulatorID;
++ (NSString *)defaultPhysicalDeviceID;
 + (NSString *)defaultDeviceID;
 + (NSArray<FBDevice *> *)availableDevices;
 + (NSArray<FBSimulator *> *)availableSimulators;
