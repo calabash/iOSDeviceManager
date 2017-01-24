@@ -163,6 +163,10 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     return result.stderrStr;
 }
 
+/*
+    TODO: Cache this result? It takes a _long_ time because
+    the base dir can get checked many, many times for a complex app.
+ */
 + (NSString *)getObjectSigningID:(NSString *)object {
     if ([self isCodesigned:object]) {
         NSString *codesignInfo = [self codesignInfo:object];
