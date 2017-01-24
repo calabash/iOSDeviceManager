@@ -28,7 +28,6 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
     }
     
-    
     Application *app = [Application withBundlePath:pathToBundle];
     if (!app) {
         return iOSReturnStatusCodeGenericFailure;
