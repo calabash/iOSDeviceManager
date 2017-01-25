@@ -8,7 +8,7 @@ export IOS_DEVICE_MANAGER=`pwd` # For building run_loop
 git clone git@github.com:calabash/run_loop.git 
 git clone git@github.com:calabash/DeviceAgent.iOS.git
 cd run_loop
-RUN_LOOP_DIR=`pwd`
+RUN_LOOP_DIR="${PWD}"
 git checkout develop
 git pull
 
@@ -17,13 +17,17 @@ rake device_agent:build # Builds DeviceAgent/iOSDeviceManager
 gem build run_loop.gemspec
 gem uninstall *.gem
 gem install *.gem 
-GEM_FILE=`echo *.gem`
+GEM_FILE=`ls | grep *.gem | head -n 1`
 GEM_VERSION=`echo ${GEM_FILE%.*} | cut -d '-' -f2`
 
 # Update the Gemfile in the cucumber dir
 cd ../Tests/cucumber
-sed -i '' -e '$ d' Gemfile # Delete existing gem 'run_loop' in Gemfile
-echo "gem 'run_loop', '$GEM_VERSION'" >> Gemfile
+rm -f Gemfile
+echo "
+source 'https://rubygems.org'
+gem 'calabash-cucumber'
+gem 'run_loop', '$GEM_VERSION'
+" > Gemfile
 
 # Run the tests
 export IOS_DEVICE_MANAGER=""
