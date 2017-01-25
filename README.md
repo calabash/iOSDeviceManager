@@ -59,7 +59,3 @@ to be located in `../DeviceAgent.iOS`.  If your local copy of DeviceAgent.iOS
 is in another location, use the `DEVICEAGENT_PATH` env var to specify
 the correct path.
 
-### Contributing
-
-Please see our [CONTRIBUTING](CONTRIBUTING) doc.
-
