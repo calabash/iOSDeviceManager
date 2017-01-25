@@ -44,30 +44,20 @@ available to the active Xcode (the Xcode IDE or the returned by
 xcode-select), integration tests will be performed against the device.
 If no device is found, the tests are skipped.
 
-#### Packaging
-
-**IMPORTANT** Tou should have the calabash fork of FBSimulatorControl cloned.
-
-To package all of the DeviceAgent dependencies together,
+### Packaging
 
 ```shell
-FBSIMCONTROL_PATH=/path/to/FBSimulatorControl \
-DEVICEAGENT_PATH=/path/to/DeviceAgent.iOS \
-make dependencies
+# stage the dependences to ./Distribution/dependencies.
+$ make dependencies
+
+# Create .nupkg.
+$ make nuget
 ```
 
-This will gather all dependencies and put them in Distribution/dependencies.
-
-To build a nuget package:
-
-```shell
-FBSIMCONTROL_PATH=/path/to/FBSimulatorControl \
-DEVICEAGENT_PATH=/path/to/DeviceAgent.iOS \
-make nuget
-```
-
-The resulting `.nupkg` is just a wrapper around these dependencies.
-
+The make `dependencies` and `nuget` rules expect the DeviceAgent.iOS repo
+to be located in `../DeviceAgent.iOS`.  If your local copy of DeviceAgent.iOS
+is in another location, use the `DEVICEAGENT_PATH` env var to specify
+the correct path.
 
 ### Contributing
 
