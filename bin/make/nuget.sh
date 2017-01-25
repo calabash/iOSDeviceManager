@@ -10,7 +10,7 @@ if [ -e ${BUILD_VERSION} ] ; then
 fi
 
 DEP_STAGING_DIR=Distribution/dependencies
-NUGET_DIR=Distribution/DeviceAgent.iOS.Deployment
+NUGET_DIR=Distribution/DeviceAgent.iOS.Dependencies
 DEP_ZIP=dependencies.zip
 CURRENT_DIR=$PWD
 
