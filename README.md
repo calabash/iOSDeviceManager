@@ -63,15 +63,6 @@ the correct path.
 
 Please see our [CONTRIBUTING](CONTRIBUTING) doc.
 
-The majority of the behaviors are inside of the FBSimulatorControl fork.
-Therefore, logic adjustments will generally need to be made in
-https://github.com/calabash/FBSimulatorControl.
-
-For convenience, the fork is included in the `FacebookSubmodules`
-directory of the project root. If you decide to branch the fork, it is
-up to you to rebuild the frameworks and move them to the `Frameworks`
-directory in the project root.
-
 ### C Library
 
 `iOSDeviceManager` has an interface for C interop/FFI.
