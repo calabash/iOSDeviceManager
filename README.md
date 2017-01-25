@@ -3,13 +3,7 @@
 A tool for launching XCUITests on device and simulator, and a library
 for device/simulator lifecycle management.
 
-```
-$ git clone --recursive git@github.com:calabash/iOSDeviceManager.git
-```
-
-### Building
-
-#### Code Signing
+### Code Signing
 
 Starting in Xcode 8, a code signing identity is required for building.
 
@@ -17,10 +11,19 @@ Project maintainers must clone the [codesign](https://github.com/calabash/calaba
 repo and install the certs and profiles. Talk to @jmoody or @sapieneptus
 for details.
 
-Contributors need to touch the Xcode project file with valid
-credentials.
+Contributors need to touch the Xcode project file with valid credentials.
 
-#### Testing
+### Building
+
+```
+$ git clone --recursive git@github.com:calabash/iOSDeviceManager.git
+$ make build
+
+# Usage
+$ Products/iOSDeviceManager
+```
+
+### Testing
 
 ```
 $ carthage bootstrap
