@@ -278,12 +278,16 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    XCTAssertTrue([DeviceUtils isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
     NSArray *args = @[kProgramName, @"kill_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
     args = @[kProgramName, @"launch_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    if ([DeviceUtils availableDevices].count > 1) {
+        printf("Multiple connected devices detected - skipping some optional device arg tests");
+        return;
+    }
     
     args = @[kProgramName, @"is_installed", @"-b", testAppID];
     if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
@@ -296,41 +300,41 @@
 }
 
 - (void)testPositionalArgs {
-    XCTAssertTrue([DeviceUtils isSimulatorID:[Device defaultDeviceID]], @"Must unplug devices before running!");
     NSArray *args = @[kProgramName, @"kill_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
     args = @[kProgramName, @"launch_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
-    args = @[kProgramName, @"is_installed", @"-b", testAppID];
+    NSString *deviceID = [DeviceUtils defaultSimulatorID];
+    args = @[kProgramName, @"is_installed", deviceID, @"-b", testAppID];
     if ([CLI process:args]) {
-        args = @[kProgramName, @"uninstall", @"-b", testAppID];
+        args = @[kProgramName, @"uninstall", deviceID, @"-b", testAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
     
-    args = @[kProgramName, @"install", testApp(SIM), [Device defaultDeviceID]];
+    args = @[kProgramName, @"install", testApp(SIM), deviceID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
-    args = @[kProgramName, @"is_installed", @"-b", testAppID];
+    args = @[kProgramName, @"is_installed", deviceID, @"-b", testAppID];
     if ([CLI process:args]) {
-        args = @[kProgramName, @"uninstall", @"-b", testAppID];
+        args = @[kProgramName, @"uninstall", deviceID, @"-b", testAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
     
-    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM)];
+    args = @[kProgramName, @"install", deviceID, testApp(SIM)];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
-    args = @[kProgramName, @"install", testApp(SIM)];
+    args = @[kProgramName, @"install", testApp(SIM), deviceID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
-    args = @[kProgramName, @"install", [Device defaultDeviceID]];
+    args = @[kProgramName, @"install", deviceID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
     
-    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM), @"-a", @"/path/to/another/app"];
+    args = @[kProgramName, @"install", deviceID, testApp(SIM), @"-a", @"/path/to/another/app"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
     
-    args = @[kProgramName, @"install", [Device defaultDeviceID], testApp(SIM), @"-d", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
+    args = @[kProgramName, @"install", deviceID, testApp(SIM), @"-d", @"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 }
 
