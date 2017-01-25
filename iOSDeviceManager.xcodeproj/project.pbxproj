@@ -158,7 +158,7 @@
 		A18622721DE4F47700A05031 /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A18622731DE4FEA200A05031 /* MachClockTest.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
-		B2039EF51E0C880600649BE3 /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceTest.m */; };
+		B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */; };
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
@@ -430,7 +430,7 @@
 		A186226F1DE4F47700A05031 /* MachClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachClock.m; path = iOSDeviceManager/Utilities/MachClock.m; sourceTree = SOURCE_ROOT; };
 		A18622731DE4FEA200A05031 /* MachClockTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MachClockTest.m; sourceTree = "<group>"; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
-		B2039EF41E0C880600649BE3 /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
+		B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtilsTest.m; sourceTree = "<group>"; };
 		B22DC0051E1D799500BDD4CB /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = iOSDeviceManager/Application/Application.m; sourceTree = SOURCE_ROOT; };
 		B22DC0091E1D79C000BDD4CB /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Application.h; path = iOSDeviceManager/Application/Application.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSReturnStatusCode.h; path = iOSDeviceManager/Commands/iOSReturnStatusCode.h; sourceTree = SOURCE_ROOT; };
@@ -825,7 +825,7 @@
 				63424F3CF58B84EE37CCE3FB /* CodesignerTest.m */,
 				634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */,
 				63424E880030A308875C5973 /* CertificateTest.m */,
-				B2039EF41E0C880600649BE3 /* DeviceTest.m */,
+				B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */,
 				F5D78DC21D8D327500497000 /* ShellResultTest.m */,
 				634249FF521B476804782B68 /* ShellRunnerTest.m */,
 				63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */,
@@ -1120,7 +1120,7 @@
 				898D7D981DA47569001578FE /* HTTPFileResponse.m in Sources */,
 				63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */,
 				63424C56537485910D385EB7 /* CertificateTest.m in Sources */,
-				B2039EF51E0C880600649BE3 /* DeviceTest.m in Sources */,
+				B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */,
 				898D7D861DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				898D7D891DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				898D7D711DA47569001578FE /* DDNumber.m in Sources */,
