@@ -62,17 +62,6 @@ credentials.
 
 #### Testing
 
-If you encounter build errors in the Xcode IDE, clean the DerivedData
-directory (deep clean - Command + Shift + Option + K).  You are likely
-to see errors if you switch Xcode IDEs between runs.
-
-If you have physical device attached and it is compatible with and
-available to the active Xcode (the Xcode IDE or the returned by
-xcode-select), integration tests will be performed against the device.
-If no device is found, the tests are skipped.
-
-From the command line:
-
 ```
 $ carthage bootstrap
 $ make test-unit
@@ -82,6 +71,15 @@ $ make tests
 # Test against an alternative Xcode
 $ DEVELOPER_DIR=/Xcode/8.0/Xcode-beta.app/Contents/Developer make tests
 ```
+
+If you encounter build errors in the Xcode IDE, clean the DerivedData
+directory (deep clean - Command + Shift + Option + K).  You are likely
+to see errors if you switch Xcode IDEs between runs.
+
+If you have physical device attached and it is compatible with and
+available to the active Xcode (the Xcode IDE or the returned by
+xcode-select), integration tests will be performed against the device.
+If no device is found, the tests are skipped.
 
 #### Packaging
 
