@@ -58,11 +58,11 @@
 }
 
 + (void)zipApp:(Application *)app to:(NSString *)outputPath {
-    NSString *baseDir = [app baseDir];
+    NSString *payload = [[app baseDir] stringByAppendingPathComponent:@"Payload"];
     NSArray *params = @[@"ditto",
                         @"-ck",
                         @"--sequesterRsrc",
-                        baseDir,
+                        payload,
                         outputPath];
     
     ShellResult *result = [ShellRunner xcrun:params timeout:20];

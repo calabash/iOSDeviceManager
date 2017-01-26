@@ -20,7 +20,7 @@
 }
 
 - (void)testResignWithWildCardProfile {
-    NSString *profilePath = [self.resources pathToCalabashWildcardPathCertificate];
+    NSString *profilePath = [self.resources CalabashWildcardPath];
     NSString *ipaPath = [self.resources TaskyIpaPath];
     NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-tasky.ipa"];
     NSArray *args = @[
