@@ -4,6 +4,7 @@
 #import "Codesigner.h"
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
+#import "FileUtils.h"
 
 static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const PROFILE_PATH_FLAG = @"-p";
@@ -22,23 +23,17 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
-        [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
-                                               longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
-                                                   info:@"iOS Simulator GUIDs"
-                                               required:NO
-                                             defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
                                                longFlag:@"--app-path"
                                              optionName:@"path/to/app.ipa"
                                                    info:@"Path to .ipa"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:PROFILE_PATH_FLAG
                                                longFlag:@"--profile-path"
                                              optionName:@"path/to/profile.mobileprovision"
                                                    info:@"Path to provisioning profile"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:OUTPUT_PATH_FLAG
                                                longFlag:@"--output-path"
@@ -70,11 +65,6 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
         ConsoleWriteErr(@"Error creating application object for path: %@", pathToBundle);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
-    Device *device = [self deviceFromArgs:args];
-    if (!device) {
-        return iOSReturnStatusCodeDeviceNotFound;
-    }
 
     // Should output path be optional?
     NSString *outputPath = args[OUTPUT_PATH_FLAG];
@@ -82,11 +72,7 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     NSString *resourcesPath = args[RESOURCES_PATH_FLAG];
     
     MobileProfile *profile;
-    if (profilePath.length) {
-        profile = [MobileProfile withPath:profilePath];
-    } else {
-        profile = [MobileProfile bestMatchProfileForApplication:app device:device];
-    }
+    profile = [MobileProfile withPath:profilePath];
     
     if (!profile) {
         ConsoleWriteErr(@"Unable to determine mobile profile");
@@ -94,32 +80,34 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     }
     
     if (resourcesPath.length) {
-        
+        NSArray<NSString *> *resources;
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        BOOL *isDirectory;
-        if (![fileManager fileExistsAtPath:resourcesPath isDirectory:isDirectory]) {
-            ConsoleWriteErr(@"No directory at: %@", resourcesPath);
-            return iOSReturnStatusCodeInvalidArguments;
-        }
-        if (!isDirectory) {
-            ConsoleWriteErr(@"Resources path: %@ is not a directory: %@", resourcesPath);
-            return iOSReturnStatusCodeInvalidArguments;
-        }
         
-        NSError *contentsError;
-        NSArray<NSString *> *resources = [fileManager contentsOfDirectoryAtPath:resourcesPath error:&contentsError];
-        if (contentsError) {
-            ConsoleWriteErr(@"Error getting resources from dir: %@", resourcesPath);
-            return iOSReturnStatusCodeInternalError;
+        BOOL isDirectory = NO;
+        if (![fileManager fileExistsAtPath:resourcesPath isDirectory:&isDirectory]) {
+            ConsoleWriteErr(@"No directory or file at: %@", resourcesPath);
+            return iOSReturnStatusCodeInvalidArguments;
+        }
+        if (isDirectory) {
+            NSMutableArray<NSString *> *mutableResources;
+            [FileUtils fileSeq:resourcesPath handler:^(NSString *filepath) {
+                BOOL isInnerDirectory = NO;
+                if ([fileManager fileExistsAtPath:filepath isDirectory:&isInnerDirectory] && !isInnerDirectory) {
+                    [mutableResources addObject:filepath];
+                }
+            }];
+
+            resources = [mutableResources copy];
+        } else {
+            resources = @[resourcesPath];
         }
         
         [Codesigner resignApplication:app withProvisioningProfile:profile resourcesToInject:resources];
-        // TODO zip up to output path
-        return iOSReturnStatusCodeEverythingOkay;
     } else {
         [Codesigner resignApplication:app withProvisioningProfile:profile];
-        // TODO zip up to output path
-        return iOSReturnStatusCodeEverythingOkay;
     }
+    
+    [AppUtils zipApp:app to:outputPath];
+    return iOSReturnStatusCodeEverythingOkay;
 }
 @end

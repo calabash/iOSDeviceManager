@@ -1,7 +1,9 @@
 #import "Simulator.h"
 #import "ResignAllCommand.h"
 #import "DeviceUtils.h"
+#import "AppUtils.h"
 #import "Codesigner.h"
+#import "ConsoleWriter.h"
 
 static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const PROFILE_PATH_FLAG = @"-p";
@@ -20,29 +22,23 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
-        [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
-                                               longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
-                                                   info:@"iOS Simulator GUIDs"
-                                               required:NO
-                                             defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
                                                longFlag:@"--app-path"
                                              optionName:@"path/to/app.ipa"
                                                    info:@"Path to .ipa"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:PROFILE_PATH_FLAG
                                                longFlag:@"--profiles-path"
                                              optionName:@"path/to/profiles"
                                                    info:@"Path to profiles directory"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:OUTPUT_PATH_FLAG
                                                longFlag:@"--output-path"
                                              optionName:@"path/to/output"
                                                    info:@"Path to directory to resigned output apps"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:RESOURCES_PATH_FLAG
                                                longFlag:@"--resources-path"
@@ -56,7 +52,7 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    // TODO
-    return iOSReturnStatusCodeGenericFailure;
+    // tODO
+    return iOSReturnStatusCodeInternalError;
 }
 @end

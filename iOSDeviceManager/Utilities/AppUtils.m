@@ -57,6 +57,22 @@
     return newBundlePath;
 }
 
++ (void)zipApp:(Application *)app to:(NSString *)outputPath {
+    NSString *baseDir = [app baseDir];
+    NSArray *params = @[@"ditto",
+                        @"-ck",
+                        @"--sequesterRsrc",
+                        baseDir,
+                        outputPath];
+    
+    ShellResult *result = [ShellRunner xcrun:params timeout:20];
+    if (!result.success) {
+        @throw [NSException exceptionWithName:@"Error zipping ipa"
+                                       reason:result.stderrStr
+                                     userInfo:nil];
+    }
+}
+
 + (NSString *)unzipIpa:(NSString*)ipaPath {
     NSString *copiedAppPath = [AppUtils copyAppBundleToTmpDir:ipaPath];
     NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];

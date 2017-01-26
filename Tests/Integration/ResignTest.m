@@ -3,6 +3,7 @@
 #import "BundleResignerFactory.h"
 #import "BundleResigner.h"
 #import "Codesigner.h"
+#import "CLI.h"
 
 @interface ResignTest : TestCase
 
@@ -18,22 +19,29 @@
     [super tearDown];
 }
 
+- (void)testResignWithWildCardProfile {
+    NSString *profilePath = [self.resources pathToCalabashWildcardPathCertificate];
+    NSString *ipaPath = [self.resources TaskyIpaPath];
+    NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-tasky.ipa"];
+    NSArray *args = @[
+                      kProgramName, @"resign",
+                      ipaPath,
+                      @"-p", profilePath,
+                      @"-o", outputPath
+                      ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
 - (void)testResignWithSameIdentity {
-    if (device_available()) {
-        //TODO
-    }
+    // TODO
 }
 
 - (void)testResignWithDifferentIdentity {
-    if (device_available()) {
-        //TODO
-    }
+    //TODO
 }
 
 - (void)testCodesignFBCodesignProviderImplementation {
-    if (device_available()) {
-        //TODO
-    }
+    //TODO
 }
 
 @end
