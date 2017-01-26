@@ -28,6 +28,31 @@
 
 #pragma mark - Class Methods
 
++ (MobileProfile *)withPath:(NSString *)profilePath {
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:profilePath]) {
+        ConsoleWriteErr(@"No profile file at path: %@", profilePath);
+        return nil;
+    }
+    
+    NSDictionary *dictionary = [MobileProfile dictionaryByExportingProfileWithSecurity:profilePath];
+
+    if (!dictionary) {
+        ConsoleWriteErr(@"Unable to create dictionary for profile at: %@", profilePath);
+        return nil;
+    }
+
+    MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:dictionary path:profilePath];
+
+    if ([profile isExpired]) {
+        ConsoleWriteErr(@"Profile expired at path: %@", profilePath);
+        return nil;
+    }
+    
+    return profile;
+}
+
 /*
     Profile "Auto-detection"
  */

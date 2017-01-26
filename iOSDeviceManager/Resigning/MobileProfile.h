@@ -10,6 +10,7 @@
 @property(copy, readonly) NSString *path;
 
 + (MobileProfile *)bestMatchProfileForApplication:(Application *)app device:(Device *)device;
++ (MobileProfile *)withPath:(NSString *)profilePath;
 
 + (NSArray<MobileProfile *> *)nonExpiredIOSProfiles;
 + (NSArray<MobileProfile *> *)rankedProfiles:(NSArray<MobileProfile *> *)mobileProfiles
