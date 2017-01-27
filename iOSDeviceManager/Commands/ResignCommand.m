@@ -54,7 +54,7 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
     NSString *pathToBundle= args[APP_PATH_FLAG];
     if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+        pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_FLAG]];
     } else {
         ConsoleWriteErr(@"Resigning requires ipa path");
         return iOSReturnStatusCodeInvalidArguments;

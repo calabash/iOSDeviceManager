@@ -25,7 +25,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     
     NSString *pathToBundle= args[APP_PATH_FLAG];
     if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+        pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_FLAG]];
     } else {
         pathToBundle = [AppUtils copyAppBundleToTmpDir:args[APP_PATH_FLAG]];
     }

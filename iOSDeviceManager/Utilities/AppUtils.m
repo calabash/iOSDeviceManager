@@ -73,7 +73,7 @@
     }
 }
 
-+ (NSString *)unzipIpa:(NSString*)ipaPath {
++ (NSString *)unzipToTmpDir:(NSString*)ipaPath {
     NSString *copiedAppPath = [AppUtils copyAppBundleToTmpDir:ipaPath];
     NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];
     NSString *payloadPath = [unzipPath stringByAppendingPathComponent:@"Payload"];
