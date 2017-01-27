@@ -33,7 +33,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
-@property (nonatomic, strong) Codesigner *signer;
 
 @end
 
