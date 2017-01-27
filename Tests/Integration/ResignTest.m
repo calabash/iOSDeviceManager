@@ -40,8 +40,4 @@
     //TODO
 }
 
-- (void)testCodesignFBCodesignProviderImplementation {
-    //TODO
-}
-
 @end

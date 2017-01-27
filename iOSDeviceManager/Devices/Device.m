@@ -181,7 +181,7 @@ const double EPSILON = 0.001;
     }
     
     //If it's not installed, it should be 'updated'
-    return NO;
+    return YES;
 }
 
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
