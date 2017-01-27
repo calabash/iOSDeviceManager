@@ -1,7 +1,9 @@
 #import "Simulator.h"
+#import "ResignCommand.h"
 #import "ResignAllCommand.h"
 #import "DeviceUtils.h"
 #import "AppUtils.h"
+#import "FileUtils.h"
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
 
@@ -52,7 +54,59 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    // tODO
-    return iOSReturnStatusCodeInternalError;
+    NSString *pathToBundle= args[APP_PATH_FLAG];
+    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
+        pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
+    } else {
+        ConsoleWriteErr(@"Resigning requires ipa path");
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    Application *app = [Application withBundlePath:pathToBundle];
+    if (!app || !app.path) {
+        ConsoleWriteErr(@"Error creating application object for path: %@", pathToBundle);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    // Should output path be optional?
+    NSString *outputPath = args[OUTPUT_PATH_FLAG];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL outputIsDirectory = NO;
+    if (![fileManager fileExistsAtPath:outputPath isDirectory:&outputIsDirectory] || !outputIsDirectory) {
+        ConsoleWriteErr(@"Output path: %@ is not a directory", outputPath);
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    NSString *profilesDir = args[PROFILE_PATH_FLAG];
+    NSArray<NSString *> *profilePaths;
+    
+    BOOL profilesIsDirectory = NO;
+    if ([fileManager fileExistsAtPath:profilesDir isDirectory:&profilesIsDirectory] && profilesIsDirectory) {
+        NSMutableArray<NSString *> *mutableProfilePaths;
+        [FileUtils fileSeq:profilesDir handler:^(NSString *filepath) {
+            if ([filepath hasSuffix:@".mobileprovision"]) {
+                [mutableProfilePaths addObject:filepath];
+            }
+        }];
+        
+        profilePaths = [mutableProfilePaths copy];
+    } else {
+        profilePaths = @[profilesDir];
+    }
+
+    NSMutableDictionary *newArgs = [args mutableCopy];
+    int index = 1;
+    for (NSString *profilePath in profilePaths) {
+        // Should we assume some naming scheme of resigned ipas?
+        newArgs[OUTPUT_PATH_FLAG] = [outputPath stringByAppendingPathComponent:[NSString stringWithFormat:@"resigned-%d.ipa", index]];
+        newArgs[PROFILE_PATH_FLAG] = profilePath;
+        iOSReturnStatusCode statusCode = [ResignCommand execute:[newArgs copy]];
+        if (statusCode != iOSReturnStatusCodeEverythingOkay) {
+            return statusCode;
+        }
+        index += 1;
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
 }
 @end
