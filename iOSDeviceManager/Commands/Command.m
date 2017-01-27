@@ -5,12 +5,14 @@
 #import "ConsoleWriter.h"
 #import "Device.h"
 #import "DeviceUtils.h"
+#import "FileUtils.h"
 
 NSString *const HELP_SHORT_FLAG = @"-h";
 NSString *const HELP_LONG_FLAG = @"--help";
 NSString *const DEVICE_ID_FLAG = @"-d";
 NSString *const APP_ID_FLAG = @"-a";
 NSString *const PROFILE_PATH_FLAG = @"-p";
+NSString *const RESOURCES_PATH_FLAG = @"-i";
 NSString *const PROFILE_PATH_ARGNAME = @"profile_path";
 NSString *const DEVICE_ID_ARGNAME = @"device_id";
 NSString *const APP_ID_ARGNAME = @"app_id";
@@ -40,6 +42,35 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
              APP_ID_ARGNAME,
              PROFILE_PATH_ARGNAME
              ];
+}
+
++ (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args {
+    NSString *resourcesPath = args[RESOURCES_PATH_FLAG];
+    if (resourcesPath.length) {
+        NSArray<NSString *> *resources;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+        BOOL isDirectory = NO;
+        if (![fileManager fileExistsAtPath:resourcesPath isDirectory:&isDirectory]) {
+            ConsoleWriteErr(@"No directory or file at: %@", resourcesPath);
+            return @[];
+        }
+        if (isDirectory) {
+            NSMutableArray<NSString *> *mutableResources;
+            [FileUtils fileSeq:resourcesPath handler:^(NSString *filepath) {
+                BOOL isInnerDirectory = NO;
+                if ([fileManager fileExistsAtPath:filepath isDirectory:&isInnerDirectory] && !isInnerDirectory) {
+                    [mutableResources addObject:filepath];
+                }
+            }];
+            
+            resources = [mutableResources copy];
+        } else {
+            resources = @[resourcesPath];
+        }
+    }
+    
+    return @[];
 }
 
 + (Device *)deviceFromArgs:(NSDictionary *)args {

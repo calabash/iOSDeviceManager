@@ -69,7 +69,6 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     // Should output path be optional?
     NSString *outputPath = args[OUTPUT_PATH_FLAG];
     NSString *profilePath = args[PROFILE_PATH_FLAG];
-    NSString *resourcesPath = args[RESOURCES_PATH_FLAG];
     
     MobileProfile *profile;
     profile = [MobileProfile withPath:profilePath];
@@ -79,29 +78,8 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
         return iOSReturnStatusCodeInternalError;
     }
     
-    if (resourcesPath.length) {
-        NSArray<NSString *> *resources;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        
-        BOOL isDirectory = NO;
-        if (![fileManager fileExistsAtPath:resourcesPath isDirectory:&isDirectory]) {
-            ConsoleWriteErr(@"No directory or file at: %@", resourcesPath);
-            return iOSReturnStatusCodeInvalidArguments;
-        }
-        if (isDirectory) {
-            NSMutableArray<NSString *> *mutableResources;
-            [FileUtils fileSeq:resourcesPath handler:^(NSString *filepath) {
-                BOOL isInnerDirectory = NO;
-                if ([fileManager fileExistsAtPath:filepath isDirectory:&isInnerDirectory] && !isInnerDirectory) {
-                    [mutableResources addObject:filepath];
-                }
-            }];
-
-            resources = [mutableResources copy];
-        } else {
-            resources = @[resourcesPath];
-        }
-        
+    NSArray<NSString *> *resources = [self resourcesFromArgs:args];
+    if (resources.count > 0) {
         [Codesigner resignApplication:app withProvisioningProfile:profile resourcesToInject:resources];
     } else {
         [Codesigner resignApplication:app withProvisioningProfile:profile];

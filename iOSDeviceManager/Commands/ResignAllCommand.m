@@ -78,34 +78,40 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     }
     
     NSString *profilesDir = args[PROFILE_PATH_FLAG];
-    NSArray<NSString *> *profilePaths;
+    NSArray<MobileProfile *> *profiles;
     
     BOOL profilesIsDirectory = NO;
     if ([fileManager fileExistsAtPath:profilesDir isDirectory:&profilesIsDirectory] && profilesIsDirectory) {
-        NSMutableArray<NSString *> *mutableProfilePaths;
+        NSMutableArray<MobileProfile *> *mutableProfiles;
         [FileUtils fileSeq:profilesDir handler:^(NSString *filepath) {
             if ([filepath hasSuffix:@".mobileprovision"]) {
-                [mutableProfilePaths addObject:filepath];
+                MobileProfile *profile = [MobileProfile withPath:filepath];
+                if (!profile) {
+                    ConsoleWriteErr(@"Unable to create mobile profile for profile at: %@", filepath);
+                } else {
+                    [mutableProfiles addObject:profile];
+                }
             }
         }];
         
-        profilePaths = [mutableProfilePaths copy];
+        profiles = [mutableProfiles copy];
     } else {
-        profilePaths = @[profilesDir];
-    }
-
-    NSMutableDictionary *newArgs = [args mutableCopy];
-    int index = 1;
-    for (NSString *profilePath in profilePaths) {
-        // Should we assume some naming scheme of resigned ipas?
-        newArgs[OUTPUT_PATH_FLAG] = [outputPath stringByAppendingPathComponent:[NSString stringWithFormat:@"resigned-%d.ipa", index]];
-        newArgs[PROFILE_PATH_FLAG] = profilePath;
-        iOSReturnStatusCode statusCode = [ResignCommand execute:[newArgs copy]];
-        if (statusCode != iOSReturnStatusCodeEverythingOkay) {
-            return statusCode;
+        MobileProfile *profile = [MobileProfile withPath:profilesDir];
+        if (!profile) {
+            ConsoleWriteErr(@"Unable to create mobile profile for profile at: %@", profilesDir);
+            return iOSReturnStatusCodeInternalError;
+        } else {
+            profiles = @[ profile ];
         }
-        index += 1;
     }
+    
+    NSArray<NSString *> *resources = [self resourcesFromArgs:args];
+    [Codesigner resignApplication:app forProfiles:profiles resourcesToInject:resources resigningHandler:^(Application* app) {
+        // Should we assume some naming scheme of resigned ipas?
+        NSString *outputFileName = [NSString stringWithFormat:@"resigned-%li.ipa", [app hash]];
+        NSString *outputFile = [outputPath stringByAppendingPathComponent:outputFileName];
+        [AppUtils zipApp:app to:outputFile];
+    }];
     
     return iOSReturnStatusCodeEverythingOkay;
 }
