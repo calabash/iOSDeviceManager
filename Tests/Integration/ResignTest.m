@@ -1,7 +1,5 @@
 
 #import "TestCase.h"
-#import "BundleResignerFactory.h"
-#import "BundleResigner.h"
 #import "Codesigner.h"
 #import "CLI.h"
 
