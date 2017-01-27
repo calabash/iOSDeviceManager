@@ -131,8 +131,6 @@
 		898D7DE81DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
 		898D7DE91DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
 		898D7DEA1DA47672001578FE /* CBXRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7DE71DA47672001578FE /* CBXRoute.m */; };
-		89A1CEEE1E302FC200D9FEC5 /* BundleResigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDD1E302FC200D9FEC5 /* BundleResigner.m */; };
-		89A1CEEF1E302FC200D9FEC5 /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDF1E302FC200D9FEC5 /* BundleResignerFactory.m */; };
 		89A1CEF01E302FC200D9FEC5 /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE11E302FC200D9FEC5 /* Certificate.m */; };
 		89A1CEF11E302FC200D9FEC5 /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE31E302FC200D9FEC5 /* Codesigner.m */; };
 		89A1CEF21E302FC200D9FEC5 /* CodesignIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE51E302FC200D9FEC5 /* CodesignIdentity.m */; };
@@ -174,8 +172,6 @@
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
-		B296D6F61E31437C00D365F3 /* BundleResigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDD1E302FC200D9FEC5 /* BundleResigner.m */; };
-		B296D6F81E3143B100D365F3 /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDF1E302FC200D9FEC5 /* BundleResignerFactory.m */; };
 		B296D6F91E31440D00D365F3 /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE11E302FC200D9FEC5 /* Certificate.m */; };
 		B296D6FA1E31441000D365F3 /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE31E302FC200D9FEC5 /* Codesigner.m */; };
 		B296D6FB1E31441400D365F3 /* CodesignIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE51E302FC200D9FEC5 /* CodesignIdentity.m */; };
@@ -183,8 +179,6 @@
 		B296D6FD1E31441D00D365F3 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE91E302FC200D9FEC5 /* Entitlements.m */; };
 		B296D6FE1E3144DD00D365F3 /* MobileProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEEB1E302FC200D9FEC5 /* MobileProfile.m */; };
 		B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEED1E302FC200D9FEC5 /* ShasumProvider.m */; };
-		B296D7001E3146D500D365F3 /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDF1E302FC200D9FEC5 /* BundleResignerFactory.m */; };
-		B296D7011E31473900D365F3 /* BundleResigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDD1E302FC200D9FEC5 /* BundleResigner.m */; };
 		B296D7021E31474500D365F3 /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE31E302FC200D9FEC5 /* Codesigner.m */; };
 		B296D7031E31474800D365F3 /* CodesignIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE51E302FC200D9FEC5 /* CodesignIdentity.m */; };
 		B296D7041E31475200D365F3 /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE91E302FC200D9FEC5 /* Entitlements.m */; };
@@ -415,10 +409,6 @@
 		898D7DD21DA4758A001578FE /* RoutingHTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoutingHTTPServer.m; path = iOSDeviceManager/Vendor/RoutingHTTPServer/Source/RoutingHTTPServer.m; sourceTree = "<group>"; };
 		898D7DE61DA47672001578FE /* CBXRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBXRoute.h; path = iOSDeviceManager/Server/CBXRoute.h; sourceTree = SOURCE_ROOT; };
 		898D7DE71DA47672001578FE /* CBXRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBXRoute.m; path = iOSDeviceManager/Server/CBXRoute.m; sourceTree = SOURCE_ROOT; };
-		89A1CEDC1E302FC200D9FEC5 /* BundleResigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BundleResigner.h; path = iOSDeviceManager/Resigning/BundleResigner.h; sourceTree = SOURCE_ROOT; };
-		89A1CEDD1E302FC200D9FEC5 /* BundleResigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BundleResigner.m; path = iOSDeviceManager/Resigning/BundleResigner.m; sourceTree = SOURCE_ROOT; };
-		89A1CEDE1E302FC200D9FEC5 /* BundleResignerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BundleResignerFactory.h; path = iOSDeviceManager/Resigning/BundleResignerFactory.h; sourceTree = SOURCE_ROOT; };
-		89A1CEDF1E302FC200D9FEC5 /* BundleResignerFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BundleResignerFactory.m; path = iOSDeviceManager/Resigning/BundleResignerFactory.m; sourceTree = SOURCE_ROOT; };
 		89A1CEE01E302FC200D9FEC5 /* Certificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Certificate.h; path = iOSDeviceManager/Resigning/Certificate.h; sourceTree = SOURCE_ROOT; };
 		89A1CEE11E302FC200D9FEC5 /* Certificate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Certificate.m; path = iOSDeviceManager/Resigning/Certificate.m; sourceTree = SOURCE_ROOT; };
 		89A1CEE21E302FC200D9FEC5 /* Codesigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Codesigner.h; path = iOSDeviceManager/Resigning/Codesigner.h; sourceTree = SOURCE_ROOT; };
@@ -779,10 +769,6 @@
 		89A1CEDB1E302F7900D9FEC5 /* Resigning */ = {
 			isa = PBXGroup;
 			children = (
-				89A1CEDC1E302FC200D9FEC5 /* BundleResigner.h */,
-				89A1CEDD1E302FC200D9FEC5 /* BundleResigner.m */,
-				89A1CEDE1E302FC200D9FEC5 /* BundleResignerFactory.h */,
-				89A1CEDF1E302FC200D9FEC5 /* BundleResignerFactory.m */,
 				89A1CEE01E302FC200D9FEC5 /* Certificate.h */,
 				89A1CEE11E302FC200D9FEC5 /* Certificate.m */,
 				89A1CEE21E302FC200D9FEC5 /* Codesigner.h */,
@@ -1037,7 +1023,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89A1CEEE1E302FC200D9FEC5 /* BundleResigner.m in Sources */,
 				892DE4D11D22F87000E1902C /* main.m in Sources */,
 				89AE36D71DF8318500E21487 /* Resources.m in Sources */,
 				898D7D881DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
@@ -1050,7 +1035,6 @@
 				898D7D941DA47569001578FE /* HTTPErrorResponse.m in Sources */,
 				898D7D9A1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				898D7DD91DA4758A001578FE /* RouteRequest.m in Sources */,
-				89A1CEEF1E302FC200D9FEC5 /* BundleResignerFactory.m in Sources */,
 				F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */,
 				B22DC0061E1D799500BDD4CB /* Application.m in Sources */,
 				892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
@@ -1115,7 +1099,6 @@
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
 				B2E68E191E38170E001D5D89 /* ResignCommand.m in Sources */,
 				892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */,
-				B296D6F81E3143B100D365F3 /* BundleResignerFactory.m in Sources */,
 				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
 				B296D6FA1E31441000D365F3 /* Codesigner.m in Sources */,
@@ -1126,7 +1109,6 @@
 				898D7D9B1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				89A1CF0D1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */,
 				892DE4DF1D22F97A00E1902C /* CLI.m in Sources */,
-				B296D6F61E31437C00D365F3 /* BundleResigner.m in Sources */,
 				892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				B296D6F91E31440D00D365F3 /* Certificate.m in Sources */,
 				892DE4EB1D230F5F00E1902C /* Command.m in Sources */,
@@ -1198,7 +1180,6 @@
 				89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */,
 				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
 				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,
-				B296D7001E3146D500D365F3 /* BundleResignerFactory.m in Sources */,
 				898D7D931DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
 				F5D583FF1D6A0387007B0D11 /* CommandOption.m in Sources */,
 				F5D5840B1D6A039B007B0D11 /* ResourcesTest.m in Sources */,
@@ -1226,7 +1207,6 @@
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
-				B296D7011E31473900D365F3 /* BundleResigner.m in Sources */,
 				898D7D781DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
 				F5D584001D6A0387007B0D11 /* StartTestCommand.m in Sources */,
 				898D7D901DA47569001578FE /* HTTPDataResponse.m in Sources */,

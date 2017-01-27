@@ -1,8 +1,6 @@
 
 #import "TestCase.h"
 #import "Codesigner.h"
-#import "BundleResignerFactory.h"
-#import "BundleResigner.h"
 
 @interface Codesigner (TEST)
 

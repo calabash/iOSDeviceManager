@@ -1,8 +1,6 @@
 
 #import "iOSDeviceManagementCommand.h"
-#import "BundleResignerFactory.h"
 #import "ExceptionUtils.h"
-#import "BundleResigner.h"
 #import "ConsoleWriter.h"
 #import "Entitlements.h"
 #import "Certificate.h"
