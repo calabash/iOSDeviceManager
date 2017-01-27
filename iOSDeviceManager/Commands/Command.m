@@ -10,6 +10,8 @@ NSString *const HELP_SHORT_FLAG = @"-h";
 NSString *const HELP_LONG_FLAG = @"--help";
 NSString *const DEVICE_ID_FLAG = @"-d";
 NSString *const APP_ID_FLAG = @"-a";
+NSString *const PROFILE_PATH_FLAG = @"-p";
+NSString *const PROFILE_PATH_ARGNAME = @"profile_path";
 NSString *const DEVICE_ID_ARGNAME = @"device_id";
 NSString *const APP_ID_ARGNAME = @"app_id";
 
@@ -19,6 +21,10 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 + (NSString *)positionalArgShortFlag:(NSString *)arg {
     if ([arg hasSuffix:@".app"] || [arg hasSuffix:@".ipa"]) {
         return APP_ID_FLAG;
+    }
+    
+    if ([arg hasSuffix:@".mobileprovision"]) {
+        return PROFILE_PATH_FLAG;
     }
     
     if ([DeviceUtils isSimulatorID:arg] || [DeviceUtils isDeviceID:arg]) {
@@ -31,7 +37,8 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 +(NSArray <NSString *> *) positionalArgNames {
     return @[
              DEVICE_ID_ARGNAME,
-             APP_ID_ARGNAME
+             APP_ID_ARGNAME,
+             PROFILE_PATH_ARGNAME
              ];
 }
 
@@ -82,7 +89,8 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 + (NSArray <NSString *>*)positionalArgShortFlags {
     return @[
              DEVICE_ID_FLAG,
-             APP_ID_FLAG
+             APP_ID_FLAG,
+             PROFILE_PATH_FLAG
              ];
 }
 
