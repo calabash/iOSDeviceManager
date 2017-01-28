@@ -20,33 +20,68 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
 + (void)resignApplication:(Application *)app
   withProvisioningProfile:(MobileProfile *)profile {
-    [self resignApplication:app
-    withProvisioningProfile:profile
-          resourcesToInject:nil];
+    if (app.type == kApplicationTypeSimulator) {
+        [self adHocSign:app.path resourcesToInject:nil];
+    } else {
+        [self resignApplication:app
+        withProvisioningProfile:profile
+              resourcesToInject:nil];
+    }
 }
 
 + (void)resignApplication:(Application *)app
   withProvisioningProfile:(MobileProfile *)profile
         resourcesToInject:(NSArray<NSString *> *)resourcePaths {
-    [self prepareResign:app];
-    [self resignAppDir:app.path
-               baseDir:app.baseDir
-   provisioningProfile:profile
-     resourcesToInject:resourcePaths];
+    if (app.type == kApplicationTypeSimulator) {
+        [self adHocSign:app.path resourcesToInject:resourcePaths];
+    } else {
+        [self prepareResign:app];
+        [self resignAppDir:app.path
+                   baseDir:app.baseDir
+       provisioningProfile:profile
+         resourcesToInject:resourcePaths];
+    }
 }
 
 + (void)resignApplication:(Application *)app
               forProfiles:(NSArray <MobileProfile *> *)profiles
         resourcesToInject:(NSArray<NSString *> *)resourcePaths
          resigningHandler:(appResigningCompleteBlock)handler {
-    [self prepareResign:app];
-    for (MobileProfile *profile in profiles) {
-        [self resignAppDir:app.path
-                   baseDir:app.baseDir
-       provisioningProfile:profile
-         resourcesToInject:resourcePaths];
-        handler(app);
+    if (app.type == kApplicationTypeSimulator) {
+        [ExceptionUtils throwWithName:@"NotImplementedException"
+                               format:@"ResignAll not supported for simulators"];
+    } else {
+        [self prepareResign:app];
+        for (MobileProfile *profile in profiles) {
+            [self resignAppDir:app.path
+                       baseDir:app.baseDir
+           provisioningProfile:profile
+             resourcesToInject:resourcePaths];
+            handler(app);
+        }
     }
+}
+
++ (void)adHocSign:(NSString *)appDir resourcesToInject:(NSArray <NSString *> *)resourcePaths {
+    if (resourcePaths) {
+        //TODO copy them in
+    }
+    
+    NSString *originalSigningID = [self getObjectSigningID:appDir];
+    NSArray<NSString *> *args = @[@"codesign",
+                                  @"--force",
+                                  @"--sign", @"-",
+                                  @"--verbose=4",
+                                  @"--timestamp=none",
+                                  @"--deep",
+                                  appDir];
+    ShellResult *result = [ShellRunner xcrun:args timeout:10];
+    BOOL success = result.success;
+    CBXAssert(success, @"Error codesigning %@: %@", appDir, result.stderrStr);
+    LogInfo(@"Codesigned %@: '%@' => '%@'",
+            [appDir lastPathComponent],
+            originalSigningID,
+            [self getObjectSigningID:appDir]);
 }
 
 
@@ -150,10 +185,17 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   objectPath];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     
-    CBXAssert(result.success, @"Could not extract codesign info from %@. Stderr: %@. Time elapsed: %@",
-             objectPath,
-             result.stderrStr,
-             @(result.elapsed));
+    /*
+        We don't want to error out if this fails necessarily because
+        if the object isn't signed, it exits non-zero.
+     
+        But if we did, it'd look like this:
+     
+         CBXAssert(result.success, @"Could not extract codesign info from %@. Stderr: %@. Time elapsed: %@",
+         objectPath,
+         result.stderrStr,
+         @(result.elapsed));
+     */
     
     /*
         Apple felt it made more sense to print everything to stderr <(*.0)>

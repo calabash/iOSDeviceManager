@@ -100,15 +100,6 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    //We need an `FBApplicationDescriptor` instead of `Application` because `FBSimulator` requires it
-    FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
-                                                                                    error:&e];
-    if (e) {
-        ConsoleWriteErr(@"Error creating application descriptor");
-        ConsoleWriteErr(@" Path to bundle: %@", app.path);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
     BOOL needsToInstall = YES;
     
     //First, check if the app is installed
@@ -131,11 +122,17 @@ static const FBSimulatorControl *_control;
     }
     
     if (needsToInstall) {
-        // TODO
-//        MobileProfile *profile = [MobileProfile embeddedMobileProvision:app.path
-//                                                identity:[CodesignIdentity adHoc]
-//                                                deviceUDID:self.uuid];
-//        [Codesigner resignApplication:app withProvisioningProfile:profile];
+        [Codesigner resignApplication:app withProvisioningProfile:nil];
+        
+        //We need an `FBApplicationDescriptor` instead of `Application` because `FBSimulator` requires it
+        FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
+                                                                                        error:&e];
+        
+        if (e) {
+            ConsoleWriteErr(@"Error creating application descriptor: %@", e);
+            ConsoleWriteErr(@" Path to bundle: %@", app.path);
+            return iOSReturnStatusCodeGenericFailure;
+        }
         
         if (![[self.fbSimulator.interact installApplication:appDescriptor] perform:&e] || e) {
             ConsoleWriteErr(@"Error installing application: %@", e);
