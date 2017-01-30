@@ -232,4 +232,37 @@
     }
 }
 
+- (void)testLaunchAndKillApp {
+    if (device_available()) {
+        NSArray *args = @[
+                          kProgramName, @"is_installed",
+                          @"-b", testAppID,
+                          @"-d", defaultDeviceUDID
+                          ];
+        
+        if ([CLI process:args] == iOSReturnStatusCodeFalse) {
+            args = @[
+                     kProgramName, @"install",
+                     @"-b", testAppID,
+                     @"-d", defaultDeviceUDID
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+        
+        args = @[
+                 kProgramName, @"launch_app",
+                 @"-b", testAppID,
+                 @"-d", defaultDeviceUDID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        
+        args = @[
+                 kProgramName, @"kill_app",
+                 @"-b", testAppID,
+                 @"-d", defaultDeviceUDID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+}
+
 @end

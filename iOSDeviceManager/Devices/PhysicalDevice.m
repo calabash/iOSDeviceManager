@@ -227,15 +227,38 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
-    @throw [NSException exceptionWithName:@"NotImplementedException"
-                                   reason:@""
-                                 userInfo:nil];
+    // Currently unsupported to have environment vars passed here.
+    FBApplicationLaunchConfiguration *appLaunch = [FBApplicationLaunchConfiguration
+                                                   configurationWithBundleID:bundleID
+                                                   bundleName:nil
+                                                   arguments:@[]
+                                                   environment:@{}
+                                                   options:0];
+    NSError *error;
+    if (! [self.fbDevice.deviceOperator launchApplication:appLaunch error:&error]) {
+        ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
+        [XCTestBootstrapError describe:[NSString stringWithFormat:@"Failed to launch app with bundle ID: %@", bundleID]];
+        return iOSReturnStatusCodeInternalError;
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    @throw [NSException exceptionWithName:@"NotImplementedException"
-                                   reason:@""
-                                 userInfo:nil];
+    
+    NSError *error;
+    BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
+    
+    if (error) {
+        ConsoleWriteErr(@"Failed killing app with bundle ID: %@ due to: %@", bundleID, error);
+        return iOSReturnStatusCodeInternalError;
+    }
+    
+    if (result) {
+        return iOSReturnStatusCodeEverythingOkay;
+    } else {
+        return iOSReturnStatusCodeFalse;
+    }
 }
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
