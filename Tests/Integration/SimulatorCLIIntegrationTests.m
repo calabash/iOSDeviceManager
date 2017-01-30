@@ -278,16 +278,16 @@
 }
 
 - (void)testOptionalDeviceIDArg {
+    if ([DeviceUtils availableDevices].count > 1) {
+        printf("Multiple connected devices detected - skipping some optional device arg tests");
+        return;
+    }
+    
     NSArray *args = @[kProgramName, @"kill_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
     args = @[kProgramName, @"launch_simulator"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    
-    if ([DeviceUtils availableDevices].count > 1) {
-        printf("Multiple connected devices detected - skipping some optional device arg tests");
-        return;
-    }
     
     args = @[kProgramName, @"is_installed", @"-b", testAppID];
     if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {

@@ -876,59 +876,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [[self simctl] simulators];
 }
 
-- (TestSimulator *)defaultSimulator {
-    if (_defaultSimulator) { return _defaultSimulator; }
-
-    NSArray *simulators = self.simulators;
-    TestSimulator *candidate = nil;
-    for (TestSimulator *simulator in simulators) {
-        if ([simulator isIPhone6] && [simulator isSModel]) {
-            if (candidate) {
-                NSString *simulatorOS = [simulator OS];
-                NSString *candidateOS = [candidate OS];
-                if (version_gte(simulatorOS, candidateOS)) {
-                    candidate = simulator;
-                }
-            } else {
-                candidate = simulator;
-            }
-        }
-    }
-
-    _defaultSimulator = candidate;
-    return _defaultSimulator;
-}
-
-- (NSString *)defaultSimulatorUDID {
-    if (_defaultSimulatorUDID) { return _defaultSimulatorUDID; }
-
-    _defaultSimulatorUDID = [self.defaultSimulator UDID];
-    return _defaultSimulatorUDID;
-}
-
 #pragma mark - Physical Device
 
 - (Instruments *)instruments {
     return [Instruments shared];
-}
-
-- (TestDevice *)defaultDevice {
-    if (_defaultDevice) { return _defaultDevice; }
-
-    if (![self isCompatibleDeviceConnected]) { return nil; }
-
-    _defaultDevice = [[self instruments] deviceForTesting];
-    return _defaultDevice;
-}
-
-- (NSString *)defaultDeviceUDID {
-    if (_defaultDeviceUDID) { return _defaultDeviceUDID; }
-
-    if (![self isCompatibleDeviceConnected]) { return nil; }
-
-    _defaultDeviceUDID = [[self defaultDevice] UDID];
-
-    return _defaultDeviceUDID;
 }
 
 - (BOOL)isCompatibleDeviceConnected {

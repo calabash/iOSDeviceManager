@@ -7,7 +7,7 @@
 + (BOOL)isSimulatorID:(NSString *)uuid;
 
 + (NSString *)defaultSimulatorID;
-+ (NSString *)defaultPhysicalDeviceID;
++ (NSString *)defaultPhysicalDeviceID:(BOOL)ensureOneDevice;
 + (NSString *)defaultDeviceID;
 + (NSArray<FBDevice *> *)availableDevices;
 + (NSArray<FBSimulator *> *)availableSimulators;

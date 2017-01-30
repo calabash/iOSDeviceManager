@@ -102,23 +102,28 @@ const double EPSILON = 0.001;
     return [DeviceUtils defaultSimulator:sims].udid;
 }
 
-+ (NSString *)defaultPhysicalDeviceID {
++ (NSString *)defaultPhysicalDeviceID:(BOOL)ensureOneDevice {
     NSArray<FBDevice *> *devices = [DeviceUtils availableDevices];
     
     if ([devices count] == 1) {
         return [devices firstObject].udid;
     } else if ([devices count] > 1) {
-        @throw [NSException exceptionWithName:@"AmbiguousArgumentsException"
+        ConsoleWriteErr(@"Multiple physical devices detected but none specified");
+        if (ensureOneDevice) {
+            @throw [NSException exceptionWithName:@"AmbiguousArgumentsException"
                                        reason:@"Multiple physical devices detected but none specified"
                                      userInfo:nil];
-    } else {
-        return nil;
+        }
+        
+        return [devices firstObject].udid;
     }
+    
+    return nil;
 }
 
 + (NSString *)defaultDeviceID {
     
-    NSString *physicalDeviceID = [self defaultPhysicalDeviceID];
+    NSString *physicalDeviceID = [self defaultPhysicalDeviceID:YES];
     if (physicalDeviceID.length) {
         return physicalDeviceID;
     }
