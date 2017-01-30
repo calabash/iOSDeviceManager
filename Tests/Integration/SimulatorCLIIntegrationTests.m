@@ -334,4 +334,24 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 }
 
+- (void)testLaunchAndKillApp {
+    NSArray *args = @[kProgramName, @"kill_simulator"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"launch_simulator"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"is_installed", @"-b", testAppID];
+    if ([CLI process:args] == iOSReturnStatusCodeFalse) {
+        args = @[kProgramName, @"install", testApp(SIM), [Device defaultSimulatorID]];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    args = @[kProgramName, @"launch_app", [Device defaultSimulatorID], @"-b", testAppID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"kill_app", [Device defaultSimulatorID], @"-b", testAppID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
 @end
