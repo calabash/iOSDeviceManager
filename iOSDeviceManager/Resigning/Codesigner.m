@@ -10,6 +10,7 @@
 #import "ShellResult.h"
 #import "Codesigner.h"
 #import "FileUtils.h"
+#import "AppUtils.h"
 
 static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
@@ -64,7 +65,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
 + (void)adHocSign:(NSString *)appDir resourcesToInject:(NSArray <NSString *> *)resourcePaths {
     if (resourcePaths) {
-        //TODO copy them in
+        NSString *baseDir = [AppUtils baseDirFromAppDir:appDir];
+        [Codesigner injectResources:resourcePaths intoAppDir:appDir codesignIdentity:@"-" baseDir:baseDir];
     }
     
     NSString *originalSigningID = [self getObjectSigningID:appDir];
