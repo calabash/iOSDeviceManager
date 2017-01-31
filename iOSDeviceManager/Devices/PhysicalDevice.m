@@ -228,6 +228,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
+    
+    if (![self isInstalled:runnerID withError:nil]) {
+        ConsoleWriteErr(@"Attempted to start test with runner id: %@ but app is not installed", runnerID);
+        return iOSReturnStatusCodeInternalError;
+    }
+    
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
     NSError *e = nil;
 
