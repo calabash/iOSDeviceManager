@@ -10,7 +10,7 @@
 #define xctest( platform ) [[Resources shared] DeviceAgentXCTestPath:platform]
 #define uniqueFile() [[Resources shared] uniqueFileToUpload]
 #define defaultSimUDID [DeviceUtils defaultSimulatorID]
-#define defaultDeviceUDID [DeviceUtils defaultPhysicalDeviceID:NO]
+#define defaultDeviceUDID [DeviceUtils defaultPhysicalDeviceIDEnsuringOnlyOneAttached:NO]
 
 NS_INLINE BOOL device_available() {
     if ([[Resources shared] isCompatibleDeviceConnected]) {
