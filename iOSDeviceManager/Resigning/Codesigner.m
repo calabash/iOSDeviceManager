@@ -225,6 +225,9 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     if (![self isCodesigned:appDir]) {
         return YES;
     }
+    if ([objectPath.lastPathComponent isEqualToString:@"calabash.dylib"]) {
+        return YES;
+    }
     NSString *appSigningID = [self getObjectSigningID:appDir];
     NSString *objectSigningID = [self getObjectSigningID:objectPath];
     return  appSigningID == nil ||
