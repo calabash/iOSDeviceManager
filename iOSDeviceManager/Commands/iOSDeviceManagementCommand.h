@@ -9,7 +9,7 @@
 + (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args;
 + (Device *)deviceFromArgs:(NSDictionary *)args;
 + (Device *)simulatorFromArgs:(NSDictionary *)args;
-+ (NSString *)codesignIDFromArgs:(NSDictionary *)args;
++ (CodesignIdentity *)codesignIDFromArgs:(NSDictionary *)args;
 + (NSString *)resignObjectFromArgs:(NSDictionary *)args;
 + (NSString *)name;
 + (void)printUsage;

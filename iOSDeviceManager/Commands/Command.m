@@ -104,15 +104,20 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     return [Device withID:deviceID];
 }
 
-+ (NSString *)codesignIDFromArgs:(NSDictionary *)args {
++ (CodesignIdentity *)codesignIDFromArgs:(NSDictionary *)args {
     NSString *codesignID = args[CODESIGN_ID_FLAG] ?: args[CODESIGN_ID_ARGNAME];
     
     if (!codesignID.length) {
         return nil;
     }
     
-    if ([codesignID isEqualToString:@"-"] || [CodesignIdentity isValidCodesignIdentity:codesignID]) {
-        return codesignID;
+    if ([codesignID isEqualToString:@"-"]) {
+        return [CodesignIdentity adHoc];
+    }
+    
+    CodesignIdentity *codesignIdentity = [CodesignIdentity identityForShasumOrName:codesignID];
+    if (codesignIdentity) {
+        return codesignIdentity;
     }
     
     return nil;

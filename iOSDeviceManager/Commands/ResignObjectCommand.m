@@ -19,7 +19,7 @@ static NSString *const RESIGN_OBJECT_PATH_FLAG = @"-ro";
         [options addObject:[CommandOption withShortFlag:CODESIGN_ID_FLAG
                                                longFlag:@"--codesign-id"
                                              optionName:@"codesign-identity"
-                                                   info:@"Codesign identity"
+                                                   info:@"Codesign identity shasum or name"
                                                required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:RESIGN_OBJECT_PATH_FLAG
@@ -33,7 +33,7 @@ static NSString *const RESIGN_OBJECT_PATH_FLAG = @"-ro";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    NSString *codesignID = [self codesignIDFromArgs:args];
+    CodesignIdentity *codesignID = [self codesignIDFromArgs:args];
     NSString *resignObjectPath = [self resignObjectFromArgs:args];
     
     if (!codesignID) {

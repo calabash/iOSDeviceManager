@@ -66,7 +66,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 + (void)adHocSign:(NSString *)appDir resourcesToInject:(NSArray <NSString *> *)resourcePaths {
     if (resourcePaths) {
         NSString *baseDir = [AppUtils baseDirFromAppDir:appDir];
-        [Codesigner injectResources:resourcePaths intoAppDir:appDir codesignIdentity:@"-" baseDir:baseDir];
+        CodesignIdentity *adHocIdentity = [CodesignIdentity adHoc];
+        [Codesigner injectResources:resourcePaths intoAppDir:appDir codesignIdentity:adHocIdentity baseDir:baseDir];
     }
     
     NSString *originalSigningID = [self getObjectSigningID:appDir];
@@ -103,11 +104,11 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
  Resigns a .framework or .dylib
  */
 + (void)resignObject:(NSString *)pathToObject
-    codesignIdentity:(NSString *)codesignID {
+    codesignIdentity:(CodesignIdentity *)codesignID {
     NSString *originalSigningID = [self getObjectSigningID:pathToObject];
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
-                                  @"--sign", codesignID,
+                                  @"--sign", [codesignID shasum],
                                   @"--verbose=4",
                                   @"--deep",
                                   pathToObject];
@@ -126,11 +127,11 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 + (void)resignBundle:(NSString *)pathToBundle
     bundleExecutable:(NSString *)bundleExecutableFile
  appEntitlementsFile:(NSString *)pathToEntitlementsFile
-    codesignIdentity:(NSString *)codesignID {
+    codesignIdentity:(CodesignIdentity *)codesignID {
     NSString *originalSigningID = [self getObjectSigningID:pathToBundle];
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
-                                  @"--sign", codesignID,
+                                  @"--sign", [codesignID shasum],
                                   @"-vv", bundleExecutableFile,
                                   @"--entitlements", pathToEntitlementsFile,
                                   pathToBundle];
@@ -158,7 +159,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
 + (void)injectResources:(NSArray <NSString *> *)resourcePaths
              intoAppDir:(NSString *)appDir
-       codesignIdentity:(NSString *)codesignIdentity
+       codesignIdentity:(CodesignIdentity *)codesignIdentity
                 baseDir:(NSString *)baseDir {
     NSFileManager *mgr = [NSFileManager defaultManager];
     NSError *e = nil;
@@ -255,7 +256,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     }
     NSString *appIDPrefix = prefixes[0];
     
-    NSString *codesignIdentity = [profile findValidIdentity].shasum;
+    CodesignIdentity *codesignIdentity = [profile findValidIdentity];
     CBXAssert(codesignIdentity, @"Unable to find valid codesign identity from profile %@", profile.name);
     
     Entitlements *newEntitlements = [profile entitlements];

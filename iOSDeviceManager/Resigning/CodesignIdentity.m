@@ -66,14 +66,37 @@
     return [[CodesignIdentity alloc] initWithShasum:@"-" name:@"AdHoc"];
 }
 
-+ (BOOL)isValidCodesignIdentity:(NSString *)codesignID {
++ (CodesignIdentity *)identityForShasumOrName:(NSString *)shasumOrName {
+    int numberOfIdentitiesWithName = 0;
+    CodesignIdentity *namedCodesignIdentity;
     for (CodesignIdentity *codesignIdentity in [CodesignIdentity validCodesigningIdentities]) {
-        if ([[codesignIdentity name] isEqualToString:codesignID]) {
-            return YES;
+        if ([[codesignIdentity shasum] isEqualToString:shasumOrName]) {
+            return codesignIdentity;
+        }
+        if ([[codesignIdentity name] isEqualToString:shasumOrName]) {
+            numberOfIdentitiesWithName += 1;
+            namedCodesignIdentity = codesignIdentity;
         }
     }
     
-    return NO;
+    if (numberOfIdentitiesWithName == 1) {
+        return namedCodesignIdentity;
+    } else if (numberOfIdentitiesWithName > 1) {
+        ConsoleWriteErr(@"Ambiguous codesign identity specified with name: %@", shasumOrName);
+        return nil;
+    }
+    
+    return nil;
+}
+
++ (BOOL)isValidCodesignIdentity:(NSString *)shasumOrName {
+    CodesignIdentity *identity = [CodesignIdentity identityForShasumOrName:shasumOrName];
+    
+    if (!identity) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 + (NSString *)codeSignIdentityFromEnvironment {

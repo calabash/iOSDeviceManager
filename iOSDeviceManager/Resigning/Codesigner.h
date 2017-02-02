@@ -70,9 +70,9 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  Resigns a .framework or .dylib
  
  @param pathToObject .framework or .dylib to resign
- @param codesignIdentity CodesignIdentity as NSString to use for resigning
+ @param codesignIdentity CodesignIdentity to use for resigning
 */
 + (void)resignObject:(NSString *)pathToObject
-    codesignIdentity:(NSString *)codesignID;
+    codesignIdentity:(CodesignIdentity *)codesignID;
 
 @end
