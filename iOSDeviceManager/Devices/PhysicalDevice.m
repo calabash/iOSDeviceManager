@@ -122,6 +122,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
                                                                  certificateUtilities:nil
                                                                                 error:&err];
+        if (err) {
+            ConsoleWriteErr(@"Failed to install profile: %@ due to error: %@", profile.path, err);
+            return iOSReturnStatusCodeInternalError;
+        }
+        
         [self.fbDevice.dvtDevice installProvisioningProfile:_profile];
         
         if (![op installApplicationWithPath:app.path error:&err] || err) {
