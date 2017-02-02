@@ -32,7 +32,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @end
 
 @interface DTDKProvisioningProfile : NSObject
-+ (id)profileWithData:(id)arg1;
++ (DTDKProvisioningProfile *)profileWithPath:(NSString *)path certificateUtilities:(id)utils error:(NSError **)e;
 @end
 
 @interface PhysicalDevice()
@@ -117,13 +117,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         //Requires reading provisioning profiles on the device and comparing
         //entitlements...
         [Codesigner resignApplication:app withProvisioningProfile:profile];
-        
-        //TODO: install the profile to the device!
-        //TODO: Fix +[DTDKProvisioningProfile profileWithData:]: unrecognized selector sent to class 0x10b7ef828
-        // I've tried with profileWithData and profileWithPath w/o success
-        NSData *data = [[NSFileManager defaultManager] contentsAtPath:profile.path];
-        [self.fbDevice.dvtDevice installProvisioningProfile:[NSClassFromString(@"DTDKProvisioningProfile")
-                                                                 profileWithData:data]];
+
+        Class DTDKProvisioniingProfile = NSClassFromString(@"DTDKProvisioningProfile");
+        DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
+                                                                 certificateUtilities:nil
+                                                                                error:&err];
+        [self.fbDevice.dvtDevice installProvisioningProfile:_profile];
         
         if (![op installApplicationWithPath:app.path error:&err] || err) {
             ConsoleWriteErr(@"Error installing application: %@", err);
