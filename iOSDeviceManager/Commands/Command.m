@@ -13,9 +13,13 @@ NSString *const DEVICE_ID_FLAG = @"-d";
 NSString *const APP_ID_FLAG = @"-a";
 NSString *const PROFILE_PATH_FLAG = @"-p";
 NSString *const RESOURCES_PATH_FLAG = @"-i";
+NSString *const CODESIGN_ID_FLAG = @"-c";
+NSString *const RESIGN_OBJECT_PATH_FLAG = @"-ro";
 NSString *const PROFILE_PATH_ARGNAME = @"profile_path";
 NSString *const DEVICE_ID_ARGNAME = @"device_id";
 NSString *const APP_ID_ARGNAME = @"app_id";
+NSString *const CODESIGN_ID_ARGNAME = @"codesign_id";
+NSString *const RESIGN_OBJECT_ARGNAME = @"resign_object";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
@@ -33,6 +37,14 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         return DEVICE_ID_FLAG;
     }
     
+    if ([FileUtils isDylibOrFramework:arg]) {
+        return RESIGN_OBJECT_PATH_FLAG;
+    }
+    
+    if ([arg isEqualToString:@"-"] || [CodesignIdentity isValidCodesignIdentity:arg]) {
+        return CODESIGN_ID_FLAG;
+    }
+    
     return nil;
 }
 
@@ -40,7 +52,9 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     return @[
              DEVICE_ID_ARGNAME,
              APP_ID_ARGNAME,
-             PROFILE_PATH_ARGNAME
+             PROFILE_PATH_ARGNAME,
+             CODESIGN_ID_ARGNAME,
+             RESIGN_OBJECT_ARGNAME
              ];
 }
 
@@ -90,6 +104,24 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     return [Device withID:deviceID];
 }
 
++ (NSString *)codesignIDFromArgs:(NSDictionary *)args {
+    NSString *codesignID = args[CODESIGN_ID_FLAG] ?: args[CODESIGN_ID_ARGNAME];
+    
+    if (!codesignID.length) {
+        return nil;
+    }
+    
+    if ([codesignID isEqualToString:@"-"] || [CodesignIdentity isValidCodesignIdentity:codesignID]) {
+        return codesignID;
+    }
+    
+    return nil;
+}
+
++ (NSString *)resignObjectFromArgs:(NSDictionary *)args {
+    return args[RESIGN_OBJECT_PATH_FLAG] ?: args[RESIGN_OBJECT_ARGNAME];
+}
+
 + (NSString *)name {
     @throw [NSException exceptionWithName:@"ProgrammerErrorException"
                                    reason:@"+(NSString *)name should be overidden by subclass"
@@ -121,7 +153,9 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     return @[
              DEVICE_ID_FLAG,
              APP_ID_FLAG,
-             PROFILE_PATH_FLAG
+             PROFILE_PATH_FLAG,
+             CODESIGN_ID_FLAG,
+             RESIGN_OBJECT_PATH_FLAG
              ];
 }
 

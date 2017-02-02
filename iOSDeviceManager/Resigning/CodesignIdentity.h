@@ -5,6 +5,7 @@
 + (CodesignIdentity *)identityForAppBundle:(NSString *)appBundle
                                   deviceId:(NSString *)deviceId;
 + (CodesignIdentity *)adHoc;
++ (BOOL)isValidCodesignIdentity:(NSString *)codesignID;
 + (NSArray<CodesignIdentity *> *)validIOSDeveloperIdentities;
 + (NSString *)codeSignIdentityFromEnvironment;
 

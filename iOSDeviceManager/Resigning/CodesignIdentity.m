@@ -66,6 +66,16 @@
     return [[CodesignIdentity alloc] initWithShasum:@"-" name:@"AdHoc"];
 }
 
++ (BOOL)isValidCodesignIdentity:(NSString *)codesignID {
+    for (CodesignIdentity *codesignIdentity in [CodesignIdentity validCodesigningIdentities]) {
+        if ([[codesignIdentity name] isEqualToString:codesignID]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 + (NSString *)codeSignIdentityFromEnvironment {
     return [[NSProcessInfo processInfo] environment][@"CODE_SIGN_IDENTITY"];
 }
