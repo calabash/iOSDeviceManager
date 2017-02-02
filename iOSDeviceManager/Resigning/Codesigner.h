@@ -26,6 +26,20 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  Resigns a the contents of an Application app dir.
  
  @param app Application to resign
+ @param codesignID CodesignIdentity to use to resign (deprecated behavior)
+ @return YES if successful, NO otherwise.
+ @warn Resigns in-place (i.e. destructively)
+ 
+ */
++ (void)resignApplication:(Application *)app
+     withCodesignIdentity:(CodesignIdentity *)codesignID;
+
+/**
+ "resign"
+ 
+ Resigns a the contents of an Application app dir.
+ 
+ @param app Application to resign
  @param profile Profile to use to resign
  @param resourcePaths Paths to objects to inject. Intended use case is .dylibs
  @return YES if successful, NO otherwise.

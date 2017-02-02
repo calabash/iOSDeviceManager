@@ -88,18 +88,22 @@ static const FBSimulatorControl *_control;
     return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate {
+    // Should mobile profile or codesign identity be used on simulator?
     //Ensure device exists
     NSError *e;
     if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
-
+    
     //Ensure device is in a good state (i.e., active)
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         ConsoleWriteErr(@"Simulator %@ is dead. Must launch sim before installing an app.", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
-
+    
     BOOL needsToInstall = YES;
     
     //First, check if the app is installed
@@ -141,8 +145,33 @@ static const FBSimulatorControl *_control;
             LogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
         }
     }
-
+    
     return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:profile
+           codesignIdentity:nil
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate{
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:codesignID
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:nil
+               shouldUpdate:shouldUpdate];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -259,8 +288,9 @@ static const FBSimulatorControl *_control;
     return [Application withBundlePath:installed.path];
 }
 
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
-
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
+                                   sessionID:(NSUUID *)sessionID
+                                   keepAlive:(BOOL)keepAlive {
     NSError *e;
     if (self.fbSimulator.state == FBSimulatorStateShutdown ) {
         [[self.fbSimulator.interact bootSimulator] perform:&e];
@@ -270,14 +300,13 @@ static const FBSimulatorControl *_control;
             return iOSReturnStatusCodeInternalError;
         }
     }
-
+    
     NSError *error;
     if ([self isInstalled:runnerID withError:&error] == iOSReturnStatusCodeFalse) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
-
-
+    
     Simulator *replog = [Simulator new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:self.fbSimulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
@@ -289,7 +318,7 @@ static const FBSimulatorControl *_control;
                                                                                reporter:replog
                                                                                  logger:replog
                                                                                   error:&e];
-
+    
     if (e) {
         ConsoleWriteErr(@"Error starting test runner: %@", e);
         return iOSReturnStatusCodeInternalError;
@@ -300,7 +329,7 @@ static const FBSimulatorControl *_control;
          */
         while (!replog.testingComplete){
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-
+            
             /*
              `testingHasFinished` returns YES when the bundle connection AND testmanagerd
              connection are finished with the connection (presumably at end of test or failure)

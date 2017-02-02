@@ -8,6 +8,8 @@
 #import "Application.h"
 #import "iOSReturnStatusCode.h"
 
+@class MobileProfile;
+
 @interface Device : NSObject
 
 @property (nonatomic, strong) NSString *uuid;
@@ -23,6 +25,12 @@
     as this method may codesign whatever application path is passed in.
  */
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                     shouldUpdate:(BOOL)shouldUpdate;
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
 - (iOSReturnStatusCode)stopSimulatingLocation;
@@ -34,7 +42,9 @@
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error;
 - (Application *)installedApp:(NSString *)bundleID;
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
+                                   sessionID:(NSUUID *)sessionID
+                                   keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
 
 + (NSString *)defaultSimulatorID;

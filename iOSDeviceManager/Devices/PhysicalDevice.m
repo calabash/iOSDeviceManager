@@ -76,7 +76,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate {
     if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
     
     NSError *err;
@@ -106,18 +109,23 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     //Only codesign/install if we actually need to.
     if (needsToInstall) {
-        //TODO: get profile from args if specified
-        MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:app device:self];
-        NSAssert(profile != nil,
-                 @"Unable to find profile matching app %@ and device %@",
-                 app.path,
-                 self.uuid);
+        if (codesignID) {
+            ConsoleWriteErr(@"Deprecated behavior - resigning application with codesign identity: %@", codesignID);
+            [Codesigner resignApplication:app withCodesignIdentity:codesignID];
+        } else {
+            //TODO: Skip resigning if the app is already signed for the device?
+            //Requires reading provisioning profiles on the device and comparing
+            //entitlements...
+            if (!profile) {
+                profile = [MobileProfile bestMatchProfileForApplication:app device:self];
+                NSAssert(profile != nil,
+                         @"Unable to find profile matching app %@ and device %@",
+                         app.path,
+                         self.uuid);
+            }
+            [Codesigner resignApplication:app withProvisioningProfile:profile];
+        }
         
-        //TODO: Skip resigning if the app is already signed for the device?
-        //Requires reading provisioning profiles on the device and comparing
-        //entitlements...
-        [Codesigner resignApplication:app withProvisioningProfile:profile];
-
         Class DTDKProvisioniingProfile = NSClassFromString(@"DTDKProvisioningProfile");
         DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
                                                                  certificateUtilities:nil
@@ -136,6 +144,31 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:profile
+           codesignIdentity:nil
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate{
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:codesignID
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:nil
+               shouldUpdate:shouldUpdate];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -242,8 +275,9 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return [Application withBundleID:bundleID plist:[installedDVTApplication plist] architectures:self.fbDevice.supportedArchitectures];
 }
 
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
-    
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
+                                   sessionID:(NSUUID *)sessionID
+                                   keepAlive:(BOOL)keepAlive{
     if (![self isInstalled:runnerID withError:nil]) {
         ConsoleWriteErr(@"Attempted to start test with runner id: %@ but app is not installed", runnerID);
         return iOSReturnStatusCodeInternalError;
@@ -251,7 +285,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
     NSError *e = nil;
-
+    
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:self.fbDevice.deviceOperator
                                                                          runnerBundleID:runnerID
                                                                               sessionID:sessionID
@@ -263,8 +297,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if (!e) {
         if (keepAlive) {
             /*
-                `testingComplete` will be YES when testmanagerd calls
-                `testManagerMediatorDidFinishExecutingTestPlan:`
+             `testingComplete` will be YES when testmanagerd calls
+             `testManagerMediatorDidFinishExecutingTestPlan:`
              */
             
             FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];

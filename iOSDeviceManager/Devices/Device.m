@@ -200,6 +200,18 @@ const double EPSILON = 0.001;
     MUST_OVERRIDE;
 }
 
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                codesignIdentity:(CodesignIdentity *)codesignID
+                    shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
     MUST_OVERRIDE;
 }
