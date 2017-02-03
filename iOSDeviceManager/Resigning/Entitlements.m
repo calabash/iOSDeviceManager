@@ -10,7 +10,6 @@
 @interface Entitlements ()
 
 + (NSDictionary *)dictionaryOfEntitlementsWithBundlePath:(NSString *)bundlePath;
-+ (NSArray<NSString *> *)entitlementComparisonKeys;
 
 @property(copy, readonly) NSDictionary *dictionary;
 
