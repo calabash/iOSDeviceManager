@@ -71,37 +71,10 @@
     return [[Entitlements alloc] initWithDictionary:dictionary];
 }
 
-/*
-    TODO: Remove this! We shouldn't need to hard code entitlement keys.
-    Not only does the keyset grow without warning, but the values are 
-    unpredictable.
- */
-+ (NSArray<NSString *> *)entitlementComparisonKeys {
-    return
-    @[
-
-      @"com.apple.developer.ubiquity-kvstore-identifier",
-      @"com.apple.developer.icloud-services",
-      @"aps-environment",
-      @"com.apple.developer.default-data-protection",
-      @"com.apple.developer.associated-domains",
-      @"keychain-access-groups",
-      @"com.apple.security.application-groups",
-      @"com.apple.developer.in-app-payments",
-      @"com.apple.developer.pass-type-identifiers",
-      @"com.apple.developer.icloud-container-environment",
-      @"com.apple.developer.icloud-container-identifiers",
-      @"com.apple.developer.icloud-container-development-container-identifiers",
-      @"com.apple.developer.icloud-services",
-      @"com.apple.developer.ubiquity-container-identifiers",
-      @"com.apple.developer.networking.com.apple.developer.in-app-payments.api"
-      ];
-}
-
 + (NSInteger)rankByComparingProfileEntitlements:(Entitlements *)profileEntitlements
                                 appEntitlements:(Entitlements *)appEntitlements {
-    NSArray<NSString *> *keys = [Entitlements entitlementComparisonKeys];
-
+    NSArray<NSString *> *keys = [appEntitlements.dictionary allKeys];
+    
     Entitlement *appEntitlement, *profileEntitlement;
 
     NSInteger sum = 0;
