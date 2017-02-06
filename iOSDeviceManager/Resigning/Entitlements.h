@@ -1,12 +1,16 @@
 
 #import <Foundation/Foundation.h>
+#import "MobileProfile.h"
+#import "Application.h"
 
+@class MobileProfile;
 
 @interface Entitlements : NSObject
 
 + (Entitlements *)entitlementsWithBundlePath:(NSString *)bundlePath;
 + (Entitlements *)entitlementsWithDictionary:(NSDictionary *)dictionary;
 
++ (void)compareEntitlementsWithProfile:(MobileProfile *)profile app:(Application *)app;
 + (NSInteger)rankByComparingProfileEntitlements:(Entitlements *)profileEntitlements
                                 appEntitlements:(Entitlements *)appEntitlements;
 

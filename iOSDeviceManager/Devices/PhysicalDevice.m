@@ -123,6 +123,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                          app.path,
                          self.uuid);
             }
+            // Log entitlement comparisons
+            [Entitlements compareEntitlementsWithProfile:profile app:app];
             [Codesigner resignApplication:app withProvisioningProfile:profile];
         }
         

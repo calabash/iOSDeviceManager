@@ -4,6 +4,8 @@
 #import "Certificate.h"
 #import "Device.h"
 
+@class Entitlements;
+
 @interface MobileProfile : NSObject
 
 @property(copy, readonly) NSDictionary *info;
