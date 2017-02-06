@@ -1,9 +1,29 @@
-//
-//  CodesignResources.m
-//  iOSDeviceManager
-//
-//  Created by joshua on 2/3/17.
-//  Copyright © 2017 Microsoft. All rights reserved.
-//
+#import "CodesignResources.h"
 
-#import <Foundation/Foundation.h>
+@implementation CodesignResources
+
++ (NSString *)resourcesDirectory {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    return [[bundle resourcePath]stringByAppendingPathComponent:@"Resources"];
+}
+
++ (NSString *)CalabashDylibPath {
+    return [[CodesignResources resourcesDirectory] stringByAppendingPathComponent:@"calabash.dylib"];
+}
+
++ (NSString *)CalabashCodesignPath {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *calabashCodesignDir = [[NSHomeDirectory() stringByAppendingPathComponent:@".calabash"] stringByAppendingPathComponent:@"calabash-codesign"];
+    
+    if (![fileManager fileExistsAtPath:calabashCodesignDir]) {
+        @throw [NSException exceptionWithName:@"MissingDirectoryException" reason:@"calabash-codesign directory does not exist" userInfo:nil];
+    }
+    
+    return calabashCodesignDir;
+}
+
++ (NSString *)CalabashWildcardProfilePath {
+    return [[[[CodesignResources CalabashCodesignPath] stringByAppendingPathComponent:@"apple"] stringByAppendingPathComponent:@"profiles"] stringByAppendingPathComponent:@"CalabashWildcard.mobileprovision"];
+}
+
+@end

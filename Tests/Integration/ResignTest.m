@@ -1,6 +1,7 @@
 
 #import "TestCase.h"
 #import "Codesigner.h"
+#import "CodesignResources.h"
 #import "CLI.h"
 
 @interface ResignTest : TestCase
@@ -18,7 +19,7 @@
 }
 
 - (void)testResignWithWildCardProfile {
-    NSString *profilePath = [self.resources CalabashWildcardPath];
+    NSString *profilePath = [CodesignResources CalabashWildcardProfilePath];
     NSString *ipaPath = [self.resources TaskyIpaPath];
     NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-tasky.ipa"];
     NSArray *args = @[
@@ -28,14 +29,28 @@
                       @"-o", outputPath
                       ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    NSString *calabashDylibPath = [CodesignResources CalabashDylibPath];
+    MobileProfile *profile = [MobileProfile withPath:profilePath];
+    CodesignIdentity *codesignID = [profile findValidIdentity];
+    args = @[
+             kProgramName, @"resign_object",
+             calabashDylibPath,
+             @"-c", [codesignID shasum]
+             ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testResignWithSameIdentity {
-    // TODO
+//TODO
 }
 
 - (void)testResignWithDifferentIdentity {
-    //TODO
+//TODO
+}
+
+- (void)testResignAll {
+//TODO
 }
 
 @end
