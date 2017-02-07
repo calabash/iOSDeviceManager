@@ -47,11 +47,4 @@
                                    keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
 
-+ (NSString *)defaultSimulatorID;
-+ (NSString *)defaultPhysicalDeviceID;
-+ (NSString *)defaultDeviceID;
-+ (NSArray<FBDevice *> *)availableDevices;
-+ (NSArray<FBSimulator *> *)availableSimulators;
-+ (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators;
-
 @end

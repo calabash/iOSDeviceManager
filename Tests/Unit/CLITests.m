@@ -1,6 +1,6 @@
-
 #import "TestCase.h"
 #import "CLI.h"
+#import "DeviceUtils.h"
 
 @interface CLI (priv)
 @end
@@ -116,14 +116,18 @@
 }
 
 - (void)testOptionalArg {
-    NSArray *args = @[kProgramName, @"install", @"-a", @"fake/path/to/.app"];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
-    
-    args = @[kProgramName, @"is_installed", @"-b", @"bundle_id"];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
-    
-    args = @[kProgramName, @"launch_simulator"];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    if ([[DeviceUtils availableDevices] count] < 2) {
+        NSArray *args = @[kProgramName, @"install", @"-a", @"fake/path/to/.app"];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
+        
+        args = @[kProgramName, @"is_installed", @"-b", @"bundle_id"];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
+        
+        args = @[kProgramName, @"launch_simulator"];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    } else {
+        printf("Multiple physical devices detected - skipping optional device arg test");
+    }
 }
 
 - (void)testMissingRequiredOption {

@@ -157,14 +157,6 @@
     XCTAssertTrue([sims count] > 0);
 }
 
-- (void)testDefaultSimulator {
-    XCTAssertNotNil([self.resources defaultSimulator]);
-}
-
-- (void)testDefaultSimulatorUDID {
-    XCTAssertNotNil([self.resources defaultSimulatorUDID]);
-}
-
 #pragma mark - Provisioning Profiles
 
 - (void)testProvisioningProfiles {

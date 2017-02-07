@@ -1,6 +1,7 @@
 
 #import "TestCase.h"
 #import "CLI.h"
+#import "DeviceUtils.h"
 
 @interface PhysicalDeviceCLIIntegrationTests : TestCase
 
@@ -209,27 +210,31 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    if (device_available()) {
-        NSArray *args = @[
-                          kProgramName, @"is_installed",
-                          @"-b", testAppID
-                          ];
-        
-        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-            args = @[
-                     kProgramName, @"uninstall",
-                     @"-b", testAppID
-                     ];
-            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        }
-        
+    
+    NSUInteger deviceCount = [DeviceUtils availableDevices].count;
+    if (deviceCount != 1) {
+        printf("Multiple devices detected - skipping option device arg test");
+        return;
+    }
+    
+    NSArray *args = @[
+                      kProgramName, @"is_installed",
+                      @"-b", testAppID
+                      ];
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
         args = @[
-                 kProgramName, @"install",
-                 @"-a", testApp(ARM),
-                 @"-c", kCodeSignIdentityKARL
+                 kProgramName, @"uninstall",
+                 @"-b", testAppID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
+    
+    args = @[
+             kProgramName, @"install",
+             @"-a", testApp(ARM),
+             @"-c", kCodeSignIdentityKARL
+             ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 @end

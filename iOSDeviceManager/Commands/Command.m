@@ -88,12 +88,12 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (Device *)deviceFromArgs:(NSDictionary *)args {
-    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultDeviceID];
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [DeviceUtils defaultDeviceID];
     return [Device withID:deviceID];
 }
 
 + (Device *)simulatorFromArgs:(NSDictionary *)args {
-    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [Device defaultSimulatorID];
+    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [DeviceUtils defaultSimulatorID];
     
     if (![DeviceUtils isSimulatorID:deviceID]) {
         @throw [NSException exceptionWithName:@"InvalidArgumentException"

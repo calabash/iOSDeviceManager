@@ -17,10 +17,6 @@ build:
 dependencies:
 	bin/make/dependencies.sh
 
-nuget:
-	$(MAKE) dependencies
-	bin/make/nuget.sh
-
 fbframeworks:
 	bin/make/frameworks.sh
 
@@ -40,9 +36,15 @@ test-integration:
 	bin/make/test-integration.sh
 
 #
+#       Runs the run loop integration tests.
+#
+test-run-loop:
+	bin/make/test-run-loop.sh
+
+#
 # 	Runs the integration tests.
 #
 tests:
 	$(MAKE) test-unit
 	$(MAKE) test-integration
-
+	$(MAKE) test-run-loop
