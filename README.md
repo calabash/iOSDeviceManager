@@ -15,7 +15,7 @@ Contributors need to touch the Xcode project file with valid credentials.
 
 ### Building
 
-```
+```shell
 $ git clone --recursive git@github.com:calabash/iOSDeviceManager.git
 $ make build
 
@@ -25,7 +25,7 @@ $ Products/iOSDeviceManager
 
 ### Testing
 
-```
+```shell
 $ carthage bootstrap
 $ make test-unit
 $ make test-integration
@@ -51,8 +51,8 @@ If no device is found, the tests are skipped.
 $ make dependencies
 ```
 
-The make `dependencies` rule expect the DeviceAgent.iOS repo
-to be located in `../DeviceAgent.iOS`.  If your local copy of DeviceAgent.iOS
+The make `dependencies` rule expects the DeviceAgent.iOS repo
+to be located at `../DeviceAgent.iOS`.  If your local copy of DeviceAgent.iOS
 is in another location, use the `DEVICEAGENT_PATH` env var to specify
 the correct path.
 
