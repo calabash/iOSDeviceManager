@@ -279,7 +279,7 @@
 
 - (void)testOptionalDeviceIDArg {
     if ([DeviceUtils availableDevices].count > 1) {
-        printf("Multiple connected devices detected - skipping some optional device arg tests");
+        NSLog(@"Multiple connected devices detected - skipping some optional device arg tests");
         return;
     }
     
