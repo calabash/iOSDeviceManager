@@ -45,3 +45,6 @@ xcuserdata/
 # JetBrains
 .idea
 
+# RunLoop & Dependencies
+run_loop/
+DeviceAgent.iOS/
