@@ -11,19 +11,39 @@
     return [[CodesignResources resourcesDirectory] stringByAppendingPathComponent:@"calabash.dylib"];
 }
 
++ (NSString *)PermissionsIpaPath {
+    return [[[CodesignResources resourcesDirectory]
+             stringByAppendingPathComponent:@"arm"]
+            stringByAppendingPathComponent:@"Permissions.ipa"];
+}
+
 + (NSString *)CalabashCodesignPath {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *calabashCodesignDir = [[NSHomeDirectory() stringByAppendingPathComponent:@".calabash"] stringByAppendingPathComponent:@"calabash-codesign"];
+    NSString *calabashCodesignDir = [[NSHomeDirectory()
+                                      stringByAppendingPathComponent:@".calabash"]
+                                     stringByAppendingPathComponent:@"calabash-codesign"];
     
     if (![fileManager fileExistsAtPath:calabashCodesignDir]) {
-        @throw [NSException exceptionWithName:@"MissingDirectoryException" reason:@"calabash-codesign directory does not exist" userInfo:nil];
+        @throw [NSException exceptionWithName:@"MissingDirectoryException"
+                                       reason:@"calabash-codesign directory does not exist"
+                                     userInfo:nil];
     }
     
     return calabashCodesignDir;
 }
 
 + (NSString *)CalabashWildcardProfilePath {
-    return [[[[CodesignResources CalabashCodesignPath] stringByAppendingPathComponent:@"apple"] stringByAppendingPathComponent:@"profiles"] stringByAppendingPathComponent:@"CalabashWildcard.mobileprovision"];
+    return [[[[CodesignResources CalabashCodesignPath]
+              stringByAppendingPathComponent:@"apple"]
+             stringByAppendingPathComponent:@"profiles"]
+            stringByAppendingPathComponent:@"CalabashWildcard.mobileprovision"];
+}
+
++ (NSString *)CalabashPermissionsProfilePath {
+    return [[[[CodesignResources CalabashCodesignPath]
+              stringByAppendingPathComponent:@"apple"]
+             stringByAppendingPathComponent:@"profiles"]
+            stringByAppendingPathComponent:@"PermissionsDevelopment.mobileprovision"];
 }
 
 @end

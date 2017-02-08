@@ -42,7 +42,16 @@
 }
 
 - (void)testResignWithSameIdentity {
-//TODO
+    NSString *profilePath = [CodesignResources CalabashPermissionsProfilePath];
+    NSString *ipaPath = [CodesignResources PermissionsIpaPath];
+    NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-permissions.ipa"];
+    NSArray *args = @[
+                      kProgramName, @"resign",
+                      ipaPath,
+                      @"-p", profilePath,
+                      @"-o", outputPath
+                      ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testResignWithDifferentIdentity {
