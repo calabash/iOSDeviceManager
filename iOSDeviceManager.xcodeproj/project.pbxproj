@@ -162,6 +162,12 @@
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
+		B29637851E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
+		B29637861E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
+		B296378A1E3FC23800200661 /* KillAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637891E3FC23800200661 /* KillAppCommand.m */; };
+		B296378B1E3FC23800200661 /* KillAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637891E3FC23800200661 /* KillAppCommand.m */; };
+		B296378C1E3FC23800200661 /* KillAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637891E3FC23800200661 /* KillAppCommand.m */; };
 		B296D6F61E31437C00D365F3 /* BundleResigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDD1E302FC200D9FEC5 /* BundleResigner.m */; };
 		B296D6F81E3143B100D365F3 /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDF1E302FC200D9FEC5 /* BundleResignerFactory.m */; };
 		B296D6F91E31440D00D365F3 /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE11E302FC200D9FEC5 /* Certificate.m */; };
@@ -433,6 +439,10 @@
 		B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtilsTest.m; sourceTree = "<group>"; };
 		B22DC0051E1D799500BDD4CB /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = iOSDeviceManager/Application/Application.m; sourceTree = SOURCE_ROOT; };
 		B22DC0091E1D79C000BDD4CB /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Application.h; path = iOSDeviceManager/Application/Application.h; sourceTree = SOURCE_ROOT; };
+		B29637831E3FC1E600200661 /* LaunchAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchAppCommand.m; path = iOSDeviceManager/Commands/LaunchAppCommand.m; sourceTree = SOURCE_ROOT; };
+		B29637871E3FC20000200661 /* LaunchAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LaunchAppCommand.h; path = iOSDeviceManager/Commands/LaunchAppCommand.h; sourceTree = SOURCE_ROOT; };
+		B29637881E3FC22700200661 /* KillAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KillAppCommand.h; path = iOSDeviceManager/Commands/KillAppCommand.h; sourceTree = SOURCE_ROOT; };
+		B29637891E3FC23800200661 /* KillAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KillAppCommand.m; path = iOSDeviceManager/Commands/KillAppCommand.m; sourceTree = SOURCE_ROOT; };
 		B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSReturnStatusCode.h; path = iOSDeviceManager/Commands/iOSReturnStatusCode.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtils.h; path = iOSDeviceManager/Utilities/DeviceUtils.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtils.m; path = iOSDeviceManager/Utilities/DeviceUtils.m; sourceTree = SOURCE_ROOT; };
@@ -540,6 +550,10 @@
 				892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */,
 				89C29E231DAFA93500282526 /* UploadFileCommand.h */,
 				89C29E241DAFA93500282526 /* UploadFileCommand.m */,
+				B29637871E3FC20000200661 /* LaunchAppCommand.h */,
+				B29637831E3FC1E600200661 /* LaunchAppCommand.m */,
+				B29637881E3FC22700200661 /* KillAppCommand.h */,
+				B29637891E3FC23800200661 /* KillAppCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -1000,11 +1014,13 @@
 				89AE36D71DF8318500E21487 /* Resources.m in Sources */,
 				898D7D881DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */,
+				B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				898D7D791DA47569001578FE /* HTTPConnection.m in Sources */,
 				892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */,
 				898D7D761DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
 				898D7D6D1DA47569001578FE /* DDData.m in Sources */,
 				898D7D941DA47569001578FE /* HTTPErrorResponse.m in Sources */,
+				B296378A1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				898D7D9A1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				898D7DD91DA4758A001578FE /* RouteRequest.m in Sources */,
 				89A1CEEF1E302FC200D9FEC5 /* BundleResignerFactory.m in Sources */,
@@ -1078,6 +1094,7 @@
 				B296D6F61E31437C00D365F3 /* BundleResigner.m in Sources */,
 				892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				B296D6F91E31440D00D365F3 /* Certificate.m in Sources */,
+				B29637851E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				892DE4EB1D230F5F00E1902C /* Command.m in Sources */,
 				898D7D3F1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				898D7D951DA47569001578FE /* HTTPErrorResponse.m in Sources */,
@@ -1114,6 +1131,7 @@
 				898D7DD41DA4758A001578FE /* HTTPResponseProxy.m in Sources */,
 				898D7DDD1DA4758A001578FE /* RouteResponse.m in Sources */,
 				898D7D9E1DA47569001578FE /* WebSocket.m in Sources */,
+				B296378B1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				F5D78DC81D8D32EB00497000 /* ShellResult.m in Sources */,
 				898D7D921DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
 				6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */,
@@ -1152,6 +1170,7 @@
 				F5D584051D6A0387007B0D11 /* LaunchSimulatorCommand.m in Sources */,
 				B296D7041E31475200D365F3 /* Entitlements.m in Sources */,
 				898D7DDE1DA4758A001578FE /* RouteResponse.m in Sources */,
+				B296378C1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				B296D7081E31489A00D365F3 /* ShasumProvider.m in Sources */,
 				F5D584091D6A039B007B0D11 /* TestCase.m in Sources */,
 				898D7D7B1DA47569001578FE /* HTTPConnection.m in Sources */,
@@ -1201,6 +1220,7 @@
 				898D7DE11DA4758A001578FE /* RoutingConnection.m in Sources */,
 				898D7D721DA47569001578FE /* DDNumber.m in Sources */,
 				898D7D9C1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
+				B29637861E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				89C29E1C1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */,

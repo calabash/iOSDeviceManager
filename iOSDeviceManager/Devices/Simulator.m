@@ -204,7 +204,7 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
 
     NSError *error;
-    if ([self isInstalled:bundleID withError:error] == iOSReturnStatusCodeEverythingOkay) {
+    if ([self isInstalled:bundleID withError:error]) {
         FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
         if ([self.fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
