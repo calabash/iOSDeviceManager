@@ -83,6 +83,12 @@
     args = @[kProgramName, @"kill_simulator", @"-d", deviceID];
     XCTAssertEqual([CLI process:args], ret);
     XCTAssertEqual(ret, iOSReturnStatusCodeDeviceNotFound);
+    
+    args = @[kProgramName, @"launch_app", deviceID, @"-b", @"bundle_id"];
+    XCTAssertEqual(ret, iOSReturnStatusCodeDeviceNotFound);
+    
+    args = @[kProgramName, @"kill_app", deviceID, @"-b", @"bundle_id"];
+    XCTAssertEqual(ret, iOSReturnStatusCodeDeviceNotFound);
 }
 
 - (void)testMissingArg {
