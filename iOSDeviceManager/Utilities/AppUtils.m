@@ -62,6 +62,7 @@
     NSArray *params = @[@"ditto",
                         @"-ck",
                         @"--sequesterRsrc",
+                        @"--keepParent",
                         payload,
                         outputPath];
     
