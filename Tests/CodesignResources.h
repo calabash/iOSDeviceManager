@@ -4,6 +4,9 @@
 
 + (NSString *)CalabashPermissionsProfilePath;
 + (NSString *)CalabashWildcardProfilePath;
++ (NSString *)TaskyIpaPath;
++ (NSString *)TaskyAppBundleID;
++ (NSString *)PermissionsAppBundleID;
 + (NSString *)PermissionsIpaPath;
 + (NSString *)CalabashDylibPath;
 

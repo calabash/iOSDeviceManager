@@ -238,7 +238,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                                    environment:@{}
                                                    options:0];
     NSError *error;
-    if (! [self.fbDevice.deviceOperator launchApplication:appLaunch error:&error]) {
+    if (![self.fbDevice.deviceOperator launchApplication:appLaunch error:&error]) {
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
     }

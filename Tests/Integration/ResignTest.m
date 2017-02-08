@@ -20,7 +20,8 @@
 
 - (void)testResignWithWildCardProfile {
     NSString *profilePath = [CodesignResources CalabashWildcardProfilePath];
-    NSString *ipaPath = [self.resources TaskyIpaPath];
+    NSString *ipaPath = [CodesignResources TaskyIpaPath];
+    NSString *bundleID = [CodesignResources TaskyAppBundleID];
     NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-tasky.ipa"];
     NSArray *args = @[
                       kProgramName, @"resign",
@@ -39,11 +40,44 @@
              @"-c", [codesignID shasum]
              ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    if (device_available()) {
+        NSArray *args = @[
+                          kProgramName, @"is_installed",
+                          @"-b", bundleID,
+                          @"-d", defaultDeviceUDID
+                          ];
+        
+        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+            args = @[
+                     kProgramName, @"uninstall",
+                     @"-d", defaultDeviceUDID,
+                     @"-b", bundleID
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+        
+        args = @[
+                 kProgramName, @"install",
+                 @"-d", defaultDeviceUDID,
+                 @"-p", profilePath,
+                 @"-a", outputPath
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        
+        args = @[
+                 kProgramName, @"launch_app",
+                 @"-d", defaultDeviceUDID,
+                 @"-b", bundleID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
 }
 
 - (void)testResignWithSameIdentity {
     NSString *profilePath = [CodesignResources CalabashPermissionsProfilePath];
     NSString *ipaPath = [CodesignResources PermissionsIpaPath];
+    NSString *bundleID = [CodesignResources PermissionsAppBundleID];
     NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-permissions.ipa"];
     NSArray *args = @[
                       kProgramName, @"resign",
@@ -52,6 +86,38 @@
                       @"-o", outputPath
                       ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    if (device_available()) {
+        NSArray *args = @[
+                          kProgramName, @"is_installed",
+                          @"-b", bundleID,
+                          @"-d", defaultDeviceUDID
+                          ];
+        
+        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+            args = @[
+                     kProgramName, @"uninstall",
+                     @"-d", defaultDeviceUDID,
+                     @"-b", bundleID
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+        
+        args = @[
+                 kProgramName, @"install",
+                 @"-d", defaultDeviceUDID,
+                 @"-p", profilePath,
+                 @"-a", outputPath
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        
+        args = @[
+                 kProgramName, @"launch_app",
+                 @"-d", defaultDeviceUDID,
+                 @"-b", bundleID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
 }
 
 - (void)testResignWithDifferentIdentity {
