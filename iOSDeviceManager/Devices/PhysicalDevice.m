@@ -237,7 +237,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     NSError *error;
     if (! [self.fbDevice.deviceOperator launchApplication:appLaunch error:&error]) {
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
-        [XCTestBootstrapError describe:[NSString stringWithFormat:@"Failed to launch app with bundle ID: %@", bundleID]];
         return iOSReturnStatusCodeInternalError;
     }
     
