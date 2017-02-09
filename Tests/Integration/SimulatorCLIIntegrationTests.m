@@ -347,14 +347,14 @@
     
     args = @[kProgramName, @"is_installed", @"-b", testAppID];
     if ([CLI process:args] == iOSReturnStatusCodeFalse) {
-        args = @[kProgramName, @"install", testApp(SIM), [Device defaultSimulatorID]];
+        args = @[kProgramName, @"install", testApp(SIM), [DeviceUtils defaultSimulatorID]];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
     
-    args = @[kProgramName, @"launch_app", [Device defaultSimulatorID], @"-b", testAppID];
+    args = @[kProgramName, @"launch_app", [DeviceUtils defaultSimulatorID], @"-b", testAppID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
-    args = @[kProgramName, @"kill_app", [Device defaultSimulatorID], @"-b", testAppID];
+    args = @[kProgramName, @"kill_app", [DeviceUtils defaultSimulatorID], @"-b", testAppID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
