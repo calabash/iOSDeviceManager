@@ -308,7 +308,7 @@
     
     NSString *deviceID = [DeviceUtils defaultSimulatorID];
     args = @[kProgramName, @"is_installed", deviceID, @"-b", testAppID];
-    if ([CLI process:args]) {
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
         args = @[kProgramName, @"uninstall", deviceID, @"-b", testAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }

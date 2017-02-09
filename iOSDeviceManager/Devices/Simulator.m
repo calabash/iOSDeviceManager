@@ -118,11 +118,18 @@ static const FBSimulatorControl *_control;
             return iOSReturnStatusCodeEverythingOkay;
         }
         
-        iOSReturnStatusCode ret;
+        iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
         needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
+    }
+    
+    if (e && [[e description] containsString:@"Failed to get App Path"]) {
+        e = nil; // installedApplicationWithBundleID has non-nil e if no app present
+    } else if (e) {
+        ConsoleWriteErr(@"Error checking if application is installed: %@", e);
+        return iOSReturnStatusCodeInternalError;
     }
     
     if (needsToInstall) {
@@ -233,7 +240,7 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
     NSError *error;
-    if ([self isInstalled:bundleID withError:&error] == iOSReturnStatusCodeEverythingOkay) {
+    if ([self isInstalled:bundleID withError:&error]) {
         FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
         if ([self.fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;

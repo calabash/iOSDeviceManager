@@ -34,8 +34,7 @@
 
 - (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc {
     NSError *isInstalledError;
-    *sc = [self isInstalled:app.bundleID withError:&isInstalledError];
-    if (*sc == iOSReturnStatusCodeEverythingOkay) {
+    if ([self isInstalled:app.bundleID withError:&isInstalledError]) {
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
