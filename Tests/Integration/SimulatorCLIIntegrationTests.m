@@ -278,8 +278,8 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    if ([DeviceUtils availableDevices].count > 1) {
-        NSLog(@"Multiple connected devices detected - skipping some optional device arg tests");
+    if ([DeviceUtils availableDevices].count > 0) {
+        NSLog(@"Detected physical device - skipping optional device arg simulator tests");
         return;
     }
     

@@ -54,6 +54,24 @@
 }
 
 /*
+    Profile "Auto-detection" with specified CodesignIdentity
+*/
++ (MobileProfile *)bestMatchProfileForApplication:(Application *)app
+                                           device:(Device *)device
+                                 codesignIdentity:(CodesignIdentity *)codesignID {
+    LogInfo(@"Using signing identity %@ to select best match profile.", codesignID);
+    
+    NSArray<MobileProfile *> *profiles = [MobileProfile rankedProfiles:[self nonExpiredIOSProfiles]
+                                                          withIdentity:codesignID
+                                                            deviceUDID:device.uuid
+                                                         appBundlePath:app.path];
+    
+    MobileProfile *match = profiles.count ? profiles[0] : nil;
+    LogInfo(@"Selected profile %@ for device %@ app %@", match, device.uuid, app.bundleID);
+    return match;
+}
+
+/*
     Profile "Auto-detection"
  */
 + (MobileProfile *)bestMatchProfileForApplication:(Application *)app device:(Device *)device {

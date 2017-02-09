@@ -26,13 +26,15 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  Resigns a the contents of an Application app dir.
  
  @param app Application to resign
- @param codesignID CodesignIdentity to use to resign (deprecated behavior)
+ @param profile Profile to use to resign
+ @param codesignIdentity CodesignIdentity to use to resign
  @return YES if successful, NO otherwise.
  @warn Resigns in-place (i.e. destructively)
  
  */
 + (void)resignApplication:(Application *)app
-     withCodesignIdentity:(CodesignIdentity *)codesignID;
+  withProvisioningProfile:(MobileProfile *)profile
+     withCodesignIdentity:(CodesignIdentity *)codesignIdentity;
 
 /**
  "resign"

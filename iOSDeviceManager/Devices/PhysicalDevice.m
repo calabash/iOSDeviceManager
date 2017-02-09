@@ -109,13 +109,22 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     
     //Only codesign/install if we actually need to.
     if (needsToInstall) {
+        //TODO: Skip resigning if the app is already signed for the device?
+        //Requires reading provisioning profiles on the device and comparing
+        //entitlements...
         if (codesignID) {
             ConsoleWriteErr(@"Deprecated behavior - resigning application with codesign identity: %@", codesignID);
-            [Codesigner resignApplication:app withCodesignIdentity:codesignID];
+            profile = [MobileProfile bestMatchProfileForApplication:app
+                                                             device:self
+                                                   codesignIdentity:codesignID];
+            if (!profile) {
+                ConsoleWriteErr(@"Unable to find valid profile for codesignID: %@", codesignID);
+                return iOSReturnStatusCodeInternalError;
+            }
+            [Codesigner resignApplication:app
+                  withProvisioningProfile:profile
+                     withCodesignIdentity:codesignID];
         } else {
-            //TODO: Skip resigning if the app is already signed for the device?
-            //Requires reading provisioning profiles on the device and comparing
-            //entitlements...
             if (!profile) {
                 profile = [MobileProfile bestMatchProfileForApplication:app device:self];
                 NSAssert(profile != nil,
@@ -123,11 +132,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                          app.path,
                          self.uuid);
             }
-            // Log entitlement comparisons
-            [Entitlements compareEntitlementsWithProfile:profile app:app];
             [Codesigner resignApplication:app withProvisioningProfile:profile];
         }
+        // Log entitlement comparisons
+        [Entitlements compareEntitlementsWithProfile:profile app:app];
         
+        // Install profile to device
         Class DTDKProvisioniingProfile = NSClassFromString(@"DTDKProvisioningProfile");
         DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
                                                                  certificateUtilities:nil

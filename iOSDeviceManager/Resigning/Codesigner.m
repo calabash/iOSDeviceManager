@@ -31,16 +31,33 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 }
 
 + (void)resignApplication:(Application *)app
-     withCodesignIdentity:(CodesignIdentity *)codesignID {
+  withProvisioningProfile:(MobileProfile *)profile
+     withCodesignIdentity:(CodesignIdentity *)codesignIdentity {
     if (app.type == kApplicationTypeSimulator) {
         [self adHocSign:app.path resourcesToInject:nil];
     } else {
-        [self resignAppDir:app.path
-                   baseDir:app.baseDir
-          codesignIdentity:codesignID];
+        [self resignApplication:app
+        withProvisioningProfile:profile
+           withCodesignIdentity:codesignIdentity
+              resourcesToInject:nil];
     }
 }
 
++ (void)resignApplication:(Application *)app
+  withProvisioningProfile:(MobileProfile *)profile
+     withCodesignIdentity:(CodesignIdentity *)codesignIdentity
+        resourcesToInject:(NSArray<NSString *> *)resourcePaths {
+    if (app.type == kApplicationTypeSimulator) {
+        [self adHocSign:app.path resourcesToInject:resourcePaths];
+    } else {
+        [self prepareResign:app];
+        [self resignAppDir:app.path
+                   baseDir:app.baseDir
+       provisioningProfile:profile
+         codesignIdentity:codesignIdentity
+         resourcesToInject:resourcePaths];
+    }
+}
 
 + (void)resignApplication:(Application *)app
   withProvisioningProfile:(MobileProfile *)profile
@@ -258,17 +275,20 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 + (void)resignAppDir:(NSString *)appDir
              baseDir:(NSString *)baseDir
  provisioningProfile:(MobileProfile *)profile
+    codesignIdentity:(CodesignIdentity *)codesignIdentity
    resourcesToInject:(NSArray<NSString *> *)resourcesToInject {
     NSString *mobileProfileUUID = [profile uuid];
     NSArray *prefixes = [profile applicationIdentifierPrefix];
     if (prefixes.count == 0) {
         ConsoleWriteErr(@"Profile has no application identifier prefixes: %@ [%@]",
-                       [profile name],
-                       mobileProfileUUID);
+                        [profile name],
+                        mobileProfileUUID);
     }
     NSString *appIDPrefix = prefixes[0];
     
-    CodesignIdentity *codesignIdentity = [profile findValidIdentity];
+    if (!codesignIdentity) {
+        codesignIdentity = [profile findValidIdentity];
+    }
     CBXAssert(codesignIdentity, @"Unable to find valid codesign identity from profile %@", profile.name);
     
     Entitlements *newEntitlements = [profile entitlements];
@@ -279,12 +299,12 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSFileManager *mgr = [NSFileManager defaultManager];
     BOOL success = [mgr fileExistsAtPath:infoPlistPath];
     CBXAssert(success, @"No Info.plist found for bundle: %@", appDir);
-
+    
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
     NSString *oldBundleID = [self getOldBundleId:oldEntitlements infoPlist:infoPlist];
     NSString *finalAppIdentifier = [self isWildcardAppId:mobileProfileAppID] ?
-                                    [NSString stringWithFormat:@"%@.%@", appIDPrefix, oldBundleID] :
-                                    [newEntitlements applicationIdentifier];
+    [NSString stringWithFormat:@"%@.%@", appIDPrefix, oldBundleID] :
+    [newEntitlements applicationIdentifier];
     
     LogInfo(@"Preparing to resign bundle %@ with profile %@", appDir.lastPathComponent, [profile name]);
     
@@ -301,8 +321,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
         //TODO: Can we relax this constraint?
         //i.e. appGroups = [appGroups subarrayWithRange:NSMakeRange(0, ourAppGroups.count)];
         CBXAssert(NO,
-                 @"Application has more app groups then %@ supports",
-                 [profile name]);
+                  @"Application has more app groups then %@ supports",
+                  [profile name]);
     }
     
     //Randomly assign a mapping
@@ -361,89 +381,13 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     
     success = [finalEntitlements writeToFile:appEntitlementsFile];
     CBXAssert(success,
-             @"Unable to write app entitlements to %@",
-             appEntitlementsFile);
+              @"Unable to write app entitlements to %@",
+              appEntitlementsFile);
     
     [FileUtils fileSeq:appDir handler:^(NSString *filepath) {
         if ([FileUtils isDylibOrFramework:filepath] && [self shouldResign:filepath inAppDir:appDir]) {
             [self resignObject:filepath
               codesignIdentity:codesignIdentity];
-        }
-    }];
-    
-    /* 
-     Codesign every .xctest and .appex bundle inside of Plugins dir
-    
-     Note that we recurse here instead of calling `resign-bundle-object` directly,
-     because we want to respect the entitlements of the sub-bundles which may differ
-     from the parent.
-    
-     Note also that the objects resigned above won't be resigned again because
-    `+ (BOOL)shouldResign` should return false once they've already been resigned.
-    */
-    
-    NSString *pluginsPath = [appDir joinPath:@"Plugins"];
-    if ([mgr fileExistsAtPath:pluginsPath]) {
-        [FileUtils fileSeq:pluginsPath handler:^(NSString *filepath) {
-            if ([self isResignableBundle:filepath] &&
-                [self shouldResign:filepath inAppDir:appDir]) {
-                [self resignAppDir:filepath
-                           baseDir:baseDir
-               provisioningProfile:profile
-                 resourcesToInject:nil];
-            }
-        }];
-    }
-    
-    /*
-     Given everything else is signed, we can now sign the main executable
-    */
-    [self resignBundle:appDir
-      bundleExecutable:bundleExecPath
-   appEntitlementsFile:appEntitlementsFile
-      codesignIdentity:codesignIdentity];
-    LogInfo(@"Done resigning %@ with %@.", appDirName, [profile name]);
-}
-
-+ (void)resignAppDir:(NSString *)appDir
-             baseDir:(NSString *)baseDir
- codesignIdentity:(CodesignIdentity *)codesignID {
-    NSFileManager *mgr = [NSFileManager defaultManager];
-    NSString *embeddedMobileProvision = [appDir joinPath:@"embedded.mobileprovision"];
-    if ([mgr fileExistsAtPath:embeddedMobileProvision]) {
-        //We are choosing to continue even if there's an error.
-        NSError *e;
-        if ([mgr removeItemAtPath:embeddedMobileProvision error:&e]) {
-            LogInfo(@"Removed embedded.mobileprovision from %@: %@", appDir, e);
-        } else {
-            //I do not think this will block resigning so we don't need to CBXAssert - CF
-            ConsoleWriteErr(@"Unable to remove embedded.mobileprovision from app dir %@", appDir);
-        }
-    }
-    
-    NSString *infoPlistPath = [appDir joinPath:@"Info.plist"];
-    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
-
-    //Sanity check
-    CBXAssert(infoPlist[@"CFBundleIdentifier"] != nil, @"Bundle identifier is nil! Plist: %@", infoPlist);
-    
-    NSString *bundleExec = infoPlist[@"CFBundleExecutable"];
-    NSString *bundleExecPath = [appDir joinPath:bundleExec];
-    NSString *appDirName = [appDir lastPathComponent];
-    
-    //the 'appId' is the name of the app dir minus the `.app` extension
-    NSString *appId = [appDirName subsFrom:0 length:appDirName.length - @".app".length];
-    NSString *xcentFilename = [appId plus:@".xcent"];
-    NSString *appEntitlementsFile = [appDir joinPath:xcentFilename];
-    
-    BOOL success = [mgr fileExistsAtPath:bundleExecPath];
-    CBXAssert(success, @"Bundle executable %@ does not exist!", bundleExecPath);
-    LogInfo(@"Resigning with codesign identity: %@", [codesignID name]);
-    
-    [FileUtils fileSeq:appDir handler:^(NSString *filepath) {
-        if ([FileUtils isDylibOrFramework:filepath] && [self shouldResign:filepath inAppDir:appDir]) {
-            [self resignObject:filepath
-              codesignIdentity:codesignID];
         }
     }];
     
@@ -465,7 +409,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                 [self shouldResign:filepath inAppDir:appDir]) {
                 [self resignAppDir:filepath
                            baseDir:baseDir
-                  codesignIdentity:codesignID];
+               provisioningProfile:profile
+                 resourcesToInject:nil];
             }
         }];
     }
@@ -476,8 +421,19 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     [self resignBundle:appDir
       bundleExecutable:bundleExecPath
    appEntitlementsFile:appEntitlementsFile
-      codesignIdentity:codesignID];
-    LogInfo(@"Done resigning %@ with %@.", appDirName, [codesignID name]);
+      codesignIdentity:codesignIdentity];
+    LogInfo(@"Done resigning %@ with %@.", appDirName, [profile name]);
+}
+
++ (void)resignAppDir:(NSString *)appDir
+             baseDir:(NSString *)baseDir
+ provisioningProfile:(MobileProfile *)profile
+   resourcesToInject:(NSArray<NSString *> *)resourcesToInject {
+    [self resignAppDir:appDir
+               baseDir:baseDir
+   provisioningProfile:profile
+      codesignIdentity:nil
+     resourcesToInject:resourcesToInject];
 }
 
 

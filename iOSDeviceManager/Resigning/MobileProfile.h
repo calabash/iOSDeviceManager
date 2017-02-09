@@ -11,6 +11,9 @@
 @property(copy, readonly) NSDictionary *info;
 @property(copy, readonly) NSString *path;
 
++ (MobileProfile *)bestMatchProfileForApplication:(Application *)app
+                                           device:(Device *)device
+                                 codesignIdentity:(CodesignIdentity *)codesignID;
 + (MobileProfile *)bestMatchProfileForApplication:(Application *)app device:(Device *)device;
 + (MobileProfile *)withPath:(NSString *)profilePath;
 
