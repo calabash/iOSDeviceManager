@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export DEVELOPER_DIR=/Xcode/8.0/Xcode.app/Contents/Developer
+export DEVELOPER_DIR=/Xcode/8.2.1/Xcode.app/Contents/Developer
 
 set +e
 
