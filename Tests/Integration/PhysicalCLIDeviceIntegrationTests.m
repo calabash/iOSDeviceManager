@@ -248,7 +248,7 @@
         if ([CLI process:args] == iOSReturnStatusCodeFalse) {
             args = @[
                      kProgramName, @"install",
-                     @"-b", testAppID,
+                     @"-a", testApp(ARM),
                      @"-d", defaultDeviceUDID
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
