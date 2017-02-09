@@ -34,7 +34,7 @@ else
     "${CODE_SIGN_DIR}"
 fi
 
-(cd "${CODE_SIGN_DIR}" && ios/create-keychain.sh)
+(cd "${CODE_SIGN_DIR}" && apple/create-keychain.sh)
 
 rm -rf DeviceAgent.iOS
 git clone git@github.com:calabash/DeviceAgent.iOS.git
