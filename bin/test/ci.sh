@@ -49,9 +49,7 @@ rm -rf reports/*.xml
 
 carthage bootstrap
 make test-unit
-
-# `start_test` fails on Jenkins
-#make tests
+make test-integration
 
 EXIT_STATUS=$?
 
