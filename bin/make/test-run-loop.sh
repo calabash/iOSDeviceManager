@@ -23,6 +23,7 @@ GEM_VERSION=`echo ${GEM_FILE%.*} | cut -d '-' -f2`
 # Update the Gemfile in the cucumber dir
 cd ../Tests/cucumber
 rm -f Gemfile
+rm -f Gemfile.lock
 echo "
 source 'https://rubygems.org'
 gem 'calabash-cucumber'
