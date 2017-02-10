@@ -16,6 +16,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *const ApplicationTypeKey = @"ApplicationType";
+static NSString *const ApplicationPathKey = @"Path";
+
 /**
  Helper Methods & Properties for FBSimulator.
  */
@@ -27,11 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
  Creates an FBSimulatorInteraction for the reciever.
  */
 @property (nonatomic, strong, readonly) FBSimulatorInteraction *interact;
-
-/**
- Creates a FBSimDeviceWrapper for the Simulator.
- */
-@property (nonatomic, strong, readonly) FBSimDeviceWrapper *simDeviceWrapper;
 
 /**
  Creates a FBSimulatorLaunchCtl for the Simulator.
@@ -47,11 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
  Fetches an NSArray<FBProcessInfo *> of the subprocesses of the launchd_sim.
  */
 @property (nonatomic, copy, readonly) NSArray<FBProcessInfo *> *launchdSimSubprocesses;
-
-/**
- Fetches a list of the installed applications=
- */
-@property (nonatomic, copy, readonly) NSArray<FBApplicationDescriptor *> *installedApplications;
 
 #pragma mark Methods
 
