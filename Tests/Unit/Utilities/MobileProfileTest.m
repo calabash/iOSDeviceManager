@@ -4,6 +4,7 @@
 #import "ShellRunner.h"
 #import "Certificate.h"
 #import "Entitlements.h"
+#import "CodesignResources.h"
 
 @interface MobileProfile ()
 
@@ -48,7 +49,7 @@
 }
 
 - (void)testHasMethodsForReturningProfileDetails {
-    NSString *path = [self.resources CalabashWildcardPath];
+    NSString *path = [CodesignResources CalabashWildcardProfilePath];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
                                                                   path:path];
@@ -56,10 +57,10 @@
     expect(profile.applicationIdentifierPrefix[0]).to.equal(@"FYD86LA7RE");
     expect(profile.developerCertificates.count).to.equal(1);
     expect(profile.developerCertificates[0]).to.beInstanceOf([Certificate class]);
-    expect(profile.provisionedDevices.count).to.equal(26);
+    expect(profile.provisionedDevices.count).to.equal(39);
     expect(profile.provisionedDevices[0]).to.equal(@"e60ef9ae876ab4a218ee966d0525c9fb79e5606d");
     expect(profile.teamIdentifier[0]).to.equal(@"FYD86LA7RE");
-    expect(profile.uuid).to.equal(@"49fc8ecd-d772-432c-adc3-25e7db53b847");
+    expect(profile.uuid).to.equal(@"47148def-f37f-4dd9-888a-ce659584fb5b");
     expect(profile.teamName).to.equal(@"Karl Krukow");
     expect(profile.name).to.equal(@"CalabashWildcard");
     expect(profile.platform[0]).to.equal(@"iOS");
