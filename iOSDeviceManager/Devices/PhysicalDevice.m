@@ -227,15 +227,19 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+
     // Currently unsupported to have environment vars passed here.
     FBApplicationLaunchConfiguration *appLaunch = [FBApplicationLaunchConfiguration
                                                    configurationWithBundleID:bundleID
                                                    bundleName:nil
                                                    arguments:@[]
                                                    environment:@{}
-                                                   options:0];
+                                                   output:[FBProcessOutputConfiguration defaultForDeviceManager]];
+
     NSError *error;
-    if (! [self.fbDevice.deviceOperator launchApplication:appLaunch error:&error]) {
+
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    if (! [deviceOperator launchApplication:appLaunch error:&error]) {
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
     }
@@ -261,8 +265,9 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
-    BOOL installed = [self.fbDevice.deviceOperator isApplicationInstalledWithBundleID:bundleID
-                                                                                error:&error];
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    BOOL installed = [deviceOperator isApplicationInstalledWithBundleID:bundleID
+                                                                  error:&error];
     if (installed) {
         return YES;
     } else {
@@ -296,24 +301,27 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if (![self isInstalled:bundleID withError:err] || err) {
         return nil;
     }
-    
-    id<DVTApplication> installedDVTApplication = [((FBiOSDeviceOperator *)self.fbDevice.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
 
-    return [Application withBundleID:bundleID plist:[installedDVTApplication plist] architectures:self.fbDevice.supportedArchitectures];
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    id<DVTApplication> installedDVTApplication = [deviceOperator installedApplicationWithBundleIdentifier:bundleID];
+
+    return [Application withBundleID:bundleID
+                               plist:[installedDVTApplication plist]
+                       architectures:self.fbDevice.supportedArchitectures];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
     NSError *e = nil;
 
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:self.fbDevice.deviceOperator
-                                                                         runnerBundleID:runnerID
-                                                                              sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                               reporter:self
-                                                                                 logger:self
-                                                                                  error:&e];
+    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
+                                                                    runnerBundleID:runnerID
+                                                                         sessionID:sessionID
+                                                                    withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                       environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                          reporter:self
+                                                                            logger:self
+                                                                             error:&e];
     if (!e) {
         if (keepAlive) {
             /*

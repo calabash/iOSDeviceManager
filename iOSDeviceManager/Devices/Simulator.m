@@ -118,7 +118,8 @@ static const FBSimulatorControl *_control;
     }
 
     NSError *error;
-    FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path error:&error];
+    FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor userApplicationWithPath:app.path
+                                                                                        error:&error];
     if (error) {
         ConsoleWriteErr(@"Error creating application descriptor");
         ConsoleWriteErr(@" Path to bundle: %@", app.path);
@@ -205,7 +206,13 @@ static const FBSimulatorControl *_control;
 
     NSError *error;
     if ([self isInstalled:bundleID withError:error]) {
-        FBApplicationLaunchConfiguration *config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:@[] environment:@{} options:0];
+
+        FBApplicationLaunchConfiguration *config;
+        config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID
+                                                                  bundleName:nil
+                                                                   arguments:@[]
+                                                                 environment:@{}
+                                                                      output:[FBProcessOutputConfiguration defaultForDeviceManager]];
         if ([self.fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
         } else {
@@ -286,16 +293,15 @@ static const FBSimulatorControl *_control;
 
 
     Simulator *replog = [Simulator new];
-    id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:self.fbSimulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
-                                                                         runnerBundleID:runnerID
-                                                                              sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                               reporter:replog
-                                                                                 logger:replog
-                                                                                  error:&e];
+    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
+                                                                    runnerBundleID:runnerID
+                                                                         sessionID:sessionID
+                                                                    withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                       environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                          reporter:replog
+                                                                            logger:replog
+                                                                             error:&e];
 
     if (e) {
         ConsoleWriteErr(@"Error starting test runner: %@", e);
@@ -404,7 +410,8 @@ static const FBSimulatorControl *_control;
 
 + (FBApplicationDescriptor *)app:(NSString *)appPath {
     NSError *e;
-    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:appPath error:&e];
+    FBApplicationDescriptor *app = [FBApplicationDescriptor userApplicationWithPath:appPath
+                                                                              error:&e];
     if (!app || e) {
         ConsoleWriteErr(@"Error creating SimulatorApplication for path %@: %@", appPath, e);
         return nil;
@@ -414,10 +421,11 @@ static const FBSimulatorControl *_control;
 
 + (FBApplicationLaunchConfiguration *)testRunnerLaunchConfig:(NSString *)testRunnerPath {
     FBApplicationDescriptor *application = [self app:testRunnerPath];
+
     return [FBApplicationLaunchConfiguration configurationWithApplication:application
                                                                 arguments:@[]
                                                               environment:@{}
-                                                                  options:0];
+                                                                   output:[FBProcessOutputConfiguration defaultForDeviceManager]];
 }
 
 + (BOOL)iOS_GTE_9:(NSString *)versionString {
