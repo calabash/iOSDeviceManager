@@ -12,10 +12,13 @@
 #import <FBControlCore/FBJSONConversion.h>
 #import <FBControlCore/FBDebugDescribeable.h>
 #import <FBControlCore/FBApplicationCommands.h>
+#import <FBControlCore/FBVideoRecordingCommands.h>
 
 @class FBProcessInfo;
+@class FBiOSTargetDiagnostics;
 @protocol FBControlCoreConfiguration_Device;
 @protocol FBControlCoreConfiguration_OS;
+@protocol FBDeviceOperator;
 
 /**
  Uses the known values of SimDevice State, to construct an enumeration.
@@ -45,7 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Common Properties of Devices & Simulators.
  */
-@protocol FBiOSTarget <NSObject, FBJSONSerializable, FBDebugDescribeable, FBApplicationCommands>
+@protocol FBiOSTarget <NSObject, FBJSONSerializable, FBDebugDescribeable, FBApplicationCommands, FBVideoRecordingCommands>
+
+/**
+ Device operator used to control device. It provides API for XCTestBoostrap to interact with the device.
+ */
+@property (nonatomic, nullable, strong, readonly) id<FBDeviceOperator> deviceOperator;
 
 /**
  The Unique Device Identifier of the iOS Target.
@@ -56,6 +64,16 @@ NS_ASSUME_NONNULL_BEGIN
  The Name of the iOS Target. This is the name given by the user, such as "Ada's iPhone"
  */
 @property (nonatomic, copy, readonly) NSString *name;
+
+/**
+ The Directory that FBSimulatorControl uses to store auxillary files.
+ */
+@property (nonatomic, copy, readonly) NSString *auxillaryDirectory;
+
+/**
+ The Diagnostics instance for the Target.
+ */
+@property (nonatomic, strong, readonly) FBiOSTargetDiagnostics *diagnostics;
 
 /**
  The State of the iOS Target. Currently only applies to Simulators.

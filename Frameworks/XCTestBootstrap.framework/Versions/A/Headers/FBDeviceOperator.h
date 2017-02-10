@@ -21,12 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Operators are used to control devices
  */
-@protocol FBDeviceOperator <NSObject, FBApplicationCommands>
+@protocol FBDeviceOperator <NSObject>
 
 /**
  Determines whether device supports testing with test manager daemon
  */
 @property (nonatomic, assign, readonly) BOOL requiresTestDaemonMediationForTestHostConnection;
+
+/**
+ The Unique Device Identifier of the iOS Target.
+ */
+@property (nonatomic, readonly) NSString *udid;
 
 /**
  Starts test manager daemon and creates DTXTransport connection with it

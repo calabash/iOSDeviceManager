@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		75f9DfqbxxDFOMpQ7Ee71MIaMGM=
+		OkKs+c0r9o8UD3y11gvxseQ7p1w=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
+			takyqZj2DtkQrdKa0W1X9s5qGBc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			1N/gruoOn/QQKbEcbCpPnmimrkI=
+			8lGUAIUvTK43Vp8NK6q4qo01lnM=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -55,11 +55,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mOD6OfhRECvBNSp54U+CHrPBb3E=
+			oe6e1kpgfCriuEjdEwHi7Hjxbrg=
 			</data>
 			<key>hash2</key>
 			<data>
-			n7wFaSU0roo06aYv0GD9ElXrRKFPw0rFirZ18iimfOU=
+			ZFfFDThm82J6IUapj1YZ2RtfbSsZvxTA4c2hSqgUczQ=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceTestPreparationStrategy.h</key>
@@ -132,11 +132,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1Qb5sXIrhnSrOgcaiF5TiVah/+k=
+			A/WOtZCpdVcmYyuGVt3fR7QowG8=
 			</data>
 			<key>hash2</key>
 			<data>
-			C//Ss5vY1GGOOg/MtDX31lhdaHgERSRcE3w9WRXYRig=
+			H+wLvqp4LneUDbTsheG1+OSH7YTHhw2PBeAHxB4qj2Y=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerAPIMediator.h</key>
@@ -148,6 +148,17 @@
 			<key>hash2</key>
 			<data>
 			L7bKPcx4zGGPyV3oFNdhJDni2Cv+acO+66BA/jKO3nA=
+			</data>
+		</dict>
+		<key>Headers/FBTestManagerContext.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			j3sw6lnxzk8bhhTda3Z2livlGLI=
+			</data>
+			<key>hash2</key>
+			<data>
+			xi77yTpqb2YYebOQN8iheYMZW3Lkrp/6L4WSS+N9pUs=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerProcessInteractionDelegate.h</key>
@@ -297,33 +308,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			moh8sZq8mHaXEMYvhyqWG2/6KGo=
+			2QBz3FdDWSAMvj7MMUtd5ocKxl0=
 			</data>
 			<key>hash2</key>
 			<data>
-			9KWiH+hBvD/6Y/yTooPEoB7OrMueXW2f4UGdibotyUg=
+			olnj6mYzS2llYhF4+UCzxzsWdtZiM9x2LVy3mUVcQnM=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestRunStrategy.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PnRoILwrIn37aSpRV2+BjGRzOc8=
+			gJYKTALhxqQdQc6Wt5gnGK3xgEU=
 			</data>
 			<key>hash2</key>
 			<data>
-			O4r4Cnesap3x9ow6bSCuu0b4Xgo2rk6lVSSgchkh17E=
+			JTEAIO+bDG9xxyFUkPytDJ1PB7X6HZ7XgzflEMvIxlk=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrap.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			BGNI0jbxhI8WBJ7ClV3/XV2XuuI=
+			etcDfLbM09AZHmocZ+HVm8pKNB4=
 			</data>
 			<key>hash2</key>
 			<data>
-			Fq/51eVJ/TGVnLSwForzfSGvgebVZt7BXtwRY85noGw=
+			GYhBX6UVjfmTVRXCmzxFs1KebjuZD07M+DlllIpG6X0=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapError.h</key>
@@ -363,11 +374,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			75f9DfqbxxDFOMpQ7Ee71MIaMGM=
+			OkKs+c0r9o8UD3y11gvxseQ7p1w=
 			</data>
 			<key>hash2</key>
 			<data>
-			YXngWUdnObVn5JmL8NVKB1bas/gN8pbqIrAlIbK/tLs=
+			0iag1o6x2VBUQGPztRVpI1pEJEiisx5+BV57o9WIQ8M=
 			</data>
 		</dict>
 	</dict>
@@ -388,6 +399,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -447,6 +463,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates and returns a FBSimulatorHID Instance for the provided Simulator.
  Will fail if a HID Port could not be registered for the provided Simulator.
+ Registration should occur prior to booting the Simulator.
 
  @param simulator the Simulator to create a IndigoHIDRegistrationPort for.
  @param error an error out for any error that occurs.
@@ -32,9 +33,30 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)hidPortForSimulator:(FBSimulator *)simulator error:(NSError **)error;
 
 /**
+ Obtains the Reply Port for the Simulator.
+ This must be obtained in order to send IndigoHID events to the Simulator.
+ This should be obtained after the Simulator is booted.
+
+ @param error an error out for any error that occurs.
+ @return YES if successful, NO otherwise.
+ */
+- (BOOL)connect:(NSError **)error;
+
+/**
  Disconnects from the remote HID.
  */
 - (void)disconnect;
+
+#pragma mark HID Manipulation
+
+/**
+ Sends a Home Button Event.
+ Will Perform the Button Down, followed by the Button Up.
+
+ @param error an error out for any error that occurs.
+ @return YES if successful, NO otherwise.
+ */
+- (BOOL)sendHomeButtonWithError:(NSError **)error;
 
 @end
 
