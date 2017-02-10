@@ -45,6 +45,12 @@
                                           error:(NSError *__autoreleasing *)error;
 @end
 
+@interface FBProcessOutputConfiguration (iOSDeviceManagerAdditions)
+
++ (FBProcessOutputConfiguration *)defaultForDeviceManager;
+
+@end
+
 @interface Device : NSObject
 
 @property (nonatomic, strong) NSString *uuid;
