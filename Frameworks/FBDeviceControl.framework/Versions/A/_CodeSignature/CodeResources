@@ -38,105 +38,6 @@
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
-		<key>Headers/FBAMDevice.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			uvSl9clT8/9aWtwsFPp+DwBtemM=
-			</data>
-			<key>hash2</key>
-			<data>
-			1lJeUhPI3lUuVl9t4T5ZM3kwmcPdwvipPlVw4JU4BcI=
-			</data>
-		</dict>
-		<key>Headers/FBDevice.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			YMiS392d6dc+1qnvjZHoeO4jN2c=
-			</data>
-			<key>hash2</key>
-			<data>
-			RKn/vHaPIe35loQbr5I1j5Rpm4lbaVgGWb2BhUNwQlY=
-			</data>
-		</dict>
-		<key>Headers/FBDeviceControl.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			+kHvadnaZ8eg3AI5UpAADOqRgjA=
-			</data>
-			<key>hash2</key>
-			<data>
-			CZg9lmxLUbr8kmp5VnmVYFtNcEKBFcEBkamUunhQ75k=
-			</data>
-		</dict>
-		<key>Headers/FBDeviceControlError.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			x2d4ikz6rMF5qOrcyqXhttQHgd0=
-			</data>
-			<key>hash2</key>
-			<data>
-			U5NXF3PEzINJQClfE0DiKGIlgs4Cdl+WrsD5tNdyyrk=
-			</data>
-		</dict>
-		<key>Headers/FBDeviceControlFrameworkLoader.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Uia61gUZ4vvgI2bY82TpF33KikI=
-			</data>
-			<key>hash2</key>
-			<data>
-			UYHCBGwOOz8259tmfOB7s8hXFEMp/M9/LVeq/CwAw9k=
-			</data>
-		</dict>
-		<key>Headers/FBDeviceSet.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			MvPOEtIf6tWGdksc+TQt0UQuo9A=
-			</data>
-			<key>hash2</key>
-			<data>
-			HlVxrWJ9Nne+Yg0jXJ87h2JKhEa5of1Z549LtTfwCCE=
-			</data>
-		</dict>
-		<key>Headers/FBDeviceTestRunStrategy.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			t6FgNiPldoA0z+g1+eLVE31S4DA=
-			</data>
-			<key>hash2</key>
-			<data>
-			bBkvhpQM24j5UUSTbLjUSsyPGM4e9qzZp4AQYYUK7FU=
-			</data>
-		</dict>
-		<key>Headers/FBiOSDeviceOperator.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			0MildTcBuDzGWOsX7u4/pU/u1yQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			PSVAL7n63O0YUJqsn3weae0n6Ch1G+DlKo+ktMaQ0XQ=
-			</data>
-		</dict>
-		<key>Modules/module.modulemap</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			mqpVPZg9cgc7LxTIe/PlVTwF0cQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			pI5o0jhqGxublxuklT4wv9asCzKIxSiIEYhZA7q3fbk=
-			</data>
-		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
 			<key>hash</key>
@@ -166,6 +67,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -225,6 +131,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>
