@@ -13,7 +13,7 @@
 
 @class FBTestManager;
 @protocol FBXCTestPreparationStrategy;
-@protocol FBDeviceOperator;
+@protocol FBiOSTarget;
 @protocol FBTestManagerTestReporter;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,13 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience constructor
 
- @param deviceOperator device operator used to run tests.
+ @param iosTarget ios target used to run tests.
  @param testPrepareStrategy test preparation strategy used to prepare device to test.
  @param reporter the Reporter to report test progress to.
  @param logger the logger object to log events to, may be nil.
  @return operator
  */
-+ (instancetype)strategyWithDeviceOperator:(id<FBDeviceOperator>)deviceOperator testPrepareStrategy:(id<FBXCTestPreparationStrategy>)testPrepareStrategy reporter:(nullable id<FBTestManagerTestReporter>)reporter logger:(nullable id<FBControlCoreLogger>)logger;
++ (instancetype)strategyWithIOSTarget:(id<FBiOSTarget>)iosTarget testPrepareStrategy:(id<FBXCTestPreparationStrategy>)testPrepareStrategy reporter:(nullable id<FBTestManagerTestReporter>)reporter logger:(nullable id<FBControlCoreLogger>)logger;
 
 /**
  Starts testing session
@@ -43,31 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return testManager if the operation succeeds, otherwise nil.
  */
 - (nullable FBTestManager *)startTestManagerWithAttributes:(NSArray<NSString *> *)attributes environment:(NSDictionary<NSString *, NSString *> *)environment error:(NSError **)error;
-
-
-/**
- Starts testing session with the assumption that the TestRunner is properly installed
- and has an XCTestConfiguration file already
- 
- @param deviceOperator device operator used to run tests
- @param bundleID TestRunner BundleID
- @param sessionID testing session ID
- @param attributes additional attributes used to start test runner
- @param environment additional environment used to start test runner
- @param reporter the Reporter to report test progress to.
- @param logger the logger object to log events to, may be nil.
- @param error If there is an error, upon return contains an NSError object that describes the problem.
- @return testManager if the operation succeeds, otherwise nil.
- */
-
-+ (FBTestManager *)startTestManagerForDeviceOperator:(id<FBDeviceOperator>)deviceOperator
-                                      runnerBundleID:(NSString *)bundleID
-                                           sessionID:(NSUUID *)sessionID
-                                      withAttributes:(NSArray *)attributes
-                                         environment:(NSDictionary *)environment
-                                            reporter:(id<FBTestManagerTestReporter>)reporter
-                                              logger:(id<FBControlCoreLogger>)logger
-                                               error:(NSError *__autoreleasing *)error;
 
 @end
 

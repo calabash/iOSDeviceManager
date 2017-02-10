@@ -14,19 +14,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interactions for Simulators that should occur Prior to the Boot of the Simulator.
+ Interactions for modifying the Settings, Preferences & Defaults of a Simulator.
  */
-@interface FBSimulatorInteraction (Setup)
-
-/**
- Prepares the Simulator for Launch:
- - Sets the Locale (if set)
- - Sets up the keyboard.
-
- @param configuration the configuration to use.
- @return the reciever, for chaining.
- */
-- (instancetype)prepareForBoot:(FBSimulatorBootConfiguration *)configuration;
+@interface FBSimulatorInteraction (Settings)
 
 /**
  Overrides the Global Localization of the Simulator.
@@ -71,19 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return the reciever, for chaining.
  */
 - (instancetype)setupKeyboard;
-
-/**
- Edit a property list file of the Simulator by manipulating the content of the dictionary in the block.
-
- The path must be relative to the Simulator's data directory, example: `Library/Preferences/com.apple.Preferences.plist`
- All changes made to the dictionary will be written back to the property list file.
-
- @param relativePath The relative path from the Simulator's data path to the property list file.
- @param block A block that receives the content of the property list file as a mutable dictionary.
-
- @return the reciever, for chaining.
- */
-- (instancetype)editPropertyListFileRelativeFromRootPath:(NSString *)relativePath amendWithBlock:( void(^)(NSMutableDictionary *) )block;
 
 @end
 

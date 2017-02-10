@@ -16,9 +16,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ A Typedef for a Callback.
+ */
+typedef void (^FBAgentLaunchCallback)(void);
+
+/**
  A Strategy for Launching Agents on a Simulator.
  */
 @interface FBAgentLaunchStrategy : NSObject
+
+#pragma mark Initializer
 
 /**
  Creates a Strategy for the provided Simulator.
@@ -28,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)withSimulator:(FBSimulator *)simulator;
 
+#pragma mark Public Methdds
+
 /**
  Launches an agent with the given configuration.
 
@@ -36,6 +45,15 @@ NS_ASSUME_NONNULL_BEGIN
  @return the Process Info of the launched agent, nil if there was a failure.
  */
 - (nullable FBProcessInfo *)launchAgent:(FBAgentLaunchConfiguration *)agentLaunch error:(NSError **)error;
+
+/**
+ Launches an agent, consuming it's output.
+
+ @param agentLaunch the configuration for launching the process. The 'output' of the configuration will be ignored.
+ @param error an error out for any error that occurs.
+ @return the stdout of the launched process, nil on error.
+ */
+- (nullable NSString *)launchConsumingStdout:(FBAgentLaunchConfiguration *)agentLaunch error:(NSError **)error;
 
 @end
 

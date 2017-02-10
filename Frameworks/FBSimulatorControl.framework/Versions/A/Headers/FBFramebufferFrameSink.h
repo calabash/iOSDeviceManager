@@ -17,9 +17,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- A Delegate for updates from a Simulator's Framebuffer.
+ A Reciever of Generated Frame from a Simulator's Framebuffer.
  */
-@protocol FBFramebufferDelegate <NSObject>
+@protocol FBFramebufferFrameSink <NSObject>
 
 /**
  Called when an Image Frame is available.
@@ -35,7 +35,22 @@ NS_ASSUME_NONNULL_BEGIN
  @param error an error, if any occured in the teardown of the simulator.
  @param teardownGroup a dispatch_group to add asynchronous tasks to that should be performed in the teardown of the Framebuffer.
  */
-- (void)framebuffer:(FBFramebuffer *)framebuffer didBecomeInvalidWithError:(NSError *)error teardownGroup:(dispatch_group_t)teardownGroup;
+- (void)framebuffer:(FBFramebuffer *)framebuffer didBecomeInvalidWithError:(nullable NSError *)error teardownGroup:(dispatch_group_t)teardownGroup;
+
+@end
+
+/**
+ A Framebuffer Frame Generator that forwards all messages to an array of Frame Generators.
+ */
+@interface FBFramebufferCompositeFrameSink : NSObject <FBFramebufferFrameSink>
+
+/**
+ A Composite Delegate that will notify an array of delegates.
+
+ @param delegates the delegates to call.
+ @return a composite framebuffer delegate.
+ */
++ (instancetype)withSinks:(NSArray<id<FBFramebufferFrameSink>> *)delegates;
 
 @end
 

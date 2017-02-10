@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		EzR1bI+WtKCpDJZ5fHx2B5WcdTw=
+		S3gIGLvvsald/PyRGEvQR4dQuvo=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
+			takyqZj2DtkQrdKa0W1X9s5qGBc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			1N/gruoOn/QQKbEcbCpPnmimrkI=
+			8lGUAIUvTK43Vp8NK6q4qo01lnM=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -33,7 +33,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			5/tMY1iaBVHpiTvbemma/B+CSpM=
+			ED7VVKcrNiWCQ+Ic7Yv5uH78GZ4=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -53,22 +53,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YMiS392d6dc+1qnvjZHoeO4jN2c=
+			ru7MF3m7TzbAFepWhDSwedKHxOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			RKn/vHaPIe35loQbr5I1j5Rpm4lbaVgGWb2BhUNwQlY=
+			1izuzBGMdIWm7JpMTfEPdqkiFLeK1wBaJdOAVGsZiao=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControl.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+kHvadnaZ8eg3AI5UpAADOqRgjA=
+			WmlUfjbY0l91V5uueIWzsNGq+MQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			CZg9lmxLUbr8kmp5VnmVYFtNcEKBFcEBkamUunhQ75k=
+			7AK/KHK9Te57/NBV59WRBvlSdehiziBcmflnfa1T69s=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -108,22 +108,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			t6FgNiPldoA0z+g1+eLVE31S4DA=
+			2vLR5tHZ/d1Hae3+vDAnERqqAXo=
 			</data>
 			<key>hash2</key>
 			<data>
-			bBkvhpQM24j5UUSTbLjUSsyPGM4e9qzZp4AQYYUK7FU=
+			xs0pK+FbVT0IIRFzsVJxaGZ0VL0zFJdeF+ffjoajR8Q=
+			</data>
+		</dict>
+		<key>Headers/FBDeviceVideo.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			s2fIbTO3ChqkeSWUoQObvLk1ZW4=
+			</data>
+			<key>hash2</key>
+			<data>
+			Sojr3Kv8jPPyIJI8E4PopoWG6JhvYIEZ56LYKjXhvjU=
 			</data>
 		</dict>
 		<key>Headers/FBiOSDeviceOperator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0MildTcBuDzGWOsX7u4/pU/u1yQ=
+			hcPA9OMKA31jVT+mrLXdrL6c03c=
 			</data>
 			<key>hash2</key>
 			<data>
-			PSVAL7n63O0YUJqsn3weae0n6Ch1G+DlKo+ktMaQ0XQ=
+			iSU6Cmec06T2fJVw45w1QD02Ups83S46qNxOdS09J9g=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -141,11 +152,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			EzR1bI+WtKCpDJZ5fHx2B5WcdTw=
+			S3gIGLvvsald/PyRGEvQR4dQuvo=
 			</data>
 			<key>hash2</key>
 			<data>
-			zIFP/6+e4fXrkhihkmikpKxBTC1ISNkaqW+wx6pPhkk=
+			iKoW2Vwqmb0+INd61LMfTJMibpGz12qIPAGKbw63Al0=
 			</data>
 		</dict>
 	</dict>
@@ -166,6 +177,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -225,6 +241,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

@@ -29,11 +29,4 @@
  */
 + (instancetype)forDevice:(FBDevice *)device;
 
-/**
- Exposing this due to a bug with -(FBProductBundle *)applicationBundleWithBundleID:error"
- https://github.com/facebook/FBSimulatorControl/issues/279
- */
-
-- (id<DVTApplication>)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
-
 @end

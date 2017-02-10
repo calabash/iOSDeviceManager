@@ -13,21 +13,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBDiagnostic;
-@class FBSimulatorDiagnostics;
+@class FBSimulator;
 
 /**
- Allows a FBDiagnosticQuery to be performed on a Simulator.
+ An implementation of Video Recording Commands for Simulators.
  */
-@interface FBDiagnosticQuery (Simulators)
+@interface FBSimulatorVideoRecordingCommands : NSObject <FBVideoRecordingCommands>
 
 /**
- Returns an array of the diagnostics that match the query.
+ Creates a FBSimulatorApplicationCommands instance.
 
- @param diagnostics the Simulator diagnostics object to fetch from.
- @return an Array of Diagnostics that match
+ @param simulator the Simulator to perform actions on.
+ @return a new FBSimulatorApplicationCommands instance.
  */
-- (NSArray<FBDiagnostic *> *)perform:(FBSimulatorDiagnostics *)diagnostics;
++ (instancetype)withSimulator:(FBSimulator *)simulator;
 
 @end
 
