@@ -113,6 +113,17 @@
 
     args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", tasky(SIM)];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    // Test relative path
+    args = @[kProgramName, @"is_installed", @"-b", testAppID, @"-d", defaultSimUDID];
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+        args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", testAppID];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    NSString *testAppRelativePath = [[Resources shared] TestAppRelativePath:SIM];
+    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", testAppRelativePath];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testAppIsInstalled {
@@ -278,8 +289,8 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    if ([DeviceUtils availableDevices].count > 1) {
-        NSLog(@"Multiple connected devices detected - skipping some optional device arg tests");
+    if ([DeviceUtils availableDevices].count > 0) {
+        NSLog(@"Physical device detected - skipping optional device arg tests for simulator");
         return;
     }
     

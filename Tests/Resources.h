@@ -119,6 +119,7 @@ static NSString *const SIM = @"SIM";
 - (NSString *)defaultDeviceUDID;
 
 - (NSString *)TestAppPath:(NSString *)platform;
+- (NSString *)TestAppRelativePath:(NSString *)platform;
 - (NSString *)TestAppIdentifier;
 - (NSString *)TaskyPath:(NSString *)platform;
 - (NSString *)TaskyIpaPath;

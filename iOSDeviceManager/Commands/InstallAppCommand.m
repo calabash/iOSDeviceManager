@@ -23,12 +23,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    NSString *pathToBundle= args[APP_PATH_FLAG];
-    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
-    }
-    
-    Application *app = [Application withBundlePath:pathToBundle];
+    Application *app = [Application withBundlePath:args[APP_PATH_FLAG]];
     if (!app) {
         return iOSReturnStatusCodeGenericFailure;
     }

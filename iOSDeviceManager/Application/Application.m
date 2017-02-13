@@ -1,4 +1,5 @@
 #import "Application.h"
+#import "AppUtils.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
@@ -13,8 +14,17 @@
     NSString *path = [pathToBundle stringByStandardizingPath];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    if (!([fileManager fileExistsAtPath:path] && [path hasSuffix:@".app"])) {
-        ConsoleWriteErr(@"Could not create application - path to bundle: %@ doesn't exist or not .app", path);
+    if (![fileManager fileExistsAtPath:path]) {
+        ConsoleWriteErr(@"Could not create application - path to bundle: %@ doesn't exist", path);
+        return nil;
+    }
+
+    if ([path hasSuffix:@".ipa"]) {
+        path = [AppUtils unzipIpa:path];
+    }
+    
+    if (![path hasSuffix:@".app"]) {
+        ConsoleWriteErr(@"Could not create application - path is not .app format", path);
         return nil;
     }
     
