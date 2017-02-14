@@ -218,8 +218,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 
     NSError *e;
-    [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
-    if (e) {
+    BOOL success = [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
+    if (e || !success) {
         ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
         return iOSReturnStatusCodeInternalError;
     }

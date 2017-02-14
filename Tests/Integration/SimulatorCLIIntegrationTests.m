@@ -1,17 +1,7 @@
 
-#import "TestCase.h"
-#import "Device.h"
-#import "CLI.h"
-#import "DeviceUtils.h"
+#import "DeviceCLIIntegrationTests.h"
 
-@interface CLI (priv)
-@end
-
-@implementation CLI (priv)
-@end
-
-
-@interface SimulatorCLIIntegrationTests : TestCase
+@interface SimulatorCLIIntegrationTests : DeviceCLIIntegrationTests
 
 - (NSString *)bundleVersionForInstalledTestApp;
 
@@ -21,61 +11,64 @@
 
 - (void)setUp {
     self.continueAfterFailure = NO;
+    self.deviceID = defaultSimUDID;
     [super setUp];
+}
+
+- (void)killSim {
+    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", self.deviceID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
+- (void)ensureSimLaunched {
+    
 }
 
 - (NSString *)bundleVersionForInstalledTestApp {
     NSDictionary *plist;
-    plist = [[Device withID:defaultSimUDID] installedApp:testAppID].infoPlist;
+    plist = [[Device withID:self.deviceID] installedApp:testAppID].infoPlist;
     return plist[@"CFBundleVersion"];
 }
 
 - (void)testSetLocation {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    [self killSim];
 
     //Should fail: device is dead
-    args = @[kProgramName, @"set_location", @"-d", defaultSimUDID, @"-l", kStockholmCoord];
+    NSArray *args = @[kProgramName, @"set_location", @"-d", self.deviceID, @"-l", kStockholmCoord];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
 
-    args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    args = @[kProgramName, @"launch_simulator", @"-d", self.deviceID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     //Should fail: invalid coordinates
-    args = @[kProgramName, @"set_location", @"-d", defaultSimUDID, @"-l", @"Banana"];
+    args = @[kProgramName, @"set_location", @"-d", self.deviceID, @"-l", @"Banana"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 
-    args = @[kProgramName, @"set_location", @"-d", defaultSimUDID, @"-l", kStockholmCoord];
+    args = @[kProgramName, @"set_location", @"-d", self.deviceID, @"-l", kStockholmCoord];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testLaunchSim {
-    NSArray *args = @[kProgramName, @"launch_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[kProgramName, @"launch_simulator", @"-d", self.deviceID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testKillSim {
-    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", self.deviceID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
-// Causes deadlock when run with other tests.
-//
-//- (void)testStartTest {
-//    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
-//    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-//
-//    //Should launch sim
-//    args = @[kProgramName, @"start_test",
-//             @"-d", defaultSimUDID,
-//             @"-k", @"NO"];
-//    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-//
-//    args = @[kProgramName, @"start_test",
-//             @"-d", defaultSimUDID,
-//             @"-k", @"NO"];
-//    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-//}
+// TODO
+- (void)testStartTest {
+    NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+    //Should launch sim
+    XCTAssertEqual([self startTest], iOSReturnStatusCodeEverythingOkay);
+
+    //Should work even though sim is already launched
+    XCTAssertEqual([self startTest], iOSReturnStatusCodeEverythingOkay);
+}
 
 - (void)testUninstall {
     NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];

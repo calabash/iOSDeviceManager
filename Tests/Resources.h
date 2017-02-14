@@ -118,8 +118,18 @@ static NSString *const SIM = @"SIM";
 - (TestDevice *)defaultDevice;
 - (NSString *)defaultDeviceUDID;
 
+
+/*
+    Returns absolute path to a test app
+ */
 - (NSString *)TestAppPath:(NSString *)platform;
+
+
+/*
+    Relative path to a test app with at least one ".." in the path
+ */
 - (NSString *)TestAppRelativePath:(NSString *)platform;
+
 - (NSString *)TestAppIdentifier;
 - (NSString *)TaskyPath:(NSString *)platform;
 - (NSString *)TaskyIpaPath;

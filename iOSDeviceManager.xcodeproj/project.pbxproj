@@ -56,6 +56,8 @@
 		892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
 		892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
+		8974CDD31E534C03002C5514 /* DeviceCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974CDD21E534C03002C5514 /* DeviceCLIIntegrationTests.m */; };
+		8974CDD71E535111002C5514 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8974CDD61E535111002C5514 /* TestUtils.m */; };
 		898D7D3E1DA47513001578FE /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */; };
 		898D7D3F1DA47513001578FE /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */; };
 		898D7D401DA47513001578FE /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */; };
@@ -351,6 +353,10 @@
 		892DE51F1D237E7700E1902C /* IsInstalledCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = IsInstalledCommand.m; path = iOSDeviceManager/Commands/IsInstalledCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5241D23ED0600E1902C /* UnitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UnitInfo.plist; path = Tests/UnitInfo.plist; sourceTree = SOURCE_ROOT; };
 		89331D431CE222C7003C2E59 /* iOSDeviceManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSDeviceManager; sourceTree = BUILT_PRODUCTS_DIR; };
+		8974CDD21E534C03002C5514 /* DeviceCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCLIIntegrationTests.m; sourceTree = "<group>"; };
+		8974CDD41E534C4C002C5514 /* DeviceCLIIntegrationTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceCLIIntegrationTests.h; sourceTree = "<group>"; };
+		8974CDD51E535111002C5514 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
+		8974CDD61E535111002C5514 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		898D7D3C1DA47513001578FE /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		898D7D3D1DA47513001578FE /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = iOSDeviceManager/Vendor/CocoaAsyncSocket/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		898D7D471DA47569001578FE /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
@@ -794,6 +800,8 @@
 				F5D583DF1D69FE62007B0D11 /* Unit */,
 				F5D583DC1D69FE62007B0D11 /* Integration */,
 				F5D583E61D69FE8E007B0D11 /* Supporting Files */,
+				8974CDD51E535111002C5514 /* TestUtils.h */,
+				8974CDD61E535111002C5514 /* TestUtils.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -857,6 +865,8 @@
 				F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */,
 				F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */,
 				63424B5EAA3E57132288C79A /* MobileProfileTest.m */,
+				8974CDD21E534C03002C5514 /* DeviceCLIIntegrationTests.m */,
+				8974CDD41E534C4C002C5514 /* DeviceCLIIntegrationTests.h */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
@@ -1170,6 +1180,7 @@
 				F5D584051D6A0387007B0D11 /* LaunchSimulatorCommand.m in Sources */,
 				B296D7041E31475200D365F3 /* Entitlements.m in Sources */,
 				898D7DDE1DA4758A001578FE /* RouteResponse.m in Sources */,
+				8974CDD71E535111002C5514 /* TestUtils.m in Sources */,
 				B296378C1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				B296D7081E31489A00D365F3 /* ShasumProvider.m in Sources */,
 				F5D584091D6A039B007B0D11 /* TestCase.m in Sources */,
@@ -1208,6 +1219,7 @@
 				F5D583F91D6A0369007B0D11 /* AppUtils.m in Sources */,
 				898D7D751DA47569001578FE /* DDRange.m in Sources */,
 				F5D583F81D6A0366007B0D11 /* ShellRunner.m in Sources */,
+				8974CDD31E534C03002C5514 /* DeviceCLIIntegrationTests.m in Sources */,
 				F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */,
 				F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */,
 				B296D7071E31480800D365F3 /* Entitlement.m in Sources */,
