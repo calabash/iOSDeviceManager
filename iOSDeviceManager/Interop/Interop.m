@@ -10,6 +10,6 @@ int execute(char *command) {
         NSString *commandString = STR(command);
         
         NSArray<NSString *> *args = [commandString componentsSeparatedByString:@" "];
-        [CLI process:args];
+        return [CLI process:args] == iOSReturnStatusCodeEverythingOkay ? SUCCESS : FAILURE;
     }
 }
