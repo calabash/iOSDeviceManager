@@ -6,6 +6,12 @@
 
 @implementation AppUtils
 
++ (BOOL)isBundleID:(NSString *)maybeBundleID {
+    NSString *regexString = @"^([a-zA-Z0-9_-]+\\.)+[a-zA-Z0-9_-]+$";
+    NSPredicate *matcher = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexString];
+    return [matcher evaluateWithObject:maybeBundleID];
+}
+
 + (id)valueForKeyOrThrow:(NSDictionary *)plist key:(NSString *)key {
     NSAssert([[plist allKeys] containsObject:key], @"Missing required key '%@' in plist: %@", key, plist);
     return plist[key];
