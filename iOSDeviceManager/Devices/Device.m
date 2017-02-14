@@ -5,8 +5,77 @@
 #import "ConsoleWriter.h"
 #import "DeviceUtils.h"
 #import "JSONUtils.h"
+#import <XCTestBootstrap/XCTestBootstrap.h>
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
+
+@implementation FBProcessOutputConfiguration (iOSDeviceManagerAdditions)
+
++ (FBProcessOutputConfiguration *)defaultForDeviceManager {
+    return [FBProcessOutputConfiguration outputToDevNull];
+}
+
+@end
+
+
+@implementation FBXCTestRunStrategy (iOSDeviceManagerAdditions)
+
++ (FBTestManager *)startTestManagerForIOSTarget:(id<FBiOSTarget>)iOSTarget
+                                 runnerBundleID:(NSString *)bundleID
+                                      sessionID:(NSUUID *)sessionID
+                                 withAttributes:(NSArray *)attributes
+                                    environment:(NSDictionary *)environment
+                                       reporter:(id<FBTestManagerTestReporter>)reporter
+                                         logger:(id<FBControlCoreLogger>)logger
+                                          error:(NSError *__autoreleasing *)error {
+    NSAssert(bundleID, @"Must provide test runner bundle ID in order to run a test");
+    NSAssert(sessionID, @"Must provide a test session ID in order to run a test");
+
+    NSError *innerError;
+
+    FBApplicationLaunchConfiguration *appLaunch = [FBApplicationLaunchConfiguration
+                                                   configurationWithBundleID:bundleID
+                                                   bundleName:bundleID
+                                                   arguments:attributes ?: @[]
+                                                   environment:environment ?: @{}
+                                                   output:[FBProcessOutputConfiguration defaultForDeviceManager]];
+    FBiOSDeviceOperator *deviceOperator = [iOSTarget deviceOperator];
+    if (![deviceOperator launchApplication:appLaunch error:&innerError]) {
+        return [[[XCTestBootstrapError describe:@"Failed launch test runner"]
+                 causedBy:innerError]
+                fail:error];
+    }
+
+    pid_t testRunnerProcessID = [deviceOperator processIDWithBundleID:bundleID error:error];
+
+    if (testRunnerProcessID < 1) {
+        return [[XCTestBootstrapError
+                 describe:@"Failed to determine test runner process PID"]
+                fail:error];
+    }
+
+    FBTestManagerContext *context =
+    [FBTestManagerContext contextWithTestRunnerPID:testRunnerProcessID
+                                testRunnerBundleID:bundleID
+                                 sessionIdentifier:sessionID];
+
+    // Attach to the XCTest Test Runner host Process.
+    FBTestManager *testManager = [FBTestManager testManagerWithContext:context
+                                                             iosTarget:iOSTarget
+                                                              reporter:reporter
+                                                                logger:logger];
+
+    FBTestManagerResult *result = [testManager connectWithTimeout:FBControlCoreGlobalConfiguration.regularTimeout];
+    if (result) {
+        return [[[XCTestBootstrapError
+                  describeFormat:@"Test Manager Connection Failed: %@", result.description]
+                 causedBy:result.error]
+                fail:error];
+    }
+    return testManager;
+}
+
+@end
 
 @implementation Device
 
