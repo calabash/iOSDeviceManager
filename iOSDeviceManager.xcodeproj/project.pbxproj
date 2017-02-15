@@ -162,7 +162,7 @@
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
-		B28936011E53CE290010403C /* Interop.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F26E961E4E7E2C008E93FC /* Interop.h */; };
+		B28936011E53CE290010403C /* LibraryWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */; };
 		B28936021E53CF0F0010403C /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
 		B28936031E53CF140010403C /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		B28936041E53CF170010403C /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
@@ -216,9 +216,7 @@
 		B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
-		B2D4F94C1E538C450042865C /* libiOSDeviceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B2D4F94B1E538C450042865C /* libiOSDeviceManager.h */; };
-		B2D4F94E1E538C450042865C /* libiOSDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D4F94D1E538C450042865C /* libiOSDeviceManager.m */; };
-		B2D4F9521E538C610042865C /* Interop.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F26E971E4E7E43008E93FC /* Interop.m */; };
+		B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */; };
 		F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6DA1D6A3F4200BA3988 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; };
@@ -476,11 +474,9 @@
 		B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSReturnStatusCode.h; path = iOSDeviceManager/Commands/iOSReturnStatusCode.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtils.h; path = iOSDeviceManager/Utilities/DeviceUtils.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtils.m; path = iOSDeviceManager/Utilities/DeviceUtils.m; sourceTree = SOURCE_ROOT; };
-		B2D4F9491E538C450042865C /* liblibiOSDeviceManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = liblibiOSDeviceManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2D4F94B1E538C450042865C /* libiOSDeviceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libiOSDeviceManager.h; sourceTree = "<group>"; };
-		B2D4F94D1E538C450042865C /* libiOSDeviceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libiOSDeviceManager.m; sourceTree = "<group>"; };
-		B2F26E961E4E7E2C008E93FC /* Interop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interop.h; path = iOSDeviceManager/Interop/Interop.h; sourceTree = SOURCE_ROOT; };
-		B2F26E971E4E7E43008E93FC /* Interop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Interop.m; path = iOSDeviceManager/Interop/Interop.m; sourceTree = SOURCE_ROOT; };
+		B2D4F9491E538C450042865C /* libiOSDeviceManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LibraryWrapper.h; path = iOSDeviceManager/LibraryWrapper/LibraryWrapper.h; sourceTree = SOURCE_ROOT; };
+		B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LibraryWrapper.m; path = iOSDeviceManager/LibraryWrapper/LibraryWrapper.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 		F51AC6D21D6A3F3300BA3988 /* Expecta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Expecta.framework; path = Carthage/Build/Mac/Expecta.framework; sourceTree = SOURCE_ROOT; };
@@ -610,7 +606,6 @@
 			children = (
 				F5169D261CFEAE5900252F52 /* LICENSE */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManager */,
-				B2D4F94A1E538C450042865C /* libiOSDeviceManager */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
@@ -629,7 +624,7 @@
 				89331D431CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4AC91CFA614F006DCDC5 /* Unit.xctest */,
 				F5D583EB1D69FF6C007B0D11 /* Integration.xctest */,
-				B2D4F9491E538C450042865C /* liblibiOSDeviceManager.dylib */,
+				B2D4F9491E538C450042865C /* libiOSDeviceManager.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -638,6 +633,7 @@
 			isa = PBXGroup;
 			children = (
 				892DE4CC1D22F87000E1902C /* main.m */,
+				B2F26E951E4E7DB2008E93FC /* LibraryWrapper */,
 				89A1CEDB1E302F7900D9FEC5 /* Resigning */,
 				898D7DE51DA47652001578FE /* Server */,
 				896F7F041CF9C51900FD8572 /* Utilities */,
@@ -868,24 +864,14 @@
 			name = Application;
 			sourceTree = "<group>";
 		};
-		B2D4F94A1E538C450042865C /* libiOSDeviceManager */ = {
+		B2F26E951E4E7DB2008E93FC /* LibraryWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				B2F26E951E4E7DB2008E93FC /* Interop */,
-				B2D4F94B1E538C450042865C /* libiOSDeviceManager.h */,
-				B2D4F94D1E538C450042865C /* libiOSDeviceManager.m */,
+				B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */,
+				B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */,
 			);
-			path = libiOSDeviceManager;
-			sourceTree = "<group>";
-		};
-		B2F26E951E4E7DB2008E93FC /* Interop */ = {
-			isa = PBXGroup;
-			children = (
-				B2F26E961E4E7E2C008E93FC /* Interop.h */,
-				B2F26E971E4E7E43008E93FC /* Interop.m */,
-			);
-			name = Interop;
-			path = "../test-control";
+			name = LibraryWrapper;
+			path = iOSDeviceManager/LibraryWrapper;
 			sourceTree = "<group>";
 		};
 		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
@@ -960,8 +946,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B28936011E53CE290010403C /* Interop.h in Headers */,
-				B2D4F94C1E538C450042865C /* libiOSDeviceManager.h in Headers */,
+				B28936011E53CE290010403C /* LibraryWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,7 +1002,7 @@
 			);
 			name = libiOSDeviceManager;
 			productName = libiOSDeviceManager;
-			productReference = B2D4F9491E538C450042865C /* liblibiOSDeviceManager.dylib */;
+			productReference = B2D4F9491E538C450042865C /* libiOSDeviceManager.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		F5D583EA1D69FF6C007B0D11 /* Integration */ = {
@@ -1274,10 +1259,9 @@
 				B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */,
 				B289360D1E53D1670010403C /* Simulator.m in Sources */,
 				B28936121E53D1B30010403C /* CodesignIdentity.m in Sources */,
-				B2D4F94E1E538C450042865C /* libiOSDeviceManager.m in Sources */,
 				B289360A1E53D14E0010403C /* Device.m in Sources */,
 				B289360E1E53D1700010403C /* ShellRunner.m in Sources */,
-				B2D4F9521E538C610042865C /* Interop.m in Sources */,
+				B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */,
 				B28936191E53D20F0010403C /* MobileProfile.m in Sources */,
 				B289360F1E53D17D0010403C /* AppUtils.m in Sources */,
 				B289361A1E53D2230010403C /* Certificate.m in Sources */,
@@ -1537,7 +1521,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = iOSDeviceManager;
 			};
 			name = Debug;
 		};
@@ -1553,7 +1537,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = iOSDeviceManager;
 			};
 			name = Release;
 		};
