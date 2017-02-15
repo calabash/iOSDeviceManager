@@ -20,7 +20,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 static const FBSimulatorControl *_control;
 
 + (Device *)withID:(NSString *)uuid {
-    Simulator* simulator = [[Simulator alloc] init];
+    Simulator *simulator = [[Simulator alloc] init];
 
     simulator.uuid = uuid;
 
@@ -43,7 +43,6 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)launch {
-
     NSError *error;
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
@@ -53,21 +52,20 @@ static const FBSimulatorControl *_control;
 
         // FBSimulatorBootOptionsAwaitServices - would this allow us to wait until the
         // simulator is booted?
-        bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
+        bootConfig = [[FBSimulatorBootConfiguration defaultConfiguration] withOptions:FBSimulatorBootOptionsAwaitServices];
         FBSimulatorInteraction *interaction;
         interaction = [FBSimulatorInteraction withSimulator:self.fbSimulator];
 
-        if (![[interaction bootSimulator:bootConfig] perform:&error]) {
+        if (![[self.fbSimulator.interact bootSimulator:bootConfig] perform:&error]) {
             ConsoleWriteErr(@"Failed to boot sim: %@", error);
             return iOSReturnStatusCodeInternalError;
         }
     }
-
-    return self.fbSimulator != nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeDeviceNotFound;
+    
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)kill {
-
     if (self.fbSimulator == nil) {
         ConsoleWriteErr(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
@@ -81,7 +79,7 @@ static const FBSimulatorControl *_control;
     }
 
     NSError *e;
-    [self.fbSimulator.set killSimulator:self.fbSimulator error:&e];
+    [self.fbSimulator.interact.shutdownSimulator perform:&e];
 
     if (e) {
         ConsoleWriteErr(@"Error shutting down sim %@: %@", [self uuid], e);
@@ -449,26 +447,17 @@ Tests can not be run on iOS less than 9.0",
     return YES;
 }
 
-
-+ (FBSimulator *)simulatorWithConfiguration:(FBSimulatorConfiguration *)configuration {
-    NSError *error = nil;
-    FBSimulator *simulator = [_control.pool allocateSimulatorWithConfiguration:configuration
-                                                                           options:FBSimulatorAllocationOptionsReuse
-                                                                             error:&error];
-    if (error) {
-        ConsoleWriteErr(@"Error obtaining simulator: %@", error);
-    }
-    return simulator;
-}
-
 + (void)initialize {
-    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                      configurationWithDeviceSetPath:nil
-                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+    FBSimulatorManagementOptions options = FBSimulatorManagementOptionsKillSpuriousCoreSimulatorServices |
+                                            FBSimulatorManagementOptionsIgnoreSpuriousKillFail;
+    NSString *deviceSetPath = [FBSimulatorControlConfiguration defaultDeviceSetPath];
+    FBSimulatorControlConfiguration *configuration
+        = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:deviceSetPath
+                                                                  options:options];
 
     NSError *error;
     _control = [FBSimulatorControl withConfiguration:configuration error:&error];
-    if (error) {
+    if (error || !_control) {
         ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", error);
         abort();
     }

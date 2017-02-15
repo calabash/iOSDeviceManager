@@ -31,6 +31,12 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
+- (void)testSanity {
+    //Nop.
+    //Just ensures that sim can be launched and killed via setUp/tearDown
+}
+
+
 - (void)testSetLocation {
     [self killSim];
     
