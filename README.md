@@ -18,10 +18,16 @@ Contributors need to touch the Xcode project file with valid credentials.
 ```shell
 $ git clone --recursive git@github.com:calabash/iOSDeviceManager.git
 $ make build
+```
 
-# Usage
+### Usage
+
+After building, you can run:
+
+```shell
 $ Products/iOSDeviceManager
 ```
+to see usage information. 
 
 ### Testing
 
