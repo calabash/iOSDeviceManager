@@ -81,13 +81,14 @@ static const FBSimulatorControl *_control;
     }
 
     NSError *e;
-    [[self.fbSimulator.interact shutdownSimulator] perform:&e];
+    [self.fbSimulator.set killSimulator:self.fbSimulator error:&e];
 
-    if (e ) {
+    if (e) {
         ConsoleWriteErr(@"Error shutting down sim %@: %@", [self uuid], e);
+        return iOSReturnStatusCodeInternalError;
     }
 
-    return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {

@@ -7,9 +7,6 @@
 #import "Device.h"
 #import "CLI.h"
 
-NSString *const DEVICE_ID_FLAG = @"-d";
-NSString *const APP_PATH_FLAG = @"-a";
-NSString *const BUNDLE_ID_FLAG = @"-b";
 NSString *const DEVICE_ID_ARGNAME = @"device_id";
 NSString *const APP_ID_ARGNAME = @"app_id";
 

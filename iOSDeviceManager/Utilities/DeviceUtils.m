@@ -28,7 +28,7 @@ const double EPSILON = 0.001;
     return did.length == 40 && [did isBase64];
 }
 
-+ (NSArray<FBDevice *> *)availableDevices {
++ (NSArray<FBDevice *> *)availablePhysicalDevices {
     return [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
 }
 
@@ -103,7 +103,7 @@ const double EPSILON = 0.001;
 }
 
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow {
-    NSArray<FBDevice *> *devices = [DeviceUtils availableDevices];
+    NSArray<FBDevice *> *devices = [DeviceUtils availablePhysicalDevices];
     
     if ([devices count] == 1) {
         return [devices firstObject].udid;

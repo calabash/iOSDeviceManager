@@ -63,7 +63,7 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    NSUInteger deviceCount = [DeviceUtils availableDevices].count;
+    NSUInteger deviceCount = [DeviceUtils availablePhysicalDevices].count;
     if (deviceCount != 1) {
         printf("Multiple devices detected - skipping option device arg test");
         return;

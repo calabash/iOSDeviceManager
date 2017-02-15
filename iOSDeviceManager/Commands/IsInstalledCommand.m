@@ -1,8 +1,6 @@
 
 #import "IsInstalledCommand.h"
 
-static NSString *const BUNDLE_ID_FLAG = @"-b";
-
 @implementation IsInstalledCommand
 + (NSString *)name {
     return @"is_installed";

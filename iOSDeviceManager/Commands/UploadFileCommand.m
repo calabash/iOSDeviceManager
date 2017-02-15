@@ -1,10 +1,6 @@
 
 #import "UploadFileCommand.h"
 
-static NSString *const BUNDLE_ID_FLAG = @"-b";
-static NSString *const FILEPATH_FLAG = @"-f";
-static NSString *const OVERWRITE_FLAG = @"-o";
-
 @implementation UploadFileCommand
 + (NSString *)name {
     return @"upload";

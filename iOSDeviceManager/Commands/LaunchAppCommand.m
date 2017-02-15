@@ -1,7 +1,5 @@
 #import "LaunchAppCommand.h"
 
-static NSString *const BUNDLE_ID_FLAG = @"-b";
-
 @implementation LaunchAppCommand
 + (NSString *)name {
     return @"launch_app";

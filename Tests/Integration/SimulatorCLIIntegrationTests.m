@@ -11,10 +11,14 @@
     self.deviceID = defaultSimUDID;
     self.codesignID = @"-"; //ad hoc
     self.platform = SIM;
-    
-    [self killSim];
+
     [self launchSim];
     [super setUp];
+}
+
+- (void)tearDown {
+    [self killSim];
+    [super tearDown];
 }
 
 - (void)killSim {
@@ -83,7 +87,7 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    if ([DeviceUtils availableDevices].count > 0) {
+    if ([DeviceUtils availablePhysicalDevices].count > 0) {
         NSLog(@"Physical device detected - skipping optional device arg tests for simulator");
         return;
     }
@@ -96,7 +100,9 @@
 }
 
 - (void)testLaunchAndKillApp {
-    [self sharedLaunchAndKillAppTest];
+    if ([DeviceUtils availablePhysicalDevices].count > 0) {
+        [self sharedLaunchAndKillAppTest];
+    }
 }
 
 @end

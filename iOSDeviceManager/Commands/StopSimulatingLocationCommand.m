@@ -8,7 +8,6 @@
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    
     Device *device = [self deviceFromArgs:args];
     if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;

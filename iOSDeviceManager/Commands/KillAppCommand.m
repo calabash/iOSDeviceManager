@@ -1,7 +1,5 @@
 #import "KillAppCommand.h"
 
-static NSString *const BUNDLE_ID_FLAG = @"-b";
-
 @implementation KillAppCommand
 + (NSString *)name {
     return @"kill_app";
