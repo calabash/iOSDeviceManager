@@ -8,7 +8,7 @@
 #import "CLI.h"
 
 NSString *const DEVICE_ID_ARGNAME = @"device_id";
-NSString *const APP_ID_ARGNAME = @"app_id";
+NSString *const APP_PATH_ARGNAME = @"app_path";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
@@ -31,7 +31,7 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 + (NSArray <NSString *> *)positionalArgNames {
     return @[
              DEVICE_ID_ARGNAME,
-             APP_ID_ARGNAME
+             APP_PATH_ARGNAME
              ];
 }
 
@@ -82,7 +82,8 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 + (NSArray <NSString *>*)positionalArgShortFlags {
     return @[
              DEVICE_ID_FLAG,
-             APP_PATH_FLAG
+             APP_PATH_FLAG,
+             BUNDLE_ID_FLAG
              ];
 }
 

@@ -54,14 +54,24 @@
     XCTAssertFalse([self isInstalled:bundleID]);
 }
 
-- (void)installOrThrow:(NSString *)appPath bundleID:(NSString *)bundleID {
-    if (![self isInstalled:bundleID]) {
+- (void)installOrThrow:(NSString *)appPath bundleID:(NSString *)bundleID shouldUpdate:(BOOL)shouldUpdate {
+    if (shouldUpdate) {
         NSArray *args = @[kProgramName, @"install",
                           @"-d", self.deviceID,
                           @"-c", self.codesignID,
-                          @"-a", appPath];
+                          @"-a", appPath,
+                          @"-u", @"YES"];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    } else {
+        if (![self isInstalled:bundleID]) {
+            NSArray *args = @[kProgramName, @"install",
+                              @"-d", self.deviceID,
+                              @"-c", self.codesignID,
+                              @"-a", appPath];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
     }
+    
     XCTAssertTrue([self isInstalled:bundleID]);
 }
 
@@ -83,12 +93,12 @@
     [self uninstallOrThrow:taskyAppID];
     
     //Test absolute path install
-    [self installOrThrow:tasky(self.platform) bundleID:taskyAppID];
-    [self uninstallOrThrow:taskyAppID];
+    [self installOrThrow:tasky(self.platform) bundleID:taskyAppID shouldUpdate:NO];
+    [self uninstallOrThrow:testAppID];
     
     //Test relative path install
     [self installOrThrow:[self.resources TestAppRelativePath:self.platform]
-                bundleID:taskyAppID];
+                bundleID:testAppID shouldUpdate:NO];
 }
 
 - (void)sharedUninstallTest {
@@ -96,7 +106,7 @@
     [self uninstallOrThrow:testAppID];
     
     //Install it
-    [self installOrThrow:[self.resources TestAppPath:self.platform] bundleID:testAppID];
+    [self installOrThrow:[self.resources TestAppPath:self.platform] bundleID:testAppID shouldUpdate:NO];
     
     //Ensure it can be uninstalled
     [self uninstallOrThrow:testAppID];
@@ -109,13 +119,13 @@
     [self uninstallOrThrow:testAppID];
     XCTAssertFalse([self isInstalled:testAppID]); //redundant but just for clarity
     
-    [self installOrThrow:testApp(self.platform) bundleID:testAppID];
+    [self installOrThrow:testApp(self.platform) bundleID:testAppID shouldUpdate:NO];
     XCTAssertTrue([self isInstalled:testAppID]); //also redundant, also for clarity
 }
 
 - (void)sharedUploadFileTest {
     [self uninstallOrThrow:testAppID];
-    [self installOrThrow:testApp(self.platform) bundleID:testAppID];
+    [self installOrThrow:testApp(self.platform) bundleID:testAppID shouldUpdate:NO];
     
     //Upload a unique file
     NSString *file = uniqueFile();
@@ -163,7 +173,7 @@
                                                    key:@"CFBundleVersion"
                                                  value:@"1.0"]);
     
-    [self installOrThrow:target bundleID:testAppID];
+    [self installOrThrow:target bundleID:testAppID shouldUpdate:NO];
     
     //Ensure that the installed app has CFBundleVersion 1.0
     NSString *installedVersion = [self appBundleVersion:testAppID];
@@ -176,7 +186,7 @@
                                                  value:@"2.0"]);
     
     //Install the app and ensure that the new version has been installed
-    [self installOrThrow:target bundleID:testAppID];
+    [self installOrThrow:target bundleID:testAppID shouldUpdate:YES];
     
     installedVersion = [self appBundleVersion:testAppID];
     XCTAssertEqualObjects(installedVersion, @"2.0",
@@ -189,8 +199,7 @@
                                                    key:@"CFBundleVersion"
                                                  value:@"1.0"]);
     
-    NSArray *args = @[kProgramName, @"install", @"-d", self.deviceID, @"-a", target, @"-u", @"NO"];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    [self installOrThrow:target bundleID:testAppID shouldUpdate:NO];
     
     installedVersion = [self appBundleVersion:testAppID];
     XCTAssertEqualObjects(installedVersion, @"2.0",
@@ -198,7 +207,7 @@
 }
 
 - (void)sharedLaunchAndKillAppTest {
-    [self installOrThrow:testApp(self.platform) bundleID:testAppID];
+    [self installOrThrow:testApp(self.platform) bundleID:testAppID shouldUpdate:NO];
     
     NSArray *args = @[kProgramName, @"launch_app", self.deviceID, @"-b", testAppID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
@@ -240,7 +249,7 @@
     /*
         $ idm start_test <device_id> <test_runner_bundle_id>
      */
-    [self installOrThrow:runner(self.platform) bundleID:kDeviceAgentBundleID];
+    [self installOrThrow:runner(self.platform) bundleID:kDeviceAgentBundleID shouldUpdate:NO];
     args = @[kProgramName, @"start_test", self.deviceID, kDeviceAgentBundleID, @"-k", @"NO"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     

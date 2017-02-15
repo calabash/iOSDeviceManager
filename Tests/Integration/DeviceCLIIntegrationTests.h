@@ -24,7 +24,7 @@
 /*
     Installs if not installed. Asserts that app is installed before returning.
  */
-- (void)installOrThrow:(NSString *)appPath bundleID:(NSString *)bundleID;
+- (void)installOrThrow:(NSString *)appPath bundleID:(NSString *)bundleID shouldUpdate:(BOOL)shouldUpdate;
 
 /*
     YES if installed, NO if not, throws if error occurs when checking.

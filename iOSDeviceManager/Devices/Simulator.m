@@ -273,16 +273,7 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
-
-    NSError *e;
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ) {
-        [[self.fbSimulator.interact bootSimulator] perform:&e];
-        DDLogInfo(@"Sim is dead, booting.");
-        if (e) {
-            ConsoleWriteErr(@"Error booting simulator %@ for test: %@", [self uuid], e);
-            return iOSReturnStatusCodeInternalError;
-        }
-    }
+    [self launch];
 
     NSError *error;
     if ([self isInstalled:runnerID withError:error] == iOSReturnStatusCodeFalse) {
@@ -290,7 +281,7 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-
+    NSError *e;
     Simulator *replog = [Simulator new];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
