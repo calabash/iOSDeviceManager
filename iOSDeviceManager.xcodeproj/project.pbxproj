@@ -162,6 +162,33 @@
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B28936011E53CE290010403C /* Interop.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F26E961E4E7E2C008E93FC /* Interop.h */; };
+		B28936021E53CF0F0010403C /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
+		B28936031E53CF140010403C /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
+		B28936041E53CF170010403C /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
+		B28936051E53CF1A0010403C /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
+		B28936061E53CF1D0010403C /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
+		B28936071E53D1180010403C /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
+		B28936081E53D1280010403C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
+		B28936091E53D1370010403C /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
+		B289360A1E53D14E0010403C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
+		B289360B1E53D1520010403C /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
+		B289360C1E53D1610010403C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
+		B289360D1E53D1670010403C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
+		B289360E1E53D1700010403C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
+		B289360F1E53D17D0010403C /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
+		B28936101E53D1890010403C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
+		B28936111E53D1AE0010403C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE31E302FC200D9FEC5 /* Codesigner.m */; };
+		B28936121E53D1B30010403C /* CodesignIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE51E302FC200D9FEC5 /* CodesignIdentity.m */; };
+		B28936131E53D1C00010403C /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
+		B28936141E53D1C80010403C /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
+		B28936151E53D1E90010403C /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE91E302FC200D9FEC5 /* Entitlements.m */; };
+		B28936161E53D1EC0010403C /* Entitlement.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE71E302FC200D9FEC5 /* Entitlement.m */; };
+		B28936171E53D1F10010403C /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDF1E302FC200D9FEC5 /* BundleResignerFactory.m */; };
+		B28936181E53D1FA0010403C /* BundleResigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEDD1E302FC200D9FEC5 /* BundleResigner.m */; };
+		B28936191E53D20F0010403C /* MobileProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEEB1E302FC200D9FEC5 /* MobileProfile.m */; };
+		B289361A1E53D2230010403C /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE11E302FC200D9FEC5 /* Certificate.m */; };
+		B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEED1E302FC200D9FEC5 /* ShasumProvider.m */; };
 		B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
 		B29637851E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
 		B29637861E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
@@ -515,6 +542,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B28936021E53CF0F0010403C /* XCTestBootstrap.framework in Frameworks */,
+				B28936051E53CF1A0010403C /* FBControlCore.framework in Frameworks */,
+				B28936061E53CF1D0010403C /* CocoaLumberjack.framework in Frameworks */,
+				B28936031E53CF140010403C /* FBSimulatorControl.framework in Frameworks */,
+				B28936041E53CF170010403C /* FBDeviceControl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -928,6 +960,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B28936011E53CE290010403C /* Interop.h in Headers */,
 				B2D4F94C1E538C450042865C /* libiOSDeviceManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1229,8 +1262,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B28936181E53D1FA0010403C /* BundleResigner.m in Sources */,
+				B28936101E53D1890010403C /* Application.m in Sources */,
+				B289360C1E53D1610010403C /* PhysicalDevice.m in Sources */,
+				B28936071E53D1180010403C /* CLI.m in Sources */,
+				B28936171E53D1F10010403C /* BundleResignerFactory.m in Sources */,
+				B28936151E53D1E90010403C /* Entitlements.m in Sources */,
+				B28936091E53D1370010403C /* ConsoleWriter.m in Sources */,
+				B28936161E53D1EC0010403C /* Entitlement.m in Sources */,
+				B28936131E53D1C00010403C /* MachClock.m in Sources */,
+				B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */,
+				B289360D1E53D1670010403C /* Simulator.m in Sources */,
+				B28936121E53D1B30010403C /* CodesignIdentity.m in Sources */,
 				B2D4F94E1E538C450042865C /* libiOSDeviceManager.m in Sources */,
+				B289360A1E53D14E0010403C /* Device.m in Sources */,
+				B289360E1E53D1700010403C /* ShellRunner.m in Sources */,
 				B2D4F9521E538C610042865C /* Interop.m in Sources */,
+				B28936191E53D20F0010403C /* MobileProfile.m in Sources */,
+				B289360F1E53D17D0010403C /* AppUtils.m in Sources */,
+				B289361A1E53D2230010403C /* Certificate.m in Sources */,
+				B289360B1E53D1520010403C /* DeviceUtils.m in Sources */,
+				B28936081E53D1280010403C /* Command.m in Sources */,
+				B28936111E53D1AE0010403C /* Codesigner.m in Sources */,
+				B28936141E53D1C80010403C /* ShellResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1478,6 +1532,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1490,6 +1548,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1568,6 +1630,7 @@
 				B2D4F9501E538C450042865C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		F5D583F01D69FF6C007B0D11 /* Build configuration list for PBXNativeTarget "Integration" */ = {
 			isa = XCConfigurationList;
