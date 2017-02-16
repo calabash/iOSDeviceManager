@@ -16,6 +16,7 @@
 
 - (void)testStartTest {
     if (device_available()) {
+        [self installOrThrow:runner(self.platform) bundleID:kDeviceAgentBundleID shouldUpdate:NO];
         XCTAssertEqual([self startTest], iOSReturnStatusCodeEverythingOkay);
     }
 }

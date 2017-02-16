@@ -61,6 +61,8 @@
 }
 
 - (void)testStartTest {
+    [self installOrThrow:runner(self.platform) bundleID:kDeviceAgentBundleID shouldUpdate:NO];
+
     NSArray *args = @[kProgramName, @"kill_simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 

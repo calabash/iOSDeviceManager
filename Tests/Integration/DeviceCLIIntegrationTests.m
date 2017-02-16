@@ -76,7 +76,6 @@
 }
 
 - (iOSReturnStatusCode)startTest {
-    [self installOrThrow:runner(self.platform) bundleID:kDeviceAgentBundleID shouldUpdate:NO];
     NSArray *args = @[kProgramName, @"start_test",
                       @"-d", self.deviceID,
                       @"-k", @"NO"];
