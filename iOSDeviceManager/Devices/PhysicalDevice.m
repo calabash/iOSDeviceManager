@@ -103,7 +103,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     NSError *isInstalledError;
-    if ([self isInstalled:app.bundleID withError:isInstalledError] && !shouldUpdate) {
+    if ([self isInstalled:app.bundleID error:&isInstalledError] && !shouldUpdate) {
         return iOSReturnStatusCodeEverythingOkay;
     }
     
@@ -144,7 +144,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                 codesigner:(Codesigner *)signerThatCanSign {
 
     NSError *isInstalledError;
-    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay) {
+    if ([self isInstalled:app.bundleID error:&isInstalledError]) {
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
@@ -248,7 +248,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    
     NSError *error;
     BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
     
@@ -264,10 +263,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 }
 
-- (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
+- (BOOL) isInstalled:(NSString *)bundleID error:(NSError **)error {
     FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
     BOOL installed = [deviceOperator isApplicationInstalledWithBundleID:bundleID
-                                                                  error:&error];
+                                                                  error:error];
     if (installed) {
         return YES;
     } else {
@@ -276,21 +275,16 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
-
     NSError *err;
-    BOOL installed = [self isInstalled:bundleID withError:err];
-    
-    if (err) {
-        ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
-        @throw [NSException exceptionWithName:@"IsInstalledAppException"
-                                       reason:@"Unable to determine if application is installed"
-                                     userInfo:nil];
-    }
-    
+    BOOL installed = [self isInstalled:bundleID error:&err];
+
     if (installed) {
         ConsoleWrite(@"true");
         return iOSReturnStatusCodeEverythingOkay;
     } else {
+        if (err) {
+            ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
+        }
         ConsoleWrite(@"false");
         return iOSReturnStatusCodeFalse;
     }
@@ -298,7 +292,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (Application *)installedApp:(NSString *)bundleID {
     NSError *err;
-    if (![self isInstalled:bundleID withError:err] || err) {
+    if (![self isInstalled:bundleID error:&err]) {
         return nil;
     }
 
