@@ -314,6 +314,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
     NSError *e = nil;
 
+    [self killApp:runnerID];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
                                                                     runnerBundleID:runnerID
                                                                          sessionID:sessionID

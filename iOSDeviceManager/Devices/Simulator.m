@@ -275,6 +275,7 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
     [self launch];
 
+    [self killApp:runnerID];
     NSError *error;
     if ([self isInstalled:runnerID withError:error] == iOSReturnStatusCodeFalse) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
