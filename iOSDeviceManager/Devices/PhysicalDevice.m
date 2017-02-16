@@ -103,7 +103,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     NSError *isInstalledError;
-    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay && !shouldUpdate) {
+    if ([self isInstalled:app.bundleID withError:isInstalledError] && !shouldUpdate) {
         return iOSReturnStatusCodeEverythingOkay;
     }
     
