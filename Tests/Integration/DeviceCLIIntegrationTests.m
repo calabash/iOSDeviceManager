@@ -55,23 +55,13 @@
 }
 
 - (void)installOrThrow:(NSString *)appPath bundleID:(NSString *)bundleID shouldUpdate:(BOOL)shouldUpdate {
-    if (shouldUpdate) {
-        NSArray *args = @[kProgramName, @"install",
-                          @"-d", self.deviceID,
-                          @"-c", self.codesignID,
-                          @"-a", appPath,
-                          @"-u", @"YES"];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    } else {
-        if (![self isInstalled:bundleID]) {
-            NSArray *args = @[kProgramName, @"install",
-                              @"-d", self.deviceID,
-                              @"-c", self.codesignID,
-                              @"-a", appPath];
-            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        }
-    }
-    
+    NSArray *args = @[kProgramName, @"install",
+                      @"-d", self.deviceID,
+                      @"-c", self.codesignID,
+                      @"-a", appPath,
+                      @"-u", shouldUpdate ? @"YES" : @"NO"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
     XCTAssertTrue([self isInstalled:bundleID]);
 }
 
