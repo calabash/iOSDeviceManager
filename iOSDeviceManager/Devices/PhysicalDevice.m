@@ -263,7 +263,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 }
 
-- (BOOL) isInstalled:(NSString *)bundleID error:(NSError **)error {
+- (BOOL)isInstalled:(NSString *)bundleID error:(NSError **)error {
     FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
     BOOL installed = [deviceOperator isApplicationInstalledWithBundleID:bundleID
                                                                   error:error];
@@ -274,19 +274,21 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 }
 
-- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
+- (BOOL)isInstalled:(NSString *)bundleID statusCode:(iOSReturnStatusCode *)statusCode {
     NSError *err;
     BOOL installed = [self isInstalled:bundleID error:&err];
 
     if (installed) {
         ConsoleWrite(@"true");
-        return iOSReturnStatusCodeEverythingOkay;
+        (*statusCode) = iOSReturnStatusCodeEverythingOkay;
+        return YES;
     } else {
         if (err) {
             ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
         }
         ConsoleWrite(@"false");
-        return iOSReturnStatusCodeFalse;
+        (*statusCode) = iOSReturnStatusCodeFalse;
+        return NO;
     }
 }
 

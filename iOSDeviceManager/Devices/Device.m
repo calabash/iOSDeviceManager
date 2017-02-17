@@ -130,7 +130,7 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
+- (BOOL)isInstalled:(NSString *)bundleID statusCode:(iOSReturnStatusCode *)statusCode {
     MUST_OVERRIDE;
 }
 

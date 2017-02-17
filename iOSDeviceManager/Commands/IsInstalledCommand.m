@@ -13,7 +13,10 @@
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    return [device isInstalled:args[BUNDLE_ID_FLAG]];
+    iOSReturnStatusCode statusCode;
+    [device isInstalled:args[BUNDLE_ID_FLAG] statusCode:&statusCode];
+    
+    return statusCode;
 }
 
 + (NSArray <CommandOption *> *)options {

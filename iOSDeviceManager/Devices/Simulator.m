@@ -242,20 +242,22 @@ static const FBSimulatorControl *_control;
     }
 }
 
-- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
+- (BOOL)isInstalled:(NSString *)bundleID statusCode:(iOSReturnStatusCode *)statusCode {
 
     NSError *e;
     BOOL installed = [self isInstalled:bundleID error:&e];
 
     if (installed) {
         [ConsoleWriter write:@"true"];
-        return iOSReturnStatusCodeEverythingOkay;
+        (*statusCode) = iOSReturnStatusCodeEverythingOkay;
+        return YES;
     } else {
         if (e) {
             LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], e);
         }
         [ConsoleWriter write:@"false"];
-        return iOSReturnStatusCodeFalse;
+        (*statusCode) = iOSReturnStatusCodeFalse;
+        return NO;
     }
 
 }
