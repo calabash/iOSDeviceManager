@@ -23,7 +23,7 @@ int install_app(const char *pathToApp, const char *deviceID, const char *pathToP
         NSString *appPath = STR(pathToApp);
         NSString *deviceIDStr = STR(deviceID);
         NSString *profilePath = STR(pathToProfile);
-        NSArray<NSString *> *args = @[@"install_app", appPath, deviceIDStr, profilePath];
+        NSArray<NSString *> *args = @[@"install", appPath, deviceIDStr, profilePath];
         return [CLI process:args];
     }
 }
@@ -32,7 +32,7 @@ int uninstall_app(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
         NSString *deviceIDStr = STR(deviceID);
         NSString *appID = STR(bundleID);
-        NSArray<NSString *> *args = @[@"uninstall_app", appID, deviceIDStr];
+        NSArray<NSString *> *args = @[@"uninstall", appID, deviceIDStr];
         return [CLI process:args];
     }
 }
