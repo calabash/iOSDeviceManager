@@ -1544,7 +1544,7 @@
 					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = iOSDeviceManager;
 			};
@@ -1561,7 +1561,7 @@
 					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = iOSDeviceManager;
 			};
