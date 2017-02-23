@@ -18,7 +18,7 @@ int kill_simulator(const char *simulatorID) {
     }
 }
 
-int install_app(const char *pathToApp, const char *deviceID, const char *pathToProfile) {
+int install(const char *pathToApp, const char *deviceID, const char *pathToProfile) {
     @autoreleasepool {
         NSString *appPath = STR(pathToApp);
         NSString *deviceIDStr = STR(deviceID);
@@ -28,7 +28,7 @@ int install_app(const char *pathToApp, const char *deviceID, const char *pathToP
     }
 }
 
-int uninstall_app(const char *bundleID, const char *deviceID) {
+int uninstall(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
         NSString *deviceIDStr = STR(deviceID);
         NSString *appID = STR(bundleID);

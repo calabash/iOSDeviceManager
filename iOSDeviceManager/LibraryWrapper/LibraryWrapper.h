@@ -26,7 +26,7 @@ int kill_simulator(const char *simulatorID);
  @param pathToProfile Path to mobile profile used to sign the bundle before installation. Ignored for sims apps.
  @return 0 if successful, 1 otherwise.
  */
-int install_app(const char *pathToApp, const char *deviceID, const char *pathToProfile);
+int install(const char *pathToApp, const char *deviceID, const char *pathToProfile);
 
 /**
  Uninstalls an app.
@@ -34,7 +34,7 @@ int install_app(const char *pathToApp, const char *deviceID, const char *pathToP
  @param deviceID 40 char device ID or simulator GUID.
  @return iOSReturnStatusCode for the command.
  */
-int uninstall_app(const char *bundleID, const char *deviceID);
+int uninstall(const char *bundleID, const char *deviceID);
 
 /**
  Checks if an app is installed
