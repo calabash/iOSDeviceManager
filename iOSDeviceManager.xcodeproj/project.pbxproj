@@ -216,6 +216,18 @@
 		B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
+		B2A757131E5F6139004034A5 /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
+		B2A757141E5F6202004034A5 /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
+		B2A757151E5F627B004034A5 /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
+		B2A757161E5F627F004034A5 /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
+		B2A757171E5F6281004034A5 /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
+		B2A757181E5F6283004034A5 /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
+		B2A757191E5F6286004034A5 /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
+		B2A7571A1E5F628C004034A5 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
+		B2A7571B1E5F628E004034A5 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
+		B2A7571C1E5F6290004034A5 /* UploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E241DAFA93500282526 /* UploadFileCommand.m */; };
+		B2A7571D1E5F6293004034A5 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
+		B2A7571E1E5F6295004034A5 /* KillAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637891E3FC23800200661 /* KillAppCommand.m */; };
 		B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */; };
 		F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
@@ -1249,21 +1261,33 @@
 			files = (
 				B28936181E53D1FA0010403C /* BundleResigner.m in Sources */,
 				B28936101E53D1890010403C /* Application.m in Sources */,
+				B2A757151E5F627B004034A5 /* StartTestCommand.m in Sources */,
+				B2A757141E5F6202004034A5 /* CommandOption.m in Sources */,
+				B2A757181E5F6283004034A5 /* KillSimulatorCommand.m in Sources */,
 				B289360C1E53D1610010403C /* PhysicalDevice.m in Sources */,
 				B28936071E53D1180010403C /* CLI.m in Sources */,
+				B2A757161E5F627F004034A5 /* IsInstalledCommand.m in Sources */,
 				B28936171E53D1F10010403C /* BundleResignerFactory.m in Sources */,
 				B28936151E53D1E90010403C /* Entitlements.m in Sources */,
+				B2A757191E5F6286004034A5 /* UninstallAppCommand.m in Sources */,
 				B28936091E53D1370010403C /* ConsoleWriter.m in Sources */,
 				B28936161E53D1EC0010403C /* Entitlement.m in Sources */,
 				B28936131E53D1C00010403C /* MachClock.m in Sources */,
+				B2A757171E5F6281004034A5 /* InstallAppCommand.m in Sources */,
 				B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */,
 				B289360D1E53D1670010403C /* Simulator.m in Sources */,
 				B28936121E53D1B30010403C /* CodesignIdentity.m in Sources */,
+				B2A7571C1E5F6290004034A5 /* UploadFileCommand.m in Sources */,
 				B289360A1E53D14E0010403C /* Device.m in Sources */,
+				B2A7571B1E5F628E004034A5 /* StopSimulatingLocationCommand.m in Sources */,
 				B289360E1E53D1700010403C /* ShellRunner.m in Sources */,
+				B2A757131E5F6139004034A5 /* LaunchSimulatorCommand.m in Sources */,
+				B2A7571E1E5F6295004034A5 /* KillAppCommand.m in Sources */,
 				B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */,
+				B2A7571A1E5F628C004034A5 /* SimulateLocationCommand.m in Sources */,
 				B28936191E53D20F0010403C /* MobileProfile.m in Sources */,
 				B289360F1E53D17D0010403C /* AppUtils.m in Sources */,
+				B2A7571D1E5F6293004034A5 /* LaunchAppCommand.m in Sources */,
 				B289361A1E53D2230010403C /* Certificate.m in Sources */,
 				B289360B1E53D1520010403C /* DeviceUtils.m in Sources */,
 				B28936081E53D1280010403C /* Command.m in Sources */,
@@ -1520,6 +1544,7 @@
 					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = iOSDeviceManager;
 			};
@@ -1536,6 +1561,7 @@
 					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = iOSDeviceManager;
 			};
