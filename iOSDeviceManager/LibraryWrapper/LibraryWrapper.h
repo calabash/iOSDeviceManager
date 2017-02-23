@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "CLI.h"
 
 /**
  Launch simulator by ID
