@@ -12,7 +12,7 @@ git clone git@github.com:calabash/run_loop.git
 git clone git@github.com:calabash/DeviceAgent.iOS.git
 
 RUN_LOOP_DIR="${PWD}/run_loop"
-(cd run_loop; rake device_agent:build)
+(cd run_loop; rake device_agent:install)
 
 cd Tests/cucumber
 
