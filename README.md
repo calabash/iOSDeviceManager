@@ -18,12 +18,20 @@ Contributors need to touch the Xcode project file with valid credentials.
 ```shell
 $ git clone --recursive git@github.com:calabash/iOSDeviceManager.git
 $ make build
-
-# Usage
-$ Products/iOSDeviceManager
 ```
 
+### Usage
+
+After building, you can run:
+
+```shell
+$ Products/iOSDeviceManager
+```
+to see usage information. 
+
 ### Testing
+
+Requires `carthage` - install with homebrew.
 
 ```shell
 $ carthage bootstrap
@@ -43,6 +51,17 @@ If you have physical device attached and it is compatible with and
 available to the active Xcode (the Xcode IDE or the returned by
 xcode-select), integration tests will be performed against the device.
 If no device is found, the tests are skipped.
+
+
+If the following error occurs, you forgot to run `carthage bootstrap`.
+
+```
+Testing failed:
+	'OCMock/OCMock.h' file not found
+** TEST FAILED **
+```
+
+
 
 ### Packaging
 

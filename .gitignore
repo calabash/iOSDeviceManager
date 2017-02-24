@@ -48,5 +48,4 @@ xcuserdata/
 # RunLoop & Dependencies
 run_loop/
 DeviceAgent.iOS/
-Tests/cucumber/Gemfile
-Tests/cucumber/Gemfile.lock
+Tests/cucumber/Gemfile*

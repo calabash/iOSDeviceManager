@@ -2,39 +2,29 @@
 
 set -e
 
-export IOS_DEVICE_MANAGER=`pwd` # For building run_loop
+export IOS_DEVICE_MANAGER="${PWD}"
+export DEVICEAGENT_PATH="${PWD}/DeviceAgent.iOS"
 
-## Checkout the latest run_loop@develop
-git clone git@github.com:calabash/run_loop.git 
+rm -rf run_loop
+rm -rf DeviceAgent.iOS
+
+git clone git@github.com:calabash/run_loop.git
 git clone git@github.com:calabash/DeviceAgent.iOS.git
-cd run_loop
-RUN_LOOP_DIR="${PWD}"
-git checkout develop
-git pull
 
-# Build RunLoop
-rake device_agent:build # Builds DeviceAgent/iOSDeviceManager
-gem build run_loop.gemspec
-gem uninstall *.gem
-gem install *.gem 
-GEM_FILE=`ls | grep *.gem | head -n 1`
-GEM_VERSION=`echo ${GEM_FILE%.*} | cut -d '-' -f2`
+RUN_LOOP_DIR="${PWD}/run_loop"
+(cd run_loop; rake device_agent:install)
 
-# Update the Gemfile in the cucumber dir
-cd ../Tests/cucumber
-rm -f Gemfile
+cd Tests/cucumber
+
 echo "
 source 'https://rubygems.org'
 gem 'calabash-cucumber'
-gem 'run_loop', '$GEM_VERSION'
+gem 'run_loop', :path => \"${RUN_LOOP_DIR}\"
 " > Gemfile
 
-# Run the tests
-export IOS_DEVICE_MANAGER=""
+# run_loop/Rakefile and run_loop/lib both respond to
+# IOS_DEVICE_MANAGER, so we have to unset this variable.
+unset IOS_DEVICE_MANAGER
 bundle install
 APP="../Resources/sim/TestApp.app" bundle exec cucumber
 
-# Clean Up
-cd ../..
-rm -rf run_loop/
-rm -rf DeviceAgent.iOS/
