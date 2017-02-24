@@ -258,12 +258,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    NSError *e;
-    BOOL success = [self.fbDevice killApplicationWithBundleID:bundleID error:&e];
-    
-    if (!success || e) {
-        ConsoleWriteErr(@"Error killing application '%@' : %@", bundleID, e);
-        return iOSReturnStatusCodeInternalError;
+    if ([self appIsRunning:bundleID]) {
+        NSError *e;
+        BOOL success = [self.fbDevice killApplicationWithBundleID:bundleID error:&e];
+        
+        if (!success || e) {
+            ConsoleWriteErr(@"Error killing application '%@' : %@", bundleID, e);
+            return iOSReturnStatusCodeInternalError;
+        }
     }
     
     return iOSReturnStatusCodeEverythingOkay;
