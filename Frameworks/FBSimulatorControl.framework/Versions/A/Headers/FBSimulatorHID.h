@@ -16,6 +16,25 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ An Enumeration for the Event Type. Only Up/Down.
+ */
+typedef NS_ENUM(NSUInteger, FBSimulatorHIDEventType) {
+  FBSimulatorHIDEventTypeDown = 1,
+  FBSimulatorHIDEventTypeUp = 2,
+};
+
+/**
+ An Enumeration Representing a button press.
+ */
+typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
+  FBSimulatorHIDButtonApplePay = 1,
+  FBSimulatorHIDButtonHomeButton = 2,
+  FBSimulatorHIDButtonLock = 3,
+  FBSimulatorHIDButtonSideButton = 4,
+  FBSimulatorHIDButtonSiri = 5,
+};
+
+/**
  A Wrapper around the mach_port_t that is created in the booting of a Simulator.
  The IndigoHIDRegistrationPort is essential for backboard, otherwise UI events aren't synthesized properly.
  */
@@ -50,13 +69,36 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark HID Manipulation
 
 /**
- Sends a Home Button Event.
- Will Perform the Button Down, followed by the Button Up.
+ Sends a Keyboard Event.
 
+ @param type the event type.
+ @param keycode the Key Code to send. The keycodes are 'Hardware Independent' as described in <HIToolbox/Events.h>.
  @param error an error out for any error that occurs.
  @return YES if successful, NO otherwise.
  */
-- (BOOL)sendHomeButtonWithError:(NSError **)error;
+- (BOOL)sendKeyboardEventWithType:(FBSimulatorHIDEventType)type keyCode:(unsigned int)keycode error:(NSError **)error;
+
+/**
+ Sends a Button Event.
+
+ @param type the event type.
+ @param button the button.
+ @param error an error out for any error that occurs.
+ @return YES if successful, NO otherwise.
+ */
+- (BOOL)sendButtonEventWithType:(FBSimulatorHIDEventType)type button:(FBSimulatorHIDButton)button error:(NSError **)error;
+
+/**
+ Sends a Tap Event
+ Will Perform the Touch Down, followed by the Touch Up
+
+ @param type the event type.
+ @param x the X-Coordinate
+ @param y the Y-Coordinate
+ @param error an error out for any error that occurs.
+ @return YES if successful, NO otherwise.
+ */
+- (BOOL)sendTouchWithType:(FBSimulatorHIDEventType)type x:(double)x y:(double)y error:(NSError **)error;
 
 @end
 

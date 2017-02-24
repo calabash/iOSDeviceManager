@@ -50,5 +50,4 @@ run_loop/
 DeviceAgent.iOS/
 
 # Gemfile used in RunLoop tests
-Tests/cucumber/Gemfile
-Tests/cucumber/Gemfile.lock
+Tests/cucumber/Gemfile*
