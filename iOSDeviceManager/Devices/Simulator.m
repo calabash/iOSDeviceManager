@@ -145,7 +145,6 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
-
     if (self.fbSimulator == nil) {
         ConsoleWriteErr(@"No such simulator exists!");
         return iOSReturnStatusCodeDeviceNotFound;
@@ -202,7 +201,6 @@ static const FBSimulatorControl *_control;
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
-
     NSError *error;
     if ([self isInstalled:bundleID error:&error]) {
 
@@ -212,27 +210,43 @@ static const FBSimulatorControl *_control;
                                                                    arguments:@[]
                                                                  environment:@{}
                                                                       output:[FBProcessOutputConfiguration defaultForDeviceManager]];
-        if ([self.fbSimulator launchApplication:config error:nil]) {
+        if ([self.fbSimulator launchApplication:config error:&error]) {
             return iOSReturnStatusCodeEverythingOkay;
         } else {
+            ConsoleWriteErr(@"Error launching application '%@': %@", bundleID, error);
             return iOSReturnStatusCodeInternalError;
         }
     }
 
+    ConsoleWriteErr(@"Error launching application '%@': %@", bundleID, error);
     return iOSReturnStatusCodeGenericFailure;
 }
 
-- (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    BOOL result = [self.fbSimulator killApplicationWithBundleID:bundleID error:nil];
-
-    if (result) {
-        return iOSReturnStatusCodeEverythingOkay;
-    } else {
-        return iOSReturnStatusCodeFalse;
+- (pid_t)pidForBundleID:(NSString *)bundleID {
+    NSError *e;
+    FBProcessInfo *processInfo = [self.fbSimulator runningApplicationWithBundleID:bundleID error:&e];
+    if (e) {
+        ConsoleWriteErr(@"Error checking if app '%@' is running: %@", bundleID, e);
+        return -1;
     }
+    return processInfo.processIdentifier;
 }
 
-- (BOOL) isInstalled:(NSString *)bundleID error:(NSError **)error {
+- (iOSReturnStatusCode)killApp:(NSString *)bundleID {
+    if ([self appIsRunning:bundleID]) {
+        NSError *e;
+        BOOL success = [self.fbSimulator killApplicationWithBundleID:bundleID
+                                                              error:&e];
+
+        if (!success || e) {
+            ConsoleWriteErr(@"Error killing application '%@' : %@", bundleID, e);
+            return iOSReturnStatusCodeInternalError;
+        }
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (BOOL)isInstalled:(NSString *)bundleID error:(NSError **)error {
     BOOL installed = [self.fbSimulator isApplicationInstalledWithBundleID:bundleID error:error];
 
     if (installed) {
@@ -274,12 +288,12 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
     [self launch];
 
-    [self killApp:runnerID];
     NSError *error;
     if (![self isInstalled:runnerID error:&error]) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
+    [self killApp:runnerID];
 
     NSError *e;
     Simulator *replog = [Simulator new];

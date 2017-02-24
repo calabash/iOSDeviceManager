@@ -71,5 +71,10 @@
 - (Application *)installedApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
+- (BOOL)appIsRunning:(NSString *)bundleID;
 
+/*
+    Returns the pid for an application if running, else -1
+ */
+- (pid_t)pidForBundleID:(NSString *)bundleID;
 @end

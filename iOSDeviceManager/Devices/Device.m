@@ -146,4 +146,12 @@
     MUST_OVERRIDE;
 }
 
+- (pid_t)pidForBundleID:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (BOOL)appIsRunning:(NSString *)bundleID {
+    return [self pidForBundleID:bundleID] > 0;
+}
+
 @end

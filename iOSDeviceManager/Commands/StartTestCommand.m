@@ -62,7 +62,7 @@
                                              optionName:@"true-or-false"
                                                    info:@"Only set to false for smoke testing/debugging this tool"
                                                required:NO
-                                             defaultVal:@(NO)]];
+                                             defaultVal:@(YES)]];
     });
     return options;
 }
