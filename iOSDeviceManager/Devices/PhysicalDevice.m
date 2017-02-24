@@ -247,20 +247,26 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
+- (pid_t)pidForBundleID:(NSString *)bundleID {
+    NSError *e;
+    pid_t processID = [self.fbDevice.deviceOperator processIDWithBundleID:bundleID error:&e];
+    if (e) {
+        ConsoleWriteErr(@"Error checking if app '%@' is running: %@", bundleID, e);
+        return -1;
+    }
+    return processID;
+}
+
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    NSError *error;
-    BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
+    NSError *e;
+    BOOL success = [self.fbDevice killApplicationWithBundleID:bundleID error:&e];
     
-    if (error) {
-        ConsoleWriteErr(@"Failed killing app with bundle ID: %@ due to: %@", bundleID, error);
+    if (!success || e) {
+        ConsoleWriteErr(@"Error killing application '%@' : %@", bundleID, e);
         return iOSReturnStatusCodeInternalError;
     }
     
-    if (result) {
-        return iOSReturnStatusCodeEverythingOkay;
-    } else {
-        return iOSReturnStatusCodeFalse;
-    }
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (BOOL)isInstalled:(NSString *)bundleID error:(NSError **)error {
@@ -308,9 +314,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
-    NSError *e = nil;
-
+    
+    NSError *error;
+    if (![self isInstalled:runnerID error:&error]) {
+        ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
+        return iOSReturnStatusCodeGenericFailure;
+    }
     [self killApp:runnerID];
+    
+    NSError *e;
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
                                                                     runnerBundleID:runnerID
                                                                          sessionID:sessionID
