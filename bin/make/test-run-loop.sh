@@ -3,6 +3,7 @@
 set -e
 
 export IOS_DEVICE_MANAGER="${PWD}"
+export DEVICEAGENT_PATH="${PWD}/DeviceAgent.iOS"
 
 ## Checkout the latest run_loop@develop
 git clone git@github.com:calabash/run_loop.git 
