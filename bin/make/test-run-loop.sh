@@ -2,7 +2,7 @@
 
 set -e
 
-export IOS_DEVICE_MANAGER=`pwd` # For building run_loop
+export IOS_DEVICE_MANAGER="${PWD}"
 
 ## Checkout the latest run_loop@develop
 git clone git@github.com:calabash/run_loop.git 
