@@ -10,7 +10,7 @@
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		Waybt/IfMWsjJbGuTbcOPyu1Bio=
+		t17194DH3yelFlwoNDyDrmnsQFA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			8lGUAIUvTK43Vp8NK6q4qo01lnM=
+			TL5HYxbvEUwvahVk6+c3FMPzjE8=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			ED7VVKcrNiWCQ+Ic7Yv5uH78GZ4=
+			RC+QyLN01fKnTm+wDTmFqY+8Nuo=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -321,11 +321,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ADOQug7NR93Zbe84uCTyJl00VRg=
+			a+S1kKAJK1HHx2xT9EwfvjKxcjI=
 			</data>
 			<key>hash2</key>
 			<data>
-			4RBKC+zDgyEfiZ5eCD86M1DVUdgs3RmGC9xNFtu3XBo=
+			oxu0NnM2DqSHJQ4ypeFId1CzFM9CztyasGlO9XyK0CM=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorConnection.h</key>
@@ -354,11 +354,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Gtmu1ONFB+tSgZ4ygBTvunHPdkg=
+			m0a0Fz304JQwCsNizEdlC/UCSWA=
 			</data>
 			<key>hash2</key>
 			<data>
-			FPuxlK6zPM+jtg/6fkWNZkowHkKMm6fJ/fKljNBU9VU=
+			Wuy2ioAIS2HbRKRtb6c1qcLb9wMWqiKHrY02NgXqvSc=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorControlConfiguration.h</key>
@@ -442,11 +442,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			eioKoS8sfNL7LQmLWrT4aR87Cro=
+			SMB2zyqx5UGuIMQ2J0VwI4c+kw8=
 			</data>
 			<key>hash2</key>
 			<data>
-			BxtAlceKgdJVJftsIgk2qOXawYeG+enRpphtyx/Ld5g=
+			ZZuIczPzza13HhOEIP+0lB+zm4VoHIwR4X4e8p/QI+w=
+			</data>
+		</dict>
+		<key>Headers/FBSimulatorHIDEvent.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aKtb34Gp7renbmIX+ouPsRWYUQ4=
+			</data>
+			<key>hash2</key>
+			<data>
+			9kI0lqu4NWJ6YQa90wgDuZyrR20Y85I5jVUsEUCcAV8=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorHistory+Private.h</key>
@@ -827,11 +838,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Waybt/IfMWsjJbGuTbcOPyu1Bio=
+			t17194DH3yelFlwoNDyDrmnsQFA=
 			</data>
 			<key>hash2</key>
 			<data>
-			+O+M/VUNEF+Ukj9BqGMs+5kTPt8hgur9ZrFrm8GoqKs=
+			8yqwajA5m32wi2dt3rlR6a2M6NEZcnFM5gbWMbg0+Vg=
 			</data>
 		</dict>
 	</dict>
