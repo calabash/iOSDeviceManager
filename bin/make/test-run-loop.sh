@@ -5,9 +5,12 @@ set -e
 export IOS_DEVICE_MANAGER="${PWD}"
 export DEVICEAGENT_PATH="${PWD}/DeviceAgent.iOS"
 
-## Checkout the latest run_loop@develop
-git clone git@github.com:calabash/run_loop.git 
+rm -rf run_loop
+rm -rf DeviceAgent.iOS
+
+git clone git@github.com:calabash/run_loop.git
 git clone git@github.com:calabash/DeviceAgent.iOS.git
+
 cd run_loop
 RUN_LOOP_DIR="${PWD}"
 git checkout develop
@@ -35,7 +38,3 @@ export IOS_DEVICE_MANAGER=""
 bundle install
 APP="../Resources/sim/TestApp.app" bundle exec cucumber
 
-# Clean Up
-cd ../..
-rm -rf run_loop/
-rm -rf DeviceAgent.iOS/
