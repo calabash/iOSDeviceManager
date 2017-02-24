@@ -13,7 +13,7 @@
     
     XCTAssertNotNil(self.platform, @"Must set a platform");
     XCTAssertNotNil(self.codesignID, @"Must set a codesigning identity");
-    XCTAssertNotNil(self.deviceID, @"Must set a device identifier1");
+    XCTAssertNotNil(self.deviceID, @"Must set a device identifier");
     
     [super setUp];
 }

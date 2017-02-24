@@ -65,9 +65,13 @@
     NSString *copiedAppPath = [AppUtils copyAppBundleToTmpDir:ipaPath];
     NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];
     NSString *payloadPath = [unzipPath stringByAppendingString:@"/Payload/"];
-    NSArray *params = @[@"ditto", @"-xk", copiedAppPath, unzipPath];
+    NSArray *args = @[@"ditto",
+                        @"-xk",
+                        @"--sequesterRsrc",
+                        copiedAppPath,
+                        unzipPath];
 
-    ShellResult *result = [ShellRunner xcrun:params timeout:20];
+    ShellResult *result = [ShellRunner xcrun:args timeout:20];
     if (!result.success) {
         @throw [NSException exceptionWithName:@"Error unzipping ipa"
                                        reason:result.stderrStr
