@@ -22,7 +22,9 @@ gem 'calabash-cucumber'
 gem 'run_loop', :path => \"${RUN_LOOP_DIR}\"
 " > Gemfile
 
-export IOS_DEVICE_MANAGER=""
+# run_loop/Rakefile and run_loop/lib both respond to
+# IOS_DEVICE_MANAGER, so we have to unset this variable.
+unset IOS_DEVICE_MANAGER
 bundle install
 APP="../Resources/sim/TestApp.app" bundle exec cucumber
 
