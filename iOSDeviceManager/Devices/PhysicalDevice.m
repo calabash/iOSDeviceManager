@@ -49,13 +49,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     FBDevice *fbDevice = [[FBDeviceSet defaultSetWithLogger:nil
                                                     error:&err]
                                             deviceWithUDID:uuid];
-    if (!fbDevice || err) {
+    if (!fbDevice) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
     }
 
-    [fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
-    if (err) {
+    if (![fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err]) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
     }
@@ -120,7 +119,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
-    if ([op isApplicationInstalledWithBundleID:codesignedApp.bundleID error:&err] || err) {
+    if ([op isApplicationInstalledWithBundleID:codesignedApp.bundleID error:&err]) {
         if (err) {
             ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", codesignedApp.bundleID, err);
             return iOSReturnStatusCodeInternalError;
@@ -131,7 +130,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             return ret;
         }
     } else {
-        if (![op installApplicationWithPath:stagedApp error:&err] || err) {
+        if (![op installApplicationWithPath:stagedApp error:&err]) {
             ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
@@ -184,7 +183,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
     
-    if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
+    if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
     
