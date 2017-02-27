@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBFileDataConsumer.h>
+#import <FBControlCore/FBFileConsumer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,15 +17,24 @@ NS_ASSUME_NONNULL_BEGIN
  A File Data Consumer that writes to a file handle.
  Writes are non-blocking.
  */
-@interface FBFileWriter : NSObject <FBFileDataConsumer>
+@interface FBFileWriter : NSObject <FBFileConsumer>
 
 /**
  Creates a File Writer from a File Handle.
 
- @param fileHandle the file handle to read from. It will be closed when the reader stops.
+ @param fileHandle the file handle to write to. It will be closed when an EOF is sent.
  @return a File Reader.
  */
 + (instancetype)writerWithFileHandle:(NSFileHandle *)fileHandle;
+
+/**
+ Creates a File Writer from a File Path
+
+ @param filePath the file handle to write to from. It will be closed when an EOF is sent.
+ @param error an error out for any error that occurs.
+ @return a File Reader on success, nil otherwise.
+ */
++ (nullable instancetype)writerForFilePath:(NSString *)filePath error:(NSError **)error;
 
 @end
 
