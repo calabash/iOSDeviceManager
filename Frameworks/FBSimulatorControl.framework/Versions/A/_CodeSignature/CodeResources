@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			TL5HYxbvEUwvahVk6+c3FMPzjE8=
+			Iq07kUFUyI+DCz+ZhaNMGCikHVk=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			RC+QyLN01fKnTm+wDTmFqY+8Nuo=
+			mzBTK1hEci8W0258BhYjAIzj444=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -57,11 +57,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JFfJr+DXex6ZOORThsKMXsDMLTM=
+			9Vilq7UHNFWgkF7rNSP4GDyV2GI=
 			</data>
 			<key>hash2</key>
 			<data>
-			ih1OVbyXEd9l+WnkHXwLHDE0Zgyr81u/ADavtKmsBlw=
+			tgdRnyk81Vu8lilDV6weCnKSUZYdm1UIQagWKuFcq4k=
 			</data>
 		</dict>
 		<key>Headers/FBApplicationLaunchStrategy.h</key>
@@ -167,11 +167,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZRdprTiAyjCQE3nLEKHnewu4c5I=
+			mNgBWCtw6YtW7xfy0zik0jZpYK0=
 			</data>
 			<key>hash2</key>
 			<data>
-			yABTZDqhB2gyQQ6BvfBxnro4jfuGLXlUrev5bhS/rU4=
+			Oui+wWb2+n5jIHQR06f5XRGtjbCi4zWZCuxCyYeHDoc=
 			</data>
 		</dict>
 		<key>Headers/FBFramebufferVideo.h</key>
@@ -398,11 +398,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Ls4vThBrWqb3Z6DR47GPXEjQiHo=
+			bSl1Ku1U27lnCuPCJPqiipgUyLY=
 			</data>
 			<key>hash2</key>
 			<data>
-			z6wnDbqyL/mUtoEETsF8wE25fMXVnjBFhATAqUDpQEg=
+			z1Zl9vGgLgkCw7ZI95ixdg/lvIwQqocoNPlu7+4k5+g=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorError.h</key>
@@ -629,11 +629,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9YMQ4LNKT+w0TnOlQSc05JXyoqs=
+			yh65vP65dMqHwdMBCUeitxC4eP4=
 			</data>
 			<key>hash2</key>
 			<data>
-			Bdm1+tUMOPkkaDS8LKibXWO8nNSiVbBQQkxVgN1YnTM=
+			YAKkTzH8dNjX/ePS7DkyjMR6LxzZvFIB0+jVr0Vfc9o=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorPool+Private.h</key>
