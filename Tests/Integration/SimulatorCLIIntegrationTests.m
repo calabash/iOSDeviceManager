@@ -108,9 +108,7 @@
 }
 
 - (void)testLaunchAndKillApp {
-    if ([DeviceUtils availablePhysicalDevices].count > 0) {
-        [self sharedLaunchAndKillAppTest];
-    }
+    [self sharedLaunchAndKillAppTest];
 }
 
 @end
