@@ -263,6 +263,7 @@
 		F55353101E7824D40083C779 /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F553530F1E7824D40083C779 /* SimulatorTest.m */; };
 		F57710181E785E570018B99E /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F57710171E785E570018B99E /* SimulatorTest.m */; };
 		F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F578F4671D70A3C4001FC3BE /* ResignTest.m */; };
+		F590330E1E68071300853CEA /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F590330D1E68071300853CEA /* DeviceTest.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
@@ -535,6 +536,7 @@
 		F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaHTTPServer.LICENSE; sourceTree = "<group>"; };
 		F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaLumberjack.LICENSE; sourceTree = "<group>"; };
 		F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = RoutingHTTPServer.LICENSE; sourceTree = "<group>"; };
+		F590330D1E68071300853CEA /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalCLIDeviceIntegrationTests.m; sourceTree = "<group>"; };
@@ -961,17 +963,10 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		F553530E1E7824D40083C779 /* Devices */ = {
+		F590330C1E68071300853CEA /* Devices */ = {
 			isa = PBXGroup;
 			children = (
-				F553530F1E7824D40083C779 /* SimulatorTest.m */,
-			);
-			path = Devices;
-			sourceTree = "<group>";
-		};
-		F57710161E785E570018B99E /* Devices */ = {
-			isa = PBXGroup;
-			children = (
+				F590330D1E68071300853CEA /* DeviceTest.m */,
 				F57710171E785E570018B99E /* SimulatorTest.m */,
 			);
 			path = Devices;
@@ -992,7 +987,7 @@
 		F5D583DF1D69FE62007B0D11 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
-				F57710161E785E570018B99E /* Devices */,
+				F590330C1E68071300853CEA /* Devices */,
 				F5249D3C1D6B31D1006ADD64 /* Utilities */,
 				F5D583E11D69FE62007B0D11 /* CLITests.m */,
 			);
@@ -1325,6 +1320,7 @@
 				B2E68E1E1E381745001D5D89 /* ResignAllCommand.m in Sources */,
 				B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				898D7D8C1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
+				F590330E1E68071300853CEA /* DeviceTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
