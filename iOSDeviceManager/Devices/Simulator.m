@@ -131,50 +131,48 @@ static const FBSimulatorControl *_control;
     //Ensure device exists
     NSError *e;
     if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     //Ensure device is in a good state (i.e., active)
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         ConsoleWriteErr(@"Simulator %@ is dead. Must launch sim before installing an app.", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     BOOL needsToInstall = YES;
-    
+
     //First, check if the app is installed
     if ([self.fbSimulator installedApplicationWithBundleID:app.bundleID error:&e]) {
         if (e) {
             ConsoleWriteErr(@"Error checking if application is installed: %@", e);
             return iOSReturnStatusCodeInternalError;
         }
-        
+
         //If the user doesn't want to update, we're done.
         if (!shouldUpdate) {
             return iOSReturnStatusCodeEverythingOkay;
         }
-        
+
         iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
         needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
     }
-    
+
     if (e && [[e description] containsString:@"Failed to get App Path"]) {
         e = nil; // installedApplicationWithBundleID has non-nil e if no app present
     } else if (e) {
         ConsoleWriteErr(@"Error checking if application is installed: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     if (needsToInstall) {
         [Codesigner resignApplication:app withProvisioningProfile:nil];
-        
-        //We need an `FBApplicationDescriptor` instead of `Application` because `FBSimulator` requires it
+
         FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
                                                                                   installType:FBApplicationInstallTypeUnknown
                                                                                         error:&e];
-        
         if (!appDescriptor) {
             ConsoleWriteErr(@"Error creating application descriptor: %@", e);
             ConsoleWriteErr(@" Path to bundle: %@", app.path);
@@ -191,7 +189,7 @@ static const FBSimulatorControl *_control;
             LogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
         }
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
