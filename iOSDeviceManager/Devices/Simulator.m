@@ -574,7 +574,6 @@ testCaseDidStartForTestClass:(NSString *)testClass
         if ([fm fileExistsAtPath:plistFile]) {
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
             if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
-                ConsoleWrite(@"%@", bundleFolderPath);
                 return bundleFolderPath;
             }
         }
