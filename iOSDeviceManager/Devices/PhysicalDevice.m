@@ -522,4 +522,16 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return self;
 }
 
+- (NSString *)containerPathForApplication:(NSString *)bundleID {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    return [operator applicationPathForApplicationWithBundleID:bundleID
+                                                         error:nil];
+}
+
+- (NSString *)installPathForApplication:(NSString *)bundleID {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    return [operator containerPathForApplicationWithBundleID:bundleID
+                                                       error:nil];
+}
+
 @end

@@ -596,4 +596,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return nil;
 }
 
+- (NSString *)installPathForApplication:(NSString *)bundleID {
+    FBApplicationDescriptor *descriptor;
+    descriptor = [self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                              error:nil];
+    return descriptor.path;
+}
+
 @end
