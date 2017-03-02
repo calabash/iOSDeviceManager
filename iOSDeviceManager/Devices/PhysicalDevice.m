@@ -330,17 +330,23 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
+    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
+            sessionID, [self uuid], runnerID);
     NSError *error = nil;
 
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
-                                                                    runnerBundleID:runnerID
-                                                                         sessionID:sessionID
-                                                                    withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                       environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                          reporter:self
-                                                                            logger:self
-                                                                             error:&error];
+    NSArray *attributes = [FBTestRunnerConfigurationBuilder defaultBuildAttributes];
+    NSDictionary *environment = [FBTestRunnerConfigurationBuilder defaultBuildEnvironment];
+
+    FBTestManager *testManager =
+        [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
+                                           runnerBundleID:runnerID
+                                                sessionID:sessionID
+                                           withAttributes:attributes
+                                              environment:environment
+                                                 reporter:self
+                                                   logger:self
+                                                    error:&error];
+
     if (!testManager) {
         ConsoleWriteErr(@"Could not start test: %@", error);
         return iOSReturnStatusCodeInternalError;
@@ -488,6 +494,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 #pragma mark - FBControlCoreLogger
+
 - (id<FBControlCoreLogger>)log:(NSString *)string {
     LogInfo(@"%@", string);
     return self;
