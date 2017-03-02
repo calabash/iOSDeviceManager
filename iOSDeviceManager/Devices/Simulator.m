@@ -563,7 +563,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                stringByAppendingPathComponent:@"Containers"]
                               stringByAppendingPathComponent:@"Data"]
                              stringByAppendingPathComponent:@"Application"];
-    
+
     NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:appDataPath error:nil];
 
     for (id bundleFolder in bundleFolders) {
