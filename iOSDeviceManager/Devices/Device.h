@@ -91,6 +91,8 @@
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
+- (NSString *)containerPathForApplication:(NSString *)bundleID;
+- (NSString *)installPathForApplication:(NSString *)bundleID;
 - (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath;
 
 

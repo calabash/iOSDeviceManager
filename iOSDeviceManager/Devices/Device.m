@@ -211,6 +211,13 @@
     MUST_OVERRIDE;
 }
 
+- (NSString *)containerPathForApplication:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (NSString *)installPathForApplication:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
 
 - (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath {
     if (![testRunnerPath hasSuffix:@"-Runner.app"]) {
