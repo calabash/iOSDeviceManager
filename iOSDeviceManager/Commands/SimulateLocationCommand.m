@@ -2,8 +2,6 @@
 #import "SimulateLocationCommand.h"
 #import "ConsoleWriter.h"
 
-static NSString *const LOCATION_FLAG = @"-l";
-
 @implementation SimulateLocationCommand
 + (NSString *)name {
     return @"set_location";

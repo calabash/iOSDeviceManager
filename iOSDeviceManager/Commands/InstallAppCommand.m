@@ -3,10 +3,6 @@
 #import "ConsoleWriter.h"
 #import "AppUtils.h"
 
-static NSString *const APP_PATH_FLAG = @"-a";
-static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
-static NSString *const UPDATE_APP_FLAG = @"-u";
-
 @implementation InstallAppCommand
 + (NSString *)name {
     return @"install";
@@ -23,12 +19,7 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    NSString *pathToBundle= args[APP_PATH_FLAG];
-    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        pathToBundle = [AppUtils unzipIpa:args[APP_PATH_FLAG]];
-    }
-    
-    Application *app = [Application withBundlePath:pathToBundle];
+    Application *app = [Application withBundlePath:args[APP_PATH_FLAG]];
     if (!app) {
         return iOSReturnStatusCodeGenericFailure;
     }

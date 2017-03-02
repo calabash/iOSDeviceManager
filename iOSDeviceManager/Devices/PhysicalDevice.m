@@ -102,7 +102,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     NSError *isInstalledError;
-    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay && !shouldUpdate) {
+    if ([self isInstalled:app.bundleID error:&isInstalledError] && !shouldUpdate) {
         return iOSReturnStatusCodeEverythingOkay;
     }
     
@@ -143,7 +143,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                 codesigner:(Codesigner *)signerThatCanSign {
 
     NSError *isInstalledError;
-    if ([self isInstalled:app.bundleID withError:isInstalledError] == iOSReturnStatusCodeEverythingOkay) {
+    if ([self isInstalled:app.bundleID error:&isInstalledError]) {
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
@@ -217,8 +217,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 
     NSError *e;
-    [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
-    if (e) {
+    BOOL success = [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
+    if (e || !success) {
         ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
@@ -246,27 +246,34 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-- (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    
-    NSError *error;
-    BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
-    
-    if (error) {
-        ConsoleWriteErr(@"Failed killing app with bundle ID: %@ due to: %@", bundleID, error);
-        return iOSReturnStatusCodeInternalError;
+- (pid_t)pidForBundleID:(NSString *)bundleID {
+    NSError *e;
+    pid_t processID = [self.fbDevice.deviceOperator processIDWithBundleID:bundleID error:&e];
+    if (e) {
+        ConsoleWriteErr(@"Error checking if app '%@' is running: %@", bundleID, e);
+        return -1;
     }
-    
-    if (result) {
-        return iOSReturnStatusCodeEverythingOkay;
-    } else {
-        return iOSReturnStatusCodeFalse;
-    }
+    return processID;
 }
 
-- (BOOL) isInstalled:(NSString *)bundleID withError:(NSError *)error {
+- (iOSReturnStatusCode)killApp:(NSString *)bundleID {
+    if ([self appIsRunning:bundleID]) {
+        NSError *e;
+        BOOL success = [self.fbDevice killApplicationWithBundleID:bundleID error:&e];
+        
+        if (!success || e) {
+            ConsoleWriteErr(@"Error killing application '%@' : %@", bundleID, e);
+            return iOSReturnStatusCodeInternalError;
+        }
+    }
+    
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (BOOL)isInstalled:(NSString *)bundleID error:(NSError **)error {
     FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
     BOOL installed = [deviceOperator isApplicationInstalledWithBundleID:bundleID
-                                                                  error:&error];
+                                                                  error:error];
     if (installed) {
         return YES;
     } else {
@@ -274,30 +281,27 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 }
 
-- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
-
+- (BOOL)isInstalled:(NSString *)bundleID statusCode:(iOSReturnStatusCode *)statusCode {
     NSError *err;
-    BOOL installed = [self isInstalled:bundleID withError:err];
-    
-    if (err) {
-        ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
-        @throw [NSException exceptionWithName:@"IsInstalledAppException"
-                                       reason:@"Unable to determine if application is installed"
-                                     userInfo:nil];
-    }
-    
+    BOOL installed = [self isInstalled:bundleID error:&err];
+
     if (installed) {
         ConsoleWrite(@"true");
-        return iOSReturnStatusCodeEverythingOkay;
+        (*statusCode) = iOSReturnStatusCodeEverythingOkay;
+        return YES;
     } else {
+        if (err) {
+            ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
+        }
         ConsoleWrite(@"false");
-        return iOSReturnStatusCodeFalse;
+        (*statusCode) = iOSReturnStatusCodeFalse;
+        return NO;
     }
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
     NSError *err;
-    if (![self isInstalled:bundleID withError:err]) {
+    if (![self isInstalled:bundleID error:&err]) {
         return nil;
     }
 
@@ -311,8 +315,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
-    NSError *e = nil;
-
+    
+    NSError *error;
+    if (![self isInstalled:runnerID error:&error]) {
+        ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    [self killApp:runnerID];
+    
+    NSError *e;
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
                                                                     runnerBundleID:runnerID
                                                                          sessionID:sessionID

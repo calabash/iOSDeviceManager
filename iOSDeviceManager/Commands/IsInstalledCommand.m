@@ -1,8 +1,6 @@
 
 #import "IsInstalledCommand.h"
 
-static NSString *const BUNDLE_ID_FLAG = @"-b";
-
 @implementation IsInstalledCommand
 + (NSString *)name {
     return @"is_installed";
@@ -15,7 +13,10 @@ static NSString *const BUNDLE_ID_FLAG = @"-b";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    return [device isInstalled:args[BUNDLE_ID_FLAG]];
+    iOSReturnStatusCode statusCode;
+    [device isInstalled:args[BUNDLE_ID_FLAG] statusCode:&statusCode];
+    
+    return statusCode;
 }
 
 + (NSArray <CommandOption *> *)options {

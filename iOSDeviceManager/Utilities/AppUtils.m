@@ -6,6 +6,12 @@
 
 @implementation AppUtils
 
++ (BOOL)isBundleID:(NSString *)maybeBundleID {
+    NSString *regexString = @"^([a-zA-Z0-9_-]+\\.)+[a-zA-Z0-9_-]+$";
+    NSPredicate *matcher = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexString];
+    return [matcher evaluateWithObject:maybeBundleID];
+}
+
 + (id)valueForKeyOrThrow:(NSDictionary *)plist key:(NSString *)key {
     NSAssert([[plist allKeys] containsObject:key], @"Missing required key '%@' in plist: %@", key, plist);
     return plist[key];
@@ -59,9 +65,13 @@
     NSString *copiedAppPath = [AppUtils copyAppBundleToTmpDir:ipaPath];
     NSString *unzipPath = [copiedAppPath stringByDeletingLastPathComponent];
     NSString *payloadPath = [unzipPath stringByAppendingString:@"/Payload/"];
-    NSArray *params = @[@"ditto", @"-xk", copiedAppPath, unzipPath];
+    NSArray *args = @[@"ditto",
+                        @"-xk",
+                        @"--sequesterRsrc",
+                        copiedAppPath,
+                        unzipPath];
 
-    ShellResult *result = [ShellRunner xcrun:params timeout:20];
+    ShellResult *result = [ShellRunner xcrun:args timeout:20];
     if (!result.success) {
         @throw [NSException exceptionWithName:@"Error unzipping ipa"
                                        reason:result.stderrStr

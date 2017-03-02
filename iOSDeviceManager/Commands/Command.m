@@ -1,35 +1,37 @@
 
 #import "iOSDeviceManagementCommand.h"
-#import "Command.h"
-#import "CLI.h"
 #import "ConsoleWriter.h"
-#import "Device.h"
 #import "DeviceUtils.h"
+#import "AppUtils.h"
+#import "Command.h"
+#import "Device.h"
+#import "CLI.h"
 
-NSString *const DEVICE_ID_FLAG = @"-d";
-NSString *const APP_ID_FLAG = @"-a";
 NSString *const DEVICE_ID_ARGNAME = @"device_id";
-NSString *const APP_ID_ARGNAME = @"app_id";
+NSString *const APP_PATH_ARGNAME = @"app_path";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
 + (NSString *)positionalArgShortFlag:(NSString *)arg {
     if ([arg hasSuffix:@".app"] || [arg hasSuffix:@".ipa"]) {
-        return APP_ID_FLAG;
+        return APP_PATH_FLAG;
     }
     
     if ([DeviceUtils isSimulatorID:arg] || [DeviceUtils isDeviceID:arg]) {
         return DEVICE_ID_FLAG;
     }
     
+    if ([AppUtils isBundleID:arg]) {
+        return BUNDLE_ID_FLAG;
+    }
     return nil;
 }
 
-+(NSArray <NSString *> *) positionalArgNames {
++ (NSArray <NSString *> *)positionalArgNames {
     return @[
              DEVICE_ID_ARGNAME,
-             APP_ID_ARGNAME
+             APP_PATH_ARGNAME
              ];
 }
 
@@ -80,7 +82,8 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 + (NSArray <NSString *>*)positionalArgShortFlags {
     return @[
              DEVICE_ID_FLAG,
-             APP_ID_FLAG
+             APP_PATH_FLAG,
+             BUNDLE_ID_FLAG
              ];
 }
 

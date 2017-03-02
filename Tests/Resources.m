@@ -515,11 +515,25 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)TestAppPath:(NSString *)platform {
     if ([ARM isEqualToString:platform]) {
+        return [[self.resourcesDirectory
+                stringByAppendingPathComponent:@"arm/TestApp.app"]
+                stringByStandardizingPath];
+    } else if ([SIM isEqualToString:platform]) {
+        return [[self.resourcesDirectory
+                stringByAppendingPathComponent:@"sim/TestApp.app"]
+                stringByStandardizingPath];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)TestAppRelativePath:(NSString *)platform {
+    if ([ARM isEqualToString:platform]) {
         return [self.resourcesDirectory
-                stringByAppendingPathComponent:@"arm/TestApp.app"];
+                stringByAppendingPathComponent:@"arm/../arm/TestApp.app"];
     } else if ([SIM isEqualToString:platform]) {
         return [self.resourcesDirectory
-                stringByAppendingPathComponent:@"sim/TestApp.app"];
+                stringByAppendingPathComponent:@"sim/../sim/TestApp.app"];
     } else {
         return nil;
     }
@@ -861,7 +875,7 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (CodesignIdentity *)KarlKrukowIdentity {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"316B74B2838787366D1E76D33F3E621E5C2FAFB8";
+    NSString *identityShasum = @"D4927A5C05BEF3783F38A48916C4AB045D2C21E9";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }

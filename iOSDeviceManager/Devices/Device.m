@@ -130,7 +130,7 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
+- (BOOL)isInstalled:(NSString *)bundleID statusCode:(iOSReturnStatusCode *)statusCode {
     MUST_OVERRIDE;
 }
 
@@ -144,6 +144,14 @@
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
     MUST_OVERRIDE;
+}
+
+- (pid_t)pidForBundleID:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (BOOL)appIsRunning:(NSString *)bundleID {
+    return [self pidForBundleID:bundleID] > 0;
 }
 
 @end

@@ -100,7 +100,7 @@
 }
 
 - (void)testOptionalArg {
-    if ([[DeviceUtils availableDevices] count] < 2) {
+    if ([[DeviceUtils availablePhysicalDevices] count] < 2) {
         NSArray *args = @[kProgramName, @"install", @"-a", @"fake/path/to/.app"];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
         

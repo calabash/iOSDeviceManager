@@ -1,8 +1,6 @@
 
 #import "UninstallAppCommand.h"
 
-static NSString *const BUNDLE_ID_FLAG = @"-b";
-
 @implementation UninstallAppCommand
 + (NSString *)name {
     return @"uninstall";

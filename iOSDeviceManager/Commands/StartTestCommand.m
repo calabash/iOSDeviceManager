@@ -1,11 +1,8 @@
 
 #import "StartTestCommand.h"
 
-static NSString *const TEST_RUNNER_BUNDLE_ID_FLAG = @"-b";
-static NSString *const SESSION_ID_FLAG = @"-s";
-static NSString *const KEEP_ALIVE_FLAG = @"-k";
-
 @implementation StartTestCommand
+
 + (NSString *)name {
     return @"start_test";
 }
@@ -16,9 +13,9 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
         keepAlive = [args[KEEP_ALIVE_FLAG] boolValue];
     }
     
-    NSString *bundleID = [self optionDict][TEST_RUNNER_BUNDLE_ID_FLAG].defaultValue;
-    if ([args.allKeys containsObject:TEST_RUNNER_BUNDLE_ID_FLAG]) {
-        bundleID = args[TEST_RUNNER_BUNDLE_ID_FLAG];
+    NSString *bundleID = [self optionDict][BUNDLE_ID_FLAG].defaultValue;
+    if ([args.allKeys containsObject:BUNDLE_ID_FLAG]) {
+        bundleID = args[BUNDLE_ID_FLAG];
     }
     
     NSString *sessionID = [self optionDict][SESSION_ID_FLAG].defaultValue;
@@ -48,7 +45,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
                                                required:NO
                                              defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:TEST_RUNNER_BUNDLE_ID_FLAG
+        [options addObject:[CommandOption withShortFlag:BUNDLE_ID_FLAG
                                                longFlag:@"--test-runner-bundle-id"
                                              optionName:@"test_runner_bundle_id"
                                                    info:@"BundleID of the Test Runner application (DeviceAgent)"
@@ -65,7 +62,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
                                              optionName:@"true-or-false"
                                                    info:@"Only set to false for smoke testing/debugging this tool"
                                                required:NO
-                                             defaultVal:@(NO)]];
+                                             defaultVal:@(YES)]];
     });
     return options;
 }
