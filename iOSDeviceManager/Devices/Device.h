@@ -95,5 +95,7 @@
 - (NSString *)installPathForApplication:(NSString *)bundleID;
 - (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath;
 - (BOOL)requiresXCTestConfigurationStagingToTmp:(NSDecimalNumber *)activeXcodeVersion;
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error;
 
 @end

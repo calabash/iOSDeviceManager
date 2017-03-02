@@ -248,4 +248,9 @@
     return [activeXcodeVersion compare:xcode83] != NSOrderedAscending;
 }
 
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error {
+    MUST_OVERRIDE;
+}
+
 @end
