@@ -39,7 +39,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 @implementation PhysicalDevice
 
-+ (Device *)withID:(NSString *)uuid {
++ (PhysicalDevice *)withID:(NSString *)uuid {
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
     
     device.uuid = uuid;

@@ -58,7 +58,7 @@
 @property (nonatomic, strong) NSMutableArray <CodesignIdentity *> *identities;
 @property BOOL testingComplete;
 
-+ (Device *)withID:(NSString *)uuid;
++ (instancetype)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;

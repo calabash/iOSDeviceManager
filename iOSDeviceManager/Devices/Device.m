@@ -85,7 +85,7 @@
     return self;
 }
 
-+ (Device *)withID:(NSString *)uuid {
++ (instancetype)withID:(NSString *)uuid {
     if ([DeviceUtils isSimulatorID:uuid]) { return [Simulator withID:uuid]; }
     if ([DeviceUtils isDeviceID:uuid]) { return [PhysicalDevice withID:uuid]; }
     ConsoleWriteErr(@"Specified device ID does not match simulator or device");

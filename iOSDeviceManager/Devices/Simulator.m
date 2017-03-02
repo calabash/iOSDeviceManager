@@ -32,7 +32,7 @@ static const FBSimulatorControl *_control;
     }
 }
 
-+ (Device *)withID:(NSString *)uuid {
++ (Simulator *)withID:(NSString *)uuid {
     Simulator* simulator = [[Simulator alloc] init];
 
     simulator.uuid = uuid;
