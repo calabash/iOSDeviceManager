@@ -19,6 +19,19 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 static const FBSimulatorControl *_control;
 
++ (void)initialize {
+    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+        configurationWithDeviceSetPath:nil
+                               options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+
+    NSError *error;
+    _control = [FBSimulatorControl withConfiguration:configuration error:&error];
+    if (error) {
+        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", error);
+        abort();
+    }
+}
+
 + (Device *)withID:(NSString *)uuid {
     Simulator* simulator = [[Simulator alloc] init];
 
@@ -458,19 +471,6 @@ Tests can not be run on iOS less than 9.0",
         ConsoleWriteErr(@"Error obtaining simulator: %@", error);
     }
     return simulator;
-}
-
-+ (void)initialize {
-    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                      configurationWithDeviceSetPath:nil
-                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-
-    NSError *error;
-    _control = [FBSimulatorControl withConfiguration:configuration error:&error];
-    if (error) {
-        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", error);
-        abort();
-    }
 }
 
 #pragma mark - Test Reporter Methods
