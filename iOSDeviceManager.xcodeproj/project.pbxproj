@@ -273,6 +273,10 @@
 		F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D0F6161E68703A00749462 /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6151E68703A00749462 /* XCTestConfigurationPlist.m */; };
+		F5D0F6171E68703A00749462 /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6151E68703A00749462 /* XCTestConfigurationPlist.m */; };
+		F5D0F6181E68703A00749462 /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6151E68703A00749462 /* XCTestConfigurationPlist.m */; };
+		F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */; };
 		F5D583E51D69FE62007B0D11 /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583E11D69FE62007B0D11 /* CLITests.m */; };
 		F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */; };
 		F5D583F41D69FFF5007B0D11 /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */; };
@@ -543,6 +547,9 @@
 		F59033141E6839C300853CEA /* PhysicalDeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalDeviceTest.m; sourceTree = "<group>"; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		F5D0F6141E68703A00749462 /* XCTestConfigurationPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCTestConfigurationPlist.h; sourceTree = SOURCE_ROOT; };
+		F5D0F6151E68703A00749462 /* XCTestConfigurationPlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationPlist.m; sourceTree = SOURCE_ROOT; };
+		F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationPlistTest.m; sourceTree = "<group>"; };
 		F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalCLIDeviceIntegrationTests.m; sourceTree = "<group>"; };
 		F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorCLIIntegrationTests.m; sourceTree = "<group>"; };
 		F5D583E11D69FE62007B0D11 /* CLITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLITests.m; sourceTree = "<group>"; };
@@ -717,8 +724,7 @@
 		896F7F041CF9C51900FD8572 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				89A1CEF71E32217500D9FEC5 /* StringUtils.h */,
-				89A1CEF81E32217500D9FEC5 /* StringUtils.m */,
+				89C29E1D1DAE69CC00282526 /* Logging */,
 				F5D78DC41D8D32EB00497000 /* ShellResult.h */,
 				F5D78DC51D8D32EB00497000 /* ShellResult.m */,
 				892DE4BA1D22F85F00E1902C /* ShellRunner.h */,
@@ -727,15 +733,20 @@
 				89B50D7E1D466BB800F34D67 /* AppUtils.m */,
 				B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */,
 				B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */,
+				89A1CEF71E32217500D9FEC5 /* StringUtils.h */,
+				89A1CEF81E32217500D9FEC5 /* StringUtils.m */,
 				89A1CEFF1E326A1E00D9FEC5 /* JSONUtils.h */,
 				89A1CF001E326A1E00D9FEC5 /* JSONUtils.m */,
-				89C29E1D1DAE69CC00282526 /* Logging */,
 				A186226E1DE4F44F00A05031 /* MachClock.h */,
 				A186226F1DE4F47700A05031 /* MachClock.m */,
 				89A1CF031E326A2900D9FEC5 /* FileUtils.h */,
 				89A1CF041E326A2900D9FEC5 /* FileUtils.m */,
 				89A1CF0A1E36F94A00D9FEC5 /* ExceptionUtils.h */,
 				89A1CF0B1E36F94A00D9FEC5 /* ExceptionUtils.m */,
+				A186226E1DE4F44F00A05031 /* MachClock.h */,
+				A186226F1DE4F47700A05031 /* MachClock.m */,
+				F5D0F6141E68703A00749462 /* XCTestConfigurationPlist.h */,
+				F5D0F6151E68703A00749462 /* XCTestConfigurationPlist.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -963,6 +974,7 @@
 				6342445D4215DC668C7923B2 /* EntitlementTest.m */,
 				A1D930C51DC29C620070573D /* ShasumProviderTest.m */,
 				A18622731DE4FEA200A05031 /* MachClockTest.m */,
+				F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1195,6 +1207,7 @@
 				898D7DD91DA4758A001578FE /* RouteRequest.m in Sources */,
 				F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */,
 				B22DC0061E1D799500BDD4CB /* Application.m in Sources */,
+				F5D0F6161E68703A00749462 /* XCTestConfigurationPlist.m in Sources */,
 				892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				898D7D8E1DA47569001578FE /* HTTPDataResponse.m in Sources */,
 				892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */,
@@ -1271,6 +1284,7 @@
 				B296D6F91E31440D00D365F3 /* Certificate.m in Sources */,
 				B29637851E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				892DE4EB1D230F5F00E1902C /* Command.m in Sources */,
+				F5D0F6171E68703A00749462 /* XCTestConfigurationPlist.m in Sources */,
 				898D7D3F1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				898D7D951DA47569001578FE /* HTTPErrorResponse.m in Sources */,
 				89C29E1B1DAE69C500282526 /* ConsoleWriter.m in Sources */,
@@ -1313,6 +1327,7 @@
 				B296378B1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				F5D78DC81D8D32EB00497000 /* ShellResult.m in Sources */,
 				898D7D921DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
+				F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */,
 				6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */,
 				898D7D981DA47569001578FE /* HTTPFileResponse.m in Sources */,
 				63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */,
@@ -1428,6 +1443,7 @@
 				898D7DDB1DA4758A001578FE /* RouteRequest.m in Sources */,
 				898D7D841DA47569001578FE /* MultipartFormDataParser.m in Sources */,
 				898D7DEA1DA47672001578FE /* CBXRoute.m in Sources */,
+				F5D0F6181E68703A00749462 /* XCTestConfigurationPlist.m in Sources */,
 				898D7D8A1DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */,
 				B294E8D81E49267E0070BCD2 /* CodesignResources.m in Sources */,
