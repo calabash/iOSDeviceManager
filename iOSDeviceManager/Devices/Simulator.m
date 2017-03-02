@@ -6,6 +6,7 @@
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
+#import "XCTestConfigurationPlist.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -356,6 +357,16 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    NSDecimalNumber *xcodeVersion = FBControlCoreGlobalConfiguration.xcodeVersionNumber;
+    if ([self requiresXCTestConfigurationStagingToTmp:xcodeVersion]) {
+        BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
+                                                                       error:&error];
+        if (!staged) {
+            ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
+            return iOSReturnStatusCodeInternalError;
+        }
+    }
+
     Simulator *replog = [Simulator new];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
@@ -599,6 +610,44 @@ testCaseDidStartForTestClass:(NSString *)testClass
     descriptor = [self.fbSimulator installedApplicationWithBundleID:bundleID
                                                               error:nil];
     return descriptor.path;
+}
+
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error {
+    NSString *runnerPath = [self installPathForApplication:bundleIdentifier];
+    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+
+    NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
+    NSString *tmpDirectory = [containerPath stringByAppendingPathComponent:@"tmp"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:tmpDirectory]) {
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:tmpDirectory
+                                       withIntermediateDirectories:YES
+                                                        attributes:nil
+                                                             error:error]) {
+            return NO;
+        }
+    }
+
+    NSString *filename = @"Xcode83.xctestconfiguration";
+    NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
+
+    if ([[NSFileManager defaultManager] fileExistsAtPath:xctestconfigPath]) {
+        if (![[NSFileManager defaultManager] removeItemAtPath:xctestconfigPath
+                                                        error:error]) {
+            return NO;
+        }
+    }
+
+    if (![xctestconfig writeToFile:xctestconfigPath
+                        atomically:YES
+                          encoding:NSUTF8StringEncoding
+                             error:error]) {
+        return NO;
+    }
+
+    return YES;
 }
 
 @end
