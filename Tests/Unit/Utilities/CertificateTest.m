@@ -96,8 +96,6 @@
     OCMVerifyAll(MockShasumProvider);
 }
 
-@end
-
 SpecBegin(Certificate)
 
 context(@"properties", ^{
@@ -129,5 +127,8 @@ context(@"#shasum", ^{
         expect(cert.shasum).to.equal(@"");
     });
 });
+
 SpecEnd
+
+@end
 
