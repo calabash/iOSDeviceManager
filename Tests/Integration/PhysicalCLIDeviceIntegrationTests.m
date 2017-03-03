@@ -61,8 +61,8 @@
     if (device_available()) {
         NSArray *args = @[
                           kProgramName, @"is_installed",
-                          @"-b", testApp(ARM),
-                          @"-d", testAppID
+                          @"-b", testAppID,
+                          @"-d", defaultDeviceUDID
                           ];
         if ([CLI process:args] == iOSReturnStatusCodeFalse) {
             args = @[kProgramName, @"install",
@@ -88,7 +88,7 @@
                               @"-b", testAppID,
                               @"-d", defaultDeviceUDID
                               ];
-            
+
             if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
                 args = @[
                          kProgramName, @"uninstall",
@@ -97,7 +97,7 @@
                          ];
                 XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
             }
-            
+
             args = @[
                      kProgramName, @"install",
                      @"-d", defaultDeviceUDID,
@@ -165,7 +165,7 @@
                           @"-b", testAppID,
                           @"-d", defaultDeviceUDID
                           ];
-        
+
         if ([CLI process:args] == iOSReturnStatusCodeFalse) {
             args = @[
                      kProgramName, @"install",
@@ -175,7 +175,7 @@
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
         }
-        
+
         //Upload a unique file
         NSString *file = uniqueFile();
         args = @[
@@ -186,7 +186,7 @@
                  @"-o", @"NO"
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        
+
         //Now attempt to overwrite with -o false
         args = @[
                  kProgramName, @"upload",
@@ -196,7 +196,7 @@
                  @"-o", @"NO"
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
-        
+
         //Now attempt to overwrite with -o true
         args = @[
                  kProgramName, @"upload",
@@ -210,13 +210,13 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    
+
     NSUInteger deviceCount = [DeviceUtils availableDevices].count;
     if (deviceCount != 1) {
         printf("Multiple devices detected - skipping option device arg test");
         return;
     }
-    
+
     NSArray *args = @[
                       kProgramName, @"is_installed",
                       @"-b", testAppID
@@ -228,7 +228,7 @@
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
-    
+
     args = @[
              kProgramName, @"install",
              @"-a", testApp(ARM),
@@ -244,7 +244,7 @@
                           @"-b", testAppID,
                           @"-d", defaultDeviceUDID
                           ];
-        
+
         if ([CLI process:args] == iOSReturnStatusCodeFalse) {
             args = @[
                      kProgramName, @"install",
@@ -253,14 +253,14 @@
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
         }
-        
+
         args = @[
                  kProgramName, @"launch_app",
                  @"-b", testAppID,
                  @"-d", defaultDeviceUDID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        
+
         args = @[
                  kProgramName, @"kill_app",
                  @"-b", testAppID,
