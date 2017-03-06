@@ -4,6 +4,7 @@
 #import "ShellRunner.h"
 #import "Certificate.h"
 #import "Entitlements.h"
+#import "CodesignResources.h"
 
 @interface MobileProfile ()
 
@@ -48,29 +49,29 @@
 }
 
 - (void)testHasMethodsForReturningProfileDetails {
-    NSString *path = [self.resources CalabashWildcardPath];
+    NSString *path = [CodesignResources CalabashWildcardProfilePath];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
                                                                   path:path];
-    expect(profile.AppIDName).to.equal(@"CalabashWildcard");
-    expect(profile.ApplicationIdentifierPrefix[0]).to.equal(@"FYD86LA7RE");
-    expect(profile.DeveloperCertificates.count).to.equal(1);
-    expect(profile.DeveloperCertificates[0]).to.beInstanceOf([Certificate class]);
-    expect(profile.ProvisionedDevices.count).to.equal(26);
-    expect(profile.ProvisionedDevices[0]).to.equal(@"e60ef9ae876ab4a218ee966d0525c9fb79e5606d");
-    expect(profile.TeamIdentifier[0]).to.equal(@"FYD86LA7RE");
-    expect(profile.UUID).to.equal(@"49fc8ecd-d772-432c-adc3-25e7db53b847");
-    expect(profile.TeamName).to.equal(@"Karl Krukow");
-    expect(profile.Name).to.equal(@"CalabashWildcard");
-    expect(profile.Platform[0]).to.equal(@"iOS");
-    expect(profile.ExpirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
+    expect(profile.appIDName).to.equal(@"CalabashWildcard");
+    expect(profile.applicationIdentifierPrefix[0]).to.equal(@"FYD86LA7RE");
+    expect(profile.developerCertificates.count).to.equal(1);
+    expect(profile.developerCertificates[0]).to.beInstanceOf([Certificate class]);
+    expect(profile.provisionedDevices.count).to.equal(39);
+    expect(profile.provisionedDevices[0]).to.equal(@"e60ef9ae876ab4a218ee966d0525c9fb79e5606d");
+    expect(profile.teamIdentifier[0]).to.equal(@"FYD86LA7RE");
+    expect(profile.uuid).to.equal(@"47148def-f37f-4dd9-888a-ce659584fb5b");
+    expect(profile.teamName).to.equal(@"Karl Krukow");
+    expect(profile.name).to.equal(@"CalabashWildcard");
+    expect(profile.platform[0]).to.equal(@"iOS");
+    expect(profile.expirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
     NSLog(@"%@", profile.info);
 
-    Certificate *cert = profile.DeveloperCertificates[0];
+    Certificate *cert = profile.developerCertificates[0];
     expect(cert.commonName).to.equal(@"iPhone Developer: Karl Krukow (YTTN6Y2QS9)");
 
-    Entitlements *entitlements = profile.Entitlements;
+    Entitlements *entitlements = profile.entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
     NSLog(@"%@", entitlements);
 
@@ -82,25 +83,25 @@
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
                                                                   path:path];
-    expect(profile.AppIDName).to.equal(@"Xcode iOS App ID app group xam app-cal");
-    expect(profile.ApplicationIdentifierPrefix[0]).to.equal(@"58LM7J37Q8");
-    expect(profile.DeveloperCertificates.count).to.equal(33);
-    expect(profile.DeveloperCertificates[0]).to.beInstanceOf([Certificate class]);
-    expect(profile.ProvisionedDevices.count).to.equal(83);
-    expect(profile.ProvisionedDevices[0]).to.equal(@"f90928195b6e6709405c608f03e0a425b0e4cd10");
-    expect(profile.TeamIdentifier[0]).to.equal(@"58LM7J37Q8");
-    expect(profile.UUID).to.equal(@"64fb01e1-61ed-4bcf-b4fe-16221f047f84");
-    expect(profile.TeamName).to.equal(@"Xamarin Inc");
-    expect(profile.Name).to.equal(@"iOS Team Provisioning Profile: app.group.xam.app-cal");
-    expect(profile.Platform[0]).to.equal(@"iOS");
-    expect(profile.ExpirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
+    expect(profile.appIDName).to.equal(@"Xcode iOS App ID app group xam app-cal");
+    expect(profile.applicationIdentifierPrefix[0]).to.equal(@"58LM7J37Q8");
+    expect(profile.developerCertificates.count).to.equal(33);
+    expect(profile.developerCertificates[0]).to.beInstanceOf([Certificate class]);
+    expect(profile.provisionedDevices.count).to.equal(83);
+    expect(profile.provisionedDevices[0]).to.equal(@"f90928195b6e6709405c608f03e0a425b0e4cd10");
+    expect(profile.teamIdentifier[0]).to.equal(@"58LM7J37Q8");
+    expect(profile.uuid).to.equal(@"64fb01e1-61ed-4bcf-b4fe-16221f047f84");
+    expect(profile.teamName).to.equal(@"Xamarin Inc");
+    expect(profile.name).to.equal(@"iOS Team Provisioning Profile: app.group.xam.app-cal");
+    expect(profile.platform[0]).to.equal(@"iOS");
+    expect(profile.expirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
     NSLog(@"%@", profile.info);
 
-    Certificate *cert = profile.DeveloperCertificates[0];
+    Certificate *cert = profile.developerCertificates[0];
     expect(cert.commonName).to.equal(@"iPhone Developer: Andrew Chung (28DXNYAUL2)");
 
-    Entitlements *entitlements = profile.Entitlements;
+    Entitlements *entitlements = profile.entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
     NSLog(@"%@", entitlements);
 }
@@ -175,14 +176,14 @@ context(@"Instance Methods", ^{
 
         it(@"returns true if platform contains iOS", ^{
             platforms = @[@"iOS", @"watchOS"];
-            OCMExpect([mock Platform]).andReturn(platforms);
+            OCMExpect([mock platform]).andReturn(platforms);
 
             expect(profile.isPlatformIOS).to.equal(YES);
         });
 
         it(@"returns false if platform does not contain iOS", ^{
             platforms = @[@"watchOS"];
-            OCMExpect([mock Platform]).andReturn(platforms);
+            OCMExpect([mock platform]).andReturn(platforms);
 
             expect(profile.isPlatformIOS).to.equal(NO);
         });
@@ -202,14 +203,14 @@ context(@"Instance Methods", ^{
 
         it(@"returns true if profile has expired", ^{
             date = [NSDate distantPast];
-            OCMExpect([mock ExpirationDate]).andReturn(date);
+            OCMExpect([mock expirationDate]).andReturn(date);
 
             expect(profile.isExpired).to.equal(YES);
         });
 
         it(@"returns false if profile has not expired", ^{
             date = [NSDate distantFuture];
-            OCMExpect([mock ExpirationDate]).andReturn(date);
+            OCMExpect([mock expirationDate]).andReturn(date);
 
             expect(profile.isExpired).to.equal(NO);
         });
@@ -228,13 +229,13 @@ context(@"Instance Methods", ^{
         });
 
         it(@"returns true if the device is in this profile", ^{
-            OCMExpect([mock ProvisionedDevices]).andReturn(@[@"<UDID>"]);
+            OCMExpect([mock provisionedDevices]).andReturn(@[@"<UDID>"]);
 
             expect([profile containsDeviceUDID:udid]).to.equal(YES);
         });
 
         it(@"returns false if the device is not in this profile", ^{
-            OCMExpect([mock ProvisionedDevices]).andReturn(@[]);
+            OCMExpect([mock provisionedDevices]).andReturn(@[]);
 
             expect([profile containsDeviceUDID:udid]).to.equal(NO);
         });
@@ -415,7 +416,7 @@ context(@"embeddedMobileProvision:identity:deviceUDID:", ^{
                   ).andReturn(MockMobileProfile);
 
         OCMExpect([MockMobileProfile isExpired]).andReturn(NO);
-        OCMExpect([MockMobileProfile ProvisionedDevices]).andReturn(@[]);
+        OCMExpect([MockMobileProfile provisionedDevices]).andReturn(@[]);
 
         embedded = [MobileProfile embeddedMobileProvision:bundlePath
                                                  identity:identity
@@ -431,8 +432,8 @@ context(@"embeddedMobileProvision:identity:deviceUDID:", ^{
                   ).andReturn(MockMobileProfile);
 
         OCMExpect([MockMobileProfile isExpired]).andReturn(NO);
-        OCMExpect([MockMobileProfile ProvisionedDevices]).andReturn(@[UDID]);
-        OCMExpect([MockMobileProfile DeveloperCertificates]).andReturn(@[]);
+        OCMExpect([MockMobileProfile provisionedDevices]).andReturn(@[UDID]);
+        OCMExpect([MockMobileProfile developerCertificates]).andReturn(@[]);
 
         embedded = [MobileProfile embeddedMobileProvision:bundlePath
                                                  identity:identity

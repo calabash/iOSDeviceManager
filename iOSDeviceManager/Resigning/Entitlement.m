@@ -36,6 +36,9 @@
                 if (profArray.count == 1) {
                     NSString *value = profArray[0];
                     if ([value isEqualToString:@"*"] ||
+
+                        //FIXME: Why is this 12? TeamID length?
+                        //       ^ Yes.
                         (value.length == 12 && [value hasSuffix:@"*"])) {
                         return ProfileHasKey;
                     } else {
@@ -97,6 +100,17 @@
             // Somehow we've reached a point where the profile entitlement is
             // neither string nor array.  We don't know what to do here
         }
+    } else if ([appEntitlement hasBoolValue]) {
+        // i.e. get-task-allow = true
+        if ([profileEntitlement hasBoolValue]) {
+            // App => bool
+            // Prof => bool
+            if (appEntitlement.value == profileEntitlement.value) {
+                return ProfileHasKeyExactly;
+            } else {
+                return ProfileHasKey;
+            }
+        }
     } else {
         // WTF?!
         // Somehow we've reached a point where the app entitlement is
@@ -135,6 +149,10 @@
 
 - (BOOL)hasNSStringValue {
     return [[self.value class] isSubclassOfClass:[NSString class]];
+}
+
+- (BOOL)hasBoolValue {
+    return [[self.value class] isSubclassOfClass:[NSNumber class]];
 }
 
 @end

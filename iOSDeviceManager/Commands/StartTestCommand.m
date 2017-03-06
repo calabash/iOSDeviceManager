@@ -15,20 +15,20 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
     if ([args.allKeys containsObject:KEEP_ALIVE_FLAG]) {
         keepAlive = [args[KEEP_ALIVE_FLAG] boolValue];
     }
-    
+
     NSString *bundleID = [self optionDict][TEST_RUNNER_BUNDLE_ID_FLAG].defaultValue;
     if ([args.allKeys containsObject:TEST_RUNNER_BUNDLE_ID_FLAG]) {
         bundleID = args[TEST_RUNNER_BUNDLE_ID_FLAG];
     }
-    
+
     NSString *sessionID = [self optionDict][SESSION_ID_FLAG].defaultValue;
     if ([args.allKeys containsObject:SESSION_ID_FLAG]) {
         sessionID = args[SESSION_ID_FLAG];
     }
-    
+
     NSUUID *sid = [[NSUUID alloc] initWithUUIDString:sessionID];
     NSAssert(sid, @"%@ is not a valid UUID", sid);
-    
+
     Device *device = [self deviceFromArgs:args];
     if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;

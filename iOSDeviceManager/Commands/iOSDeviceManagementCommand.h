@@ -6,8 +6,11 @@
 
 @protocol iOSDeviceManagementCommand <NSObject>
 + (NSString *)positionalArgShortFlag:(NSString *)arg;
++ (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args;
 + (Device *)deviceFromArgs:(NSDictionary *)args;
 + (Device *)simulatorFromArgs:(NSDictionary *)args;
++ (CodesignIdentity *)codesignIDFromArgs:(NSDictionary *)args;
++ (NSString *)resignObjectFromArgs:(NSDictionary *)args;
 + (NSString *)name;
 + (void)printUsage;
 + (NSArray <NSString *> *)positionalArgShortFlags;

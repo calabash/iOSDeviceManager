@@ -1,11 +1,12 @@
 
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "iOSDeviceManagementCommand.h"
+#import "ConsoleWriter.h"
 #import <objc/runtime.h>
 #import "ShellRunner.h"
+#import "JSONUtils.h"
 #import "Command.h"
 #import "CLI.h"
-#import "ConsoleWriter.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -47,7 +48,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
 
 /*
  For parsing args - positional values may be used (regardless of order) and their
- corresponding property is determined by `positionalArgShortFlag`. Using redundant 
+ corresponding property is determined by `positionalArgShortFlag`. Using redundant
  args will result in iOSReturnStatusCodeInvalidArguments response.
 */
 + (NSDictionary<NSString *, NSString *> *)parseArgs:(NSArray <NSString *> *)args
@@ -55,7 +56,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                            exitCode:(int *)exitCode {
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
     NSMutableArray<NSString *> *possiblePositionalArgShortFlags = [NSMutableArray arrayWithArray:[command positionalArgShortFlags]];
-    
+
     for (int i = 0; i < args.count; i++) {
         CommandOption *op = [command optionForFlag:args[i]];
         if (op == nil) { // This is true when the arg provided isn't a recognized flag or isn't a flag
@@ -91,7 +92,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                 continue;
             }
         }
-        if (args.count <= i + 1) {
+        if (args.count <= i + 1 && op.requiresArgument) {
             ConsoleWriteErr(@"No value provided for %@\n", args[i]);
             [command printUsage];
             *exitCode = iOSReturnStatusCodeMissingArguments;
@@ -110,6 +111,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             values[op.shortFlag] = @YES;
         }
     }
+
     *exitCode = iOSReturnStatusCodeEverythingOkay;
     return values;
 }
@@ -121,7 +123,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     } else {
         NSString *commandName = [args[1] lowercaseString];
         Class <iOSDeviceManagementCommand> command = commandClasses[commandName];
-        
+
         if (command) {
             //Ensure args can be parsed correctly
             NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
@@ -131,6 +133,13 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                               exitCode:&ec];
             if (ec != iOSReturnStatusCodeEverythingOkay) {
                 return ec;
+            }
+
+            //If the user specified they want help, just print help and exit.
+            if ([parsedArgs hasKey:HELP_SHORT_FLAG] ||
+                [parsedArgs hasKey:HELP_LONG_FLAG]) {
+                [command printUsage];
+                return iOSReturnStatusCodeEverythingOkay;
             }
 
             //Ensure all required args are present
@@ -143,7 +152,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     return iOSReturnStatusCodeMissingArguments;
                 }
             }
-            
+
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
 

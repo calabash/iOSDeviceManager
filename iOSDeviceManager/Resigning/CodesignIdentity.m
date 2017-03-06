@@ -25,26 +25,30 @@
 + (CodesignIdentity *)identityForAppBundle:(NSString *)appBundle
                                   deviceId:(NSString *)deviceId {
     Entitlements *appEnts = [Entitlements entitlementsWithBundlePath:appBundle];
-    if (!appEnts) {
-        return nil;
-    }
-    
-    NSArray <CodesignIdentity *>* identities = [CodesignIdentity validIOSDeveloperIdentities];
-    if (!identities) {
+    if (!appEnts.count) {
+        ConsoleWriteErr(@"No entitlements found for app bundle: %@", appBundle);
         return nil;
     }
 
-    if (![MobileProfile nonExpiredIOSProfiles]) {
+    NSArray <CodesignIdentity *>* identities = [CodesignIdentity validIOSDeveloperIdentities];
+    if (!identities.count) {
+        ConsoleWriteErr(@"No valid iOSDeveloperIdentities found on system.");
         return nil;
     }
+
+    if (![MobileProfile nonExpiredIOSProfiles].count) {
+        ConsoleWrite(@"No non-expired iOSProfiles found on system.");
+        return nil;
+    }
+
     CodesignIdentity *bestIdentity = nil;
     NSInteger bestIdentityRank = NSIntegerMax;
-    
+
     for (CodesignIdentity *identity in identities) {
         for (MobileProfile *profile in [MobileProfile nonExpiredIOSProfiles]) {
             if ([profile isValidForDeviceUDID:deviceId identity:identity]) {
                 NSInteger rank = [Entitlements
-                                  rankByComparingProfileEntitlements:profile.Entitlements
+                                  rankByComparingProfileEntitlements:profile.entitlements
                                   appEntitlements:appEnts];
 
                 if (rank != ProfileDoesNotHaveRequiredKey && rank < bestIdentityRank) {
@@ -60,6 +64,39 @@
 
 + (CodesignIdentity *)adHoc {
     return [[CodesignIdentity alloc] initWithShasum:@"-" name:@"AdHoc"];
+}
+
++ (CodesignIdentity *)identityForShasumOrName:(NSString *)shasumOrName {
+    int numberOfIdentitiesWithName = 0;
+    CodesignIdentity *namedCodesignIdentity;
+    for (CodesignIdentity *codesignIdentity in [CodesignIdentity validCodesigningIdentities]) {
+        if ([[codesignIdentity shasum] isEqualToString:shasumOrName]) {
+            return codesignIdentity;
+        }
+        if ([[codesignIdentity name] isEqualToString:shasumOrName]) {
+            numberOfIdentitiesWithName += 1;
+            namedCodesignIdentity = codesignIdentity;
+        }
+    }
+
+    if (numberOfIdentitiesWithName == 1) {
+        return namedCodesignIdentity;
+    } else if (numberOfIdentitiesWithName > 1) {
+        ConsoleWriteErr(@"Ambiguous codesign identity specified with name: %@", shasumOrName);
+        return nil;
+    }
+
+    return nil;
+}
+
++ (BOOL)isValidCodesignIdentity:(NSString *)shasumOrName {
+    CodesignIdentity *identity = [CodesignIdentity identityForShasumOrName:shasumOrName];
+
+    if (!identity) {
+        return NO;
+    }
+
+    return YES;
 }
 
 + (NSString *)codeSignIdentityFromEnvironment {
@@ -127,7 +164,7 @@
             shasum = nil;
         }
 
-        if (shasum && name) {
+        if (shasum.length && name.length) {
             identity = [[CodesignIdentity alloc] initWithShasum:shasum name:name];
             if (![identities containsObject:identity]) {
                 [identities addObject:identity];
