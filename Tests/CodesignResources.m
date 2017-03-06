@@ -11,16 +11,6 @@
     return [[CodesignResources resourcesDirectory] stringByAppendingPathComponent:@"calabash.dylib"];
 }
 
-+ (NSString *)TaskyIpaPath {
-    return [[[CodesignResources resourcesDirectory]
-             stringByAppendingPathComponent:@"arm"]
-            stringByAppendingPathComponent:@"TaskyPro.ipa"];
-}
-
-+ (NSString *)TaskyAppBundleID {
-    return @"com.xamarin.samples.taskyprotouch";
-}
-
 + (NSString *)PermissionsAppBundleID {
     return @"sh.calaba.Permissions";
 }
@@ -44,13 +34,6 @@
     }
     
     return calabashCodesignDir;
-}
-
-+ (NSString *)CalabashWildcardProfilePath {
-    return [[[[CodesignResources CalabashCodesignPath]
-              stringByAppendingPathComponent:@"apple"]
-             stringByAppendingPathComponent:@"profiles"]
-            stringByAppendingPathComponent:@"CalabashWildcard.mobileprovision"];
 }
 
 + (NSString *)CalabashPermissionsProfilePath {

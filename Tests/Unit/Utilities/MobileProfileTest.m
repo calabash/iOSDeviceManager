@@ -4,7 +4,6 @@
 #import "ShellRunner.h"
 #import "Certificate.h"
 #import "Entitlements.h"
-#import "CodesignResources.h"
 
 @interface MobileProfile ()
 
@@ -49,7 +48,7 @@
 }
 
 - (void)testHasMethodsForReturningProfileDetails {
-    NSString *path = [CodesignResources CalabashWildcardProfilePath];
+    NSString *path = [[Resources shared] CalabashWildcardPath];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
                                                                   path:path];

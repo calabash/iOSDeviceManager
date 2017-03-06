@@ -19,9 +19,9 @@
 }
 
 - (void)testResignWithWildCardProfile {
-    NSString *profilePath = [CodesignResources CalabashWildcardProfilePath];
-    NSString *ipaPath = [CodesignResources TaskyIpaPath];
-    NSString *bundleID = [CodesignResources TaskyAppBundleID];
+    NSString *profilePath = [[Resources shared] CalabashWildcardPath];
+    NSString *ipaPath = [[Resources shared] TaskyIpaPath];
+    NSString *bundleID = [[Resources shared] TaskyIdentifier];
     NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-tasky.ipa"];
     NSArray *args = @[
                       kProgramName, @"resign",
