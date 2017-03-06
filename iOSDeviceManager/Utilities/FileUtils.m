@@ -17,7 +17,7 @@
         NSString *filePath = [dir joinPath:file];
         handler(filePath);
         isDir = NO;
-        BOOL exists = [mgr fileExistsAtPath:filePath isDirectory:&isDir];
+        BOOL __unused exists = [mgr fileExistsAtPath:filePath isDirectory:&isDir];
         NSAssert(exists,
                  @"Error performing %@ on %@: file does not exist!",
                  NSStringFromSelector(_cmd),
