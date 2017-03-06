@@ -1,6 +1,5 @@
 
 #import <Foundation/Foundation.h>
-#import "MobileProfile.h"
 #import "Application.h"
 
 @class MobileProfile;
