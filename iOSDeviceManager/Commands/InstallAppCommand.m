@@ -42,7 +42,10 @@ static NSString *const PROFILE_PATH_FLAG = @"-p";
     
     NSString *profilePath = args[PROFILE_PATH_FLAG];
     MobileProfile *profile;
-    profile = [MobileProfile withPath:profilePath];
+
+    if (profilePath) {
+        profile = [MobileProfile withPath:profilePath];
+    }
     
     if (profile && codesignIdentity) {
         ConsoleWriteErr(@"Mobile profile and codesign identity both specified - at most one needed");
