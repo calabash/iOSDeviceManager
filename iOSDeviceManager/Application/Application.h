@@ -13,7 +13,7 @@ typedef NS_ENUM(short, ApplicationType) {
 @property (nonatomic, strong) NSString *bundleID;
 @property (nonatomic, strong) NSDictionary *infoPlist;
 @property (nonatomic, strong) NSSet<NSString *> *arches;
-@property (nonatomic)       ApplicationType type;
+@property (nonatomic, assign) ApplicationType type;
 
 /**
     Returns the path to the directory containing the application bundle. 
