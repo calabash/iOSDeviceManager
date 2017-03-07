@@ -59,7 +59,7 @@
 @property (nonatomic, strong) NSString *name;
 @property BOOL testingComplete;
 
-+ (Device *)withID:(NSString *)uuid;
++ (instancetype)withID:(NSString *)uuid;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 

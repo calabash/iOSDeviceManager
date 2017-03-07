@@ -19,7 +19,20 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 static const FBSimulatorControl *_control;
 
-+ (Device *)withID:(NSString *)uuid {
++ (void)initialize {
+    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+        configurationWithDeviceSetPath:nil
+                               options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+
+    NSError *error;
+    _control = [FBSimulatorControl withConfiguration:configuration error:&error];
+    if (error) {
+        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", error);
+        abort();
+    }
+}
+
++ (Simulator *)withID:(NSString *)uuid {
     Simulator* simulator = [[Simulator alloc] init];
 
     simulator.uuid = uuid;
@@ -448,19 +461,6 @@ Tests can not be run on iOS less than 9.0",
     return simulator;
 }
 
-+ (void)initialize {
-    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                      configurationWithDeviceSetPath:nil
-                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-
-    NSError *error;
-    _control = [FBSimulatorControl withConfiguration:configuration error:&error];
-    if (error) {
-        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", error);
-        abort();
-    }
-}
-
 #pragma mark - Test Reporter Methods
 
 - (void)testManagerMediatorDidBeginExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
@@ -551,7 +551,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                stringByAppendingPathComponent:@"Containers"]
                               stringByAppendingPathComponent:@"Data"]
                              stringByAppendingPathComponent:@"Application"];
-    
+
     NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:appDataPath error:nil];
 
     for (id bundleFolder in bundleFolders) {
@@ -562,7 +562,6 @@ testCaseDidStartForTestClass:(NSString *)testClass
         if ([fm fileExistsAtPath:plistFile]) {
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
             if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
-                ConsoleWrite(@"%@", bundleFolderPath);
                 return bundleFolderPath;
             }
         }

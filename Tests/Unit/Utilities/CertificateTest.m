@@ -129,5 +129,5 @@ context(@"#shasum", ^{
         expect(cert.shasum).to.equal(@"");
     });
 });
-SpecEnd
 
+SpecEnd

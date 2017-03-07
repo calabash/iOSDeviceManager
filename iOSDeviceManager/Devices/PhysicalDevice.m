@@ -43,26 +43,25 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 @implementation PhysicalDevice
 
-+ (Device *)withID:(NSString *)uuid {
++ (PhysicalDevice *)withID:(NSString *)uuid {
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
-    
+
     device.uuid = uuid;
-    
+
     NSError *err;
     FBDevice *fbDevice = [[FBDeviceSet defaultSetWithLogger:nil
                                                     error:&err]
                                             deviceWithUDID:uuid];
-    if (!fbDevice || err) {
+    if (!fbDevice) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
     }
 
-    [fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
-    if (err) {
+    if (![fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err]) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
     }
-    
+
     device.fbDevice = fbDevice;
 
     return device;
@@ -81,32 +80,32 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                  codesignIdentity:(CodesignIdentity *)codesignID
                      shouldUpdate:(BOOL)shouldUpdate {
     if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     NSError *err;
     FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
     BOOL needsToInstall = YES;
-    
+
     //First check if the app is installed
     if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {
             ConsoleWriteErr(@"Error checking if app (%@) is installed. %@", app.bundleID, err);
             return iOSReturnStatusCodeInternalError;
         }
-        
+
         //If it's installed and the user opted for no update, we're done.
         if (!shouldUpdate) {
             return iOSReturnStatusCodeEverythingOkay;
         }
-        
+
         iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
-        
+
         //Check if the app differs from the installed version
         needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
     }
-    
+
     //Only codesign/install if we actually need to.
     if (needsToInstall) {
         //TODO: Skip resigning if the app is already signed for the device?
@@ -136,7 +135,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         }
         // Log entitlement comparisons
         [Entitlements compareEntitlementsWithProfile:profile app:app];
-        
+
         // Install profile to device
         Class DTDKProvisioniingProfile = NSClassFromString(@"DTDKProvisioningProfile");
         DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
@@ -146,15 +145,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             ConsoleWriteErr(@"Failed to install profile: %@ due to error: %@", profile.path, err);
             return iOSReturnStatusCodeInternalError;
         }
-        
+
         [self.fbDevice.dvtDevice installProvisioningProfile:_profile];
-        
+
         if (![op installApplicationWithPath:app.path error:&err] || err) {
             ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -184,24 +183,24 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
-    
+
     FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
-    
+
     NSError *err;
     if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
         ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     if (err) {
         ConsoleWriteErr(@"Error checking if application %@ is installed: %@", bundleID, err);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
-    
+
     return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
@@ -256,20 +255,20 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    
+
     NSError *error;
     BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
-    
+
     if (error) {
         ConsoleWriteErr(@"Failed killing app with bundle ID: %@ due to: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     if (result) {
         return iOSReturnStatusCodeEverythingOkay;
     } else {
@@ -291,14 +290,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
     NSError *err;
     BOOL installed = [self isInstalled:bundleID withError:&err];
-    
+
     if (err) {
         ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
         @throw [NSException exceptionWithName:@"IsInstalledAppException"
                                        reason:@"Unable to determine if application is installed"
                                      userInfo:nil];
     }
-    
+
     if (installed) {
         ConsoleWrite(@"true");
         return iOSReturnStatusCodeEverythingOkay;
@@ -329,7 +328,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         ConsoleWriteErr(@"Attempted to start test with runner id: %@ but app is not installed", runnerID);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
     NSError *e = nil;
 
@@ -347,7 +346,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
              `testingComplete` will be YES when testmanagerd calls
              `testManagerMediatorDidFinishExecutingTestPlan:`
              */
-            
+
             FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
             [spinner spinUntilTrue:^BOOL () {
                 return ([testManager testingHasFinished] && self.testingComplete);

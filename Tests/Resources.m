@@ -450,6 +450,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
         _XcodeFromProcessPath = [[environment[@"DYLD_FALLBACK_FRAMEWORK_PATH"]
                                   stringByDeletingLastPathComponent]
                                  stringByDeletingLastPathComponent];
+    } else if (environment[@"PATH"]) {
+        NSArray *tokens = [environment[@"PATH"] componentsSeparatedByString:@":"];
+        NSString *xcodeUsrBin = tokens[0];
+        _XcodeFromProcessPath = [[xcodeUsrBin stringByDeletingLastPathComponent]
+                                 stringByDeletingLastPathComponent];
     }
 
     if (!_XcodeFromProcessPath ||
