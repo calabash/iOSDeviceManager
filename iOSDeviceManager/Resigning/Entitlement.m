@@ -104,7 +104,7 @@
         if ([profileEntitlement hasBoolValue]) {
             // App => bool
             // Prof => bool
-            if (appEntitlement.value == profileEntitlement.value) {
+            if ([appEntitlement.value isEqualToNumber:profileEntitlement.value]) {
                 return ProfileHasKeyExactly;
             } else {
                 return ProfileHasKey;
