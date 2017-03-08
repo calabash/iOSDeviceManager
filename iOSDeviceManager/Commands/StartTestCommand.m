@@ -33,7 +33,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
     if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
-
+    
     return [device startTestWithRunnerID:bundleID sessionID:sid keepAlive:keepAlive];
 }
 

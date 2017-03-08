@@ -1,14 +1,15 @@
-
+#import "MobileProfile.h"
 #import "Entitlements.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "Entitlement.h"
 #import "ConsoleWriter.h"
+#import "StringUtils.h"
+#import "JSONUtils.h"
 
 @interface Entitlements ()
 
 + (NSDictionary *)dictionaryOfEntitlementsWithBundlePath:(NSString *)bundlePath;
-+ (NSArray<NSString *> *)entitlementComparisonKeys;
 
 @property(copy, readonly) NSDictionary *dictionary;
 
@@ -69,39 +70,16 @@
     return [[Entitlements alloc] initWithDictionary:dictionary];
 }
 
-+ (NSArray<NSString *> *)entitlementComparisonKeys {
-    return
-    @[
-
-      @"com.apple.developer.ubiquity-kvstore-identifier",
-      @"com.apple.developer.icloud-services",
-      @"aps-environment",
-      @"com.apple.developer.default-data-protection",
-      @"com.apple.developer.associated-domains",
-      @"keychain-access-groups",
-      @"com.apple.security.application-groups",
-      @"com.apple.developer.in-app-payments",
-      @"com.apple.developer.pass-type-identifiers",
-      @"com.apple.developer.icloud-container-environment",
-      @"com.apple.developer.icloud-container-identifiers",
-      @"com.apple.developer.icloud-container-development-container-identifiers",
-      @"com.apple.developer.icloud-services",
-      @"com.apple.developer.ubiquity-container-identifiers",
-      @"com.apple.developer.networking.com.apple.developer.in-app-payments.api"
-      ];
-}
-
 + (NSInteger)rankByComparingProfileEntitlements:(Entitlements *)profileEntitlements
                                 appEntitlements:(Entitlements *)appEntitlements {
-    NSArray<NSString *> *keys = [Entitlements entitlementComparisonKeys];
-
+    NSArray<NSString *> *keys = [appEntitlements.dictionary allKeys];
+    
     Entitlement *appEntitlement, *profileEntitlement;
 
     NSInteger sum = 0;
     EntitlementComparisonResult current;
 
     for(NSString *key in keys) {
-
         appEntitlement = [Entitlement entitlementWithKey:key
                                                    value:appEntitlements[key]];
         profileEntitlement = [Entitlement entitlementWithKey:key
@@ -118,7 +96,35 @@
     return sum;
 }
 
+// Log entitlement discrepancy
++ (void)compareEntitlementsWithProfile:(MobileProfile *)profile app:(Application *)app {
+    
+    Entitlement *appEntitlement, *profileEntitlement;
+    Entitlements *profileEntitlements = [profile entitlements];
+    Entitlements *appEntitlements = [Entitlements entitlementsWithBundlePath:app.path];
+    EntitlementComparisonResult comparison;
+
+    NSArray<NSString *> *keys = [appEntitlements.dictionary allKeys];
+    ConsoleWriteErr(@"Checking for profile and app entitlement discrepancy");
+    for (NSString *key in keys) {
+        appEntitlement = [Entitlement entitlementWithKey:key
+                                                   value:appEntitlements[key]];
+        profileEntitlement = [Entitlement entitlementWithKey:key
+                                                       value:profileEntitlements[key]];
+        comparison = [Entitlement compareProfileEntitlement:profileEntitlement appEntitlement:appEntitlement];
+        if (comparison == ProfileDoesNotHaveRequiredKey) {
+            ConsoleWriteErr(@"Profile does not have app entitlement key: %@", key);
+        } else if (comparison == ProfileHasKey) {
+            ConsoleWriteErr(@"Profile has non-exact value for app entitlement key: %@", key);
+        }
+    }
+}
+
 @synthesize dictionary = _dictionary;
+
+- (NSInteger)count {
+    return self.dictionary.count;
+}
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
@@ -129,7 +135,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"#<Entitlements: %@>", self.dictionary];
+    return [NSString stringWithFormat:@"#<Entitlements: %@>", self.dictionary.pretty];
 }
 
 - (id)objectForKeyedSubscript:(NSString *)key {
@@ -144,6 +150,19 @@
 
 - (BOOL)writeToFile:(NSString *)path {
     return [self.dictionary writeToFile:path atomically:YES];
+}
+
+- (NSString *)applicationIdentifier {
+    return self[@"application-identifier"];
+}
+
+/*
+    ABCDEF12345.com.my.app => com.my.app
+ */
+- (NSString *)applicationIdentifierWithoutPrefix {
+    NSString *teamID = self[@"com.apple.developer.team-identifier"];
+    NSString *appID = [self applicationIdentifier];
+    return [appID replace:[NSString stringWithFormat:@"%@.", teamID] with:@""];
 }
 
 @end

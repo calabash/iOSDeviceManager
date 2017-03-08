@@ -97,6 +97,28 @@
 
     args = @[kProgramName, @"install", @"-a", @"fake/path/to/.app", @"-d"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
+    
+    args = @[kProgramName, @"resign", @"-a", @"fake/path/to/.app"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
+    
+    args = @[kProgramName, @"resign_object", @"/fake/path/to/.dylib"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
+    
+    args = @[kProgramName, @"resign_all", @"-a", @"fake/path/to/.app"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
+}
+
+- (void)testPositionalProfilePath {
+    NSArray *args = @[kProgramName, @"install", @"fake/path/to/.app", @"fake/path/to/profile.mobileprovision"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
+}
+
+- (void)testPositionalFrameworkOrDylib {
+    NSArray *args = @[kProgramName, @"resign_object", @"fake/path/to/.framework", @"-c", @"-"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInternalError);
+
+    args = @[kProgramName, @"resign_object", @"fake/path/to/.dylib", @"-c", @"-"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInternalError);
 }
 
 - (void)testOptionalArg {

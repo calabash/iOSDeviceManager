@@ -4,6 +4,7 @@
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
 #import "DeviceUtils.h"
+#import "JSONUtils.h"
 #import <XCTestBootstrap/XCTestBootstrap.h>
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
@@ -98,6 +99,44 @@
     setenv("FBCONTROLCORE_DEBUG_LOGGING", FBLog, 1);
 }
 
+#pragma mark - Instance Methods
+
+- (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc {
+    NSError *isInstalledError;
+    if ([self isInstalled:app.bundleID withError:&isInstalledError]) {
+        Application *installedApp = [self installedApp:app.bundleID];
+        NSDictionary *oldPlist = installedApp.infoPlist;
+        NSDictionary *newPlist = app.infoPlist;
+        
+        if (!oldPlist.count) {
+            ConsoleWriteErr(@"Error fetching/parsing plist from installed application $@", installedApp.bundleID);
+            *sc = iOSReturnStatusCodeGenericFailure;
+            return NO;
+        }
+        
+        if (!newPlist.count) {
+            ConsoleWriteErr(@"Unable to find Info.plist for bundle path %@", app.path);
+            *sc = iOSReturnStatusCodeGenericFailure;
+            return NO;
+        }
+        
+        if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
+            ConsoleWriteErr(@"Installed version is different, attempting to update %@.", app.bundleID);
+            return YES;
+        } else {
+            ConsoleWriteErr(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            return NO;
+        }
+    }
+    
+    //If it's not installed, it should be 'updated'
+    return YES;
+}
+
+- (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
+    MUST_OVERRIDE;
+}
+
 - (iOSReturnStatusCode)launch {
     MUST_OVERRIDE;
 }
@@ -107,6 +146,18 @@
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                codesignIdentity:(CodesignIdentity *)codesignID
+                    shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
 

@@ -61,8 +61,8 @@
     if (device_available()) {
         NSArray *args = @[
                           kProgramName, @"is_installed",
-                          @"-b", testApp(ARM),
-                          @"-d", testAppID
+                          @"-b", testAppID,
+                          @"-d", defaultDeviceUDID
                           ];
         if ([CLI process:args] == iOSReturnStatusCodeFalse) {
             args = @[kProgramName, @"install",
@@ -248,7 +248,7 @@
         if ([CLI process:args] == iOSReturnStatusCodeFalse) {
             args = @[
                      kProgramName, @"install",
-                     @"-b", testAppID,
+                     @"-a", testApp(ARM),
                      @"-d", defaultDeviceUDID
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
