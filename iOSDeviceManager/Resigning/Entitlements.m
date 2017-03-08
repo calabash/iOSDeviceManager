@@ -142,6 +142,16 @@
     return self.dictionary[key] ?: nil;
 }
 
+- (Entitlements *)entitlementsByReplacingiCloudServicesWildcard:(id)appEntitlementValue {
+    NSMutableDictionary *mutable = [self.dictionary mutableCopy];
+    if ([mutable[@"com.apple.developer.icloud-services"] isEqualToString:@"*"]) {
+        mutable[@"com.apple.developer.icloud-services"] = appEntitlementValue;
+        return [Entitlements entitlementsWithDictionary:mutable];
+    } else {
+        return self;
+    }
+}
+
 - (Entitlements *)entitlementsByReplacingApplicationIdentifier:(NSString *)applicationIdentifier {
     NSMutableDictionary *mutable = [self.dictionary mutableCopy];
     mutable[@"application-identifier"] = applicationIdentifier;
