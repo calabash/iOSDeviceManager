@@ -450,6 +450,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
         _XcodeFromProcessPath = [[environment[@"DYLD_FALLBACK_FRAMEWORK_PATH"]
                                   stringByDeletingLastPathComponent]
                                  stringByDeletingLastPathComponent];
+    } else if (environment[@"PATH"]) {
+        NSArray *tokens = [environment[@"PATH"] componentsSeparatedByString:@":"];
+        NSString *xcodeUsrBin = tokens[0];
+        _XcodeFromProcessPath = [[xcodeUsrBin stringByDeletingLastPathComponent]
+                                 stringByDeletingLastPathComponent];
     }
 
     if (!_XcodeFromProcessPath ||
@@ -861,7 +866,7 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (CodesignIdentity *)KarlKrukowIdentity {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"316B74B2838787366D1E76D33F3E621E5C2FAFB8";
+    NSString *identityShasum = @"8742A8D1D6EB9AEB1955A1F759D244EB214A67AD";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }

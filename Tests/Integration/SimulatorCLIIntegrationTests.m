@@ -278,8 +278,8 @@
 }
 
 - (void)testOptionalDeviceIDArg {
-    if ([DeviceUtils availableDevices].count > 1) {
-        NSLog(@"Multiple connected devices detected - skipping some optional device arg tests");
+    if ([DeviceUtils availableDevices].count > 0) {
+        NSLog(@"Detected physical device - skipping optional device arg simulator tests");
         return;
     }
     
@@ -308,7 +308,7 @@
     
     NSString *deviceID = [DeviceUtils defaultSimulatorID];
     args = @[kProgramName, @"is_installed", deviceID, @"-b", testAppID];
-    if ([CLI process:args]) {
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
         args = @[kProgramName, @"uninstall", deviceID, @"-b", testAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }

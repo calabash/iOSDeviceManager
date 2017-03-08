@@ -1,8 +1,8 @@
 
 #import "TestCase.h"
-#import "BundleResignerFactory.h"
-#import "BundleResigner.h"
 #import "Codesigner.h"
+#import "CodesignResources.h"
+#import "CLI.h"
 
 @interface ResignTest : TestCase
 
@@ -18,64 +18,114 @@
     [super tearDown];
 }
 
-- (void)testResignWithSameIdentity {
+- (void)testResignWithWildCardProfile {
+    NSString *profilePath = [[Resources shared] CalabashWildcardPath];
+    NSString *ipaPath = [[Resources shared] TaskyIpaPath];
+    NSString *bundleID = [[Resources shared] TaskyIdentifier];
+    NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-tasky.ipa"];
+    NSArray *args = @[
+                      kProgramName, @"resign",
+                      ipaPath,
+                      @"-p", profilePath,
+                      @"-o", outputPath
+                      ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    NSString *calabashDylibPath = [CodesignResources CalabashDylibPath];
+    MobileProfile *profile = [MobileProfile withPath:profilePath];
+    CodesignIdentity *codesignID = [profile findValidIdentity];
+    args = @[
+             kProgramName, @"resign_object",
+             calabashDylibPath,
+             @"-c", [codesignID shasum]
+             ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
     if (device_available()) {
-        NSString *identity = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-        NSString *deviceUDID = defaultDeviceUDID;
-        NSString *bundlePath = tasky(ARM);
+        NSArray *args = @[
+                          kProgramName, @"is_installed",
+                          @"-b", bundleID,
+                          @"-d", defaultDeviceUDID
+                          ];
+        
+        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+            args = @[
+                     kProgramName, @"uninstall",
+                     @"-d", defaultDeviceUDID,
+                     @"-b", bundleID
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+        
+        args = @[
+                 kProgramName, @"install",
+                 @"-d", defaultDeviceUDID,
+                 @"-p", profilePath,
+                 @"-a", outputPath
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        
+        args = @[
+                 kProgramName, @"launch_app",
+                 @"-d", defaultDeviceUDID,
+                 @"-b", bundleID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+}
 
-        NSString *directory = [self.resources tmpDirectoryWithName:@"TaskyARM"];
-        NSString *target = [directory stringByAppendingPathComponent:[bundlePath lastPathComponent]];
-        [self.resources copyDirectoryWithSource:bundlePath
-                                         target:target];
-
-        bundlePath = target;
-
-        BundleResigner *resigner;
-        resigner = [[BundleResignerFactory shared]
-                    resignerWithBundlePath:bundlePath
-                    deviceUDID:deviceUDID
-                    signingIdentityString:identity];
-        expect([resigner resign]).to.equal(YES);
+- (void)testResignWithSameIdentity {
+    NSString *profilePath = [CodesignResources CalabashPermissionsProfilePath];
+    NSString *ipaPath = [CodesignResources PermissionsIpaPath];
+    NSString *bundleID = [CodesignResources PermissionsAppBundleID];
+    NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-permissions.ipa"];
+    NSArray *args = @[
+                      kProgramName, @"resign",
+                      ipaPath,
+                      @"-p", profilePath,
+                      @"-o", outputPath
+                      ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    if (device_available()) {
+        NSArray *args = @[
+                          kProgramName, @"is_installed",
+                          @"-b", bundleID,
+                          @"-d", defaultDeviceUDID
+                          ];
+        
+        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+            args = @[
+                     kProgramName, @"uninstall",
+                     @"-d", defaultDeviceUDID,
+                     @"-b", bundleID
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+        
+        args = @[
+                 kProgramName, @"install",
+                 @"-d", defaultDeviceUDID,
+                 @"-p", profilePath,
+                 @"-a", outputPath
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        
+        args = @[
+                 kProgramName, @"launch_app",
+                 @"-d", defaultDeviceUDID,
+                 @"-b", bundleID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
 }
 
 - (void)testResignWithDifferentIdentity {
-    if (device_available()) {
-        NSString *identity = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
-        NSString *deviceUDID = defaultDeviceUDID;
-        NSString *bundlePath = runner(ARM);
-
-        NSString *directory = [self.resources tmpDirectoryWithName:@"RunnerARM"];
-        NSString *target = [directory stringByAppendingPathComponent:[bundlePath lastPathComponent]];
-        [self.resources copyDirectoryWithSource:bundlePath
-                                         target:target];
-
-        bundlePath = target;
-
-        BundleResigner *resigner;
-        resigner = [[BundleResignerFactory shared]
-                    resignerWithBundlePath:bundlePath
-                    deviceUDID:deviceUDID
-                    signingIdentityString:identity];
-        expect([resigner resign]).to.equal(YES);
-    }
+//TODO
 }
 
-- (void)testCodesignFBCodesignProviderImplementation {
-    if (device_available()) {
-        NSString *identity = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
-        NSString *deviceUDID = defaultDeviceUDID;
-        NSString *bundlePath = runner(ARM);
-
-        NSError *error;
-        Codesigner *signer;
-        signer = [[Codesigner alloc] initWithCodeSignIdentity:identity
-                                                   deviceUDID:deviceUDID];
-
-        BOOL actual = [signer signBundleAtPath:bundlePath error:&error];
-        expect(actual).to.equal(YES);
-    }
+- (void)testResignAll {
+//TODO
 }
 
 @end

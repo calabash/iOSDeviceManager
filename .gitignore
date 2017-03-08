@@ -28,6 +28,7 @@ xcuserdata/
 ## Other
 *.moved-aside
 *.xcuserstate
+*.xcscmblueprint
 
 ## Obj-C/Swift specific
 *.hmap
@@ -48,3 +49,6 @@ xcuserdata/
 # RunLoop & Dependencies
 run_loop/
 DeviceAgent.iOS/
+
+# Gemfile used in RunLoop tests
+Tests/cucumber/Gemfile*
