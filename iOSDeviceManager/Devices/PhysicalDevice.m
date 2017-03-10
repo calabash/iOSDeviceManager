@@ -246,6 +246,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                                    bundleName:nil
                                                    arguments:@[]
                                                    environment:@{}
+                                                   waitForDebugger:NO
                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
 
     NSError *error;
