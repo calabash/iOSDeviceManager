@@ -12,6 +12,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 @interface Simulator()
 
 @property (nonatomic, strong) FBSimulator *fbSimulator;
+- (FBSimulatorLifecycleCommands *)lifecycleCommands;
 
 @end
 
@@ -55,8 +56,12 @@ static const FBSimulatorControl *_control;
     return simulator;
 }
 
+- (FBSimulatorLifecycleCommands *)lifecycleCommands {
+    return [FBSimulatorLifecycleCommands commandsWithSimulator:self.fbSimulator];
+}
+
 - (iOSReturnStatusCode)launch {
-    NSError *error;
+    NSError *error = nil;
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         LogInfo(@"Sim is dead, booting...");
@@ -66,10 +71,8 @@ static const FBSimulatorControl *_control;
         // FBSimulatorBootOptionsAwaitServices - would this allow us to wait until the
         // simulator is booted?
         bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
-        FBSimulatorInteraction *interaction;
-        interaction = [FBSimulatorInteraction withSimulator:self.fbSimulator];
 
-        if (![[interaction bootSimulator:bootConfig] perform:&error]) {
+        if(![self.lifecycleCommands bootSimulator:bootConfig error:&error]) {
             ConsoleWriteErr(@"Failed to boot sim: %@", error);
             return iOSReturnStatusCodeInternalError;
         }
