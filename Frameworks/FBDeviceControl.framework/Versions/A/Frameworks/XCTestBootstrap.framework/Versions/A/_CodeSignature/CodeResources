@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			Iq07kUFUyI+DCz+ZhaNMGCikHVk=
+			QTsZ9ABei7lYrWT98xpK6g86k8k=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -55,22 +55,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			oe6e1kpgfCriuEjdEwHi7Hjxbrg=
+			OumUdBYDk9bYYQhqr+bAMgprPbA=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZFfFDThm82J6IUapj1YZ2RtfbSsZvxTA4c2hSqgUczQ=
+			9iLlSInraaZuKjLGRnxDzmlW/yu8SkwG8cHpqRO79Mo=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceTestPreparationStrategy.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			cXK8DJrnsJmtXjQO8D8pqqyLLhI=
+			G8qqnDet+jrL88w1iV6WmHrTosU=
 			</data>
 			<key>hash2</key>
 			<data>
-			g6QbyhhNZoewQzdFgTv+AlFHHCCDL3kgRf1Zou1XlSI=
+			lS63zbQFOCpBVPjCCcGh5kmdIfgrKhVvHW3XxPAUrhs=
 			</data>
 		</dict>
 		<key>Headers/FBProductBundle.h</key>
@@ -88,11 +88,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GICOG6Opng2g9NE34u/uP1xm4kQ=
+			z/4tsGmM+muNrRqW+TwN9JkE6bQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			tyE0xdX7RPYs0GGXDvO2Y/yKRS9M4mPAbG8T5ZlVmQc=
+			d1RoRGF2SfGvGKe564T/XlfV8XyGWIDsgs3PKNfp5uM=
 			</data>
 		</dict>
 		<key>Headers/FBTestBundle.h</key>
@@ -115,17 +115,6 @@
 			<key>hash2</key>
 			<data>
 			fw+lpm4/D0VJgOFj8kI9B71v8N0uEGeBCeHDglfPPSM=
-			</data>
-		</dict>
-		<key>Headers/FBTestLaunchConfiguration.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			n6Jh8cfTH4CIpFtKsiMQu5GqCmA=
-			</data>
-			<key>hash2</key>
-			<data>
-			6IXENqs3zPlv/wHzPKNYIbogjC8pfOL7e14izHh3i+k=
 			</data>
 		</dict>
 		<key>Headers/FBTestManager.h</key>
@@ -341,11 +330,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			AWu1tLSpmxn60drroSHh+BL07T4=
+			tPwX5calF/RzHP8UtBKnPqqZ8CQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			1rN7aqtE1nI13STE3MQoBtYLUnCE1h6cB328b0A/fVA=
+			26s1w1OOItzjOSXbU5hz55qW0Y+KgqqIOn8sbsQep+M=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapError.h</key>
