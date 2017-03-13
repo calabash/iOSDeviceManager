@@ -75,7 +75,7 @@ static const FBSimulatorControl *_control;
         }
     }
 
-    return self.fbSimulator != nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeDeviceNotFound;
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)kill {
