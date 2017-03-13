@@ -25,16 +25,9 @@ static NSString *const PROFILE_PATH_FLAG = @"-p";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    NSString *pathToBundle= args[APP_PATH_FLAG];
-    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_FLAG]];
-    } else {
-        pathToBundle = [AppUtils copyAppBundleToTmpDir:args[APP_PATH_FLAG]];
-    }
-    
-    Application *app = [Application withBundlePath:pathToBundle];
-    if (!app || !app.path) {
-        ConsoleWriteErr(@"Error creating application object for path: %@", pathToBundle);
+    Application *app = [Application withBundlePath:args[APP_PATH_FLAG]];
+    if (!app) {
+        ConsoleWriteErr(@"Error creating application object for path: %@", args[APP_PATH_FLAG]);
         return iOSReturnStatusCodeGenericFailure;
     }
     
