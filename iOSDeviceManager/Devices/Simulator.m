@@ -156,9 +156,11 @@ static const FBSimulatorControl *_control;
         [Codesigner resignApplication:app withProvisioningProfile:nil];
         
         //We need an `FBApplicationDescriptor` instead of `Application` because `FBSimulator` requires it
-        FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path installType:FBApplicationInstallTypeUnknown error:&e];
+        FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
+                                                                                  installType:FBApplicationInstallTypeUnknown
+                                                                                        error:&e];
         
-        if (e) {
+        if (!appDescriptor) {
             ConsoleWriteErr(@"Error creating application descriptor: %@", e);
             ConsoleWriteErr(@" Path to bundle: %@", app.path);
             return iOSReturnStatusCodeGenericFailure;
