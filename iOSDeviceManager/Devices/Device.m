@@ -38,6 +38,7 @@
                                                    bundleName:bundleID
                                                    arguments:attributes ?: @[]
                                                    environment:environment ?: @{}
+                                                   waitForDebugger:NO
                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
     FBiOSDeviceOperator *deviceOperator = [iOSTarget deviceOperator];
     if (![deviceOperator launchApplication:appLaunch error:&innerError]) {
