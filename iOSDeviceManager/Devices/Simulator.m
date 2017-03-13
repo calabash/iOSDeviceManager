@@ -266,6 +266,7 @@ static const FBSimulatorControl *_control;
                                                                   bundleName:nil
                                                                    arguments:@[]
                                                                  environment:@{}
+                                                             waitForDebugger:NO
                                                                       output:[FBProcessOutputConfiguration defaultForDeviceManager]];
         if ([self.fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
@@ -433,6 +434,7 @@ static const FBSimulatorControl *_control;
     return [FBApplicationLaunchConfiguration configurationWithApplication:application
                                                                 arguments:@[]
                                                               environment:@{}
+                                                          waitForDebugger:NO
                                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
 }
 
