@@ -13,6 +13,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @property (nonatomic, strong) FBSimulator *fbSimulator;
 - (FBSimulatorLifecycleCommands *)lifecycleCommands;
+- (FBSimulatorApplicationCommands *)applicationCommands;
 
 @end
 
@@ -58,6 +59,10 @@ static const FBSimulatorControl *_control;
 
 - (FBSimulatorLifecycleCommands *)lifecycleCommands {
     return [FBSimulatorLifecycleCommands commandsWithSimulator:self.fbSimulator];
+}
+
+- (FBSimulatorApplicationCommands *)applicationCommands {
+    return [FBSimulatorApplicationCommands commandsWithSimulator:self.fbSimulator];
 }
 
 - (iOSReturnStatusCode)launch {
@@ -159,7 +164,7 @@ static const FBSimulatorControl *_control;
             return iOSReturnStatusCodeGenericFailure;
         }
         
-        if (![[self.fbSimulator.interact installApplication:appDescriptor] perform:&e] || e) {
+        if (![self.applicationCommands installApplication:appDescriptor error:&e]) {
             ConsoleWriteErr(@"Error installing application: %@", e);
             return iOSReturnStatusCodeGenericFailure;
         } else {
@@ -213,13 +218,13 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    NSError *e;
-    [[self.fbSimulator.interact uninstallApplicationWithBundleID:bundleID] perform:&e];
-    if (e) {
-        ConsoleWriteErr(@"Error uninstalling app: %@", e);
+    NSError *error = nil;
+    if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID error:&error]) {
+        ConsoleWriteErr(@"Error uninstalling app: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    } else {
+        return iOSReturnStatusCodeEverythingOkay;
     }
-
-    return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat
