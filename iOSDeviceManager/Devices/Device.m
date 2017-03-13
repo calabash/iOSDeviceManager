@@ -42,17 +42,25 @@
                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
     FBiOSDeviceOperator *deviceOperator = [iOSTarget deviceOperator];
     if (![deviceOperator launchApplication:appLaunch error:&innerError]) {
-        return [[[XCTestBootstrapError describe:@"Failed launch test runner"]
-                 causedBy:innerError]
-                fail:error];
+        if (error) {
+            *error = [[[XCTestBootstrapError describe:@"Failed launch test runner"]
+                       causedBy:innerError]
+                      fail:error];
+        }
+        return nil;
     }
 
-    pid_t testRunnerProcessID = [deviceOperator processIDWithBundleID:bundleID error:error];
+    pid_t testRunnerProcessID = [deviceOperator processIDWithBundleID:bundleID
+                                                                error:&innerError];
 
     if (testRunnerProcessID < 1) {
-        return [[XCTestBootstrapError
-                 describe:@"Failed to determine test runner process PID"]
-                fail:error];
+        if (error) {
+            *error = [[[XCTestBootstrapError
+                       describe:@"Failed to determine test runner process PID"]
+                       causedBy:innerError]
+                      fail:error];
+        }
+        return nil;
     }
 
     FBTestManagerContext *context =
@@ -66,12 +74,17 @@
                                                               reporter:reporter
                                                                 logger:logger];
 
+
+    // Unexpected: returns non-nil if there is a failure.
     FBTestManagerResult *result = [testManager connectWithTimeout:FBControlCoreGlobalConfiguration.regularTimeout];
     if (result) {
-        return [[[XCTestBootstrapError
-                  describeFormat:@"Test Manager Connection Failed: %@", result.description]
-                 causedBy:result.error]
-                fail:error];
+        if (error) {
+            *error = [[[XCTestBootstrapError
+                        describeFormat:@"Test Manager Connection Failed: %@", result.description]
+                       causedBy:result.error]
+                      fail:error];
+        }
+        return nil;
     }
     return testManager;
 }
