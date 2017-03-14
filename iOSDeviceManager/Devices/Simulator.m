@@ -72,25 +72,28 @@ static const FBSimulatorControl *_control;
     return _applicationCommands;
 }
 
-- (iOSReturnStatusCode)launch {
-    NSError *error = nil;
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ||
-        self.fbSimulator.state == FBSimulatorStateShuttingDown) {
-        LogInfo(@"Sim is dead, booting...");
+- (BOOL)bootSimulatorIfNecessary:(NSError * __autoreleasing *) error {
+    FBSimulatorState state = self.fbSimulator.state;
+    if (state == FBSimulatorStateShutdown || state == FBSimulatorStateShuttingDown) {
 
         FBSimulatorBootConfiguration *bootConfig;
-
-        // FBSimulatorBootOptionsAwaitServices - would this allow us to wait until the
-        // simulator is booted?
         bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
 
-        if(![self.lifecycleCommands bootSimulator:bootConfig error:&error]) {
-            ConsoleWriteErr(@"Failed to boot sim: %@", error);
-            return iOSReturnStatusCodeInternalError;
+        if(![self.lifecycleCommands bootSimulator:bootConfig error:error]) {
+            return NO;
         }
     }
+    return YES;
+}
 
-    return self.fbSimulator != nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeDeviceNotFound;
+- (iOSReturnStatusCode)launch {
+    NSError *error = nil;
+    if ([self bootSimulatorIfNecessary:&error]) {
+        return iOSReturnStatusCodeEverythingOkay;
+    } else {
+        ConsoleWriteErr(@"Failed to boot sim: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    }
 }
 
 - (iOSReturnStatusCode)kill {

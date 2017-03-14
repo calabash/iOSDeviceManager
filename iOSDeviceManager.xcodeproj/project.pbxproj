@@ -220,6 +220,8 @@
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
 		F53764981D67A1FB009457C8 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
+		F55353101E7824D40083C779 /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F553530F1E7824D40083C779 /* SimulatorTest.m */; };
+		F57710181E785E570018B99E /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F57710171E785E570018B99E /* SimulatorTest.m */; };
 		F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F578F4671D70A3C4001FC3BE /* ResignTest.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
@@ -483,6 +485,8 @@
 		F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileProfileTest.m; sourceTree = "<group>"; };
 		F53764961D67A1FB009457C8 /* Resources.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = Resources.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F53764971D67A1FB009457C8 /* Resources.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Resources.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		F553530F1E7824D40083C779 /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
+		F57710171E785E570018B99E /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
 		F578F4671D70A3C4001FC3BE /* ResignTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResignTest.m; sourceTree = "<group>"; };
 		F57BF4561DC382420074747F /* CocoaAsyncSocket.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaAsyncSocket.LICENSE; sourceTree = "<group>"; };
 		F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaHTTPServer.LICENSE; sourceTree = "<group>"; };
@@ -890,9 +894,26 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		F553530E1E7824D40083C779 /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				F553530F1E7824D40083C779 /* SimulatorTest.m */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
+		F57710161E785E570018B99E /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				F57710171E785E570018B99E /* SimulatorTest.m */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
 		F5D583DC1D69FE62007B0D11 /* Integration */ = {
 			isa = PBXGroup;
 			children = (
+				F553530E1E7824D40083C779 /* Devices */,
 				F578F4671D70A3C4001FC3BE /* ResignTest.m */,
 				F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */,
 				F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */,
@@ -904,6 +925,7 @@
 		F5D583DF1D69FE62007B0D11 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
+				F57710161E785E570018B99E /* Devices */,
 				F5249D3C1D6B31D1006ADD64 /* Utilities */,
 				F5D583E11D69FE62007B0D11 /* CLITests.m */,
 			);
@@ -1156,6 +1178,7 @@
 				898D7D741DA47569001578FE /* DDRange.m in Sources */,
 				F5D78DC31D8D327500497000 /* ShellResultTest.m in Sources */,
 				F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */,
+				F57710181E785E570018B99E /* SimulatorTest.m in Sources */,
 				892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */,
 				89B50D811D466BB800F34D67 /* AppUtils.m in Sources */,
 				89A1CF061E326A2900D9FEC5 /* FileUtils.m in Sources */,
@@ -1237,6 +1260,7 @@
 				F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */,
 				B296D7061E3147AE00D365F3 /* Certificate.m in Sources */,
 				89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */,
+				F55353101E7824D40083C779 /* SimulatorTest.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
