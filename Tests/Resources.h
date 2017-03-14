@@ -28,7 +28,8 @@ NS_INLINE BOOL version_lte(NSString* a, NSString* b) {
 
 #pragma mark - Constants
 
-static NSString *const kProgramName = @"iOSDeviceManagement";
+static NSString *const kProgramName = @"iOSDeviceManager";
+static NSString *const kDeviceAgentBundleID = @"com.apple.test.DeviceAgent-Runner";
 
 static NSString *const kCodeSignIdentityKARL =
 @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
@@ -118,7 +119,15 @@ static NSString *const SIM = @"SIM";
 - (TestDevice *)defaultDevice;
 - (NSString *)defaultDeviceUDID;
 
+
+/*
+    Returns absolute path to a test app
+*/
 - (NSString *)TestAppPath:(NSString *)platform;
+/*
+    Relative path to a test app with at least one ".." in the path
+*/
+- (NSString *)TestAppRelativePath:(NSString *)platform;
 - (NSString *)TestAppIdentifier;
 - (NSString *)TaskyPath:(NSString *)platform;
 - (NSString *)TaskyIpaPath;

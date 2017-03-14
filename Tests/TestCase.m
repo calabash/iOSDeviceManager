@@ -5,10 +5,7 @@
 @synthesize resources = _resources;
 
 - (Resources *)resources {
-    if (_resources) { return _resources; }
-
-    _resources = [Resources shared];
-    return _resources;
+    return [Resources shared]; //it's a dispatch_once'd singleton
 }
 
 - (void)setUp {
