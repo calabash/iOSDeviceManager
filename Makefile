@@ -14,6 +14,9 @@ clean:
 build:
 	bin/make/build.sh
 
+build-lib:
+	bin/make/build-lib.sh
+
 dependencies:
 	bin/make/dependencies.sh
 
