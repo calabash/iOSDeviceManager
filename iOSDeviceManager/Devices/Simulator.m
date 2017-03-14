@@ -12,12 +12,15 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 @interface Simulator()
 
 @property (nonatomic, strong) FBSimulator *fbSimulator;
-- (FBSimulatorLifecycleCommands *)lifecycleCommands;
-- (FBSimulatorApplicationCommands *)applicationCommands;
+@property (strong, readonly) FBSimulatorLifecycleCommands *lifecycleCommands;
+@property (strong, readonly) FBSimulatorApplicationCommands *applicationCommands;
 
 @end
 
 @implementation Simulator
+
+@synthesize lifecycleCommands = _lifecycleCommands;
+@synthesize applicationCommands = _applicationCommands;
 
 static const FBSimulatorControl *_control;
 
@@ -58,11 +61,15 @@ static const FBSimulatorControl *_control;
 }
 
 - (FBSimulatorLifecycleCommands *)lifecycleCommands {
-    return [FBSimulatorLifecycleCommands commandsWithSimulator:self.fbSimulator];
+    if (_lifecycleCommands) { return _lifecycleCommands; }
+    _lifecycleCommands = [FBSimulatorLifecycleCommands commandsWithSimulator:self.fbSimulator];
+    return _lifecycleCommands;
 }
 
 - (FBSimulatorApplicationCommands *)applicationCommands {
-    return [FBSimulatorApplicationCommands commandsWithSimulator:self.fbSimulator];
+    if (_applicationCommands) { return _applicationCommands; }
+    _applicationCommands = [FBSimulatorApplicationCommands commandsWithSimulator:self.fbSimulator];
+    return _applicationCommands;
 }
 
 - (iOSReturnStatusCode)launch {
