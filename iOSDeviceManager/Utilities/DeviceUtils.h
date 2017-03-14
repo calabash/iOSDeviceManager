@@ -9,7 +9,7 @@
 + (NSString *)defaultSimulatorID;
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow;
 + (NSString *)defaultDeviceID;
-+ (NSArray<FBDevice *> *)availableDevices;
++ (NSArray<FBDevice *> *)availablePhysicalDevices;
 + (NSArray<FBSimulator *> *)availableSimulators;
 + (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators;
 @end

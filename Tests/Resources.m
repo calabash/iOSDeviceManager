@@ -520,11 +520,25 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)TestAppPath:(NSString *)platform {
     if ([ARM isEqualToString:platform]) {
+        return [[self.resourcesDirectory
+                 stringByAppendingPathComponent:@"arm/TestApp.app"]
+                stringByStandardizingPath];
+    } else if ([SIM isEqualToString:platform]) {
+        return [[self.resourcesDirectory
+                 stringByAppendingPathComponent:@"sim/TestApp.app"]
+                stringByStandardizingPath];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)TestAppRelativePath:(NSString *)platform {
+    if ([ARM isEqualToString:platform]) {
         return [self.resourcesDirectory
-                stringByAppendingPathComponent:@"arm/TestApp.app"];
+                stringByAppendingPathComponent:@"arm/../arm/TestApp.app"];
     } else if ([SIM isEqualToString:platform]) {
         return [self.resourcesDirectory
-                stringByAppendingPathComponent:@"sim/TestApp.app"];
+                stringByAppendingPathComponent:@"sim/../sim/TestApp.app"];
     } else {
         return nil;
     }

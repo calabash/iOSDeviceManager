@@ -199,6 +199,8 @@
 		B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
+		B2C020371E775BC700FA442C /* DeviceCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C020361E775BC700FA442C /* DeviceCLIIntegrationTests.m */; };
+		B2C0203A1E776B6D00FA442C /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C020391E776B6D00FA442C /* TestUtils.m */; };
 		B2E68E181E38170E001D5D89 /* ResignCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E171E38170E001D5D89 /* ResignCommand.m */; };
 		B2E68E191E38170E001D5D89 /* ResignCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E171E38170E001D5D89 /* ResignCommand.m */; };
 		B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E171E38170E001D5D89 /* ResignCommand.m */; };
@@ -470,6 +472,10 @@
 		B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtils.m; path = iOSDeviceManager/Utilities/DeviceUtils.m; sourceTree = SOURCE_ROOT; };
 		B2BD7BAD1E451214009242C7 /* CodesignResources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodesignResources.h; sourceTree = "<group>"; };
 		B2BD7BAE1E451340009242C7 /* CodesignResources.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CodesignResources.m; sourceTree = "<group>"; };
+		B2C020351E775B8C00FA442C /* DeviceCLIIntegrationTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceCLIIntegrationTests.h; sourceTree = "<group>"; };
+		B2C020361E775BC700FA442C /* DeviceCLIIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCLIIntegrationTests.m; sourceTree = "<group>"; };
+		B2C020381E776B5F00FA442C /* TestUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
+		B2C020391E776B6D00FA442C /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		B2E68E161E3816DF001D5D89 /* ResignCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResignCommand.h; path = iOSDeviceManager/Commands/ResignCommand.h; sourceTree = SOURCE_ROOT; };
 		B2E68E171E38170E001D5D89 /* ResignCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResignCommand.m; path = iOSDeviceManager/Commands/ResignCommand.m; sourceTree = SOURCE_ROOT; };
 		B2E68E1B1E381731001D5D89 /* ResignAllCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResignAllCommand.h; path = iOSDeviceManager/Commands/ResignAllCommand.h; sourceTree = SOURCE_ROOT; };
@@ -823,6 +829,8 @@
 		89EF4ACA1CFA614F006DCDC5 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				B2C020381E776B5F00FA442C /* TestUtils.h */,
+				B2C020391E776B6D00FA442C /* TestUtils.m */,
 				F5E8D8231D67B63700A41EFD /* TestCase.h */,
 				F5E8D8211D67B60A00A41EFD /* TestCase.m */,
 				F53764961D67A1FB009457C8 /* Resources.h */,
@@ -894,6 +902,8 @@
 			isa = PBXGroup;
 			children = (
 				F578F4671D70A3C4001FC3BE /* ResignTest.m */,
+				B2C020351E775B8C00FA442C /* DeviceCLIIntegrationTests.h */,
+				B2C020361E775BC700FA442C /* DeviceCLIIntegrationTests.m */,
 				F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */,
 				F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */,
 				63424B5EAA3E57132288C79A /* MobileProfileTest.m */,
@@ -1226,6 +1236,7 @@
 				898D7D401DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				89A1CF0E1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */,
 				89A1CF071E36CCCA00D9FEC5 /* FileUtils.m in Sources */,
+				B2C020371E775BC700FA442C /* DeviceCLIIntegrationTests.m in Sources */,
 				B2E68E1F1E381745001D5D89 /* ResignAllCommand.m in Sources */,
 				A18622721DE4F47700A05031 /* MachClock.m in Sources */,
 				B296D7021E31474500D365F3 /* Codesigner.m in Sources */,
@@ -1237,6 +1248,7 @@
 				F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */,
 				B296D7061E3147AE00D365F3 /* Certificate.m in Sources */,
 				89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */,
+				B2C0203A1E776B6D00FA442C /* TestUtils.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
