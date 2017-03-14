@@ -336,22 +336,18 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive {
-    NSError *e;
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ) {
-        [[self.fbSimulator.interact bootSimulator] perform:&e];
-        DDLogInfo(@"Sim is dead, booting.");
-        if (e) {
-            ConsoleWriteErr(@"Error booting simulator %@ for test: %@", [self uuid], e);
-            return iOSReturnStatusCodeInternalError;
-        }
+
+    NSError *error = nil;
+    if (![self bootSimulatorIfNecessary:&error]) {
+        ConsoleWriteErr(@"Failed to boot sim: %@", error);
+        return iOSReturnStatusCodeInternalError;
     }
-    
-    NSError *error;
+
     if ([self isInstalled:runnerID withError:&error] == iOSReturnStatusCodeFalse) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     Simulator *replog = [Simulator new];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
@@ -361,10 +357,10 @@ static const FBSimulatorControl *_control;
                                                                        environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
                                                                           reporter:replog
                                                                             logger:replog
-                                                                             error:&e];
+                                                                             error:&error];
 
-    if (e) {
-        ConsoleWriteErr(@"Error starting test runner: %@", e);
+    if (error) {
+        ConsoleWriteErr(@"Error starting test runner: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else if (keepAlive) {
         /*
@@ -373,7 +369,7 @@ static const FBSimulatorControl *_control;
          */
         while (!replog.testingComplete){
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-            
+
             /*
              `testingHasFinished` returns YES when the bundle connection AND testmanagerd
              connection are finished with the connection (presumably at end of test or failure)
@@ -382,8 +378,8 @@ static const FBSimulatorControl *_control;
                 break;
             }
         }
-        if (e) {
-            ConsoleWriteErr(@"Error starting test: %@", e);
+        if (error) {
+            ConsoleWriteErr(@"Error starting test: %@", error);
             return iOSReturnStatusCodeInternalError;
         }
     }
