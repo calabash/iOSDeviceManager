@@ -106,10 +106,15 @@
 
 @property(copy) NSDictionary *info;
 @property(copy) NSString *OS;
+@property(copy, readonly) NSString *directory;
+@property(copy, readonly) NSString *plist;
 
 @end
 
 @implementation TestSimulator
+
+@synthesize directory = _directory;
+@synthesize plist = _plist;
 
 - (id)initWithDictionary:(NSDictionary *)info
                       OS:(NSString *)OS {
@@ -177,6 +182,41 @@
 
     NSArray *tokens = [[self name] componentsSeparatedByString:@" "];
     return [tokens[1] containsString:@"s"];
+}
+
+- (NSString *)directory {
+    if (_directory) { return _directory; }
+    _directory = [[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                        stringByAppendingPathComponent:@"Developer"]
+                                        stringByAppendingPathComponent:@"CoreSimulator"]
+                                        stringByAppendingPathComponent:@"Devices"]
+                                        stringByAppendingPathComponent:self.UDID];
+    return _directory;
+}
+
+- (NSString *)plist {
+    if (_plist) { return _plist; }
+
+    _plist = [[self directory] stringByAppendingPathComponent:@"device.plist"];
+    return _plist;
+}
+
+- (NSUInteger)state {
+    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[self plist]];
+    NSNumber *number = (NSNumber *)dictionary[@"state"];
+    return [number unsignedIntegerValue];
+}
+
+- (NSString *)stateString {
+    NSUInteger state = [self state];
+
+    switch (state) {
+        case 0 : { return @"Creating"; }
+        case 1 : { return @"Shutdown"; }
+        case 2 : { return @"Booting"; }
+        case 3 : { return @"Shutting Down"; }
+        default: { return @"UNKNOWN"; }
+    }
 }
 
 @end

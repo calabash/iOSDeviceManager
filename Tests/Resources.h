@@ -70,6 +70,8 @@ static NSString *const SIM = @"SIM";
 - (BOOL)isIPhone4S;
 - (BOOL)isIPhone5;
 - (BOOL)isSModel;
+- (NSUInteger)state;
+- (NSString *)stateString;
 
 @end
 
