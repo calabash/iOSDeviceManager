@@ -12,15 +12,12 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 @interface Simulator()
 
 @property (nonatomic, strong) FBSimulator *fbSimulator;
-@property (strong, readonly) FBSimulatorLifecycleCommands *lifecycleCommands;
-@property (strong, readonly) FBSimulatorApplicationCommands *applicationCommands;
++ (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
++ (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 
 @end
 
 @implementation Simulator
-
-@synthesize lifecycleCommands = _lifecycleCommands;
-@synthesize applicationCommands = _applicationCommands;
 
 static const FBSimulatorControl *_control;
 
@@ -60,16 +57,12 @@ static const FBSimulatorControl *_control;
     return simulator;
 }
 
-- (FBSimulatorLifecycleCommands *)lifecycleCommands {
-    if (_lifecycleCommands) { return _lifecycleCommands; }
-    _lifecycleCommands = [FBSimulatorLifecycleCommands commandsWithSimulator:self.fbSimulator];
-    return _lifecycleCommands;
++ (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)simulator {
+    return [FBSimulatorLifecycleCommands commandsWithSimulator:simulator];
 }
 
-- (FBSimulatorApplicationCommands *)applicationCommands {
-    if (_applicationCommands) { return _applicationCommands; }
-    _applicationCommands = [FBSimulatorApplicationCommands commandsWithSimulator:self.fbSimulator];
-    return _applicationCommands;
++ (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)simulator {
+    return [FBSimulatorApplicationCommands commandsWithSimulator:simulator];
 }
 
 - (BOOL)bootSimulatorIfNecessary:(NSError * __autoreleasing *) error {
@@ -79,7 +72,10 @@ static const FBSimulatorControl *_control;
         FBSimulatorBootConfiguration *bootConfig;
         bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
 
-        if(![self.lifecycleCommands bootSimulator:bootConfig error:error]) {
+        FBSimulatorLifecycleCommands *lifecycleCommands;
+        lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:self.fbSimulator];
+
+        if(![lifecycleCommands bootSimulator:bootConfig error:error]) {
             return NO;
         }
     }
@@ -109,8 +105,11 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeEverythingOkay;
     }
 
+    FBSimulatorLifecycleCommands *lifecycleCommands;
+    lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:self.fbSimulator];
+
     NSError *error = nil;
-    if (![self.lifecycleCommands shutdownSimulatorWithError:&error]) {
+    if (![lifecycleCommands shutdownSimulatorWithError:&error]) {
         ConsoleWriteErr(@"Error shutting down sim %@: %@", [self uuid], error);
         return iOSReturnStatusCodeInternalError;
     } else {
@@ -175,8 +174,11 @@ static const FBSimulatorControl *_control;
             ConsoleWriteErr(@" Path to bundle: %@", app.path);
             return iOSReturnStatusCodeGenericFailure;
         }
-        
-        if (![self.applicationCommands installApplication:appDescriptor error:&e]) {
+
+        FBSimulatorApplicationCommands *applicationCommands;
+        applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
+
+        if (![applicationCommands installApplication:appDescriptor error:&e]) {
             ConsoleWriteErr(@"Error installing application: %@", e);
             return iOSReturnStatusCodeGenericFailure;
         } else {
@@ -230,8 +232,11 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    FBSimulatorApplicationCommands *applicationCommands;
+    applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
+
     NSError *error = nil;
-    if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID error:&error]) {
+    if (![applicationCommands uninstallApplicationWithBundleID:bundleID error:&error]) {
         ConsoleWriteErr(@"Error uninstalling app: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else {

@@ -9,7 +9,7 @@
 
 - (FBSimulator *)fbSimulator;
 - (BOOL)bootSimulatorIfNecessary:(NSError * __autoreleasing *) error;
-- (FBSimulatorLifecycleCommands *)lifecycleCommands;
++ (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 
 @end
 
@@ -87,15 +87,22 @@ typedef BOOL (^CBXWaitUntilTrueBlock)();
     [self quitSimulators];
 
     Simulator *simulator = [Simulator withID:defaultSimUDID];
+    FBSimulatorLifecycleCommands *commands;
+    commands = [FBSimulatorLifecycleCommands commandsWithSimulator:simulator.fbSimulator];
+    id mockCommands = OCMPartialMock(commands);
+    [[[mockCommands stub] andReturnValue:@NO] bootSimulator:[OCMArg any]
+                                                      error:((NSError __autoreleasing **)[OCMArg anyPointer])];
 
-    id lifecycleMock = OCMPartialMock([simulator lifecycleCommands]);
-    [[[lifecycleMock stub] andReturnValue:@NO] bootSimulator:[OCMArg any]
-                                                       error:((NSError __autoreleasing **)[OCMArg anyPointer])];
+    id SimulatorMock = OCMClassMock([Simulator class]);
+    OCMExpect(
+              [SimulatorMock lifecycleCommandsWithFBSimulator:simulator.fbSimulator]
+              ).andReturn(mockCommands);
 
     NSError *error = nil;
 
     XCTAssertFalse([simulator bootSimulatorIfNecessary:&error]);
-    OCMVerifyAll(lifecycleMock);
+    OCMVerifyAll(SimulatorMock);
+    OCMVerifyAll(mockCommands);
 }
 
 @end
