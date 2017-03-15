@@ -58,6 +58,11 @@ static const FBSimulatorControl *_control;
 }
 
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)simulator {
+    FBSimulatorEventRelay *relay = [simulator eventSink];
+    if (relay.connection) {
+        [relay.connection terminateWithTimeout:5];
+    }
+
     return [FBSimulatorLifecycleCommands commandsWithSimulator:simulator];
 }
 
