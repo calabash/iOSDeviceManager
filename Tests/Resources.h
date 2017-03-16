@@ -53,6 +53,16 @@ static NSString *const SIM = @"SIM";
 
 #pragma mark - TestSimulator (Class)
 
+
+typedef NS_ENUM(NSUInteger, TestSimulatorState) {
+    TestSimulatorStateCreating = 0,
+    TestSimulatorStateShutdown = 1,
+    TestSimulatorStateBooting = 2,
+    TestSimulatorStateBooted = 3,
+    TestSimulatorStateShuttingDown = 4,
+    TestSimulatorStateUnknown = 99,
+};
+
 @interface TestSimulator : NSObject
 
 - (id)initWithDictionary:(NSDictionary *)dictionary
@@ -70,7 +80,7 @@ static NSString *const SIM = @"SIM";
 - (BOOL)isIPhone4S;
 - (BOOL)isIPhone5;
 - (BOOL)isSModel;
-- (NSUInteger)state;
+- (TestSimulatorState)state;
 - (NSString *)stateString;
 
 @end

@@ -201,20 +201,20 @@
     return _plist;
 }
 
-- (NSUInteger)state {
+- (TestSimulatorState)state {
     NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[self plist]];
     NSNumber *number = (NSNumber *)dictionary[@"state"];
-    return [number unsignedIntegerValue];
+    return (TestSimulatorState)[number unsignedIntegerValue];
 }
 
 - (NSString *)stateString {
-    NSUInteger state = [self state];
+    TestSimulatorState state = [self state];
 
     switch (state) {
-        case 0 : { return @"Creating"; }
-        case 1 : { return @"Shutdown"; }
-        case 2 : { return @"Booting"; }
-        case 3 : { return @"Shutting Down"; }
+        case TestSimulatorStateCreating : { return @"Creating"; }
+        case TestSimulatorStateShutdown : { return @"Shutdown"; }
+        case TestSimulatorStateBooting : { return @"Booting"; }
+        case TestSimulatorStateShuttingDown : { return @"Shutting Down"; }
         default: { return @"UNKNOWN"; }
     }
 }

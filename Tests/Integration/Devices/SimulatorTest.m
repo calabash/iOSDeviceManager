@@ -51,7 +51,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)();
     [SimulatorTest waitWithTimeout:30 untilTrue:^BOOL{
         NSMutableArray *mutable = [NSMutableArray arrayWithCapacity:100];
         for (TestSimulator *simulator in simulators) {
-            if ([simulator state] != 1) {
+            if (![[simulator stateString] isEqualToString:@"Shutdown"]) {
                 [mutable addObject:simulator];
             }
         }
