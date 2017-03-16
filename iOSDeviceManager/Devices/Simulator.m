@@ -12,6 +12,8 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 @interface Simulator()
 
 @property (nonatomic, strong) FBSimulator *fbSimulator;
++ (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
++ (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 
 @end
 
@@ -55,27 +57,44 @@ static const FBSimulatorControl *_control;
     return simulator;
 }
 
-- (iOSReturnStatusCode)launch {
-    NSError *error;
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ||
-        self.fbSimulator.state == FBSimulatorStateShuttingDown) {
-        LogInfo(@"Sim is dead, booting...");
-
-        FBSimulatorBootConfiguration *bootConfig;
-
-        // FBSimulatorBootOptionsAwaitServices - would this allow us to wait until the
-        // simulator is booted?
-        bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
-        FBSimulatorInteraction *interaction;
-        interaction = [FBSimulatorInteraction withSimulator:self.fbSimulator];
-
-        if (![[interaction bootSimulator:bootConfig] perform:&error]) {
-            ConsoleWriteErr(@"Failed to boot sim: %@", error);
-            return iOSReturnStatusCodeInternalError;
-        }
++ (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)simulator {
+    FBSimulatorEventRelay *relay = [simulator eventSink];
+    if (relay.connection) {
+        [relay.connection terminateWithTimeout:5];
     }
 
-    return self.fbSimulator != nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeDeviceNotFound;
+    return [FBSimulatorLifecycleCommands commandsWithSimulator:simulator];
+}
+
++ (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)simulator {
+    return [FBSimulatorApplicationCommands commandsWithSimulator:simulator];
+}
+
+- (BOOL)bootSimulatorIfNecessary:(NSError * __autoreleasing *) error {
+    FBSimulatorState state = self.fbSimulator.state;
+    if (state == FBSimulatorStateShutdown || state == FBSimulatorStateShuttingDown) {
+
+        FBSimulatorBootConfiguration *bootConfig;
+        bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
+
+        FBSimulatorLifecycleCommands *lifecycleCommands;
+        lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:self.fbSimulator];
+
+        if(![lifecycleCommands bootSimulator:bootConfig error:error]) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (iOSReturnStatusCode)launch {
+    NSError *error = nil;
+    if ([self bootSimulatorIfNecessary:&error]) {
+        return iOSReturnStatusCodeEverythingOkay;
+    } else {
+        ConsoleWriteErr(@"Failed to boot sim: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    }
 }
 
 - (iOSReturnStatusCode)kill {
@@ -91,14 +110,16 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeEverythingOkay;
     }
 
-    NSError *e;
-    [[self.fbSimulator.interact shutdownSimulator] perform:&e];
+    FBSimulatorLifecycleCommands *lifecycleCommands;
+    lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:self.fbSimulator];
 
-    if (e ) {
-        ConsoleWriteErr(@"Error shutting down sim %@: %@", [self uuid], e);
+    NSError *error = nil;
+    if (![lifecycleCommands shutdownSimulatorWithError:&error]) {
+        ConsoleWriteErr(@"Error shutting down sim %@: %@", [self uuid], error);
+        return iOSReturnStatusCodeInternalError;
+    } else {
+        return iOSReturnStatusCodeEverythingOkay;
     }
-
-    return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
@@ -149,15 +170,20 @@ static const FBSimulatorControl *_control;
         [Codesigner resignApplication:app withProvisioningProfile:nil];
         
         //We need an `FBApplicationDescriptor` instead of `Application` because `FBSimulator` requires it
-        FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path installType:FBApplicationInstallTypeUnknown error:&e];
+        FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
+                                                                                  installType:FBApplicationInstallTypeUnknown
+                                                                                        error:&e];
         
-        if (e) {
+        if (!appDescriptor) {
             ConsoleWriteErr(@"Error creating application descriptor: %@", e);
             ConsoleWriteErr(@" Path to bundle: %@", app.path);
             return iOSReturnStatusCodeGenericFailure;
         }
-        
-        if (![[self.fbSimulator.interact installApplication:appDescriptor] perform:&e] || e) {
+
+        FBSimulatorApplicationCommands *applicationCommands;
+        applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
+
+        if (![applicationCommands installApplication:appDescriptor error:&e]) {
             ConsoleWriteErr(@"Error installing application: %@", e);
             return iOSReturnStatusCodeGenericFailure;
         } else {
@@ -211,13 +237,16 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    NSError *e;
-    [[self.fbSimulator.interact uninstallApplicationWithBundleID:bundleID] perform:&e];
-    if (e) {
-        ConsoleWriteErr(@"Error uninstalling app: %@", e);
-    }
+    FBSimulatorApplicationCommands *applicationCommands;
+    applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
-    return e == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
+    NSError *error = nil;
+    if (![applicationCommands uninstallApplicationWithBundleID:bundleID error:&error]) {
+        ConsoleWriteErr(@"Error uninstalling app: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    } else {
+        return iOSReturnStatusCodeEverythingOkay;
+    }
 }
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat
@@ -259,6 +288,7 @@ static const FBSimulatorControl *_control;
                                                                   bundleName:nil
                                                                    arguments:@[]
                                                                  environment:@{}
+                                                             waitForDebugger:NO
                                                                       output:[FBProcessOutputConfiguration defaultForDeviceManager]];
         if ([self.fbSimulator launchApplication:config error:nil]) {
             return iOSReturnStatusCodeEverythingOkay;
@@ -316,22 +346,18 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive {
-    NSError *e;
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ) {
-        [[self.fbSimulator.interact bootSimulator] perform:&e];
-        DDLogInfo(@"Sim is dead, booting.");
-        if (e) {
-            ConsoleWriteErr(@"Error booting simulator %@ for test: %@", [self uuid], e);
-            return iOSReturnStatusCodeInternalError;
-        }
+
+    NSError *error = nil;
+    if (![self bootSimulatorIfNecessary:&error]) {
+        ConsoleWriteErr(@"Failed to boot sim: %@", error);
+        return iOSReturnStatusCodeInternalError;
     }
-    
-    NSError *error;
+
     if ([self isInstalled:runnerID withError:&error] == iOSReturnStatusCodeFalse) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     Simulator *replog = [Simulator new];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
@@ -341,10 +367,10 @@ static const FBSimulatorControl *_control;
                                                                        environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
                                                                           reporter:replog
                                                                             logger:replog
-                                                                             error:&e];
+                                                                             error:&error];
 
-    if (e) {
-        ConsoleWriteErr(@"Error starting test runner: %@", e);
+    if (error) {
+        ConsoleWriteErr(@"Error starting test runner: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else if (keepAlive) {
         /*
@@ -353,7 +379,7 @@ static const FBSimulatorControl *_control;
          */
         while (!replog.testingComplete){
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-            
+
             /*
              `testingHasFinished` returns YES when the bundle connection AND testmanagerd
              connection are finished with the connection (presumably at end of test or failure)
@@ -362,8 +388,8 @@ static const FBSimulatorControl *_control;
                 break;
             }
         }
-        if (e) {
-            ConsoleWriteErr(@"Error starting test: %@", e);
+        if (error) {
+            ConsoleWriteErr(@"Error starting test: %@", error);
             return iOSReturnStatusCodeInternalError;
         }
     }
@@ -426,6 +452,7 @@ static const FBSimulatorControl *_control;
     return [FBApplicationLaunchConfiguration configurationWithApplication:application
                                                                 arguments:@[]
                                                               environment:@{}
+                                                          waitForDebugger:NO
                                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
 }
 
