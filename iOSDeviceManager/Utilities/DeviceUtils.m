@@ -78,10 +78,10 @@ const double EPSILON = 0.001;
             if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < EPSILON) {
                 // Handle things like 6S vs 6
                 NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+[Ss]" options:0 error:nil];
-                BOOL simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
-                BOOL otherSimIsS = [regex numberOfMatchesInString:otherSimDeviceName options:0 range:NSMakeRange(0, [otherSimDeviceName length])];
-                
-                if (simIsS && !otherSimIsS) {
+                NSUInteger simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
+                NSUInteger otherSimIsS = [regex numberOfMatchesInString:otherSimDeviceName options:0 range:NSMakeRange(0, [otherSimDeviceName length])];
+
+                if (simIsS > 0 && otherSimIsS == 0) {
                     return NSOrderedDescending;
                 }
             } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > EPSILON) {
