@@ -25,7 +25,7 @@
         options = [NSMutableArray array];
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
+                                             optionName:DEVICE_ID_OPTION_NAME
                                                    info:@"iOS Simulator GUIDs"
                                                required:NO
                                              defaultVal:nil]];

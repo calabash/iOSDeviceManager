@@ -4,11 +4,13 @@
 #import "AppUtils.h"
 #import "MobileProfile.h"
 
-static NSString *const APP_PATH_FLAG = @"-a";
-static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
+static NSString *const CODESIGN_ID_FLAG = @"-c";
 static NSString *const UPDATE_APP_FLAG = @"-u";
 static NSString *const PROFILE_PATH_FLAG = @"-p";
 static NSString *const RESOURCES_PATH_FLAG = @"-i";
+static NSString *const APP_PATH_OPTION_NAME = @"app-path";
+static NSString *const UPDATE_APP_OPTION_NAME = @"should-update-app";
+static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
 
 @implementation InstallAppCommand
 + (NSString *)name {
@@ -17,8 +19,8 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
     BOOL update = [[self optionDict][UPDATE_APP_FLAG].defaultValue boolValue];
-    if ([[args allKeys] containsObject:UPDATE_APP_FLAG]) {
-        update = [args[UPDATE_APP_FLAG] boolValue];
+    if ([[args allKeys] containsObject:UPDATE_APP_OPTION_NAME]) {
+        update = [args[UPDATE_APP_OPTION_NAME] boolValue];
     }
     
     Device *device = [self deviceFromArgs:args];
@@ -26,15 +28,15 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    Application *app = [Application withBundlePath:args[APP_PATH_FLAG]];
+    Application *app = [Application withBundlePath:args[APP_PATH_OPTION_NAME]];
     if (!app) {
-        ConsoleWriteErr(@"Error creating application object for path: %@", args[APP_PATH_FLAG]);
+        ConsoleWriteErr(@"Error creating application object for path: %@", args[APP_PATH_OPTION_NAME]);
         return iOSReturnStatusCodeGenericFailure;
     }
     
     CodesignIdentity *codesignIdentity = [self codesignIDFromArgs:args];
     
-    NSString *profilePath = args[PROFILE_PATH_FLAG];
+    NSString *profilePath = args[PROFILE_PATH_OPTION_NAME];
     MobileProfile *profile;
 
     if (profilePath) {
@@ -71,33 +73,32 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
+        [options addObject:[CommandOption withPosition:0
+                                            optionName:APP_PATH_OPTION_NAME
+                                                  info:@"Path .app bundle or .ipa"
+                                              required:YES
+                                            defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
-                                                   info:@"iOS Simulator GUIDs"
+                                             optionName:DEVICE_ID_OPTION_NAME
+                                                   info:@"iOS Simulator GUID or 40-digit physical device ID"
                                                required:NO
-                                             defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
-                                               longFlag:@"--app-path"
-                                             optionName:@"path/to/app-bundle.app or path/to/app.ipa"
-                                                   info:@"Path .app bundle or .ipa"
-                                               required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:UPDATE_APP_FLAG
                                                longFlag:@"--update-app"
-                                             optionName:@"true-or-false"
+                                             optionName:UPDATE_APP_OPTION_NAME
                                                    info:@"When true, will reinstall the app if the device contains an older version than the bundle specified"
                                                required:NO
                                              defaultVal:@(YES)]];
         [options addObject:[CommandOption withShortFlag:PROFILE_PATH_FLAG
                                                longFlag:@"--profile-path"
-                                             optionName:@"path/to/profile.mobileprovision"
+                                             optionName:PROFILE_PATH_OPTION_NAME
                                                    info:@"Path to provisioning profile"
                                                required:NO
                                              defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
+        [options addObject:[CommandOption withShortFlag:CODESIGN_ID_FLAG
                                                longFlag:@"--codesign-identity"
-                                             optionName:@"codesign-identity"
+                                             optionName:CODESIGN_ID_OPTION_NAME
                                                    info:@"Identity used to codesign app bundle [device only]. Deprecated - should use profile path."
                                                required:NO
                                              defaultVal:@""]];
