@@ -347,7 +347,6 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive {
-
     NSError *error = nil;
     if (![self bootSimulatorIfNecessary:&error]) {
         ConsoleWriteErr(@"Failed to boot sim: %@", error);
@@ -369,8 +368,7 @@ static const FBSimulatorControl *_control;
                                                                           reporter:replog
                                                                             logger:replog
                                                                              error:&error];
-
-    if (error) {
+    if (!testManager) {
         ConsoleWriteErr(@"Error starting test runner: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else if (keepAlive) {

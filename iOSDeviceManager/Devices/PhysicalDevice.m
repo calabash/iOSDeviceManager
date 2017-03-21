@@ -331,7 +331,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
-    NSError *e = nil;
+    NSError *error = nil;
 
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
                                                                     runnerBundleID:runnerID
@@ -340,22 +340,22 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                                                        environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
                                                                           reporter:self
                                                                             logger:self
-                                                                             error:&e];
-    if (!e) {
-        if (keepAlive) {
-            /*
-             `testingComplete` will be YES when testmanagerd calls
-             `testManagerMediatorDidFinishExecutingTestPlan:`
-             */
-
-            FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
-            [spinner spinUntilTrue:^BOOL () {
-                return ([testManager testingHasFinished] && self.testingComplete);
-            }];
-        }
-    } else {
-        ConsoleWriteErr(@"Err: %@", e);
+                                                                             error:&error];
+    if (!testManager) {
+        ConsoleWriteErr(@"Could not start test: %@", error);
         return iOSReturnStatusCodeInternalError;
+    } else
+
+    if (keepAlive) {
+        /*
+         `testingComplete` will be YES when testmanagerd calls
+         `testManagerMediatorDidFinishExecutingTestPlan:`
+         */
+
+        FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
+        [spinner spinUntilTrue:^BOOL () {
+            return ([testManager testingHasFinished] && self.testingComplete);
+        }];
     }
     return iOSReturnStatusCodeEverythingOkay;
 }
