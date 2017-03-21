@@ -74,8 +74,9 @@ static const FBSimulatorControl *_control;
     FBSimulatorState state = self.fbSimulator.state;
     if (state == FBSimulatorStateShutdown || state == FBSimulatorStateShuttingDown) {
 
+        FBSimulatorBootOptions options = FBSimulatorBootOptionsConnectBridge | FBSimulatorBootOptionsAwaitServices;
         FBSimulatorBootConfiguration *bootConfig;
-        bootConfig = [FBSimulatorBootConfiguration withOptions:FBSimulatorBootOptionsConnectBridge];
+        bootConfig = [FBSimulatorBootConfiguration withOptions:options];
 
         FBSimulatorLifecycleCommands *lifecycleCommands;
         lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:self.fbSimulator];
