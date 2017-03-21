@@ -384,7 +384,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
               @"Unable to write app entitlements to %@",
               appEntitlementsFile);
     
-    [FileUtils fileSeq:appDir handler:^(NSString *filepath) {
+    [FileUtils reverseFileSeq:appDir handler:^(NSString *filepath) {
         if ([FileUtils isDylibOrFramework:filepath] && [self shouldResign:filepath inAppDir:appDir]) {
             [self resignObject:filepath
               codesignIdentity:codesignIdentity];

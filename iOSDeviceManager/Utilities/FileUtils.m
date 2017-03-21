@@ -28,6 +28,40 @@
     }
 }
 
++ (void)reverseFileSeq:(NSString *)dir handler:(filePathHandler)handler {
+    NSFileManager *mgr = [NSFileManager defaultManager];
+    NSError *e = nil;
+    BOOL isDir = NO;
+
+    NSMutableArray<NSString *> *files = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *directories = [[NSMutableArray alloc] initWithObjects:dir, nil];
+    while (directories.count != 0) {
+        NSString *currentDirectory = [directories firstObject];
+        [directories removeObjectAtIndex:0];
+        NSArray *children = [mgr contentsOfDirectoryAtPath:currentDirectory error:&e];
+        NSAssert(e == nil, @"Unable to enumerate children of %@", dir, e);
+        [mgr fileExistsAtPath:currentDirectory isDirectory:&isDir];
+        NSAssert(isDir, @"Tried to enumerate children of '%@', but it's not a dir.", dir);
+
+        for (NSString *file in children) {
+            NSString *filePath = [currentDirectory joinPath:file];
+            isDir = NO;
+            BOOL exists = [mgr fileExistsAtPath:filePath isDirectory:&isDir];
+            if (!exists) {continue; }
+            if (!isDir) {
+                [files addObject:filePath];
+            } else {
+                [directories insertObject:filePath atIndex:0];
+            }
+        }
+    }
+
+    NSArray<NSString *> *reversedFiles = [[files reverseObjectEnumerator] allObjects];
+    for (NSString *filePath in reversedFiles) {
+        handler(filePath);
+    }
+}
+
 + (BOOL)isDylibOrFramework:(NSString *)objectPath {
     return [objectPath hasSuffix:@".framework"] ||
     [objectPath hasSuffix:@".dylib"];
