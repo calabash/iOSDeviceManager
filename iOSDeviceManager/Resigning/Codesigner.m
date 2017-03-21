@@ -404,7 +404,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     
     NSString *pluginsPath = [appDir joinPath:@"Plugins"];
     if ([mgr fileExistsAtPath:pluginsPath]) {
-        [FileUtils fileSeq:pluginsPath handler:^(NSString *filepath) {
+        [FileUtils reverseFileSeq:pluginsPath handler:^(NSString *filepath) {
             if ([self isResignableBundle:filepath] &&
                 [self shouldResign:filepath inAppDir:appDir]) {
                 [self resignAppDir:filepath
