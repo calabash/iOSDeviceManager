@@ -2,8 +2,7 @@
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
 
-static NSString *const CODESIGN_ID_FLAG = @"-c";
-static NSString *const RESIGN_OBJECT_PATH_FLAG = @"-ro";
+static NSString *const RESIGN_OBJECT_OPTION_NAME = @"resign-object-path";
 
 @implementation ResignObjectCommand
 + (NSString *)name {
@@ -16,25 +15,23 @@ static NSString *const RESIGN_OBJECT_PATH_FLAG = @"-ro";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
-        [options addObject:[CommandOption withShortFlag:CODESIGN_ID_FLAG
-                                               longFlag:@"--codesign-id"
-                                             optionName:@"codesign-identity"
-                                                   info:@"Codesign identity shasum or name"
-                                               required:YES
-                                             defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:RESIGN_OBJECT_PATH_FLAG
-                                               longFlag:@"--resign-object"
-                                             optionName:@"path/to/resign-object"
-                                                   info:@"Path to dylib or framework to resign in place."
-                                               required:NO
-                                             defaultVal:nil]];
+        [options addObject:[CommandOption withPosition:0
+                                            optionName:RESIGN_OBJECT_OPTION_NAME
+                                                  info:@"Path to dylib or framework to resign in page"
+                                              required:YES
+                                            defaultVal:nil]];
+        [options addObject:[CommandOption withPosition:1
+                                            optionName:CODESIGN_ID_OPTION_NAME
+                                                  info:@"Codesign identity shasum or name"
+                                              required:YES
+                                            defaultVal:nil]];
     });
     return options;
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
     CodesignIdentity *codesignID = [self codesignIDFromArgs:args];
-    NSString *resignObjectPath = [self resignObjectFromArgs:args];
+    NSString *resignObjectPath = args[RESIGN_OBJECT_OPTION_NAME];
     
     if (!codesignID) {
         ConsoleWriteErr(@"Failed to find codesign identity");

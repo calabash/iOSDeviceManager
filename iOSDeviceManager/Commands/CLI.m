@@ -55,41 +55,22 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                          forCommand:(Class <iOSDeviceManagementCommand>)command
                                            exitCode:(int *)exitCode {
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
-    NSMutableArray<NSString *> *possiblePositionalArgShortFlags = [NSMutableArray arrayWithArray:[command positionalArgShortFlags]];
-    
+    NSUInteger positionalArgCount = 0;
+
     for (int i = 0; i < args.count; i++) {
         CommandOption *op = [command optionForFlag:args[i]];
         if (op == nil) { // This is true when the arg provided isn't a recognized flag or isn't a flag
-            if ([possiblePositionalArgShortFlags count] == 0) {
+            CommandOption *positionalOption = [command optionForPosition:positionalArgCount];
+            if (positionalOption) {
+                values[positionalOption.optionName] = args[i];
+                positionalArgCount += 1;
+                continue;
+            } else {
                 ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %s\n",
-                       [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+                                [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
                 [self printUsage];
                 *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
                 return nil;
-            } else if ([[args[i] substringToIndex:1] isEqualToString:@"-"]) {
-                *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
-                return nil;
-            } else {
-                NSString *positionalArgShortFlag = [command positionalArgShortFlag:args[i]];
-                if (positionalArgShortFlag) {
-                    // Check if redundant positional args specified
-                    if (![possiblePositionalArgShortFlags containsObject:positionalArgShortFlag]) {
-                        ConsoleWriteErr(@"Multiple arguments detected for %@", positionalArgShortFlag);
-                        [self printUsage];
-                        *exitCode = iOSReturnStatusCodeInvalidArguments;
-                        return nil;
-                    }
-                    values[positionalArgShortFlag] = args[i];
-                    [possiblePositionalArgShortFlags removeObject:positionalArgShortFlag];
-                } else{
-                    ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %@\n",
-                           args[i]);
-                    [self printUsage];
-                    *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
-                    return nil;
-
-                }
-                continue;
             }
         }
         if (args.count <= i + 1 && op.requiresArgument) {
@@ -98,17 +79,17 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             *exitCode = iOSReturnStatusCodeMissingArguments;
             return nil;
         }
-        if ([values objectForKey:op.shortFlag]) {
-            ConsoleWriteErr(@"Multiple arguments detected for %@", op.longFlag);
+        if ([values objectForKey:op.optionName]) {
+            ConsoleWriteErr(@"Multiple arguments detected for %@", op.optionName);
             [command printUsage];
             *exitCode = iOSReturnStatusCodeInvalidArguments;
             return nil;
         }
         if (op.requiresArgument) {
-            values[op.shortFlag] = args[i+1];
+            values[op.optionName] = args[i+1];
             i++;
         } else {
-            values[op.shortFlag] = @YES;
+            values[op.optionName] = @YES;
         }
     }
     
@@ -144,10 +125,9 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
 
             //Ensure all required args are present
             for (CommandOption *opt in [command options]) {
-                if (opt.required && ![parsedArgs.allKeys containsObject:opt.shortFlag]) {
-                    printf("Missing required argument '%s'. Use the '%s' flag.\n",
-                           [opt.optionName cStringUsingEncoding:NSUTF8StringEncoding],
-                           [opt.shortFlag cStringUsingEncoding:NSUTF8StringEncoding]);
+                if (opt.required && ![parsedArgs.allKeys containsObject:opt.optionName]) {
+                    printf("Missing required argument '%s'\n",
+                           [opt.optionName cStringUsingEncoding:NSUTF8StringEncoding]);
                     [command printUsage];
                     return iOSReturnStatusCodeMissingArguments;
                 }

@@ -6,10 +6,11 @@
 #import "ConsoleWriter.h"
 #import "FileUtils.h"
 
-static NSString *const APP_PATH_FLAG = @"-a";
-static NSString *const PROFILE_PATH_FLAG = @"-p";
 static NSString *const OUTPUT_PATH_FLAG = @"-o";
 static NSString *const RESOURCES_PATH_FLAG = @"-i";
+static NSString *const APP_PATH_OPTION_NAME = @"app-path";
+static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
+static NSString *const OUTPUT_PATH_OPTION_NAME = @"output-path";
 
 @implementation ResignCommand
 + (NSString *)name {
@@ -23,27 +24,25 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
-        [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
-                                               longFlag:@"--app-path"
-                                             optionName:@"path/to/app.ipa"
-                                                   info:@"Path to .ipa"
-                                               required:NO
-                                             defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:PROFILE_PATH_FLAG
-                                               longFlag:@"--profile-path"
-                                             optionName:@"path/to/profile.mobileprovision"
-                                                   info:@"Path to provisioning profile"
-                                               required:YES
-                                             defaultVal:nil]];
+        [options addObject:[CommandOption withPosition:0
+                                            optionName:APP_PATH_OPTION_NAME
+                                                  info:@"Path to .ipa"
+                                              required:YES
+                                            defaultVal:nil]];
+        [options addObject:[CommandOption withPosition:1
+                                            optionName:PROFILE_PATH_OPTION_NAME
+                                                  info:@"Path to provisioning profile"
+                                              required:YES
+                                            defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:OUTPUT_PATH_FLAG
                                                longFlag:@"--output-path"
-                                             optionName:@"path/to/resigned-output.ipa"
+                                             optionName:OUTPUT_PATH_OPTION_NAME
                                                    info:@"Path to resign output app"
                                                required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:RESOURCES_PATH_FLAG
                                                longFlag:@"--resources-path"
-                                             optionName:@"path/to/resources"
+                                             optionName:RESOURCES_PATH_OPTION_NAME
                                                    info:@"Path to resources to inject"
                                                required:NO
                                              defaultVal:nil]];
@@ -52,9 +51,9 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    NSString *pathToBundle= args[APP_PATH_FLAG];
-    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_FLAG]];
+    NSString *pathToBundle= args[APP_PATH_OPTION_NAME];
+    if ([args[APP_PATH_OPTION_NAME] hasSuffix:@".ipa"]) {
+        pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_OPTION_NAME]];
     } else {
         ConsoleWriteErr(@"Resigning requires ipa path");
         return iOSReturnStatusCodeInvalidArguments;
@@ -67,8 +66,8 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     }
 
     // Should output path be optional?
-    NSString *outputPath = args[OUTPUT_PATH_FLAG];
-    NSString *profilePath = args[PROFILE_PATH_FLAG];
+    NSString *outputPath = args[OUTPUT_PATH_OPTION_NAME];
+    NSString *profilePath = args[PROFILE_PATH_OPTION_NAME];
     
     MobileProfile *profile;
     profile = [MobileProfile withPath:profilePath];

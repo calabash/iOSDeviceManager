@@ -10,56 +10,16 @@
 NSString *const HELP_SHORT_FLAG = @"-h";
 NSString *const HELP_LONG_FLAG = @"--help";
 NSString *const DEVICE_ID_FLAG = @"-d";
-NSString *const APP_ID_FLAG = @"-a";
-NSString *const PROFILE_PATH_FLAG = @"-p";
-NSString *const RESOURCES_PATH_FLAG = @"-i";
-NSString *const CODESIGN_ID_FLAG = @"-c";
-NSString *const RESIGN_OBJECT_PATH_FLAG = @"-ro";
-NSString *const PROFILE_PATH_ARGNAME = @"profile_path";
-NSString *const DEVICE_ID_ARGNAME = @"device_id";
-NSString *const APP_ID_ARGNAME = @"app_id";
-NSString *const CODESIGN_ID_ARGNAME = @"codesign_id";
-NSString *const RESIGN_OBJECT_ARGNAME = @"resign_object";
+NSString *const BUNDLE_ID_OPTION_NAME = @"bundle-identifier";
+NSString *const DEVICE_ID_OPTION_NAME = @"device-identifier";
+NSString *const CODESIGN_ID_OPTION_NAME = @"codesign-identifier";
+NSString *const RESOURCES_PATH_OPTION_NAME = @"resources-path";
 
 @implementation Command
 static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *> *> *classOptionDictMap;
 
-+ (NSString *)positionalArgShortFlag:(NSString *)arg {
-    if ([arg hasSuffix:@".app"] || [arg hasSuffix:@".ipa"]) {
-        return APP_ID_FLAG;
-    }
-    
-    if ([arg hasSuffix:@".mobileprovision"]) {
-        return PROFILE_PATH_FLAG;
-    }
-    
-    if ([DeviceUtils isSimulatorID:arg] || [DeviceUtils isDeviceID:arg]) {
-        return DEVICE_ID_FLAG;
-    }
-    
-    if ([FileUtils isDylibOrFramework:arg]) {
-        return RESIGN_OBJECT_PATH_FLAG;
-    }
-    
-    if ([arg isEqualToString:@"-"] || [CodesignIdentity isValidCodesignIdentity:arg]) {
-        return CODESIGN_ID_FLAG;
-    }
-    
-    return nil;
-}
-
-+(NSArray <NSString *> *) positionalArgNames {
-    return @[
-             DEVICE_ID_ARGNAME,
-             APP_ID_ARGNAME,
-             PROFILE_PATH_ARGNAME,
-             CODESIGN_ID_ARGNAME,
-             RESIGN_OBJECT_ARGNAME
-             ];
-}
-
 + (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args {
-    NSString *resourcePaths = args[RESOURCES_PATH_FLAG];
+    NSString *resourcePaths = args[RESOURCES_PATH_OPTION_NAME];
     if (resourcePaths.length) {
         // Separate list of paths by colon
         NSArray<NSString *> *resources = [resourcePaths componentsSeparatedByString:@":"];
@@ -82,12 +42,12 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (Device *)deviceFromArgs:(NSDictionary *)args {
-    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [DeviceUtils defaultDeviceID];
+    NSString *deviceID = args[DEVICE_ID_OPTION_NAME] ?: [DeviceUtils defaultDeviceID];
     return [Device withID:deviceID];
 }
 
 + (Device *)simulatorFromArgs:(NSDictionary *)args {
-    NSString *deviceID = args[DEVICE_ID_FLAG] ?: args[DEVICE_ID_ARGNAME] ?: [DeviceUtils defaultSimulatorID];
+    NSString *deviceID = args[DEVICE_ID_OPTION_NAME] ?: [DeviceUtils defaultSimulatorID];
     
     if (![DeviceUtils isSimulatorID:deviceID]) {
         @throw [NSException exceptionWithName:@"InvalidArgumentException"
@@ -99,7 +59,7 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (CodesignIdentity *)codesignIDFromArgs:(NSDictionary *)args {
-    NSString *codesignID = args[CODESIGN_ID_FLAG] ?: args[CODESIGN_ID_ARGNAME];
+    NSString *codesignID = args[CODESIGN_ID_OPTION_NAME];
     
     if (!codesignID.length) {
         return nil;
@@ -115,10 +75,6 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     }
     
     return nil;
-}
-
-+ (NSString *)resignObjectFromArgs:(NSDictionary *)args {
-    return args[RESIGN_OBJECT_PATH_FLAG] ?: args[RESIGN_OBJECT_ARGNAME];
 }
 
 + (NSString *)name {
@@ -148,16 +104,6 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     }
 }
 
-+ (NSArray <NSString *>*)positionalArgShortFlags {
-    return @[
-             DEVICE_ID_FLAG,
-             APP_ID_FLAG,
-             PROFILE_PATH_FLAG,
-             CODESIGN_ID_FLAG,
-             RESIGN_OBJECT_PATH_FLAG
-             ];
-}
-
 + (id<iOSDeviceManagementCommand>)command {
     [self validateConformsToProtocol];
     return (id<iOSDeviceManagementCommand>)self;
@@ -167,14 +113,15 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     id <iOSDeviceManagementCommand> cmd = [self command];
     NSMutableString *usage = [NSMutableString string];
     [usage appendFormat:@"\n\t%@", [cmd name]];
-    
-    for (NSString *argname in self.positionalArgNames) {
-        [usage appendFormat:@" <%@>", argname];
+
+    for (CommandOption *op in [self positionalOptions]) {
+        [usage appendFormat:@" <%@>", op.optionName];
     }
-    
+
     [usage appendString:@"\n"];
-    
-    for (CommandOption *op in [cmd options]) {
+
+    NSArray<CommandOption *> *flaggedOptions = [self flaggedOptions];
+    for (CommandOption *op in flaggedOptions) {
         [usage appendFormat:@"\t\t%@,%@\t<%@>", op.shortFlag, op.longFlag, op.optionName];
         if (!op.required) {
             [usage appendString:@" [OPTIONAL] "];
@@ -185,10 +132,11 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         if (op.defaultValue) {
             [usage appendFormat:@"\tDEFAULT=%@", op.defaultValue];
         }
-        if (op != [[cmd options] lastObject]) {
+        if (op != [flaggedOptions lastObject]) {
             [usage appendString:@"\n"];
         }
     }
+
     return usage;
 }
 
@@ -219,6 +167,44 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         [flag isEqualToString:HELP_LONG_FLAG]) {
         return helpCommand;
     }
+    return nil;
+}
+
++ (NSArray<CommandOption *> *)positionalOptions {
+    id <iOSDeviceManagementCommand> cmd = [self command];
+    NSMutableArray *options = [[NSMutableArray alloc] init];
+
+    for (CommandOption *op in [cmd options]) {
+        if (op.positional) {
+            [options addObject:op];
+        }
+    }
+
+    return [options copy];
+}
+
++ (NSArray<CommandOption *> *)flaggedOptions {
+    id <iOSDeviceManagementCommand> cmd = [self command];
+    NSMutableArray *options = [[NSMutableArray alloc] init];
+
+    for (CommandOption *op in [cmd options]) {
+        if (!op.positional) {
+            [options addObject:op];
+        }
+    }
+
+    return [options copy];
+}
+
++ (CommandOption *)optionForPosition:(NSUInteger)index {
+    id <iOSDeviceManagementCommand> cmd = [self command];
+
+    for (CommandOption *op in [cmd options]) {
+        if (op.positional && op.position == index) {
+            return op;
+        }
+    }
+
     return nil;
 }
 
