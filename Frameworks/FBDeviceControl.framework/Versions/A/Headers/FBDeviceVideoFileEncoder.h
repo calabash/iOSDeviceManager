@@ -9,28 +9,28 @@
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBControlCore.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBDevice;
+@class AVCaptureSession;
+@protocol FBControlCoreLogger;
 
 /**
- A Class for obtaining Video Configuration for a Device.
+ Encodes Device Video to a File, using an AVCaptureSession
  */
-@interface FBDeviceVideo : NSObject <FBVideoRecordingSession>
+@interface FBDeviceVideoFileEncoder : NSObject
 
 /**
- A Factory method for obtaining the Video for a Device.
+ Creates a Video Encoder with the provided Parameters.
 
- @param device the Device.
- @param filePath the location of the video to record to, will be deleted if it already exists.
+ @param session the Session to record from.
+ @param filePath the File Path to record to.
+ @param logger the logger to use.
  @param error an error out for any error that occurs.
  */
-+ (nullable instancetype)videoForDevice:(FBDevice *)device filePath:(NSString *)filePath error:(NSError **)error;
++ (nullable instancetype)encoderWithSession:(AVCaptureSession *)session filePath:(NSString *)filePath logger:(id<FBControlCoreLogger>)logger error:(NSError **)error;
 
 /**
- Starts Recording the Video for a Device.
+ Starts the Video Encoder.
 
  @param error an error out for any error that occurs.
  @return YES if successful, NO otherwise.
@@ -38,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)startRecordingWithError:(NSError **)error;
 
 /**
- Stops Recording the Video for a Device.
+ Stops the Video Encoder.
+ If the encoder is running, it will block until the Capture Session has been torn down.
 
  @param error an error out for any error that occurs.
  @return YES if successful, NO otherwise.

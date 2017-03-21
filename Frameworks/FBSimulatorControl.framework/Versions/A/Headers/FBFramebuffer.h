@@ -14,13 +14,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class FBFramebufferConfiguration;
-@class FBFramebufferRenderable;
+@class FBFramebufferSurface;
 @class FBSimulator;
+@class FBSimulatorImage;
+@class FBSimulatorVideo;
 @class SimDeviceFramebufferService;
 @protocol FBFramebufferFrameSink;
-@protocol FBFramebufferRenderableConsumer;
-@protocol FBFramebufferVideo;
-@protocol FBFramebufferImage;
+@protocol FBFramebufferSurfaceConsumer;
 
 /**
  A container and client for a Simulator's Framebuffer.
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  By default there are the default 'video' and 'image' components that allow access to a video encoder and image representation respectively.
 
  It is also possible to attach to a Framebuffer in two ways:
- 1) Connecting using an FBFramebufferRenderableConsumer. This allows consumption of an IOSurface backing the Simulator as well as events for damage rectangles.
+ 1) Connecting using an FBFramebufferSurfaceConsumer. This allows consumption of an IOSurface backing the Simulator as well as events for damage rectangles.
  2) Connecting using a FBFramebufferFrameSink. This will internally generate an FBFramebufferFrame object, suitable for further consumption.
  */
 @interface FBFramebuffer : NSObject <FBJSONSerializable>
@@ -48,12 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates and returns a FBFramebuffer.
 
- @param renderable the Renderable to connect to.
+ @param surface the Renderable to connect to.
  @param configuration the configuration of the Framebuffer.
  @param simulator the Simulator to which the Framebuffer belongs.
  @return a new FBSimulatorDirectLaunch instance. Must not be nil.
  */
-+ (instancetype)framebufferWithRenderable:(FBFramebufferRenderable *)renderable configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
++ (instancetype)framebufferWithRenderable:(FBFramebufferSurface *)surface configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
 
 #pragma mark Public Methods
 
@@ -75,41 +75,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)attachFrameSink:(id<FBFramebufferFrameSink>)frameSink;
 
 /**
- Detatches a Frame Sink
+ Detaches a Frame Sink
 
  @param frameSink the Frame Sink to detach.
  */
-- (void)detatchFrameSink:(id<FBFramebufferFrameSink>)frameSink;
-
-/**
- Attaches a Surface Consumer.
-
- @param consumer the consumer to attach.
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
- */
-- (BOOL)attachSurfaceConsumer:(id<FBFramebufferRenderableConsumer>)consumer error:(NSError **)error;
-
-/**
- Detaches a Surface Consumer.
-
- @param consumer the consumer to detach.
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
- */
-- (BOOL)detachSurfaceConsumer:(id<FBFramebufferRenderableConsumer>)consumer error:(NSError **)error;
+- (void)detachFrameSink:(id<FBFramebufferFrameSink>)frameSink;
 
 #pragma mark Properties
 
 /**
- The FBFramebufferVideo instance owned by the receiver.
+ The FBSimulatorVideo instance owned by the receiver.
  */
-@property (nonatomic, strong, readonly) id<FBFramebufferVideo> video;
+@property (nonatomic, strong, readonly) FBSimulatorVideo *video;
 
 /**
- The FBFramebufferImage instance owned by the receiver.
+ The FBSimulatorImage instance owned by the receiver.
  */
-@property (nonatomic, strong, readonly) id<FBFramebufferImage> image;
+@property (nonatomic, strong, readonly) FBSimulatorImage *image;
+
+/**
+ The FBFramebufferSurface owned by the reciever, if supported.
+ */
+@property (nonatomic, strong, nullable, readonly) FBFramebufferSurface *surface;
 
 @end
 
