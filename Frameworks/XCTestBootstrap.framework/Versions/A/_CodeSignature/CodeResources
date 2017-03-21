@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			QTsZ9ABei7lYrWT98xpK6g86k8k=
+			RRGB7arXQbIoa20lfqR3Cvm+Doc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -121,11 +121,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			A/WOtZCpdVcmYyuGVt3fR7QowG8=
+			ykYNsTJhfEjyyCAAIZ0d2TkvoIA=
 			</data>
 			<key>hash2</key>
 			<data>
-			H+wLvqp4LneUDbTsheG1+OSH7YTHhw2PBeAHxB4qj2Y=
+			gz2JOPNk/n2dINsNTEGEJTOtZBLbcadVOQ8Mp2FZ/E0=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerAPIMediator.h</key>

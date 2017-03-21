@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			QTsZ9ABei7lYrWT98xpK6g86k8k=
+			RRGB7arXQbIoa20lfqR3Cvm+Doc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			bKzeL8BmxL2px0aAbkgXHHRQL6A=
+			dLAiAhBnmlDxyIkmgF/C6pzS0dY=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -68,11 +68,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			BTF7POVuH8Zs+2DLfo9jU7LyO/s=
+			8Xm+R3lQdaxeGdgT5P4eHCo44xM=
 			</data>
 			<key>hash2</key>
 			<data>
-			9WNF1qezM2uv7R3maoNrWJ227R6O3MHJ/dY92urDn5A=
+			VQDAq0bStoz0gtlcWv29ohGgHh1e86n61xmmKpFaM8c=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -112,11 +112,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			s2fIbTO3ChqkeSWUoQObvLk1ZW4=
+			4/ELcqGRFyOIAywo57dFVvGz3YE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Sojr3Kv8jPPyIJI8E4PopoWG6JhvYIEZ56LYKjXhvjU=
+			ZNn2fVc7cXMuK6v1kjc1Px0JRjY9roJOoeEjCvlw5KU=
+			</data>
+		</dict>
+		<key>Headers/FBDeviceVideoFileEncoder.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			i/w48kxtDycbt2QSXHbO6Rv4HzU=
+			</data>
+			<key>hash2</key>
+			<data>
+			MOrafnC+c86Wiq3Jt5wwua5hZ0VUUzCaKfkhxW56DWI=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceXCTestCommands.h</key>

@@ -9,7 +9,21 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBTerminationHandle.h>
+
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ The Termination Handle Type.
+ */
+extern FBTerminationHandleType const FBTerminationHandleTypeTestOperation;
+
+/**
+ A Running Test Operation that can awaited and cancelled.
+ */
+@protocol FBXCTestOperation <NSObject, FBTerminationHandle>
+
+@end
 
 @class FBTestLaunchConfiguration;
 
@@ -24,9 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param testLaunchConfiguration the configuration used for the test launch.
  @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+ @return a Test Operation if successful, nil otherwise.
  */
-- (BOOL)startTestWithLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration error:(NSError **)error;
+- (nullable id<FBXCTestOperation>)startTestWithLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration error:(NSError **)error;
 
 /**
  Calling -[FBXCTestCommands startTestWithLaunchConfiguration:error:] will start the execution of the test run.
