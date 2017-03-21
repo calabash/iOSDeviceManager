@@ -1,4 +1,5 @@
 #import "Application.h"
+#import "AppUtils.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
@@ -9,14 +10,24 @@
 @implementation Application
 
 + (Application *)withBundlePath:(NSString *)pathToBundle {
+    NSString *path = [pathToBundle stringByStandardizingPath];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    if (!([fileManager fileExistsAtPath:pathToBundle] && [pathToBundle hasSuffix:@".app"])) {
-        ConsoleWriteErr(@"Could not create application - path to bundle: %@ doesn't exist or not .app", pathToBundle);
+    if (![fileManager fileExistsAtPath:path]) {
+        ConsoleWriteErr(@"Could not create application - path to bundle: %@ doesn't exist", path);
+        return nil;
+    }
+
+    if ([path hasSuffix:@".ipa"]) {
+        path = [AppUtils unzipToTmpDir:path];
+    }
+
+    if (![path hasSuffix:@".app"]) {
+        ConsoleWriteErr(@"Could not create application - path is not .app format", path);
         return nil;
     }
     
-    NSString *plistPath = [pathToBundle stringByAppendingPathComponent:@"Info.plist"];
+    NSString *plistPath = [path stringByAppendingPathComponent:@"Info.plist"];
     if (![fileManager fileExistsAtPath:plistPath]) {
         ConsoleWriteErr(@"Could not find plist as path: %@", plistPath);
         return nil;
@@ -25,7 +36,7 @@
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     
     NSString *executableName = infoPlist[@"CFBundleExecutable"];
-    NSString *executablePath = [pathToBundle stringByAppendingPathComponent:executableName];
+    NSString *executablePath = [path stringByAppendingPathComponent:executableName];
     if (![fileManager fileExistsAtPath:executablePath]) {
         ConsoleWriteErr(@"Could not find bundle executable at path: %@", executablePath);
         return nil;
@@ -41,10 +52,10 @@
     
     NSError *productBundleErr;
     FBProductBundle *productBundle = [[[FBProductBundleBuilder builder]
-                                      withBundlePath:pathToBundle]
+                                      withBundlePath:path]
                                       buildWithError:&productBundleErr];
     if (productBundleErr) {
-        ConsoleWriteErr(@"Could not determine bundle id for bundle at: %@ \n withError: %@", pathToBundle, productBundleErr);
+        ConsoleWriteErr(@"Could not determine bundle id for bundle at: %@ \n withError: %@", path, productBundleErr);
         return nil;
     }
     
@@ -52,7 +63,7 @@
     Application *app = [self withBundleID:productBundle.bundleID
                                     plist:infoPlist
                             architectures:arches];
-    app.path = pathToBundle;
+    app.path = path;
     return app;
 }
 
