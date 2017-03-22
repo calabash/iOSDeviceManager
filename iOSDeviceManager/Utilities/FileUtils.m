@@ -48,11 +48,8 @@
             isDir = NO;
             BOOL exists = [mgr fileExistsAtPath:filePath isDirectory:&isDir];
             if (!exists) {continue; }
-            if (!isDir) {
-                [files addObject:filePath];
-            } else {
-                [directories insertObject:filePath atIndex:0];
-            }
+            [files addObject:filePath];
+            if (isDir) { [directories insertObject:filePath atIndex:0]; }
         }
     }
 
