@@ -40,7 +40,7 @@
                                                    environment:environment ?: @{}
                                                    waitForDebugger:NO
                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
-    FBiOSDeviceOperator *deviceOperator = [iOSTarget deviceOperator];
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)[iOSTarget deviceOperator];
     if (![deviceOperator launchApplication:appLaunch error:&innerError]) {
         if (error) {
             *error = [[[XCTestBootstrapError describe:@"Failed launch test runner"]
