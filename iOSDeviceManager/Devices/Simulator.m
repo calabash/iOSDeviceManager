@@ -175,19 +175,11 @@ static const FBSimulatorControl *_control;
     if (needsToInstall) {
         [Codesigner resignApplication:app withProvisioningProfile:nil];
 
-        FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
-                                                                                  installType:FBApplicationInstallTypeUnknown
-                                                                                        error:&e];
-        if (!appDescriptor) {
-            ConsoleWriteErr(@"Error creating application descriptor: %@", e);
-            ConsoleWriteErr(@" Path to bundle: %@", app.path);
-            return iOSReturnStatusCodeGenericFailure;
-        }
-
         FBSimulatorApplicationCommands *applicationCommands;
         applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
-        if (![applicationCommands installApplication:appDescriptor error:&e]) {
+        if (![applicationCommands installApplicationWithPath:app.path
+                                                       error:&e]) {
             ConsoleWriteErr(@"Error installing application: %@", e);
             return iOSReturnStatusCodeGenericFailure;
         } else {
