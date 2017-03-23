@@ -62,6 +62,8 @@
 @property BOOL testingComplete;
 
 + (instancetype)withID:(NSString *)uuid;
+
+- (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 

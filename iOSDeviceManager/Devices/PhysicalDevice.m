@@ -68,6 +68,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return device;
 }
 
+- (FBiOSDeviceOperator *)fbDeviceOperator {
+    return (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+}
+
 - (iOSReturnStatusCode)launch {
     return iOSReturnStatusCodeGenericFailure;
 }
@@ -83,11 +87,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
 
     NSError *err;
-    FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
     BOOL needsToInstall = YES;
 
     //First check if the app is installed
-    if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
+    if ([operator isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
         if (err) {
             ConsoleWriteErr(@"Error checking if app (%@) is installed. %@", app.bundleID, err);
             return iOSReturnStatusCodeInternalError;
@@ -149,7 +153,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
         [self.fbDevice.dvtDevice installProvisioningProfile:_profile];
 
-        if (![op installApplicationWithPath:app.path error:&err] || err) {
+        if (![operator installApplicationWithPath:app.path error:&err] || err) {
             ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
@@ -185,10 +189,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
 
-    FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
 
     NSError *err;
-    if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
+    if (![operator isApplicationInstalledWithBundleID:bundleID error:&err]) {
         ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeInternalError;
     }
@@ -198,7 +202,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
+    if (![operator cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
 
@@ -252,8 +256,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     NSError *error;
 
-    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
-    if (! [deviceOperator launchApplication:appLaunch error:&error]) {
+    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
+    if (![deviceOperator launchApplication:appLaunch error:&error]) {
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
     }
@@ -315,7 +319,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return nil;
     }
 
-    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+
+    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
     id<DVTApplication> installedDVTApplication = [deviceOperator installedApplicationWithBundleIdentifier:bundleID];
 
     return [Application withBundleID:bundleID

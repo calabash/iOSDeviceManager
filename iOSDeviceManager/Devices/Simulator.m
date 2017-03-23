@@ -71,6 +71,10 @@ static const FBSimulatorControl *_control;
     return [FBSimulatorApplicationCommands commandsWithSimulator:simulator];
 }
 
+- (FBiOSDeviceOperator *)fbDeviceOperator {
+    return (FBiOSDeviceOperator *)self.fbSimulator.deviceOperator;
+}
+
 - (BOOL)bootSimulatorIfNecessary:(NSError * __autoreleasing *) error {
     FBSimulatorState state = self.fbSimulator.state;
     if (state == FBSimulatorStateShutdown || state == FBSimulatorStateShuttingDown) {
