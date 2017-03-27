@@ -610,6 +610,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     }
 }
 
+- (NSString *)TestStructureDirectory {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"testDirectoryStructure"];
+}
+
 - (NSString *)TaskyIpaPath {
     return [self.resourcesDirectory
             stringByAppendingPathComponent:@"arm/TaskyPro.ipa"];

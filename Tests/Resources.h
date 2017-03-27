@@ -139,6 +139,7 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)TaskyPath:(NSString *)platform;
 - (NSString *)TaskyIpaPath;
 - (NSString *)TaskyIdentifier;
+- (NSString *)TestStructureDirectory;
 - (NSString *)DeviceAgentPath:(NSString *)platform;
 - (NSString *)DeviceAgentXCTestPath:(NSString *)platform;
 - (NSString *)DeviceAgentIdentifier;

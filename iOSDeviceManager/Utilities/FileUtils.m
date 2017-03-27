@@ -28,35 +28,44 @@
     }
 }
 
-+ (void)reverseFileSeq:(NSString *)dir handler:(filePathHandler)handler {
+/**
+ Returns an array of paths in depth first.
+
+ If an error occurs, returns `nil`.
+ */
++ (NSArray <NSString *> *)depthFirstPathsStartingAtDirectory:(NSString *)dir error:(NSError **)error {
     NSFileManager *mgr = [NSFileManager defaultManager];
-    NSError *e = nil;
     BOOL isDir = NO;
+    if (![mgr fileExistsAtPath:dir isDirectory:&isDir]) {
+        if (error) {
+            NSString *msg = [NSString stringWithFormat:@"No file at path: %@", dir];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedRecoverySuggestionErrorKey];
+            *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                         code:NSFileNoSuchFileError
+                                     userInfo:userInfo];
+        }
+        return nil;
+    }
 
     NSMutableArray<NSString *> *files = [[NSMutableArray alloc] init];
     NSMutableArray<NSString *> *directories = [[NSMutableArray alloc] initWithObjects:dir, nil];
+    [files addObject:dir]; // Include initial directory
     while (directories.count != 0) {
         NSString *currentDirectory = [directories firstObject];
         [directories removeObjectAtIndex:0];
-        NSArray *children = [mgr contentsOfDirectoryAtPath:currentDirectory error:&e];
-        NSAssert(e == nil, @"Unable to enumerate children of %@", dir, e);
-        [mgr fileExistsAtPath:currentDirectory isDirectory:&isDir];
-        NSAssert(isDir, @"Tried to enumerate children of '%@', but it's not a dir.", dir);
-
+        NSArray *children = [mgr contentsOfDirectoryAtPath:currentDirectory error:error];
+        if (![mgr fileExistsAtPath:currentDirectory isDirectory:&isDir]) { continue; }
         for (NSString *file in children) {
             NSString *filePath = [currentDirectory joinPath:file];
             isDir = NO;
             BOOL exists = [mgr fileExistsAtPath:filePath isDirectory:&isDir];
-            if (!exists) {continue; }
+            if (!exists) { continue; }
             [files addObject:filePath];
             if (isDir) { [directories insertObject:filePath atIndex:0]; }
         }
     }
 
-    NSArray<NSString *> *reversedFiles = [[files reverseObjectEnumerator] allObjects];
-    for (NSString *filePath in reversedFiles) {
-        handler(filePath);
-    }
+    return [files copy];
 }
 
 + (BOOL)isDylibOrFramework:(NSString *)objectPath {
