@@ -258,12 +258,11 @@
 		F54ACEDF1E8A687700BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEE01E8A687800BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEE11E8A687800BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
-		F55353101E7824D40083C779 /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F553530F1E7824D40083C779 /* SimulatorTest.m */; };
-		F57710181E785E570018B99E /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F57710171E785E570018B99E /* SimulatorTest.m */; };
+		F54ACEF21E8A6AEE00BC36DA /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF01E8A6AEE00BC36DA /* DeviceTest.m */; };
+		F54ACEF31E8A6AEE00BC36DA /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF11E8A6AEE00BC36DA /* SimulatorTest.m */; };
+		F54ACEF71E8A6AFD00BC36DA /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */; };
+		F54ACEF81E8A6AFD00BC36DA /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */; };
 		F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F578F4671D70A3C4001FC3BE /* ResignTest.m */; };
-		F590330E1E68071300853CEA /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F590330D1E68071300853CEA /* DeviceTest.m */; };
-		F59033131E680EDF00853CEA /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59033121E680EDF00853CEA /* SimulatorTest.m */; };
-		F59033151E6839C300853CEA /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59033141E6839C300853CEA /* PhysicalDeviceTest.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
@@ -533,16 +532,15 @@
 		F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileProfileTest.m; sourceTree = "<group>"; };
 		F53764961D67A1FB009457C8 /* Resources.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = Resources.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F53764971D67A1FB009457C8 /* Resources.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Resources.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		F553530F1E7824D40083C779 /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
-		F57710171E785E570018B99E /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
+		F54ACEF01E8A6AEE00BC36DA /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
+		F54ACEF11E8A6AEE00BC36DA /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
+		F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalDeviceTest.m; sourceTree = "<group>"; };
+		F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
 		F578F4671D70A3C4001FC3BE /* ResignTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResignTest.m; sourceTree = "<group>"; };
 		F57BF4561DC382420074747F /* CocoaAsyncSocket.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaAsyncSocket.LICENSE; sourceTree = "<group>"; };
 		F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaHTTPServer.LICENSE; sourceTree = "<group>"; };
 		F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaLumberjack.LICENSE; sourceTree = "<group>"; };
 		F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = RoutingHTTPServer.LICENSE; sourceTree = "<group>"; };
-		F590330D1E68071300853CEA /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
-		F59033121E680EDF00853CEA /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
-		F59033141E6839C300853CEA /* PhysicalDeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalDeviceTest.m; sourceTree = "<group>"; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		F5D0F6141E68703A00749462 /* XCTestConfigurationPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCTestConfigurationPlist.h; sourceTree = SOURCE_ROOT; };
@@ -975,20 +973,20 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		F590330C1E68071300853CEA /* Devices */ = {
+		F54ACEEF1E8A6AEE00BC36DA /* Devices */ = {
 			isa = PBXGroup;
 			children = (
-				F590330D1E68071300853CEA /* DeviceTest.m */,
-				F57710171E785E570018B99E /* SimulatorTest.m */,
+				F54ACEF01E8A6AEE00BC36DA /* DeviceTest.m */,
+				F54ACEF11E8A6AEE00BC36DA /* SimulatorTest.m */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
 		};
-		F59033111E680EDF00853CEA /* Devices */ = {
+		F54ACEF41E8A6AFD00BC36DA /* Devices */ = {
 			isa = PBXGroup;
 			children = (
-				F59033121E680EDF00853CEA /* SimulatorTest.m */,
-				F59033141E6839C300853CEA /* PhysicalDeviceTest.m */,
+				F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */,
+				F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
@@ -996,7 +994,7 @@
 		F5D583DC1D69FE62007B0D11 /* Integration */ = {
 			isa = PBXGroup;
 			children = (
-				F59033111E680EDF00853CEA /* Devices */,
+				F54ACEF41E8A6AFD00BC36DA /* Devices */,
 				F578F4671D70A3C4001FC3BE /* ResignTest.m */,
 				F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */,
 				F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */,
@@ -1008,7 +1006,7 @@
 		F5D583DF1D69FE62007B0D11 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
-				F590330C1E68071300853CEA /* Devices */,
+				F54ACEEF1E8A6AEE00BC36DA /* Devices */,
 				F5249D3C1D6B31D1006ADD64 /* Utilities */,
 				F5D583E11D69FE62007B0D11 /* CLITests.m */,
 			);
@@ -1279,6 +1277,7 @@
 				892DE4DF1D22F97A00E1902C /* CLI.m in Sources */,
 				892DE51C1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				B296D6F91E31440D00D365F3 /* Certificate.m in Sources */,
+				F54ACEF21E8A6AEE00BC36DA /* DeviceTest.m in Sources */,
 				B29637851E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				892DE4EB1D230F5F00E1902C /* Command.m in Sources */,
 				F5D0F6171E68703A00749462 /* XCTestConfigurationPlist.m in Sources */,
@@ -1297,12 +1296,12 @@
 				898D7D741DA47569001578FE /* DDRange.m in Sources */,
 				F5D78DC31D8D327500497000 /* ShellResultTest.m in Sources */,
 				F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */,
-				F57710181E785E570018B99E /* SimulatorTest.m in Sources */,
 				892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */,
 				89B50D811D466BB800F34D67 /* AppUtils.m in Sources */,
 				89A1CF061E326A2900D9FEC5 /* FileUtils.m in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
+				F54ACEF31E8A6AEE00BC36DA /* SimulatorTest.m in Sources */,
 				A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */,
 				898D7DE31DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				898D7D831DA47569001578FE /* MultipartFormDataParser.m in Sources */,
@@ -1344,7 +1343,6 @@
 				B2E68E1E1E381745001D5D89 /* ResignAllCommand.m in Sources */,
 				B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				898D7D8C1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
-				F590330E1E68071300853CEA /* DeviceTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1418,7 +1416,6 @@
 				F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */,
 				B296D7061E3147AE00D365F3 /* Certificate.m in Sources */,
 				89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */,
-				F55353101E7824D40083C779 /* SimulatorTest.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
@@ -1433,11 +1430,11 @@
 				898D7D961DA47569001578FE /* HTTPErrorResponse.m in Sources */,
 				F5D584061D6A0387007B0D11 /* SimulateLocationCommand.m in Sources */,
 				F5D584031D6A0387007B0D11 /* KillSimulatorCommand.m in Sources */,
-				F59033131E680EDF00853CEA /* SimulatorTest.m in Sources */,
 				898D7DDB1DA4758A001578FE /* RouteRequest.m in Sources */,
 				898D7D841DA47569001578FE /* MultipartFormDataParser.m in Sources */,
 				898D7DEA1DA47672001578FE /* CBXRoute.m in Sources */,
 				F5D0F6181E68703A00749462 /* XCTestConfigurationPlist.m in Sources */,
+				F54ACEF71E8A6AFD00BC36DA /* PhysicalDeviceTest.m in Sources */,
 				898D7D8A1DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */,
 				B294E8D81E49267E0070BCD2 /* CodesignResources.m in Sources */,
@@ -1450,9 +1447,9 @@
 				F5D583F81D6A0366007B0D11 /* ShellRunner.m in Sources */,
 				F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */,
 				F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */,
+				F54ACEF81E8A6AFD00BC36DA /* SimulatorTest.m in Sources */,
 				B296D7071E31480800D365F3 /* Entitlement.m in Sources */,
 				898D7DD81DA4758A001578FE /* Route.m in Sources */,
-				F59033151E6839C300853CEA /* PhysicalDeviceTest.m in Sources */,
 				898D7DE41DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
 				89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */,
