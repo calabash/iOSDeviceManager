@@ -570,6 +570,18 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     }
 }
 
+- (NSString *)TestAppRelativePath:(NSString *)platform {
+    if ([ARM isEqualToString:platform]) {
+        return [self.resourcesDirectory
+                stringByAppendingPathComponent:@"arm/../arm/TestApp.app"];
+    } else if ([SIM isEqualToString:platform]) {
+        return [self.resourcesDirectory
+                stringByAppendingPathComponent:@"sim/../sim/TestApp.app"];
+    } else {
+        return nil;
+    }
+}
+
 /*
     Copy the testfile to a unique filename in the tmp dir and return that
  */

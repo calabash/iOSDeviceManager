@@ -131,6 +131,10 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)defaultDeviceUDID;
 
 - (NSString *)TestAppPath:(NSString *)platform;
+/*
+    Relative path to a test app with at least one ".." in the path
+*/
+- (NSString *)TestAppRelativePath:(NSString *)platform;
 - (NSString *)TestAppIdentifier;
 - (NSString *)TaskyPath:(NSString *)platform;
 - (NSString *)TaskyIpaPath;
