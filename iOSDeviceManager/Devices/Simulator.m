@@ -627,13 +627,23 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    NSString *filename = @"Xcode83.xctestconfiguration";
+    NSString *filename = @"DeviceAgent.xctestconfiguration";
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
 
-    if ([[NSFileManager defaultManager] fileExistsAtPath:xctestconfigPath]) {
-        if (![[NSFileManager defaultManager] removeItemAtPath:xctestconfigPath
-                                                        error:error]) {
-            return NO;
+    NSArray *tmpDirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDirectory
+                                                                                  error:error];
+    if (!tmpDirContents) {
+        return NO;
+    }
+
+    for (NSString *fileName in tmpDirContents) {
+        if ([@"xctestconfiguration" isEqualToString:[fileName pathExtension]]) {
+            NSString *path = [tmpDirectory stringByAppendingPathComponent:fileName];
+            if (![[NSFileManager defaultManager] removeItemAtPath:path
+                                                            error:error]) {
+                return NO;
+            }
+
         }
     }
 

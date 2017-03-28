@@ -619,7 +619,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *tmpDirectory = [[xcAppDataPath stringByAppendingPathComponent:@"AppData"]
                                              stringByAppendingPathComponent:@"tmp"];
 
-    NSString *filename = @"Xcode83.xctestconfiguration";
+    NSString *filename = @"DeviceAgent.xctestconfiguration";
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
 
     if (![xctestconfig writeToFile:xctestconfigPath
