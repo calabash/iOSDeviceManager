@@ -58,28 +58,4 @@ context(@"#xctestBundlePathForTestRunnerAtPath:", ^{
     });
 });
 
-context(@"requiresXCTestConfigurationStagingToTmp:", ^{
-
-    __block NSDecimalNumber *xcodeVersion;
-    __block BOOL actual;
-
-    it(@"returns true for Xcode 8.3", ^{
-        xcodeVersion = [NSDecimalNumber decimalNumberWithString:@"8.3"];
-        actual = [device requiresXCTestConfigurationStagingToTmp:xcodeVersion];
-        expect(actual).to.beTruthy;
-    });
-
-    it(@"returns true for Xcode > 8.3", ^{
-        xcodeVersion = [NSDecimalNumber decimalNumberWithString:@"8.3.1"];
-        actual = [device requiresXCTestConfigurationStagingToTmp:xcodeVersion];
-        expect(actual).to.beTruthy;
-    });
-
-    it(@"returns false for Xcode < 8.3", ^{
-        xcodeVersion = [NSDecimalNumber decimalNumberWithString:@"8.2.1"];
-        actual = [device requiresXCTestConfigurationStagingToTmp:xcodeVersion];
-        expect(actual).notTo.beTruthy;
-    });
-});
-
 SpecEnd

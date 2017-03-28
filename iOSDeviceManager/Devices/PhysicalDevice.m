@@ -338,36 +338,33 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     NSArray *attributes = [FBTestRunnerConfigurationBuilder defaultBuildAttributes];
     NSDictionary *environment = [FBTestRunnerConfigurationBuilder defaultBuildEnvironment];
 
-    NSDecimalNumber *xcodeVersion = FBControlCoreGlobalConfiguration.xcodeVersionNumber;
-    if ([self requiresXCTestConfigurationStagingToTmp:xcodeVersion]) {
-        BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
-                                                                       error:&error];
-        if (!staged) {
-            ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
-            return iOSReturnStatusCodeInternalError;
-        }
+    BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
+                                                                   error:&error];
+    if (!staged) {
+        ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    }
 
-        FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
-        NSString *containerPath, *xctestConfigPath;
-        containerPath = [operator containerPathForApplicationWithBundleID:runnerID
-                                                                    error:&error];
-        if (!containerPath) {
-            ConsoleWriteErr(@"Could not find the container path for %@: %@",
-                            runnerID, error);
-            return iOSReturnStatusCodeInternalError;
-        }
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    NSString *containerPath, *xctestConfigPath;
+    containerPath = [operator containerPathForApplicationWithBundleID:runnerID
+                                                                error:&error];
+    if (!containerPath) {
+        ConsoleWriteErr(@"Could not find the container path for %@: %@",
+                        runnerID, error);
+        return iOSReturnStatusCodeInternalError;
+    }
 
-        NSString *filename = @"Xcode83.xctestconfiguration";
-        xctestConfigPath = [[containerPath stringByAppendingPathComponent:@"tmp"]
-                                           stringByAppendingPathComponent:filename];
+    NSString *filename = @"Xcode83.xctestconfiguration";
+    xctestConfigPath = [[containerPath stringByAppendingPathComponent:@"tmp"]
+                        stringByAppendingPathComponent:filename];
 
-        NSMutableDictionary *mutable;
-        mutable = [NSMutableDictionary dictionaryWithDictionary:environment];
+    NSMutableDictionary *mutable;
+    mutable = [NSMutableDictionary dictionaryWithDictionary:environment];
 
-        mutable[@"XCTestConfigurationFilePath"] = xctestConfigPath;
-        environment = [NSDictionary dictionaryWithDictionary:mutable];
-        ConsoleWrite(@"%@", xctestConfigPath);
-    };
+    mutable[@"XCTestConfigurationFilePath"] = xctestConfigPath;
+    environment = [NSDictionary dictionaryWithDictionary:mutable];
+    ConsoleWrite(@"%@", xctestConfigPath);
 
     FBTestManager *testManager =
         [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice

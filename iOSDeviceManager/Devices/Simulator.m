@@ -357,14 +357,11 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    NSDecimalNumber *xcodeVersion = FBControlCoreGlobalConfiguration.xcodeVersionNumber;
-    if ([self requiresXCTestConfigurationStagingToTmp:xcodeVersion]) {
-        BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
-                                                                       error:&error];
-        if (!staged) {
-            ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
-            return iOSReturnStatusCodeInternalError;
-        }
+    BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
+                                                                   error:&error];
+    if (!staged) {
+        ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
+        return iOSReturnStatusCodeInternalError;
     }
 
     Simulator *replog = [Simulator new];

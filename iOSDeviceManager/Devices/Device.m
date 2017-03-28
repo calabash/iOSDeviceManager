@@ -243,11 +243,6 @@
     return [testRunnerPath stringByAppendingPathComponent:bundlePath];
 }
 
-- (BOOL)requiresXCTestConfigurationStagingToTmp:(NSDecimalNumber *)activeXcodeVersion {
-    NSDecimalNumber *xcode83 = [NSDecimalNumber decimalNumberWithString:@"8.3"];
-    return [activeXcodeVersion compare:xcode83] != NSOrderedAscending;
-}
-
 - (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
                                                    error:(NSError **)error {
     MUST_OVERRIDE;
