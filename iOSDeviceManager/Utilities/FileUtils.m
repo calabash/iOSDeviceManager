@@ -48,20 +48,22 @@
     }
 
     NSMutableArray<NSString *> *files = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *directories = [[NSMutableArray alloc] initWithObjects:dir, nil];
-    [files addObject:dir]; // Include initial directory
-    while (directories.count != 0) {
-        NSString *currentDirectory = [directories firstObject];
-        [directories removeObjectAtIndex:0];
-        NSArray *children = [mgr contentsOfDirectoryAtPath:currentDirectory error:error];
-        if (![mgr fileExistsAtPath:currentDirectory isDirectory:&isDir]) { continue; }
-        for (NSString *file in children) {
-            NSString *filePath = [currentDirectory joinPath:file];
-            isDir = NO;
-            BOOL exists = [mgr fileExistsAtPath:filePath isDirectory:&isDir];
-            if (!exists) { continue; }
-            [files addObject:filePath];
-            if (isDir) { [directories insertObject:filePath atIndex:0]; }
+    NSMutableArray<NSString *> *filesToCheck = [[NSMutableArray alloc] initWithObjects:dir, nil];
+    while (filesToCheck.count != 0) {
+        NSString *currentFile = [filesToCheck firstObject];
+        [filesToCheck removeObjectAtIndex:0];
+        isDir = NO;
+        if (![mgr fileExistsAtPath:currentFile isDirectory:&isDir]) { continue; }
+        [files addObject:currentFile];
+        if (isDir) {
+            NSArray<NSString *> *children = [mgr contentsOfDirectoryAtPath:currentFile error:error];
+            NSMutableArray<NSString *> *fullPathChildren = [[NSMutableArray alloc] init];
+            for (NSString *file in children) {
+                NSString *filePath = [currentFile joinPath:file];
+                [fullPathChildren addObject:filePath];
+            }
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [children count])];
+            [filesToCheck insertObjects:fullPathChildren atIndexes:indexes];
         }
     }
 
