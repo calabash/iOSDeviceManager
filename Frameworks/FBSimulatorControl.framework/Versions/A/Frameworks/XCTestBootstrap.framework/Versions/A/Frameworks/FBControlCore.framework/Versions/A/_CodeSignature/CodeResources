@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		mSBPlL8kxQpKCyzUpWtEshPCu3Y=
+		M67L0n0iVMpKKXfhkBf+CVfnyLs=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -178,11 +178,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			H+JaG3FxJZNH4LZt5ghtiK90nKk=
+			4BbSQPX6bGkO7h+9lecGctXKpow=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZqZf1+dKcmRkgkTh6CE8IylETO3frTdkHsGcHuzwWNY=
+			0wiBTEdTg0XYZ5f/jAQQNeebxSHc/+tUHUciU00TUC0=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreConfigurationVariants.h</key>
@@ -260,6 +260,28 @@
 			<key>hash2</key>
 			<data>
 			oC6HN7YYyMzn0xaCpLUmzWM7Dijo/3EjZ6QtYg1rbl8=
+			</data>
+		</dict>
+		<key>Headers/FBDependentDylib+ApplePrivateDylibs.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GRLZjKfK+fbcsP3DuD+1Nd1gSjo=
+			</data>
+			<key>hash2</key>
+			<data>
+			gQKdpFGzGw1Ovu/XZtj/IAV/0VXqjvRhRO8Hnctqibw=
+			</data>
+		</dict>
+		<key>Headers/FBDependentDylib.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			6LQzg8efhy+JMnpBjQQ6zdF8VV4=
+			</data>
+			<key>hash2</key>
+			<data>
+			KhM2uO3jhb6V1ROM16v0YTUQMLjNIXl7QA6iWXW+XT4=
 			</data>
 		</dict>
 		<key>Headers/FBDiagnostic.h</key>
@@ -706,11 +728,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mSBPlL8kxQpKCyzUpWtEshPCu3Y=
+			M67L0n0iVMpKKXfhkBf+CVfnyLs=
 			</data>
 			<key>hash2</key>
 			<data>
-			S1hKF5SrOhUCxl9ECGdHjr4vY6/Obwuq69TMk2rtzcw=
+			MENZBbqu0fRxEcqOigooctQFGsYE8L1yIHMwIU86F34=
 			</data>
 		</dict>
 	</dict>

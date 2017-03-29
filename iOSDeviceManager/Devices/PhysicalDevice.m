@@ -8,6 +8,7 @@
 #import "CodesignIdentity.h"
 #import "ConsoleWriter.h"
 #import "Application.h"
+#import "XCTestConfigurationPlist.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -330,17 +331,51 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, [self uuid], runnerID);
+    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
+            sessionID, [self uuid], runnerID);
     NSError *error = nil;
 
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
-                                                                    runnerBundleID:runnerID
-                                                                         sessionID:sessionID
-                                                                    withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                       environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                          reporter:self
-                                                                            logger:self
-                                                                             error:&error];
+    NSArray *attributes = [FBTestRunnerConfigurationBuilder defaultBuildAttributes];
+    NSDictionary *environment = [FBTestRunnerConfigurationBuilder defaultBuildEnvironment];
+
+    BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
+                                                                   error:&error];
+    if (!staged) {
+        ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    NSString *containerPath, *xctestConfigPath;
+    containerPath = [operator containerPathForApplicationWithBundleID:runnerID
+                                                                error:&error];
+    if (!containerPath) {
+        ConsoleWriteErr(@"Could not find the container path for %@: %@",
+                        runnerID, error);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    NSString *filename = @"Xcode83.xctestconfiguration";
+    xctestConfigPath = [[containerPath stringByAppendingPathComponent:@"tmp"]
+                        stringByAppendingPathComponent:filename];
+
+    NSMutableDictionary *mutable;
+    mutable = [NSMutableDictionary dictionaryWithDictionary:environment];
+
+    mutable[@"XCTestConfigurationFilePath"] = xctestConfigPath;
+    environment = [NSDictionary dictionaryWithDictionary:mutable];
+    ConsoleWrite(@"%@", xctestConfigPath);
+
+    FBTestManager *testManager =
+        [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
+                                           runnerBundleID:runnerID
+                                                sessionID:sessionID
+                                           withAttributes:attributes
+                                              environment:environment
+                                                 reporter:self
+                                                   logger:self
+                                                    error:&error];
+
     if (!testManager) {
         ConsoleWriteErr(@"Could not start test: %@", error);
         return iOSReturnStatusCodeInternalError;
@@ -488,6 +523,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 #pragma mark - FBControlCoreLogger
+
 - (id<FBControlCoreLogger>)log:(NSString *)string {
     LogInfo(@"%@", string);
     return self;
@@ -520,6 +556,90 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix {
     return self;
+}
+
+- (NSString *)containerPathForApplication:(NSString *)bundleID {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    return [operator containerPathForApplicationWithBundleID:bundleID
+                                                       error:nil];
+}
+
+- (NSString *)installPathForApplication:(NSString *)bundleID {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    return [operator applicationPathForApplicationWithBundleID:bundleID
+                                                         error:nil];
+}
+
+- (NSString *)pathToEmptyXcappdata:(NSError **)error {
+
+    NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
+    NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
+    NSString *xcappdataPath = [[NSTemporaryDirectory()
+        stringByAppendingPathComponent:guid]
+        stringByAppendingPathComponent:xcappdataName];
+    NSString *documents = [[xcappdataPath
+        stringByAppendingPathComponent:@"AppData"]
+        stringByAppendingPathComponent:@"Documents"];
+
+    NSString *library = [[xcappdataPath
+        stringByAppendingPathComponent:@"AppData"]
+        stringByAppendingPathComponent:@"Library"];
+
+    NSString *tmp = [[xcappdataPath
+        stringByAppendingPathComponent:@"AppData"]
+        stringByAppendingPathComponent:@"tmp"];
+    for (NSString *path in @[documents, library, tmp]) {
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:path
+                                       withIntermediateDirectories:YES
+                                                        attributes:nil
+                                                             error:error]) {
+            return nil;
+        }
+    }
+    return xcappdataPath;
+}
+
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error {
+
+    NSString *xcAppDataPath = [self pathToEmptyXcappdata:error];
+
+    if (!xcAppDataPath) { return NO; }
+
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    NSString *runnerPath;
+    runnerPath = [operator applicationPathForApplicationWithBundleID:bundleIdentifier
+                                                               error:error];
+    if (!runnerPath) { return NO; }
+
+    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+
+
+    NSString *tmpDirectory = [[xcAppDataPath stringByAppendingPathComponent:@"AppData"]
+                                             stringByAppendingPathComponent:@"tmp"];
+
+    NSString *filename = @"DeviceAgent.xctestconfiguration";
+    NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
+
+    if (![xctestconfig writeToFile:xctestconfigPath
+                        atomically:YES
+                          encoding:NSUTF8StringEncoding
+                             error:error]) {
+        return NO;
+    }
+
+    if (![operator uploadApplicationDataAtPath:xcAppDataPath
+                                      bundleID:bundleIdentifier
+                                         error:error]) {
+        return NO;
+    }
+
+    // Deliberately skipping error checking; error is ignorable.
+    [[NSFileManager defaultManager] removeItemAtPath:xcAppDataPath
+                                               error:nil];
+
+    return YES;
 }
 
 @end

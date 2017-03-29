@@ -6,6 +6,7 @@
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
+#import "XCTestConfigurationPlist.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -131,50 +132,48 @@ static const FBSimulatorControl *_control;
     //Ensure device exists
     NSError *e;
     if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
-    
+
     //Ensure device is in a good state (i.e., active)
     if (self.fbSimulator.state == FBSimulatorStateShutdown ||
         self.fbSimulator.state == FBSimulatorStateShuttingDown) {
         ConsoleWriteErr(@"Simulator %@ is dead. Must launch sim before installing an app.", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
-    
+
     BOOL needsToInstall = YES;
-    
+
     //First, check if the app is installed
     if ([self.fbSimulator installedApplicationWithBundleID:app.bundleID error:&e]) {
         if (e) {
             ConsoleWriteErr(@"Error checking if application is installed: %@", e);
             return iOSReturnStatusCodeInternalError;
         }
-        
+
         //If the user doesn't want to update, we're done.
         if (!shouldUpdate) {
             return iOSReturnStatusCodeEverythingOkay;
         }
-        
+
         iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
         needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
     }
-    
+
     if (e && [[e description] containsString:@"Failed to get App Path"]) {
         e = nil; // installedApplicationWithBundleID has non-nil e if no app present
     } else if (e) {
         ConsoleWriteErr(@"Error checking if application is installed: %@", e);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     if (needsToInstall) {
         [Codesigner resignApplication:app withProvisioningProfile:nil];
-        
-        //We need an `FBApplicationDescriptor` instead of `Application` because `FBSimulator` requires it
+
         FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
                                                                                   installType:FBApplicationInstallTypeUnknown
                                                                                         error:&e];
-        
         if (!appDescriptor) {
             ConsoleWriteErr(@"Error creating application descriptor: %@", e);
             ConsoleWriteErr(@" Path to bundle: %@", app.path);
@@ -191,7 +190,7 @@ static const FBSimulatorControl *_control;
             LogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
         }
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -356,6 +355,13 @@ static const FBSimulatorControl *_control;
     if ([self isInstalled:runnerID withError:&error] == iOSReturnStatusCodeFalse) {
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
+    }
+
+    BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
+                                                                   error:&error];
+    if (!staged) {
+        ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
+        return iOSReturnStatusCodeInternalError;
     }
 
     Simulator *replog = [Simulator new];
@@ -594,6 +600,61 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
 
     return nil;
+}
+
+- (NSString *)installPathForApplication:(NSString *)bundleID {
+    FBApplicationDescriptor *descriptor;
+    descriptor = [self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                              error:nil];
+    return descriptor.path;
+}
+
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error {
+    NSString *runnerPath = [self installPathForApplication:bundleIdentifier];
+    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+
+    NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
+    NSString *tmpDirectory = [containerPath stringByAppendingPathComponent:@"tmp"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:tmpDirectory]) {
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:tmpDirectory
+                                       withIntermediateDirectories:YES
+                                                        attributes:nil
+                                                             error:error]) {
+            return NO;
+        }
+    }
+
+    NSString *filename = @"DeviceAgent.xctestconfiguration";
+    NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
+
+    NSArray *tmpDirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDirectory
+                                                                                  error:error];
+    if (!tmpDirContents) {
+        return NO;
+    }
+
+    for (NSString *fileName in tmpDirContents) {
+        if ([@"xctestconfiguration" isEqualToString:[fileName pathExtension]]) {
+            NSString *path = [tmpDirectory stringByAppendingPathComponent:fileName];
+            if (![[NSFileManager defaultManager] removeItemAtPath:path
+                                                            error:error]) {
+                return NO;
+            }
+
+        }
+    }
+
+    if (![xctestconfig writeToFile:xctestconfigPath
+                        atomically:YES
+                          encoding:NSUTF8StringEncoding
+                             error:error]) {
+        return NO;
+    }
+
+    return YES;
 }
 
 @end

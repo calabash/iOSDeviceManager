@@ -15,6 +15,8 @@
 - (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
 - (BOOL)installApplicationWithPath:(NSString *)path error:(NSError **)error;
 - (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration error:(NSError **)error;
+- (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (NSString *)containerPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
 @end
 
@@ -89,5 +91,10 @@
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
+- (NSString *)containerPathForApplication:(NSString *)bundleID;
+- (NSString *)installPathForApplication:(NSString *)bundleID;
+- (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath;
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error;
 
 @end

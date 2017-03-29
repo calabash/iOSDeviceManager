@@ -211,4 +211,41 @@
     MUST_OVERRIDE;
 }
 
+- (NSString *)containerPathForApplication:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (NSString *)installPathForApplication:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath {
+    if (![testRunnerPath hasSuffix:@"-Runner.app"]) {
+        NSString *name = [testRunnerPath lastPathComponent];
+        ConsoleWriteErr(@"Expected test runner '%@' to end with -Runner.app", name);
+        ConsoleWriteErr(@"Cannot detect xctestBundlePath from test runner path:");
+        ConsoleWriteErr(@"  %@", testRunnerPath);
+        return nil;
+    }
+
+    NSArray *tokens = [[testRunnerPath lastPathComponent]
+                                       componentsSeparatedByString:@"-Runner.app"];
+    if ([tokens count] != 2) {
+        NSString *name = [testRunnerPath lastPathComponent];
+        ConsoleWriteErr(@"Expected test runner '%@' to end with -Runner.app", name);
+        ConsoleWriteErr(@"Cannot detect xctestBundlePath from test runner path:");
+        ConsoleWriteErr(@"  %@", testRunnerPath);
+        return nil;
+    }
+
+    NSString *bundleName = [NSString stringWithFormat:@"%@.xctest", tokens[0]];
+    NSString *bundlePath = [@"PlugIns" stringByAppendingPathComponent:bundleName];
+    return [testRunnerPath stringByAppendingPathComponent:bundlePath];
+}
+
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error {
+    MUST_OVERRIDE;
+}
+
 @end
