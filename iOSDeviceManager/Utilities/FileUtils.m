@@ -53,10 +53,20 @@
         NSString *currentFile = [filesToCheck firstObject];
         [filesToCheck removeObjectAtIndex:0];
         isDir = NO;
-        if (![mgr fileExistsAtPath:currentFile isDirectory:&isDir]) { continue; }
+        if (![mgr fileExistsAtPath:currentFile isDirectory:&isDir]) {
+            if (error) {
+                NSString *msg = [NSString stringWithFormat:@"No file at path: %@", dir];
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedRecoverySuggestionErrorKey];
+                *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                             code:NSFileNoSuchFileError
+                                         userInfo:userInfo];
+            }
+            return nil;
+        }
         [files addObject:currentFile];
         if (isDir) {
             NSArray<NSString *> *children = [mgr contentsOfDirectoryAtPath:currentFile error:error];
+            if (error != nil && *error != nil) { return nil; }
             NSMutableArray<NSString *> *fullPathChildren = [NSMutableArray array];
             for (NSString *file in children) {
                 NSString *filePath = [currentFile joinPath:file];
