@@ -64,10 +64,12 @@
     for (int i = 0; i < [expectedOrder count]; i++) {
         expect([files[i] lastPathComponent]).to.equal(expectedOrder[i]);
     }
+}
 
+- (void)testDepthsFirstPathsStartingAtInvalidDirectory {
     NSString *badDir = @"path/to/nothing";
     NSError *err = nil;
-    files = [FileUtils depthFirstPathsStartingAtDirectory:badDir error:&err];
+    NSArray<NSString *> *files = [FileUtils depthFirstPathsStartingAtDirectory:badDir error:&err];
     expect(files).to.equal(nil);
     expect(err).toNot.equal(nil);
 }
