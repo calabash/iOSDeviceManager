@@ -47,7 +47,7 @@
         return nil;
     }
 
-    NSMutableArray<NSString *> *files = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *files = [NSMutableArray array];
     NSMutableArray<NSString *> *filesToCheck = [[NSMutableArray alloc] initWithObjects:dir, nil];
     while (filesToCheck.count != 0) {
         NSString *currentFile = [filesToCheck firstObject];
@@ -57,7 +57,7 @@
         [files addObject:currentFile];
         if (isDir) {
             NSArray<NSString *> *children = [mgr contentsOfDirectoryAtPath:currentFile error:error];
-            NSMutableArray<NSString *> *fullPathChildren = [[NSMutableArray alloc] init];
+            NSMutableArray<NSString *> *fullPathChildren = [NSMutableArray array];
             for (NSString *file in children) {
                 NSString *filePath = [currentFile joinPath:file];
                 [fullPathChildren addObject:filePath];
@@ -67,7 +67,7 @@
         }
     }
 
-    return [files copy];
+    return [NSArray arrayWithArray:files];
 }
 
 + (BOOL)isDylibOrFramework:(NSString *)objectPath {
