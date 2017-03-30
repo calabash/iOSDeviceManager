@@ -1,6 +1,7 @@
 
 #import "StringUtils.h"
 #import "FileUtils.h"
+#import "Stack.h"
 
 @implementation FileUtils
 + (void)fileSeq:(NSString *)dir handler:(filePathHandler)handler {
@@ -46,12 +47,11 @@
         }
         return nil;
     }
-
+    
     NSMutableArray<NSString *> *files = [NSMutableArray array];
-    NSMutableArray<NSString *> *filesToCheck = [[NSMutableArray alloc] initWithObjects:dir, nil];
+    Stack *filesToCheck = [[Stack alloc] initWithArray:@[dir]];
     while (filesToCheck.count != 0) {
-        NSString *currentFile = [filesToCheck firstObject];
-        [filesToCheck removeObjectAtIndex:0];
+        NSString *currentFile = [filesToCheck popObject];
         isDir = NO;
         if (![mgr fileExistsAtPath:currentFile isDirectory:&isDir]) {
             if (error) {
@@ -72,8 +72,7 @@
                 NSString *filePath = [currentFile joinPath:file];
                 [fullPathChildren addObject:filePath];
             }
-            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [children count])];
-            [filesToCheck insertObjects:fullPathChildren atIndexes:indexes];
+            [filesToCheck pushObjects:fullPathChildren];
         }
     }
 

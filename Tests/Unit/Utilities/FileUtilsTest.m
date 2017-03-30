@@ -62,7 +62,12 @@
 
     expect([files count]).to.equal([expectedOrder count]);
     for (int i = 0; i < [expectedOrder count]; i++) {
-        expect([files[i] lastPathComponent]).to.equal(expectedOrder[i]);
+        NSString *file = files[i];
+        NSArray<NSString *> *subsequentFiles = [files subarrayWithRange:NSMakeRange(i + 1, [expectedOrder count] - 1 - i)];
+        for (NSString *subsequentFile in subsequentFiles) {
+            // None of the subsequentFiles should be parent directories
+            expect([file containsString:subsequentFile]).to.beFalsy();
+        }
     }
 }
 

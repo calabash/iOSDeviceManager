@@ -241,6 +241,10 @@
 		B2E68E1D1E381745001D5D89 /* ResignAllCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */; };
 		B2E68E1E1E381745001D5D89 /* ResignAllCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */; };
 		B2E68E1F1E381745001D5D89 /* ResignAllCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */; };
+		B2F797421E8DA7D000C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
+		B2F797431E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
+		B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
+		B2F797451E8DAB7B00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6DA1D6A3F4200BA3988 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; };
@@ -529,6 +533,8 @@
 		B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResignAllCommand.m; path = iOSDeviceManager/Commands/ResignAllCommand.m; sourceTree = SOURCE_ROOT; };
 		B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LibraryWrapper.h; path = iOSDeviceManager/LibraryWrapper/LibraryWrapper.h; sourceTree = SOURCE_ROOT; };
 		B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LibraryWrapper.m; path = iOSDeviceManager/LibraryWrapper/LibraryWrapper.m; sourceTree = SOURCE_ROOT; };
+		B2F797401E8DA7B100C2FE06 /* Stack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = iOSDeviceManager/Utilities/Stack.h; sourceTree = SOURCE_ROOT; };
+		B2F797411E8DA7D000C2FE06 /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = iOSDeviceManager/Utilities/Stack.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 		F51AC6D21D6A3F3300BA3988 /* Expecta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Expecta.framework; path = Carthage/Build/Mac/Expecta.framework; sourceTree = SOURCE_ROOT; };
@@ -747,6 +753,8 @@
 				A186226F1DE4F47700A05031 /* MachClock.m */,
 				F5D437FF1E8BA3210036C80D /* XCTestConfigurationPlist.h */,
 				F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */,
+				B2F797401E8DA7B100C2FE06 /* Stack.h */,
+				B2F797411E8DA7D000C2FE06 /* Stack.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1236,6 +1244,7 @@
 				892DE49B1D22F84200E1902C /* Device.m in Sources */,
 				898D7D9D1DA47569001578FE /* WebSocket.m in Sources */,
 				89A1CEF21E302FC200D9FEC5 /* CodesignIdentity.m in Sources */,
+				B2F797421E8DA7D000C2FE06 /* Stack.m in Sources */,
 				898D7D701DA47569001578FE /* DDNumber.m in Sources */,
 				89A1CF0C1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */,
 				892DE4EA1D230F5F00E1902C /* Command.m in Sources */,
@@ -1330,6 +1339,7 @@
 				89A1CF021E326A1E00D9FEC5 /* JSONUtils.m in Sources */,
 				898D7DDD1DA4758A001578FE /* RouteResponse.m in Sources */,
 				898D7D9E1DA47569001578FE /* WebSocket.m in Sources */,
+				B2F797431E8DAB7A00C2FE06 /* Stack.m in Sources */,
 				B296378B1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				F5D78DC81D8D32EB00497000 /* ShellResult.m in Sources */,
 				898D7D921DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
@@ -1381,6 +1391,7 @@
 				B2A7571B1E5F628E004034A5 /* StopSimulatingLocationCommand.m in Sources */,
 				B289360E1E53D1700010403C /* ShellRunner.m in Sources */,
 				F54ACEDE1E8A687700BC36DA /* MachClock.m in Sources */,
+				B2F797451E8DAB7B00C2FE06 /* Stack.m in Sources */,
 				B2A757131E5F6139004034A5 /* LaunchSimulatorCommand.m in Sources */,
 				B2A7571E1E5F6295004034A5 /* KillAppCommand.m in Sources */,
 				B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */,
@@ -1465,6 +1476,7 @@
 				898D7DE41DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
 				89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */,
+				B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */,
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,
 				B22DC0081E1D799500BDD4CB /* Application.m in Sources */,
 				F5D78DC91D8D32EB00497000 /* ShellResult.m in Sources */,
