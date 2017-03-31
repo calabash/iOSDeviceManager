@@ -47,6 +47,11 @@
                                          options:NSCaseInsensitiveSearch
                                            range:NSMakeRange(0, 1)];
     }
+    // Handle possible relative path without preceding ~ .. or .
+    if (![standardPath hasPrefix:@"/"] && ![standardPath hasPrefix:@"~"]) {
+        NSString *currentDirectory = [fileManager currentDirectoryPath];
+        standardPath = [[currentDirectory stringByAppendingPathComponent:standardPath] mutableCopy];
+    }
     return [standardPath stringByStandardizingPath];
 }
 @end

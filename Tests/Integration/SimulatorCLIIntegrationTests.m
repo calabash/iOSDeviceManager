@@ -136,6 +136,18 @@
     [manager changeCurrentDirectoryPath:relativeAppPath];
     args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", @"../TestApp.app"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    
+    args = @[kProgramName, @"is_installed", @"-b", taskyAppID, @"-d", defaultSimUDID];
+    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+        args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", taskyAppID];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    // Test Relative App Path without leading ../ or ./
+    NSString *parentRelativeAppPath = [relativeAppPath stringByAppendingPathComponent:@"../"];
+    [manager changeCurrentDirectoryPath:parentRelativeAppPath];
+    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", @"TestApp.app"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testAppIsInstalled {
