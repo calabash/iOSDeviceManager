@@ -3,6 +3,7 @@
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
+#import "FileUtils.h"
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <FBDeviceControl/FBDeviceControl.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
@@ -10,7 +11,7 @@
 @implementation Application
 
 + (Application *)withBundlePath:(NSString *)pathToBundle {
-    NSString *path = [pathToBundle stringByStandardizingPath];
+    NSString *path = [FileUtils standardizedPath:pathToBundle];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     if (![fileManager fileExistsAtPath:path]) {

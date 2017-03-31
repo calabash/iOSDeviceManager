@@ -32,4 +32,21 @@
     return [objectPath hasSuffix:@".framework"] ||
     [objectPath hasSuffix:@".dylib"];
 }
+
++ (NSString *)standardizedPath:(NSString *)path {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSMutableString *standardPath = [path mutableCopy];
+    if ([standardPath hasPrefix:@".."]) {
+        NSString *currentDirectory = [fileManager currentDirectoryPath];
+        standardPath = [[currentDirectory stringByAppendingPathComponent:standardPath] mutableCopy];
+    }
+    if ([standardPath hasPrefix:@"."]) {
+        NSString *currentDirectory = [fileManager currentDirectoryPath];
+        [standardPath replaceOccurrencesOfString:@"."
+                                      withString:currentDirectory
+                                         options:NSCaseInsensitiveSearch
+                                           range:NSMakeRange(0, 1)];
+    }
+    return [standardPath stringByStandardizingPath];
+}
 @end
