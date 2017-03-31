@@ -57,13 +57,15 @@
 
 - (void)testDepthsFirstPathsStartingAtDirectory {
     NSString *dir = [[Resources shared] TestStructureDirectory];
-    NSArray<NSString *> *expectedOrder = @[@"testDirectoryStructure", @"a", @"b", @"c", @"d", @"e", @"f", @"g"];
     NSArray<NSString *> *files = [FileUtils depthFirstPathsStartingAtDirectory:dir error:nil];
+    NSUInteger expectedFilesCount = 8;
 
-    expect([files count]).to.equal([expectedOrder count]);
-    for (int i = 0; i < [expectedOrder count]; i++) {
+    expect([files count]).to.equal(expectedFilesCount);
+    for (int i = 0; i < expectedFilesCount; i++) {
         NSString *file = files[i];
-        NSArray<NSString *> *subsequentFiles = [files subarrayWithRange:NSMakeRange(i + 1, [expectedOrder count] - 1 - i)];
+        expect([file containsString:dir]).to.beTruthy();
+        
+        NSArray<NSString *> *subsequentFiles = [files subarrayWithRange:NSMakeRange(i + 1, expectedFilesCount - 1 - i)];
         for (NSString *subsequentFile in subsequentFiles) {
             // None of the subsequentFiles should be parent directories
             expect([file containsString:subsequentFile]).to.beFalsy();
