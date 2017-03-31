@@ -385,7 +385,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
               appEntitlementsFile);
 
     NSArray<NSString *> *files = [FileUtils depthFirstPathsStartingAtDirectory:appDir error:nil];
-    CBXAssert(files, @"No files for resigning");
+    CBXThrowExceptionIf(files, @"No files for resigning");
 
     NSArray<NSString *> *reversedFiles = [[files reverseObjectEnumerator] allObjects];
     for (NSString *filePath in reversedFiles) {
