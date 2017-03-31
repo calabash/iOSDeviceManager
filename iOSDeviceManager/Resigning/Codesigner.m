@@ -109,7 +109,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   appDir];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
-    CBXAssert(success, @"Error codesigning %@: %@", appDir, result.stderrStr);
+    CBXThrowExceptionIf(success, @"Error codesigning %@: %@", appDir, result.stderrStr);
     LogInfo(@"Codesigned %@: '%@' => '%@'",
             [appDir lastPathComponent],
             originalSigningID,
@@ -143,7 +143,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   pathToObject];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
-    CBXAssert(success, @"Error codesigning %@: %@", pathToObject, result.stderrStr);
+    CBXThrowExceptionIf(success, @"Error codesigning %@: %@", pathToObject, result.stderrStr);
     LogInfo(@"Codesigned %@: '%@' => '%@'",
             [pathToObject lastPathComponent],
             originalSigningID,
@@ -166,7 +166,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   pathToBundle];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
-    CBXAssert(success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
+    CBXThrowExceptionIf(success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
     LogInfo(@"Codesigned %@: '%@' => '%@'",
             [pathToBundle lastPathComponent],
             originalSigningID,
@@ -194,18 +194,18 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSError *e = nil;
     
     for (NSString *resourcePath in resourcePaths) {
-        CBXAssert([mgr fileExistsAtPath:resourcePath],
+        CBXThrowExceptionIf([mgr fileExistsAtPath:resourcePath],
                  @"Failed to inject resources: file '%@' does not exist!",
                  resourcePath);
         NSString *targetFile = [appDir stringByAppendingPathComponent:[resourcePath lastPathComponent]];
         [mgr copyItemAtPath:resourcePath
                      toPath:targetFile
                       error:&e];
-        CBXAssert(e == nil, @"Error injecting resource: %@", e);
+        CBXThrowExceptionIf(e == nil, @"Error injecting resource: %@", e);
         if ([FileUtils isDylibOrFramework:targetFile]) {
             [self resignObject:targetFile
               codesignIdentity:codesignIdentity];
-            CBXAssert(e == nil, @"Error resigning object: %@", e);
+            CBXThrowExceptionIf(e == nil, @"Error resigning object: %@", e);
         }
     }
 }
@@ -223,7 +223,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
      
         But if we did, it'd look like this:
      
-         CBXAssert(result.success, @"Could not extract codesign info from %@. Stderr: %@. Time elapsed: %@",
+         CBXThrowExceptionIf(result.success, @"Could not extract codesign info from %@. Stderr: %@. Time elapsed: %@",
          objectPath,
          result.stderrStr,
          @(result.elapsed));
@@ -289,7 +289,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     if (!codesignIdentity) {
         codesignIdentity = [profile findValidIdentity];
     }
-    CBXAssert(codesignIdentity, @"Unable to find valid codesign identity from profile %@", profile.name);
+    CBXThrowExceptionIf(codesignIdentity, @"Unable to find valid codesign identity from profile %@", profile.name);
     
     Entitlements *newEntitlements = [profile entitlements];
     Entitlements *oldEntitlements = [Entitlements entitlementsWithBundlePath:appDir];
@@ -298,7 +298,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSString *infoPlistPath = [appDir joinPath:@"Info.plist"];
     NSFileManager *mgr = [NSFileManager defaultManager];
     BOOL success = [mgr fileExistsAtPath:infoPlistPath];
-    CBXAssert(success, @"No Info.plist found for bundle: %@", appDir);
+    CBXThrowExceptionIf(success, @"No Info.plist found for bundle: %@", appDir);
     
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
     NSString *oldBundleID = [self getOldBundleId:oldEntitlements infoPlist:infoPlist];
@@ -320,7 +320,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
         //TODO: handle --force option
         //TODO: Can we relax this constraint?
         //i.e. appGroups = [appGroups subarrayWithRange:NSMakeRange(0, ourAppGroups.count)];
-        CBXAssert(NO,
+        CBXThrowExceptionIf(NO,
                   @"Application has more app groups then %@ supports",
                   [profile name]);
     }
@@ -337,7 +337,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSString *entitlementsMapFile = [appDir joinPath:@"XTCEntitlementsMeta.plist"];
     success = [entitlementsMap writeToFile:entitlementsMapFile
                                 atomically:YES];
-    CBXAssert(success, @"Unable to write EntitlementsMeta to application.");
+    CBXThrowExceptionIf(success, @"Unable to write EntitlementsMeta to application.");
     
     [self injectResources:resourcesToInject
                intoAppDir:appDir
@@ -357,7 +357,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     }
     
     //Sanity check
-    CBXAssert(infoPlist[@"CFBundleIdentifier"] != nil, @"Bundle identifier is nil! Plist: %@", infoPlist);
+    CBXThrowExceptionIf(infoPlist[@"CFBundleIdentifier"] != nil, @"Bundle identifier is nil! Plist: %@", infoPlist);
     
     NSString *bundleExec = infoPlist[@"CFBundleExecutable"];
     NSString *bundleExecPath = [appDir joinPath:bundleExec];
@@ -372,7 +372,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSString *newTeamId = finalEntitlements[@"com.apple.developer.team-identifier"];
     
     success = [mgr fileExistsAtPath:bundleExecPath];
-    CBXAssert(success, @"Bundle executable %@ does not exist!", bundleExecPath);
+    CBXThrowExceptionIf(success, @"Bundle executable %@ does not exist!", bundleExecPath);
     LogInfo(@"Original entitlements:");
     LogInfo(@"%@", oldEntitlements);
     LogInfo(@"New Entitlements");
@@ -380,7 +380,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     LogInfo(@"Resigning to new teamID: %@", newTeamId);
     
     success = [finalEntitlements writeToFile:appEntitlementsFile];
-    CBXAssert(success,
+    CBXThrowExceptionIf(success,
               @"Unable to write app entitlements to %@",
               appEntitlementsFile);
     
@@ -445,7 +445,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     if ([mgr fileExistsAtPath:dsStorePath]) {
         NSError *e = nil;
         [mgr removeItemAtPath:dsStorePath error:&e];
-        CBXAssert(e == nil, @"Error deleting .DS_STORE: %@", e);
+        CBXThrowExceptionIf(e == nil, @"Error deleting .DS_STORE: %@", e);
         LogInfo(@"Deleted .DS_STORE");
     }
 }

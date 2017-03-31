@@ -77,7 +77,7 @@
 + (MobileProfile *)bestMatchProfileForApplication:(Application *)app device:(Device *)device {
     CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:app.path
                                                                deviceId:device.uuid];
-    CBXAssert(identity,
+    CBXThrowExceptionIf(identity,
              @"Unable to find appropriate codesign identity for device %@ / app %@ combo",
              device.uuid,
              app.bundleID);
