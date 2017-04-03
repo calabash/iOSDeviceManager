@@ -121,14 +121,14 @@
         Application *installedApp = [self installedApp:app.bundleID];
         NSDictionary *oldPlist = installedApp.infoPlist;
         NSDictionary *newPlist = app.infoPlist;
-        
-        if (!oldPlist.count) {
+
+        if (oldPlist.count == 0) {
             ConsoleWriteErr(@"Error fetching/parsing plist from installed application $@", installedApp.bundleID);
             *sc = iOSReturnStatusCodeGenericFailure;
             return NO;
         }
-        
-        if (!newPlist.count) {
+
+        if (newPlist.count == 0) {
             ConsoleWriteErr(@"Unable to find Info.plist for bundle path %@", app.path);
             *sc = iOSReturnStatusCodeGenericFailure;
             return NO;
