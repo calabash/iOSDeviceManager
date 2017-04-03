@@ -24,8 +24,8 @@ static const FBSimulatorControl *_control;
 
 + (void)initialize {
     FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-        configurationWithDeviceSetPath:nil
-                               options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+                                                      configurationWithDeviceSetPath:nil
+                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
 
     NSError *error;
     _control = [FBSimulatorControl withConfiguration:configuration error:&error];
@@ -485,8 +485,8 @@ Tests can not be run on iOS less than 9.0",
 + (FBSimulator *)simulatorWithConfiguration:(FBSimulatorConfiguration *)configuration {
     NSError *error = nil;
     FBSimulator *simulator = [_control.pool allocateSimulatorWithConfiguration:configuration
-                                                                           options:FBSimulatorAllocationOptionsReuse
-                                                                             error:&error];
+                                                                       options:FBSimulatorAllocationOptionsReuse
+                                                                         error:&error];
     if (error) {
         ConsoleWriteErr(@"Error obtaining simulator: %@", error);
     }
