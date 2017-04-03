@@ -254,7 +254,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                                    waitForDebugger:NO
                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
 
-    NSError *error;
+    NSError *error = nil;
 
     FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
     if (![deviceOperator launchApplication:appLaunch error:&error]) {
