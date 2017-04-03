@@ -123,7 +123,21 @@
 }
 
 - (void)testResignWithDifferentIdentity {
-//TODO
+    if (device_available()) {
+        CodesignIdentity *codesignID = [CodesignIdentity identityForShasumOrName:@"iPhone Developer: Joshua Moody (8QEQJFT59F)"];
+        NSString *deviceUDID = defaultDeviceUDID;
+        NSString *bundlePath = runner(ARM);
+        Device *device = [Device withID:deviceUDID];
+        
+        NSString *directory = [self.resources tmpDirectoryWithName:@"RunnerARM"];
+        NSString *target = [directory stringByAppendingPathComponent:[bundlePath lastPathComponent]];
+        [self.resources copyDirectoryWithSource:bundlePath
+                                         target:target];
+        bundlePath = target;
+        Application *app = [Application withBundlePath:bundlePath];
+        MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:app device:device codesignIdentity:codesignID];
+        [Codesigner resignApplication:app withProvisioningProfile:profile withCodesignIdentity:codesignID];
+    }
 }
 
 - (void)testResignAll {
