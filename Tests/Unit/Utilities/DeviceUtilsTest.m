@@ -10,7 +10,7 @@
 
 - (void)testDefaultSimulator {
     FBSimulator *preferredSim = [DeviceUtils defaultSimulator:[DeviceUtils availableSimulators]];
-    NSString *preferredName = [preferredSim.deviceConfiguration deviceName];
+    NSString *preferredName = [preferredSim name];
     expect([preferredName containsString:@"iPhone"]).to.equal(YES);
 }
 
