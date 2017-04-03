@@ -133,16 +133,16 @@
             *sc = iOSReturnStatusCodeGenericFailure;
             return NO;
         }
-        
+
         if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            ConsoleWriteErr(@"Installed version is different, attempting to update %@.", app.bundleID);
+            ConsoleWrite(@"Installed version is different, attempting to update %@.", app.bundleID);
             return YES;
         } else {
-            ConsoleWriteErr(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            ConsoleWrite(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
             return NO;
         }
     }
-    
+
     //If it's not installed, it should be 'updated'
     return YES;
 }
