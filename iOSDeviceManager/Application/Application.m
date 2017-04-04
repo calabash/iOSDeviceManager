@@ -11,7 +11,7 @@
 @implementation Application
 
 + (Application *)withBundlePath:(NSString *)pathToBundle {
-    NSString *path = [FileUtils standardizedPath:pathToBundle];
+    NSString *path = [FileUtils expandPath:pathToBundle];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     if (![fileManager fileExistsAtPath:path]) {

@@ -33,7 +33,7 @@
     [objectPath hasSuffix:@".dylib"];
 }
 
-+ (NSString *)standardizedPath:(NSString *)path {
++ (NSString *)expandPath:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSMutableString *standardPath = [path mutableCopy];
     if ([standardPath hasPrefix:@".."]) {

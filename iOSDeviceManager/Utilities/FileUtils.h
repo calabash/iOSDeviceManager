@@ -8,5 +8,5 @@ typedef void(^filePathHandler)(NSString *filepath);
 //Unlike clojure, `dir` must point to a real file or this method will throw up.  
 + (void)fileSeq:(NSString *)dir handler:(filePathHandler)handler;
 + (BOOL)isDylibOrFramework:(NSString *)objectPath;
-+ (NSString *)standardizedPath:(NSString *)path;
++ (NSString *)expandPath:(NSString *)path;
 @end
