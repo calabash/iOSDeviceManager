@@ -79,21 +79,23 @@
     NSString *ipaPath = [CodesignResources PermissionsIpaPath];
     NSString *bundleID = [CodesignResources PermissionsAppBundleID];
     NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-permissions.ipa"];
-    NSArray *args = @[
-                      kProgramName, @"resign",
-                      ipaPath,
-                      @"-p", profilePath,
-                      @"-o", outputPath
-                      ];
+    NSArray *args;
+
+    args = @[
+             kProgramName, @"resign",
+             ipaPath,
+             @"-p", profilePath,
+             @"-o", outputPath
+             ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    
+
     if (device_available()) {
-        NSArray *args = @[
-                          kProgramName, @"is_installed",
-                          @"-b", bundleID,
-                          @"-d", defaultDeviceUDID
-                          ];
-        
+        args = @[
+                 kProgramName, @"is_installed",
+                 @"-b", bundleID,
+                 @"-d", defaultDeviceUDID
+                 ];
+
         if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
             args = @[
                      kProgramName, @"uninstall",
