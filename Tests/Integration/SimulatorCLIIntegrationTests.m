@@ -119,23 +119,6 @@
         args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", taskyAppID];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
-
-    // Test Relative App Path
-    NSString *relativeAppPath = [[Resources shared] TestAppRelativePath:SIM];
-    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", relativeAppPath];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    args = @[kProgramName, @"is_installed", @"-b", taskyAppID, @"-d", defaultSimUDID];
-    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-        args = @[kProgramName, @"uninstall", @"-d", defaultSimUDID, @"-b", taskyAppID];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    }
-
-    // Test Relative App Path with leading ../
-    NSFileManager *manager = [NSFileManager defaultManager];
-    [manager changeCurrentDirectoryPath:relativeAppPath];
-    args = @[kProgramName, @"install", @"-d", defaultSimUDID, @"-a", @"../TestApp.app"];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testAppIsInstalled {

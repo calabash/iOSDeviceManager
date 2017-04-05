@@ -33,7 +33,7 @@
     [objectPath hasSuffix:@".dylib"];
 }
 
-+ (NSString *)standardizedPath:(NSString *)path {
++ (NSString *)expandPath:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSMutableString *standardPath = [path mutableCopy];
     if ([standardPath hasPrefix:@".."]) {
@@ -46,6 +46,11 @@
                                       withString:currentDirectory
                                          options:NSCaseInsensitiveSearch
                                            range:NSMakeRange(0, 1)];
+    }
+    // Handle possible relative path without preceding ~ .. or .
+    if (![standardPath hasPrefix:@"/"] && ![standardPath hasPrefix:@"~"]) {
+        NSString *currentDirectory = [fileManager currentDirectoryPath];
+        standardPath = [[currentDirectory stringByAppendingPathComponent:standardPath] mutableCopy];
     }
     return [standardPath stringByStandardizingPath];
 }
