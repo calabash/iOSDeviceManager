@@ -3,6 +3,15 @@
 #import "Codesigner.h"
 #import "CodesignResources.h"
 #import "CLI.h"
+#import "AppUtils.h"
+#import "PhysicalDevice.h"
+#import "Device.h"
+
+@interface PhysicalDevice (TEST)
+
+- (FBDevice *)fbDevice;
+
+@end
 
 @interface ResignTest : TestCase
 
@@ -123,7 +132,36 @@
 }
 
 - (void)testResignWithDifferentIdentity {
-//TODO
+    if (device_available()) {
+
+        MobileProfile *profile = [MobileProfile
+                                  withPath:[self.resources pathToLJSProvisioningProfile]];
+
+        NSString *bundlePath = [AppUtils unzipToTmpDir:[CodesignResources PermissionsIpaPath]];
+        Application *application = [Application withBundlePath:bundlePath];
+        [Codesigner resignApplication:application withProvisioningProfile:profile];
+
+        PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+        FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.fbDevice.deviceOperator);
+
+        NSError *error = nil;
+        BOOL actual = NO;
+
+        if ([operator installedApplicationWithBundleIdentifier:[application bundleID]]) {
+            actual = [operator cleanApplicationStateWithBundleIdentifier:[application bundleID]
+                                                                   error:&error];
+
+            expect(actual).to.equal(YES);
+        }
+
+        actual = [operator installApplicationWithPath:bundlePath error:&error];
+        expect(actual).to.equal(YES);
+
+        iOSReturnStatusCode code = [device launchApp:[application bundleID]];
+
+        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
 }
 
 - (void)testResignAll {

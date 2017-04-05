@@ -610,6 +610,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     }
 }
 
+- (NSString *)TestStructureDirectory {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"testDirectoryStructure"];
+}
+
 - (NSString *)TaskyIpaPath {
     return [self.resourcesDirectory
             stringByAppendingPathComponent:@"arm/TaskyPro.ipa"];
@@ -887,6 +892,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)pathToVeryLongProfile {
     return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
+}
+
+- (NSString *)pathToLJSProvisioningProfile {
+    return [[self provisioningProfilesDirectory]
+            stringByAppendingPathComponent:@"LJS.mobileprovision"];
 }
 
 - (NSString *)provisioningProfilesDirectory {

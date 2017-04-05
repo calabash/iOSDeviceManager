@@ -139,6 +139,7 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)TaskyPath:(NSString *)platform;
 - (NSString *)TaskyIpaPath;
 - (NSString *)TaskyIdentifier;
+- (NSString *)TestStructureDirectory;
 - (NSString *)DeviceAgentPath:(NSString *)platform;
 - (NSString *)DeviceAgentXCTestPath:(NSString *)platform;
 - (NSString *)DeviceAgentIdentifier;
@@ -152,6 +153,7 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)stringPlist;
 - (NSString *)CalabashWildcardPath;
 - (NSString *)pathToVeryLongProfile;
+- (NSString *)pathToLJSProvisioningProfile;
 - (NSString *)provisioningProfilesDirectory;
 - (NSString *)pathToCalabashWildcardPathCertificate;
 - (NSData *)certificateFromCalabashWildcardPath;

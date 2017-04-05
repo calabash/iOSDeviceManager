@@ -383,13 +383,17 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     CBXThrowExceptionIf(success,
               @"Unable to write app entitlements to %@",
               appEntitlementsFile);
-    
-    [FileUtils fileSeq:appDir handler:^(NSString *filepath) {
-        if ([FileUtils isDylibOrFramework:filepath] && [self shouldResign:filepath inAppDir:appDir]) {
-            [self resignObject:filepath
+
+    NSArray<NSString *> *files = [FileUtils depthFirstPathsStartingAtDirectory:appDir error:nil];
+    CBXThrowExceptionIf(files, @"No files for resigning");
+
+    NSArray<NSString *> *reversedFiles = [[files reverseObjectEnumerator] allObjects];
+    for (NSString *filePath in reversedFiles) {
+        if ([FileUtils isDylibOrFramework:filePath] && [self shouldResign:filePath inAppDir:appDir]) {
+            [self resignObject:filePath
               codesignIdentity:codesignIdentity];
         }
-    }];
+    }
     
     /*
      Codesign every .xctest and .appex bundle inside of Plugins dir
@@ -403,18 +407,20 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
      */
     
     NSString *pluginsPath = [appDir joinPath:@"Plugins"];
-    if ([mgr fileExistsAtPath:pluginsPath]) {
-        [FileUtils fileSeq:pluginsPath handler:^(NSString *filepath) {
-            if ([self isResignableBundle:filepath] &&
-                [self shouldResign:filepath inAppDir:appDir]) {
-                [self resignAppDir:filepath
+    NSArray<NSString *> *pluginFiles = [FileUtils depthFirstPathsStartingAtDirectory:pluginsPath error:nil];
+    if (pluginFiles) {
+        NSArray<NSString *> *reversedPluginFiles = [[pluginFiles reverseObjectEnumerator] allObjects];
+        for (NSString *file in reversedPluginFiles) {
+            if ([self isResignableBundle:file] &&
+                [self shouldResign:file inAppDir:appDir]) {
+                [self resignAppDir:file
                            baseDir:baseDir
                provisioningProfile:profile
                  resourcesToInject:nil];
             }
-        }];
+        }
     }
-    
+
     /*
      Given everything else is signed, we can now sign the main executable
      */

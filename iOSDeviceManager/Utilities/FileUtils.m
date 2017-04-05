@@ -1,6 +1,7 @@
 
 #import "StringUtils.h"
 #import "FileUtils.h"
+#import "Stack.h"
 
 @implementation FileUtils
 + (void)fileSeq:(NSString *)dir handler:(filePathHandler)handler {
@@ -26,6 +27,56 @@
             [self fileSeq:filePath handler:handler];
         }
     }
+}
+
+/**
+ Returns an array of paths in depth first.
+
+ If an error occurs, returns `nil`.
+ */
++ (NSArray <NSString *> *)depthFirstPathsStartingAtDirectory:(NSString *)dir error:(NSError **)error {
+    NSFileManager *mgr = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    if (![mgr fileExistsAtPath:dir isDirectory:&isDir]) {
+        if (error) {
+            NSString *msg = [NSString stringWithFormat:@"No file at path: %@", dir];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedRecoverySuggestionErrorKey];
+            *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                         code:NSFileNoSuchFileError
+                                     userInfo:userInfo];
+        }
+        return nil;
+    }
+    
+    NSMutableArray<NSString *> *files = [NSMutableArray array];
+    Stack *filesToCheck = [[Stack alloc] initWithArray:@[dir]];
+    while (filesToCheck.count != 0) {
+        NSString *currentFile = [filesToCheck popObject];
+        isDir = NO;
+        if (![mgr fileExistsAtPath:currentFile isDirectory:&isDir]) {
+            if (error) {
+                NSString *msg = [NSString stringWithFormat:@"No file at path: %@", dir];
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedRecoverySuggestionErrorKey];
+                *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                             code:NSFileNoSuchFileError
+                                         userInfo:userInfo];
+            }
+            return nil;
+        }
+        [files addObject:currentFile];
+        if (isDir) {
+            NSArray<NSString *> *children = [mgr contentsOfDirectoryAtPath:currentFile error:error];
+            if (error != nil && *error != nil) { return nil; }
+            NSMutableArray<NSString *> *fullPathChildren = [NSMutableArray array];
+            for (NSString *file in children) {
+                NSString *filePath = [currentFile joinPath:file];
+                [fullPathChildren addObject:filePath];
+            }
+            [filesToCheck pushObjects:fullPathChildren];
+        }
+    }
+
+    return [NSArray arrayWithArray:files];
 }
 
 + (BOOL)isDylibOrFramework:(NSString *)objectPath {
