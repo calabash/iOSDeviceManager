@@ -3,6 +3,15 @@
 #import "Codesigner.h"
 #import "CodesignResources.h"
 #import "CLI.h"
+#import "AppUtils.h"
+#import "PhysicalDevice.h"
+#import "Device.h"
+
+@interface PhysicalDevice (TEST)
+
+- (FBDevice *)fbDevice;
+
+@end
 
 @interface ResignTest : TestCase
 
@@ -124,19 +133,34 @@
 
 - (void)testResignWithDifferentIdentity {
     if (device_available()) {
-        CodesignIdentity *codesignID = [CodesignIdentity identityForShasumOrName:@"iPhone Developer: Joshua Moody (8QEQJFT59F)"];
-        NSString *deviceUDID = defaultDeviceUDID;
-        NSString *bundlePath = runner(ARM);
-        Device *device = [Device withID:deviceUDID];
-        
-        NSString *directory = [self.resources tmpDirectoryWithName:@"RunnerARM"];
-        NSString *target = [directory stringByAppendingPathComponent:[bundlePath lastPathComponent]];
-        [self.resources copyDirectoryWithSource:bundlePath
-                                         target:target];
-        bundlePath = target;
-        Application *app = [Application withBundlePath:bundlePath];
-        MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:app device:device codesignIdentity:codesignID];
-        [Codesigner resignApplication:app withProvisioningProfile:profile withCodesignIdentity:codesignID];
+
+        MobileProfile *profile = [MobileProfile
+                                  withPath:[self.resources pathToLJSProvisioningProfile]];
+
+        NSString *bundlePath = [AppUtils unzipToTmpDir:[CodesignResources PermissionsIpaPath]];
+        Application *application = [Application withBundlePath:bundlePath];
+        [Codesigner resignApplication:application withProvisioningProfile:profile];
+
+        PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+        FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.fbDevice.deviceOperator);
+
+        NSError *error = nil;
+        BOOL actual = NO;
+
+        if ([operator installedApplicationWithBundleIdentifier:[application bundleID]]) {
+            actual = [operator cleanApplicationStateWithBundleIdentifier:[application bundleID]
+                                                                   error:&error];
+
+            expect(actual).to.equal(YES);
+        }
+
+        actual = [operator installApplicationWithPath:bundlePath error:&error];
+        expect(actual).to.equal(YES);
+
+        iOSReturnStatusCode code = [device launchApp:[application bundleID]];
+
+        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 }
 

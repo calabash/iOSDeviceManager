@@ -894,6 +894,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
 }
 
+- (NSString *)pathToLJSProvisioningProfile {
+    return [[self provisioningProfilesDirectory]
+            stringByAppendingPathComponent:@"LJS.mobileprovision"];
+}
+
 - (NSString *)provisioningProfilesDirectory {
     return [self.resourcesDirectory stringByAppendingPathComponent:@"profiles"];
 }
