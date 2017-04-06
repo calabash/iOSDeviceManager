@@ -53,6 +53,16 @@ static NSString *const SIM = @"SIM";
 
 #pragma mark - TestSimulator (Class)
 
+
+typedef NS_ENUM(NSUInteger, TestSimulatorState) {
+    TestSimulatorStateCreating = 0,
+    TestSimulatorStateShutdown = 1,
+    TestSimulatorStateBooting = 2,
+    TestSimulatorStateBooted = 3,
+    TestSimulatorStateShuttingDown = 4,
+    TestSimulatorStateUnknown = 99,
+};
+
 @interface TestSimulator : NSObject
 
 - (id)initWithDictionary:(NSDictionary *)dictionary
@@ -70,6 +80,8 @@ static NSString *const SIM = @"SIM";
 - (BOOL)isIPhone4S;
 - (BOOL)isIPhone5;
 - (BOOL)isSModel;
+- (TestSimulatorState)state;
+- (NSString *)stateString;
 
 @end
 
@@ -119,10 +131,15 @@ static NSString *const SIM = @"SIM";
 - (NSString *)defaultDeviceUDID;
 
 - (NSString *)TestAppPath:(NSString *)platform;
+/*
+    Relative path to a test app with at least one ".." in the path
+*/
+- (NSString *)TestAppRelativePath:(NSString *)platform;
 - (NSString *)TestAppIdentifier;
 - (NSString *)TaskyPath:(NSString *)platform;
 - (NSString *)TaskyIpaPath;
 - (NSString *)TaskyIdentifier;
+- (NSString *)TestStructureDirectory;
 - (NSString *)DeviceAgentPath:(NSString *)platform;
 - (NSString *)DeviceAgentXCTestPath:(NSString *)platform;
 - (NSString *)DeviceAgentIdentifier;
@@ -136,6 +153,7 @@ static NSString *const SIM = @"SIM";
 - (NSString *)stringPlist;
 - (NSString *)CalabashWildcardPath;
 - (NSString *)pathToVeryLongProfile;
+- (NSString *)pathToLJSProvisioningProfile;
 - (NSString *)provisioningProfilesDirectory;
 - (NSString *)pathToCalabashWildcardPathCertificate;
 - (NSData *)certificateFromCalabashWildcardPath;

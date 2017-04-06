@@ -9,8 +9,7 @@ results
 reports/*.xml
 reports/*.json
 Carthage/Checkouts
-!Carthage/Build
-Carthage/Build/Mac/CocoaLumberjack.framework.dSYM
+Carthage/Build/*
 
 ## nuget
 *.nupkg
@@ -29,6 +28,7 @@ xcuserdata/
 ## Other
 *.moved-aside
 *.xcuserstate
+*.xcscmblueprint
 
 ## Obj-C/Swift specific
 *.hmap
@@ -46,3 +46,9 @@ xcuserdata/
 # JetBrains
 .idea
 
+# RunLoop & Dependencies
+run_loop/
+DeviceAgent.iOS/
+
+# Gemfile used in RunLoop tests
+Tests/cucumber/Gemfile*

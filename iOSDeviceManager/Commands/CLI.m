@@ -1,11 +1,12 @@
 
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "iOSDeviceManagementCommand.h"
+#import "ConsoleWriter.h"
 #import <objc/runtime.h>
 #import "ShellRunner.h"
+#import "JSONUtils.h"
 #import "Command.h"
 #import "CLI.h"
-#import "ConsoleWriter.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -23,6 +24,9 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                 @throw [NSException exceptionWithName:@"ProgrammerErrorException"
                                                reason:@"Commands should subclass the Command class"
                                              userInfo:nil];
+            }
+            if ([c class] == [Command class]) {
+                continue;
             }
             if ([c name]) {
                 commandClasses[[c name]] = c;
@@ -42,6 +46,76 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     printf("\n");
 }
 
+/*
+ For parsing args - positional values may be used (regardless of order) and their
+ corresponding property is determined by `positionalArgShortFlag`. Using redundant 
+ args will result in iOSReturnStatusCodeInvalidArguments response.
+*/
++ (NSDictionary<NSString *, NSString *> *)parseArgs:(NSArray <NSString *> *)args
+                                         forCommand:(Class <iOSDeviceManagementCommand>)command
+                                           exitCode:(int *)exitCode {
+    NSMutableDictionary *values = [NSMutableDictionary dictionary];
+    NSMutableArray<NSString *> *possiblePositionalArgShortFlags = [NSMutableArray arrayWithArray:[command positionalArgShortFlags]];
+    
+    for (int i = 0; i < args.count; i++) {
+        CommandOption *op = [command optionForFlag:args[i]];
+        if (op == nil) { // This is true when the arg provided isn't a recognized flag or isn't a flag
+            if ([possiblePositionalArgShortFlags count] == 0) {
+                ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %s\n",
+                       [args[i] cStringUsingEncoding:NSUTF8StringEncoding]);
+                [self printUsage];
+                *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
+                return nil;
+            } else if ([[args[i] substringToIndex:1] isEqualToString:@"-"]) {
+                *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
+                return nil;
+            } else {
+                NSString *positionalArgShortFlag = [command positionalArgShortFlag:args[i]];
+                if (positionalArgShortFlag) {
+                    // Check if redundant positional args specified
+                    if (![possiblePositionalArgShortFlags containsObject:positionalArgShortFlag]) {
+                        ConsoleWriteErr(@"Multiple arguments detected for %@", positionalArgShortFlag);
+                        [self printUsage];
+                        *exitCode = iOSReturnStatusCodeInvalidArguments;
+                        return nil;
+                    }
+                    values[positionalArgShortFlag] = args[i];
+                    [possiblePositionalArgShortFlags removeObject:positionalArgShortFlag];
+                } else{
+                    ConsoleWriteErr(@"Unrecognized flag or unsupported argument: %@\n",
+                           args[i]);
+                    [self printUsage];
+                    *exitCode = iOSReturnStatusCodeUnrecognizedFlag;
+                    return nil;
+
+                }
+                continue;
+            }
+        }
+        if (args.count <= i + 1 && op.requiresArgument) {
+            ConsoleWriteErr(@"No value provided for %@\n", args[i]);
+            [command printUsage];
+            *exitCode = iOSReturnStatusCodeMissingArguments;
+            return nil;
+        }
+        if ([values objectForKey:op.shortFlag]) {
+            ConsoleWriteErr(@"Multiple arguments detected for %@", op.longFlag);
+            [command printUsage];
+            *exitCode = iOSReturnStatusCodeInvalidArguments;
+            return nil;
+        }
+        if (op.requiresArgument) {
+            values[op.shortFlag] = args[i+1];
+            i++;
+        } else {
+            values[op.shortFlag] = @YES;
+        }
+    }
+    
+    *exitCode = iOSReturnStatusCodeEverythingOkay;
+    return values;
+}
+
 + (iOSReturnStatusCode)process:(NSArray<NSString *> *)args {
     if (args.count <= 1) {
         [self printUsage];
@@ -54,15 +128,16 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             //Ensure args can be parsed correctly
             NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
             int ec;
-            NSDictionary *parsedArgs = [command parseArgs:cmdArgs exitCode:&ec];
+            NSDictionary *parsedArgs = [self parseArgs:cmdArgs
+                                            forCommand:command
+                                              exitCode:&ec];
             if (ec != iOSReturnStatusCodeEverythingOkay) {
                 return ec;
             }
             
-            //If no args present and none required, just print usage and exit.
-            NSInteger numRequiredArgs = [[command options] filteredArrayUsingPredicate:
-                                   [NSPredicate predicateWithFormat:@"SELF.required == YES"]].count;
-            if (cmdArgs.count == 0 && numRequiredArgs == 0) {
+            //If the user specified they want help, just print help and exit.
+            if ([parsedArgs hasKey:HELP_SHORT_FLAG] ||
+                [parsedArgs hasKey:HELP_LONG_FLAG]) {
                 [command printUsage];
                 return iOSReturnStatusCodeEverythingOkay;
             }

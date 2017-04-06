@@ -1,7 +1,5 @@
 
 #import "PhysicalDevice.h"
-#import <FBSimulatorControl/FBSimulatorControl.h>
-#import <FBDeviceControl/FBDeviceControl.h>
 #import <FBControlCore/FBControlCore.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
 #import "ShellRunner.h"
@@ -9,6 +7,8 @@
 #import "AppUtils.h"
 #import "CodesignIdentity.h"
 #import "ConsoleWriter.h"
+#import "Application.h"
+#import "XCTestConfigurationPlist.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -29,129 +29,453 @@
 - (BOOL)downloadApplicationDataToPath:(NSString *)arg1
 forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                 error:(NSError **)arg3;
+- (void)installProvisioningProfile:(id)arg1;
+@end
+
+@interface DTDKProvisioningProfile : NSObject
++ (DTDKProvisioningProfile *)profileWithPath:(NSString *)path certificateUtilities:(id)utils error:(NSError **)e;
+@end
+
+@interface PhysicalDevice()
+
+@property (nonatomic, strong) FBDevice *fbDevice;
+
 @end
 
 @implementation PhysicalDevice
 
-+ (NSString *)applicationDataPath {
-    return [[ShellRunner tmpDir] stringByAppendingPathComponent:@"__appData.xcappdata"];
-}
++ (PhysicalDevice *)withID:(NSString *)uuid {
+    PhysicalDevice* device = [[PhysicalDevice alloc] init];
 
-+ (NSString *)pathToXcodePlatformDir {
-    NSArray *output  = [ShellRunner xcrun:@[@"xcode-select",
-                                            @"--print-path"]];
-    if (!output.count) {
-        ConsoleWriteErr(@"Error finding developer dir");
+    device.uuid = uuid;
+
+    NSError *err;
+    FBDevice *fbDevice = [[FBDeviceSet defaultSetWithLogger:nil
+                                                    error:&err]
+                                            deviceWithUDID:uuid];
+    if (!fbDevice) {
+        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
     }
 
-    NSString *developerDir = output[0];
-
-    return [[developerDir stringByAppendingPathComponent:@"Platforms"]
-            stringByAppendingPathComponent:@"iPhoneOS.platform"];
-}
-
-+ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID deviceID:(NSString *)deviceID {
-    Codesigner *signer = [Codesigner signerThatCannotSign];
-    FBDevice *device = [PhysicalDevice deviceForID:deviceID
-                                        codesigner:signer];
-    return [self infoPlistForInstalledBundleID:bundleID
-                                        device:device];
-}
-
-+ (NSDictionary *)infoPlistForInstalledBundleID:(NSString *)bundleID device:(FBDevice *)device {
-    id<DVTApplication> installed = [((FBiOSDeviceOperator *)device.deviceOperator) installedApplicationWithBundleIdentifier:bundleID];
-
-    if (!installed) {
-        ConsoleWriteErr(@"Error fetching installed application %@ ", bundleID);
+    if (![fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err]) {
+        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
     }
-    return [installed plist];
+
+    device.fbDevice = fbDevice;
+
+    return device;
 }
 
+- (iOSReturnStatusCode)launch {
+    return iOSReturnStatusCodeGenericFailure;
+}
 
-+ (iOSReturnStatusCode)updateAppIfRequired:(NSString *)bundlePath
-                                    device:(FBDevice *)device
-                                codesigner:(Codesigner *)signerThatCanSign {
-    NSError *e;
-    FBApplicationDescriptor *app = [FBApplicationDescriptor applicationWithPath:bundlePath
-                                                                          error:&e];
-    if (e) {
-        ConsoleWriteErr(@"Error creating app bundle for %@: %@", bundlePath, e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
+- (iOSReturnStatusCode)kill {
+    return iOSReturnStatusCodeGenericFailure;
+}
 
-    if ([self appIsInstalled:app.bundleID deviceID:device.udid] == iOSReturnStatusCodeEverythingOkay) {
-        NSDictionary *oldPlist = [self infoPlistForInstalledBundleID:app.bundleID device:device];
-        NSString *newPlistPath = [bundlePath stringByAppendingPathComponent:@"Info.plist"];
-        NSDictionary *newPlist = [NSDictionary dictionaryWithContentsOfFile:newPlistPath];
-        if (!newPlist || newPlist.count == 0) {
-            ConsoleWriteErr(@"Unable to find Info.plist at %@", newPlistPath);
-            return iOSReturnStatusCodeGenericFailure;
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate {
+    if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
+
+    NSError *err;
+    FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
+    BOOL needsToInstall = YES;
+
+    //First check if the app is installed
+    if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
+        if (err) {
+            ConsoleWriteErr(@"Error checking if app (%@) is installed. %@", app.bundleID, err);
+            return iOSReturnStatusCodeInternalError;
         }
 
-        if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            LogInfo(@"Installed version is different, attempting to update %@.", app.bundleID);
-            iOSReturnStatusCode ret = [self uninstallApp:app.bundleID deviceID:device.udid];
-            if (ret != iOSReturnStatusCodeEverythingOkay) {
-                return ret;
+        //If it's installed and the user opted for no update, we're done.
+        if (!shouldUpdate) {
+            return iOSReturnStatusCodeEverythingOkay;
+        }
+
+        iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
+
+        //Check if the app differs from the installed version
+        needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
+        if (ret != iOSReturnStatusCodeEverythingOkay) {
+            return ret;
+        }
+    }
+
+    //Only codesign/install if we actually need to.
+    if (needsToInstall) {
+        //TODO: Skip resigning if the app is already signed for the device?
+        //Requires reading provisioning profiles on the device and comparing
+        //entitlements...
+        if (codesignID) {
+            ConsoleWriteErr(@"Deprecated behavior - resigning application with codesign identity: %@", codesignID);
+            profile = [MobileProfile bestMatchProfileForApplication:app
+                                                             device:self
+                                                   codesignIdentity:codesignID];
+            if (!profile) {
+                ConsoleWriteErr(@"Unable to find valid profile for codesignID: %@", codesignID);
+                return iOSReturnStatusCodeInternalError;
             }
-            return [self installApp:bundlePath
-                           deviceID:device.udid
-                          updateApp:YES
-                         codesignID:[signerThatCanSign codeSignIdentity]];
+            [Codesigner resignApplication:app
+                  withProvisioningProfile:profile
+                     withCodesignIdentity:codesignID];
         } else {
-            LogInfo(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
+            if (!profile) {
+                profile = [MobileProfile bestMatchProfileForApplication:app device:self];
+                NSAssert(profile != nil,
+                         @"Unable to find profile matching app %@ and device %@",
+                         app.path,
+                         self.uuid);
+            }
+            [Codesigner resignApplication:app withProvisioningProfile:profile];
+        }
+        // Log entitlement comparisons
+        [Entitlements compareEntitlementsWithProfile:profile app:app];
+
+        // Install profile to device
+        Class DTDKProvisioniingProfile = NSClassFromString(@"DTDKProvisioningProfile");
+        DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
+                                                                 certificateUtilities:nil
+                                                                                error:&err];
+        if (err) {
+            ConsoleWriteErr(@"Failed to install profile: %@ due to error: %@", profile.path, err);
+            return iOSReturnStatusCodeInternalError;
+        }
+
+        [self.fbDevice.dvtDevice installProvisioningProfile:_profile];
+
+        if (![op installApplicationWithPath:app.path error:&err] || err) {
+            ConsoleWriteErr(@"Error installing application: %@", err);
+            return iOSReturnStatusCodeInternalError;
         }
     }
 
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
-                               sessionID:(NSUUID *)sessionID
-                          runnerBundleID:(NSString *)runnerBundleID
-                               keepAlive:(BOOL)keepAlive  {
-    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
-    NSError *e = nil;
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:profile
+           codesignIdentity:nil
+               shouldUpdate:shouldUpdate];
+}
 
-    Codesigner *signer = [Codesigner signerThatCannotSign];
-    FBDevice *device = [self deviceForID:deviceID codesigner:signer];
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate{
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:codesignID
+               shouldUpdate:shouldUpdate];
+}
 
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:nil
+               shouldUpdate:shouldUpdate];
+}
 
-    PhysicalDevice *repLog = [PhysicalDevice new];
+- (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
 
-    FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
-                                                                         runnerBundleID:runnerBundleID
-                                                                              sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                            environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
-                                                                               reporter:repLog
-                                                                                 logger:repLog
-                                                                                  error:&e];
-    if (!e) {
-        if (keepAlive) {
-            /*
-                `testingComplete` will be YES when testmanagerd calls
-                `testManagerMediatorDidFinishExecutingTestPlan:`
-             */
-            while (!repLog.testingComplete){
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-                
-                /*
-                    `testingHasFinished` returns YES when the bundle connection AND testmanagerd
-                    connection are finished with the connection (presumably at end of test or failure)
-                 */
-                if ([testManager testingHasFinished]) {
-                    break;
-                }
-            }
-        }
-    } else {
-        ConsoleWriteErr(@"Err: %@", e);
+    FBiOSDeviceOperator *op = self.fbDevice.deviceOperator;
+
+    NSError *err;
+    if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
+        ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeInternalError;
     }
+
+    if (err) {
+        ConsoleWriteErr(@"Error checking if application %@ is installed: %@", bundleID, err);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
+        ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
+    }
+
+    return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
+}
+
+- (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
+
+    if (![self.fbDevice.dvtDevice supportsLocationSimulation]) {
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    NSError *e;
+    [[self.fbDevice.dvtDevice token] simulateLatitude:@(lat)
+                                  andLongitude:@(lng)
+                                     withError:&e];
+    if (e) {
+        ConsoleWriteErr(@"Unable to set device location: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (iOSReturnStatusCode)stopSimulatingLocation {
+    if (![self.fbDevice.dvtDevice supportsLocationSimulation]) {
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    NSError *e;
+    [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
+    if (e) {
+        ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+
+    // Currently unsupported to have environment vars passed here.
+    FBApplicationLaunchConfiguration *appLaunch = [FBApplicationLaunchConfiguration
+                                                   configurationWithBundleID:bundleID
+                                                   bundleName:nil
+                                                   arguments:@[]
+                                                   environment:@{}
+                                                   waitForDebugger:NO
+                                                   output:[FBProcessOutputConfiguration defaultForDeviceManager]];
+
+    NSError *error;
+
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    if (! [deviceOperator launchApplication:appLaunch error:&error]) {
+        ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (iOSReturnStatusCode)killApp:(NSString *)bundleID {
+
+    NSError *error;
+    BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
+
+    if (error) {
+        ConsoleWriteErr(@"Failed killing app with bundle ID: %@ due to: %@", bundleID, error);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    if (result) {
+        return iOSReturnStatusCodeEverythingOkay;
+    } else {
+        return iOSReturnStatusCodeFalse;
+    }
+}
+
+- (BOOL) isInstalled:(NSString *)bundleID withError:(NSError **)error {
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    BOOL installed = [deviceOperator isApplicationInstalledWithBundleID:bundleID
+                                                                  error:error];
+    if (installed) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
+    NSError *err;
+    BOOL installed = [self isInstalled:bundleID withError:&err];
+
+    if (err) {
+        ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
+        @throw [NSException exceptionWithName:@"IsInstalledAppException"
+                                       reason:@"Unable to determine if application is installed"
+                                     userInfo:nil];
+    }
+
+    if (installed) {
+        ConsoleWrite(@"true");
+        return iOSReturnStatusCodeEverythingOkay;
+    } else {
+        ConsoleWrite(@"false");
+        return iOSReturnStatusCodeFalse;
+    }
+}
+
+- (Application *)installedApp:(NSString *)bundleID {
+    NSError *err = nil;
+    if (![self isInstalled:bundleID withError:&err] || err) {
+        return nil;
+    }
+
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    id<DVTApplication> installedDVTApplication = [deviceOperator installedApplicationWithBundleIdentifier:bundleID];
+
+    return [Application withBundleID:bundleID
+                               plist:[installedDVTApplication plist]
+                       architectures:self.fbDevice.supportedArchitectures];
+}
+
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
+                                   sessionID:(NSUUID *)sessionID
+                                   keepAlive:(BOOL)keepAlive{
+    if (![self isInstalled:runnerID withError:nil]) {
+        ConsoleWriteErr(@"Attempted to start test with runner id: %@ but app is not installed", runnerID);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
+            sessionID, [self uuid], runnerID);
+    NSError *error = nil;
+
+    NSArray *attributes = [FBTestRunnerConfigurationBuilder defaultBuildAttributes];
+    NSDictionary *environment = [FBTestRunnerConfigurationBuilder defaultBuildEnvironment];
+
+    BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
+                                                                   error:&error];
+    if (!staged) {
+        ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    NSString *containerPath, *xctestConfigPath;
+    containerPath = [operator containerPathForApplicationWithBundleID:runnerID
+                                                                error:&error];
+    if (!containerPath) {
+        ConsoleWriteErr(@"Could not find the container path for %@: %@",
+                        runnerID, error);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    NSString *filename = @"Xcode83.xctestconfiguration";
+    xctestConfigPath = [[containerPath stringByAppendingPathComponent:@"tmp"]
+                        stringByAppendingPathComponent:filename];
+
+    NSMutableDictionary *mutable;
+    mutable = [NSMutableDictionary dictionaryWithDictionary:environment];
+
+    mutable[@"XCTestConfigurationFilePath"] = xctestConfigPath;
+    environment = [NSDictionary dictionaryWithDictionary:mutable];
+    ConsoleWrite(@"%@", xctestConfigPath);
+
+    FBTestManager *testManager =
+        [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
+                                           runnerBundleID:runnerID
+                                                sessionID:sessionID
+                                           withAttributes:attributes
+                                              environment:environment
+                                                 reporter:self
+                                                   logger:self
+                                                    error:&error];
+
+    if (!testManager) {
+        ConsoleWriteErr(@"Could not start test: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    } else
+
+    if (keepAlive) {
+        /*
+         `testingComplete` will be YES when testmanagerd calls
+         `testManagerMediatorDidFinishExecutingTestPlan:`
+         */
+
+        FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
+        [spinner spinUntilTrue:^BOOL () {
+            return ([testManager testingHasFinished] && self.testingComplete);
+        }];
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+///*
+// The algorithm here is to copy the application's container to the host,
+// [over]write the desired file into the appdata bundle, then reupload that
+// bundle since apparently uploading an xcappdata bundle is destructive.
+// */
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+
+    NSError *e;
+
+    //We make an .xcappdata bundle, place the files there, and upload that
+    NSFileManager *fm = [NSFileManager defaultManager];
+
+    //Ensure input file exists
+    if (![fm fileExistsAtPath:filepath]) {
+        ConsoleWriteErr(@"%@ doesn't exist!", filepath);
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+
+    NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
+    NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
+    NSString *xcappdataPath = [[NSTemporaryDirectory()
+                                stringByAppendingPathComponent:guid]
+                               stringByAppendingPathComponent:xcappdataName];
+    NSString *dataBundle = [[xcappdataPath
+                             stringByAppendingPathComponent:@"AppData"]
+                            stringByAppendingPathComponent:@"Documents"];
+
+    LogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
+
+    if (![fm createDirectoryAtPath:xcappdataPath
+       withIntermediateDirectories:YES
+                        attributes:nil
+                             error:&e]) {
+        ConsoleWriteErr(@"Error creating data dir: %@", e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
+             forInstalledApplicationWithBundleIdentifier:bundleID
+                                                   error:&e]) {
+        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+                        bundleID,
+                        xcappdataPath,
+                        e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
+
+    //TODO: depending on `overwrite`, upsert file
+    NSString *filename = [filepath lastPathComponent];
+    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
+    if ([fm fileExistsAtPath:dest]) {
+        if (!overwrite) {
+            ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
+            return iOSReturnStatusCodeGenericFailure;
+        } else {
+            if (![fm removeItemAtPath:dest error:&e]) {
+                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
+                return iOSReturnStatusCodeGenericFailure;
+            }
+        }
+    }
+
+    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
+        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
+        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    // Remove the temporary data bundle
+    if (![fm removeItemAtPath:dataBundle error:&e]) {
+        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
+              dataBundle, e);
+    }
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -199,6 +523,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 #pragma mark - FBControlCoreLogger
+
 - (id<FBControlCoreLogger>)log:(NSString *)string {
     LogInfo(@"%@", string);
     return self;
@@ -233,276 +558,88 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return self;
 }
 
-+ (FBDevice *)deviceForID:(NSString *)deviceID codesigner:(id<FBCodesignProvider>)signer {
-    NSError *err;
-    FBDevice *device = [[FBDeviceSet defaultSetWithLogger:nil
-                                 error:&err]
-            deviceWithUDID:deviceID];
-    if (!device || err) {
-        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
-        return nil;
-    }
-    device.deviceOperator.codesignProvider = signer;
-    [device.deviceOperator waitForDeviceToBecomeAvailableWithError:&err];
-    if (err) {
-        LogInfo(@"Error getting device with ID %@: %@", deviceID, err);
-        return nil;
-    }
-    return device;
+- (NSString *)containerPathForApplication:(NSString *)bundleID {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    return [operator containerPathForApplicationWithBundleID:bundleID
+                                                       error:nil];
 }
 
-#pragma mark - App Installation
-+ (iOSReturnStatusCode)installApp:(NSString *)pathToBundle
-                         deviceID:(NSString *)deviceID
-                        updateApp:(BOOL)updateApp
-                       codesignID:(NSString *)codesignID {
-
-    if (codesignID == nil) {
-        CodesignIdentity *identity = [CodesignIdentity identityForAppBundle:pathToBundle deviceId:deviceID];
-        if (!identity) {
-            ConsoleWriteErr(@"Could not find valid codesign identity");
-            ConsoleWriteErr(@"  app: %@", pathToBundle);
-            ConsoleWriteErr(@"  device udid: %@", deviceID);
-            return iOSReturnStatusCodeNoValidCodesignIdentity;
-        }
-        codesignID = identity.name;
-    }
-
-    Codesigner *signer = [[Codesigner alloc] initWithCodeSignIdentity:codesignID
-                                                           deviceUDID:deviceID];
-
-    FBDevice *device = [self deviceForID:deviceID codesigner:signer];
-
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-
-    NSString *stagedApp = [AppUtils copyAppBundle:pathToBundle];
-    if (!stagedApp) {
-        ConsoleWriteErr(@"Could not stage app for code signing");
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    NSError *err;
-    //Codesign
-    FBProductBundle *app = [[[[FBProductBundleBuilder builderWithFileManager:[NSFileManager defaultManager]]
-                              withBundlePath:stagedApp]
-                             withCodesignProvider:signer]
-                            buildWithError:&err];
-
-    if (err) {
-        ConsoleWriteErr(@"Error creating product bundle for %@: %@", stagedApp, err);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    FBiOSDeviceOperator *op = device.deviceOperator;
-    if ([op isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
-        if (err) {
-            ConsoleWriteErr(@"Error checking if app {%@} is installed. %@", app.bundleID, err);
-            return iOSReturnStatusCodeInternalError;
-        }
-        iOSReturnStatusCode ret = [self updateAppIfRequired:stagedApp
-                                                     device:device
-                                                 codesigner:signer];
-        if (ret != iOSReturnStatusCodeEverythingOkay) {
-            return ret;
-        }
-    } else {
-        if (![op installApplicationWithPath:stagedApp error:&err] || err) {
-            ConsoleWriteErr(@"Error installing application: %@", err);
-            return iOSReturnStatusCodeInternalError;
-        }
-    }
-
-    return iOSReturnStatusCodeEverythingOkay;
+- (NSString *)installPathForApplication:(NSString *)bundleID {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    return [operator applicationPathForApplicationWithBundleID:bundleID
+                                                         error:nil];
 }
 
-+ (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
-    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+- (NSString *)pathToEmptyXcappdata:(NSError **)error {
 
-    FBiOSDeviceOperator *op = device.deviceOperator;
-
-    NSError *err;
-    if (![op isApplicationInstalledWithBundleID:bundleID error:&err]) {
-        ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, deviceID);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    if (err) {
-        ConsoleWriteErr(@"Error checking if application %@ is installed: %@", bundleID, err);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    if (![op cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
-        ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
-    }
-    return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
-}
-
-+ (iOSReturnStatusCode)appIsInstalled:(NSString *)bundleID deviceID:(NSString *)deviceID {
-    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-
-    NSError *err;
-    BOOL installed = [device.deviceOperator isApplicationInstalledWithBundleID:bundleID
-                                                                         error:&err];
-    if (err) {
-        LogInfo(@"Error checking if %@ is installed to %@: %@", bundleID, deviceID, err);
-        return iOSReturnStatusCodeInternalError;
-    }
-    if (installed) {
-        ConsoleWrite(@"true");
-    } else {
-        ConsoleWrite(@"false");
-    }
-    return installed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
-}
-
-+ (iOSReturnStatusCode)setLocation:(NSString *)deviceID
-                               lat:(double)lat
-                               lng:(double)lng {
-    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-
-    if (![device.dvtDevice supportsLocationSimulation]) {
-        ConsoleWriteErr(@"Device %@ doesn't support location simulation", deviceID);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
-    NSError *e;
-    [[device.dvtDevice token] simulateLatitude:@(lat)
-                                  andLongitude:@(lng)
-                                     withError:&e];
-    if (e) {
-        ConsoleWriteErr(@"Unable to set device location: %@", e);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    return iOSReturnStatusCodeEverythingOkay;
-}
-
-+ (iOSReturnStatusCode)stopSimulatingLocation:(NSString *)deviceID {
-    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-
-    if (![device.dvtDevice supportsLocationSimulation]) {
-        ConsoleWriteErr(@"Device %@ doesn't support location simulation", deviceID);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
-    NSError *e;
-    [[device.dvtDevice token] stopSimulatingLocationWithError:&e];
-    if (e) {
-        ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
-        return iOSReturnStatusCodeInternalError;
-    }
-    return iOSReturnStatusCodeEverythingOkay;
-}
-
-/*
- The algorithm here is to copy the application's container to the host,
- [over]write the desired file into the appdata bundle, then reupload that
- bundle since apparently uploading an xcappdata bundle is destructive.
- */
-+ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
-                         toDevice:(NSString *)deviceID
-                   forApplication:(NSString *)bundleID
-                        overwrite:(BOOL)overwrite {
-    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
-    
-    NSError *e;
-    
-    //We make an .xcappdata bundle, place the files there, and upload that
-    NSFileManager *fm = [NSFileManager defaultManager];
-    
-    //Ensure input file exists
-    if (![fm fileExistsAtPath:filepath]) {
-        ConsoleWriteErr(@"%@ doesn't exist!", filepath);
-        return iOSReturnStatusCodeInvalidArguments;
-    }
-    
     NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
     NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
     NSString *xcappdataPath = [[NSTemporaryDirectory()
-                                stringByAppendingPathComponent:guid]
-                               stringByAppendingPathComponent:xcappdataName];
-    NSString *dataBundle = [[xcappdataPath
-                             stringByAppendingPathComponent:@"AppData"]
-                            stringByAppendingPathComponent:@"Documents"];
-    
-    LogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
-    
-    if (![fm createDirectoryAtPath:xcappdataPath
-       withIntermediateDirectories:YES
-                        attributes:nil
-                             error:&e]) {
-        ConsoleWriteErr(@"Error creating data dir: %@", e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-   
-    if (![device.dvtDevice downloadApplicationDataToPath:xcappdataPath
-             forInstalledApplicationWithBundleIdentifier:bundleID
-                                                   error:&e]) {
-        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
-                        bundleID,
-                        xcappdataPath,
-                        e);
-        return iOSReturnStatusCodeInternalError;
-    }
-    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
-    
-    //TODO: depending on `overwrite`, upsert file
-    NSString *filename = [filepath lastPathComponent];
-    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
-    if ([fm fileExistsAtPath:dest]) {
-        if (!overwrite) {
-            ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
-            return iOSReturnStatusCodeGenericFailure;
-        } else {
-            if (![fm removeItemAtPath:dest error:&e]) {
-                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
-                return iOSReturnStatusCodeGenericFailure;
-            }
+        stringByAppendingPathComponent:guid]
+        stringByAppendingPathComponent:xcappdataName];
+    NSString *documents = [[xcappdataPath
+        stringByAppendingPathComponent:@"AppData"]
+        stringByAppendingPathComponent:@"Documents"];
+
+    NSString *library = [[xcappdataPath
+        stringByAppendingPathComponent:@"AppData"]
+        stringByAppendingPathComponent:@"Library"];
+
+    NSString *tmp = [[xcappdataPath
+        stringByAppendingPathComponent:@"AppData"]
+        stringByAppendingPathComponent:@"tmp"];
+    for (NSString *path in @[documents, library, tmp]) {
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:path
+                                       withIntermediateDirectories:YES
+                                                        attributes:nil
+                                                             error:error]) {
+            return nil;
         }
     }
-    
-    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
-        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-    
-    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
-        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    // Remove the temporary data bundle
-    if (![fm removeItemAtPath:dataBundle error:&e]) {
-        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
-              dataBundle, e);
-    }
-
-    return iOSReturnStatusCodeEverythingOkay;
+    return xcappdataPath;
 }
 
-+ (iOSReturnStatusCode)containerPathForApplication:(NSString *)bundleID
-                                          onDevice:(NSString *)deviceID {
-    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
-    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
-    
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
-    NSError *e;
-    
-    NSString *path = [operator containerPathForApplicationWithBundleID:bundleID error:&e];
-    if (e) {
-        ConsoleWriteErr(@"Error getting container path for application %@: %@", bundleID, e);
-        return iOSReturnStatusCodeGenericFailure;
-    } else {
-        ConsoleWrite(@"%@", path);
+- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+                                                   error:(NSError **)error {
+
+    NSString *xcAppDataPath = [self pathToEmptyXcappdata:error];
+
+    if (!xcAppDataPath) { return NO; }
+
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    NSString *runnerPath;
+    runnerPath = [operator applicationPathForApplicationWithBundleID:bundleIdentifier
+                                                               error:error];
+    if (!runnerPath) { return NO; }
+
+    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+
+
+    NSString *tmpDirectory = [[xcAppDataPath stringByAppendingPathComponent:@"AppData"]
+                                             stringByAppendingPathComponent:@"tmp"];
+
+    NSString *filename = @"DeviceAgent.xctestconfiguration";
+    NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
+
+    if (![xctestconfig writeToFile:xctestconfigPath
+                        atomically:YES
+                          encoding:NSUTF8StringEncoding
+                             error:error]) {
+        return NO;
     }
-    return iOSReturnStatusCodeEverythingOkay;
+
+    if (![operator uploadApplicationDataAtPath:xcAppDataPath
+                                      bundleID:bundleIdentifier
+                                         error:error]) {
+        return NO;
+    }
+
+    // Deliberately skipping error checking; error is ignorable.
+    [[NSFileManager defaultManager] removeItemAtPath:xcAppDataPath
+                                               error:nil];
+
+    return YES;
 }
 
 @end

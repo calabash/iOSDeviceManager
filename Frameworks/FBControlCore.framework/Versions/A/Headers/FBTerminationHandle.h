@@ -10,19 +10,23 @@
 #import <Foundation/Foundation.h>
 
 /**
- Simple protocol that defines termination of something
+ Extensible Diagnostic Name Enumeration.
  */
-@protocol FBTerminationHandle<NSObject>
-
-- (void)terminate;
-
-@end
-
-@interface FBTerminationHandle : NSObject
+typedef NSString *FBTerminationHandleType NS_EXTENSIBLE_STRING_ENUM;
 
 /**
- Creates a termination handle that will call the block when `terminate` is called.
+ Simple protocol that allows asynchronous operations to be terminated.
  */
-+ (id<FBTerminationHandle>)terminationHandleWithBlock:( void(^)(void) )block;
+@protocol FBTerminationHandle <NSObject>
+
+/**
+ Terminates the asynchronous operation.
+ */
+- (void)terminate;
+
+/**
+ The Type of Termination Handle.
+ */
+- (FBTerminationHandleType)type;
 
 @end

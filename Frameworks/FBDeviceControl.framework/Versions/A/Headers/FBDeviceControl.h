@@ -12,5 +12,7 @@
 #import <FBDeviceControl/FBDeviceControlError.h>
 #import <FBDeviceControl/FBDeviceControlFrameworkLoader.h>
 #import <FBDeviceControl/FBDeviceSet.h>
+#import <FBDeviceControl/FBDeviceXCTestCommands.h>
+#import <FBDeviceControl/FBDeviceVideo.h>
+#import <FBDeviceControl/FBDeviceVideoFileEncoder.h>
 #import <FBDeviceControl/FBiOSDeviceOperator.h>
-#import <FBDeviceControl/FBDeviceTestRunStrategy.h>

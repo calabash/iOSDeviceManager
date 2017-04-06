@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		75f9DfqbxxDFOMpQ7Ee71MIaMGM=
+		eQ5u5kqhSJk+0EK3/fBYcKsED/s=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
+			takyqZj2DtkQrdKa0W1X9s5qGBc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			1N/gruoOn/QQKbEcbCpPnmimrkI=
+			nH4GBsMbLqNNTZFFpo99iWSL6UU=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -44,33 +44,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PoT38ZHcTP18tiO0rzuHz8f8Vdc=
+			z4+1xOSHTeC2iejC+G2G6JIq9nQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			p4xi/E7NXSNu8ac82OlsvkvizdpzWwsq7my5lpDd88A=
+			g+gSyXpPIINj9OpiipJvWEC/D/+rCm5IqThg+JuhMoA=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceOperator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mOD6OfhRECvBNSp54U+CHrPBb3E=
+			OumUdBYDk9bYYQhqr+bAMgprPbA=
 			</data>
 			<key>hash2</key>
 			<data>
-			n7wFaSU0roo06aYv0GD9ElXrRKFPw0rFirZ18iimfOU=
+			9iLlSInraaZuKjLGRnxDzmlW/yu8SkwG8cHpqRO79Mo=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceTestPreparationStrategy.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			cXK8DJrnsJmtXjQO8D8pqqyLLhI=
+			G8qqnDet+jrL88w1iV6WmHrTosU=
 			</data>
 			<key>hash2</key>
 			<data>
-			g6QbyhhNZoewQzdFgTv+AlFHHCCDL3kgRf1Zou1XlSI=
+			lS63zbQFOCpBVPjCCcGh5kmdIfgrKhVvHW3XxPAUrhs=
 			</data>
 		</dict>
 		<key>Headers/FBProductBundle.h</key>
@@ -88,55 +88,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GICOG6Opng2g9NE34u/uP1xm4kQ=
+			z/4tsGmM+muNrRqW+TwN9JkE6bQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			tyE0xdX7RPYs0GGXDvO2Y/yKRS9M4mPAbG8T5ZlVmQc=
+			d1RoRGF2SfGvGKe564T/XlfV8XyGWIDsgs3PKNfp5uM=
 			</data>
 		</dict>
 		<key>Headers/FBTestBundle.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			AwTJSAVord5qAS2oXtsTSEfhTOg=
+			8oeOvz13rG0ZgbeQ+hUbAkSOQ40=
 			</data>
 			<key>hash2</key>
 			<data>
-			n3KMokgcWc1Ofr2u6A9/2RnpDs7LvEIiUrPs8vWEAwg=
+			XNEe/FcgvORsnHh5GIt0Rx7Y9B78ZaD+pEL1v41uCfo=
 			</data>
 		</dict>
 		<key>Headers/FBTestConfiguration.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PRus2c11SBcUczUEEqGNpxpJf10=
+			T0DjMKnLL36q/I7fRXzJjj5IzrI=
 			</data>
 			<key>hash2</key>
 			<data>
-			5dFQlw+mXL6qofx56cvkdTenTDs1nlVWDm8cYPo/Fio=
-			</data>
-		</dict>
-		<key>Headers/FBTestLaunchConfiguration.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			+ZYni6jRT/jNdNazg5TxPBkAVdY=
-			</data>
-			<key>hash2</key>
-			<data>
-			h7NHFordRTwiPKAQzTvWX6iiFZw0aIB4MCB9FtMalgA=
+			fw+lpm4/D0VJgOFj8kI9B71v8N0uEGeBCeHDglfPPSM=
 			</data>
 		</dict>
 		<key>Headers/FBTestManager.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1Qb5sXIrhnSrOgcaiF5TiVah/+k=
+			ykYNsTJhfEjyyCAAIZ0d2TkvoIA=
 			</data>
 			<key>hash2</key>
 			<data>
-			C//Ss5vY1GGOOg/MtDX31lhdaHgERSRcE3w9WRXYRig=
+			gz2JOPNk/n2dINsNTEGEJTOtZBLbcadVOQ8Mp2FZ/E0=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerAPIMediator.h</key>
@@ -148,6 +137,28 @@
 			<key>hash2</key>
 			<data>
 			L7bKPcx4zGGPyV3oFNdhJDni2Cv+acO+66BA/jKO3nA=
+			</data>
+		</dict>
+		<key>Headers/FBTestManagerContext.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			j3sw6lnxzk8bhhTda3Z2livlGLI=
+			</data>
+			<key>hash2</key>
+			<data>
+			xi77yTpqb2YYebOQN8iheYMZW3Lkrp/6L4WSS+N9pUs=
+			</data>
+		</dict>
+		<key>Headers/FBTestManagerJUnitGenerator.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3N0QVUExT8gtAzr7KwDy8Qewoek=
+			</data>
+			<key>hash2</key>
+			<data>
+			TqMqL837fE3z6nSMc/5SfrcbGFq2JPZZSeOquxC7IU8=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerProcessInteractionDelegate.h</key>
@@ -297,44 +308,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			moh8sZq8mHaXEMYvhyqWG2/6KGo=
+			2QBz3FdDWSAMvj7MMUtd5ocKxl0=
 			</data>
 			<key>hash2</key>
 			<data>
-			9KWiH+hBvD/6Y/yTooPEoB7OrMueXW2f4UGdibotyUg=
+			olnj6mYzS2llYhF4+UCzxzsWdtZiM9x2LVy3mUVcQnM=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestRunStrategy.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PnRoILwrIn37aSpRV2+BjGRzOc8=
+			YmSXGz4o2JkKQ01K9EjAYYU6AK8=
 			</data>
 			<key>hash2</key>
 			<data>
-			O4r4Cnesap3x9ow6bSCuu0b4Xgo2rk6lVSSgchkh17E=
+			06jFJvkjO+INdB7ExjWkjrShZ/EISuRKUG68Y1LQ9hs=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrap.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			BGNI0jbxhI8WBJ7ClV3/XV2XuuI=
+			tPwX5calF/RzHP8UtBKnPqqZ8CQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			Fq/51eVJ/TGVnLSwForzfSGvgebVZt7BXtwRY85noGw=
+			26s1w1OOItzjOSXbU5hz55qW0Y+KgqqIOn8sbsQep+M=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapError.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			vGGKPvbL9O6ZRtS9kyd8h7K8lW0=
+			zjy/BIaZLv+mRCUgm7/BVSsic9E=
 			</data>
 			<key>hash2</key>
 			<data>
-			jk7dfpoiTw2rX0L+tKV0BjYj6Od+5304IrdLcwoFr4w=
+			iwZ/idsZs2PfK8y8zZBG0yQMK6df76qPYKzJlT2rm0w=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapFrameworkLoader.h</key>
@@ -363,11 +374,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			75f9DfqbxxDFOMpQ7Ee71MIaMGM=
+			eQ5u5kqhSJk+0EK3/fBYcKsED/s=
 			</data>
 			<key>hash2</key>
 			<data>
-			YXngWUdnObVn5JmL8NVKB1bas/gN8pbqIrAlIbK/tLs=
+			SFuPopLNajwfS6j7QUCn3F1oy2btDWnoyMxQjjhqAwg=
 			</data>
 		</dict>
 	</dict>
@@ -388,6 +399,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -447,6 +463,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

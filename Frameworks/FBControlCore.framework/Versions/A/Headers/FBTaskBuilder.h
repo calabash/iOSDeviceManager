@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FBControlCoreLogger;
-@protocol FBFileDataConsumer;
+@protocol FBFileConsumer;
 
 /**
  An interface to building FBTask instances
@@ -53,6 +53,14 @@ NS_ASSUME_NONNULL_BEGIN
  @return the reciever, for chaining.
  */
 - (instancetype)withArguments:(NSArray<NSString *> *)arguments;
+
+/**
+ Replaces the Subprocess Environment with the provided Environment.
+
+ @param environment an Environment Dictionary. Must not be nil.
+ @return the reciever, for chaining.
+ */
+- (instancetype)withEnvironment:(NSDictionary<NSString *, NSString *> *)environment;
 
 /**
  Adds the provided dictionary to the environment of the built task.
@@ -112,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param consumer the consumer to consume the data.
  @return the reciever, for chaining.
  */
-- (instancetype)withStdOutConsumer:(id<FBFileDataConsumer>)consumer;
+- (instancetype)withStdOutConsumer:(id<FBFileConsumer>)consumer;
 
 /**
  Redirects stderr data to the consumer.
@@ -120,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param consumer the consumer to consume the data.
  @return the reciever, for chaining.
  */
-- (instancetype)withStdErrConsumer:(id<FBFileDataConsumer>)consumer;
+- (instancetype)withStdErrConsumer:(id<FBFileConsumer>)consumer;
 
 /**
  Redirects stdout to the reader block, on a per line basis.

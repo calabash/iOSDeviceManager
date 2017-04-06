@@ -1,3 +1,21 @@
+
+### 1.1.1
+
+I have omitted many pull requests.  For the full list see
+https://github.com/calabash/iOSDeviceManager/milestone/6
+
+There are some changes that should not be announced publicly.
+
+* Simulator#launch: wait for required simulator sevices #131
+* Xcode 8.3 support #126
+* Add library version of iOSDeviceManager for interop w/ Test Recorder #120
+* Integration test using run_loop ruby API #110
+* implement ios-cli resigning algorithm and add CLI interface #108
+* Improve default device detection #104
+* Add support for app lifecycle events on .ipa archives #103
+* Allow positional argument for device ID #102
+* Stores identities rather than making multiple find-identity calls #101
+
 ### 1.0.4
 
 FBSimulatorControl was not updated.  See the 1.0.3 notes for details.

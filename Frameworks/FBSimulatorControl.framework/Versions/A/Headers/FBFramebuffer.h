@@ -11,57 +11,92 @@
 
 #import <FBControlCore/FBControlCore.h>
 
-@class FBFramebufferConfiguration;
-@class FBFramebufferVideo;
-@class FBSimulator;
-@class SimDeviceFramebufferService;
-@protocol FBFramebufferDelegate;
-
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- A container and client for a Simulator's Framebuffer that forwards important events to delegates.
+@class FBFramebufferConfiguration;
+@class FBFramebufferSurface;
+@class FBSimulator;
+@class FBSimulatorImage;
+@class FBSimulatorVideo;
+@class SimDeviceFramebufferService;
+@protocol FBFramebufferFrameSink;
+@protocol FBFramebufferSurfaceConsumer;
 
- The class itself doesn't perform much behaviour other than to manage the lifecycle.
- Implementors of FBFramebufferDelegate perform individual behaviours such as recording videos and images.
+/**
+ A container and client for a Simulator's Framebuffer.
+ The Framebuffer is a representation of a Simulator's Screen, exposed as public API.
+ By default there are the default 'video' and 'image' components that allow access to a video encoder and image representation respectively.
+
+ It is also possible to attach to a Framebuffer in two ways:
+ 1) Connecting using an FBFramebufferSurfaceConsumer. This allows consumption of an IOSurface backing the Simulator as well as events for damage rectangles.
+ 2) Connecting using a FBFramebufferFrameSink. This will internally generate an FBFramebufferFrame object, suitable for further consumption.
  */
 @interface FBFramebuffer : NSObject <FBJSONSerializable>
 
+#pragma mark Initializers
+
 /**
- Creates and returns a new FBSimulatorDirectLaunch object for the provided SimDeviceFramebufferService.
+ Creates and returns a FBFramebuffer.
 
  @param framebufferService the SimDeviceFramebufferService to connect to.
  @param configuration the configuration of the Framebuffer.
  @param simulator the Simulator to which the Framebuffer belongs.
  @return a new FBSimulatorDirectLaunch instance. Must not be nil.
  */
-+ (instancetype)withFramebufferService:(SimDeviceFramebufferService *)framebufferService configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
++ (instancetype)framebufferWithService:(SimDeviceFramebufferService *)framebufferService configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
 
 /**
- Starts listening for Framebuffer events from the SimDeviceFramebufferService on an internal background queue.
- Events are delivered to the Framebuffer's Delegate on this queue.
- Delegates can do work on the queue on which they recieve events, but any heavy work should be dispatched to other queues.
- Must only be called from the main queue.
+ Creates and returns a FBFramebuffer.
 
- @return the reciever, for chaining.
+ @param surface the Renderable to connect to.
+ @param configuration the configuration of the Framebuffer.
+ @param simulator the Simulator to which the Framebuffer belongs.
+ @return a new FBSimulatorDirectLaunch instance. Must not be nil.
  */
-- (instancetype)startListeningInBackground;
++ (instancetype)framebufferWithRenderable:(FBFramebufferSurface *)surface configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
+
+#pragma mark Public Methods
 
 /**
- Stops listening for Framebuffer Events from SimDeviceFramebufferService.
+ Causes the Framebuffer to Tear Down.
  Must only be called from the main queue.
  A dispatch_group is provided to allow for delegates to append any asychronous operations that may need cleanup.
  For example in the case of the Video Recorder, this means completing the writing to file.
 
  @param teardownGroup the dispatch_group to append asynchronous operations to.
- @return the reciever, for chaining.
  */
-- (instancetype)stopListeningWithTeardownGroup:(dispatch_group_t)teardownGroup;
+- (void)teardownWithGroup:(dispatch_group_t)teardownGroup;
 
 /**
- The FBFramebufferVideo instance owned by the receiver.
+ Attaches a Frame Sink
+
+ @param frameSink the Frame Sink to attach.
  */
-@property (nonatomic, strong, readonly) FBFramebufferVideo *video;
+- (void)attachFrameSink:(id<FBFramebufferFrameSink>)frameSink;
+
+/**
+ Detaches a Frame Sink
+
+ @param frameSink the Frame Sink to detach.
+ */
+- (void)detachFrameSink:(id<FBFramebufferFrameSink>)frameSink;
+
+#pragma mark Properties
+
+/**
+ The FBSimulatorVideo instance owned by the receiver.
+ */
+@property (nonatomic, strong, readonly) FBSimulatorVideo *video;
+
+/**
+ The FBSimulatorImage instance owned by the receiver.
+ */
+@property (nonatomic, strong, readonly) FBSimulatorImage *image;
+
+/**
+ The FBFramebufferSurface owned by the reciever, if supported.
+ */
+@property (nonatomic, strong, nullable, readonly) FBFramebufferSurface *surface;
 
 @end
 

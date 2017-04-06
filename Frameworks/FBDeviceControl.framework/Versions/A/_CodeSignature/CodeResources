@@ -6,7 +6,11 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		EzR1bI+WtKCpDJZ5fHx2B5WcdTw=
+		ORgSxbgI9tTw5TfqqcuxQrFK//U=
+		</data>
+		<key>Resources/libShimulator.dylib</key>
+		<data>
+		t17194DH3yelFlwoNDyDrmnsQFA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +19,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			BB1IOrRQguxGW5x7t0Bq8RfH0KY=
+			takyqZj2DtkQrdKa0W1X9s5qGBc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -24,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			1N/gruoOn/QQKbEcbCpPnmimrkI=
+			nH4GBsMbLqNNTZFFpo99iWSL6UU=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -33,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			5/tMY1iaBVHpiTvbemma/B+CSpM=
+			IU5mEhqYncvo7uTUpSQYMOSQe8U=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -42,33 +46,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uvSl9clT8/9aWtwsFPp+DwBtemM=
+			u+7Xho5dI4mt6JEtQLUjw9hbiZQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			1lJeUhPI3lUuVl9t4T5ZM3kwmcPdwvipPlVw4JU4BcI=
+			2OLLK/oY51guJ7YUQYAtmUr9Q5Roh+omwcyR2WKxrP8=
 			</data>
 		</dict>
 		<key>Headers/FBDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			YMiS392d6dc+1qnvjZHoeO4jN2c=
+			ru7MF3m7TzbAFepWhDSwedKHxOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			RKn/vHaPIe35loQbr5I1j5Rpm4lbaVgGWb2BhUNwQlY=
+			1izuzBGMdIWm7JpMTfEPdqkiFLeK1wBaJdOAVGsZiao=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControl.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+kHvadnaZ8eg3AI5UpAADOqRgjA=
+			8Xm+R3lQdaxeGdgT5P4eHCo44xM=
 			</data>
 			<key>hash2</key>
 			<data>
-			CZg9lmxLUbr8kmp5VnmVYFtNcEKBFcEBkamUunhQ75k=
+			VQDAq0bStoz0gtlcWv29ohGgHh1e86n61xmmKpFaM8c=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -104,26 +108,48 @@
 			HlVxrWJ9Nne+Yg0jXJ87h2JKhEa5of1Z549LtTfwCCE=
 			</data>
 		</dict>
-		<key>Headers/FBDeviceTestRunStrategy.h</key>
+		<key>Headers/FBDeviceVideo.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			t6FgNiPldoA0z+g1+eLVE31S4DA=
+			4/ELcqGRFyOIAywo57dFVvGz3YE=
 			</data>
 			<key>hash2</key>
 			<data>
-			bBkvhpQM24j5UUSTbLjUSsyPGM4e9qzZp4AQYYUK7FU=
+			ZNn2fVc7cXMuK6v1kjc1Px0JRjY9roJOoeEjCvlw5KU=
+			</data>
+		</dict>
+		<key>Headers/FBDeviceVideoFileEncoder.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			i/w48kxtDycbt2QSXHbO6Rv4HzU=
+			</data>
+			<key>hash2</key>
+			<data>
+			MOrafnC+c86Wiq3Jt5wwua5hZ0VUUzCaKfkhxW56DWI=
+			</data>
+		</dict>
+		<key>Headers/FBDeviceXCTestCommands.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			zDxITLmRwLBI33ggSBgVq/LEvqo=
+			</data>
+			<key>hash2</key>
+			<data>
+			EUDSUkYRszsfEeWDCvfdjPI7phazkZGwlIWUuCvz7+M=
 			</data>
 		</dict>
 		<key>Headers/FBiOSDeviceOperator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0MildTcBuDzGWOsX7u4/pU/u1yQ=
+			hcPA9OMKA31jVT+mrLXdrL6c03c=
 			</data>
 			<key>hash2</key>
 			<data>
-			PSVAL7n63O0YUJqsn3weae0n6Ch1G+DlKo+ktMaQ0XQ=
+			iSU6Cmec06T2fJVw45w1QD02Ups83S46qNxOdS09J9g=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -141,11 +167,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			EzR1bI+WtKCpDJZ5fHx2B5WcdTw=
+			ORgSxbgI9tTw5TfqqcuxQrFK//U=
 			</data>
 			<key>hash2</key>
 			<data>
-			zIFP/6+e4fXrkhihkmikpKxBTC1ISNkaqW+wx6pPhkk=
+			9+W+DO/mUycmNtSD/mv6xZwTrvN0FrV09QoqLOFiX2Y=
+			</data>
+		</dict>
+		<key>Resources/libShimulator.dylib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			t17194DH3yelFlwoNDyDrmnsQFA=
+			</data>
+			<key>hash2</key>
+			<data>
+			8yqwajA5m32wi2dt3rlR6a2M6NEZcnFM5gbWMbg0+Vg=
 			</data>
 		</dict>
 	</dict>
@@ -166,6 +203,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -225,6 +267,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

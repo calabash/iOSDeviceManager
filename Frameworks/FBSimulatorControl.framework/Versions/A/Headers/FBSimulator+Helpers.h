@@ -10,11 +10,12 @@
 #import <FBSimulatorControl/FBSimulator.h>
 
 @class FBApplicationDescriptor;
-@class FBSimDeviceWrapper;
-@class FBSimulatorInteraction;
 @class FBSimulatorLaunchCtl;
 
 NS_ASSUME_NONNULL_BEGIN
+
+static NSString *const ApplicationTypeKey = @"ApplicationType";
+static NSString *const ApplicationPathKey = @"Path";
 
 /**
  Helper Methods & Properties for FBSimulator.
@@ -22,16 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FBSimulator (Helpers)
 
 #pragma mark Properties
-
-/**
- Creates an FBSimulatorInteraction for the reciever.
- */
-@property (nonatomic, strong, readonly) FBSimulatorInteraction *interact;
-
-/**
- Creates a FBSimDeviceWrapper for the Simulator.
- */
-@property (nonatomic, strong, readonly) FBSimDeviceWrapper *simDeviceWrapper;
 
 /**
  Creates a FBSimulatorLaunchCtl for the Simulator.
@@ -47,11 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
  Fetches an NSArray<FBProcessInfo *> of the subprocesses of the launchd_sim.
  */
 @property (nonatomic, copy, readonly) NSArray<FBProcessInfo *> *launchdSimSubprocesses;
-
-/**
- Fetches a list of the installed applications=
- */
-@property (nonatomic, copy, readonly) NSArray<FBApplicationDescriptor *> *installedApplications;
 
 #pragma mark Methods
 
@@ -114,40 +100,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)eraseWithError:(NSError **)error;
 
 /**
- Fetches the FBApplicationDescriptor instance by Bundle ID, on the Simulator.
+ Brings the Simulator window to front, with a descriptive message in the event of a failure.
 
- @param bundleID the Bundle ID to fetch an installed application for.
- @param error an error out for any error that occurs.
- @return a FBApplicationDescriptor instance if one could be obtained, nil otherwise.
+ @param error a descriptive error for any error that occurred.
+ @return YES if successful, NO otherwise.
  */
-- (nullable FBApplicationDescriptor *)installedApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
-
-/**
- Determines whether a provided Bundle ID represents a System Application
-
- @param bundleID the Bundle ID to fetch an installed application for.
- @param error an error out for any error that occurs.
- @return YES if the Application with the provided is a System Application, NO otherwise.
-*/
-- (BOOL)isSystemApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
-
-/**
- Determines the location of the Home Directory of an Application, it's chroot jail.
-
- @param bundleID the Bundle ID of the Application to search for,.
- @param error an error out for any error that occurs.
- @return the Home Directory of the Application if one was found, nil otherwise.
- */
-- (nullable NSString *)homeDirectoryOfApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
-
-/**
- Returns the Process Info for a Application by Bundle ID.
-
- @param bundleID the Bundle ID to fetch an installed application for.
- @param error an error out for any error that occurs.
- @return An FBProcessInfo for the Application if one is running, nil otherwise.
- */
-- (nullable FBProcessInfo *)runningApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (BOOL)focusWithError:(NSError **)error;
 
 /**
  A Dictionary Representing the iPhone Simulator.app Preferences.

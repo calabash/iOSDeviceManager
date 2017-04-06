@@ -1,10 +1,11 @@
 #import "Resources.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
-#import "TestParameters.h"
 #import "Entitlements.h"
 #import "CodesignIdentity.h"
 #import <sys/utsname.h>
+#import "Device.h"
+#import "DeviceUtils.h"
 
 @interface Simctl ()
 
@@ -105,10 +106,15 @@
 
 @property(copy) NSDictionary *info;
 @property(copy) NSString *OS;
+@property(copy, readonly) NSString *directory;
+@property(copy, readonly) NSString *plist;
 
 @end
 
 @implementation TestSimulator
+
+@synthesize directory = _directory;
+@synthesize plist = _plist;
 
 - (id)initWithDictionary:(NSDictionary *)info
                       OS:(NSString *)OS {
@@ -176,6 +182,41 @@
 
     NSArray *tokens = [[self name] componentsSeparatedByString:@" "];
     return [tokens[1] containsString:@"s"];
+}
+
+- (NSString *)directory {
+    if (_directory) { return _directory; }
+    _directory = [[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                        stringByAppendingPathComponent:@"Developer"]
+                                        stringByAppendingPathComponent:@"CoreSimulator"]
+                                        stringByAppendingPathComponent:@"Devices"]
+                                        stringByAppendingPathComponent:self.UDID];
+    return _directory;
+}
+
+- (NSString *)plist {
+    if (_plist) { return _plist; }
+
+    _plist = [[self directory] stringByAppendingPathComponent:@"device.plist"];
+    return _plist;
+}
+
+- (TestSimulatorState)state {
+    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[self plist]];
+    NSNumber *number = (NSNumber *)dictionary[@"state"];
+    return (TestSimulatorState)[number unsignedIntegerValue];
+}
+
+- (NSString *)stateString {
+    TestSimulatorState state = [self state];
+
+    switch (state) {
+        case TestSimulatorStateCreating : { return @"Creating"; }
+        case TestSimulatorStateShutdown : { return @"Shutdown"; }
+        case TestSimulatorStateBooting : { return @"Booting"; }
+        case TestSimulatorStateShuttingDown : { return @"Shutting Down"; }
+        default: { return @"UNKNOWN"; }
+    }
 }
 
 @end
@@ -267,7 +308,7 @@
                                         NSUInteger idx,
                                         BOOL *stop) {
         NSString *udid = [self extractUDID:line];
-        if ([TestParameters isDeviceID:udid]) {
+        if ([DeviceUtils isDeviceID:udid]) {
             NSMutableDictionary *info = [@{} mutableCopy];
             info[@"UDID"] = udid;
             info[@"OS"] = [self extractVersion:line];
@@ -449,6 +490,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
         _XcodeFromProcessPath = [[environment[@"DYLD_FALLBACK_FRAMEWORK_PATH"]
                                   stringByDeletingLastPathComponent]
                                  stringByDeletingLastPathComponent];
+    } else if (environment[@"PATH"]) {
+        NSArray *tokens = [environment[@"PATH"] componentsSeparatedByString:@":"];
+        NSString *xcodeUsrBin = tokens[0];
+        _XcodeFromProcessPath = [[xcodeUsrBin stringByDeletingLastPathComponent]
+                                 stringByDeletingLastPathComponent];
     }
 
     if (!_XcodeFromProcessPath ||
@@ -524,6 +570,18 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     }
 }
 
+- (NSString *)TestAppRelativePath:(NSString *)platform {
+    if ([ARM isEqualToString:platform]) {
+        return [self.resourcesDirectory
+                stringByAppendingPathComponent:@"arm/../arm/TestApp.app"];
+    } else if ([SIM isEqualToString:platform]) {
+        return [self.resourcesDirectory
+                stringByAppendingPathComponent:@"sim/../sim/TestApp.app"];
+    } else {
+        return nil;
+    }
+}
+
 /*
     Copy the testfile to a unique filename in the tmp dir and return that
  */
@@ -550,6 +608,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     } else {
         return nil;
     }
+}
+
+- (NSString *)TestStructureDirectory {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"testDirectoryStructure"];
 }
 
 - (NSString *)TaskyIpaPath {
@@ -831,6 +894,11 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
 }
 
+- (NSString *)pathToLJSProvisioningProfile {
+    return [[self provisioningProfilesDirectory]
+            stringByAppendingPathComponent:@"LJS.mobileprovision"];
+}
+
 - (NSString *)provisioningProfilesDirectory {
     return [self.resourcesDirectory stringByAppendingPathComponent:@"profiles"];
 }
@@ -860,7 +928,7 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (CodesignIdentity *)KarlKrukowIdentity {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"316B74B2838787366D1E76D33F3E621E5C2FAFB8";
+    NSString *identityShasum = @"8742A8D1D6EB9AEB1955A1F759D244EB214A67AD";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
@@ -875,59 +943,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [[self simctl] simulators];
 }
 
-- (TestSimulator *)defaultSimulator {
-    if (_defaultSimulator) { return _defaultSimulator; }
-
-    NSArray *simulators = self.simulators;
-    TestSimulator *candidate = nil;
-    for (TestSimulator *simulator in simulators) {
-        if ([simulator isIPhone6] && [simulator isSModel]) {
-            if (candidate) {
-                NSString *simulatorOS = [simulator OS];
-                NSString *candidateOS = [candidate OS];
-                if (version_gte(simulatorOS, candidateOS)) {
-                    candidate = simulator;
-                }
-            } else {
-                candidate = simulator;
-            }
-        }
-    }
-
-    _defaultSimulator = candidate;
-    return _defaultSimulator;
-}
-
-- (NSString *)defaultSimulatorUDID {
-    if (_defaultSimulatorUDID) { return _defaultSimulatorUDID; }
-
-    _defaultSimulatorUDID = [self.defaultSimulator UDID];
-    return _defaultSimulatorUDID;
-}
-
 #pragma mark - Physical Device
 
 - (Instruments *)instruments {
     return [Instruments shared];
-}
-
-- (TestDevice *)defaultDevice {
-    if (_defaultDevice) { return _defaultDevice; }
-
-    if (![self isCompatibleDeviceConnected]) { return nil; }
-
-    _defaultDevice = [[self instruments] deviceForTesting];
-    return _defaultDevice;
-}
-
-- (NSString *)defaultDeviceUDID {
-    if (_defaultDeviceUDID) { return _defaultDeviceUDID; }
-
-    if (![self isCompatibleDeviceConnected]) { return nil; }
-
-    _defaultDeviceUDID = [[self defaultDevice] UDID];
-
-    return _defaultDeviceUDID;
 }
 
 - (BOOL)isCompatibleDeviceConnected {

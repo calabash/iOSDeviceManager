@@ -11,6 +11,14 @@
 
 #import <FBControlCore/FBControlCore.h>
 
+#import <FBSimulatorControl/FBSimulatorAgentCommands.h>
+#import <FBSimulatorControl/FBSimulatorBridgeCommands.h>
+#import <FBSimulatorControl/FBSimulatorKeychainCommands.h>
+#import <FBSimulatorControl/FBSimulatorApplicationCommands.h>
+#import <FBSimulatorControl/FBSimulatorSettingsCommands.h>
+#import <FBSimulatorControl/FBSimulatorXCTestCommands.h>
+#import <FBSimulatorControl/FBSimulatorLifecycleCommands.h>
+
 @protocol FBSimulatorEventSink;
 @protocol FBControlCoreLogger;
 @class FBControlCoreLogger;
@@ -28,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Defines the High-Level Properties and Methods that exist on any Simulator returned from `FBSimulatorPool`.
  */
-@interface FBSimulator : NSObject <FBiOSTarget>
+@interface FBSimulator : NSObject <FBiOSTarget, FBSimulatorAgentCommands, FBSimulatorApplicationCommands, FBSimulatorBridgeCommands, FBSimulatorKeychainCommands, FBSimulatorSettingsCommands, FBSimulatorXCTestCommands, FBSimulatorLifecycleCommands>
 
 /**
  The Underlying SimDevice.
@@ -93,11 +101,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSString *dataDirectory;
 
 /**
- The Directory that FBSimulatorControl uses to store auxillary files.
- */
-@property (nonatomic, copy, readonly, nullable) NSString *auxillaryDirectory;
-
-/**
  The FBSimulatorConfiguration representing this Simulator.
  */
 @property (nonatomic, copy, readonly, nullable) FBSimulatorConfiguration *configuration;
@@ -110,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The FBSimulatorDiagnostics instance for fetching diagnostics for the Simulator.
  */
-@property (nonatomic, strong, readonly, nonnull) FBSimulatorDiagnostics *diagnostics;
+@property (nonatomic, strong, readonly, nonnull) FBSimulatorDiagnostics *simulatorDiagnostics;
 
 @end
 

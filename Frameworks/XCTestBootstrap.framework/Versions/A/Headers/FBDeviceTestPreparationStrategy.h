@@ -23,7 +23,7 @@
 @property (nonatomic, strong) NSString *pathToXcodePlatformDir;
 
 /**
- Creates and returns a strategy with given parameters
+ Creates and returns a Strategy strategyWith given paramenters
 
  @param applicationPath path to test runner application
  @param applicationDataPath path to application data bundle (.xcappdata)
@@ -35,7 +35,7 @@
                     testLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration;
 
 /**
- Creates and returns a strategy with given parameters
+ Creates and returns a Strategy strategyWith given paramenters
 
  @param applicationPath path to test runner application
  @param applicationDataPath path to application data bundle (.xcappdata)

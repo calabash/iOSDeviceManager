@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export DEVELOPER_DIR=/Xcode/8.0/Xcode.app/Contents/Developer
+export DEVELOPER_DIR=/Xcode/8.2.1/Xcode.app/Contents/Developer
 
 set +e
 
@@ -34,7 +34,7 @@ else
     "${CODE_SIGN_DIR}"
 fi
 
-(cd "${CODE_SIGN_DIR}" && ios/create-keychain.sh)
+(cd "${CODE_SIGN_DIR}" && apple/create-keychain.sh)
 
 rm -rf DeviceAgent.iOS
 git clone git@github.com:calabash/DeviceAgent.iOS.git
@@ -47,10 +47,9 @@ pkill Simulator
 
 rm -rf reports/*.xml
 
+carthage bootstrap
 make test-unit
-
-# `start_test` fails on Jenkins
-#make tests
+make test-integration
 
 EXIT_STATUS=$?
 

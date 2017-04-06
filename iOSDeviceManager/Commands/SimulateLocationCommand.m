@@ -2,7 +2,6 @@
 #import "SimulateLocationCommand.h"
 #import "ConsoleWriter.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
 static NSString *const LOCATION_FLAG = @"-l";
 
 @implementation SimulateLocationCommand
@@ -17,9 +16,13 @@ static NSString *const LOCATION_FLAG = @"-l";
         ConsoleWriteErr(@"Expected lat,lng: Got %@", ll);
         return iOSReturnStatusCodeInvalidArguments;
     }
-    return [Device setLocation:args[DEVICE_ID_FLAG]
-                           lat:[latlng[0] doubleValue]
-                           lng:[latlng[1] doubleValue]];
+    
+    Device *device = [self deviceFromArgs:args];
+    if (!device) {
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
+    
+    return [device simulateLocationWithLat:[latlng[0] doubleValue] lng:[latlng[1] doubleValue]];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -31,7 +34,7 @@ static NSString *const LOCATION_FLAG = @"-l";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUIDs"
-                                               required:YES
+                                               required:NO
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:LOCATION_FLAG
                                                longFlag:@"--location"

@@ -22,27 +22,22 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The Name of the Syslog.
  */
-extern NSString *const FBSimulatorLogNameSyslog;
+extern FBDiagnosticName const FBDiagnosticNameSyslog;
 
 /**
  The Name of the Core Simulator Log.
  */
-extern NSString *const FBSimulatorLogNameCoreSimulator;
+extern FBDiagnosticName const FBDiagnosticNameCoreSimulator;
 
 /**
  The Name of the Simulator Bootstrap.
  */
-extern NSString *const FBSimulatorLogNameSimulatorBootstrap;
-
-/**
- The Name of the Video Log
- */
-extern NSString *const FBSimulatorLogNameVideo;
+extern FBDiagnosticName const FBDiagnosticNameSimulatorBootstrap;
 
 /**
  The Name of the Screenshot Log.
  */
-extern NSString *const FBSimulatorLogNameScreenshot;
+extern FBDiagnosticName const FBDiagnosticNameScreenshot;
 
 /**
  Exposes Simulator Logs & Diagnsotics as FBDiagnostic instances.
@@ -51,7 +46,7 @@ extern NSString *const FBSimulatorLogNameScreenshot;
  - This means that values do not have to be checked before storing in collections
  - Missing content can be inserted into the FBDiagnostic instances, whilst retaining the original metadata.
  */
-@interface FBSimulatorDiagnostics : NSObject <FBSimulatorEventSink>
+@interface FBSimulatorDiagnostics : FBiOSTargetDiagnostics <FBSimulatorEventSink>
 
 /**
  Creates and returns a `FBSimulatorDiagnostics` instance.
@@ -96,11 +91,6 @@ extern NSString *const FBSimulatorLogNameScreenshot;
 #pragma mark Standard Diagnostics
 
 /**
- The FBDiagnostic Instance from which all other logs are derived.
- */
-- (FBDiagnostic *)base;
-
-/**
  The syslog of the Simulator.
  */
 - (FBDiagnostic *)syslog;
@@ -114,11 +104,6 @@ extern NSString *const FBSimulatorLogNameScreenshot;
  The Bootstrap of the Simulator's launchd_sim.
  */
 - (FBDiagnostic *)simulatorBootstrap;
-
-/**
- A Video of the Simulator
- */
-- (FBDiagnostic *)video;
 
 /**
  A Screenshot of the Simulator.
@@ -157,22 +142,6 @@ extern NSString *const FBSimulatorLogNameScreenshot;
  @return an Dictionary of all the successfully found diagnostics.
  */
 - (NSArray<FBDiagnostic *> *)diagnosticsForApplicationWithBundleID:(nullable NSString *)bundleID withFilenames:(NSArray<NSString *> *)filenames fallbackToGlobalSearch:(BOOL)globalFallback;
-
-/**
- All of the FBDiagnostic instances for the Simulator.
- Prunes empty logs.
-
- @return an NSArray<FBDiagnostic> of all the Diagnostics associated with the Simulator.
- */
-- (NSArray<FBDiagnostic *> *)allDiagnostics;
-
-/**
- All of the FBDiagnostic instances for the Simulator, bucketed by diagnostic name.
- Prunes empty and unnamed logs
-
- @return a dictionary mapping diagnostic names to diagnostics.
- */
-- (NSDictionary<NSString *, FBDiagnostic *> *)namedDiagnostics;
 
 @end
 

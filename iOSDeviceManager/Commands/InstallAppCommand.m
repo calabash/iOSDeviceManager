@@ -1,10 +1,13 @@
-
 #import "InstallAppCommand.h"
+#import <FBControlCore/FBControlCore.h>
+#import "ConsoleWriter.h"
+#import "AppUtils.h"
+#import "MobileProfile.h"
 
-static NSString *const DEVICE_ID_FLAG = @"-d";
-static NSString *const APP_BUNDLE_PATH_FLAG = @"-a";
+static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
 static NSString *const UPDATE_APP_FLAG = @"-u";
+static NSString *const PROFILE_PATH_FLAG = @"-p";
 
 @implementation InstallAppCommand
 + (NSString *)name {
@@ -16,10 +19,41 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
     if ([[args allKeys] containsObject:UPDATE_APP_FLAG]) {
         update = [args[UPDATE_APP_FLAG] boolValue];
     }
-    return [Device installApp:args[APP_BUNDLE_PATH_FLAG]
-                     deviceID:args[DEVICE_ID_FLAG]
-                    updateApp:update
-                   codesignID:args[CODESIGN_IDENTITY_FLAG]];
+    
+    Device *device = [self deviceFromArgs:args];
+    if (!device) {
+        return iOSReturnStatusCodeDeviceNotFound;
+    }
+    
+    Application *app = [Application withBundlePath:args[APP_PATH_FLAG]];
+    if (!app) {
+        ConsoleWriteErr(@"Error creating application object for path: %@", args[APP_PATH_FLAG]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    CodesignIdentity *codesignIdentity = [self codesignIDFromArgs:args];
+    
+    NSString *profilePath = args[PROFILE_PATH_FLAG];
+    MobileProfile *profile;
+
+    if (profilePath) {
+        profile = [MobileProfile withPath:profilePath];
+    }
+    
+    if (profile && codesignIdentity) {
+        ConsoleWriteErr(@"Mobile profile and codesign identity both specified - at most one needed");
+        return iOSReturnStatusCodeInvalidArguments;
+    }
+    
+    if (profile) {
+        return [device installApp:app mobileProfile:profile shouldUpdate:update];
+    }
+    
+    if (codesignIdentity) {
+        return [device installApp:app codesignIdentity:codesignIdentity shouldUpdate:update];
+    }
+    
+    return [device installApp:app shouldUpdate:update];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -31,26 +65,32 @@ static NSString *const UPDATE_APP_FLAG = @"-u";
                                                longFlag:@"--device-id"
                                              optionName:@"device-identifier"
                                                    info:@"iOS Simulator GUIDs"
-                                               required:YES
-                                             defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:APP_BUNDLE_PATH_FLAG
-                                               longFlag:@"--app-bundle"
-                                             optionName:@"path/to/app-bundle.app"
-                                                   info:@"Path .app bundle (for .ipas, unzip and look inside of 'Payload')"
-                                               required:YES
-                                             defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
-                                               longFlag:@"--codesign-identity"
-                                             optionName:@"codesign-identity"
-                                                   info:@"Identity used to codesign app bundle [device only]"
                                                required:NO
-                                             defaultVal:@""]];
+                                             defaultVal:nil]];
+        [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
+                                               longFlag:@"--app-path"
+                                             optionName:@"path/to/app-bundle.app or path/to/app.ipa"
+                                                   info:@"Path .app bundle or .ipa"
+                                               required:YES
+                                             defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:UPDATE_APP_FLAG
                                                longFlag:@"--update-app"
                                              optionName:@"true-or-false"
                                                    info:@"When true, will reinstall the app if the device contains an older version than the bundle specified"
                                                required:NO
                                              defaultVal:@(YES)]];
+        [options addObject:[CommandOption withShortFlag:PROFILE_PATH_FLAG
+                                               longFlag:@"--profile-path"
+                                             optionName:@"path/to/profile.mobileprovision"
+                                                   info:@"Path to provisioning profile"
+                                               required:NO
+                                             defaultVal:nil]];
+        [options addObject:[CommandOption withShortFlag:CODESIGN_IDENTITY_FLAG
+                                               longFlag:@"--codesign-identity"
+                                             optionName:@"codesign-identity"
+                                                   info:@"Identity used to codesign app bundle [device only]. Deprecated - should use profile path."
+                                               required:NO
+                                             defaultVal:@""]];
     });
     return options;
 }
