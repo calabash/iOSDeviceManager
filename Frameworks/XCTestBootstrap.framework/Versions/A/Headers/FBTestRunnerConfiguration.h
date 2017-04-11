@@ -106,6 +106,7 @@
  @return Default arguments
  */
 + (NSArray *)defaultBuildAttributes;
+
 /**
  @return Default environment for a test
  */

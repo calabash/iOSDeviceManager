@@ -8,15 +8,11 @@
 #import "iOSReturnStatusCode.h"
 #import "CodesignIdentity.h"
 
+@protocol DVTApplication;
 
 @interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 
 - (id<DVTApplication>)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
-- (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
-- (BOOL)installApplicationWithPath:(NSString *)path error:(NSError **)error;
-- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration error:(NSError **)error;
-- (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
-- (NSString *)containerPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
 @end
 
@@ -62,6 +58,8 @@
 @property BOOL testingComplete;
 
 + (instancetype)withID:(NSString *)uuid;
+
+- (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 

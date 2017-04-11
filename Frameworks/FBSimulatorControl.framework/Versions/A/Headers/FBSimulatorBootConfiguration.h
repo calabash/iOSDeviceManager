@@ -10,9 +10,9 @@
 #import <Foundation/Foundation.h>
 
 #import <FBControlCore/FBControlCore.h>
+#import <FBSimulatorControl/FBSimulatorScale.h>
 
 @class FBFramebufferConfiguration;
-@protocol FBSimulatorScale;
 
 /**
  An Option Set for Direct Launching.
@@ -27,9 +27,14 @@ typedef NS_OPTIONS(NSUInteger, FBSimulatorBootOptions) {
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ The Action Type for a Boot.
+ */
+extern FBiOSTargetActionType const FBiOSTargetActionTypeBoot;
+
+/**
  A Value Object for defining how to launch a Simulator.
  */
-@interface FBSimulatorBootConfiguration : NSObject <NSCoding, NSCopying, FBJSONSerializable, FBDebugDescribeable>
+@interface FBSimulatorBootConfiguration : NSObject <NSCoding, NSCopying, FBiOSTargetAction, FBDebugDescribeable>
 
 /**
  Options for how the Simulator should be launched.
@@ -44,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The Scale of the Framebuffer.
  */
-@property (nonatomic, nullable, copy, readonly) id<FBSimulatorScale> scale;
+@property (nonatomic, nullable, copy, readonly) FBSimulatorScale scale;
 
 /**
  Configuration for the Framebuffer.
@@ -96,8 +101,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Returns a new Configuration with the Scale Applied.
  */
-+ (instancetype)withScale:(nullable id<FBSimulatorScale>)scale;
-- (instancetype)withScale:(nullable id<FBSimulatorScale>)scale;
++ (instancetype)withScale:(nullable FBSimulatorScale)scale;
+- (instancetype)withScale:(nullable FBSimulatorScale)scale;
 
 #pragma mark Locale
 

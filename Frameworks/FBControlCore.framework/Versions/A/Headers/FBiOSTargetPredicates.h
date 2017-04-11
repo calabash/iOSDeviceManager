@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBControlCoreConfigurationVariants.h>
 #import <FBControlCore/FBiOSTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -61,6 +62,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSPredicate *)architectures:(NSArray<NSString *> *)architectures;
 
 /**
+ Predicate for matching against one of multiple Names.
+
+ @param names the Names to match against. Must not be nil.
+ @return an NSPredicate.
+ */
++ (NSPredicate *)names:(NSArray<NSString *> *)names;
+
+/**
  Predicate for matching against a single Simulator UDID.
 
  @param udid the UDID to match against. Must not be nil.
@@ -82,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param deviceConfigurations the Device Configurations to match against.
  @return an NSPredicate.
  */
-+ (NSPredicate *)devices:(NSArray<id<FBControlCoreConfiguration_Device>> *)deviceConfigurations;
++ (NSPredicate *)devices:(NSArray<FBDeviceModel> *)deviceConfigurations;
 
 /**
  Predicate for matching against many OS Versions.
@@ -90,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param osVersions the OS Versions to match against.
  @return an NSPredicate.
  */
-+ (NSPredicate *)osVersions:(NSArray<id<FBControlCoreConfiguration_OS>> *)osVersions;
++ (NSPredicate *)osVersions:(NSArray<FBOSVersionName> *)osVersions;
 
 @end
 

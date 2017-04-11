@@ -9,17 +9,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBControlCore.h>
+
 #import <XCTestBootstrap/FBDeviceOperator.h>
 
 @class FBDevice;
-
-@protocol DVTApplication;
 
 /**
  A 'Device Operator' Implementation for providing the necessary functionality to XCTestBoostrap for Physical Devices.
  Uses the Xcode Frameworks DVTFoundation and IDEiOSSupportCore.ideplugin to control a DVTiOSDevice instance directly.
  */
-@interface FBiOSDeviceOperator : NSObject <FBDeviceOperator>
+@interface FBiOSDeviceOperator : NSObject <FBDeviceOperator, FBApplicationCommands>
 
 /**
  Creates a new Device Operator for the provided Device.
