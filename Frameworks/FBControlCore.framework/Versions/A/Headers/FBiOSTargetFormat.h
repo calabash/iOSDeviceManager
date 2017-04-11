@@ -28,7 +28,7 @@ extern FBiOSTargetFormatKey const FBiOSTargetFormatName;
 /**
  The Apple Device Name.
  */
-extern FBiOSTargetFormatKey const FBiOSTargetFormatDeviceName;
+extern FBiOSTargetFormatKey const FBiOSTargetFormatModel;
 
 /**
  The OS Version of the Target.
@@ -69,6 +69,14 @@ extern FBiOSTargetFormatKey const FBiOSTargetFormatContainerApplicationProcessId
  @return a new Target Format.
  */
 + (instancetype)formatWithFields:(NSArray<FBiOSTargetFormatKey> *)fields;
+
+/**
+ Creates and returns a new Target Format, using a 'Format String' to represent the components.
+
+ @param string the format string to create the format from.
+ @return error an error out for any error that occurs.
+ */
++ (nullable instancetype)formatWithString:(NSString *)string error:(NSError **)error;
 
 /**
  Creates and returns the Default Target Format.

@@ -13,21 +13,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBSimulator;
-@class FBSimulatorBitmapStream;
+/**
+ The Action Type for an Agent Launch.
+ */
+extern FBiOSTargetActionType const FBiOSTargetActionTypeAgentLaunch;
 
 /**
- An implementation of Video Recording Commands for Simulators.
+ FBSimulatorControl extensions to FBAgentLaunchConfiguration.
  */
-@interface FBSimulatorVideoRecordingCommands : NSObject <FBVideoRecordingCommands, FBBitmapStreamingCommands>
-
-/**
- Creates a FBSimulatorApplicationCommands instance.
-
- @param simulator the Simulator to perform actions on.
- @return a new FBSimulatorApplicationCommands instance.
- */
-+ (instancetype)commandsWithSimulator:(FBSimulator *)simulator;
+@interface FBAgentLaunchConfiguration (Simulator) <FBiOSTargetAction>
 
 @end
 

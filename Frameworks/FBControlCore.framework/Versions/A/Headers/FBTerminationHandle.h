@@ -27,6 +27,18 @@ typedef NSString *FBTerminationHandleType NS_EXTENSIBLE_STRING_ENUM;
 /**
  The Type of Termination Handle.
  */
-- (FBTerminationHandleType)type;
+@property (nonatomic, copy, readonly) FBTerminationHandleType type;
+
+@end
+
+/**
+ A Termination Handle that can additionally expose whether it has been terminated or not.
+ */
+@protocol FBTerminationAwaitable <FBTerminationHandle>
+
+/**
+ YES if reciever has terminated, NO otherwise.
+ */
+@property (nonatomic, assign, readonly) BOOL hasTerminated;
 
 @end

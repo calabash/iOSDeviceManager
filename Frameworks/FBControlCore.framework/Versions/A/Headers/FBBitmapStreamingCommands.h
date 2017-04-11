@@ -9,15 +9,23 @@
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBControlCore.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *FBSimulatorScale NS_STRING_ENUM;
+@protocol FBBitmapStream;
 
-extern FBSimulatorScale const FBSimulatorScale25;
-extern FBSimulatorScale const FBSimulatorScale50;
-extern FBSimulatorScale const FBSimulatorScale75;
-extern FBSimulatorScale const FBSimulatorScale100;
+/**
+ Bitmap Streaming Commands.
+ */
+@protocol FBBitmapStreamingCommands
+
+/**
+ Creates a Bitmap Stream for a Simulator.
+
+ @param error an error out for any error that occurs.
+ @return the Video Recording session on success, nil otherwise.
+ */
+- (nullable id<FBBitmapStream>)createStreamWithError:(NSError **)error;
+
+@end
 
 NS_ASSUME_NONNULL_END
