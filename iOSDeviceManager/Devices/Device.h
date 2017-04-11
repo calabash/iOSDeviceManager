@@ -8,6 +8,7 @@
 #import "iOSReturnStatusCode.h"
 #import "CodesignIdentity.h"
 
+@protocol DVTApplication;
 
 @interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 
