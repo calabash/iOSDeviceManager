@@ -192,7 +192,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                 baseDir:(NSString *)baseDir {
     NSFileManager *mgr = [NSFileManager defaultManager];
     NSError *e = nil;
-    
+
     for (NSString *resourcePath in resourcePaths) {
         CBXThrowExceptionIf([mgr fileExistsAtPath:resourcePath],
                  @"Failed to inject resources: file '%@' does not exist!",

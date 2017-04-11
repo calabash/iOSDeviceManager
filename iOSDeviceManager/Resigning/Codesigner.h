@@ -38,6 +38,24 @@ typedef void(^appResigningCompleteBlock)(Application *app);
 
 /**
  "resign"
+
+ Resigns a the contents of an Application app dir.
+
+ @param app Application to resign
+ @param profile Profile to use to resign
+ @param codesignIdentity CodesignIdentity to use to resign
+ @param resourcePaths Paths to objects to inject. Intended use case is .dylibs
+ @return YES if successful, NO otherwise.
+ @warn Resigns in-place (i.e. destructively)
+
+ */
++ (void)resignApplication:(Application *)app
+  withProvisioningProfile:(MobileProfile *)profile
+     withCodesignIdentity:(CodesignIdentity *)codesignIdentity
+        resourcesToInject:(NSArray<NSString *> *)resourcePaths;
+
+/**
+ "resign"
  
  Resigns a the contents of an Application app dir.
  

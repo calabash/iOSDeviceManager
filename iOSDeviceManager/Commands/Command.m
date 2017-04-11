@@ -61,7 +61,7 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 + (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args {
     NSString *resourcesPath = args[RESOURCES_PATH_FLAG];
     if (resourcesPath.length) {
-        NSArray<NSString *> *resources;
+        resourcesPath = [FileUtils expandPath:resourcesPath];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         
         BOOL isDirectory = NO;
@@ -70,17 +70,12 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
             return @[];
         }
         if (isDirectory) {
-            NSMutableArray<NSString *> *mutableResources;
-            [FileUtils fileSeq:resourcesPath handler:^(NSString *filepath) {
-                BOOL isInnerDirectory = NO;
-                if ([fileManager fileExistsAtPath:filepath isDirectory:&isInnerDirectory] && !isInnerDirectory) {
-                    [mutableResources addObject:filepath];
-                }
-            }];
-            
-            resources = [mutableResources copy];
+            NSMutableArray<NSString *> *resources = [[FileUtils depthFirstPathsStartingAtDirectory:resourcesPath error:nil] mutableCopy];
+            // Remove the containing directory from being injected later.
+            [resources removeObjectAtIndex:0];
+            return [NSArray arrayWithArray:resources];
         } else {
-            resources = @[resourcesPath];
+            return @[resourcesPath];
         }
     }
     

@@ -8,6 +8,7 @@ static NSString *const APP_PATH_FLAG = @"-a";
 static NSString *const CODESIGN_IDENTITY_FLAG = @"-c";
 static NSString *const UPDATE_APP_FLAG = @"-u";
 static NSString *const PROFILE_PATH_FLAG = @"-p";
+static NSString *const RESOURCES_PATH_FLAG = @"-i";
 
 @implementation InstallAppCommand
 + (NSString *)name {
@@ -44,16 +45,25 @@ static NSString *const PROFILE_PATH_FLAG = @"-p";
         ConsoleWriteErr(@"Mobile profile and codesign identity both specified - at most one needed");
         return iOSReturnStatusCodeInvalidArguments;
     }
-    
+
+    NSArray<NSString *> *resources = [self resourcesFromArgs:args];
     if (profile) {
-        return [device installApp:app mobileProfile:profile shouldUpdate:update];
+        return [device installApp:app
+                    mobileProfile:profile
+                resourcesToInject:resources
+                     shouldUpdate:update];
     }
     
     if (codesignIdentity) {
-        return [device installApp:app codesignIdentity:codesignIdentity shouldUpdate:update];
+        return [device installApp:app
+                 codesignIdentity:codesignIdentity
+                resourcesToInject:resources
+                     shouldUpdate:update];
     }
     
-    return [device installApp:app shouldUpdate:update];
+    return [device installApp:app
+            resourcesToInject:resources
+                 shouldUpdate:update];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -91,6 +101,12 @@ static NSString *const PROFILE_PATH_FLAG = @"-p";
                                                    info:@"Identity used to codesign app bundle [device only]. Deprecated - should use profile path."
                                                required:NO
                                              defaultVal:@""]];
+        [options addObject:[CommandOption withShortFlag:RESOURCES_PATH_FLAG
+                                               longFlag:@"--resources-path"
+                                             optionName:@"path/to/resources"
+                                                   info:@"Path to resources to inject"
+                                               required:NO
+                                             defaultVal:nil]];
     });
     return options;
 }

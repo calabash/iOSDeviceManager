@@ -131,6 +131,7 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
     // Should mobile profile or codesign identity be used on simulator?
     //Ensure device exists
@@ -173,7 +174,10 @@ static const FBSimulatorControl *_control;
     }
 
     if (needsToInstall) {
-        [Codesigner resignApplication:app withProvisioningProfile:nil];
+        [Codesigner resignApplication:app
+              withProvisioningProfile:nil
+                 withCodesignIdentity:nil
+                    resourcesToInject:resourcePaths];
 
         FBSimulatorApplicationCommands *applicationCommands;
         applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
@@ -196,6 +200,7 @@ static const FBSimulatorControl *_control;
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
+          resourcesToInject:nil
                shouldUpdate:shouldUpdate];
 }
 
@@ -205,6 +210,7 @@ static const FBSimulatorControl *_control;
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
+          resourcesToInject:nil
                shouldUpdate:shouldUpdate];
 }
 
@@ -212,6 +218,39 @@ static const FBSimulatorControl *_control;
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
+          resourcesToInject:nil
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:nil
+          resourcesToInject:resourcePaths
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:profile
+           codesignIdentity:nil
+          resourcesToInject:resourcePaths
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:codesignID
+          resourcesToInject:resourcePaths
                shouldUpdate:shouldUpdate];
 }
 

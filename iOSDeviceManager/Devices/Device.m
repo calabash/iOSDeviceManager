@@ -168,7 +168,20 @@
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
+                    resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
+                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                    resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
@@ -176,6 +189,13 @@
 - (iOSReturnStatusCode)installApp:(Application *)app
                 codesignIdentity:(CodesignIdentity *)codesignID
                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
 
