@@ -104,7 +104,7 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
         [options addObject:[CommandOption withShortFlag:RESOURCES_PATH_FLAG
                                                longFlag:@"--resources-path"
                                              optionName:@"path/to/resources"
-                                                   info:@"Path to resources to inject"
+                                                   info:@"Path to resources (executables) to inject into app directory. A list of colon separated files may be specified."
                                                required:NO
                                              defaultVal:nil]];
     });

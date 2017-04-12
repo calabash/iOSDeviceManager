@@ -59,24 +59,23 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args {
-    NSString *resourcesPath = args[RESOURCES_PATH_FLAG];
-    if (resourcesPath.length) {
-        resourcesPath = [FileUtils expandPath:resourcesPath];
+    NSString *resourcePaths = args[RESOURCES_PATH_FLAG];
+    if (resourcePaths.length) {
+        // Separate list of paths by colon
+        NSArray<NSString *> *resources = [resourcePaths componentsSeparatedByString:@":"];
+        NSMutableArray<NSString *> *mutableResourcePaths = [NSMutableArray array];
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        
-        BOOL isDirectory = NO;
-        if (![fileManager fileExistsAtPath:resourcesPath isDirectory:&isDirectory]) {
-            ConsoleWriteErr(@"No directory or file at: %@", resourcesPath);
-            return @[];
+        for (NSString *resource in resources) {
+            NSString *resourcePath = [FileUtils expandPath:resource];
+            if (![fileManager fileExistsAtPath:resourcePath]) {
+                @throw [NSException exceptionWithName:@"InvalidArgumentException"
+                                               reason:@"The specified resource for injection does not exist"
+                                             userInfo:nil];
+            }
+            [mutableResourcePaths addObject:resourcePath];
         }
-        if (isDirectory) {
-            NSMutableArray<NSString *> *resources = [[FileUtils depthFirstPathsStartingAtDirectory:resourcesPath error:nil] mutableCopy];
-            // Remove the containing directory from being injected later.
-            [resources removeObjectAtIndex:0];
-            return [NSArray arrayWithArray:resources];
-        } else {
-            return @[resourcesPath];
-        }
+
+        return [NSArray arrayWithArray:mutableResourcePaths];
     }
     
     return @[];

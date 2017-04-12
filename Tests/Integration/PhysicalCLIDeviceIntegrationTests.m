@@ -2,6 +2,7 @@
 #import "TestCase.h"
 #import "CLI.h"
 #import "DeviceUtils.h"
+#import "CodesignResources.h"
 
 @interface PhysicalDeviceCLIIntegrationTests : TestCase
 
@@ -105,6 +106,38 @@
                      @"-c", kCodeSignIdentityKARL
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+        // Test installing with injecting resource
+        args = @[
+                  kProgramName, @"is_installed",
+                  @"-b", testAppID,
+                  @"-d", defaultDeviceUDID
+                ];
+
+        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
+            args = @[
+                     kProgramName, @"uninstall",
+                     @"-d", defaultDeviceUDID,
+                     @"-b", testAppID
+                     ];
+            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+        }
+
+        args = @[
+                 kProgramName, @"install",
+                 @"-d", defaultDeviceUDID,
+                 @"-a", testApp(ARM),
+                 @"-c", kCodeSignIdentityKARL,
+                 @"-i", [CodesignResources CalabashDylibPath]
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+        args = @[
+                 kProgramName, @"launch_app",
+                 @"-d", defaultDeviceUDID,
+                 @"-b", testAppID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
 }
 
