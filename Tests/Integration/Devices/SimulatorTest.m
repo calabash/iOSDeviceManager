@@ -49,26 +49,28 @@
     }];
 }
 
-- (void)testBootSimulatorIfNecessarySuccess {
-
-    [self quitSimulators];
-
-    NSError *error = nil;
-
-    Simulator *simulator = [Simulator withID:defaultSimUDID];
-
-    // Boot required
-    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
-    expect(error).to.beNil;
-
-    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
-      return simulator.fbSimulator.state == FBSimulatorStateBooted;
-    }];
-
-    // Boot not required
-    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
-    expect(error).to.beNil;
-}
+// Disabling
+// https://msmobilecenter.visualstudio.com/Test/_workitems/edit/3400
+//- (void)testBootSimulatorIfNecessarySuccess {
+//
+//    [self quitSimulators];
+//
+//    NSError *error = nil;
+//
+//    Simulator *simulator = [Simulator withID:defaultSimUDID];
+//
+//    // Boot required
+//    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
+//    expect(error).to.beNil;
+//
+//    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+//      return simulator.fbSimulator.state == FBSimulatorStateBooted;
+//    }];
+//
+//    // Boot not required
+//    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
+//    expect(error).to.beNil;
+//}
 
 - (void)testBootSimulatorIfNecessaryFailure {
     [self quitSimulators];
