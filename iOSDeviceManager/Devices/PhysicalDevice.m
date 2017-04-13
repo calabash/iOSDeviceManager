@@ -109,6 +109,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         if (ret != iOSReturnStatusCodeEverythingOkay) {
             return ret;
         }
+        if (needsToInstall) {
+            // Uninstall app to avoid application-identifier entitlement mismatch
+            // during installation update
+            [self uninstallApp:app.bundleID];
+        }
     }
 
     //Only codesign/install if we actually need to.
