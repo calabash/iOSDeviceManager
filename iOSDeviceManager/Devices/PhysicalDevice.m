@@ -83,6 +83,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
     if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
 
@@ -127,7 +128,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             }
             [Codesigner resignApplication:app
                   withProvisioningProfile:profile
-                     withCodesignIdentity:codesignID];
+                     withCodesignIdentity:codesignID
+                        resourcesToInject:resourcePaths];
         } else {
             if (!profile) {
                 profile = [MobileProfile bestMatchProfileForApplication:app device:self];
@@ -136,7 +138,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                          app.path,
                          self.uuid);
             }
-            [Codesigner resignApplication:app withProvisioningProfile:profile];
+            [Codesigner resignApplication:app
+                  withProvisioningProfile:profile
+                     withCodesignIdentity:nil
+                        resourcesToInject:resourcePaths];
         }
         // Log entitlement comparisons
         [Entitlements compareEntitlementsWithProfile:profile app:app];
@@ -168,6 +173,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
+          resourcesToInject:nil
                shouldUpdate:shouldUpdate];
 }
 
@@ -177,6 +183,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
+          resourcesToInject:nil
                shouldUpdate:shouldUpdate];
 }
 
@@ -184,6 +191,39 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
+          resourcesToInject:nil
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:nil
+          resourcesToInject:resourcePaths
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:profile
+           codesignIdentity:nil
+          resourcesToInject:resourcePaths
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:codesignID
+          resourcesToInject:resourcePaths
                shouldUpdate:shouldUpdate];
 }
 

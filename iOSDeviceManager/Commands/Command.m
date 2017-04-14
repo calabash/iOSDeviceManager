@@ -59,29 +59,23 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 }
 
 + (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args {
-    NSString *resourcesPath = args[RESOURCES_PATH_FLAG];
-    if (resourcesPath.length) {
-        NSArray<NSString *> *resources;
+    NSString *resourcePaths = args[RESOURCES_PATH_FLAG];
+    if (resourcePaths.length) {
+        // Separate list of paths by colon
+        NSArray<NSString *> *resources = [resourcePaths componentsSeparatedByString:@":"];
+        NSMutableArray<NSString *> *mutableResourcePaths = [NSMutableArray array];
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        
-        BOOL isDirectory = NO;
-        if (![fileManager fileExistsAtPath:resourcesPath isDirectory:&isDirectory]) {
-            ConsoleWriteErr(@"No directory or file at: %@", resourcesPath);
-            return @[];
+        for (NSString *resource in resources) {
+            NSString *resourcePath = [FileUtils expandPath:resource];
+            if (![fileManager fileExistsAtPath:resourcePath]) {
+                @throw [NSException exceptionWithName:@"InvalidArgumentException"
+                                               reason:@"The specified resource for injection does not exist"
+                                             userInfo:nil];
+            }
+            [mutableResourcePaths addObject:resourcePath];
         }
-        if (isDirectory) {
-            NSMutableArray<NSString *> *mutableResources;
-            [FileUtils fileSeq:resourcesPath handler:^(NSString *filepath) {
-                BOOL isInnerDirectory = NO;
-                if ([fileManager fileExistsAtPath:filepath isDirectory:&isInnerDirectory] && !isInnerDirectory) {
-                    [mutableResources addObject:filepath];
-                }
-            }];
-            
-            resources = [mutableResources copy];
-        } else {
-            resources = @[resourcesPath];
-        }
+
+        return [NSArray arrayWithArray:mutableResourcePaths];
     }
     
     return @[];
