@@ -139,10 +139,10 @@
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-        [NSThread sleepForTimeInterval:0.5];
+        [NSThread sleepForTimeInterval:5];
 
         NSError *error;
-        int pid = (int)[[[Device withID:defaultDeviceUDID] fbDeviceOperator] processIDWithBundleID:testAppID error:&error];
+        pid_t pid = [[[Device withID:defaultDeviceUDID] fbDeviceOperator] processIDWithBundleID:testAppID error:&error];
         XCTAssertTrue(pid > 0);
     }
 }
