@@ -3,6 +3,7 @@
 #import "Device.h"
 #import "Simulator.h"
 #import "ShellRunner.h"
+#import "ShellResult.h"
 #import "MachClock.h"
 #import <FBControlCore/FBControlCore.h>
 #import "Application.h"
@@ -23,6 +24,7 @@
 
 - (void)setUp {
     [super setUp];
+    [self quitSimulators];
 }
 
 - (void)tearDown {
@@ -39,42 +41,34 @@
         NSMutableArray *mutable = [NSMutableArray arrayWithCapacity:100];
         for (TestSimulator *simulator in simulators) {
             if (![[simulator stateString] isEqualToString:@"Shutdown"]) {
+                [ShellRunner xcrun:@[@"simctl", @"shutdown", simulator.UDID]
+                           timeout:10];
                 [mutable addObject:simulator];
             }
         }
-
         simulators = [NSArray arrayWithArray:mutable];
-
         return [simulators count] == 0;
     }];
 }
 
-// Disabling
-// https://msmobilecenter.visualstudio.com/Test/_workitems/edit/3400
-//- (void)testBootSimulatorIfNecessarySuccess {
-//
-//    [self quitSimulators];
-//
-//    NSError *error = nil;
-//
-//    Simulator *simulator = [Simulator withID:defaultSimUDID];
-//
-//    // Boot required
-//    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
-//    expect(error).to.beNil;
-//
-//    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
-//      return simulator.fbSimulator.state == FBSimulatorStateBooted;
-//    }];
-//
-//    // Boot not required
-//    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
-//    expect(error).to.beNil;
-//}
+- (void)testBootSimulatorIfNecessarySuccess {
+    NSError *error = nil;
+    Simulator *simulator = [Simulator withID:defaultSimUDID];
+
+    // Boot required
+    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
+    expect(error).to.beNil;
+
+    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+      return simulator.fbSimulator.state == FBSimulatorStateBooted;
+    }];
+
+    // Boot not required
+    XCTAssertTrue([simulator bootSimulatorIfNecessary:&error]);
+    expect(error).to.beNil;
+}
 
 - (void)testBootSimulatorIfNecessaryFailure {
-    [self quitSimulators];
-
     Simulator *simulator = [Simulator withID:defaultSimUDID];
     FBSimulatorLifecycleCommands *commands;
     commands = [FBSimulatorLifecycleCommands commandsWithSimulator:simulator.fbSimulator];
