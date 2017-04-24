@@ -51,8 +51,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     NSError *err;
     FBDevice *fbDevice = [[FBDeviceSet defaultSetWithLogger:nil
-                                                    error:&err]
-                                            deviceWithUDID:uuid];
+                                                      error:&err]
+                          deviceWithUDID:uuid];
     if (!fbDevice) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
@@ -263,8 +263,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     NSError *e;
     [[self.fbDevice.dvtDevice token] simulateLatitude:@(lat)
-                                  andLongitude:@(lng)
-                                     withError:&e];
+                                         andLongitude:@(lng)
+                                            withError:&e];
     if (e) {
         ConsoleWriteErr(@"Unable to set device location: %@", e);
         return iOSReturnStatusCodeInternalError;
@@ -417,31 +417,31 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     ConsoleWrite(@"%@", xctestConfigPath);
 
     FBTestManager *testManager =
-        [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
-                                           runnerBundleID:runnerID
-                                                sessionID:sessionID
-                                           withAttributes:attributes
-                                              environment:environment
-                                                 reporter:self
-                                                   logger:self
-                                                    error:&error];
+    [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
+                                       runnerBundleID:runnerID
+                                            sessionID:sessionID
+                                       withAttributes:attributes
+                                          environment:environment
+                                             reporter:self
+                                               logger:self
+                                                error:&error];
 
     if (!testManager) {
         ConsoleWriteErr(@"Could not start test: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else
 
-    if (keepAlive) {
-        /*
-         `testingComplete` will be YES when testmanagerd calls
-         `testManagerMediatorDidFinishExecutingTestPlan:`
-         */
+        if (keepAlive) {
+            /*
+             `testingComplete` will be YES when testmanagerd calls
+             `testManagerMediatorDidFinishExecutingTestPlan:`
+             */
 
-        FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
-        [spinner spinUntilTrue:^BOOL () {
-            return ([testManager testingHasFinished] && self.testingComplete);
-        }];
-    }
+            FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
+            [spinner spinUntilTrue:^BOOL () {
+                return ([testManager testingHasFinished] && self.testingComplete);
+            }];
+        }
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -485,8 +485,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 
     if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
-             forInstalledApplicationWithBundleIdentifier:bundleID
-                                                   error:&e]) {
+                    forInstalledApplicationWithBundleIdentifier:bundleID
+                                                          error:&e]) {
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
                         bundleID,
                         xcappdataPath,
@@ -523,7 +523,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     // Remove the temporary data bundle
     if (![fm removeItemAtPath:dataBundle error:&e]) {
         ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
-              dataBundle, e);
+                        dataBundle, e);
     }
 
     return iOSReturnStatusCodeEverythingOkay;
@@ -625,19 +625,19 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
     NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
     NSString *xcappdataPath = [[NSTemporaryDirectory()
-        stringByAppendingPathComponent:guid]
-        stringByAppendingPathComponent:xcappdataName];
+                                stringByAppendingPathComponent:guid]
+                               stringByAppendingPathComponent:xcappdataName];
     NSString *documents = [[xcappdataPath
-        stringByAppendingPathComponent:@"AppData"]
-        stringByAppendingPathComponent:@"Documents"];
+                            stringByAppendingPathComponent:@"AppData"]
+                           stringByAppendingPathComponent:@"Documents"];
 
     NSString *library = [[xcappdataPath
-        stringByAppendingPathComponent:@"AppData"]
-        stringByAppendingPathComponent:@"Library"];
+                          stringByAppendingPathComponent:@"AppData"]
+                         stringByAppendingPathComponent:@"Library"];
 
     NSString *tmp = [[xcappdataPath
-        stringByAppendingPathComponent:@"AppData"]
-        stringByAppendingPathComponent:@"tmp"];
+                      stringByAppendingPathComponent:@"AppData"]
+                     stringByAppendingPathComponent:@"tmp"];
     for (NSString *path in @[documents, library, tmp]) {
         if (![[NSFileManager defaultManager] createDirectoryAtPath:path
                                        withIntermediateDirectories:YES
@@ -667,7 +667,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 
     NSString *tmpDirectory = [[xcAppDataPath stringByAppendingPathComponent:@"AppData"]
-                                             stringByAppendingPathComponent:@"tmp"];
+                              stringByAppendingPathComponent:@"tmp"];
 
     NSString *filename = @"DeviceAgent.xctestconfiguration";
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
