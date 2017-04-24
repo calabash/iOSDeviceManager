@@ -56,7 +56,7 @@
     if (testRunnerProcessID < 1) {
         if (error) {
             *error = [[[XCTestBootstrapError
-                       describe:@"Failed to determine test runner process PID"]
+                        describe:@"Failed to determine test runner process PID"]
                        causedBy:innerError]
                       fail:error];
         }
@@ -168,7 +168,7 @@
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
-                    resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
@@ -181,14 +181,14 @@
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                    resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
-                codesignIdentity:(CodesignIdentity *)codesignID
-                    shouldUpdate:(BOOL)shouldUpdate {
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
 
@@ -253,7 +253,7 @@
     }
 
     NSArray *tokens = [[testRunnerPath lastPathComponent]
-                                       componentsSeparatedByString:@"-Runner.app"];
+                       componentsSeparatedByString:@"-Runner.app"];
     if ([tokens count] != 2) {
         NSString *name = [testRunnerPath lastPathComponent];
         ConsoleWriteErr(@"Expected test runner '%@' to end with -Runner.app", name);
