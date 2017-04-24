@@ -385,8 +385,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             sessionID, [self uuid], runnerID);
     NSError *error = nil;
 
-    NSArray *attributes = [FBTestRunnerConfigurationBuilder defaultBuildAttributes];
-    NSDictionary *environment = [FBTestRunnerConfigurationBuilder defaultBuildEnvironment];
+    NSArray *attributes = [Device startTestArguments];
+    NSDictionary *environment = [Device startTestEnvironment];
 
     BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
                                                                    error:&error];

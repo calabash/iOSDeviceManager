@@ -401,11 +401,13 @@ static const FBSimulatorControl *_control;
 
     Simulator *replog = [Simulator new];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
+    NSArray *attributes = [Device startTestArguments];
+    NSDictionary *environment = [Device startTestEnvironment];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
                                                                     runnerBundleID:runnerID
                                                                          sessionID:sessionID
-                                                                    withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                       environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                    withAttributes:attributes
+                                                                       environment:environment
                                                                           reporter:replog
                                                                             logger:replog
                                                                              error:&error];
