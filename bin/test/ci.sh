@@ -47,7 +47,6 @@ pkill Simulator
 
 rm -rf reports/*.xml
 
-carthage bootstrap
 make test-unit
 make test-integration
 
