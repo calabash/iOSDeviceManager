@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		y6UG7kmpeRv+cEMaqHIFzhlp1jY=
+		Kqa+DrAQV3ETdGC/VYmHnAAknno=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			CG5Ya8zGv2kYhfZXOnhPP/XhiXw=
+			tVsasKe7OX7kDS7fohjKOLcg1Xc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -275,11 +275,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+F0XGqnd1HRgZwrTkr9NUTEoHd8=
+			4NUG9G4n7q3FQTpUA5FzF9jnuTg=
 			</data>
 			<key>hash2</key>
 			<data>
-			vU9EsVqU+TOnUo2E0hRIa+ffnQrjnx0zPe+4lGtcgt8=
+			2ZUZTFkMws4lpK2PFobJeTrT+DDZiahmEDVManDqNvM=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestManagerLoggingForwarder.h</key>
@@ -363,11 +363,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			y6UG7kmpeRv+cEMaqHIFzhlp1jY=
+			Kqa+DrAQV3ETdGC/VYmHnAAknno=
 			</data>
 			<key>hash2</key>
 			<data>
-			p//OQwq+SByrOrPLMfBAlq/LOc37RHvR6ngxNJoaEeA=
+			386qH3K3L0Mwymq2kSS/z8R2aIndLSwzxT/LyLfZJz8=
 			</data>
 		</dict>
 	</dict>

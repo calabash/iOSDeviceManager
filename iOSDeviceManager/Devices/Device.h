@@ -58,6 +58,8 @@
 @property BOOL testingComplete;
 
 + (instancetype)withID:(NSString *)uuid;
++ (NSArray<NSString *> *)startTestArguments;
++ (NSDictionary<NSString *, NSString *> *)startTestEnvironment;
 
 - (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;

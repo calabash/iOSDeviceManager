@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		pCs6crSbRn67sJol1dz/y8/+LB0=
+		b0XhlKb075WS3mDuXUkdkrHDpHM=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			CG5Ya8zGv2kYhfZXOnhPP/XhiXw=
+			tVsasKe7OX7kDS7fohjKOLcg1Xc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			qlpr07eFcngNKwTtKsRnEA/xhF4=
+			Hp1tky5jzLKgq52pWnGo7OXbLRI=
 			</data>
 			<key>requirement</key>
 			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -244,11 +244,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			D2lgV9ZDX9tJliaLRU7rNh2nyGQ=
+			4ZUqlEJ3g2QrdmqXkJ9f/Vp5avY=
 			</data>
 			<key>hash2</key>
 			<data>
-			kK00es3ib2TWCR77n6GrVhHGroGEbP6YSbnZ+sE8s/4=
+			g5D6/SjatNO7peTsIyC7+BZnbUpC9BdoV3U/fY15ZNA=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorApplicationCommands.h</key>
@@ -563,11 +563,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QtM6bku0KnuDFCk4VPsv+AkgUYE=
+			4Wq9OLJdeIHrN3x5HXg+6xDsKhU=
 			</data>
 			<key>hash2</key>
 			<data>
-			zvmwf42Q4oLKerSXkPACCITmG6gSBDofeKqSgSrJTAQ=
+			19+QOJoncCGLta6NAbZ2JXW1M7ivkzIpfs3LbhBSprs=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorLoggingEventSink.h</key>
@@ -772,11 +772,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			cbQLoyM/Vn+ZpTG5BYrUwTYyu6w=
+			RsKU87NVA0gMMpsYizLKzMJ1yyw=
 			</data>
 			<key>hash2</key>
 			<data>
-			Z4+SYhRR8MFlHUCItieLYRcAl9dGfwxlylUexL/x/GY=
+			bN7M61QhRppr4w1Oi4MFHGiXsbepJl8I+Pt5aDob8/s=
 			</data>
 		</dict>
 		<key>Headers/FBSurfaceImageGenerator.h</key>
@@ -849,11 +849,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pCs6crSbRn67sJol1dz/y8/+LB0=
+			b0XhlKb075WS3mDuXUkdkrHDpHM=
 			</data>
 			<key>hash2</key>
 			<data>
-			Or4nL70gv1hURtQNbOyog3nS4r4UAL5VX2ZWX9FE1w4=
+			QUB/UWtMM1gGWrgkSkA734HdRuOD17qBJjcuzU3Dxlc=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
