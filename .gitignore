@@ -1,5 +1,5 @@
 ## Build generated
-build/
+build/*
 DerivedData/
 Products/
 tmp
@@ -9,7 +9,13 @@ results
 reports/*.xml
 reports/*.json
 Carthage/Checkouts
-Carthage/Build/*
+Carthage/Build/iOS
+Carthage/Build/tvOS
+Carthage/Build/**/*.version
+Carthage/Build/**/*.bcsymbolmap
+!Carthage/Build/Mac/Expecta.framework*
+!Carthage/Build/Mac/Specta.framework*
+!Carthage/Build/Mac/OCMock.framework*
 
 ## nuget
 *.nupkg
@@ -32,8 +38,6 @@ xcuserdata/
 
 ## Obj-C/Swift specific
 *.hmap
-*.dSYM.zip
-*.dSYM
 
 # emacs and vim
 *~

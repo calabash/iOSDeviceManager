@@ -27,16 +27,14 @@ After building, you can run:
 ```shell
 $ Products/iOSDeviceManager
 ```
-to see usage information. 
+to see usage information.
 
 ### Testing
 
-Requires `carthage` - install with homebrew.
-
 ```shell
-$ carthage bootstrap
 $ make test-unit
 $ make test-integration
+$ make test-run-loop
 $ make tests
 
 # Test against an alternative Xcode
@@ -52,16 +50,11 @@ available to the active Xcode (the Xcode IDE or the returned by
 xcode-select), integration tests will be performed against the device.
 If no device is found, the tests are skipped.
 
-
-If the following error occurs, you forgot to run `carthage bootstrap`.
-
-```
-Testing failed:
-	'OCMock/OCMock.h' file not found
-** TEST FAILED **
-```
-
-
+The Expecta, Specta, and OCMock frameworks are controlled by Carthage.
+We commit the frameworks to source control to avoid having to run
+`carthage bootstrap` on CI machines and locally.  To update the
+frameworks, run `carthage update` and commit the Cartfile.resolved and
+frameworks changes to git.
 
 ### Packaging
 
