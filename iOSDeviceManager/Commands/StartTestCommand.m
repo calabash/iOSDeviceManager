@@ -4,13 +4,13 @@
 static NSString *const TEST_RUNNER_BUNDLE_ID_FLAG = @"-b";
 static NSString *const SESSION_ID_FLAG = @"-s";
 static NSString *const KEEP_ALIVE_FLAG = @"-k";
-static NSString *const TEST_RUNNER_BUNDLE_ID_OPTION_NAME = @"test_runner_bundle_id";
-static NSString *const SESSION_ID_OPTION_NAME = @"session_id";
+static NSString *const TEST_RUNNER_BUNDLE_ID_OPTION_NAME = @"test-runner-bundle-id";
+static NSString *const SESSION_ID_OPTION_NAME = @"session-id";
 static NSString *const KEEP_ALIVE_OPTION_NAME = @"keep-alive";
 
 @implementation StartTestCommand
 + (NSString *)name {
-    return @"start_test";
+    return @"start-test";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {

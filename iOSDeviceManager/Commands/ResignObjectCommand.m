@@ -6,7 +6,7 @@ static NSString *const RESIGN_OBJECT_OPTION_NAME = @"resign-object-path";
 
 @implementation ResignObjectCommand
 + (NSString *)name {
-    return @"resign_object";
+    return @"resign-object";
 }
 
 // Example: resign_object calabash_dylib -c <identity>

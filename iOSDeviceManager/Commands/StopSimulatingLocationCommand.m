@@ -4,7 +4,7 @@
 
 @implementation StopSimulatingLocationCommand
 + (NSString *)name {
-    return @"stop_simulating_location";
+    return @"stop-simulating-location";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {

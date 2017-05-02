@@ -4,7 +4,7 @@
 
 @implementation KillSimulatorCommand
 + (NSString *)name {
-    return @"kill_simulator";
+    return @"kill-simulator";
 }
 
 + (NSArray <CommandOption *> *)options {

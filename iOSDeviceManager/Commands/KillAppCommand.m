@@ -2,7 +2,7 @@
 
 @implementation KillAppCommand
 + (NSString *)name {
-    return @"kill_app";
+    return @"kill-app";
 }
 
 + (NSArray <CommandOption *> *)options {

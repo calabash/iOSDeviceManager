@@ -16,7 +16,7 @@ static NSString *const OUTPUT_PATH_OPTION_NAME = @"output-path";
 
 @implementation ResignAllCommand
 + (NSString *)name {
-    return @"resign_all";
+    return @"resign-all";
 }
 
 // Example: resign-all <ipa_file> [-p] <path_to_profiles_dir> -o <out_tar_name> [-i <resources_to_inject>]
