@@ -49,7 +49,7 @@ static NSString *const KEEP_ALIVE_OPTION_NAME = @"keep-alive";
                                                longFlag:@"--device-id"
                                              optionName:DEVICE_ID_OPTION_NAME
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:TEST_RUNNER_BUNDLE_ID_FLAG
                                                longFlag:@"--test-runner-bundle-id"

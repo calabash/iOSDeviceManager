@@ -27,7 +27,7 @@
                                                longFlag:@"--device-id"
                                              optionName:DEVICE_ID_OPTION_NAME
                                                    info:@"iOS Simulator GUIDs"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
     });
     return options;
