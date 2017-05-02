@@ -5,7 +5,7 @@
 
 @implementation LaunchSimulatorCommand
 + (NSString *)name {
-    return @"launch_simulator";
+    return @"launch-simulator";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {

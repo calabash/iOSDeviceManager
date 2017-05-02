@@ -6,7 +6,7 @@ static NSString *const LOCATION_OPTION_NAME = @"latitude,longitude";
 
 @implementation SimulateLocationCommand
 + (NSString *)name {
-    return @"set_location";
+    return @"set-location";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {

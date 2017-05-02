@@ -3,7 +3,7 @@
 
 @implementation IsInstalledCommand
 + (NSString *)name {
-    return @"is_installed";
+    return @"is-installed";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {

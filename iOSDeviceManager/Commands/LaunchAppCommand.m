@@ -2,7 +2,7 @@
 
 @implementation LaunchAppCommand
 + (NSString *)name {
-    return @"launch_app";
+    return @"launch-app";
 }
 
 + (NSArray <CommandOption *> *)options {
