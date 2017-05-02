@@ -30,7 +30,7 @@
                                                longFlag:@"--device-id"
                                              optionName:DEVICE_ID_OPTION_NAME
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
     });
     return options;

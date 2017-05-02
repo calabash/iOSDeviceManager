@@ -7,6 +7,7 @@
 #import "JSONUtils.h"
 #import "Command.h"
 #import "CLI.h"
+#import "DeviceUtils.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -129,6 +130,16 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     printf("Missing required argument '%s'\n",
                            [opt.optionName cStringUsingEncoding:NSUTF8StringEncoding]);
                     [command printUsage];
+
+                    if ([opt.optionName isEqualToString:DEVICE_ID_OPTION_NAME]) {
+                        NSString *physicalDeviceID = [DeviceUtils defaultPhysicalDeviceIDEnsuringOnlyOneAttached:NO];
+                        if (physicalDeviceID) {
+                            [ConsoleWriter write:@"\n Suggested deviceID from connected device: %@", physicalDeviceID];
+                        } else {
+                            NSString *simulatorID = [DeviceUtils defaultSimulatorID];
+                            [ConsoleWriter write:@"\n Suggested deviceID for simulator: %@", simulatorID];
+                        }
+                    }
                     return iOSReturnStatusCodeMissingArguments;
                 }
             }
