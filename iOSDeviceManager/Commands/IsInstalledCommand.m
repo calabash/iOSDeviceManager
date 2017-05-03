@@ -18,13 +18,13 @@ static NSString *const APP_PATH_OPTION_NAME = @"app-path";
 
     if (!args[BUNDLE_ID_OPTION_NAME] && !args[APP_PATH_OPTION_NAME]) {
         [self printUsage];
-        [ConsoleWriter write:@"\n bundle identifier or app path (for convenience) is required"];
+        [ConsoleWriter write:@"\n bundle identifier or app path (for convenience) is required \n"];
         return iOSReturnStatusCodeMissingArguments;
     }
 
     if (!args[BUNDLE_ID_OPTION_NAME]) {
         Application *app = [Application withBundlePath:args[APP_PATH_OPTION_NAME]];
-        [ConsoleWriter write:@"Using app path for convenience %@ with bundle id: %@",
+        [ConsoleWriter write:@"Using app path for convenience %@ with bundle id: %@ \n",
                                 args[APP_PATH_OPTION_NAME], app.bundleID];
         return [device isInstalled:app.bundleID];
     }
