@@ -1,6 +1,7 @@
 
 #import "iOSDeviceManagementCommand.h"
 #import "Command.h"
+#import "IsInstalledCommand.h"
 #import "CLI.h"
 #import "ConsoleWriter.h"
 #import "Device.h"
@@ -116,6 +117,11 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
 
     for (CommandOption *op in [self positionalOptions]) {
         [usage appendFormat:@" <%@>", op.optionName];
+
+        if ([[cmd name] isEqualToString:[IsInstalledCommand name]]
+            && [op.optionName isEqualToString:BUNDLE_ID_OPTION_NAME]) {
+            [usage appendString:@" OR"];
+        }
     }
 
     [usage appendString:@"\n"];
@@ -206,6 +212,16 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
     }
 
     return nil;
+}
+
++ (CommandOption *)optionForIsInstalledArg:(NSString *)arg {
+    id <iOSDeviceManagementCommand> cmd = [self command];
+
+    if ([arg hasSuffix:@".app"] || [arg hasSuffix:@".ipa"]) {
+        return [cmd options][1];
+    }
+
+    return [cmd options].firstObject;
 }
 
 + (NSDictionary <NSString *, CommandOption *> *)optionDict {
