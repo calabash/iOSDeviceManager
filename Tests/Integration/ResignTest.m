@@ -35,7 +35,7 @@
     NSArray *args = @[
                       kProgramName, @"resign",
                       ipaPath,
-                      @"-p", profilePath,
+                      profilePath,
                       @"-o", outputPath
                       ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
@@ -44,40 +44,40 @@
     MobileProfile *profile = [MobileProfile withPath:profilePath];
     CodesignIdentity *codesignID = [profile findValidIdentity];
     args = @[
-             kProgramName, @"resign_object",
+             kProgramName, @"resign-object",
              calabashDylibPath,
-             @"-c", [codesignID shasum]
+             [codesignID shasum]
              ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     
     if (device_available()) {
         NSArray *args = @[
-                          kProgramName, @"is_installed",
-                          @"-b", bundleID,
+                          kProgramName, @"is-installed",
+                          bundleID,
                           @"-d", defaultDeviceUDID
                           ];
         
         if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
             args = @[
                      kProgramName, @"uninstall",
+                     bundleID,
                      @"-d", defaultDeviceUDID,
-                     @"-b", bundleID
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
         }
         
         args = @[
                  kProgramName, @"install",
+                 outputPath,
                  @"-d", defaultDeviceUDID,
                  @"-p", profilePath,
-                 @"-a", outputPath
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
         
         args = @[
-                 kProgramName, @"launch_app",
-                 @"-d", defaultDeviceUDID,
-                 @"-b", bundleID
+                 kProgramName, @"launch-app",
+                 bundleID,
+                 @"-d", defaultDeviceUDID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
@@ -93,39 +93,39 @@
     args = @[
              kProgramName, @"resign",
              ipaPath,
-             @"-p", profilePath,
+             profilePath,
              @"-o", outputPath
              ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     if (device_available()) {
         args = @[
-                 kProgramName, @"is_installed",
-                 @"-b", bundleID,
+                 kProgramName, @"is-installed",
+                 bundleID,
                  @"-d", defaultDeviceUDID
                  ];
 
         if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
             args = @[
                      kProgramName, @"uninstall",
-                     @"-d", defaultDeviceUDID,
-                     @"-b", bundleID
+                     bundleID,
+                     @"-d", defaultDeviceUDID
                      ];
             XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
         }
         
         args = @[
                  kProgramName, @"install",
+                 outputPath,
                  @"-d", defaultDeviceUDID,
-                 @"-p", profilePath,
-                 @"-a", outputPath
+                 @"-p", profilePath
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
         
         args = @[
-                 kProgramName, @"launch_app",
-                 @"-d", defaultDeviceUDID,
-                 @"-b", bundleID
+                 kProgramName, @"launch-app",
+                 bundleID,
+                 @"-d", defaultDeviceUDID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
