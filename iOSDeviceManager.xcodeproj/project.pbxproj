@@ -384,6 +384,8 @@
 		42148DF91EA5670700625741 /* VersionCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VersionCommand.h; path = iOSDeviceManager/Commands/VersionCommand.h; sourceTree = SOURCE_ROOT; };
 		42148DFA1EA5671B00625741 /* VersionCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionCommand.m; path = iOSDeviceManager/Commands/VersionCommand.m; sourceTree = SOURCE_ROOT; };
 		421D28101E942AB5003C7F10 /* FileUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtilsTest.m; sourceTree = "<group>"; };
+		42D2EC9B1EC1428100A37F4D /* gitversioning-before.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "gitversioning-before.sh"; path = "iOSDeviceManager/SupportingFiles/gitversioning-before.sh"; sourceTree = SOURCE_ROOT; };
+		42D2EC9C1EC1428C00A37F4D /* gitversioning-after.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "gitversioning-after.sh"; path = "iOSDeviceManager/SupportingFiles/gitversioning-after.sh"; sourceTree = SOURCE_ROOT; };
 		63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAndSpectaStandupTests.m; sourceTree = "<group>"; };
 		6342445D4215DC668C7923B2 /* EntitlementTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntitlementTest.m; sourceTree = "<group>"; };
 		634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignIdentityTest.m; sourceTree = "<group>"; };
@@ -633,6 +635,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42D2EC9A1EC141D100A37F4D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				42D2EC9C1EC1428C00A37F4D /* gitversioning-after.sh */,
+				42D2EC9B1EC1428100A37F4D /* gitversioning-before.sh */,
+			);
+			name = "Supporting Files";
+			path = iOSDeviceManager/SupportingFiles;
+			sourceTree = "<group>";
+		};
 		892DE4D41D22F8E100E1902C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
@@ -717,6 +729,7 @@
 				896F7F021CF9C50500FD8572 /* Devices */,
 				B22DC0031E1D790E00BDD4CB /* Application */,
 				892DE4D41D22F8E100E1902C /* Commands */,
+				42D2EC9A1EC141D100A37F4D /* Supporting Files */,
 			);
 			name = iOSDeviceManager;
 			path = "test-control";
@@ -1067,7 +1080,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "iOSDeviceManager" */;
 			buildPhases = (
+				42D2EC9D1EC143AA00A37F4D /* Run Script */,
 				89331D3F1CE222C7003C2E59 /* Sources */,
+				42D2EC9E1EC143AD00A37F4D /* ShellScript */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
 				89331D411CE222C7003C2E59 /* CopyFiles */,
 			);
@@ -1201,6 +1216,38 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		42D2EC9D1EC143AA00A37F4D /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh iOSDeviceManager/SupportingFiles/gitversioning-before.sh \"iOSDeviceManager/Commands/VersionCommand.h\"";
+			showEnvVarsInLog = 0;
+		};
+		42D2EC9E1EC143AD00A37F4D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh iOSDeviceManager/SupportingFiles/gitversioning-after.sh \"iOSDeviceManager/Commands/VersionCommand.h\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		89331D3F1CE222C7003C2E59 /* Sources */ = {
