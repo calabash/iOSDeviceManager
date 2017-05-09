@@ -1,6 +1,8 @@
 #import "VersionCommand.h"
 #import "ConsoleWriter.h"
 
+NSString *const VERSION = @"0.0.1";
+
 @implementation VersionCommand
 + (NSString *)name {
     return @"version";
@@ -16,7 +18,13 @@
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    ConsoleWrite(@"0.1");
+    NSDictionary *versionDetails = @{
+                                     @"VERSION" : VERSION,
+                                     @"GIT_SHORT_REVISION": IDM_GIT_SHORT_REVISION,
+                                     @"GIT_BRANCH": IDM_GIT_BRANCH,
+                                     @"GIT_REMOTE_ORIGIN": IDM_GIT_REMOTE_ORIGIN
+                                     };
+    ConsoleWrite(@"%@", versionDetails);
     return iOSReturnStatusCodeEverythingOkay;
 }
 @end
