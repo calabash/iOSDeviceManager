@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z "${1}" ]; then
-echo "FATAL:  you must pass the path to VersionCommand.h"
+echo "FATAL:  you must pass the path to IDMVersionDefines.h"
 exit 1
 fi
 
