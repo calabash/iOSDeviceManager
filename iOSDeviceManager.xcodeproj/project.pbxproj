@@ -1219,7 +1219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sh bin/xcode-build-phase/gitversioning-before.sh \"IDMVersionDefines.h\"";
+			shellScript = "sh bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
 			showEnvVarsInLog = 0;
 		};
 		42D2EC9E1EC143AD00A37F4D /* Run Script - Git Versioning Information After (Clean Up IDMVersionDefines) */ = {
