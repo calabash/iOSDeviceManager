@@ -18,7 +18,7 @@ static NSString *const APP_PATH_OPTION_NAME = @"app-path";
 
     if (!args[BUNDLE_ID_OPTION_NAME] && !args[APP_PATH_OPTION_NAME]) {
         [self printUsage];
-        [ConsoleWriter write:@"\n bundle identifier or app path (for convenience) is required \n"];
+        [ConsoleWriter write:@"\n bundle identifier or app path is required \n"];
         return iOSReturnStatusCodeMissingArguments;
     }
 

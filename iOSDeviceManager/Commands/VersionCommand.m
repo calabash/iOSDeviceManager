@@ -1,7 +1,8 @@
 #import "VersionCommand.h"
 #import "ConsoleWriter.h"
+#import "IDMVersionDefines.h"
 
-NSString *const VERSION = @"0.0.1";
+NSString *const VERSION = @"2.0.0";
 
 @implementation VersionCommand
 + (NSString *)name {
@@ -24,7 +25,9 @@ NSString *const VERSION = @"0.0.1";
                                      @"GIT_BRANCH": IDM_GIT_BRANCH,
                                      @"GIT_REMOTE_ORIGIN": IDM_GIT_REMOTE_ORIGIN
                                      };
-    ConsoleWrite(@"%@", versionDetails);
+    [versionDetails enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
+        ConsoleWrite(@"%@=%@\n", key, value);
+    }];
     return iOSReturnStatusCodeEverythingOkay;
 }
 @end
