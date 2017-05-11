@@ -1,8 +1,11 @@
 #import "VersionCommand.h"
 #import "ConsoleWriter.h"
 #import "IDMVersionDefines.h"
+#import "JSONUtils.h"
 
 NSString *const VERSION = @"2.0.0";
+NSString *const JSON_VERSION_FLAG = @"-j";
+NSString *const JSON_VERSION_OPTION_NAME = @"json";
 
 @implementation VersionCommand
 + (NSString *)name {
@@ -14,6 +17,12 @@ NSString *const VERSION = @"2.0.0";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
+        [options addObject:[CommandOption withShortFlag:JSON_VERSION_FLAG
+                                               longFlag:@"--json"
+                                             optionName:JSON_VERSION_OPTION_NAME
+                                                   info:@"Print version information as json"
+                                               required:NO
+                                             defaultVal:nil].asBooleanOption];
     });
     return options;
 }
@@ -25,9 +34,13 @@ NSString *const VERSION = @"2.0.0";
                                      @"GIT_BRANCH": IDM_GIT_BRANCH,
                                      @"GIT_REMOTE_ORIGIN": IDM_GIT_REMOTE_ORIGIN
                                      };
-    [versionDetails enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
-        ConsoleWrite(@"%@=%@\n", key, value);
-    }];
+    if ([args objectForKey:JSON_VERSION_OPTION_NAME]) {
+        ConsoleWrite(versionDetails.pretty);
+    } else {
+        [versionDetails enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
+            ConsoleWrite(@"%@=%@", key, value);
+        }];
+    }
     return iOSReturnStatusCodeEverythingOkay;
 }
 @end
