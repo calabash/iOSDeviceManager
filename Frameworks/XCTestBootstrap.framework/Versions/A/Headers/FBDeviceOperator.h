@@ -8,7 +8,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "FBCodesignProvider.h"
+
 #import <FBControlCore/FBControlCore.h>
 
 @class DTXTransport;
@@ -41,11 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return DTXTransport if the operation succeeds, otherwise nil.
  */
 - (nullable DTXTransport *)makeTransportForTestManagerServiceWithLogger:(id<FBControlCoreLogger>)logger error:(NSError **)error;
-
-/**
- Devices require executables to be codesigned before they can be used.
- */
-@property (nonatomic, strong) id<FBCodesignProvider> codesignProvider;
 
 /**
  Waits for device to become ready. (eg. unlocked, loaded, available console data)

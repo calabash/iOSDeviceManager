@@ -8,15 +8,11 @@
 #import "iOSReturnStatusCode.h"
 #import "CodesignIdentity.h"
 
+@protocol DVTApplication;
 
 @interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 
 - (id<DVTApplication>)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
-- (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
-- (BOOL)installApplicationWithPath:(NSString *)path error:(NSError **)error;
-- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration error:(NSError **)error;
-- (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
-- (NSString *)containerPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
 @end
 
@@ -62,6 +58,10 @@
 @property BOOL testingComplete;
 
 + (instancetype)withID:(NSString *)uuid;
++ (NSArray<NSString *> *)startTestArguments;
++ (NSDictionary<NSString *, NSString *> *)startTestEnvironment;
+
+- (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 
@@ -71,10 +71,21 @@
  */
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)installApp:(Application *)app
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate;
+- (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                      shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate;
+- (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate;
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;

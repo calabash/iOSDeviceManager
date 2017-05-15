@@ -71,6 +71,10 @@ static const FBSimulatorControl *_control;
     return [FBSimulatorApplicationCommands commandsWithSimulator:simulator];
 }
 
+- (FBiOSDeviceOperator *)fbDeviceOperator {
+    return (FBiOSDeviceOperator *)self.fbSimulator.deviceOperator;
+}
+
 - (BOOL)bootSimulatorIfNecessary:(NSError * __autoreleasing *) error {
     FBSimulatorState state = self.fbSimulator.state;
     if (state == FBSimulatorStateShutdown || state == FBSimulatorStateShuttingDown) {
@@ -127,6 +131,7 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
     // Should mobile profile or codesign identity be used on simulator?
     //Ensure device exists
@@ -169,21 +174,16 @@ static const FBSimulatorControl *_control;
     }
 
     if (needsToInstall) {
-        [Codesigner resignApplication:app withProvisioningProfile:nil];
-
-        FBApplicationDescriptor *appDescriptor = [FBApplicationDescriptor applicationWithPath:app.path
-                                                                                  installType:FBApplicationInstallTypeUnknown
-                                                                                        error:&e];
-        if (!appDescriptor) {
-            ConsoleWriteErr(@"Error creating application descriptor: %@", e);
-            ConsoleWriteErr(@" Path to bundle: %@", app.path);
-            return iOSReturnStatusCodeGenericFailure;
-        }
+        [Codesigner resignApplication:app
+              withProvisioningProfile:nil
+                 withCodesignIdentity:nil
+                    resourcesToInject:resourcePaths];
 
         FBSimulatorApplicationCommands *applicationCommands;
         applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
-        if (![applicationCommands installApplication:appDescriptor error:&e]) {
+        if (![applicationCommands installApplicationWithPath:app.path
+                                                       error:&e]) {
             ConsoleWriteErr(@"Error installing application: %@", e);
             return iOSReturnStatusCodeGenericFailure;
         } else {
@@ -200,6 +200,7 @@ static const FBSimulatorControl *_control;
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
+          resourcesToInject:nil
                shouldUpdate:shouldUpdate];
 }
 
@@ -209,6 +210,7 @@ static const FBSimulatorControl *_control;
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
+          resourcesToInject:nil
                shouldUpdate:shouldUpdate];
 }
 
@@ -216,6 +218,39 @@ static const FBSimulatorControl *_control;
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
+          resourcesToInject:nil
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:nil
+          resourcesToInject:resourcePaths
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                    mobileProfile:(MobileProfile *)profile
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:profile
+           codesignIdentity:nil
+          resourcesToInject:resourcePaths
+               shouldUpdate:shouldUpdate];
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    return [self installApp:app
+              mobileProfile:nil
+           codesignIdentity:codesignID
+          resourcesToInject:resourcePaths
                shouldUpdate:shouldUpdate];
 }
 
@@ -366,11 +401,13 @@ static const FBSimulatorControl *_control;
 
     Simulator *replog = [Simulator new];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
+    NSArray *attributes = [Device startTestArguments];
+    NSDictionary *environment = [Device startTestEnvironment];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
                                                                     runnerBundleID:runnerID
                                                                          sessionID:sessionID
-                                                                    withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
-                                                                       environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
+                                                                    withAttributes:attributes
+                                                                       environment:environment
                                                                           reporter:replog
                                                                             logger:replog
                                                                              error:&error];

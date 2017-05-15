@@ -1,3 +1,13 @@
+### 1.1.2
+
+* Install command can inject resources #145
+* Uninstall app before install to avoid "application-identifier
+  entitlements mismatch" error #147
+* Frameworks: guard against NULL return from FBAMDCreateDeviceList() #153
+
+calabash/FBSimulatorControl built from this tag:
+
+* [0.4.0-2017.04.19-guard-against-NULL](https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-2017.04.19-guard-against-NULL)
 
 ### 1.1.1
 

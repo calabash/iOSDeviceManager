@@ -8,7 +8,6 @@
  */
 
 #import <XCTestBootstrap/FBXCTestPreparationStrategy.h>
-#import "FBCodesignProvider.h"
 
 @class FBTestLaunchConfiguration;
 @protocol FBFileManager;
@@ -19,13 +18,10 @@
  */
 @interface FBDeviceTestPreparationStrategy : NSObject <FBXCTestPreparationStrategy>
 
-@property (nonatomic, strong) NSString *workingDirectory;
-@property (nonatomic, strong) NSString *pathToXcodePlatformDir;
-
 /**
  Creates and returns a Strategy strategyWith given paramenters
 
- @param applicationPath path to test runner application
+ @param applicationPath path to tested application (.app)
  @param applicationDataPath path to application data bundle (.xcappdata)
  @param testLaunchConfiguration configuration used to launch test
  @returns Prepared FBLocalDeviceTestRunStrategy
@@ -37,7 +33,7 @@
 /**
  Creates and returns a Strategy strategyWith given paramenters
 
- @param applicationPath path to test runner application
+ @param applicationPath path to tested application (.app)
  @param applicationDataPath path to application data bundle (.xcappdata)
  @param testLaunchConfiguration configuration used to launch test
  @param fileManager file manager used to prepare all bundles

@@ -1,14 +1,30 @@
 #!/usr/bin/env bash
 
-set +e
-
-# Force Xcode 8 CoreSimulator env to be loaded so xcodebuild does not fail.
-for try in {1..4}; do
-  xcrun simctl help &>/dev/null
-  sleep 1.0
-done
-
 set -e
+
+source bin/log_functions.sh
+
+banner "iOSDeviceManager emits no stderr"
+# Test to see if there is any unsual output e.g. "symbol is redefined"
+
+# xcodebuild test job below builds iOSDeviceManager, but does not stage
+# Frameworks correctly - the @rpath is correct, but the framework bundles
+# are incomplete.  If the build starts taking a very long time, we can
+# investigate staging the frameworks correctly.
+bin/make/build.sh
+
+tmpfile=$(mktemp)
+Products/iOSDeviceManager >/dev/null 2>"${tmpfile}"
+if [ -s "${tmpfile}" ]; then
+  error "Expected iOSDeviceManager to output nothing on stderr"
+  error "Output captured here: ${tmpfile}"
+  exit 1
+else
+  info "iOSDeviceManager did not have unusual output"
+  rm -f "${tmpfile}"
+fi
+
+banner "Integration XCTests"
 
 XC_WORKSPACE="iOSDeviceManager.xcworkspace"
 XC_SCHEME="Integration"

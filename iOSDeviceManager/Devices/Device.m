@@ -40,7 +40,7 @@
                                                    environment:environment ?: @{}
                                                    waitForDebugger:NO
                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
-    FBiOSDeviceOperator *deviceOperator = [iOSTarget deviceOperator];
+    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)[iOSTarget deviceOperator];
     if (![deviceOperator launchApplication:appLaunch error:&innerError]) {
         if (error) {
             *error = [[[XCTestBootstrapError describe:@"Failed launch test runner"]
@@ -56,7 +56,7 @@
     if (testRunnerProcessID < 1) {
         if (error) {
             *error = [[[XCTestBootstrapError
-                       describe:@"Failed to determine test runner process PID"]
+                        describe:@"Failed to determine test runner process PID"]
                        causedBy:innerError]
                       fail:error];
         }
@@ -113,7 +113,74 @@
     setenv("FBCONTROLCORE_DEBUG_LOGGING", FBLog, 1);
 }
 
++ (NSArray<NSString *> *)startTestArguments {
+    return
+    @[
+      @"-NSTreatUnknownArgumentsAsOpen", @"NO",
+      @"-ApplePersistenceIgnoreState", @"YES"
+      ];
+}
+
+/*
+ * In Xcode 8.3, starting tests with FBSimulatorControl frameworks resulted in an unstable
+ * testmanagerd connection - tests would run for < 5 minutes before the DeviceAgent would
+ * stop responding.  Until Xcode 8.3, the XCTestConfigurationFilePath was the only
+ * key/value we needed.
+ *
+ * If you look at the #buildEnvironment method here:
+ *
+ * https://github.com/facebook/FBSimulatorControl/blob/master/XCTestBootstrap/Bundles/FBTestRunnerConfiguration.m
+ *
+ * you see that FBSimulatorControl defines many more key/value pairs.
+ *
+ * We never called `buildEnvironment` - we always called our addition:
+ * `defaultBuildEnvironment`; see this commit:
+ *
+ * https://github.com/calabash/FBSimulatorControl/pull/28/commits/52215f4366040fc19c63e3af1c2a828c4ba77b37
+ *
+ * which has been removed from our FBSimulatorControl fork.
+ *
+ * It is possible our unstable testmanagerd connection is a result of missing key/value
+ * environment pair. At the moment, we are not using FBSimulatorControl to start tests;
+ * we are using `xcodebuild test-without-building`.  Given that we are not using this
+ * environment, I will not invest much time deciphering the FBSimulatorControl usage. With
+ * that said, I want to capture what I have learned.
+ *
+ *  # This is platform dependent path:
+ *  $ find /Xcode/8.3.2/Xcode.app/Contents -type d -name "IDEBundleInjection.framework" -print
+ *  @"DYLD_INSERT_LIBRARIES" : self.IDEBundleInjectionFramework.binaryPath,
+ *
+ *  # This is the path to the installed DeviceAgent-Runner.app
+ *  @"DYLD_FRAMEWORK_PATH" : self.frameworkSearchPath ?: @"",
+ *  @"DYLD_LIBRARY_PATH" : self.frameworkSearchPath ?: @"",
+ *
+ *  # I don't know enough about the WebDriver stack to understand exactly why these
+ *  # key/value pairs are required.
+ *  @"AppTargetLocation" : self.testRunner.binaryPath,
+ *  @"TestBundleLocation" : self.webDriverAgentTestBundle.path,
+ *  @"XCInjectBundle" : self.webDriverAgentTestBundle.path,
+ *  @"XCInjectBundleInto" : self.testRunner.binaryPath,
+ *
+ *  # We know this path, so we could provide it.
+ *  @"XCTestConfigurationFilePath" : self.testConfigurationPath,
+ *
+ *  # These should be added to the environment.  If I were to try to revive the startTest
+ *  # method, I would add these to the env first.
+ *  @"XCODE_DBG_XPC_EXCLUSIONS" : @"com.apple.dt.xctestSymbolicator",
+ *  @"OBJC_DISABLE_GC" : @"YES",
+ */
++ (NSDictionary<NSString *, NSString *> *)startTestEnvironment {
+    return
+    @{
+      @"XCTestConfigurationFilePath" : @"thanksforusingcalabash",
+      };
+}
+
 #pragma mark - Instance Methods
+
+- (FBiOSDeviceOperator *)fbDeviceOperator {
+    MUST_OVERRIDE;
+}
 
 - (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc {
     NSError *isInstalledError;
@@ -164,14 +231,34 @@
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                      shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
-                codesignIdentity:(CodesignIdentity *)codesignID
-                    shouldUpdate:(BOOL)shouldUpdate {
+                    mobileProfile:(MobileProfile *)profile
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                     shouldUpdate:(BOOL)shouldUpdate {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)installApp:(Application *)app
+                 codesignIdentity:(CodesignIdentity *)codesignID
+                resourcesToInject:(NSArray<NSString *> *)resourcePaths
+                     shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }
 
@@ -229,7 +316,7 @@
     }
 
     NSArray *tokens = [[testRunnerPath lastPathComponent]
-                                       componentsSeparatedByString:@"-Runner.app"];
+                       componentsSeparatedByString:@"-Runner.app"];
     if ([tokens count] != 2) {
         NSString *name = [testRunnerPath lastPathComponent];
         ConsoleWriteErr(@"Expected test runner '%@' to end with -Runner.app", name);

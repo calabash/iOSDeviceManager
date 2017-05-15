@@ -28,30 +28,30 @@ typedef NS_ENUM(NSUInteger, FBControlCoreProductFamily) {
 /**
  Device Names Enumeration.
  */
-typedef NSString *FBDeviceName NS_STRING_ENUM;
+typedef NSString *FBDeviceModel NS_STRING_ENUM;
 
-extern FBDeviceName const FBDeviceNameiPhone4s;
-extern FBDeviceName const FBDeviceNameiPhone5;
-extern FBDeviceName const FBDeviceNameiPhone5s;
-extern FBDeviceName const FBDeviceNameiPhone6;
-extern FBDeviceName const FBDeviceNameiPhone6Plus;
-extern FBDeviceName const FBDeviceNameiPhone6S;
-extern FBDeviceName const FBDeviceNameiPhone6SPlus;
-extern FBDeviceName const FBDeviceNameiPhoneSE;
-extern FBDeviceName const FBDeviceNameiPhone7;
-extern FBDeviceName const FBDeviceNameiPhone7Plus;
-extern FBDeviceName const FBDeviceNameiPad2;
-extern FBDeviceName const FBDeviceNameiPadRetina;
-extern FBDeviceName const FBDeviceNameiPadAir;
-extern FBDeviceName const FBDeviceNameiPadAir2;
-extern FBDeviceName const FBDeviceNameiPadPro;
-extern FBDeviceName const FBDeviceNameiPadPro_9_7_Inch;
-extern FBDeviceName const FBDeviceNameiPadPro_12_9_Inch;
-extern FBDeviceName const FBDeviceNameAppleTV1080p;
-extern FBDeviceName const FBDeviceNameAppleWatch38mm;
-extern FBDeviceName const FBDeviceNameAppleWatch42mm;
-extern FBDeviceName const FBDeviceNameAppleWatchSeries2_38mm;
-extern FBDeviceName const FBDeviceNameAppleWatchSeries2_42mm;
+extern FBDeviceModel const FBDeviceModeliPhone4s;
+extern FBDeviceModel const FBDeviceModeliPhone5;
+extern FBDeviceModel const FBDeviceModeliPhone5s;
+extern FBDeviceModel const FBDeviceModeliPhone6;
+extern FBDeviceModel const FBDeviceModeliPhone6Plus;
+extern FBDeviceModel const FBDeviceModeliPhone6S;
+extern FBDeviceModel const FBDeviceModeliPhone6SPlus;
+extern FBDeviceModel const FBDeviceModeliPhoneSE;
+extern FBDeviceModel const FBDeviceModeliPhone7;
+extern FBDeviceModel const FBDeviceModeliPhone7Plus;
+extern FBDeviceModel const FBDeviceModeliPad2;
+extern FBDeviceModel const FBDeviceModeliPadRetina;
+extern FBDeviceModel const FBDeviceModeliPadAir;
+extern FBDeviceModel const FBDeviceModeliPadAir2;
+extern FBDeviceModel const FBDeviceModeliPadPro;
+extern FBDeviceModel const FBDeviceModeliPadPro_9_7_Inch;
+extern FBDeviceModel const FBDeviceModeliPadPro_12_9_Inch;
+extern FBDeviceModel const FBDeviceModelAppleTV1080p;
+extern FBDeviceModel const FBDeviceModelAppleWatch38mm;
+extern FBDeviceModel const FBDeviceModelAppleWatch42mm;
+extern FBDeviceModel const FBDeviceModelAppleWatchSeries2_38mm;
+extern FBDeviceModel const FBDeviceModelAppleWatchSeries2_42mm;
 
 /**
  OS Versions Name Enumeration.
@@ -87,234 +87,66 @@ extern FBOSVersionName const FBOSVersionNamewatchOS_3_0;
 extern FBOSVersionName const FBOSVersionNamewatchOS_3_1;
 extern FBOSVersionName const FBOSVersionNamewatchOS_3_2;
 
-@interface FBControlCoreConfigurationVariant_Base : NSObject <NSCoding, NSCopying>
-@end
-
-#pragma mark Families
-
-@protocol FBControlCoreConfiguration_Family <NSObject>
-
-@property (nonatomic, assign, readonly) FBControlCoreProductFamily productFamilyID;
-
-@end
-
-@interface FBControlCoreConfiguration_Family_iPhone : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Family>
-
-@end
-
-@interface FBControlCoreConfiguration_Family_iPad : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Family>
-
-@end
-
-@interface FBControlCoreConfiguration_Family_Watch : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Family>
-
-@end
-
-@interface FBControlCoreConfiguration_Family_TV : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Family>
-
-@end
-
 #pragma mark Devices
 
-@protocol FBControlCoreConfiguration_Device <NSObject>
+@interface FBDeviceType : NSObject <NSCopying, NSCoding>
 
-@property (nonatomic, copy, readonly) FBDeviceName deviceName;
+/**
+ The Device Name of the Device.
+ */
+@property (nonatomic, copy, readonly) FBDeviceModel model;
+
+/**
+ The String Representations of the Product Types.
+ */
 @property (nonatomic, copy, readonly) NSSet<NSString *> *productTypes;
+
+/**
+ The native Device Architecture.
+ */
 @property (nonatomic, copy, readonly) FBArchitecture deviceArchitecture;
+
+/**
+ The Native Simulator Arhitecture.
+ */
 @property (nonatomic, copy, readonly) FBArchitecture simulatorArchitecture;
-@property (nonatomic, strong, readonly) id<FBControlCoreConfiguration_Family> family;
 
-@end
+/**
+ The Supported Product Family.
+ */
+@property (nonatomic, assign, readonly) FBControlCoreProductFamily family;
 
-@interface FBControlCoreConfiguration_Device_iPhone_Base : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Device>
-@end
+/**
+ A Generic Device with the Given Name.
+ */
++ (instancetype)genericWithName:(NSString *)name;
 
-@interface FBControlCoreConfiguration_Device_iPhone4s : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone5 : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone5s : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone6 : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone6Plus : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone6S : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone6SPlus : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhoneSE : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone7 : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPhone7Plus : FBControlCoreConfiguration_Device_iPhone_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPad_Base : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Device>
-@end
-
-@interface FBControlCoreConfiguration_Device_iPad2 : FBControlCoreConfiguration_Device_iPad_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPadRetina : FBControlCoreConfiguration_Device_iPad_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPadAir : FBControlCoreConfiguration_Device_iPad_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPadAir2 : FBControlCoreConfiguration_Device_iPad_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPadPro : FBControlCoreConfiguration_Device_iPad_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPadPro_9_7_Inch : FBControlCoreConfiguration_Device_iPad_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_iPadPro_12_9_Inch : FBControlCoreConfiguration_Device_iPad_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_tvOS_Base : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Device>
-@end
-
-@interface FBControlCoreConfiguration_Device_AppleTV1080p : FBControlCoreConfiguration_Device_tvOS_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_watchOS_Base : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_Device>
-@end
-
-@interface FBControlCoreConfiguration_Device_AppleWatch38mm : FBControlCoreConfiguration_Device_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_AppleWatch42mm : FBControlCoreConfiguration_Device_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_AppleWatchSeries2_38mm : FBControlCoreConfiguration_Device_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_Device_AppleWatchSeries2_42mm : FBControlCoreConfiguration_Device_watchOS_Base
 @end
 
 #pragma mark OS Versions
 
-@protocol FBControlCoreConfiguration_OS <NSObject>
+@interface FBOSVersion : NSObject <NSCopying, NSCoding>
 
+/**
+ The Version name of the OS.
+ */
 @property (nonatomic, copy, readonly) FBOSVersionName name;
-@property (nonatomic, copy, readonly) NSDecimalNumber *versionNumber;
-@property (nonatomic, copy, readonly) NSSet *families;
 
-@end
+/**
+ A Decimal Number Represnting the Version Number.
+ */
+@property (nonatomic, copy, readonly) NSDecimalNumber *number;
 
-@interface FBControlCoreConfiguration_OS_Base : FBControlCoreConfigurationVariant_Base <FBControlCoreConfiguration_OS>
-@end
+/**
+ The Supported Families of the OS Version.
+ */
+@property (nonatomic, copy, readonly) NSSet<NSNumber *> *families;
 
-@interface FBControlCoreConfiguration_iOS_Base : FBControlCoreConfiguration_OS_Base
-@end
+/**
+ A Generic OS with the Given Name.
+ */
++ (instancetype)genericWithName:(NSString *)name;
 
-@interface FBControlCoreConfiguration_iOS_7_1 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_8_0 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_8_1 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_8_2 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_8_3 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_8_4 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_9_0 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_9_1 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_9_2 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_9_3 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_9_3_1 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_9_3_2 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_10_0 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_10_1 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_10_2 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_10_2_1 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_iOS_10_3 : FBControlCoreConfiguration_iOS_Base
-@end
-
-@interface FBControlCoreConfiguration_tvOS_Base : FBControlCoreConfiguration_OS_Base
-@end
-
-@interface FBControlCoreConfiguration_tvOS_9_0 : FBControlCoreConfiguration_tvOS_Base
-@end
-
-@interface FBControlCoreConfiguration_tvOS_9_1 : FBControlCoreConfiguration_tvOS_Base
-@end
-
-@interface FBControlCoreConfiguration_tvOS_9_2 : FBControlCoreConfiguration_tvOS_Base
-@end
-
-@interface FBControlCoreConfiguration_tvOS_10_0 : FBControlCoreConfiguration_tvOS_Base
-@end
-
-@interface FBControlCoreConfiguration_tvOS_10_1 : FBControlCoreConfiguration_tvOS_Base
-@end
-
-@interface FBControlCoreConfiguration_tvOS_10_2 : FBControlCoreConfiguration_tvOS_Base
-@end
-
-@interface FBControlCoreConfiguration_watchOS_Base : FBControlCoreConfiguration_OS_Base
-@end
-
-@interface FBControlCoreConfiguration_watchOS_2_0 : FBControlCoreConfiguration_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_watchOS_2_1 : FBControlCoreConfiguration_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_watchOS_2_2 : FBControlCoreConfiguration_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_watchOS_3_0 : FBControlCoreConfiguration_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_watchOS_3_1 : FBControlCoreConfiguration_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_watchOS_3_2 : FBControlCoreConfiguration_watchOS_Base
-@end
-
-@interface FBControlCoreConfiguration_OS_Generic : FBControlCoreConfiguration_OS_Base
-- (id)initWithOSName:(NSString *)osName;
 @end
 
 /**
@@ -325,17 +157,17 @@ extern FBOSVersionName const FBOSVersionNamewatchOS_3_2;
 /**
  Maps Device Names to Devices.
  */
-@property (class, nonatomic, copy, readonly) NSDictionary<FBDeviceName, id<FBControlCoreConfiguration_Device>> *nameToDevice;
+@property (class, nonatomic, copy, readonly) NSDictionary<FBDeviceModel, FBDeviceType *> *nameToDevice;
 
 /**
  Maps Device 'ProductType' to Device Variants.
  */
-@property (class, nonatomic, copy, readonly) NSDictionary<NSString *, id<FBControlCoreConfiguration_Device>> *productTypeToDevice;
+@property (class, nonatomic, copy, readonly) NSDictionary<NSString *, FBDeviceType *> *productTypeToDevice;
 
 /**
  OS Version names to OS Versions.
  */
-@property (class, nonatomic, copy, readonly) NSDictionary<FBOSVersionName, id<FBControlCoreConfiguration_OS>> *nameToOSVersion;
+@property (class, nonatomic, copy, readonly) NSDictionary<FBOSVersionName, FBOSVersion *> *nameToOSVersion;
 
 /**
  Maps the architechture of the target to the compatible architechtures for binaries on the target.

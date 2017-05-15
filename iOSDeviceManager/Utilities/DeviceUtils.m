@@ -57,10 +57,10 @@ const double EPSILON = 0.001;
 }
 
 + (NSComparisonResult)comparePreferredSimulator:(FBSimulator *)sim to:(FBSimulator *)otherSim {
-    NSDecimalNumber *simVersion = [sim.osConfiguration versionNumber];
-    NSDecimalNumber *otherSimVersion = [otherSim.osConfiguration versionNumber];
-    NSString *simDeviceName = [sim.deviceConfiguration deviceName];
-    NSString *otherSimDeviceName = [otherSim.deviceConfiguration deviceName];
+    NSDecimalNumber *simVersion = sim.configuration.os.number;
+    NSDecimalNumber *otherSimVersion = otherSim.configuration.os.number;
+    NSString *simDeviceName = [sim name];
+    NSString *otherSimDeviceName = [otherSim name];
     
     if ([simVersion isGreaterThan:otherSimVersion]) {
         return NSOrderedDescending;
