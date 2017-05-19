@@ -526,6 +526,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                         dataBundle, e);
     }
 
+    [ConsoleWriter write:dest];
     return iOSReturnStatusCodeEverythingOkay;
 }
 

@@ -474,6 +474,7 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    [ConsoleWriter write:dest];
     return iOSReturnStatusCodeEverythingOkay;
 }
 
