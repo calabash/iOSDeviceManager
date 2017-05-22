@@ -367,8 +367,12 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSString *appId = [appDirName subsFrom:0 length:appDirName.length - @".app".length];
     NSString *xcentFilename = [appId plus:@".xcent"];
     NSString *appEntitlementsFile = [appDir joinPath:xcentFilename];
-    
-    Entitlements *finalEntitlements = [newEntitlements entitlementsByReplacingApplicationIdentifier:finalAppIdentifier];
+
+    // Check entitlements for Cloud Kit
+    id originaliCloudServicesEntitlement = oldEntitlements[@"com.apple.developer.icloud-services"];
+    Entitlements *entitlementsWithICloudServices = [newEntitlements entitlementsByReplacingiCloudServicesWildcard:originaliCloudServicesEntitlement];
+
+    Entitlements *finalEntitlements = [entitlementsWithICloudServices entitlementsByReplacingApplicationIdentifier:finalAppIdentifier];
     NSString *newTeamId = finalEntitlements[@"com.apple.developer.team-identifier"];
     
     success = [mgr fileExistsAtPath:bundleExecPath];

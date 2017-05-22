@@ -21,5 +21,7 @@
 
 // Required during the code signing to generate a new .xcent file.
 - (Entitlements *)entitlementsByReplacingApplicationIdentifier:(NSString *)applicationIdentifier;
+// Prevent CKException when using wildcard entitlement for icloud-services
+- (Entitlements *)entitlementsByReplacingiCloudServicesWildcard:(id)appEntitlementValue;
 
 @end
