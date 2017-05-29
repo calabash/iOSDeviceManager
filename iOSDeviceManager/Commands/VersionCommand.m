@@ -47,14 +47,18 @@ static NSString *const kGitRemoteOrigin = @"Unknown";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    NSDictionary *versionDetails = @{
-                                     @"VERSION" : VERSION,
-                                     @"GIT_SHORT_REVISION": IDM_GIT_SHORT_REVISION,
-                                     @"GIT_BRANCH": IDM_GIT_BRANCH,
-                                     @"GIT_REMOTE_ORIGIN": IDM_GIT_REMOTE_ORIGIN
-                                     };
     if ([args objectForKey:JSON_VERSION_OPTION_NAME]) {
-        ConsoleWrite(versionDetails.pretty);
+        NSDictionary *versionDetails = @{
+                                         @"VERSION" : VERSION,
+                                         @"GIT_SHORT_REVISION": kGitShortRevision,
+                                         @"GIT_BRANCH": kGitBranch,
+                                         @"GIT_REMOTE_ORIGIN": kGitRemoteOrigin,
+                                         };
+
+        NSString *json = [versionDetails pretty];
+        json = [json stringByReplacingOccurrencesOfString:@"\\"
+                                               withString:@""];
+        ConsoleWrite(@"%@", json);
     } else {
         [versionDetails enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
             ConsoleWrite(@"%@=%@", key, value);
