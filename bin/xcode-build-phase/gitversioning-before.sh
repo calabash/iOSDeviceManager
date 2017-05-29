@@ -5,15 +5,16 @@ echo "FATAL:  you must pass the path to IDMVersionDefines.h"
 exit 1
 fi
 
-VERSION_PATH="${1}"
-gitpath=`which git`
-GITREV=`$gitpath rev-parse --short HEAD`
+HEADER_FILE="${1}"
+GITREV=`git rev-parse --short HEAD`
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 GITREMOTEORIGIN=`git config --get remote.origin.url`
 
-echo "INFO: setting the GIT_SHORT_REVISION = ${GITREV} in ${VERSION_PATH}"
-echo "#define IDM_GIT_SHORT_REVISION @\"${GITREV}\"" >> "${VERSION_PATH}"
-echo "INFO: setting the GIT_BRANCH = ${GITBRANCH} in ${VERSION_PATH}"
-echo "#define IDM_GIT_BRANCH @\"${GITBRANCH}\"" >> "${VERSION_PATH}"
-echo "INFO: setting the GIT_REMOTE_ORIGIN = ${GITREMOTEORIGIN} in ${VERSION_PATH}"
-echo "#define IDM_GIT_REMOTE_ORIGIN @\"${GITREMOTEORIGIN}\"" >> "${VERSION_PATH}"
+cat >"${HEADER_FILE}" <<EOF
+/*
+ Do Not Manually Edit This File
+*/
+#define IDM_GIT_SHORT_REVISION @"${GITREV}"
+#define IDM_GIT_BRANCH @"${GITBRANCH}"
+#define IDM_GIT_REMOTE_ORIGIN @"${GITREMOTEORIGIN}"
+EOF
