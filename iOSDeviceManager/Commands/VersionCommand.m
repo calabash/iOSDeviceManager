@@ -3,9 +3,9 @@
 #import "IDMVersionDefines.h"
 #import "JSONUtils.h"
 
-NSString *const VERSION = @"2.0.0";
-NSString *const JSON_VERSION_FLAG = @"-j";
-NSString *const JSON_VERSION_OPTION_NAME = @"json";
+static NSString *const VERSION = @"2.0.0";
+static NSString *const JSON_VERSION_FLAG = @"-j";
+static NSString *const JSON_VERSION_OPTION_NAME = @"json";
 
 @implementation VersionCommand
 + (NSString *)name {
