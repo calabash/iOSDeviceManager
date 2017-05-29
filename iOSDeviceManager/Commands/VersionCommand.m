@@ -60,10 +60,9 @@ static NSString *const kGitRemoteOrigin = @"Unknown";
                                                withString:@""];
         ConsoleWrite(@"%@", json);
     } else {
-        [versionDetails enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
-            ConsoleWrite(@"%@=%@", key, value);
-        }];
+        ConsoleWrite(@"%@", VERSION);
     }
     return iOSReturnStatusCodeEverythingOkay;
 }
+
 @end
