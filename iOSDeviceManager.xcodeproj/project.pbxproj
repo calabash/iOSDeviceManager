@@ -1069,9 +1069,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "iOSDeviceManager" */;
 			buildPhases = (
-				42D2EC9D1EC143AA00A37F4D /* Run Script - Git Versioning Information Before (Update IDMVersionDefines) */,
+				42D2EC9D1EC143AA00A37F4D /* Run Script - Update IDMVersionDefines.h */,
 				89331D3F1CE222C7003C2E59 /* Sources */,
-				42D2EC9E1EC143AD00A37F4D /* Run Script - Git Versioning Information After (Clean Up IDMVersionDefines) */,
+				42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
 				89331D411CE222C7003C2E59 /* CopyFiles */,
 			);
@@ -1207,34 +1207,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		42D2EC9D1EC143AA00A37F4D /* Run Script - Git Versioning Information Before (Update IDMVersionDefines) */ = {
+		42D2EC9D1EC143AA00A37F4D /* Run Script - Update IDMVersionDefines.h */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script - Git Versioning Information Before (Update IDMVersionDefines)";
+			name = "Run Script - Update IDMVersionDefines.h";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sh bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			shellScript = "bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
 			showEnvVarsInLog = 0;
 		};
-		42D2EC9E1EC143AD00A37F4D /* Run Script - Git Versioning Information After (Clean Up IDMVersionDefines) */ = {
+		42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script - Git Versioning Information After (Clean Up IDMVersionDefines)";
+			name = "Run Script - Revert IDMVersionDefines.h";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sh bin/xcode-build-phase/gitversioning-after.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			shellScript = "bin/xcode-build-phase/gitversioning-after.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
