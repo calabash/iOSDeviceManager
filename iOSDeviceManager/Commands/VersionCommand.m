@@ -7,7 +7,26 @@ static NSString *const VERSION = @"2.0.0";
 static NSString *const JSON_VERSION_FLAG = @"-j";
 static NSString *const JSON_VERSION_OPTION_NAME = @"json";
 
+#ifdef IDM_GIT_SHORT_REVISION
+static NSString *const kGitShortRevision = IDM_GIT_SHORT_REVISION;
+#else
+static NSString *const kGitShortRevision = @"Unknown";
+#endif
+
+#ifdef IDM_GIT_BRANCH
+static NSString *const kGitBranch = IDM_GIT_BRANCH;
+#else
+static NSString *const kGitBranch = @"Unknown";
+#endif
+
+#ifdef IDM_GIT_REMOTE_ORIGIN
+static NSString *const kGitRemoteOrigin = IDM_GIT_REMOTE_ORIGIN;
+#else
+static NSString *const kGitRemoteOrigin = @"Unknown";
+#endif
+
 @implementation VersionCommand
+
 + (NSString *)name {
     return @"version";
 }
