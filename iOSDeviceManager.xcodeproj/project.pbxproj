@@ -710,6 +710,7 @@
 		89331D451CE222C7003C2E59 /* iOSDeviceManager */ = {
 			isa = PBXGroup;
 			children = (
+				421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */,
 				892DE4CC1D22F87000E1902C /* main.m */,
 				B2F26E951E4E7DB2008E93FC /* LibraryWrapper */,
 				89A1CEDB1E302F7900D9FEC5 /* Resigning */,
@@ -718,7 +719,6 @@
 				896F7F021CF9C50500FD8572 /* Devices */,
 				B22DC0031E1D790E00BDD4CB /* Application */,
 				892DE4D41D22F8E100E1902C /* Commands */,
-				421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */,
 			);
 			name = iOSDeviceManager;
 			path = "test-control";
