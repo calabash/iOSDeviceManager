@@ -20,7 +20,11 @@ static NSString *const OVERWRITE_FLAG = @"-o";
     if (!device) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
-    
+
+    if (![device isInstalled:args[BUNDLE_ID_FLAG] withError:nil]) {
+        return iOSReturnStatusCodeFalse;
+    }
+
     return [device uploadFile:args[FILEPATH_FLAG] forApplication:args[BUNDLE_ID_FLAG] overwrite:overwrite];
 }
 
