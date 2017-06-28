@@ -22,7 +22,7 @@ static NSString *const OVERWRITE_OPTION_NAME = @"overwrite";
         return iOSReturnStatusCodeDeviceNotFound;
     }
 
-    if (![device isInstalled:args[BUNDLE_ID_FLAG] withError:nil]) {
+    if (![device isInstalled:args[BUNDLE_ID_OPTION_NAME] withError:nil]) {
         return iOSReturnStatusCodeFalse;
     }
 
