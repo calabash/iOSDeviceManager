@@ -5,7 +5,7 @@
 
 @implementation LaunchSimulatorCommand
 + (NSString *)name {
-    return @"launch_simulator";
+    return @"launch-simulator";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
@@ -25,9 +25,9 @@
         options = [NSMutableArray array];
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
+                                             optionName:DEVICE_ID_OPTION_NAME
                                                    info:@"iOS Simulator GUIDs"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
     });
     return options;

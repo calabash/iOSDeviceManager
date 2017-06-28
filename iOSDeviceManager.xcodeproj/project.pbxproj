@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
+		42148DFC1EA5672700625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
+		42148DFD1EA5672800625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
+		42148DFE1EA5672800625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
 		421D28111E942AB5003C7F10 /* FileUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 421D28101E942AB5003C7F10 /* FileUtilsTest.m */; };
 		634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */; };
 		634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424B5EAA3E57132288C79A /* MobileProfileTest.m */; };
@@ -377,6 +381,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		42148DF91EA5670700625741 /* VersionCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VersionCommand.h; path = iOSDeviceManager/Commands/VersionCommand.h; sourceTree = SOURCE_ROOT; };
+		42148DFA1EA5671B00625741 /* VersionCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionCommand.m; path = iOSDeviceManager/Commands/VersionCommand.m; sourceTree = SOURCE_ROOT; };
+		421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IDMVersionDefines.h; path = iOSDeviceManager/IDMVersionDefines.h; sourceTree = SOURCE_ROOT; };
 		421D28101E942AB5003C7F10 /* FileUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtilsTest.m; sourceTree = "<group>"; };
 		63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAndSpectaStandupTests.m; sourceTree = "<group>"; };
 		6342445D4215DC668C7923B2 /* EntitlementTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntitlementTest.m; sourceTree = "<group>"; };
@@ -666,6 +673,8 @@
 				B29637831E3FC1E600200661 /* LaunchAppCommand.m */,
 				B29637881E3FC22700200661 /* KillAppCommand.h */,
 				B29637891E3FC23800200661 /* KillAppCommand.m */,
+				42148DF91EA5670700625741 /* VersionCommand.h */,
+				42148DFA1EA5671B00625741 /* VersionCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -701,6 +710,7 @@
 		89331D451CE222C7003C2E59 /* iOSDeviceManager */ = {
 			isa = PBXGroup;
 			children = (
+				421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */,
 				892DE4CC1D22F87000E1902C /* main.m */,
 				B2F26E951E4E7DB2008E93FC /* LibraryWrapper */,
 				89A1CEDB1E302F7900D9FEC5 /* Resigning */,
@@ -1059,7 +1069,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "iOSDeviceManager" */;
 			buildPhases = (
+				42D2EC9D1EC143AA00A37F4D /* Run Script - Update IDMVersionDefines.h */,
 				89331D3F1CE222C7003C2E59 /* Sources */,
+				42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
 				89331D411CE222C7003C2E59 /* CopyFiles */,
 			);
@@ -1194,6 +1206,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		42D2EC9D1EC143AA00A37F4D /* Run Script - Update IDMVersionDefines.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Update IDMVersionDefines.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			showEnvVarsInLog = 0;
+		};
+		42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Revert IDMVersionDefines.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bin/xcode-build-phase/gitversioning-after.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		89331D3F1CE222C7003C2E59 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1205,6 +1250,7 @@
 				B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				898D7D791DA47569001578FE /* HTTPConnection.m in Sources */,
 				892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */,
+				42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */,
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				898D7D761DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
@@ -1348,6 +1394,7 @@
 				B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */,
 				898D7D861DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				898D7D891DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
+				42148DFC1EA5672700625741 /* VersionCommand.m in Sources */,
 				898D7D711DA47569001578FE /* DDNumber.m in Sources */,
 				B294E8D71E49267D0070BCD2 /* CodesignResources.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
@@ -1376,6 +1423,7 @@
 				B2A757161E5F627F004034A5 /* IsInstalledCommand.m in Sources */,
 				B28936151E53D1E90010403C /* Entitlements.m in Sources */,
 				B2A757191E5F6286004034A5 /* UninstallAppCommand.m in Sources */,
+				42148DFE1EA5672800625741 /* VersionCommand.m in Sources */,
 				B28936091E53D1370010403C /* ConsoleWriter.m in Sources */,
 				B28936161E53D1EC0010403C /* Entitlement.m in Sources */,
 				B2A757171E5F6281004034A5 /* InstallAppCommand.m in Sources */,
@@ -1428,6 +1476,7 @@
 				B2E68E1F1E381745001D5D89 /* ResignAllCommand.m in Sources */,
 				B296D7021E31474500D365F3 /* Codesigner.m in Sources */,
 				898D7D871DA47569001578FE /* MultipartMessageHeader.m in Sources */,
+				42148DFD1EA5672800625741 /* VersionCommand.m in Sources */,
 				F5D583F41D69FFF5007B0D11 /* SimulatorCLIIntegrationTests.m in Sources */,
 				898D7D6F1DA47569001578FE /* DDData.m in Sources */,
 				898D7DD51DA4758A001578FE /* HTTPResponseProxy.m in Sources */,

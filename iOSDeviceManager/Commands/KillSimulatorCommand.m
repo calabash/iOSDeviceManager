@@ -4,7 +4,7 @@
 
 @implementation KillSimulatorCommand
 + (NSString *)name {
-    return @"kill_simulator";
+    return @"kill-simulator";
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -14,9 +14,9 @@
         options = [NSMutableArray array];
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
+                                             optionName:DEVICE_ID_OPTION_NAME
                                                    info:@"iOS Simulator GUIDs"
-                                               required:NO
+                                               required:YES
                                              defaultVal:nil]];
     });
     return options;
