@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export DEVELOPER_DIR=/Xcode/8.2.1/Xcode.app/Contents/Developer
-
 set +e
 
 # Force Xcode 8 CoreSimulator env to be loaded so xcodebuild does not fail.
