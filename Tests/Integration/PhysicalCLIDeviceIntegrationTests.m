@@ -79,6 +79,13 @@
                  @"-d", defaultDeviceUDID
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+        args = @[
+                 kProgramName, @"is-installed",
+                 testAppID,
+                 @"-d", defaultDeviceUDID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
     }
 }
 
