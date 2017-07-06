@@ -12,7 +12,8 @@
 
 @interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 
-- (id<DVTApplication>)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
+- (NSDictionary *)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
+- (BOOL)uninstallApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
 @end
 
