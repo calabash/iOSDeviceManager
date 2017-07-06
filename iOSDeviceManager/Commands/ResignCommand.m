@@ -51,8 +51,8 @@ static NSString *const OUTPUT_PATH_OPTION_NAME = @"output-path";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    NSString *pathToBundle= args[APP_PATH_OPTION_NAME];
-    if ([args[APP_PATH_OPTION_NAME] hasSuffix:@".ipa"]) {
+    NSString *pathToBundle = args[APP_PATH_OPTION_NAME];
+    if ([pathToBundle hasSuffix:@".ipa"]) {
         pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_OPTION_NAME]];
     } else {
         ConsoleWriteErr(@"Resigning requires ipa path");
