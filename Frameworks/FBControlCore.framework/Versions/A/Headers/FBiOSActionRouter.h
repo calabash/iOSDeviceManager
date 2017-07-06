@@ -9,10 +9,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBiOSTargetAction.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FBiOSTarget;
-@protocol FBiOSTargetAction;
 
 /**
  Routes Actions to Targets.
@@ -23,6 +24,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  A Router for the given target.
+ Uses the default Action classes for the target.
+
+ @param target the target to route actions for.
+ @return a new Action Router.
+ */
++ (instancetype)routerForTarget:(id<FBiOSTarget>)target;
+
+/**
+ A Router for the given target.
+ Uses the provided Action Classes
 
  @param target the target to route actions for.
  @param actionClasses the Action Classes to use.
@@ -41,6 +52,11 @@ NS_ASSUME_NONNULL_BEGIN
  The Target to Route to.
  */
 @property (nonatomic, strong, readonly) id<FBiOSTarget> target;
+
+/**
+ A mapping of Action Type to the Class responsible for using it.
+ */
+@property (nonatomic, copy, readonly) NSDictionary<FBiOSTargetActionType, Class> *actionMapping;
 
 #pragma mark Serialization
 
