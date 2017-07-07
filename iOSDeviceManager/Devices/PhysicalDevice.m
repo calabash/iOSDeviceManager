@@ -247,7 +247,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    if (![operator cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
+    if (![operator uninstallApplicationWithBundleID:bundleID error:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
 
@@ -366,10 +366,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 
     FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
-    id<DVTApplication> installedDVTApplication = [deviceOperator installedApplicationWithBundleIdentifier:bundleID];
+    NSDictionary *plist = [deviceOperator installedApplicationWithBundleIdentifier:bundleID];
 
     return [Application withBundleID:bundleID
-                               plist:[installedDVTApplication plist]
+                               plist:plist
                        architectures:self.fbDevice.supportedArchitectures];
 }
 

@@ -255,34 +255,6 @@
     }
 }
 
-- (void)testOptionalDeviceIDArg {
-    
-    NSUInteger deviceCount = [DeviceUtils availableDevices].count;
-    if (deviceCount != 1) {
-        printf("Multiple devices detected - skipping option device arg test");
-        return;
-    }
-    
-    NSArray *args = @[
-                      kProgramName, @"is-installed",
-                      testAppID
-                      ];
-    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-        args = @[
-                 kProgramName, @"uninstall",
-                 testAppID
-                 ];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    }
-    
-    args = @[
-             kProgramName, @"install",
-             testApp(ARM),
-             @"-c", kCodeSignIdentityKARL
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-}
-
 - (void)testLaunchAndKillApp {
     if (device_available()) {
         NSArray *args = @[

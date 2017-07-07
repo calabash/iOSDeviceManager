@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 
 #import <FBControlCore/FBControlCore.h>
+#import <XCTestBootstrap/XCTestBootstrap.h>
 
 @class DVTiOSDevice;
 @class FBDeviceSet;
@@ -23,17 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Class that wraps DVTAbstractiOSDevice and it's device operator that can perform actions on it.
  */
-@interface FBDevice : NSObject <FBiOSTarget>
+@interface FBDevice : NSObject <FBiOSTarget, FBXCTestCommands>
 
 /**
  The Device Set to which the Device Belongs.
  */
 @property (nonatomic, weak, readonly) FBDeviceSet *set;
-
-/**
- The Logger to Log events with.
- */
-@property (nonatomic, strong, readonly) id<FBControlCoreLogger> logger;
 
 /**
  The DVTDevice, corresponding to the reciever.

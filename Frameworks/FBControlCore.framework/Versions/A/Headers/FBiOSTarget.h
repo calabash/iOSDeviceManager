@@ -15,7 +15,6 @@
 #import <FBControlCore/FBDebugDescribeable.h>
 #import <FBControlCore/FBJSONConversion.h>
 #import <FBControlCore/FBVideoRecordingCommands.h>
-#import <FBControlCore/FBXCTestCommands.h>
 
 @class FBDeviceType;
 @class FBOSVersion;
@@ -23,6 +22,7 @@
 @class FBiOSActionRouter;
 @class FBiOSTargetDiagnostics;
 @protocol FBDeviceOperator;
+@protocol FBControlCoreLogger;
 
 /**
  Uses the known values of SimDevice State, to construct an enumeration.
@@ -52,12 +52,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Common Properties of Devices & Simulators.
  */
-@protocol FBiOSTarget <NSObject, FBJSONSerializable, FBDebugDescribeable, FBApplicationCommands, FBBitmapStreamingCommands, FBVideoRecordingCommands, FBXCTestCommands>
+@protocol FBiOSTarget <NSObject, FBJSONSerializable, FBDebugDescribeable, FBApplicationCommands, FBBitmapStreamingCommands, FBVideoRecordingCommands>
 
 /**
- A Router for the Reciever.
+ The Target's Logger.
  */
-@property (nonatomic, strong, readonly) FBiOSActionRouter *router;
+@property (nonatomic, strong, readonly, nullable) id<FBControlCoreLogger> logger;
+
+/**
+ The Action Classes supported by the reciever.
+ */
+@property (nonatomic, strong, readonly) NSArray<Class> *actionClasses;
 
 /**
  The Unique Device Identifier of the iOS Target.
