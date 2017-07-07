@@ -9,6 +9,7 @@
 #import "CLI.h"
 #import "DeviceUtils.h"
 #import "IsInstalledCommand.h"
+#import "AppInfoCommand.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -63,10 +64,11 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
         CommandOption *op = [command optionForFlag:args[i]];
         if (op == nil) { // This is true when the arg provided isn't a recognized flag or isn't a flag
             CommandOption *positionalOption;
-            if ([[command name] isEqualToString:[IsInstalledCommand name]]) {
-                // IsInstalledCommand accepts either bundle id OR app path as a positional (0) arg
+            if ([[command name] isEqualToString:[IsInstalledCommand name]]
+                || [[command name] isEqualToString:[AppInfoCommand name]]) {
+                // IsInstalledCommand and AppInfoCommand accepts either bundle id OR app path as a positional (0) arg
                 // So determine the option based on the context
-                positionalOption = [command optionForIsInstalledArg:args[i]];
+                positionalOption = [command optionForAppPathOrBundleID:args[i]];
             } else {
                 positionalOption = [command optionForPosition:positionalArgCount];
             }

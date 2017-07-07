@@ -73,7 +73,13 @@
     app.bundleID = bundleID;
     app.infoPlist = plist;
     app.arches = architectures;
-    
+    app.executableName = [plist objectForKey:@"CFBundleExecutable"];
+    app.bundleShortVersion = [plist objectForKey:@"CFBundleShortVersionString"];
+    app.bundleVersion = [plist objectForKey:@"CFBundleVersion"];
+    app.entitlements = [plist objectForKey:@"Entitlements"];
+    app.displayName = [plist objectForKey:@"CFBundleDisplayName"];
+    app.path = app.path ? : [plist objectForKey:@"Path"];
+
     if ([architectures containsObject:@"x86_64"] ||
         [architectures containsObject:@"i386"]) {
         app.type = kApplicationTypeSimulator;

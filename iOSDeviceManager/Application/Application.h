@@ -11,6 +11,11 @@ typedef NS_ENUM(short, ApplicationType) {
 
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) NSString *bundleID;
+@property (nonatomic, strong) NSString *executableName;
+@property (nonatomic, strong) NSString *displayName;
+@property (nonatomic, strong) NSString *bundleVersion;
+@property (nonatomic, strong) NSString *bundleShortVersion;
+@property (nonatomic, strong) NSString *entitlements;
 @property (nonatomic, strong) NSDictionary *infoPlist;
 @property (nonatomic, strong) NSSet<NSString *> *arches;
 @property (nonatomic, assign) ApplicationType type;

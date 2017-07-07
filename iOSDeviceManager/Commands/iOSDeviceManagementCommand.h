@@ -13,7 +13,7 @@
 + (void)printUsage;
 + (CommandOption *)optionForFlag:(NSString *)flag;
 + (CommandOption *)optionForPosition:(NSUInteger)index;
-+ (CommandOption *)optionForIsInstalledArg:(NSString *)arg;
++ (CommandOption *)optionForAppPathOrBundleID:(NSString *)arg;
 + (iOSReturnStatusCode)execute:(NSDictionary *)args;
 + (NSArray<CommandOption *> *)options;
 + (NSDictionary <NSString *, CommandOption *> *)optionDict; //keyed on short flag

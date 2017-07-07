@@ -65,6 +65,14 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 }
 
+- (void)testAppInfoCommand {
+    NSArray *args = @[kProgramName, @"app-info", [[Resources shared] TaskyPath:SIM]];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+    args = @[kProgramName, @"app-info", [[Resources shared] TaskyPath:ARM], @"--json"];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
 - (void)testPositionalFrameworkOrDylib {
     NSArray *args = @[kProgramName, @"resign-object", @"fake/path/to/.framework", @"-"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInternalError);
