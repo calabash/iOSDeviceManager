@@ -14,6 +14,7 @@
 
 - (NSDictionary *)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
 - (BOOL)uninstallApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (void)fetchApplications;
 
 @end
 

@@ -69,7 +69,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (FBiOSDeviceOperator *)fbDeviceOperator {
-    return (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    return [FBiOSDeviceOperator forDevice:self.fbDevice];
 }
 
 - (iOSReturnStatusCode)launch {
@@ -452,7 +452,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 // */
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
 
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
 
     NSError *e;
 
@@ -484,6 +484,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    [operator fetchApplications];
     if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
                     forInstalledApplicationWithBundleIdentifier:bundleID
                                                           error:&e]) {
