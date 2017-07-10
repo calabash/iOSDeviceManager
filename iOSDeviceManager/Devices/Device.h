@@ -15,6 +15,13 @@
 - (NSDictionary *)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
 - (BOOL)uninstallApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
+// Originally, we used DVT APIs to install provisioning profiles.
+// Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
+// If we find there is a problem with the MobileDevice API we can
+// fall back on the DVT implementation.
+// - (BOOL)DVTinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
+- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
+
 @end
 
 @interface FBXCTestRunStrategy (iOSDeviceManagerAdditions)
