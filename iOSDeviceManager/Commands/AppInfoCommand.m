@@ -3,8 +3,6 @@
 #import "JSONUtils.h"
 
 static NSString *const APP_PATH_OPTION_NAME = @"app-path";
-static NSString *const JSON_VERSION_FLAG = @"-j";
-static NSString *const JSON_VERSION_OPTION_NAME = @"json";
 
 @implementation AppInfoCommand
 
@@ -33,12 +31,6 @@ static NSString *const JSON_VERSION_OPTION_NAME = @"json";
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
                                                required:NO
                                              defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:JSON_VERSION_FLAG
-                                               longFlag:@"--json"
-                                             optionName:JSON_VERSION_OPTION_NAME
-                                                   info:@"Print version information as json"
-                                               required:NO
-                                              defaultVal:nil].asBooleanOption];
     });
     return options;
 }
@@ -77,15 +69,10 @@ static NSString *const JSON_VERSION_OPTION_NAME = @"json";
                                      @"ARCHES" : app.arches.allObjects,
                                      @"APP_PATH" : app.path ? : @""
                                      };
-    if ([args objectForKey:JSON_VERSION_OPTION_NAME]) {
-        NSString *json = [appInfoDetails pretty];
-        json = [json stringByReplacingOccurrencesOfString:@"\\"
-                                               withString:@""];
-        ConsoleWrite(@"%@", json);
-    } else {
-        ConsoleWrite(@"%@", appInfoDetails);
-    }
-
+    NSString *json = [appInfoDetails pretty];
+    json = [json stringByReplacingOccurrencesOfString:@"\\"
+                                           withString:@""];
+    ConsoleWrite(@"%@", json);
     return iOSReturnStatusCodeEverythingOkay;
 }
 
