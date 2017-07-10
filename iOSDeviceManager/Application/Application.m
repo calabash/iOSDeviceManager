@@ -3,6 +3,7 @@
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
+#import "Entitlements.h"
 #import "FileUtils.h"
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <FBDeviceControl/FBDeviceControl.h>
@@ -42,7 +43,7 @@
         ConsoleWriteErr(@"Could not find bundle executable at path: %@", executablePath);
         return nil;
     }
-    
+
     NSError *archError;
     NSSet<NSString *> *arches = [FBBinaryParser architecturesForBinaryAtPath:executablePath error:&archError];
     
@@ -65,6 +66,12 @@
                                     plist:infoPlist
                             architectures:arches];
     app.path = path;
+
+    NSDictionary *entitlements = [Entitlements dictionaryOfEntitlementsWithBundlePath:path];
+    if (entitlements) {
+        app.entitlements = entitlements;
+    }
+
     return app;
 }
 
@@ -76,7 +83,7 @@
     app.executableName = [plist objectForKey:@"CFBundleExecutable"];
     app.bundleShortVersion = [plist objectForKey:@"CFBundleShortVersionString"];
     app.bundleVersion = [plist objectForKey:@"CFBundleVersion"];
-    app.entitlements = [plist objectForKey:@"Entitlements"];
+    app.entitlements = app.entitlements ? : [plist objectForKey:@"Entitlements"];
     app.displayName = [plist objectForKey:@"CFBundleDisplayName"];
     app.path = app.path ? : [plist objectForKey:@"Path"];
 
