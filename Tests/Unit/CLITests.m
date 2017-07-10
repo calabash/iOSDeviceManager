@@ -69,7 +69,7 @@
     NSArray *args = @[kProgramName, @"app-info", [[Resources shared] TaskyPath:SIM]];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    args = @[kProgramName, @"app-info", [[Resources shared] TaskyPath:ARM], @"--json"];
+    args = @[kProgramName, @"app-info", [[Resources shared] TaskyPath:ARM]];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
