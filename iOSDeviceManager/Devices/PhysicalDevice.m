@@ -40,6 +40,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 @property (nonatomic, strong) FBDevice *fbDevice;
 
+- (BOOL)installProvisioningProfileAtPath:(NSString *)path
+                                   error:(NSError **)error;
 @end
 
 @implementation PhysicalDevice
@@ -148,20 +150,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                      withCodesignIdentity:nil
                         resourcesToInject:resourcePaths];
         }
+
         // Log entitlement comparisons
         [Entitlements compareEntitlementsWithProfile:profile app:app];
 
-        // Install profile to device
-        Class DTDKProvisioniingProfile = NSClassFromString(@"DTDKProvisioningProfile");
-        DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
-                                                                 certificateUtilities:nil
-                                                                                error:&err];
-        if (err) {
+        if (![self installProvisioningProfileAtPath:profile.path error:&err]) {
             ConsoleWriteErr(@"Failed to install profile: %@ due to error: %@", profile.path, err);
             return iOSReturnStatusCodeInternalError;
         }
-
-        [self.fbDevice.dvtDevice installProvisioningProfile:_profile];
 
         if (![operator installApplicationWithPath:app.path error:&err] || err) {
             ConsoleWriteErr(@"Error installing application: %@", err);
@@ -648,6 +644,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
     return xcappdataPath;
+}
+
+- (BOOL)installProvisioningProfileAtPath:(NSString *)path
+                                   error:(NSError **)error {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+
+    return [operator AMDinstallProvisioningProfileAtPath:path error:error];
 }
 
 - (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
