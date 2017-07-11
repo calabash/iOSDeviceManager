@@ -12,6 +12,10 @@
 		42148DFD1EA5672800625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
 		42148DFE1EA5672800625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
 		421D28111E942AB5003C7F10 /* FileUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 421D28101E942AB5003C7F10 /* FileUtilsTest.m */; };
+		427823EB1F10294E00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
+		427823EC1F10294F00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
+		427823ED1F10295000F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
+		42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
 		634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */; };
 		634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424B5EAA3E57132288C79A /* MobileProfileTest.m */; };
 		6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */; };
@@ -385,6 +389,8 @@
 		42148DFA1EA5671B00625741 /* VersionCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionCommand.m; path = iOSDeviceManager/Commands/VersionCommand.m; sourceTree = SOURCE_ROOT; };
 		421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IDMVersionDefines.h; path = iOSDeviceManager/IDMVersionDefines.h; sourceTree = SOURCE_ROOT; };
 		421D28101E942AB5003C7F10 /* FileUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtilsTest.m; sourceTree = "<group>"; };
+		42CFBACB1F0FF70200357248 /* AppInfoCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppInfoCommand.h; path = iOSDeviceManager/Commands/AppInfoCommand.h; sourceTree = SOURCE_ROOT; };
+		42CFBACC1F0FF73800357248 /* AppInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppInfoCommand.m; path = iOSDeviceManager/Commands/AppInfoCommand.m; sourceTree = SOURCE_ROOT; };
 		63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAndSpectaStandupTests.m; sourceTree = "<group>"; };
 		6342445D4215DC668C7923B2 /* EntitlementTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntitlementTest.m; sourceTree = "<group>"; };
 		634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignIdentityTest.m; sourceTree = "<group>"; };
@@ -675,6 +681,8 @@
 				B29637891E3FC23800200661 /* KillAppCommand.m */,
 				42148DF91EA5670700625741 /* VersionCommand.h */,
 				42148DFA1EA5671B00625741 /* VersionCommand.m */,
+				42CFBACB1F0FF70200357248 /* AppInfoCommand.h */,
+				42CFBACC1F0FF73800357248 /* AppInfoCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -1269,6 +1277,7 @@
 				892DE4F61D23109000E1902C /* CommandOption.m in Sources */,
 				898D7D821DA47569001578FE /* MultipartFormDataParser.m in Sources */,
 				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */,
 				89B50D801D466BB800F34D67 /* AppUtils.m in Sources */,
 				898D7DE81DA47672001578FE /* CBXRoute.m in Sources */,
 				898D7DD31DA4758A001578FE /* HTTPResponseProxy.m in Sources */,
@@ -1399,6 +1408,7 @@
 				B294E8D71E49267D0070BCD2 /* CodesignResources.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
+				427823EB1F10294E00F7D972 /* AppInfoCommand.m in Sources */,
 				634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */,
 				898D7D7A1DA47569001578FE /* HTTPConnection.m in Sources */,
 				898D7DE91DA47672001578FE /* CBXRoute.m in Sources */,
@@ -1441,6 +1451,7 @@
 				B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */,
 				F5D438051E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B2A7571A1E5F628C004034A5 /* SimulateLocationCommand.m in Sources */,
+				427823ED1F10295000F7D972 /* AppInfoCommand.m in Sources */,
 				B28936191E53D20F0010403C /* MobileProfile.m in Sources */,
 				B289360F1E53D17D0010403C /* AppUtils.m in Sources */,
 				B2A7571D1E5F6293004034A5 /* LaunchAppCommand.m in Sources */,
@@ -1520,6 +1531,7 @@
 				898D7DD81DA4758A001578FE /* Route.m in Sources */,
 				898D7DE41DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
+				427823EC1F10294F00F7D972 /* AppInfoCommand.m in Sources */,
 				89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */,
 				B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */,
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,
