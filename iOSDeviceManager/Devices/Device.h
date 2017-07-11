@@ -12,6 +12,9 @@
 
 @interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 
+// The keys-value pairs that are available in the plist returned by
+// #installedApplicationWithBundleIdentifier:error:
++ (NSDictionary *)applicationReturnAttributesDictionary;
 - (NSDictionary *)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
 - (BOOL)uninstallApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
 
