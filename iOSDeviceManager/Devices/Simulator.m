@@ -133,45 +133,36 @@ static const FBSimulatorControl *_control;
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
-    // Should mobile profile or codesign identity be used on simulator?
-    //Ensure device exists
-    NSError *e;
+    NSError *error = nil;
     if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
 
-    //Ensure device is in a good state (i.e., active)
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ||
-        self.fbSimulator.state == FBSimulatorStateShuttingDown) {
-        ConsoleWriteErr(@"Simulator %@ is dead. Must launch sim before installing an app.", [self uuid]);
+    if (self.fbSimulator.state != FBSimulatorStateBooted) {
+        ConsoleWriteErr(@"Simulator %@ must be booted to install an app - found state: %@",
+                        [self uuid], self.fbSimulator.stateString);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     BOOL needsToInstall = YES;
 
-    //First, check if the app is installed
-    if ([self.fbSimulator installedApplicationWithBundleID:app.bundleID error:&e]) {
-        if (e) {
-            ConsoleWriteErr(@"Error checking if application is installed: %@", e);
-            return iOSReturnStatusCodeInternalError;
-        }
+    FBApplicationDescriptor *fbAppDescriptor;
+    fbAppDescriptor = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
+                                                                   error:&error];
 
-        //If the user doesn't want to update, we're done.
+    if (fbAppDescriptor) {
+        // If the user doesn't want to update, we're done.
         if (!shouldUpdate) {
             return iOSReturnStatusCodeEverythingOkay;
         }
 
-        iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
-        needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
-        if (ret != iOSReturnStatusCodeEverythingOkay) {
-            return ret;
+        iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
+        needsToInstall = [self shouldUpdateApp:app statusCode:&statusCode];
+        if (statusCode != iOSReturnStatusCodeEverythingOkay) {
+            // #shouldUpdateApp:statusCode: will log failure message if necessary
+            return statusCode;
         }
     }
 
-    if (e && [[e description] containsString:@"Failed to get App Path"]) {
-        e = nil; // installedApplicationWithBundleID has non-nil e if no app present
-    } else if (e) {
-        ConsoleWriteErr(@"Error checking if application is installed: %@", e);
-        return iOSReturnStatusCodeInternalError;
-    }
+    error = nil;
 
     if (needsToInstall) {
         [Codesigner resignApplication:app
@@ -182,9 +173,10 @@ static const FBSimulatorControl *_control;
         FBSimulatorApplicationCommands *applicationCommands;
         applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
-        if (![applicationCommands installApplicationWithPath:app.path
-                                                       error:&e]) {
-            ConsoleWriteErr(@"Error installing application: %@", e);
+        BOOL success = [applicationCommands installApplicationWithPath:app.path
+                                                                 error:&error];
+        if (!success) {
+            ConsoleWriteErr(@"Error installing application: %@", error);
             return iOSReturnStatusCodeGenericFailure;
         } else {
             LogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
