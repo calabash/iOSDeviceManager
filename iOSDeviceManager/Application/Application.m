@@ -67,9 +67,13 @@
                             architectures:arches];
     app.path = path;
 
-    NSDictionary *entitlements = [Entitlements dictionaryOfEntitlementsWithBundlePath:path];
-    if (entitlements) {
-        app.entitlements = entitlements;
+    if (app.type == kApplicationTypeSimulator) {
+        app.entitlements = @{};
+    } else {
+        NSDictionary *entitlements = [Entitlements dictionaryOfEntitlementsWithBundlePath:path];
+        if (entitlements) {
+            app.entitlements = entitlements;
+        }
     }
 
     return app;
