@@ -17,6 +17,7 @@
 + (NSDictionary *)applicationReturnAttributesDictionary;
 - (NSDictionary *)installedApplicationWithBundleIdentifier:(NSString *)bundleID;
 - (BOOL)uninstallApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (void)fetchApplications;
 
 // Originally, we used DVT APIs to install provisioning profiles.
 // Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
