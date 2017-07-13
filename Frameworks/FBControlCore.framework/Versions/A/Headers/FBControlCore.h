@@ -15,7 +15,6 @@
 #import <FBControlCore/FBASLParser.h>
 #import <FBControlCore/FBBatchLogSearch.h>
 #import <FBControlCore/FBBinaryDescriptor.h>
-#import <FBControlCore/FBUploadBuffer.h>
 #import <FBControlCore/FBBinaryParser.h>
 #import <FBControlCore/FBBitmapStream.h>
 #import <FBControlCore/FBBitmapStreamConfiguration.h>
@@ -36,6 +35,7 @@
 #import <FBControlCore/FBDiagnostic.h>
 #import <FBControlCore/FBDiagnosticQuery.h>
 #import <FBControlCore/FBDispatchSourceNotifier.h>
+#import <FBControlCore/FBEventInterpreter.h>
 #import <FBControlCore/FBFileConsumer.h>
 #import <FBControlCore/FBFileFinder.h>
 #import <FBControlCore/FBFileManager.h>
@@ -50,9 +50,12 @@
 #import <FBControlCore/FBiOSTargetPredicates.h>
 #import <FBControlCore/FBiOSTargetQuery.h>
 #import <FBControlCore/FBJSONConversion.h>
+#import <FBControlCore/FBJSONEnums.h>
 #import <FBControlCore/FBLineBuffer.h>
 #import <FBControlCore/FBLocalizationOverride.h>
+#import <FBControlCore/FBLogCommands.h>
 #import <FBControlCore/FBLogSearch.h>
+#import <FBControlCore/FBLogTailConfiguration.h>
 #import <FBControlCore/FBPipeReader.h>
 #import <FBControlCore/FBProcessFetcher+Helpers.h>
 #import <FBControlCore/FBProcessFetcher.h>
@@ -61,18 +64,22 @@
 #import <FBControlCore/FBProcessLaunchConfiguration.h>
 #import <FBControlCore/FBProcessOutputConfiguration.h>
 #import <FBControlCore/FBProcessTerminationStrategy.h>
+#import <FBControlCore/FBReportingiOSActionReaderDelegate.h>
 #import <FBControlCore/FBRunLoopSpinner.h>
+#import <FBControlCore/FBScale.h>
 #import <FBControlCore/FBServiceManagement.h>
 #import <FBControlCore/FBSocketReader.h>
+#import <FBControlCore/FBSocketWriter.h>
 #import <FBControlCore/FBSubstringUtilities.h>
+#import <FBControlCore/FBSubject.h>
 #import <FBControlCore/FBTask.h>
 #import <FBControlCore/FBTaskBuilder.h>
 #import <FBControlCore/FBTerminationHandle.h>
+#import <FBControlCore/FBUploadBuffer.h>
 #import <FBControlCore/FBVideoRecordingCommands.h>
 #import <FBControlCore/FBDependentDylib+ApplePrivateDylibs.h>
 #import <FBControlCore/FBDependentDylib.h>
 #import <FBControlCore/FBWeakFramework+ApplePrivateFrameworks.h>
 #import <FBControlCore/FBWeakFrameworkLoader.h>
 #import <FBControlCore/NSPredicate+FBControlCore.h>
-#import <FBControlCore/CalabashUtils.h>
 

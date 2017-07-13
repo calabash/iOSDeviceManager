@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		r2khA+9b4y8L8pWLnT/C6rXsm2o=
+		iPZyoEQpPvHuIsQNgevrb0qKvWo=
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
@@ -32,7 +32,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			cV8yc/q8UPWy+Qe9efHrNyQG1KU=
+			2xZ5ujkuDfWf9Dp3KIFEFSBzUJU=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -173,11 +173,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pxpo9rbfdzeL0PuQhyXkydZO2dA=
+			tvWSfxp7768mm4PKPOXuUGGq4T0=
 			</data>
 			<key>hash2</key>
 			<data>
-			YpyxQkBgkfuIY6NBEIIaebrvn9KCSbptuFL2truK2+4=
+			a3ikNxEFZEuFnxpQA4uYsZ70G5HOovgqcILh471pAyU=
 			</data>
 		</dict>
 		<key>Headers/FBTestManager.h</key>
@@ -360,11 +360,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hbRKzBJwCqZHFrdqKXHfhA6Z3Lo=
+			h/sGDO3h4iJqWAquE9uyN2N49F4=
 			</data>
 			<key>hash2</key>
 			<data>
-			hS73e5vp187WnB7s47D7ZZ4rbbii6sTsQkuesT8FLQs=
+			Wd2lUNrUDrXb2Gau5aVdg0pLVtgD0Bqc3ELo6hZK0mg=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestConfiguration.h</key>
@@ -536,11 +536,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			r2khA+9b4y8L8pWLnT/C6rXsm2o=
+			iPZyoEQpPvHuIsQNgevrb0qKvWo=
 			</data>
 			<key>hash2</key>
 			<data>
-			3AvZQayApCj6/cJEGFw55EMNXfhnolafGFVBqdjky4o=
+			72P3dEncXbrI5GN+eBNi+n7L35sJSyuliKTFEw/8PIM=
 			</data>
 		</dict>
 		<key>Resources/libMaculator.dylib</key>

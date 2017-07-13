@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Defines the High-Level Properties and Methods that exist on any Simulator returned from `FBSimulatorPool`.
  */
-@interface FBSimulator : NSObject <FBiOSTarget, FBXCTestCommands, FBSimulatorAgentCommands, FBSimulatorApplicationCommands, FBSimulatorBridgeCommands, FBSimulatorKeychainCommands, FBSimulatorSettingsCommands, FBSimulatorXCTestCommands, FBSimulatorLifecycleCommands>
+@interface FBSimulator : NSObject <FBiOSTarget, FBLogCommands, FBXCTestCommands, FBSimulatorAgentCommands, FBSimulatorApplicationCommands, FBSimulatorBridgeCommands, FBSimulatorKeychainCommands, FBSimulatorSettingsCommands, FBSimulatorXCTestCommands, FBSimulatorLifecycleCommands>
 
 /**
  The Underlying SimDevice.
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A string representation of the Simulator State.
  */
-@property (nonatomic, copy, readonly, nonnull) NSString *stateString;
+@property (nonatomic, copy, readonly, nonnull) FBSimulatorStateString stateString;
 
 /**
  The Directory that Contains the Simulator's Data
