@@ -13,8 +13,17 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 @interface Simulator()
 
 @property (nonatomic, strong) FBSimulator *fbSimulator;
+
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 + (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
+- (FBSimulatorState)state;
+- (NSString *)stateString;
+- (BOOL)waitForSimulatorState:(FBSimulatorState)state
+                      timeout:(NSTimeInterval)timeout;
+- (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
+- (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error;
+- (BOOL)bootWithFBSimulator:(FBSimulator *)simulator
+                      error:(NSError * __autoreleasing*) error;
 
 @end
 
@@ -75,27 +84,106 @@ static const FBSimulatorControl *_control;
     return (FBiOSDeviceOperator *)self.fbSimulator.deviceOperator;
 }
 
-- (BOOL)bootSimulatorIfNecessary:(NSError * __autoreleasing *) error {
-    FBSimulatorState state = self.fbSimulator.state;
-    if (state == FBSimulatorStateShutdown || state == FBSimulatorStateShuttingDown) {
+- (FBSimulatorState)state {
+    return self.fbSimulator.state;
+}
 
-        FBSimulatorBootOptions options = FBSimulatorBootOptionsConnectBridge | FBSimulatorBootOptionsAwaitServices;
-        FBSimulatorBootConfiguration *bootConfig;
-        bootConfig = [FBSimulatorBootConfiguration withOptions:options];
+- (NSString *)stateString {
+    return self.fbSimulator.stateString;
+}
 
-        FBSimulatorLifecycleCommands *lifecycleCommands;
-        lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:self.fbSimulator];
+- (BOOL)waitForSimulatorState:(FBSimulatorState)state
+                      timeout:(NSTimeInterval)timeout {
+    return [self.fbSimulator waitOnState:state timeout:timeout];
+}
 
-        if(![lifecycleCommands bootSimulator:bootConfig error:error]) {
-            return NO;
+- (BOOL)waitForBootableState:(NSError *__autoreleasing *)error {
+
+  NSTimeInterval waitTimeout = 30;
+  NSString *message;
+  NSString *messageFmt = @"Simulator never finished %@ after %@ seconds";
+
+  switch (self.state) {
+    case FBSimulatorStateBooted: { return YES; }
+    case FBSimulatorStateShutdown: { return YES; }
+
+    case FBSimulatorStateBooting: {
+      if ([self waitForSimulatorState:FBSimulatorStateBooted
+                              timeout:waitTimeout]) {
+        return YES;
+      } else {
+        if (error) {
+          message = [NSString stringWithFormat:messageFmt,
+                     @"booting", @(waitTimeout)];
+          *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                       code:iOSReturnStatusCodeInternalError
+                                   userInfo:@{
+                                              NSLocalizedDescriptionKey : message
+                                              }];
         }
+        return NO;
+      }
     }
-    return YES;
+
+    case FBSimulatorStateShuttingDown: {
+      if ([self waitForSimulatorState:FBSimulatorStateShutdown
+                              timeout:waitTimeout]) {
+        return YES;
+      } else {
+        if (error) {
+          message = [NSString stringWithFormat:messageFmt,
+                     @"shutting down", @(waitTimeout)];
+          *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                       code:iOSReturnStatusCodeInternalError
+                                   userInfo:@{
+                                              NSLocalizedDescriptionKey : message
+                                              }];
+        }
+        return NO;
+      }
+    }
+
+    default: {
+      if (error) {
+        message = [NSString stringWithFormat:@"Could not boot simulator from this state: %@",
+                   self.stateString];
+        *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                     code:iOSReturnStatusCodeInternalError
+                                 userInfo:@{
+                                            NSLocalizedDescriptionKey : message
+                                            }];
+      }
+      return NO;
+    }
+  }
+}
+
+- (BOOL)bootWithFBSimulator:(FBSimulator *)simulator
+                      error:(NSError * __autoreleasing*) error {
+  FBSimulatorBootOptions options = (FBSimulatorBootOptionsConnectBridge |
+                                    FBSimulatorBootOptionsAwaitServices);
+  FBSimulatorBootConfiguration *bootConfig;
+  bootConfig = [FBSimulatorBootConfiguration withOptions:options];
+
+  FBSimulatorLifecycleCommands *lifecycleCommands;
+  lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:simulator];
+
+  return [lifecycleCommands bootSimulator:bootConfig error:error];
+}
+
+- (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error {
+
+    if ([self waitForBootableState:error]) {
+        return [self bootWithFBSimulator:self.fbSimulator
+                                   error:error];
+    } else {
+        return NO;
+    }
 }
 
 - (iOSReturnStatusCode)launch {
     NSError *error = nil;
-    if ([self bootSimulatorIfNecessary:&error]) {
+    if ([self bootIfNecessary:&error]) {
         return iOSReturnStatusCodeEverythingOkay;
     } else {
         ConsoleWriteErr(@"Failed to boot sim: %@", error);
@@ -374,7 +462,7 @@ static const FBSimulatorControl *_control;
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive {
     NSError *error = nil;
-    if (![self bootSimulatorIfNecessary:&error]) {
+    if (![self bootIfNecessary:&error]) {
         ConsoleWriteErr(@"Failed to boot sim: %@", error);
         return iOSReturnStatusCodeInternalError;
     }
