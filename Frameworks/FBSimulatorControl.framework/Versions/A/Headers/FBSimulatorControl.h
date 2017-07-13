@@ -7,6 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+#import <FBSimulatorControl/FBAccessibilityFetch.h>
 #import <FBSimulatorControl/FBAddVideoPolyfill.h>
 #import <FBSimulatorControl/FBAgentLaunchConfiguration+Simulator.h>
 #import <FBSimulatorControl/FBAgentLaunchStrategy.h>
@@ -21,10 +22,12 @@
 #import <FBSimulatorControl/FBFramebufferSurface.h>
 #import <FBSimulatorControl/FBMutableSimulatorEventSink.h>
 #import <FBSimulatorControl/FBProcessLaunchConfiguration+Simulator.h>
+#import <FBSimulatorControl/FBProcessOutput.h>
 #import <FBSimulatorControl/FBSimulator+Helpers.h>
 #import <FBSimulatorControl/FBSimulator+Private.h>
 #import <FBSimulatorControl/FBSimulator.h>
 #import <FBSimulatorControl/FBSimulatorAgentCommands.h>
+#import <FBSimulatorControl/FBSimulatorAgentOperation.h>
 #import <FBSimulatorControl/FBSimulatorApplicationCommands.h>
 #import <FBSimulatorControl/FBSimulatorBitmapStream.h>
 #import <FBSimulatorControl/FBSimulatorBootConfiguration+Helpers.h>
@@ -51,6 +54,7 @@
 #import <FBSimulatorControl/FBSimulatorHistory.h>
 #import <FBSimulatorControl/FBSimulatorHistoryGenerator.h>
 #import <FBSimulatorControl/FBSimulatorImage.h>
+#import <FBSimulatorControl/FBSimulatorIndigoHID.h>
 #import <FBSimulatorControl/FBSimulatorLaunchCtl.h>
 #import <FBSimulatorControl/FBSimulatorLifecycleCommands.h>
 #import <FBSimulatorControl/FBSimulatorLoggingEventSink.h>
@@ -61,7 +65,6 @@
 #import <FBSimulatorControl/FBSimulatorPredicates.h>
 #import <FBSimulatorControl/FBSimulatorProcessFetcher.h>
 #import <FBSimulatorControl/FBSimulatorResourceManager.h>
-#import <FBSimulatorControl/FBSimulatorScale.h>
 #import <FBSimulatorControl/FBSimulatorServiceContext.h>
 #import <FBSimulatorControl/FBSimulatorSet+Private.h>
 #import <FBSimulatorControl/FBSimulatorSet.h>

@@ -29,33 +29,12 @@ static NSString *const ApplicationPathKey = @"Path";
  */
 @property (nonatomic, strong, readonly) FBSimulatorLaunchCtl *launchctl;
 
-/**
- The DeviceSetPath of the Simulator.
- */
-@property (nonatomic, nullable, copy, readonly) NSString *deviceSetPath;
-
 /*
  Fetches an NSArray<FBProcessInfo *> of the subprocesses of the launchd_sim.
  */
 @property (nonatomic, copy, readonly) NSArray<FBProcessInfo *> *launchdSimSubprocesses;
 
 #pragma mark Methods
-
-/**
- Convenience method for obtaining SimulatorState from a String.
-
- @param stateString the State String to convert from
- @return an Enumerated State for the String.
- */
-+ (FBSimulatorState)simulatorStateFromStateString:(NSString *)stateString;
-
-/**
- Convenience method for obtaining a description of Simulator State
-
- @param state the Enumerated State to convert from.
- @return a String Representation of the Simulator State.
- */
-+ (NSString *)stateStringFromSimulatorState:(FBSimulatorState)state;
 
 /**
  Synchronously waits on the provided state.
