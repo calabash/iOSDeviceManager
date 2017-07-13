@@ -93,26 +93,6 @@
     expect(error).to.beNil;
 }
 
-- (void)testBootSimulatorIfNecessaryFailure {
-    Simulator *simulator = [Simulator withID:defaultSimUDID];
-    FBSimulatorLifecycleCommands *commands;
-    commands = [FBSimulatorLifecycleCommands commandsWithSimulator:simulator.fbSimulator];
-    id mockCommands = OCMPartialMock(commands);
-    [[[mockCommands stub] andReturnValue:@NO] bootSimulator:[OCMArg any]
-                                                      error:((NSError __autoreleasing **)[OCMArg anyPointer])];
-
-    id SimulatorMock = OCMClassMock([Simulator class]);
-    OCMExpect(
-              [SimulatorMock lifecycleCommandsWithFBSimulator:simulator.fbSimulator]
-              ).andReturn(mockCommands);
-
-    NSError *error = nil;
-
-    XCTAssertFalse([simulator bootSimulatorIfNecessary:&error]);
-    OCMVerifyAll(SimulatorMock);
-    OCMVerifyAll(mockCommands);
-}
-
 - (void)testInstallPathAndContainerPathForApplication {
     expect([self.simulator bootIfNecessary:nil]).to.equal(YES);
 
