@@ -6,6 +6,8 @@
 #import "AppUtils.h"
 #import "PhysicalDevice.h"
 #import "Device.h"
+#import "ShellRunner.h"
+#import "ShellResult.h"
 
 @interface PhysicalDevice (TEST)
 
@@ -29,6 +31,29 @@
     [super tearDown];
 }
 
+- (void)testResignObjectWithIdentity {
+    CodesignIdentity *karlIdentity = [self.resources KarlKrukowIdentityIOS];
+    CodesignIdentity *moodyIdentity = [self.resources JoshuaMoodyIdentityIOS];
+
+    NSString *target = [[self.resources uniqueTmpDirectory]
+                        stringByAppendingPathComponent:@"signed.dylib"];
+    NSString *source = [self.resources CalabashDylibPath];
+    ShellResult *result;
+
+    result = [ShellRunner xcrun:@[@"codesign", @"-vvv", @"--display", source]
+                        timeout:5];
+    expect([result.stderrStr containsString:karlIdentity.name]).to.beTruthy();
+
+    NSFileManager *manager = [NSFileManager defaultManager];
+    expect([manager copyItemAtPath:source toPath:target error:nil]).to.beTruthy();
+
+    [Codesigner resignObject:target codesignIdentity:moodyIdentity];
+
+    result = [ShellRunner xcrun:@[@"codesign", @"-vvv", @"--display", target]
+                        timeout:5];
+    expect([result.stderrStr containsString:moodyIdentity.name]).to.beTruthy();
+}
+
 - (void)testResignWithWildCardProfile {
     NSString *profilePath = [[Resources shared] CalabashWildcardPath];
     NSString *ipaPath = [[Resources shared] TaskyIpaPath];
@@ -41,17 +66,7 @@
                       @"-o", outputPath
                       ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    
-    NSString *calabashDylibPath = [CodesignResources CalabashDylibPath];
-    MobileProfile *profile = [MobileProfile withPath:profilePath];
-    CodesignIdentity *codesignID = [profile findValidIdentity];
-    args = @[
-             kProgramName, @"resign-object",
-             calabashDylibPath,
-             [codesignID shasum]
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    
+
     if (device_available()) {
         NSArray *args = @[
                           kProgramName, @"is-installed",
