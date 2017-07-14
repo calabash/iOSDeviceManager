@@ -61,7 +61,7 @@ banner "Making DeviceAgent"
 banner "Copying Licenses"
 
 cp LICENSE "${OUTPUT_DIR}"
-cp vendor-licenses/* "${OUTPUT_DIR}/Frameworks"
+cp Licenses/* "${OUTPUT_DIR}/Frameworks"
 
 banner "Making iOSDeviceManager"
 
