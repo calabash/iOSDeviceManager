@@ -695,7 +695,7 @@
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
-				F5169D271CFEAE5900252F52 /* vendor-licenses */,
+				F5169D271CFEAE5900252F52 /* Licenses */,
 				898D7D3B1DA474A7001578FE /* Vendor */,
 			);
 			indentWidth = 4;
@@ -971,7 +971,7 @@
 			path = iOSDeviceManager/LibraryWrapper;
 			sourceTree = "<group>";
 		};
-		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
+		F5169D271CFEAE5900252F52 /* Licenses */ = {
 			isa = PBXGroup;
 			children = (
 				F57BF4561DC382420074747F /* CocoaAsyncSocket.LICENSE */,
@@ -980,7 +980,7 @@
 				F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */,
 				F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */,
 			);
-			path = "vendor-licenses";
+			path = Licenses;
 			sourceTree = "<group>";
 		};
 		F5249D3C1D6B31D1006ADD64 /* Utilities */ = {
