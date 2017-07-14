@@ -932,6 +932,13 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
                                                name:identityName];
 }
 
+- (CodesignIdentity *)JoshuaMoodyIdentityIOS {
+    NSString *identityName = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
+    NSString *identityShasum = @"CF8BE0BA703F8EA6CDB9F384B5D894C1546D2BC4";
+    return [[CodesignIdentity alloc] initWithShasum:identityShasum
+                                               name:identityName];
+}
+
 #pragma mark - Simulators
 
 - (Simctl *)simctl {

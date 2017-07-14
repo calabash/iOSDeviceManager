@@ -160,6 +160,7 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSData *)certificateFromCalabashWildcardPath;
 - (Entitlements *)entitlements;
 - (CodesignIdentity *)KarlKrukowIdentityIOS;
+- (CodesignIdentity *)JoshuaMoodyIdentityIOS;
 
 - (NSString *)resourcesDirectory;
 - (NSString *)plistPath:(NSString *)bundlePath;
