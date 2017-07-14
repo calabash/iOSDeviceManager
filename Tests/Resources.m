@@ -651,6 +651,14 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [self.resourcesDirectory stringByAppendingPathComponent:@"calabash.dylib"];
 }
 
+- (NSString *)PermissionsAppBundleID {
+    return @"sh.calaba.Permissions";
+}
+
+- (NSString *)PermissionsIpaPath {
+    return [self.resourcesDirectory stringByAppendingPathComponent:@"arm/Permissions.ipa"];
+}
+
 - (ShellResult *)successResultSingleLine {
     if (_successResultSingleLine) { return _successResultSingleLine; }
 
@@ -889,13 +897,18 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
             stringByAppendingPathComponent:@"profiles/CalabashWildcard.mobileprovision"];
 }
 
+- (NSString *)PermissionsProfilePath {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"profiles/PermissionsDevelopment.mobileprovision"];
+}
+
 - (NSString *)pathToVeryLongProfile {
     return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
 }
 
 - (NSString *)pathToLJSProvisioningProfile {
     return [[self provisioningProfilesDirectory]
-            stringByAppendingPathComponent:@"LJS.mobileprovision"];
+            stringByAppendingPathComponent:@"LJS_Development_Profile.mobileprovision"];
 }
 
 - (NSString *)provisioningProfilesDirectory {

@@ -2,7 +2,6 @@
 #import "TestCase.h"
 #import "CLI.h"
 #import "DeviceUtils.h"
-#import "CodesignResources.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
 

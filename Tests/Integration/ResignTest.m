@@ -1,7 +1,6 @@
 
 #import "TestCase.h"
 #import "Codesigner.h"
-#import "CodesignResources.h"
 #import "CLI.h"
 #import "AppUtils.h"
 #import "PhysicalDevice.h"
@@ -101,9 +100,9 @@
 }
 
 - (void)testResignWithSameIdentity {
-    NSString *profilePath = [CodesignResources CalabashPermissionsProfilePath];
-    NSString *ipaPath = [CodesignResources PermissionsIpaPath];
-    NSString *bundleID = [CodesignResources PermissionsAppBundleID];
+    NSString *profilePath = [self.resources PermissionsProfilePath];
+    NSString *ipaPath = [self.resources PermissionsIpaPath];
+    NSString *bundleID = [self.resources PermissionsAppBundleID];
     NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-permissions.ipa"];
     NSArray *args;
 
@@ -154,7 +153,7 @@
     NSString *profilePath = [self.resources pathToLJSProvisioningProfile];
     MobileProfile *profile = [MobileProfile withPath:profilePath];
 
-    NSString *bundlePath = [AppUtils unzipToTmpDir:[CodesignResources PermissionsIpaPath]];
+    NSString *bundlePath = [AppUtils unzipToTmpDir:[self.resources PermissionsIpaPath]];
     Application *application = [Application withBundlePath:bundlePath];
     [Codesigner resignApplication:application withProvisioningProfile:profile];
 

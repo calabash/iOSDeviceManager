@@ -144,6 +144,8 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)DeviceAgentXCTestPath:(NSString *)platform;
 - (NSString *)DeviceAgentIdentifier;
 - (NSString *)CalabashDylibPath;
+- (NSString *)PermissionsAppBundleID;
+- (NSString *)PermissionsIpaPath;
 
 - (ShellResult *)successResultSingleLine;
 - (ShellResult *)successResultMultiline;
@@ -153,6 +155,7 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 
 - (NSString *)stringPlist;
 - (NSString *)CalabashWildcardPath;
+- (NSString *)PermissionsProfilePath;
 - (NSString *)pathToVeryLongProfile;
 - (NSString *)pathToLJSProvisioningProfile;
 - (NSString *)provisioningProfilesDirectory;
