@@ -359,7 +359,7 @@ context(@"embeddedMobileProvision:identity:deviceUDID:", ^{
     before(^{
         bundlePath = testApp(ARM);
         provisionPath = [bundlePath stringByAppendingPathComponent:@"embedded.mobileprovision"];
-        identity = [[Resources shared] KarlKrukowIdentity];
+        identity = [[Resources shared] KarlKrukowIdentityIOS];
         MockMobileProfile = OCMClassMock([MobileProfile class]);
         embedded = nil;
     });

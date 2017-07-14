@@ -925,7 +925,7 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [Entitlements entitlementsWithDictionary:dictionary];
 }
 
-- (CodesignIdentity *)KarlKrukowIdentity {
+- (CodesignIdentity *)KarlKrukowIdentityIOS {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
     NSString *identityShasum = @"8742A8D1D6EB9AEB1955A1F759D244EB214A67AD";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
