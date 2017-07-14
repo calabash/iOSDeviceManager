@@ -10,6 +10,8 @@
 @interface PhysicalDevice (TEST)
 
 - (FBDevice *)fbDevice;
+- (BOOL)installProvisioningProfileAtPath:(NSString *)path
+                                   error:(NSError **)error;
 
 @end
 
@@ -131,37 +133,36 @@
     }
 }
 
-- (void)testResignWithDifferentIdentity {
-    if (device_available()) {
+- (void)testResignWithDifferentProfile {
+    if (!device_available()) { return; }
 
-        MobileProfile *profile = [MobileProfile
-                                  withPath:[self.resources pathToLJSProvisioningProfile]];
+    NSString *profilePath = [self.resources pathToLJSProvisioningProfile];
+    MobileProfile *profile = [MobileProfile withPath:profilePath];
 
-        NSString *bundlePath = [AppUtils unzipToTmpDir:[CodesignResources PermissionsIpaPath]];
-        Application *application = [Application withBundlePath:bundlePath];
-        [Codesigner resignApplication:application withProvisioningProfile:profile];
+    NSString *bundlePath = [AppUtils unzipToTmpDir:[CodesignResources PermissionsIpaPath]];
+    Application *application = [Application withBundlePath:bundlePath];
+    [Codesigner resignApplication:application withProvisioningProfile:profile];
 
-        PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+    FBiOSDeviceOperator *operator = [device fbDeviceOperator];
 
-        FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.fbDevice.deviceOperator);
+    NSError *error = nil;
+    iOSReturnStatusCode code = iOSReturnStatusCodeGenericFailure;
+    BOOL success = NO;
 
-        NSError *error = nil;
-        BOOL actual = NO;
+    success = [device installProvisioningProfileAtPath:profile.path error:&error];
+    expect(success).to.equal(YES);
 
-        if ([operator installedApplicationWithBundleIdentifier:[application bundleID]]) {
-            actual = [operator cleanApplicationStateWithBundleIdentifier:[application bundleID]
-                                                                   error:&error];
-
-            expect(actual).to.equal(YES);
-        }
-
-        actual = [operator installApplicationWithPath:bundlePath error:&error];
-        expect(actual).to.equal(YES);
-
-        iOSReturnStatusCode code = [device launchApp:[application bundleID]];
-
+    if ([device isInstalled:[application bundleID] withError:&error]) {
+        code = [device uninstallApp:[application bundleID]];
         expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
+
+    BOOL actual = [operator installApplicationWithPath:[application path] error:&error];
+    expect(actual).to.equal(YES);
+
+    code = [device launchApp:[application bundleID]];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testResignAll {
