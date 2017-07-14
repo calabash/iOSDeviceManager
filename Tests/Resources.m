@@ -647,6 +647,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [self bundleIdentifier:[self DeviceAgentPath:ARM]];
 }
 
+- (NSString *)CalabashDylibPath {
+    return [self.resourcesDirectory stringByAppendingPathComponent:@"calabash.dylib"];
+}
+
 - (ShellResult *)successResultSingleLine {
     if (_successResultSingleLine) { return _successResultSingleLine; }
 

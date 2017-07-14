@@ -135,7 +135,7 @@
                  testApp(ARM),
                  @"-d", defaultDeviceUDID,
                  @"-c", kCodeSignIdentityKARL,
-                 @"-i", [CodesignResources CalabashDylibPath]
+                 @"-i", [[Resources shared] CalabashDylibPath]
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 

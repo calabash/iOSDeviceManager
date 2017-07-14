@@ -5,6 +5,5 @@
 + (NSString *)CalabashPermissionsProfilePath;
 + (NSString *)PermissionsAppBundleID;
 + (NSString *)PermissionsIpaPath;
-+ (NSString *)CalabashDylibPath;
 
 @end

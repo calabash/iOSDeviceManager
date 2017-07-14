@@ -7,10 +7,6 @@
     return [[bundle resourcePath]stringByAppendingPathComponent:@"Resources"];
 }
 
-+ (NSString *)CalabashDylibPath {
-    return [[CodesignResources resourcesDirectory] stringByAppendingPathComponent:@"calabash.dylib"];
-}
-
 + (NSString *)PermissionsAppBundleID {
     return @"sh.calaba.Permissions";
 }

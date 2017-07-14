@@ -143,6 +143,7 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)DeviceAgentPath:(NSString *)platform;
 - (NSString *)DeviceAgentXCTestPath:(NSString *)platform;
 - (NSString *)DeviceAgentIdentifier;
+- (NSString *)CalabashDylibPath;
 
 - (ShellResult *)successResultSingleLine;
 - (ShellResult *)successResultMultiline;
