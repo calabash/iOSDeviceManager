@@ -204,8 +204,6 @@
 		B28936191E53D20F0010403C /* MobileProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEEB1E302FC200D9FEC5 /* MobileProfile.m */; };
 		B289361A1E53D2230010403C /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE11E302FC200D9FEC5 /* Certificate.m */; };
 		B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEED1E302FC200D9FEC5 /* ShasumProvider.m */; };
-		B294E8D71E49267D0070BCD2 /* CodesignResources.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BD7BAE1E451340009242C7 /* CodesignResources.m */; };
-		B294E8D81E49267E0070BCD2 /* CodesignResources.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BD7BAE1E451340009242C7 /* CodesignResources.m */; };
 		B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
 		B29637851E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
 		B29637861E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
@@ -535,8 +533,6 @@
 		B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSReturnStatusCode.h; path = iOSDeviceManager/Commands/iOSReturnStatusCode.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtils.h; path = iOSDeviceManager/Utilities/DeviceUtils.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtils.m; path = iOSDeviceManager/Utilities/DeviceUtils.m; sourceTree = SOURCE_ROOT; };
-		B2BD7BAD1E451214009242C7 /* CodesignResources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodesignResources.h; sourceTree = "<group>"; };
-		B2BD7BAE1E451340009242C7 /* CodesignResources.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CodesignResources.m; sourceTree = "<group>"; };
 		B2D4F9491E538C450042865C /* libiOSDeviceManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E68E161E3816DF001D5D89 /* ResignCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResignCommand.h; path = iOSDeviceManager/Commands/ResignCommand.h; sourceTree = SOURCE_ROOT; };
 		B2E68E171E38170E001D5D89 /* ResignCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResignCommand.m; path = iOSDeviceManager/Commands/ResignCommand.m; sourceTree = SOURCE_ROOT; };
@@ -930,8 +926,6 @@
 				F53764961D67A1FB009457C8 /* Resources.h */,
 				F53764971D67A1FB009457C8 /* Resources.m */,
 				F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */,
-				B2BD7BAD1E451214009242C7 /* CodesignResources.h */,
-				B2BD7BAE1E451340009242C7 /* CodesignResources.m */,
 				F5A705AC1D67C38D006F05B5 /* Resources */,
 				F5D583DF1D69FE62007B0D11 /* Unit */,
 				F5D583DC1D69FE62007B0D11 /* Integration */,
@@ -1405,7 +1399,6 @@
 				898D7D891DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				42148DFC1EA5672700625741 /* VersionCommand.m in Sources */,
 				898D7D711DA47569001578FE /* DDNumber.m in Sources */,
-				B294E8D71E49267D0070BCD2 /* CodesignResources.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
 				427823EB1F10294E00F7D972 /* AppInfoCommand.m in Sources */,
@@ -1516,7 +1509,6 @@
 				F54ACEF71E8A6AFD00BC36DA /* PhysicalDeviceTest.m in Sources */,
 				898D7D8A1DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */,
-				B294E8D81E49267E0070BCD2 /* CodesignResources.m in Sources */,
 				898D7D991DA47569001578FE /* HTTPFileResponse.m in Sources */,
 				898D7D811DA47569001578FE /* HTTPServer.m in Sources */,
 				F5D583FC1D6A0378007B0D11 /* PhysicalDevice.m in Sources */,

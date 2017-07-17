@@ -27,7 +27,7 @@
 - (void)testRankedIOSProfilesForResigning {
     if (device_available()) {
         NSString *UDID = defaultDeviceUDID;
-        CodesignIdentity *identity = [[Resources shared] KarlKrukowIdentity];
+        CodesignIdentity *identity = [[Resources shared] KarlKrukowIdentityIOS];
 
         NSString *appBundle = runner(ARM);
 

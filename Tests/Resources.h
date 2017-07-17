@@ -143,6 +143,9 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)DeviceAgentPath:(NSString *)platform;
 - (NSString *)DeviceAgentXCTestPath:(NSString *)platform;
 - (NSString *)DeviceAgentIdentifier;
+- (NSString *)CalabashDylibPath;
+- (NSString *)PermissionsAppBundleID;
+- (NSString *)PermissionsIpaPath;
 
 - (ShellResult *)successResultSingleLine;
 - (ShellResult *)successResultMultiline;
@@ -152,13 +155,15 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 
 - (NSString *)stringPlist;
 - (NSString *)CalabashWildcardPath;
+- (NSString *)PermissionsProfilePath;
 - (NSString *)pathToVeryLongProfile;
 - (NSString *)pathToLJSProvisioningProfile;
 - (NSString *)provisioningProfilesDirectory;
 - (NSString *)pathToCalabashWildcardPathCertificate;
 - (NSData *)certificateFromCalabashWildcardPath;
 - (Entitlements *)entitlements;
-- (CodesignIdentity *)KarlKrukowIdentity;
+- (CodesignIdentity *)KarlKrukowIdentityIOS;
+- (CodesignIdentity *)JoshuaMoodyIdentityIOS;
 
 - (NSString *)resourcesDirectory;
 - (NSString *)plistPath:(NSString *)bundlePath;

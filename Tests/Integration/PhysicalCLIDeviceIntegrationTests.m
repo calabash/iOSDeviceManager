@@ -2,7 +2,8 @@
 #import "TestCase.h"
 #import "CLI.h"
 #import "DeviceUtils.h"
-#import "CodesignResources.h"
+#import "ShellRunner.h"
+#import "ShellResult.h"
 
 @interface PhysicalDeviceCLIIntegrationTests : TestCase
 
@@ -135,7 +136,7 @@
                  testApp(ARM),
                  @"-d", defaultDeviceUDID,
                  @"-c", kCodeSignIdentityKARL,
-                 @"-i", [CodesignResources CalabashDylibPath]
+                 @"-i", [[Resources shared] CalabashDylibPath]
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
@@ -323,6 +324,26 @@
                  ];
         XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
     }
+}
+
+- (void)testResignObject {
+    ShellResult *result;
+    CodesignIdentity *identity = [self.resources JoshuaMoodyIdentityIOS];
+
+    NSString *target = [[self.resources uniqueTmpDirectory] stringByAppendingPathComponent:@"signed.dylib"];
+    NSString *source = [self.resources CalabashDylibPath];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    expect([manager copyItemAtPath:source toPath:target error:nil]).to.beTruthy();
+
+    NSArray *args = @[
+                      kProgramName, @"resign-object",
+                      target,
+                      [identity shasum]
+                      ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+    result = [ShellRunner xcrun:@[@"codesign", @"--display", target] timeout:5];
+    expect([[result stdoutStr] containsString:identity.name]);
 }
 
 @end

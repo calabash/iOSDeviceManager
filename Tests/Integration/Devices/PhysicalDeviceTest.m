@@ -16,6 +16,33 @@
     [super tearDown];
 }
 
+- (void)testInstallAndUninstall {
+    if (!device_available()) { return; }
+
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+    Application *app = [Application withBundlePath:testApp(ARM)];
+    NSError *error = nil;
+    BOOL installed = NO;
+    iOSReturnStatusCode code = iOSReturnStatusCodeGenericFailure;
+
+    if ([device isInstalled:[app bundleID] withError:&error]) {
+        code = [device uninstallApp:[app bundleID]];
+        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+        BOOL installed = [device isInstalled:[app bundleID] withError:&error];
+        expect(installed).to.equal(NO);
+    }
+
+    code = [device installApp:app shouldUpdate:YES];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    installed = [device isInstalled:[app bundleID] withError:&error];
+    expect(installed).to.equal(YES);
+
+    code = [device uninstallApp:[app bundleID]];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    installed = [device isInstalled:[app bundleID] withError:&error];
+    expect(installed).to.equal(NO);
+}
+
 - (void)testInstallPathAndContainerPathForApplication {
     if (!device_available()) { return; }
 
