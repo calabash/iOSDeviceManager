@@ -30,6 +30,33 @@
     [super tearDown];
 }
 
+- (void)expectApplicationToInstallAndLaunch:(Application *)app
+                                    profile:(MobileProfile *)profile {
+
+    if (!device_available()) { return; }
+
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+    FBiOSDeviceOperator *operator = [device fbDeviceOperator];
+
+    NSError *error = nil;
+    iOSReturnStatusCode code = iOSReturnStatusCodeGenericFailure;
+    BOOL success = NO;
+
+    success = [device installProvisioningProfileAtPath:profile.path error:&error];
+    expect(success).to.equal(YES);
+
+    if ([device isInstalled:[app bundleID] withError:&error]) {
+        code = [device uninstallApp:[app bundleID]];
+        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    BOOL actual = [operator installApplicationWithPath:[app path] error:&error];
+    expect(actual).to.equal(YES);
+
+    code = [device launchApp:[app bundleID]];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+}
+
 - (void)testResignObjectWithIdentity {
     CodesignIdentity *karlIdentity = [self.resources KarlKrukowIdentityIOS];
     CodesignIdentity *moodyIdentity = [self.resources JoshuaMoodyIdentityIOS];
