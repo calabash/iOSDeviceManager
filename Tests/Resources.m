@@ -538,15 +538,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 }
 
 - (void)setDeveloperDirectory {
-    if (self.OSisSierraOrHigher) {
-        NSLog(@"Only Xcode 8 is allowed on Sierra; "
-              "don't touch the active Xcode version");
-    } else {
-        NSLog(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
-        setenv("DEVELOPER_DIR",
-               [self.XcodePath cStringUsingEncoding:NSUTF8StringEncoding],
-               YES);
-    }
+    NSLog(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
+    setenv("DEVELOPER_DIR",
+           [self.XcodePath cStringUsingEncoding:NSUTF8StringEncoding],
+           YES);
 }
 
 - (NSString *)resourcesDirectory {
