@@ -7,6 +7,7 @@
 #import "Device.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
+#import "Entitlements.h"
 
 @interface PhysicalDevice (TEST)
 
@@ -80,134 +81,40 @@
     expect([result.stderrStr containsString:moodyIdentity.name]).to.beTruthy();
 }
 
-- (void)testResignWithWildCardProfile {
-    NSString *profilePath = [[Resources shared] CalabashWildcardPath];
-    NSString *ipaPath = [[Resources shared] TaskyIpaPath];
-    NSString *bundleID = [[Resources shared] TaskyIdentifier];
-    NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-tasky.ipa"];
-    NSArray *args = @[
-                      kProgramName, @"resign",
-                      ipaPath,
-                      profilePath,
-                      @"-o", outputPath
-                      ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+- (void)testResignWithExactMatchProfile {
+    NSString *bundlePath = [AppUtils unzipToTmpDir:[self.resources PermissionsIpaPath]];
+    Application *app = [Application withBundlePath:bundlePath];
 
-    if (device_available()) {
-        NSArray *args = @[
-                          kProgramName, @"is-installed",
-                          bundleID,
-                          @"-d", defaultDeviceUDID
-                          ];
-        
-        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-            args = @[
-                     kProgramName, @"uninstall",
-                     bundleID,
-                     @"-d", defaultDeviceUDID,
-                     ];
-            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        }
-        
-        args = @[
-                 kProgramName, @"install",
-                 outputPath,
-                 @"-d", defaultDeviceUDID,
-                 @"-p", profilePath,
-                 ];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        
-        args = @[
-                 kProgramName, @"launch-app",
-                 bundleID,
-                 @"-d", defaultDeviceUDID
-                 ];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    }
+    NSDictionary *before = [Entitlements dictionaryOfEntitlementsWithBundlePath:app.path];
+    expect(before[@"application-identifier"]).to.equal(@"FYD86LA7RE.sh.calaba.Permissions");
+
+    MobileProfile *profile = [MobileProfile withPath:[self.resources PermissionsProfilePath]];
+    [Codesigner resignApplication:app withProvisioningProfile:profile];
+
+    NSDictionary *after = [Entitlements dictionaryOfEntitlementsWithBundlePath:app.path];
+    expect(after[@"application-identifier"]).to.equal(@"FYD86LA7RE.sh.calaba.Permissions");
+
+    [self expectApplicationToInstallAndLaunch:app
+                                      profile:profile];
 }
 
-- (void)testResignWithSameIdentity {
-    NSString *profilePath = [self.resources PermissionsProfilePath];
-    NSString *ipaPath = [self.resources PermissionsIpaPath];
-    NSString *bundleID = [self.resources PermissionsAppBundleID];
-    NSString *outputPath = [[self.resources resourcesDirectory] stringByAppendingPathComponent:@"resigned-permissions.ipa"];
-    NSArray *args;
+- (void)testResignWithWildcardProfileThatContainsForeignCertificate {
+    NSString *bundlePath = [AppUtils unzipToTmpDir:[self.resources PermissionsIpaPath]];
+    Application *app = [Application withBundlePath:bundlePath];
 
-    args = @[
-             kProgramName, @"resign",
-             ipaPath,
-             profilePath,
-             @"-o", outputPath
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    if (device_available()) {
-        args = @[
-                 kProgramName, @"is-installed",
-                 bundleID,
-                 @"-d", defaultDeviceUDID
-                 ];
-
-        if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-            args = @[
-                     kProgramName, @"uninstall",
-                     bundleID,
-                     @"-d", defaultDeviceUDID
-                     ];
-            XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        }
-        
-        args = @[
-                 kProgramName, @"install",
-                 outputPath,
-                 @"-d", defaultDeviceUDID,
-                 @"-p", profilePath
-                 ];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-        
-        args = @[
-                 kProgramName, @"launch-app",
-                 bundleID,
-                 @"-d", defaultDeviceUDID
-                 ];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    }
-}
-
-- (void)testResignWithDifferentProfile {
-    if (!device_available()) { return; }
+    NSDictionary *before = [Entitlements dictionaryOfEntitlementsWithBundlePath:app.path];
+    expect(before[@"application-identifier"]).to.equal(@"FYD86LA7RE.sh.calaba.Permissions");
 
     NSString *profilePath = [self.resources pathToLJSProvisioningProfile];
     MobileProfile *profile = [MobileProfile withPath:profilePath];
 
-    NSString *bundlePath = [AppUtils unzipToTmpDir:[self.resources PermissionsIpaPath]];
-    Application *application = [Application withBundlePath:bundlePath];
-    [Codesigner resignApplication:application withProvisioningProfile:profile];
+    [Codesigner resignApplication:app withProvisioningProfile:profile];
 
-    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
-    FBiOSDeviceOperator *operator = [device fbDeviceOperator];
+    NSDictionary *after = [Entitlements dictionaryOfEntitlementsWithBundlePath:app.path];
+    expect(after[@"application-identifier"]).to.equal(@"Y54WEA9F74.*");
 
-    NSError *error = nil;
-    iOSReturnStatusCode code = iOSReturnStatusCodeGenericFailure;
-    BOOL success = NO;
-
-    success = [device installProvisioningProfileAtPath:profile.path error:&error];
-    expect(success).to.equal(YES);
-
-    if ([device isInstalled:[application bundleID] withError:&error]) {
-        code = [device uninstallApp:[application bundleID]];
-        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
-    }
-
-    BOOL actual = [operator installApplicationWithPath:[application path] error:&error];
-    expect(actual).to.equal(YES);
-
-    code = [device launchApp:[application bundleID]];
-    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
-}
-
-- (void)testResignAll {
-//TODO
+    [self expectApplicationToInstallAndLaunch:app
+                                      profile:profile];
 }
 
 @end
