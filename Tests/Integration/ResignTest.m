@@ -12,6 +12,7 @@
 @interface PhysicalDevice (TEST)
 
 - (FBDevice *)fbDevice;
+- (FBDeviceApplicationCommands *)applicationCommands;
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
 
@@ -37,7 +38,7 @@
     if (!device_available()) { return; }
 
     PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
-    FBiOSDeviceOperator *operator = [device fbDeviceOperator];
+    FBDeviceApplicationCommands *commands = [device applicationCommands];
 
     NSError *error = nil;
     iOSReturnStatusCode code = iOSReturnStatusCodeGenericFailure;
@@ -51,7 +52,7 @@
         expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 
-    BOOL actual = [operator installApplicationWithPath:[app path] error:&error];
+    BOOL actual = [commands installApplicationWithPath:[app path] error:&error];
     expect(actual).to.equal(YES);
 
     code = [device launchApp:[app bundleID]];

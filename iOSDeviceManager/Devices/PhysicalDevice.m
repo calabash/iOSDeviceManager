@@ -15,8 +15,10 @@
 @end
 
 @interface DTDKRemoteDeviceToken : NSObject
-- (_Bool)simulateLatitude:(NSNumber *)lat andLongitude:(NSNumber *)lng withError:(NSError **)arg3;
-- (_Bool)stopSimulatingLocationWithError:(NSError **)arg1;
+- (BOOL)simulateLatitude:(NSNumber *)lat
+             andLongitude:(NSNumber *)lng
+                withError:(NSError **)arg3;
+- (BOOL)stopSimulatingLocationWithError:(NSError **)arg1;
 @end
 
 @interface DVTAbstractiOSDevice : NSObject
@@ -33,18 +35,23 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @end
 
 @interface DTDKProvisioningProfile : NSObject
-+ (DTDKProvisioningProfile *)profileWithPath:(NSString *)path certificateUtilities:(id)utils error:(NSError **)e;
++ (DTDKProvisioningProfile *)profileWithPath:(NSString *)path
+                        certificateUtilities:(id)utils
+                                       error:(NSError **)e;
 @end
 
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
+@property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
 @end
 
 @implementation PhysicalDevice
+
+@synthesize applicationCommands = _applicationCommands;
 
 + (PhysicalDevice *)withID:(NSString *)uuid {
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
@@ -68,6 +75,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     device.fbDevice = fbDevice;
 
     return device;
+}
+
+- (FBDeviceApplicationCommands *)applicationCommands {
+    if (_applicationCommands) { return _applicationCommands; }
+
+    _applicationCommands = [FBDeviceApplicationCommands commandsWithDevice:self.fbDevice];
+    return _applicationCommands;
 }
 
 - (FBiOSDeviceOperator *)fbDeviceOperator {
@@ -159,7 +173,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             return iOSReturnStatusCodeInternalError;
         }
 
-        if (![operator installApplicationWithPath:app.path error:&err] || err) {
+        if (![self.applicationCommands installApplicationWithPath:app.path
+                                                            error:&err]) {
             ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
@@ -243,7 +258,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    if (![operator uninstallApplicationWithBundleID:bundleID error:&err]) {
+    if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID
+                                                              error:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
 
@@ -362,7 +378,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 
     FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
-    NSDictionary *plist = [deviceOperator installedApplicationWithBundleIdentifier:bundleID];
+    NSDictionary *plist = [deviceOperator AMDinstalledApplicationWithBundleIdentifier:bundleID];
 
     return [Application withBundleID:bundleID
                                plist:plist
