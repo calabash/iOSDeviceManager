@@ -9,7 +9,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBDebugDescribeable.h>
 #import <FBControlCore/FBDiagnostic.h>
 #import <FBControlCore/FBJSONConversion.h>
 
@@ -29,7 +28,7 @@ typedef NS_OPTIONS(NSUInteger, FBBatchLogSearchOptions) {
 /**
  Defines a model for the result of a batch search on diagnostics.
  */
-@interface FBBatchLogSearchResult : NSObject <NSCopying, NSCoding, FBJSONSerializable, FBJSONDeserializable, FBDebugDescribeable>
+@interface FBBatchLogSearchResult : NSObject <NSCopying, FBJSONSerializable, FBJSONDeserializable, FBDebugDescribeable>
 
 /**
  The Results as a Mapping:
@@ -53,7 +52,7 @@ typedef NS_OPTIONS(NSUInteger, FBBatchLogSearchOptions) {
  Diagnostics are defined in terms of thier short_name.
  Logs are defined in terms of Search Predicates.
  */
-@interface FBBatchLogSearch : NSObject <NSCopying, NSCoding, FBJSONSerializable, FBJSONDeserializable, FBDebugDescribeable>
+@interface FBBatchLogSearch : NSObject <NSCopying, FBJSONSerializable, FBJSONDeserializable>
 
 /**
  Constructs a Batch Log Search for the provided mapping of log names to predicates.

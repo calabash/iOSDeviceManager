@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		4PHt0IRailyW8qX9FqcghibbZ3g=
+		OO6aGuHZFV2Ff14yjtpWSx/khEY=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			2xZ5ujkuDfWf9Dp3KIFEFSBzUJU=
+			8vygi3giyryuTuvW/N6vPe1w1x8=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			wu5L59YzPCqzUAzqrvARqAX4TeY=
+			WiOJ614eZtNNkv0ua34sXcPUxrI=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -64,6 +64,17 @@
 			jQ5GowPRiV8aJ2W/r7FZoxo6aHOXCazJYpYN+0IdrCs=
 			</data>
 		</dict>
+		<key>Headers/FBDeviceApplicationCommands.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5d49HPOPO8OXz4HiqQzIDhk/Kyk=
+			</data>
+			<key>hash2</key>
+			<data>
+			l6lTK3cwEBSwLixc8eVXqz4TjrZ4lHqiiXlDiJ1mSa4=
+			</data>
+		</dict>
 		<key>Headers/FBDeviceBitmapStream.h</key>
 		<dict>
 			<key>hash</key>
@@ -79,11 +90,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Xs1IKyXsRxBYIvve79MTrpuG7is=
+			wQiYiJXnCmU1qE6S57yH5WxOwVc=
 			</data>
 			<key>hash2</key>
 			<data>
-			EdoWbKzE2NyQlGBkI3GPjrkXombKtlK6OmIV8rOn1BA=
+			SBCEYovZ1RbTtZnW3WNA8yWGQJhYn2rBgVZsyuXsTOE=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -156,11 +167,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qUOKKOwnXWGlbsdKfmCYmxYM5QU=
+			nicthVIXq6bt2SVpMmWBdg9rAYM=
 			</data>
 			<key>hash2</key>
 			<data>
-			l0dE6MJ0IXUeG+Ks2Ozglxb1xkD5paqv38HdENmo1q4=
+			/17ztBZ6Ck6E9wOqBkOOrTnwckFVL7qkCMqY7kIwTu0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -178,11 +189,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4PHt0IRailyW8qX9FqcghibbZ3g=
+			OO6aGuHZFV2Ff14yjtpWSx/khEY=
 			</data>
 			<key>hash2</key>
 			<data>
-			kZX8OFlQ2FPSxwBCzaFTOWgnNxcs7LINlIs9eDCFUsA=
+			R98N9ulJOXBBkvnazhL3ywvb4GwK1j8kimOpJwkwsR0=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
