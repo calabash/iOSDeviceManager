@@ -23,6 +23,22 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
   FBApplicationInstallTypeMac = 3, /** The Application Type is part of macOS */
 };
 
+/**
+ String Representations of the Installed Type.
+ */
+typedef NSString *FBApplicationInstallTypeString NS_STRING_ENUM;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringUnknown;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringSystem;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringUser;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringMac;
+
+/**
+ Keys from UserInfo about Applications
+ */
+typedef NSString *FBApplicationInstallInfoKey NS_EXTENSIBLE_STRING_ENUM;
+extern FBApplicationInstallInfoKey const FBApplicationInstallInfoKeyApplicationType;
+extern FBApplicationInstallInfoKey const FBApplicationInstallInfoKeyPath;
+
 @class FBBinaryDescriptor;
 
 /**
@@ -82,23 +98,6 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
 + (nullable instancetype)applicationWithPath:(NSString *)path installTypeString:(nullable NSString *)installTypeString error:(NSError **)error;
 
 /**
- Returns the FBApplicationDescriptor for the current version of Xcode's Simulator.app.
- Will assert if the FBApplicationDescriptor instance could not be constructed.
-
- @return A FBApplicationDescriptor instance for the Simulator.app.
- */
-+ (instancetype)xcodeSimulator;
-
-/**
- Returns the System Application with the provided name.
-
- @param appName the System Application to fetch.
- @param error any error that occurred in fetching the application.
- @returns FBApplicationDescriptor instance if one could for the given name could be found, nil otherwise.
- */
-+ (nullable instancetype)systemApplicationNamed:(NSString *)appName error:(NSError **)error;
-
-/**
  The Install Type of the Application.
  */
 @property (nonatomic, assign, readonly) FBApplicationInstallType installType;
@@ -106,14 +105,14 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
 /**
  Returns a String Represnting the Application Install Type.
  */
-+ (NSString *)stringFromApplicationInstallType:(FBApplicationInstallType)installType;
++ (FBApplicationInstallTypeString)stringFromApplicationInstallType:(FBApplicationInstallType)installType;
 
 /**
  Returns the FBApplicationInstallType from the string representation.
 
  @param installTypeString install type as a string
  */
-+ (FBApplicationInstallType)installTypeFromString:(nullable NSString *)installTypeString;
++ (FBApplicationInstallType)installTypeFromString:(nullable FBApplicationInstallTypeString)installTypeString;
 
 /**
  Finds or Extracts an Application if it is determined to be an IPA.

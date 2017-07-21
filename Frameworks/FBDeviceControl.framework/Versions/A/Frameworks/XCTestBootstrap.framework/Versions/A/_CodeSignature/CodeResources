@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		iPZyoEQpPvHuIsQNgevrb0qKvWo=
+		OUv2BiiNITCA67/7JaXfci/zGno=
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
@@ -32,7 +32,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			2xZ5ujkuDfWf9Dp3KIFEFSBzUJU=
+			8vygi3giyryuTuvW/N6vPe1w1x8=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -52,11 +52,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/E6VTnnOHRj6ENX0J5ijJcT+zrA=
+			FlFDHIcoTId/h8diydvYm2xwD9E=
 			</data>
 			<key>hash2</key>
 			<data>
-			3ikXaynqqPlJB35UmdaKIqgd8DCb86T77s/W1j6wHoQ=
+			E8shnNDA1mqBzF5Y9sMuKUd9G+fLXRSigX3LMzAh3To=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceTestPreparationStrategy.h</key>
@@ -536,11 +536,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			iPZyoEQpPvHuIsQNgevrb0qKvWo=
+			OUv2BiiNITCA67/7JaXfci/zGno=
 			</data>
 			<key>hash2</key>
 			<data>
-			72P3dEncXbrI5GN+eBNi+n7L35sJSyuliKTFEw/8PIM=
+			4HteKPfpmwWlcCfNNGRCrX7ChQk0PIh1QEH8mbXK+wk=
 			</data>
 		</dict>
 		<key>Resources/libMaculator.dylib</key>

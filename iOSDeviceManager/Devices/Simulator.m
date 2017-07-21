@@ -168,7 +168,7 @@ static const FBSimulatorControl *_control;
   FBSimulatorLifecycleCommands *lifecycleCommands;
   lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:simulator];
 
-  return [lifecycleCommands bootSimulator:bootConfig error:error];
+  return [lifecycleCommands boot:bootConfig error:error];
 }
 
 - (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error {
@@ -208,7 +208,7 @@ static const FBSimulatorControl *_control;
     lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:self.fbSimulator];
 
     NSError *error = nil;
-    if (![lifecycleCommands shutdownSimulatorWithError:&error]) {
+    if (![lifecycleCommands shutdownWithError:&error]) {
         ConsoleWriteErr(@"Error shutting down sim %@: %@", [self uuid], error);
         return iOSReturnStatusCodeInternalError;
     } else {
