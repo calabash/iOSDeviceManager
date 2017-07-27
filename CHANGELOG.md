@@ -1,3 +1,15 @@
+### 2.0.0
+
+* Stabilize and improve the resigning integration tests #168
+* FBSimulatorControl includes ReturnAttributes key when inspecting
+  installed applications #163
+* Fetching applications before downloading app data prevents failures #162
+* Xcode 9: can install provisioning profiles #161
+* Add app-info command #160
+* Fix file uploading when targeting physical devices #157
+* upload command writes upload path to stdout #155
+* CLI 2.0 #137
+
 ### 1.1.2
 
 * Install command can inject resources #145
