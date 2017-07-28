@@ -6,8 +6,16 @@
 @property (nonatomic, strong) NSString *optionName;
 @property (nonatomic, strong) NSString *additionalInfo;
 @property (nonatomic, strong) id defaultValue;
-@property (nonatomic)       BOOL required;
-@property (nonatomic)       BOOL requiresArgument;
+@property (nonatomic)         NSUInteger position;
+@property (nonatomic)         BOOL positional;
+@property (nonatomic)         BOOL required;
+@property (nonatomic)         BOOL requiresArgument;
+
++ (instancetype)withPosition:(NSUInteger)positionIndex
+                   optionName:(NSString *)optionName
+                         info:(NSString *)info
+                     required:(BOOL)required
+                   defaultVal:(id)defaultValue;
 
 + (instancetype)withShortFlag:(const NSString *)shortFlag
                      longFlag:(NSString *)longFlag

@@ -8,6 +8,7 @@
 
 + (Entitlements *)entitlementsWithBundlePath:(NSString *)bundlePath;
 + (Entitlements *)entitlementsWithDictionary:(NSDictionary *)dictionary;
++ (NSDictionary *)dictionaryOfEntitlementsWithBundlePath:(NSString *)bundlePath;
 
 + (void)compareEntitlementsWithProfile:(MobileProfile *)profile app:(Application *)app;
 + (NSInteger)rankByComparingProfileEntitlements:(Entitlements *)profileEntitlements

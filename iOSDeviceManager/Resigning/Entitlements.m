@@ -9,8 +9,6 @@
 
 @interface Entitlements ()
 
-+ (NSDictionary *)dictionaryOfEntitlementsWithBundlePath:(NSString *)bundlePath;
-
 @property(copy, readonly) NSDictionary *dictionary;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;

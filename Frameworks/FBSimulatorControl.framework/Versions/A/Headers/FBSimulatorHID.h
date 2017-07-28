@@ -11,34 +11,19 @@
 
 #import <FBControlCore/FBControlCore.h>
 
+#import <FBSimulatorControl/FBSimulatorIndigoHID.h>
+
 @class FBSimulator;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- An Enumeration for the Event Type. Only Up/Down.
- */
-typedef NS_ENUM(NSUInteger, FBSimulatorHIDEventType) {
-  FBSimulatorHIDEventTypeDown = 1,
-  FBSimulatorHIDEventTypeUp = 2,
-};
-
-/**
- An Enumeration Representing a button press.
- */
-typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
-  FBSimulatorHIDButtonApplePay = 1,
-  FBSimulatorHIDButtonHomeButton = 2,
-  FBSimulatorHIDButtonLock = 3,
-  FBSimulatorHIDButtonSideButton = 4,
-  FBSimulatorHIDButtonSiri = 5,
-};
-
-/**
  A Wrapper around the mach_port_t that is created in the booting of a Simulator.
  The IndigoHIDRegistrationPort is essential for backboard, otherwise UI events aren't synthesized properly.
  */
-@interface FBSimulatorHID : NSObject <FBDebugDescribeable, FBJSONSerializable>
+@interface FBSimulatorHID : NSObject <FBJSONSerializable>
+
+#pragma mark Initializers
 
 /**
  Creates and returns a FBSimulatorHID Instance for the provided Simulator.
@@ -50,6 +35,8 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
  @return a FBSimulatorHID if successful, nil otherwise.
  */
 + (instancetype)hidPortForSimulator:(FBSimulator *)simulator error:(NSError **)error;
+
+#pragma mark Lifecycle
 
 /**
  Obtains the Reply Port for the Simulator.
@@ -71,22 +58,22 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
 /**
  Sends a Keyboard Event.
 
- @param type the event type.
+ @param direction the direction of the event.
  @param keycode the Key Code to send. The keycodes are 'Hardware Independent' as described in <HIToolbox/Events.h>.
  @param error an error out for any error that occurs.
  @return YES if successful, NO otherwise.
  */
-- (BOOL)sendKeyboardEventWithType:(FBSimulatorHIDEventType)type keyCode:(unsigned int)keycode error:(NSError **)error;
+- (BOOL)sendKeyboardEventWithDirection:(FBSimulatorHIDDirection)direction keyCode:(unsigned int)keycode error:(NSError **)error;
 
 /**
  Sends a Button Event.
 
- @param type the event type.
+ @param direction the direction of the event.
  @param button the button.
  @param error an error out for any error that occurs.
  @return YES if successful, NO otherwise.
  */
-- (BOOL)sendButtonEventWithType:(FBSimulatorHIDEventType)type button:(FBSimulatorHIDButton)button error:(NSError **)error;
+- (BOOL)sendButtonEventWithDirection:(FBSimulatorHIDDirection)direction button:(FBSimulatorHIDButton)button error:(NSError **)error;
 
 /**
  Sends a Tap Event
@@ -98,7 +85,7 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
  @param error an error out for any error that occurs.
  @return YES if successful, NO otherwise.
  */
-- (BOOL)sendTouchWithType:(FBSimulatorHIDEventType)type x:(double)x y:(double)y error:(NSError **)error;
+- (BOOL)sendTouchWithType:(FBSimulatorHIDDirection)type x:(double)x y:(double)y error:(NSError **)error;
 
 @end
 

@@ -261,7 +261,7 @@ context(@".arrayOfProfilePaths:", ^{
         OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
 
         actual = [MobileProfile arrayOfProfilePaths];
-        expect(actual.count).to.equal(8);
+        expect(actual.count).to.equal(5);
         expect([[NSFileManager defaultManager]
                 fileExistsAtPath:actual[0]]).to.equal(YES);
     });
@@ -359,7 +359,7 @@ context(@"embeddedMobileProvision:identity:deviceUDID:", ^{
     before(^{
         bundlePath = testApp(ARM);
         provisionPath = [bundlePath stringByAppendingPathComponent:@"embedded.mobileprovision"];
-        identity = [[Resources shared] KarlKrukowIdentity];
+        identity = [[Resources shared] KarlKrukowIdentityIOS];
         MockMobileProfile = OCMClassMock([MobileProfile class]);
         embedded = nil;
     });

@@ -7,44 +7,43 @@
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
 
-static NSString *const APP_PATH_FLAG = @"-a";
-static NSString *const PROFILE_PATH_FLAG = @"-p";
 static NSString *const OUTPUT_PATH_FLAG = @"-o";
 static NSString *const RESOURCES_PATH_FLAG = @"-i";
+static NSString *const PROFILES_PATH_OPTION_NAME = @"profiles-directory-path";
+static NSString *const APP_PATH_OPTION_NAME = @"app-path";
+static NSString *const OUTPUT_PATH_OPTION_NAME = @"output-path";
+
 
 @implementation ResignAllCommand
 + (NSString *)name {
-    return @"resign_all";
+    return @"resign-all";
 }
 
 // Example: resign-all <ipa_file> [-p] <path_to_profiles_dir> -o <out_tar_name> [-i <resources_to_inject>]
-
 + (NSArray <CommandOption *> *)options {
     static NSMutableArray *options;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         options = [NSMutableArray array];
-        [options addObject:[CommandOption withShortFlag:APP_PATH_FLAG
-                                               longFlag:@"--app-path"
-                                             optionName:@"path/to/app.ipa"
-                                                   info:@"Path to .ipa"
-                                               required:NO
-                                             defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:PROFILE_PATH_FLAG
-                                               longFlag:@"--profiles-path"
-                                             optionName:@"path/to/profiles"
-                                                   info:@"Path to profiles directory"
-                                               required:YES
-                                             defaultVal:nil]];
+        [options addObject:[CommandOption withPosition:0
+                                            optionName:APP_PATH_OPTION_NAME
+                                                  info:@"Path to .ipa"
+                                              required:YES
+                                            defaultVal:nil]];
+        [options addObject:[CommandOption withPosition:1
+                                            optionName:PROFILES_PATH_OPTION_NAME
+                                                  info:@"Path to profiles directory"
+                                              required:YES
+                                            defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:OUTPUT_PATH_FLAG
                                                longFlag:@"--output-path"
-                                             optionName:@"path/to/output"
+                                             optionName:OUTPUT_PATH_OPTION_NAME
                                                    info:@"Path to directory to resigned output apps"
                                                required:YES
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:RESOURCES_PATH_FLAG
                                                longFlag:@"--resources-path"
-                                             optionName:@"path/to/resources"
+                                             optionName:RESOURCES_PATH_OPTION_NAME
                                                    info:@"Path to resources to inject"
                                                required:NO
                                              defaultVal:nil]];
@@ -54,9 +53,9 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    NSString *pathToBundle= args[APP_PATH_FLAG];
-    if ([args[APP_PATH_FLAG] hasSuffix:@".ipa"]) {
-        pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_FLAG]];
+    NSString *pathToBundle = args[APP_PATH_OPTION_NAME];
+    if ([pathToBundle hasSuffix:@".ipa"]) {
+        pathToBundle = [AppUtils unzipToTmpDir:args[APP_PATH_OPTION_NAME]];
     } else {
         ConsoleWriteErr(@"Resigning requires ipa path");
         return iOSReturnStatusCodeInvalidArguments;
@@ -69,7 +68,7 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
     }
     
     // Should output path be optional?
-    NSString *outputPath = args[OUTPUT_PATH_FLAG];
+    NSString *outputPath = args[OUTPUT_PATH_OPTION_NAME];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL outputIsDirectory = NO;
     if (![fileManager fileExistsAtPath:outputPath isDirectory:&outputIsDirectory] || !outputIsDirectory) {
@@ -77,7 +76,7 @@ static NSString *const RESOURCES_PATH_FLAG = @"-i";
         return iOSReturnStatusCodeInvalidArguments;
     }
     
-    NSString *profilesDir = args[PROFILE_PATH_FLAG];
+    NSString *profilesDir = args[PROFILES_PATH_OPTION_NAME];
     NSArray<MobileProfile *> *profiles;
     
     BOOL profilesIsDirectory = NO;

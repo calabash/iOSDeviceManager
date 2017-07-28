@@ -4,7 +4,7 @@
 
 @implementation StopSimulatingLocationCommand
 + (NSString *)name {
-    return @"stop_simulating_location";
+    return @"stop-simulating-location";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
@@ -24,9 +24,9 @@
         options = [NSMutableArray array];
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
-                                             optionName:@"device-identifier"
-                                                   info:@"iOS Simulator GUIDs"
-                                               required:NO
+                                             optionName:DEVICE_ID_OPTION_NAME
+                                                   info:@"iOS Simulator GUID or 40-digit physical device ID"
+                                               required:YES
                                              defaultVal:nil]];
     });
     return options;

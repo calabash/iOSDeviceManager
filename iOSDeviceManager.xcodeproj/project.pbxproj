@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
+		42148DFC1EA5672700625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
+		42148DFD1EA5672800625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
 		421D28111E942AB5003C7F10 /* FileUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 421D28101E942AB5003C7F10 /* FileUtilsTest.m */; };
+		427823EB1F10294E00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
+		427823EC1F10294F00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
+		42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
 		634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */; };
 		634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424B5EAA3E57132288C79A /* MobileProfileTest.m */; };
 		6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */; };
@@ -172,32 +178,6 @@
 		B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
 		B23179EC1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
 		B23179ED1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
-		B28936011E53CE290010403C /* LibraryWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */; };
-		B28936021E53CF0F0010403C /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
-		B28936031E53CF140010403C /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
-		B28936041E53CF170010403C /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
-		B28936051E53CF1A0010403C /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
-		B28936061E53CF1D0010403C /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
-		B28936071E53D1180010403C /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
-		B28936081E53D1280010403C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
-		B28936091E53D1370010403C /* ConsoleWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E191DAE69C500282526 /* ConsoleWriter.m */; };
-		B289360A1E53D14E0010403C /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4951D22F84200E1902C /* Device.m */; };
-		B289360B1E53D1520010403C /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
-		B289360C1E53D1610010403C /* PhysicalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4971D22F84200E1902C /* PhysicalDevice.m */; };
-		B289360D1E53D1670010403C /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4991D22F84200E1902C /* Simulator.m */; };
-		B289360E1E53D1700010403C /* ShellRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4BB1D22F85F00E1902C /* ShellRunner.m */; };
-		B289360F1E53D17D0010403C /* AppUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B50D7E1D466BB800F34D67 /* AppUtils.m */; };
-		B28936101E53D1890010403C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
-		B28936111E53D1AE0010403C /* Codesigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE31E302FC200D9FEC5 /* Codesigner.m */; };
-		B28936121E53D1B30010403C /* CodesignIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE51E302FC200D9FEC5 /* CodesignIdentity.m */; };
-		B28936141E53D1C80010403C /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
-		B28936151E53D1E90010403C /* Entitlements.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE91E302FC200D9FEC5 /* Entitlements.m */; };
-		B28936161E53D1EC0010403C /* Entitlement.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE71E302FC200D9FEC5 /* Entitlement.m */; };
-		B28936191E53D20F0010403C /* MobileProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEEB1E302FC200D9FEC5 /* MobileProfile.m */; };
-		B289361A1E53D2230010403C /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEE11E302FC200D9FEC5 /* Certificate.m */; };
-		B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CEED1E302FC200D9FEC5 /* ShasumProvider.m */; };
-		B294E8D71E49267D0070BCD2 /* CodesignResources.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BD7BAE1E451340009242C7 /* CodesignResources.m */; };
-		B294E8D81E49267E0070BCD2 /* CodesignResources.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BD7BAE1E451340009242C7 /* CodesignResources.m */; };
 		B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
 		B29637851E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
 		B29637861E3FC1E600200661 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
@@ -221,19 +201,6 @@
 		B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
 		B29B2DA61E2E93C800C4C7D1 /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */; };
-		B2A757131E5F6139004034A5 /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
-		B2A757141E5F6202004034A5 /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
-		B2A757151E5F627B004034A5 /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
-		B2A757161E5F627F004034A5 /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
-		B2A757171E5F6281004034A5 /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
-		B2A757181E5F6283004034A5 /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
-		B2A757191E5F6286004034A5 /* UninstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5191D237B2B00E1902C /* UninstallAppCommand.m */; };
-		B2A7571A1E5F628C004034A5 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
-		B2A7571B1E5F628E004034A5 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
-		B2A7571C1E5F6290004034A5 /* UploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C29E241DAFA93500282526 /* UploadFileCommand.m */; };
-		B2A7571D1E5F6293004034A5 /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637831E3FC1E600200661 /* LaunchAppCommand.m */; };
-		B2A7571E1E5F6295004034A5 /* KillAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B29637891E3FC23800200661 /* KillAppCommand.m */; };
-		B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */; };
 		B2E68E181E38170E001D5D89 /* ResignCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E171E38170E001D5D89 /* ResignCommand.m */; };
 		B2E68E191E38170E001D5D89 /* ResignCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E171E38170E001D5D89 /* ResignCommand.m */; };
 		B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E68E171E38170E001D5D89 /* ResignCommand.m */; };
@@ -243,7 +210,6 @@
 		B2F797421E8DA7D000C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		B2F797431E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
-		B2F797451E8DAB7B00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6DA1D6A3F4200BA3988 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; };
@@ -259,7 +225,6 @@
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
 		F53764981D67A1FB009457C8 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
-		F54ACEDE1E8A687700BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEDF1E8A687700BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEE01E8A687800BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEE11E8A687800BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
@@ -276,11 +241,9 @@
 		F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */; };
-		F5D438011E8BA3210036C80D /* XCTestConfigurationPlist.h in Headers */ = {isa = PBXBuildFile; fileRef = F5D437FF1E8BA3210036C80D /* XCTestConfigurationPlist.h */; };
 		F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
 		F5D438031E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
 		F5D438041E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
-		F5D438051E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
 		F5D583E51D69FE62007B0D11 /* CLITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583E11D69FE62007B0D11 /* CLITests.m */; };
 		F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583DD1D69FE62007B0D11 /* PhysicalCLIDeviceIntegrationTests.m */; };
 		F5D583F41D69FFF5007B0D11 /* SimulatorCLIIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D583DE1D69FE62007B0D11 /* SimulatorCLIIntegrationTests.m */; };
@@ -377,7 +340,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		42148DF91EA5670700625741 /* VersionCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VersionCommand.h; path = iOSDeviceManager/Commands/VersionCommand.h; sourceTree = SOURCE_ROOT; };
+		42148DFA1EA5671B00625741 /* VersionCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionCommand.m; path = iOSDeviceManager/Commands/VersionCommand.m; sourceTree = SOURCE_ROOT; };
+		421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IDMVersionDefines.h; path = iOSDeviceManager/IDMVersionDefines.h; sourceTree = SOURCE_ROOT; };
 		421D28101E942AB5003C7F10 /* FileUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtilsTest.m; sourceTree = "<group>"; };
+		42CFBACB1F0FF70200357248 /* AppInfoCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppInfoCommand.h; path = iOSDeviceManager/Commands/AppInfoCommand.h; sourceTree = SOURCE_ROOT; };
+		42CFBACC1F0FF73800357248 /* AppInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppInfoCommand.m; path = iOSDeviceManager/Commands/AppInfoCommand.m; sourceTree = SOURCE_ROOT; };
 		63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAndSpectaStandupTests.m; sourceTree = "<group>"; };
 		6342445D4215DC668C7923B2 /* EntitlementTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntitlementTest.m; sourceTree = "<group>"; };
 		634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignIdentityTest.m; sourceTree = "<group>"; };
@@ -522,15 +490,10 @@
 		B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOSReturnStatusCode.h; path = iOSDeviceManager/Commands/iOSReturnStatusCode.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA21E2E938D00C4C7D1 /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtils.h; path = iOSDeviceManager/Utilities/DeviceUtils.h; sourceTree = SOURCE_ROOT; };
 		B29B2DA31E2E93C800C4C7D1 /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtils.m; path = iOSDeviceManager/Utilities/DeviceUtils.m; sourceTree = SOURCE_ROOT; };
-		B2BD7BAD1E451214009242C7 /* CodesignResources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodesignResources.h; sourceTree = "<group>"; };
-		B2BD7BAE1E451340009242C7 /* CodesignResources.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CodesignResources.m; sourceTree = "<group>"; };
-		B2D4F9491E538C450042865C /* libiOSDeviceManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libiOSDeviceManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E68E161E3816DF001D5D89 /* ResignCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResignCommand.h; path = iOSDeviceManager/Commands/ResignCommand.h; sourceTree = SOURCE_ROOT; };
 		B2E68E171E38170E001D5D89 /* ResignCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResignCommand.m; path = iOSDeviceManager/Commands/ResignCommand.m; sourceTree = SOURCE_ROOT; };
 		B2E68E1B1E381731001D5D89 /* ResignAllCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResignAllCommand.h; path = iOSDeviceManager/Commands/ResignAllCommand.h; sourceTree = SOURCE_ROOT; };
 		B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResignAllCommand.m; path = iOSDeviceManager/Commands/ResignAllCommand.m; sourceTree = SOURCE_ROOT; };
-		B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LibraryWrapper.h; path = iOSDeviceManager/LibraryWrapper/LibraryWrapper.h; sourceTree = SOURCE_ROOT; };
-		B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LibraryWrapper.m; path = iOSDeviceManager/LibraryWrapper/LibraryWrapper.m; sourceTree = SOURCE_ROOT; };
 		B2F797401E8DA7B100C2FE06 /* Stack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = iOSDeviceManager/Utilities/Stack.h; sourceTree = SOURCE_ROOT; };
 		B2F797411E8DA7D000C2FE06 /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = iOSDeviceManager/Utilities/Stack.m; sourceTree = SOURCE_ROOT; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -597,18 +560,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B2D4F9461E538C450042865C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B28936021E53CF0F0010403C /* XCTestBootstrap.framework in Frameworks */,
-				B28936051E53CF1A0010403C /* FBControlCore.framework in Frameworks */,
-				B28936061E53CF1D0010403C /* CocoaLumberjack.framework in Frameworks */,
-				B28936031E53CF140010403C /* FBSimulatorControl.framework in Frameworks */,
-				B28936041E53CF170010403C /* FBDeviceControl.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F5D583E81D69FF6C007B0D11 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -666,6 +617,10 @@
 				B29637831E3FC1E600200661 /* LaunchAppCommand.m */,
 				B29637881E3FC22700200661 /* KillAppCommand.h */,
 				B29637891E3FC23800200661 /* KillAppCommand.m */,
+				42148DF91EA5670700625741 /* VersionCommand.h */,
+				42148DFA1EA5671B00625741 /* VersionCommand.m */,
+				42CFBACB1F0FF70200357248 /* AppInfoCommand.h */,
+				42CFBACC1F0FF73800357248 /* AppInfoCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -678,7 +633,7 @@
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
 				89F6DB391D37F75F006A0FD5 /* Frameworks */,
-				F5169D271CFEAE5900252F52 /* vendor-licenses */,
+				F5169D271CFEAE5900252F52 /* Licenses */,
 				898D7D3B1DA474A7001578FE /* Vendor */,
 			);
 			indentWidth = 4;
@@ -693,7 +648,6 @@
 				89331D431CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4AC91CFA614F006DCDC5 /* Unit.xctest */,
 				F5D583EB1D69FF6C007B0D11 /* Integration.xctest */,
-				B2D4F9491E538C450042865C /* libiOSDeviceManager.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -701,8 +655,8 @@
 		89331D451CE222C7003C2E59 /* iOSDeviceManager */ = {
 			isa = PBXGroup;
 			children = (
+				421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */,
 				892DE4CC1D22F87000E1902C /* main.m */,
-				B2F26E951E4E7DB2008E93FC /* LibraryWrapper */,
 				89A1CEDB1E302F7900D9FEC5 /* Resigning */,
 				898D7DE51DA47652001578FE /* Server */,
 				896F7F041CF9C51900FD8572 /* Utilities */,
@@ -912,8 +866,6 @@
 				F53764961D67A1FB009457C8 /* Resources.h */,
 				F53764971D67A1FB009457C8 /* Resources.m */,
 				F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */,
-				B2BD7BAD1E451214009242C7 /* CodesignResources.h */,
-				B2BD7BAE1E451340009242C7 /* CodesignResources.m */,
 				F5A705AC1D67C38D006F05B5 /* Resources */,
 				F5D583DF1D69FE62007B0D11 /* Unit */,
 				F5D583DC1D69FE62007B0D11 /* Integration */,
@@ -943,17 +895,7 @@
 			name = Application;
 			sourceTree = "<group>";
 		};
-		B2F26E951E4E7DB2008E93FC /* LibraryWrapper */ = {
-			isa = PBXGroup;
-			children = (
-				B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */,
-				B2F26E971E4E7E43008E93FC /* LibraryWrapper.m */,
-			);
-			name = LibraryWrapper;
-			path = iOSDeviceManager/LibraryWrapper;
-			sourceTree = "<group>";
-		};
-		F5169D271CFEAE5900252F52 /* vendor-licenses */ = {
+		F5169D271CFEAE5900252F52 /* Licenses */ = {
 			isa = PBXGroup;
 			children = (
 				F57BF4561DC382420074747F /* CocoaAsyncSocket.LICENSE */,
@@ -962,7 +904,7 @@
 				F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */,
 				F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */,
 			);
-			path = "vendor-licenses";
+			path = Licenses;
 			sourceTree = "<group>";
 		};
 		F5249D3C1D6B31D1006ADD64 /* Utilities */ = {
@@ -1042,24 +984,14 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		B2D4F9471E538C450042865C /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B28936011E53CE290010403C /* LibraryWrapper.h in Headers */,
-				F5D438011E8BA3210036C80D /* XCTestConfigurationPlist.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		89331D421CE222C7003C2E59 /* iOSDeviceManager */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89331D4A1CE222C7003C2E59 /* Build configuration list for PBXNativeTarget "iOSDeviceManager" */;
 			buildPhases = (
+				42D2EC9D1EC143AA00A37F4D /* Run Script - Update IDMVersionDefines.h */,
 				89331D3F1CE222C7003C2E59 /* Sources */,
+				42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
 				89331D411CE222C7003C2E59 /* CopyFiles */,
 			);
@@ -1089,23 +1021,6 @@
 			productName = TestControlTests;
 			productReference = 89EF4AC91CFA614F006DCDC5 /* Unit.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		B2D4F9481E538C450042865C /* libiOSDeviceManager */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B2D4F9511E538C450042865C /* Build configuration list for PBXNativeTarget "libiOSDeviceManager" */;
-			buildPhases = (
-				B2D4F9451E538C450042865C /* Sources */,
-				B2D4F9461E538C450042865C /* Frameworks */,
-				B2D4F9471E538C450042865C /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = libiOSDeviceManager;
-			productName = libiOSDeviceManager;
-			productReference = B2D4F9491E538C450042865C /* libiOSDeviceManager.dylib */;
-			productType = "com.apple.product-type.library.dynamic";
 		};
 		F5D583EA1D69FF6C007B0D11 /* Integration */ = {
 			isa = PBXNativeTarget;
@@ -1146,10 +1061,6 @@
 						DevelopmentTeamName = "Karl Krukow";
 						ProvisioningStyle = Automatic;
 					};
-					B2D4F9481E538C450042865C = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-					};
 					F5D583EA1D69FF6C007B0D11 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -1170,7 +1081,6 @@
 				89331D421CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4AC81CFA614F006DCDC5 /* Unit */,
 				F5D583EA1D69FF6C007B0D11 /* Integration */,
-				B2D4F9481E538C450042865C /* libiOSDeviceManager */,
 			);
 		};
 /* End PBXProject section */
@@ -1194,6 +1104,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		42D2EC9D1EC143AA00A37F4D /* Run Script - Update IDMVersionDefines.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Update IDMVersionDefines.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			showEnvVarsInLog = 0;
+		};
+		42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Revert IDMVersionDefines.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bin/xcode-build-phase/gitversioning-after.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		89331D3F1CE222C7003C2E59 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1205,6 +1148,7 @@
 				B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				898D7D791DA47569001578FE /* HTTPConnection.m in Sources */,
 				892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */,
+				42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */,
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				898D7D761DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
@@ -1223,6 +1167,7 @@
 				892DE4F61D23109000E1902C /* CommandOption.m in Sources */,
 				898D7D821DA47569001578FE /* MultipartFormDataParser.m in Sources */,
 				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */,
 				89B50D801D466BB800F34D67 /* AppUtils.m in Sources */,
 				898D7DE81DA47672001578FE /* CBXRoute.m in Sources */,
 				898D7DD31DA4758A001578FE /* HTTPResponseProxy.m in Sources */,
@@ -1348,10 +1293,11 @@
 				B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */,
 				898D7D861DA47569001578FE /* MultipartMessageHeader.m in Sources */,
 				898D7D891DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
+				42148DFC1EA5672700625741 /* VersionCommand.m in Sources */,
 				898D7D711DA47569001578FE /* DDNumber.m in Sources */,
-				B294E8D71E49267D0070BCD2 /* CodesignResources.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
+				427823EB1F10294E00F7D972 /* AppInfoCommand.m in Sources */,
 				634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */,
 				898D7D7A1DA47569001578FE /* HTTPConnection.m in Sources */,
 				898D7DE91DA47672001578FE /* CBXRoute.m in Sources */,
@@ -1360,47 +1306,6 @@
 				B2E68E1E1E381745001D5D89 /* ResignAllCommand.m in Sources */,
 				B29B2DA51E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				898D7D8C1DA47569001578FE /* HTTPAsyncFileResponse.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B2D4F9451E538C450042865C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B28936101E53D1890010403C /* Application.m in Sources */,
-				B2A757151E5F627B004034A5 /* StartTestCommand.m in Sources */,
-				B2A757141E5F6202004034A5 /* CommandOption.m in Sources */,
-				B2A757181E5F6283004034A5 /* KillSimulatorCommand.m in Sources */,
-				B289360C1E53D1610010403C /* PhysicalDevice.m in Sources */,
-				B28936071E53D1180010403C /* CLI.m in Sources */,
-				B2A757161E5F627F004034A5 /* IsInstalledCommand.m in Sources */,
-				B28936151E53D1E90010403C /* Entitlements.m in Sources */,
-				B2A757191E5F6286004034A5 /* UninstallAppCommand.m in Sources */,
-				B28936091E53D1370010403C /* ConsoleWriter.m in Sources */,
-				B28936161E53D1EC0010403C /* Entitlement.m in Sources */,
-				B2A757171E5F6281004034A5 /* InstallAppCommand.m in Sources */,
-				B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */,
-				B289360D1E53D1670010403C /* Simulator.m in Sources */,
-				B28936121E53D1B30010403C /* CodesignIdentity.m in Sources */,
-				B2A7571C1E5F6290004034A5 /* UploadFileCommand.m in Sources */,
-				B289360A1E53D14E0010403C /* Device.m in Sources */,
-				B2A7571B1E5F628E004034A5 /* StopSimulatingLocationCommand.m in Sources */,
-				B289360E1E53D1700010403C /* ShellRunner.m in Sources */,
-				F54ACEDE1E8A687700BC36DA /* MachClock.m in Sources */,
-				B2F797451E8DAB7B00C2FE06 /* Stack.m in Sources */,
-				B2A757131E5F6139004034A5 /* LaunchSimulatorCommand.m in Sources */,
-				B2A7571E1E5F6295004034A5 /* KillAppCommand.m in Sources */,
-				B2D4F9521E538C610042865C /* LibraryWrapper.m in Sources */,
-				F5D438051E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
-				B2A7571A1E5F628C004034A5 /* SimulateLocationCommand.m in Sources */,
-				B28936191E53D20F0010403C /* MobileProfile.m in Sources */,
-				B289360F1E53D17D0010403C /* AppUtils.m in Sources */,
-				B2A7571D1E5F6293004034A5 /* LaunchAppCommand.m in Sources */,
-				B289361A1E53D2230010403C /* Certificate.m in Sources */,
-				B289360B1E53D1520010403C /* DeviceUtils.m in Sources */,
-				B28936081E53D1280010403C /* Command.m in Sources */,
-				B28936111E53D1AE0010403C /* Codesigner.m in Sources */,
-				B28936141E53D1C80010403C /* ShellResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1428,6 +1333,7 @@
 				B2E68E1F1E381745001D5D89 /* ResignAllCommand.m in Sources */,
 				B296D7021E31474500D365F3 /* Codesigner.m in Sources */,
 				898D7D871DA47569001578FE /* MultipartMessageHeader.m in Sources */,
+				42148DFD1EA5672800625741 /* VersionCommand.m in Sources */,
 				F5D583F41D69FFF5007B0D11 /* SimulatorCLIIntegrationTests.m in Sources */,
 				898D7D6F1DA47569001578FE /* DDData.m in Sources */,
 				898D7DD51DA4758A001578FE /* HTTPResponseProxy.m in Sources */,
@@ -1456,7 +1362,6 @@
 				F54ACEF71E8A6AFD00BC36DA /* PhysicalDeviceTest.m in Sources */,
 				898D7D8A1DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
 				F5D584041D6A0387007B0D11 /* UninstallAppCommand.m in Sources */,
-				B294E8D81E49267E0070BCD2 /* CodesignResources.m in Sources */,
 				898D7D991DA47569001578FE /* HTTPFileResponse.m in Sources */,
 				898D7D811DA47569001578FE /* HTTPServer.m in Sources */,
 				F5D583FC1D6A0378007B0D11 /* PhysicalDevice.m in Sources */,
@@ -1471,6 +1376,7 @@
 				898D7DD81DA4758A001578FE /* Route.m in Sources */,
 				898D7DE41DA4758A001578FE /* RoutingHTTPServer.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
+				427823EC1F10294F00F7D972 /* AppInfoCommand.m in Sources */,
 				89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */,
 				B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */,
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,
@@ -1650,41 +1556,6 @@
 			};
 			name = Release;
 		};
-		B2D4F94F1E538C450042865C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
-					"$(PROJECT_DIR)/Frameworks",
-				);
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = iOSDeviceManager;
-			};
-			name = Debug;
-		};
-		B2D4F9501E538C450042865C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
-					"$(PROJECT_DIR)/Frameworks",
-				);
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = iOSDeviceManager;
-			};
-			name = Release;
-		};
 		F5D583F11D69FF6C007B0D11 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1747,15 +1618,6 @@
 			buildConfigurations = (
 				89EF4ACF1CFA614F006DCDC5 /* Debug */,
 				89EF4AD01CFA614F006DCDC5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		B2D4F9511E538C450042865C /* Build configuration list for PBXNativeTarget "libiOSDeviceManager" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B2D4F94F1E538C450042865C /* Debug */,
-				B2D4F9501E538C450042865C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

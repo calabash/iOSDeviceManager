@@ -21,8 +21,23 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
   FBApplicationInstallTypeSystem = 1, /** The Application Type is part of the Operating System */
   FBApplicationInstallTypeUser = 2, /** The Application Type is installable by the User */
   FBApplicationInstallTypeMac = 3, /** The Application Type is part of macOS */
-  FBApplicationInstallTypeRemote = 4, /** The Application Type is remote */
 };
+
+/**
+ String Representations of the Installed Type.
+ */
+typedef NSString *FBApplicationInstallTypeString NS_STRING_ENUM;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringUnknown;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringSystem;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringUser;
+extern FBApplicationInstallTypeString const FBApplicationInstallTypeStringMac;
+
+/**
+ Keys from UserInfo about Applications
+ */
+typedef NSString *FBApplicationInstallInfoKey NS_EXTENSIBLE_STRING_ENUM;
+extern FBApplicationInstallInfoKey const FBApplicationInstallInfoKeyApplicationType;
+extern FBApplicationInstallInfoKey const FBApplicationInstallInfoKeyPath;
 
 @class FBBinaryDescriptor;
 
@@ -30,6 +45,17 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
  A Bundle Descriptor specialized to Applications
  */
 @interface FBApplicationDescriptor : FBBundleDescriptor
+
+/**
+ Initializes a FBApplicationDescriptor.
+
+ @param name the name of the application
+ @param path the path of the application
+ @param bundleID the bundle id of the application
+ @param installType the InstallType of the application.
+ @returns a FBApplicationDescriptor instance.
+ */
+- (instancetype)initWithName:(NSString *)name path:(NSString *)path bundleID:(NSString *)bundleID binary:(nullable FBBinaryDescriptor *)binary installType:(FBApplicationInstallType)installType;
 
 /**
  Constructs a FBApplicationDescriptor for the a User Application at the given path
@@ -41,14 +67,15 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
 + (nullable instancetype)userApplicationWithPath:(NSString *)path error:(NSError **)error;
 
 /**
- Constructs a FBApplicationDescriptor for the a Remote Application.
+ Constructs a FBApplicationDescriptor for the an Application.
 
  @param name the name of the application
  @param path the path of the application
  @param bundleID the bundle id of the application
+ @param installType the install type of the application
  @returns a FBApplicationDescriptor instance.
  */
-+ (instancetype)remoteApplicationWithName:(NSString *)name path:(NSString *)path bundleID:(NSString *)bundleID;
++ (instancetype)applicationWithName:(NSString *)name path:(NSString *)path bundleID:(NSString *)bundleID installType:(FBApplicationInstallType)installType;
 
 /**
  Constructs a FBApplicationDescriptor for the Application at the given path.
@@ -71,23 +98,6 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
 + (nullable instancetype)applicationWithPath:(NSString *)path installTypeString:(nullable NSString *)installTypeString error:(NSError **)error;
 
 /**
- Returns the FBApplicationDescriptor for the current version of Xcode's Simulator.app.
- Will assert if the FBApplicationDescriptor instance could not be constructed.
-
- @return A FBApplicationDescriptor instance for the Simulator.app.
- */
-+ (instancetype)xcodeSimulator;
-
-/**
- Returns the System Application with the provided name.
-
- @param appName the System Application to fetch.
- @param error any error that occurred in fetching the application.
- @returns FBApplicationDescriptor instance if one could for the given name could be found, nil otherwise.
- */
-+ (nullable instancetype)systemApplicationNamed:(NSString *)appName error:(NSError **)error;
-
-/**
  The Install Type of the Application.
  */
 @property (nonatomic, assign, readonly) FBApplicationInstallType installType;
@@ -95,14 +105,14 @@ typedef NS_ENUM(NSUInteger, FBApplicationInstallType) {
 /**
  Returns a String Represnting the Application Install Type.
  */
-+ (NSString *)stringFromApplicationInstallType:(FBApplicationInstallType)installType;
++ (FBApplicationInstallTypeString)stringFromApplicationInstallType:(FBApplicationInstallType)installType;
 
 /**
  Returns the FBApplicationInstallType from the string representation.
 
  @param installTypeString install type as a string
  */
-+ (FBApplicationInstallType)installTypeFromString:(nullable NSString *)installTypeString;
++ (FBApplicationInstallType)installTypeFromString:(nullable FBApplicationInstallTypeString)installTypeString;
 
 /**
  Finds or Extracts an Application if it is determined to be an IPA.

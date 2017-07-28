@@ -11,8 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SimDeviceIOClient;
 @class SimDeviceFramebufferService;
+@class SimDeviceIOClient;
 @protocol SimDisplayDamageRectangleDelegate;
 @protocol SimDisplayIOSurfaceRenderableDelegate;
 @protocol SimDeviceIOPortConsumer;
@@ -24,14 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Called when an IOSurface becomes available or invalid
- 
+
  @param surface the surface, or NULL if a surface is not available/becomes unavailable
  */
 - (void)didChangeIOSurface:(nullable IOSurfaceRef)surface;
 
 /**
  When a Damage Rect becomes available.
- 
+
  @param rect the damage rectangle.
  */
 - (void)didReceiveDamageRect:(CGRect)rect;
@@ -60,20 +60,23 @@ NS_ASSUME_NONNULL_BEGIN
  Obtains an IOSurface from the SimDeviceFramebufferService.
 
  @param framebufferService the Framebuffer Service to obtain from.
- @param clientQueue the queue to schedule work on.
  @return a new FBFramebufferSurface.
  */
-+ (instancetype)mainScreenSurfaceForFramebufferService:(SimDeviceFramebufferService *)framebufferService clientQueue:(dispatch_queue_t)clientQueue;
++ (instancetype)mainScreenSurfaceForFramebufferService:(SimDeviceFramebufferService *)framebufferService;
 
 /**
  Attaches a Consumer.
+ The Consumer will be called on the provided queue.
 
  @param consumer the consumer to attach.
+ @param queue the queue to notify the consumer on.
+ @return A Surface is one is *immediately* available. This is not mutually exclusive the consumer being called on a queue.
  */
-- (void)attachConsumer:(id<FBFramebufferSurfaceConsumer>)consumer;
+- (nullable IOSurfaceRef)attachConsumer:(id<FBFramebufferSurfaceConsumer>)consumer onQueue:(dispatch_queue_t)queue;
 
 /**
  Detaches a Consumer.
+ The Consumer will be called on the provided queue.
 
  @param consumer the consumer to attach.
  */

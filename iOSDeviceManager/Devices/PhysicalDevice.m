@@ -15,8 +15,10 @@
 @end
 
 @interface DTDKRemoteDeviceToken : NSObject
-- (_Bool)simulateLatitude:(NSNumber *)lat andLongitude:(NSNumber *)lng withError:(NSError **)arg3;
-- (_Bool)stopSimulatingLocationWithError:(NSError **)arg1;
+- (BOOL)simulateLatitude:(NSNumber *)lat
+             andLongitude:(NSNumber *)lng
+                withError:(NSError **)arg3;
+- (BOOL)stopSimulatingLocationWithError:(NSError **)arg1;
 @end
 
 @interface DVTAbstractiOSDevice : NSObject
@@ -33,16 +35,23 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @end
 
 @interface DTDKProvisioningProfile : NSObject
-+ (DTDKProvisioningProfile *)profileWithPath:(NSString *)path certificateUtilities:(id)utils error:(NSError **)e;
++ (DTDKProvisioningProfile *)profileWithPath:(NSString *)path
+                        certificateUtilities:(id)utils
+                                       error:(NSError **)e;
 @end
 
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
+@property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
 
+- (BOOL)installProvisioningProfileAtPath:(NSString *)path
+                                   error:(NSError **)error;
 @end
 
 @implementation PhysicalDevice
+
+@synthesize applicationCommands = _applicationCommands;
 
 + (PhysicalDevice *)withID:(NSString *)uuid {
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
@@ -68,8 +77,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return device;
 }
 
+- (FBDeviceApplicationCommands *)applicationCommands {
+    if (_applicationCommands) { return _applicationCommands; }
+
+    _applicationCommands = [FBDeviceApplicationCommands commandsWithDevice:self.fbDevice];
+    return _applicationCommands;
+}
+
 - (FBiOSDeviceOperator *)fbDeviceOperator {
-    return (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
+    return [FBiOSDeviceOperator forDevice:self.fbDevice];
 }
 
 - (iOSReturnStatusCode)launch {
@@ -148,22 +164,17 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                      withCodesignIdentity:nil
                         resourcesToInject:resourcePaths];
         }
+
         // Log entitlement comparisons
         [Entitlements compareEntitlementsWithProfile:profile app:app];
 
-        // Install profile to device
-        Class DTDKProvisioniingProfile = NSClassFromString(@"DTDKProvisioningProfile");
-        DTDKProvisioningProfile *_profile = [DTDKProvisioniingProfile profileWithPath:profile.path
-                                                                 certificateUtilities:nil
-                                                                                error:&err];
-        if (err) {
+        if (![self installProvisioningProfileAtPath:profile.path error:&err]) {
             ConsoleWriteErr(@"Failed to install profile: %@ due to error: %@", profile.path, err);
             return iOSReturnStatusCodeInternalError;
         }
 
-        [self.fbDevice.dvtDevice installProvisioningProfile:_profile];
-
-        if (![operator installApplicationWithPath:app.path error:&err] || err) {
+        if (![self.applicationCommands installApplicationWithPath:app.path
+                                                            error:&err]) {
             ConsoleWriteErr(@"Error installing application: %@", err);
             return iOSReturnStatusCodeInternalError;
         }
@@ -247,7 +258,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    if (![operator cleanApplicationStateWithBundleIdentifier:bundleID error:&err] || err) {
+    if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID
+                                                              error:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
     }
 
@@ -366,10 +378,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 
     FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
-    id<DVTApplication> installedDVTApplication = [deviceOperator installedApplicationWithBundleIdentifier:bundleID];
+    NSDictionary *plist = [deviceOperator AMDinstalledApplicationWithBundleIdentifier:bundleID];
 
     return [Application withBundleID:bundleID
-                               plist:[installedDVTApplication plist]
+                               plist:plist
                        architectures:self.fbDevice.supportedArchitectures];
 }
 
@@ -452,7 +464,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 // */
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
 
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
 
     NSError *e;
 
@@ -484,6 +496,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    [operator fetchApplications];
     if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
                     forInstalledApplicationWithBundleIdentifier:bundleID
                                                           error:&e]) {
@@ -526,6 +539,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                         dataBundle, e);
     }
 
+    [ConsoleWriter write:dest];
     return iOSReturnStatusCodeEverythingOkay;
 }
 
@@ -647,6 +661,13 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
     return xcappdataPath;
+}
+
+- (BOOL)installProvisioningProfileAtPath:(NSString *)path
+                                   error:(NSError **)error {
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+
+    return [operator AMDinstallProvisioningProfileAtPath:path error:error];
 }
 
 - (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier

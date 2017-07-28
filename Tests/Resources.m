@@ -538,15 +538,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 }
 
 - (void)setDeveloperDirectory {
-    if (self.OSisSierraOrHigher) {
-        NSLog(@"Only Xcode 8 is allowed on Sierra; "
-              "don't touch the active Xcode version");
-    } else {
-        NSLog(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
-        setenv("DEVELOPER_DIR",
-               [self.XcodePath cStringUsingEncoding:NSUTF8StringEncoding],
-               YES);
-    }
+    NSLog(@"Setting DEVELOPER_DIR to avoid CoreSimulatorService mismatch");
+    setenv("DEVELOPER_DIR",
+           [self.XcodePath cStringUsingEncoding:NSUTF8StringEncoding],
+           YES);
 }
 
 - (NSString *)resourcesDirectory {
@@ -650,6 +645,18 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)DeviceAgentIdentifier {
     return [self bundleIdentifier:[self DeviceAgentPath:ARM]];
+}
+
+- (NSString *)CalabashDylibPath {
+    return [self.resourcesDirectory stringByAppendingPathComponent:@"calabash.dylib"];
+}
+
+- (NSString *)PermissionsAppBundleID {
+    return @"sh.calaba.Permissions";
+}
+
+- (NSString *)PermissionsIpaPath {
+    return [self.resourcesDirectory stringByAppendingPathComponent:@"arm/Permissions.ipa"];
 }
 
 - (ShellResult *)successResultSingleLine {
@@ -890,13 +897,18 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
             stringByAppendingPathComponent:@"profiles/CalabashWildcard.mobileprovision"];
 }
 
+- (NSString *)PermissionsProfilePath {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"profiles/PermissionsDevelopment.mobileprovision"];
+}
+
 - (NSString *)pathToVeryLongProfile {
     return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
 }
 
 - (NSString *)pathToLJSProvisioningProfile {
     return [[self provisioningProfilesDirectory]
-            stringByAppendingPathComponent:@"LJS.mobileprovision"];
+            stringByAppendingPathComponent:@"LJS_Development_Profile.mobileprovision"];
 }
 
 - (NSString *)provisioningProfilesDirectory {
@@ -926,9 +938,16 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [Entitlements entitlementsWithDictionary:dictionary];
 }
 
-- (CodesignIdentity *)KarlKrukowIdentity {
+- (CodesignIdentity *)KarlKrukowIdentityIOS {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
     NSString *identityShasum = @"8742A8D1D6EB9AEB1955A1F759D244EB214A67AD";
+    return [[CodesignIdentity alloc] initWithShasum:identityShasum
+                                               name:identityName];
+}
+
+- (CodesignIdentity *)JoshuaMoodyIdentityIOS {
+    NSString *identityName = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
+    NSString *identityShasum = @"CF8BE0BA703F8EA6CDB9F384B5D894C1546D2BC4";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }

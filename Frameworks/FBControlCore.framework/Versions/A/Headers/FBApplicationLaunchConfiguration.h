@@ -11,18 +11,13 @@
 
 #import <FBControlCore/FBiOSTargetAction.h>
 #import <FBControlCore/FBJSONConversion.h>
-#import <FBControlCore/FBDebugDescribeable.h>
+#import <FBControlCore/FBProcessLaunchConfiguration.h>
 
 @class FBApplicationDescriptor;
 @class FBBinaryDescriptor;
 @class FBProcessOutputConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
-
-/**
- The Action Type for an Application Launch.
- */
-extern FBiOSTargetActionType const FBiOSTargetActionTypeApplicationLaunch;
 
 /**
  A Value object with the information required to launch an Application.

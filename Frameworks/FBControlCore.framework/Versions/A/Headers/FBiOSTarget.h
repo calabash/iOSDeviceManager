@@ -15,7 +15,8 @@
 #import <FBControlCore/FBDebugDescribeable.h>
 #import <FBControlCore/FBJSONConversion.h>
 #import <FBControlCore/FBVideoRecordingCommands.h>
-#import <FBControlCore/FBXCTestCommands.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class FBDeviceType;
 @class FBOSVersion;
@@ -23,6 +24,7 @@
 @class FBiOSActionRouter;
 @class FBiOSTargetDiagnostics;
 @protocol FBDeviceOperator;
+@protocol FBControlCoreLogger;
 
 /**
  Uses the known values of SimDevice State, to construct an enumeration.
@@ -47,17 +49,31 @@ typedef NS_OPTIONS(NSUInteger, FBiOSTargetType) {
   FBiOSTargetTypeAll = FBiOSTargetTypeSimulator | FBiOSTargetTypeDevice,
 };
 
-NS_ASSUME_NONNULL_BEGIN
+/**
+ String Representations of Simulator State.
+ */
+typedef NSString *FBSimulatorStateString NS_STRING_ENUM;
+extern FBSimulatorStateString const FBSimulatorStateStringCreating;
+extern FBSimulatorStateString const FBSimulatorStateStringShutdown;
+extern FBSimulatorStateString const FBSimulatorStateStringBooting;
+extern FBSimulatorStateString const FBSimulatorStateStringBooted;
+extern FBSimulatorStateString const FBSimulatorStateStringShuttingDown;
+extern FBSimulatorStateString const FBSimulatorStateStringUnknown;
 
 /**
  Common Properties of Devices & Simulators.
  */
-@protocol FBiOSTarget <NSObject, FBJSONSerializable, FBDebugDescribeable, FBApplicationCommands, FBBitmapStreamingCommands, FBVideoRecordingCommands, FBXCTestCommands>
+@protocol FBiOSTarget <NSObject, FBJSONSerializable, FBDebugDescribeable, FBApplicationCommands, FBBitmapStreamingCommands, FBVideoRecordingCommands>
 
 /**
- A Router for the Reciever.
+ The Target's Logger.
  */
-@property (nonatomic, strong, readonly) FBiOSActionRouter *router;
+@property (nonatomic, strong, readonly, nullable) id<FBControlCoreLogger> logger;
+
+/**
+ The Action Classes supported by the reciever.
+ */
+@property (nonatomic, strong, readonly) NSArray<Class> *actionClasses;
 
 /**
  The Unique Device Identifier of the iOS Target.
@@ -131,12 +147,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The canonical string representation of the state enum.
  */
-extern NSString *FBSimulatorStateStringFromState(FBSimulatorState state);
+extern FBSimulatorStateString FBSimulatorStateStringFromState(FBSimulatorState state);
 
 /**
  The canonical enum representation of the state string.
  */
-extern FBSimulatorState FBSimulatorStateFromStateString(NSString *stateString);
+extern FBSimulatorState FBSimulatorStateFromStateString(FBSimulatorStateString stateString);
 
 /**
  The canonical string representations of the target type Option Set.

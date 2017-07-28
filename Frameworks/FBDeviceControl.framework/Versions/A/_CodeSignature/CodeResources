@@ -6,11 +6,11 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		GQ4zPrgHGXvSCx3KeDfbNldtb/I=
+		OO6aGuHZFV2Ff14yjtpWSx/khEY=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		t17194DH3yelFlwoNDyDrmnsQFA=
+		O0i7zGTEWBkVvIo0sXZTYjMjwXI=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -28,62 +28,73 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			nk9Z9pjRttmVLLDFxEWF56NPUiY=
+			8vygi3giyryuTuvW/N6vPe1w1x8=
 			</data>
 			<key>requirement</key>
-			<string>identifier "facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Frameworks/XCTestBootstrap.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			2TxO3wNDJKpH9TBf/1ITjIHmiV0=
+			WiOJ614eZtNNkv0ua34sXcPUxrI=
 			</data>
 			<key>requirement</key>
-			<string>identifier "facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Headers/FBAMDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			uaMXjx/WqGbgDxqcKcuy8SK9Fnw=
+			Aa9g3r9R1nJM+1+8O/q0BrNU7zs=
 			</data>
 			<key>hash2</key>
 			<data>
-			MmiHSDRct9wV7A6FuAC+BpAWi8BfNeZVyevzvP6bhbw=
+			cynldVc2RxKEuMj5n24G2bIZ9Cz5G1jegp6XOWTk58I=
 			</data>
 		</dict>
 		<key>Headers/FBDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			WjQquHzN/gCPueK23uKu8wB23Qo=
+			LjUD6CJ46vteJiQ84dR4gFhEJII=
 			</data>
 			<key>hash2</key>
 			<data>
-			pXG0KBjzDbiJQe6MiQgLTjtAR9WzNZDeKgTWrpXgJe8=
+			jQ5GowPRiV8aJ2W/r7FZoxo6aHOXCazJYpYN+0IdrCs=
+			</data>
+		</dict>
+		<key>Headers/FBDeviceApplicationCommands.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5d49HPOPO8OXz4HiqQzIDhk/Kyk=
+			</data>
+			<key>hash2</key>
+			<data>
+			l6lTK3cwEBSwLixc8eVXqz4TjrZ4lHqiiXlDiJ1mSa4=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceBitmapStream.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qYw3KAg5O7jgRDVPQAdefqWTfx8=
+			4OzTb5u3TDgDaCJBFjm1uLBVU2s=
 			</data>
 			<key>hash2</key>
 			<data>
-			jgqgX2YA3L2KFibBx0rM+HycyzUwi8b6F6M2AbR+f64=
+			nGpWPWyiHk+6YDh0UaeTCcfjMGJmn+syLvjV25kEh0s=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControl.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Xs1IKyXsRxBYIvve79MTrpuG7is=
+			wQiYiJXnCmU1qE6S57yH5WxOwVc=
 			</data>
 			<key>hash2</key>
 			<data>
-			EdoWbKzE2NyQlGBkI3GPjrkXombKtlK6OmIV8rOn1BA=
+			SBCEYovZ1RbTtZnW3WNA8yWGQJhYn2rBgVZsyuXsTOE=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -145,22 +156,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zDxITLmRwLBI33ggSBgVq/LEvqo=
+			pGOjblYJ7PH/D81qDfaXAx/dhw0=
 			</data>
 			<key>hash2</key>
 			<data>
-			EUDSUkYRszsfEeWDCvfdjPI7phazkZGwlIWUuCvz7+M=
+			nzHaRBuLhJoYVNzIG3VVLY7d6aJu6/v7B32r915HR3A=
 			</data>
 		</dict>
 		<key>Headers/FBiOSDeviceOperator.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qUOKKOwnXWGlbsdKfmCYmxYM5QU=
+			nicthVIXq6bt2SVpMmWBdg9rAYM=
 			</data>
 			<key>hash2</key>
 			<data>
-			l0dE6MJ0IXUeG+Ks2Ozglxb1xkD5paqv38HdENmo1q4=
+			/17ztBZ6Ck6E9wOqBkOOrTnwckFVL7qkCMqY7kIwTu0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -178,22 +189,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GQ4zPrgHGXvSCx3KeDfbNldtb/I=
+			OO6aGuHZFV2Ff14yjtpWSx/khEY=
 			</data>
 			<key>hash2</key>
 			<data>
-			AkQ0uXBsot3PWWzKN5qDDGh7xJwYazusHItW5UVU6eg=
+			R98N9ulJOXBBkvnazhL3ywvb4GwK1j8kimOpJwkwsR0=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			t17194DH3yelFlwoNDyDrmnsQFA=
+			O0i7zGTEWBkVvIo0sXZTYjMjwXI=
 			</data>
 			<key>hash2</key>
 			<data>
-			8yqwajA5m32wi2dt3rlR6a2M6NEZcnFM5gbWMbg0+Vg=
+			aXUIbdfVBp2bdsHq4xE4gxjakgK7wa90//bw8PKrI2o=
 			</data>
 		</dict>
 	</dict>

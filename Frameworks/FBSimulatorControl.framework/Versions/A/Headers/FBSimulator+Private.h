@@ -12,7 +12,6 @@
 
 @class FBMutableSimulatorEventSink;
 @class FBSimulatorEventRelay;
-@class FBSimulatorHistoryGenerator;
 @class FBSimulatorProcessFetcher;
 @class FBSimulatorResourceManager;
 @protocol FBControlCoreLogger;
@@ -22,11 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FBSimulator ()
 
 @property (nonatomic, strong, readonly) FBSimulatorEventRelay *eventRelay;
-@property (nonatomic, strong, readonly) FBSimulatorHistoryGenerator *historyGenerator;
 @property (nonatomic, strong, readonly, nullable) FBMutableSimulatorEventSink *mutableSink;
 @property (nonatomic, strong, readonly) FBSimulatorResourceManager *resourceSink;
 @property (nonatomic, strong, readonly) FBSimulatorProcessFetcher *processFetcher;
-@property (nonatomic, copy, readonly) NSArray *commandResponders;
 
 @property (nonatomic, copy, readwrite) FBSimulatorConfiguration *configuration;
 @property (nonatomic, weak, readwrite, nullable) FBSimulatorPool *pool;
