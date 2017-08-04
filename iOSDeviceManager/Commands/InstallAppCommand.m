@@ -104,7 +104,7 @@ static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
                                              defaultVal:@""]];
         [options addObject:[CommandOption withShortFlag:RESOURCES_PATH_FLAG
                                                longFlag:@"--resources-path"
-                                             optionName:@"path/to/resources"
+                                             optionName:RESOURCES_PATH_OPTION_NAME
                                                    info:@"Path to resources (executables) to inject into app directory. A list of colon separated files may be specified."
                                                required:NO
                                              defaultVal:nil]];

@@ -12,6 +12,7 @@
 
 - (FBSimulator *)fbSimulator;
 - (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error;
+- (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 
 @end
@@ -123,6 +124,42 @@
 
     expect(installPath).to.beNil;
     expect(containerPath).to.beNil;
+}
+
+- (void)testInstallAndInjectTestRecorder {
+    NSArray *resources = @[[[Resources shared] TestRecorderDylibPath]];
+
+    // shouldUpdate argument is broken, so we need to uninstall
+    // When injecting resources, we should _always_ reinstall because
+    // the version of the resources may have changed?
+    Application *app = [Application withBundlePath:testApp(SIM)];
+
+    expect([self.simulator waitForBootableState:nil]).to.beTruthy();
+    expect([self.simulator bootIfNecessary:nil]).to.beTruthy();
+
+    if ([self.simulator isInstalled:app.bundleID withError:nil]) {
+        expect(
+               [self.simulator uninstallApp:app.bundleID]
+               ).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    iOSReturnStatusCode code = [self.simulator installApp:app
+                                        resourcesToInject:resources
+                                             shouldUpdate:NO];
+
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    code = [self.simulator launchApp:[app bundleID]];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    __block NSString *version = nil;
+
+    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+        version = [[Resources shared] TestRecorderVersionFromHost:@"127.0.0.1"];
+        return version != nil;
+    }];
+
+    expect(version).to.beTruthy();
 }
 
 @end
