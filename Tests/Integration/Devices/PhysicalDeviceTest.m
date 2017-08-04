@@ -2,6 +2,12 @@
 #import "TestCase.h"
 #import "PhysicalDevice.h"
 
+@interface PhysicalDevice (TEST)
+
+- (FBDevice *)fbDevice;
+
+@end
+
 @interface PhysicalDeviceTest : TestCase
 
 @end
@@ -70,6 +76,47 @@
 
     expect(installPath).to.beNil;
     expect(containerPath).to.beNil;
+}
+
+- (void)testInstallAndInjectTestRecorder {
+    if (!device_available()) { return; }
+
+    // shouldUpdate argument is broken, so we need to uninstall
+    // When injecting resources, we should _always_ reinstall because
+    // the version of the resources may have changed?
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+    NSArray *resources = @[[[Resources shared] TestRecorderDylibPath]];
+    Application *app = [Application withBundlePath:testApp(ARM)];
+
+    if ([device isInstalled:app.bundleID withError:nil]) {
+        expect(
+               [device uninstallApp:app.bundleID]
+               ).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    iOSReturnStatusCode code = [device installApp:app
+                                resourcesToInject:resources
+                                     shouldUpdate:NO];
+
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    code = [device launchApp:[app bundleID]];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    __block NSString *version = nil;
+
+    // This can be improved upon
+    // https://github.com/calabash/run_loop/blob/develop/lib/run_loop/device_agent/client.rb#L1128
+    NSString *hostname = [NSString stringWithFormat:@"%@.local",
+                          device.fbDevice.name];
+
+    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+        version = [[Resources shared] TestRecorderVersionFromHost:hostname];
+        return version != nil;
+    }];
+
+    expect(version).to.beTruthy();
 }
 
 @end
