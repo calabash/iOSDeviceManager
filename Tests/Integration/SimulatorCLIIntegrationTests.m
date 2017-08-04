@@ -3,11 +3,19 @@
 #import "Device.h"
 #import "CLI.h"
 #import "DeviceUtils.h"
+#import "Simulator.h"
 
 @interface CLI (priv)
 @end
 
 @implementation CLI (priv)
+@end
+
+@interface Simulator (TEST)
+
+- (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error;
+- (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
+
 @end
 
 
@@ -356,6 +364,48 @@
     
     args = @[kProgramName, @"kill-app", testAppID, @"-d", [DeviceUtils defaultSimulatorID]];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
+- (void)testInstallAndInjectResource {
+
+    Application *app = [Application withBundlePath:testApp(SIM)];
+    Simulator *simulator = [Simulator withID:defaultSimUDID];
+
+    // --update-app flag is not working, so we must uninstall
+    // When injecting resources, we should _always_ reinstall because
+    // the version of the resources may have changed?
+    expect([simulator kill]).to.equal(iOSReturnStatusCodeEverythingOkay);
+    expect([simulator waitForBootableState:nil]).to.beTruthy();
+    expect([simulator bootIfNecessary:nil]).to.beTruthy();
+
+    if ([simulator isInstalled:app.bundleID withError:nil]) {
+        expect(
+               [simulator uninstallApp:app.bundleID]
+               ).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    NSString *dylibPath = [[Resources shared] TestRecorderDylibPath];
+    NSArray *args = @[kProgramName,
+                      @"install",
+                      app.path,
+                      @"--device-id", simulator.uuid,
+                      @"--resources-path", dylibPath
+                      ];
+
+    expect([CLI process:args]).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    expect(
+           [simulator launchApp:[app bundleID]]
+           ).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    __block NSString *version = nil;
+
+    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+        version = [[Resources shared] TestRecorderVersionFromHost:@"127.0.0.1"];
+        return version != nil;
+    }];
+
+    expect(version).to.beTruthy();
 }
 
 @end

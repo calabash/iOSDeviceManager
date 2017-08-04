@@ -4,6 +4,13 @@
 #import "DeviceUtils.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
+#import "PhysicalDevice.h"
+
+@interface PhysicalDevice (TEST)
+
+- (FBDevice *)fbDevice;
+
+@end
 
 @interface PhysicalDeviceCLIIntegrationTests : TestCase
 
@@ -344,6 +351,51 @@
 
     result = [ShellRunner xcrun:@[@"codesign", @"--display", target] timeout:5];
     expect([[result stdoutStr] containsString:identity.name]);
+}
+
+- (void)testInstallAndInjectTestRecorder {
+
+    if (!device_available()) { return; }
+
+    // --update-app flag is not working, so we must uninstall.
+    // When injecting resources, we should _always_ reinstall because
+    // the version of the resources may have changed?
+    Application *app = [Application withBundlePath:testApp(ARM)];
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+    if ([device isInstalled:app.bundleID withError:nil]) {
+        expect(
+               [device uninstallApp:app.bundleID]
+               ).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    NSString *dylibPath = [[Resources shared] TestRecorderDylibPath];
+    NSArray *args = @[kProgramName,
+                      @"install",
+                      app.path,
+                      @"--device-id", device.uuid,
+                      @"--resources-path", dylibPath
+                      ];
+
+    expect([CLI process:args]).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    expect(
+           [device launchApp:[app bundleID]]
+           ).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    __block NSString *version = nil;
+
+    // This can be improved upon
+    // https://github.com/calabash/run_loop/blob/develop/lib/run_loop/device_agent/client.rb#L1128
+    NSString *hostname = [NSString stringWithFormat:@"%@.local",
+                          device.fbDevice.name];
+
+    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+        version = [[Resources shared] TestRecorderVersionFromHost:hostname];
+        return version != nil;
+    }];
+
+    expect(version).to.beTruthy();
 }
 
 @end
