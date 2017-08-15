@@ -7,5 +7,4 @@
 - (NSString *)plus:(NSString *)ending;
 - (NSString *)joinPath:(NSString *)pathComponent;
 - (NSArray <NSString *> *)matching:(NSString *)regex;
-- (NSArray <NSString *> *)caseInsensitiveMatching:(NSString *)regex;
 @end

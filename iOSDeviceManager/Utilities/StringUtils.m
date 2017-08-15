@@ -39,7 +39,4 @@
     return [self matching:regex options:0];
 }
 
-- (NSArray <NSString *> *)caseInsensitiveMatching:(NSString *)regex {
-    return [self matching:regex options:NSRegularExpressionCaseInsensitive];
-}
 @end
