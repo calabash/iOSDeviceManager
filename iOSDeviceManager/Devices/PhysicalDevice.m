@@ -457,21 +457,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-///*
-// The algorithm here is to copy the application's container to the host,
-// [over]write the desired file into the appdata bundle, then reupload that
-// bundle since apparently uploading an xcappdata bundle is destructive.
-// */
-- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
 
     FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-
     NSError *e;
-
-    //We make an .xcappdata bundle, place the files there, and upload that
     NSFileManager *fm = [NSFileManager defaultManager];
 
-    //Ensure input file exists
     if (![fm fileExistsAtPath:filepath]) {
         ConsoleWriteErr(@"%@ doesn't exist!", filepath);
         return iOSReturnStatusCodeInvalidArguments;
@@ -508,12 +501,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
 
-    //TODO: depending on `overwrite`, upsert file
     NSString *filename = [filepath lastPathComponent];
     NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
     if ([fm fileExistsAtPath:dest]) {
         if (!overwrite) {
-            ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
+            ConsoleWriteErr(@"'%@' already exists in the app container.\n"
+                             "Specify `-o true` to overwrite.", filename);
             return iOSReturnStatusCodeGenericFailure;
         } else {
             if (![fm removeItemAtPath:dest error:&e]) {

@@ -4,7 +4,6 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import <Foundation/Foundation.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
-#import "Application.h"
 #import "iOSReturnStatusCode.h"
 #import "CodesignIdentity.h"
 
@@ -21,7 +20,8 @@
 
 // These will probably be moved to FBDeviceApplicationCommands
 - (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
-- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration error:(NSError **)error;
+- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration
+                    error:(NSError **)error;
 
 // Originally, we used DVT APIs to install provisioning profiles.
 // Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
@@ -66,6 +66,7 @@
 @end
 
 @class MobileProfile;
+@class Application;
 
 @interface Device : NSObject
 
@@ -117,7 +118,9 @@
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive;
-- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite;
 - (NSString *)containerPathForApplication:(NSString *)bundleID;
 - (NSString *)installPathForApplication:(NSString *)bundleID;
 - (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath;

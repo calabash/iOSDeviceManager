@@ -1,11 +1,11 @@
+
 #import "PhysicalDevice.h"
 #import "ShellRunner.h"
 #import "Simulator.h"
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
 #import "DeviceUtils.h"
-#import "JSONUtils.h"
-#import <XCTestBootstrap/XCTestBootstrap.h>
+
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
 
@@ -290,11 +290,15 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
+                                   sessionID:(NSUUID *)sessionID
+                                   keepAlive:(BOOL)keepAlive {
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
     MUST_OVERRIDE;
 }
 

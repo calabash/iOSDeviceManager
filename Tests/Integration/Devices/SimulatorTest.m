@@ -4,8 +4,6 @@
 #import "Simulator.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
-#import "MachClock.h"
-#import <FBControlCore/FBControlCore.h>
 #import "Application.h"
 
 @interface Simulator (TEST)
@@ -83,7 +81,7 @@
     expect(error).to.beNil;
 
     [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
-      return self.simulator.fbSimulator.state == FBSimulatorStateBooted;
+        return self.simulator.fbSimulator.state == FBSimulatorStateBooted;
     }];
 
     // Boot not required

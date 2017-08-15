@@ -1,6 +1,7 @@
 #import "AppInfoCommand.h"
 #import "ConsoleWriter.h"
 #import "JSONUtils.h"
+#import "Application.h"
 
 static NSString *const APP_PATH_OPTION_NAME = @"app-path";
 
