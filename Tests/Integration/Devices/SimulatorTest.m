@@ -4,8 +4,6 @@
 #import "Simulator.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
-#import "MachClock.h"
-#import <FBControlCore/FBControlCore.h>
 #import "Application.h"
 
 @interface Simulator (TEST)
