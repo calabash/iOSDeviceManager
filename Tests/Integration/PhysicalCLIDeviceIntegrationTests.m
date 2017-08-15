@@ -5,6 +5,7 @@
 #import "ShellRunner.h"
 #import "ShellResult.h"
 #import "PhysicalDevice.h"
+#import "Application.h"
 
 @interface PhysicalDevice (TEST)
 

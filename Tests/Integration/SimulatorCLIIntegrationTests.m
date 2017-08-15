@@ -4,6 +4,7 @@
 #import "CLI.h"
 #import "DeviceUtils.h"
 #import "Simulator.h"
+#import "Application.h"
 
 @interface CLI (priv)
 @end

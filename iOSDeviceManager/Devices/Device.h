@@ -4,7 +4,6 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import <Foundation/Foundation.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
-#import "Application.h"
 #import "iOSReturnStatusCode.h"
 #import "CodesignIdentity.h"
 
@@ -66,6 +65,7 @@
 @end
 
 @class MobileProfile;
+@class Application;
 
 @interface Device : NSObject
 

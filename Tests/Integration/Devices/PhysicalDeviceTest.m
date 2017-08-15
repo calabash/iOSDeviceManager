@@ -1,6 +1,7 @@
 
 #import "TestCase.h"
 #import "PhysicalDevice.h"
+#import "Application.h"
 
 @interface PhysicalDevice (TEST)
 
