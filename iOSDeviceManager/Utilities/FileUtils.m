@@ -6,14 +6,14 @@
 @implementation FileUtils
 + (void)fileSeq:(NSString *)dir handler:(filePathHandler)handler {
     NSFileManager *mgr = [NSFileManager defaultManager];
-    
+
     NSError *e = nil;
     NSArray *children = [mgr contentsOfDirectoryAtPath:dir error:&e];
     NSAssert(e == nil, @"Unable to enumerate children of %@", dir, e);
     BOOL isDir = NO;
     [mgr fileExistsAtPath:dir isDirectory:&isDir];
     NSAssert(isDir, @"Tried to enumerate children of '%@', but it's not a dir.", dir);
-    
+
     for (NSString *file in children) {
         NSString *filePath = [dir joinPath:file];
         handler(filePath);
@@ -47,7 +47,7 @@
         }
         return nil;
     }
-    
+
     NSMutableArray<NSString *> *files = [NSMutableArray array];
     Stack *filesToCheck = [[Stack alloc] initWithArray:@[dir]];
     while (filesToCheck.count != 0) {
@@ -89,8 +89,10 @@
     NSMutableString *standardPath = [path mutableCopy];
     if ([standardPath hasPrefix:@".."]) {
         NSString *currentDirectory = [fileManager currentDirectoryPath];
-        standardPath = [[currentDirectory stringByAppendingPathComponent:standardPath] mutableCopy];
+        standardPath = [[currentDirectory stringByAppendingPathComponent:standardPath]
+                                          mutableCopy];
     }
+
     if ([standardPath hasPrefix:@"."]) {
         NSString *currentDirectory = [fileManager currentDirectoryPath];
         [standardPath replaceOccurrencesOfString:@"."
@@ -98,11 +100,14 @@
                                          options:NSCaseInsensitiveSearch
                                            range:NSMakeRange(0, 1)];
     }
+
     // Handle possible relative path without preceding ~ .. or .
     if (![standardPath hasPrefix:@"/"] && ![standardPath hasPrefix:@"~"]) {
         NSString *currentDirectory = [fileManager currentDirectoryPath];
-        standardPath = [[currentDirectory stringByAppendingPathComponent:standardPath] mutableCopy];
+        standardPath = [[currentDirectory stringByAppendingPathComponent:standardPath]
+                                          mutableCopy];
     }
+
     return [standardPath stringByStandardizingPath];
 }
 @end
