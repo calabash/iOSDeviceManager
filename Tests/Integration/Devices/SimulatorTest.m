@@ -81,7 +81,7 @@
     expect(error).to.beNil;
 
     [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
-      return self.simulator.fbSimulator.state == FBSimulatorStateBooted;
+        return self.simulator.fbSimulator.state == FBSimulatorStateBooted;
     }];
 
     // Boot not required
