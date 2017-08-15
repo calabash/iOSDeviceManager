@@ -5,7 +5,8 @@
 - (NSString *)replace:(NSString *)subs with:(NSString *)replacement {
     return [self stringByReplacingOccurrencesOfString:subs withString:replacement];
 }
-- (NSString *)subsFrom:(NSInteger)start length:(NSInteger)length {
+
+- (NSString *)subsFrom:(NSUInteger)start length:(NSUInteger)length {
     return [self substringWithRange:NSMakeRange(start, length)];
 }
 - (NSString *)plus:(NSString *)ending {
