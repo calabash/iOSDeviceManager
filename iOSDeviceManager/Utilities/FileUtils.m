@@ -40,7 +40,7 @@
     if (![mgr fileExistsAtPath:dir isDirectory:&isDir]) {
         if (error) {
             NSString *msg = [NSString stringWithFormat:@"No file at path: %@", dir];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedRecoverySuggestionErrorKey];
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: msg};
             *error = [NSError errorWithDomain:@"iOSDeviceManager"
                                          code:NSFileNoSuchFileError
                                      userInfo:userInfo];
@@ -56,7 +56,7 @@
         if (![mgr fileExistsAtPath:currentFile isDirectory:&isDir]) {
             if (error) {
                 NSString *msg = [NSString stringWithFormat:@"No file at path: %@", dir];
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedRecoverySuggestionErrorKey];
+                NSDictionary *userInfo = @{NSLocalizedDescriptionKey: msg};
                 *error = [NSError errorWithDomain:@"iOSDeviceManager"
                                              code:NSFileNoSuchFileError
                                          userInfo:userInfo];
