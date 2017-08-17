@@ -243,6 +243,9 @@
 		F59364A91F40912C00EB72BE /* GenerateXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364A61F40912C00EB72BE /* GenerateXCAppDataCommand.m */; };
 		F59364AA1F41D55800EB72BE /* UploadXCAppDataBundleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364971F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.m */; };
 		F59364AC1F42E12200EB72BE /* StringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AB1F42E12200EB72BE /* StringUtilsTest.m */; };
+		F59364AF1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
+		F59364B01F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
+		F59364B11F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };

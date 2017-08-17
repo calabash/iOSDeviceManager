@@ -187,4 +187,29 @@
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
+- (void)testUploadXCTestConfigurationCLI {
+    if (!device_available()) { return; }
+
+    iOSReturnStatusCode code;
+
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+    NSString *path = [[Resources shared] DeviceAgentPath:@"ARM"];
+    Application *app = [Application withBundlePath:path];
+    code = [device installApp:app shouldUpdate:YES];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // works with bundle identifier
+    NSArray *args = @[kProgramName, @"upload-xctestconf",
+                      app.bundleID, @"--device-id", device.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // works with path/to/app
+    args = @[kProgramName, @"upload-xctestconf",
+             app.path, @"--device-id", device.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+}
+
 @end
