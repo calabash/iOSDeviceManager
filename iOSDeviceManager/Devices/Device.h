@@ -82,10 +82,6 @@
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 
-/**
-    @warn Application should have already been staged into an alternate location when calling this,
-    as this method may codesign whatever application path is passed in.
- */
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
