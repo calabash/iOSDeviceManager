@@ -679,7 +679,6 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
 
-
     NSString *tmpDirectory = [[xcAppDataPath stringByAppendingPathComponent:@"AppData"]
                               stringByAppendingPathComponent:@"tmp"];
 
