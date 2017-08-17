@@ -233,6 +233,7 @@
 		F54ACEF71E8A6AFD00BC36DA /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */; };
 		F54ACEF81E8A6AFD00BC36DA /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */; };
 		F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F578F4671D70A3C4001FC3BE /* ResignTest.m */; };
+		F59364AC1F42E12200EB72BE /* StringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AB1F42E12200EB72BE /* StringUtilsTest.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
@@ -515,6 +516,7 @@
 		F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaHTTPServer.LICENSE; sourceTree = "<group>"; };
 		F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaLumberjack.LICENSE; sourceTree = "<group>"; };
 		F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = RoutingHTTPServer.LICENSE; sourceTree = "<group>"; };
+		F59364AB1F42E12200EB72BE /* StringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtilsTest.m; sourceTree = "<group>"; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationPlistTest.m; sourceTree = "<group>"; };
@@ -926,6 +928,7 @@
 				A18622731DE4FEA200A05031 /* MachClockTest.m */,
 				F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */,
 				421D28101E942AB5003C7F10 /* FileUtilsTest.m */,
+				F59364AB1F42E12200EB72BE /* StringUtilsTest.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1243,6 +1246,7 @@
 				F54ACEE01E8A687800BC36DA /* MachClock.m in Sources */,
 				F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */,
 				B296D6FE1E3144DD00D365F3 /* MobileProfile.m in Sources */,
+				F59364AC1F42E12200EB72BE /* StringUtilsTest.m in Sources */,
 				F5D583E51D69FE62007B0D11 /* CLITests.m in Sources */,
 				898D7D9B1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
 				89A1CF0D1E36F94B00D9FEC5 /* ExceptionUtils.m in Sources */,
