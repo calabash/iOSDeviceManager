@@ -282,6 +282,7 @@
 		F5D78DC91D8D32EB00497000 /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
 		F5E8D8201D67A57600A41EFD /* ResourcesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */; };
 		F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E8D8211D67B60A00A41EFD /* TestCase.m */; };
+		F5E97D831F4423EF000A8595 /* ApplicationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E97D821F4423EF000A8595 /* ApplicationTest.m */; };
 		F5F7054C1D68BAA90096E9D4 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; };
 		F5F7054D1D68BAA90096E9D4 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		F5F7054E1D68BAA90096E9D4 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
@@ -530,6 +531,7 @@
 		F5E8D81F1D67A57600A41EFD /* ResourcesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ResourcesTest.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F5E8D8211D67B60A00A41EFD /* TestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = TestCase.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		F5E8D8231D67B63700A41EFD /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		F5E97D821F4423EF000A8595 /* ApplicationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -961,6 +963,7 @@
 		F5D583DF1D69FE62007B0D11 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
+				F5E97D811F4423D2000A8595 /* Application */,
 				F54ACEEF1E8A6AEE00BC36DA /* Devices */,
 				F5249D3C1D6B31D1006ADD64 /* Utilities */,
 				F5D583E11D69FE62007B0D11 /* CLITests.m */,
@@ -980,6 +983,14 @@
 				63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F5E97D811F4423D2000A8595 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				F5E97D821F4423EF000A8595 /* ApplicationTest.m */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1258,6 +1269,7 @@
 				F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */,
 				892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */,
 				89B50D811D466BB800F34D67 /* AppUtils.m in Sources */,
+				F5E97D831F4423EF000A8595 /* ApplicationTest.m in Sources */,
 				89A1CF061E326A2900D9FEC5 /* FileUtils.m in Sources */,
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,

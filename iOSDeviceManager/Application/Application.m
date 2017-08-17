@@ -121,5 +121,22 @@
     }
 }
 
++ (BOOL)appBundleOrIpaArchiveExistsAtPath:(NSString *)path {
+    NSString *expanded = [FileUtils expandPath:path];
+
+    if ([path hasSuffix:@".app"] || [path hasSuffix:@".ipa"]) {
+        BOOL directory;
+        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:expanded
+                                                           isDirectory:&directory];
+
+        if ([path hasSuffix:@".app"]) {
+            return exists && directory;
+        } else {
+            return exists && !directory;
+        }
+    } else {
+        return NO;
+    }
+}
 
 @end
