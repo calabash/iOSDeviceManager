@@ -14,7 +14,7 @@
 + (Application *)withBundlePath:(NSString *)pathToBundle {
     NSString *path = [FileUtils expandPath:pathToBundle];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    
+
     if (![fileManager fileExistsAtPath:path]) {
         ConsoleWriteErr(@"Could not create application - path to bundle: %@ doesn't exist", path);
         return nil;
@@ -28,15 +28,15 @@
         ConsoleWriteErr(@"Could not create application - path is not .app format", path);
         return nil;
     }
-    
+
     NSString *plistPath = [path stringByAppendingPathComponent:@"Info.plist"];
     if (![fileManager fileExistsAtPath:plistPath]) {
         ConsoleWriteErr(@"Could not find plist as path: %@", plistPath);
         return nil;
     }
-    
+
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-    
+
     NSString *executableName = infoPlist[@"CFBundleExecutable"];
     NSString *executablePath = [path stringByAppendingPathComponent:executableName];
     if (![fileManager fileExistsAtPath:executablePath]) {
@@ -46,21 +46,21 @@
 
     NSError *archError;
     NSSet<NSString *> *arches = [FBBinaryParser architecturesForBinaryAtPath:executablePath error:&archError];
-    
+
     if (archError) {
         ConsoleWriteErr(@"Could not determine app architectures for executable at path: %@ \n with error: %@", executablePath, archError);
         return nil;
     }
-    
+
     NSError *productBundleErr;
     FBProductBundle *productBundle = [[[FBProductBundleBuilder builder]
-                                      withBundlePath:path]
+                                       withBundlePath:path]
                                       buildWithError:&productBundleErr];
     if (productBundleErr) {
         ConsoleWriteErr(@"Could not determine bundle id for bundle at: %@ \n withError: %@", path, productBundleErr);
         return nil;
     }
-    
+
 
     Application *app = [self withBundleID:productBundle.bundleID
                                     plist:infoPlist
@@ -79,7 +79,9 @@
     return app;
 }
 
-+ (Application *)withBundleID:(NSString *)bundleID plist:(NSDictionary *)plist architectures:(NSSet *)architectures {
++ (Application *)withBundleID:(NSString *)bundleID
+                        plist:(NSDictionary *)plist
+                architectures:(NSSet *)architectures {
     Application *app = [Application new];
     app.bundleID = bundleID;
     app.infoPlist = plist;
@@ -102,7 +104,6 @@
     } else {
         app.type = kApplicationTypeUnknown;
     }
-    
     return app;
 }
 
