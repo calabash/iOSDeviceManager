@@ -77,6 +77,8 @@
 + (instancetype)withID:(NSString *)uuid;
 + (NSArray<NSString *> *)startTestArguments;
 + (NSDictionary<NSString *, NSString *> *)startTestEnvironment;
++ (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
+                                           overwrite:(BOOL)overwrite;
 
 - (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;

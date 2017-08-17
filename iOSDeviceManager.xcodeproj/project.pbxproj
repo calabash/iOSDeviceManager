@@ -237,6 +237,9 @@
 		F593649D1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */; };
 		F593649E1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */; };
 		F59364A31F3F387F00EB72BE /* XCAppDataBundleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */; };
+		F59364A51F408DA400EB72BE /* DeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364A41F408DA400EB72BE /* DeviceTest.m */; };
+		F59364A81F40912C00EB72BE /* GenerateXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364A61F40912C00EB72BE /* GenerateXCAppDataCommand.m */; };
+		F59364A91F40912C00EB72BE /* GenerateXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364A61F40912C00EB72BE /* GenerateXCAppDataCommand.m */; };
 		F59364AC1F42E12200EB72BE /* StringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AB1F42E12200EB72BE /* StringUtilsTest.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
@@ -523,6 +526,9 @@
 		F593649A1F3F37CB00EB72BE /* XCAppDataBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCAppDataBundle.h; path = iOSDeviceManager/Utilities/XCAppDataBundle.h; sourceTree = SOURCE_ROOT; };
 		F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XCAppDataBundle.m; path = iOSDeviceManager/Utilities/XCAppDataBundle.m; sourceTree = SOURCE_ROOT; };
 		F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCAppDataBundleTest.m; sourceTree = "<group>"; };
+		F59364A41F408DA400EB72BE /* DeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTest.m; sourceTree = "<group>"; };
+		F59364A61F40912C00EB72BE /* GenerateXCAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenerateXCAppDataCommand.m; path = iOSDeviceManager/Commands/GenerateXCAppDataCommand.m; sourceTree = SOURCE_ROOT; };
+		F59364A71F40912C00EB72BE /* GenerateXCAppDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenerateXCAppDataCommand.h; path = iOSDeviceManager/Commands/GenerateXCAppDataCommand.h; sourceTree = SOURCE_ROOT; };
 		F59364AB1F42E12200EB72BE /* StringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtilsTest.m; sourceTree = "<group>"; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
@@ -618,6 +624,8 @@
 				892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */,
 				89C29E231DAFA93500282526 /* UploadFileCommand.h */,
 				89C29E241DAFA93500282526 /* UploadFileCommand.m */,
+				F59364A71F40912C00EB72BE /* GenerateXCAppDataCommand.h */,
+				F59364A61F40912C00EB72BE /* GenerateXCAppDataCommand.m */,
 				B2E68E161E3816DF001D5D89 /* ResignCommand.h */,
 				B2E68E171E38170E001D5D89 /* ResignCommand.m */,
 				B2E68E1B1E381731001D5D89 /* ResignAllCommand.h */,
@@ -957,6 +965,7 @@
 			children = (
 				F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */,
 				F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */,
+				F59364A41F408DA400EB72BE /* DeviceTest.m */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
@@ -1168,6 +1177,7 @@
 			files = (
 				892DE4D11D22F87000E1902C /* main.m in Sources */,
 				898D7D881DA47569001578FE /* MultipartMessageHeaderField.m in Sources */,
+				F59364A81F40912C00EB72BE /* GenerateXCAppDataCommand.m in Sources */,
 				89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				898D7D791DA47569001578FE /* HTTPConnection.m in Sources */,
@@ -1370,6 +1380,7 @@
 				F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */,
 				B296D7061E3147AE00D365F3 /* Certificate.m in Sources */,
 				89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */,
+				F59364A91F40912C00EB72BE /* GenerateXCAppDataCommand.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
@@ -1397,6 +1408,7 @@
 				B23179ED1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
 				F5D583F91D6A0369007B0D11 /* AppUtils.m in Sources */,
 				898D7D751DA47569001578FE /* DDRange.m in Sources */,
+				F59364A51F408DA400EB72BE /* DeviceTest.m in Sources */,
 				F5D583F81D6A0366007B0D11 /* ShellRunner.m in Sources */,
 				F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */,
 				F5D583F31D69FFF5007B0D11 /* PhysicalCLIDeviceIntegrationTests.m in Sources */,
