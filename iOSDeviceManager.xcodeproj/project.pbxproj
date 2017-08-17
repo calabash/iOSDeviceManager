@@ -233,6 +233,10 @@
 		F54ACEF71E8A6AFD00BC36DA /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */; };
 		F54ACEF81E8A6AFD00BC36DA /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */; };
 		F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F578F4671D70A3C4001FC3BE /* ResignTest.m */; };
+		F593649C1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */; };
+		F593649D1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */; };
+		F593649E1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */; };
+		F59364A31F3F387F00EB72BE /* XCAppDataBundleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */; };
 		F59364AC1F42E12200EB72BE /* StringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AB1F42E12200EB72BE /* StringUtilsTest.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
 		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
@@ -516,6 +520,9 @@
 		F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaHTTPServer.LICENSE; sourceTree = "<group>"; };
 		F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaLumberjack.LICENSE; sourceTree = "<group>"; };
 		F57BF4591DC382420074747F /* RoutingHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = RoutingHTTPServer.LICENSE; sourceTree = "<group>"; };
+		F593649A1F3F37CB00EB72BE /* XCAppDataBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCAppDataBundle.h; path = iOSDeviceManager/Utilities/XCAppDataBundle.h; sourceTree = SOURCE_ROOT; };
+		F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XCAppDataBundle.m; path = iOSDeviceManager/Utilities/XCAppDataBundle.m; sourceTree = SOURCE_ROOT; };
+		F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCAppDataBundleTest.m; sourceTree = "<group>"; };
 		F59364AB1F42E12200EB72BE /* StringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtilsTest.m; sourceTree = "<group>"; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
@@ -711,6 +718,8 @@
 				F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */,
 				B2F797401E8DA7B100C2FE06 /* Stack.h */,
 				B2F797411E8DA7D000C2FE06 /* Stack.m */,
+				F593649A1F3F37CB00EB72BE /* XCAppDataBundle.h */,
+				F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -928,6 +937,7 @@
 				A18622731DE4FEA200A05031 /* MachClockTest.m */,
 				F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */,
 				421D28101E942AB5003C7F10 /* FileUtilsTest.m */,
+				F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */,
 				F59364AB1F42E12200EB72BE /* StringUtilsTest.m */,
 			);
 			path = Utilities;
@@ -1195,6 +1205,7 @@
 				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
 				898D7D3E1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				89A1CF011E326A1E00D9FEC5 /* JSONUtils.m in Sources */,
+				F593649C1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
 				898D7D911DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
 				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				892DE49B1D22F84200E1902C /* Device.m in Sources */,
@@ -1231,6 +1242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F593649D1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
 				F5D438031E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
 				89A1CEFA1E32217500D9FEC5 /* StringUtils.m in Sources */,
@@ -1293,6 +1305,7 @@
 				634247CB4BEE40EFF301DDC8 /* CodesignerTest.m in Sources */,
 				B296D6FB1E31441400D365F3 /* CodesignIdentity.m in Sources */,
 				898D7DD41DA4758A001578FE /* HTTPResponseProxy.m in Sources */,
+				F59364A31F3F387F00EB72BE /* XCAppDataBundleTest.m in Sources */,
 				89A1CF021E326A1E00D9FEC5 /* JSONUtils.m in Sources */,
 				898D7DDD1DA4758A001578FE /* RouteResponse.m in Sources */,
 				898D7D9E1DA47569001578FE /* WebSocket.m in Sources */,
@@ -1398,6 +1411,7 @@
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,
 				B22DC0081E1D799500BDD4CB /* Application.m in Sources */,
 				F5D78DC91D8D32EB00497000 /* ShellResult.m in Sources */,
+				F593649E1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
 				898D7DE11DA4758A001578FE /* RoutingConnection.m in Sources */,
 				898D7D721DA47569001578FE /* DDNumber.m in Sources */,
 				898D7D9C1DA47569001578FE /* HTTPRedirectResponse.m in Sources */,
