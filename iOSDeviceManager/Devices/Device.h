@@ -77,6 +77,8 @@
 + (instancetype)withID:(NSString *)uuid;
 + (NSArray<NSString *> *)startTestArguments;
 + (NSDictionary<NSString *, NSString *> *)startTestEnvironment;
++ (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
+                                           overwrite:(BOOL)overwrite;
 
 - (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;
@@ -117,6 +119,8 @@
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
                    forApplication:(NSString *)bundleID
                         overwrite:(BOOL)overwrite;
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)filepath
+                              forApplication:(NSString *)bundleIdentifier;
 - (NSString *)containerPathForApplication:(NSString *)bundleID;
 - (NSString *)installPathForApplication:(NSString *)bundleID;
 - (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath;

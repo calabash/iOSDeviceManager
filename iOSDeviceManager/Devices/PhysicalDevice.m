@@ -9,6 +9,7 @@
 #import "ConsoleWriter.h"
 #import "Application.h"
 #import "XCTestConfigurationPlist.h"
+#import "XCAppDataBundle.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -536,6 +537,27 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
+                              forApplication:(NSString *)bundleIdentifier {
+    if (![XCAppDataBundle isValid:xcappdata]) {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    [operator fetchApplications];
+
+    NSError *error = nil;
+    if (![operator uploadApplicationDataAtPath:xcappdata
+                                      bundleID:bundleIdentifier
+                                         error:&error]) {
+        ConsoleWriteErr(@"Error uploading files to application container: %@",
+                        [error localizedDescription]);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+
 #pragma mark - Test Reporter Methods
 
 - (void)testManagerMediatorDidBeginExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
@@ -666,11 +688,18 @@ testCaseDidStartForTestClass:(NSString *)testClass
 - (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
                                                    error:(NSError **)error {
 
-    NSString *xcAppDataPath = [self pathToEmptyXcappdata:error];
+    NSString *directory = NSTemporaryDirectory();
+    [XCAppDataBundle generateBundleSkeleton:directory
+                                       name:@"DeviceAgent.xcappdata"
+                                  overwrite:YES];
 
-    if (!xcAppDataPath) { return NO; }
+    NSString *xcappdata = [directory stringByAppendingPathComponent:@"DeviceAgent.xcappdata"];
 
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    if (!xcappdata) { return NO; }
+
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    [operator fetchApplications];
+
     NSString *runnerPath;
     runnerPath = [operator applicationPathForApplicationWithBundleID:bundleIdentifier
                                                                error:error];
@@ -679,7 +708,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
 
-    NSString *tmpDirectory = [[xcAppDataPath stringByAppendingPathComponent:@"AppData"]
+    NSString *tmpDirectory = [[xcappdata stringByAppendingPathComponent:@"AppData"]
                               stringByAppendingPathComponent:@"tmp"];
 
     NSString *filename = @"DeviceAgent.xctestconfiguration";
@@ -689,17 +718,19 @@ testCaseDidStartForTestClass:(NSString *)testClass
                         atomically:YES
                           encoding:NSUTF8StringEncoding
                              error:error]) {
+        ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
+                        xctestconfigPath);
         return NO;
     }
 
-    if (![operator uploadApplicationDataAtPath:xcAppDataPath
+    if (![operator uploadApplicationDataAtPath:xcappdata
                                       bundleID:bundleIdentifier
                                          error:error]) {
         return NO;
     }
 
     // Deliberately skipping error checking; error is ignorable.
-    [[NSFileManager defaultManager] removeItemAtPath:xcAppDataPath
+    [[NSFileManager defaultManager] removeItemAtPath:xcappdata
                                                error:nil];
 
     return YES;

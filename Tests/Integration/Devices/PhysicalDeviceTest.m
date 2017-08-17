@@ -2,6 +2,8 @@
 #import "TestCase.h"
 #import "PhysicalDevice.h"
 #import "Application.h"
+#import "XCAppDataBundle.h"
+#import "CLI.h"
 
 @interface PhysicalDevice (TEST)
 
@@ -118,6 +120,96 @@
     }];
 
     expect(version).to.beTruthy();
+}
+
+- (void)testUploadXCAppDataBundle {
+    if (!device_available()) { return; }
+
+    iOSReturnStatusCode code;
+
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+    Application *app = [Application withBundlePath:testApp(ARM)];
+    code = [device installApp:app shouldUpdate:YES];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // invalid xcappdata bundle
+    NSString *path = [[Resources shared] uniqueTmpDirectory];
+    code = [device uploadXCAppDataBundle:path forApplication:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeGenericFailure);
+
+    // installs successfully
+    NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
+    expect([XCAppDataBundle generateBundleSkeleton:path
+                                              name:@"New.xcappdata"
+                                         overwrite:YES]).to.beTruthy();
+
+    code = [device uploadXCAppDataBundle:xcappdata forApplication:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // fails if application is not installed
+    code = [device uninstallApp:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    code = [device uploadXCAppDataBundle:xcappdata forApplication:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeInternalError);
+}
+
+- (void)testUploadXCAppDataBundleCLI {
+    if (!device_available()) { return; }
+
+    iOSReturnStatusCode code;
+
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+    Application *app = [Application withBundlePath:testApp(ARM)];
+    code = [device installApp:app shouldUpdate:YES];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    NSString *path = [[Resources shared] uniqueTmpDirectory];
+    NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
+    expect([XCAppDataBundle generateBundleSkeleton:path
+                                              name:@"New.xcappdata"
+                                         overwrite:YES]).to.beTruthy();
+
+
+    // works with bundle identifier
+    NSArray *args = @[kProgramName, @"upload-xcappdata",
+                      app.bundleID, xcappdata,
+                      @"--device-id", device.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // works with path/to/app
+    args = @[kProgramName, @"upload-xcappdata",
+             testApp(ARM), xcappdata,
+             @"--device-id", device.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+}
+
+- (void)testUploadXCTestConfigurationCLI {
+    if (!device_available()) { return; }
+
+    iOSReturnStatusCode code;
+
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+
+    NSString *path = [[Resources shared] DeviceAgentPath:@"ARM"];
+    Application *app = [Application withBundlePath:path];
+    code = [device installApp:app shouldUpdate:YES];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // works with bundle identifier
+    NSArray *args = @[kProgramName, @"upload-xctestconf",
+                      app.bundleID, @"--device-id", device.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // works with path/to/app
+    args = @[kProgramName, @"upload-xctestconf",
+             app.path, @"--device-id", device.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
 @end

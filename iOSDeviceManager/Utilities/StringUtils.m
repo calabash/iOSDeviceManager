@@ -44,4 +44,12 @@
     return [self matching:regex options:0];
 }
 
+- (BOOL)isUniformTypeIdentifier {
+    NSString *reverseDNSRegEx = @"^[A-Za-z]{2,6}((?!-)\\.[A-Za-z0-9-]{1,63}(?<!-))+$";
+    NSPredicate *test = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",
+                                                         reverseDNSRegEx];
+
+    return [test evaluateWithObject:self];
+}
+
 @end
