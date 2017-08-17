@@ -7,6 +7,7 @@
 #import "ConsoleWriter.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import "XCTestConfigurationPlist.h"
+#import "XCAppDataBundle.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -557,6 +558,55 @@ static const FBSimulatorControl *_control;
     }
 
     [ConsoleWriter write:dest];
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
+                              forApplication:(NSString *)bundleIdentifier {
+
+    if (![XCAppDataBundle isValid:xcappdata]) {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
+    if (!containerPath) {
+        ConsoleWriteErr(@"Unable to find container path for app %@ on device %@",
+                        bundleIdentifier, [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    NSArray *sources = [XCAppDataBundle sourceDirectoriesForSimulator:xcappdata];
+    NSArray *targets = @[
+        [containerPath stringByAppendingPathComponent:@"Documents"],
+        [containerPath stringByAppendingPathComponent:@"Library"],
+        [containerPath stringByAppendingPathComponent:@"tmp"]
+    ];
+
+    NSError *error = nil;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    for (NSUInteger index = 0; index < [sources count]; index++) {
+        NSString *target = targets[index];
+        if ([fileManager fileExistsAtPath:target isDirectory:nil]) {
+            if (![fileManager removeItemAtPath:target error:&error]) {
+                ConsoleWriteErr(@"Cannot remove existing file:\n  %@\n"
+                                    "because of error:\n  %@\n",
+                                "while trying to upload xcappdata",
+                                target, [error localizedDescription]);
+                return iOSReturnStatusCodeGenericFailure;
+            }
+        }
+
+        NSString *source = sources[index];
+
+        if (![fileManager copyItemAtPath:source toPath:target error:&error]) {
+            ConsoleWriteErr(@"Failed to upload xcappdata:\n  %@\n"
+                            "while trying to copy:\n  %@\n"
+                            "to:\n  %@",
+                            xcappdata, source, target);
+        }
+    }
+
     return iOSReturnStatusCodeEverythingOkay;
 }
 

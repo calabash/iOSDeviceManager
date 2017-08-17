@@ -9,6 +9,7 @@
 #import "ConsoleWriter.h"
 #import "Application.h"
 #import "XCTestConfigurationPlist.h"
+#import "XCAppDataBundle.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -535,6 +536,27 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     [ConsoleWriter write:dest];
     return iOSReturnStatusCodeEverythingOkay;
 }
+
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
+                              forApplication:(NSString *)bundleIdentifier {
+    if (![XCAppDataBundle isValid:xcappdata]) {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    [operator fetchApplications];
+
+    NSError *error = nil;
+    if (![operator uploadApplicationDataAtPath:xcappdata
+                                      bundleID:bundleIdentifier
+                                         error:&error]) {
+        ConsoleWriteErr(@"Error uploading files to application container: %@",
+                        [error localizedDescription]);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 
 #pragma mark - Test Reporter Methods
 
