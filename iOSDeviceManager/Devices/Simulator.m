@@ -159,15 +159,24 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)bootWithFBSimulator:(FBSimulator *)simulator
                       error:(NSError * __autoreleasing*) error {
-  FBSimulatorBootOptions options = (FBSimulatorBootOptionsConnectBridge |
-                                    FBSimulatorBootOptionsAwaitServices);
-  FBSimulatorBootConfiguration *bootConfig;
-  bootConfig = [FBSimulatorBootConfiguration withOptions:options];
+    FBSimulatorBootOptions options;
 
-  FBSimulatorLifecycleCommands *lifecycleCommands;
-  lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:simulator];
+    if ([FBXcodeConfiguration isXcode9OrGreater]) {
+        options = (FBSimulatorBootOptionsConnectBridge |
+            FBSimulatorBootOptionsEnableDirectLaunch |
+            FBSimulatorBootOptionsAwaitServices);
+    } else {
+        options = (FBSimulatorBootOptionsConnectBridge |
+            FBSimulatorBootOptionsAwaitServices);
+    }
 
-  return [lifecycleCommands boot:bootConfig error:error];
+    FBSimulatorBootConfiguration *bootConfig;
+    bootConfig = [FBSimulatorBootConfiguration withOptions:options];
+
+    FBSimulatorLifecycleCommands *lifecycleCommands;
+    lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:simulator];
+
+    return [lifecycleCommands boot:bootConfig error:error];
 }
 
 - (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error {
