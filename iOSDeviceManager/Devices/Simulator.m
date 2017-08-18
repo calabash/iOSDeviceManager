@@ -231,11 +231,11 @@ static const FBSimulatorControl *_control;
 
     BOOL needsToInstall = YES;
 
-    FBApplicationDescriptor *fbAppDescriptor;
-    fbAppDescriptor = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
-                                                                   error:&error];
+    FBInstalledApplication *installedApp;
+    installedApp = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
+                                                                error:&error];
 
-    if (fbAppDescriptor) {
+    if (installedApp) {
         // If the user doesn't want to update, we're done.
         if (!shouldUpdate) {
             return iOSReturnStatusCodeEverythingOkay;
@@ -449,12 +449,14 @@ static const FBSimulatorControl *_control;
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    FBApplicationDescriptor *installed = [self.fbSimulator installedApplicationWithBundleID:bundleID error:nil];
-    if (!installed) {
+    FBInstalledApplication *installedApp;
+    installedApp = [self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                                error:nil];
+    if (!installedApp) {
         return nil;
     }
 
-    return [Application withBundlePath:installed.path];
+    return [Application withBundlePath:installedApp.bundle.path];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
@@ -608,19 +610,21 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (FBApplicationDescriptor *)app:(NSString *)appPath {
-    NSError *e;
-    FBApplicationDescriptor *app = [FBApplicationDescriptor userApplicationWithPath:appPath
-                                                                              error:&e];
-    if (!app || e) {
-        ConsoleWriteErr(@"Error creating SimulatorApplication for path %@: %@", appPath, e);
++ (FBApplicationBundle *)app:(NSString *)appPath {
+    NSError *error = nil;
+
+    FBApplicationBundle *app = [FBApplicationBundle applicationWithPath:appPath
+                                                                  error:&error];
+    if (!app) {
+        ConsoleWriteErr(@"Error creating SimulatorApplication for path %@: %@",
+                        appPath, [error localizedDescription]);
         return nil;
     }
     return app;
 }
 
 + (FBApplicationLaunchConfiguration *)testRunnerLaunchConfig:(NSString *)testRunnerPath {
-    FBApplicationDescriptor *application = [self app:testRunnerPath];
+    FBApplicationBundle *application = [self app:testRunnerPath];
 
     return [FBApplicationLaunchConfiguration configurationWithApplication:application
                                                                 arguments:@[]
@@ -771,10 +775,10 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 - (NSString *)installPathForApplication:(NSString *)bundleID {
-    FBApplicationDescriptor *descriptor;
-    descriptor = [self.fbSimulator installedApplicationWithBundleID:bundleID
-                                                              error:nil];
-    return descriptor.path;
+    FBInstalledApplication *installedApp;
+    installedApp = [self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                                error:nil];
+    return installedApp.bundle.path;
 }
 
 - (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
