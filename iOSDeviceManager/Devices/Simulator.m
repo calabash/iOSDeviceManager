@@ -1,7 +1,5 @@
 
 #import "Simulator.h"
-#import <XCTestBootstrap/XCTestBootstrap.h>
-#import "ShellRunner.h"
 #import "AppUtils.h"
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
