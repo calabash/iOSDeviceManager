@@ -490,7 +490,7 @@ static const FBSimulatorControl *_control;
     }
 
     Simulator *replog = [Simulator new];
-    [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
+    [XCTestBootstrapFrameworkLoader allDependentFrameworks];
     NSArray *attributes = [Device startTestArguments];
     NSDictionary *environment = [Device startTestEnvironment];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
