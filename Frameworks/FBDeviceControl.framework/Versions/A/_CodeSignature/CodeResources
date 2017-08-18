@@ -10,7 +10,7 @@
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		O0i7zGTEWBkVvIo0sXZTYjMjwXI=
+		YYX8BVbUzES6/oLj8Cc3WdyVyRU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			8vygi3giyryuTuvW/N6vPe1w1x8=
+			+2QRxzbH5cZ9w6oHp2erfY3wZdE=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			WiOJ614eZtNNkv0ua34sXcPUxrI=
+			/ER9lDKClGny0GQ/9IlNt8cKY2o=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -112,11 +112,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Uia61gUZ4vvgI2bY82TpF33KikI=
+			Wo5y8MfWs0bGNjR+XaQtWagAFg8=
 			</data>
 			<key>hash2</key>
 			<data>
-			UYHCBGwOOz8259tmfOB7s8hXFEMp/M9/LVeq/CwAw9k=
+			SIHs4nyn7L5WwdsHcJXIv5mqNy8zjXytSFGCz41yULY=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceSet.h</key>
@@ -156,11 +156,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pGOjblYJ7PH/D81qDfaXAx/dhw0=
+			kJz3OCB7RPqHQuTEcSb6edLivb4=
 			</data>
 			<key>hash2</key>
 			<data>
-			nzHaRBuLhJoYVNzIG3VVLY7d6aJu6/v7B32r915HR3A=
+			8WRT0481P1J/03QHVHbecS9tdn7CLhIOKGdPaSxO4ms=
 			</data>
 		</dict>
 		<key>Headers/FBiOSDeviceOperator.h</key>
@@ -200,11 +200,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			O0i7zGTEWBkVvIo0sXZTYjMjwXI=
+			YYX8BVbUzES6/oLj8Cc3WdyVyRU=
 			</data>
 			<key>hash2</key>
 			<data>
-			aXUIbdfVBp2bdsHq4xE4gxjakgK7wa90//bw8PKrI2o=
+			oi4JaMvPENjAGWLw12tkVwvyrOXecbOIcUUPMRlf0Sg=
 			</data>
 		</dict>
 	</dict>
