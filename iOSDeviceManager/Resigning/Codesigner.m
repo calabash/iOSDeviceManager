@@ -190,22 +190,32 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
              intoAppDir:(NSString *)appDir
        codesignIdentity:(CodesignIdentity *)codesignIdentity
                 baseDir:(NSString *)baseDir {
-    NSFileManager *mgr = [NSFileManager defaultManager];
-    NSError *e = nil;
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSError *error = nil;
 
     for (NSString *resourcePath in resourcePaths) {
-        CBXThrowExceptionIf([mgr fileExistsAtPath:resourcePath],
+        CBXThrowExceptionIf([manager fileExistsAtPath:resourcePath],
                  @"Failed to inject resources: file '%@' does not exist!",
                  resourcePath);
-        NSString *targetFile = [appDir stringByAppendingPathComponent:[resourcePath lastPathComponent]];
-        [mgr copyItemAtPath:resourcePath
+
+        NSString *targetFile, *fileName;
+        fileName = [resourcePath lastPathComponent];
+        targetFile = [appDir stringByAppendingPathComponent:fileName];
+
+        if ([manager fileExistsAtPath:targetFile]) {
+            if (![manager removeItemAtPath:targetFile error:&error]) {
+                CBXThrowExceptionIf(YES, @"Error injecting resource: %@", error);
+            }
+        }
+
+        [manager copyItemAtPath:resourcePath
                      toPath:targetFile
-                      error:&e];
-        CBXThrowExceptionIf(e == nil, @"Error injecting resource: %@", e);
+                      error:&error];
+        CBXThrowExceptionIf(error == nil, @"Error injecting resource: %@", error);
         if ([FileUtils isDylibOrFramework:targetFile]) {
             [self resignObject:targetFile
               codesignIdentity:codesignIdentity];
-            CBXThrowExceptionIf(e == nil, @"Error resigning object: %@", e);
+            CBXThrowExceptionIf(error == nil, @"Error resigning object: %@", error);
         }
     }
 }
