@@ -344,6 +344,8 @@
              ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
+
     XCTAssertFalse([device applicationIsRunning:testAppID],
                    @"Expected %@ to be terminated successfully",
                    testAppID);
