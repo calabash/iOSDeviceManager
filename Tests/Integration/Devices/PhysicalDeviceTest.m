@@ -8,6 +8,9 @@
 @interface PhysicalDevice (TEST)
 
 - (FBDevice *)fbDevice;
+- (BOOL)terminateApplication:(NSString *)bundleIdentifier
+                  wasRunning:(BOOL *)wasRunning;
+- (BOOL)applicationIsRunning:(NSString *)bundleIdentifier;
 
 @end
 
@@ -120,6 +123,9 @@
     }];
 
     expect(version).to.beTruthy();
+
+    expect([device terminateApplication:app.bundleID
+                             wasRunning:nil]).to.beTruthy();
 }
 
 - (void)testUploadXCAppDataBundle {
