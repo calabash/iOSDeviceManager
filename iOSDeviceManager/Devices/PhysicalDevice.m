@@ -11,6 +11,30 @@
 #import "XCTestConfigurationPlist.h"
 #import "XCAppDataBundle.h"
 
+@interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
+
+- (void)fetchApplications;
+- (BOOL)killProcessWithID:(NSInteger)processID error:(NSError **)error;
+
+// The keys-value pairs that are available in the plist returned by
+// #installedApplicationWithBundleIdentifier:error:
++ (NSDictionary *)applicationReturnAttributesDictionary;
+- (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(NSString *)bundleID;
+
+// These will probably be moved to FBDeviceApplicationCommands
+- (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration
+                    error:(NSError **)error;
+
+// Originally, we used DVT APIs to install provisioning profiles.
+// Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
+// If we find there is a problem with the MobileDevice API we can
+// fall back on the DVT implementation.
+// - (BOOL)DVTinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
+- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
+
+@end
+
 @protocol DVTApplication
 - (NSDictionary *)plist;
 @end
