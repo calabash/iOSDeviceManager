@@ -79,10 +79,6 @@ static const FBSimulatorControl *_control;
     return [FBSimulatorApplicationCommands commandsWithSimulator:simulator];
 }
 
-- (FBiOSDeviceOperator *)fbDeviceOperator {
-    return (FBiOSDeviceOperator *)self.fbSimulator.deviceOperator;
-}
-
 - (FBSimulatorState)state {
     return self.fbSimulator.state;
 }

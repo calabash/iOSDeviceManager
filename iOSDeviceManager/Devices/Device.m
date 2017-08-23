@@ -198,10 +198,6 @@
 
 #pragma mark - Instance Methods
 
-- (FBiOSDeviceOperator *)fbDeviceOperator {
-    MUST_OVERRIDE;
-}
-
 - (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc {
     NSError *isInstalledError;
     if ([self isInstalled:app.bundleID withError:&isInstalledError]) {

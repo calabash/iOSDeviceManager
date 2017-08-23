@@ -79,7 +79,6 @@
 + (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
                                            overwrite:(BOOL)overwrite;
 
-- (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 
