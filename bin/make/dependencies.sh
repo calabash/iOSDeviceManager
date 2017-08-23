@@ -10,7 +10,7 @@ done
 
 set -e
 
-source bin/log_functions.sh
+source bin/log.sh
 
 if [ -z "${DEVICEAGENT_PATH}" ]; then
   if [ -e "../DeviceAgent.iOS" ]; then

@@ -10,6 +10,8 @@ done
 
 set -e
 
+source bin/log.sh
+
 XC_WORKSPACE="iOSDeviceManager.xcworkspace"
 XC_SCHEME="Unit"
 
