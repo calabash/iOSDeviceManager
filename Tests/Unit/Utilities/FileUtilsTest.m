@@ -64,7 +64,7 @@
     for (int i = 0; i < expectedFilesCount; i++) {
         NSString *file = files[i];
         expect([file containsString:dir]).to.beTruthy();
-        
+
         NSArray<NSString *> *subsequentFiles = [files subarrayWithRange:NSMakeRange(i + 1, expectedFilesCount - 1 - i)];
         for (NSString *subsequentFile in subsequentFiles) {
             // None of the subsequentFiles should be parent directories

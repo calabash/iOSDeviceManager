@@ -8,8 +8,10 @@
  */
 
 #import <FBControlCore/FBAgentLaunchConfiguration.h>
+#import <FBControlCore/FBApplicationBundle.h>
 #import <FBControlCore/FBApplicationCommands.h>
-#import <FBControlCore/FBApplicationDescriptor.h>
+#import <FBControlCore/FBApplicationDataCommands.h>
+#import <FBControlCore/FBApplicationInstallConfiguration.h>
 #import <FBControlCore/FBApplicationLaunchConfiguration.h>
 #import <FBControlCore/FBArchitecture.h>
 #import <FBControlCore/FBASLParser.h>
@@ -41,6 +43,7 @@
 #import <FBControlCore/FBFileManager.h>
 #import <FBControlCore/FBFileReader.h>
 #import <FBControlCore/FBFileWriter.h>
+#import <FBControlCore/FBInstalledApplication.h>
 #import <FBControlCore/FBiOSActionReader.h>
 #import <FBControlCore/FBiOSActionRouter.h>
 #import <FBControlCore/FBiOSTarget.h>
@@ -68,9 +71,10 @@
 #import <FBControlCore/FBScale.h>
 #import <FBControlCore/FBServiceManagement.h>
 #import <FBControlCore/FBSocketReader.h>
+#import <FBControlCore/FBSocketServer.h>
 #import <FBControlCore/FBSocketWriter.h>
-#import <FBControlCore/FBSubstringUtilities.h>
 #import <FBControlCore/FBSubject.h>
+#import <FBControlCore/FBSubstringUtilities.h>
 #import <FBControlCore/FBTask.h>
 #import <FBControlCore/FBTaskBuilder.h>
 #import <FBControlCore/FBTerminationHandle.h>
@@ -80,5 +84,7 @@
 #import <FBControlCore/FBDependentDylib.h>
 #import <FBControlCore/FBWeakFramework+ApplePrivateFrameworks.h>
 #import <FBControlCore/FBWeakFrameworkLoader.h>
+#import <FBControlCore/FBXcodeConfiguration.h>
+#import <FBControlCore/FBXcodeDirectory.h>
 #import <FBControlCore/NSPredicate+FBControlCore.h>
 

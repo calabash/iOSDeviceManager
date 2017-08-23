@@ -4,7 +4,6 @@
 #import <FBDeviceControl/FBDeviceControl.h>
 #import <Foundation/Foundation.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
-#import "Application.h"
 #import "iOSReturnStatusCode.h"
 #import "CodesignIdentity.h"
 
@@ -13,6 +12,7 @@
 @interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 
 - (void)fetchApplications;
+- (BOOL)killProcessWithID:(NSInteger)processID error:(NSError **)error;
 
 // The keys-value pairs that are available in the plist returned by
 // #installedApplicationWithBundleIdentifier:error:
@@ -21,7 +21,8 @@
 
 // These will probably be moved to FBDeviceApplicationCommands
 - (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
-- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration error:(NSError **)error;
+- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration
+                    error:(NSError **)error;
 
 // Originally, we used DVT APIs to install provisioning profiles.
 // Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
@@ -66,6 +67,7 @@
 @end
 
 @class MobileProfile;
+@class Application;
 
 @interface Device : NSObject
 
@@ -76,15 +78,13 @@
 + (instancetype)withID:(NSString *)uuid;
 + (NSArray<NSString *> *)startTestArguments;
 + (NSDictionary<NSString *, NSString *> *)startTestEnvironment;
++ (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
+                                           overwrite:(BOOL)overwrite;
 
 - (FBiOSDeviceOperator *)fbDeviceOperator;
 - (iOSReturnStatusCode)launch;
 - (iOSReturnStatusCode)kill;
 
-/**
-    @warn Application should have already been staged into an alternate location when calling this,
-    as this method may codesign whatever application path is passed in.
- */
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
@@ -117,7 +117,11 @@
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
                                    sessionID:(NSUUID *)sessionID
                                    keepAlive:(BOOL)keepAlive;
-- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite;
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite;
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)filepath
+                              forApplication:(NSString *)bundleIdentifier;
 - (NSString *)containerPathForApplication:(NSString *)bundleID;
 - (NSString *)installPathForApplication:(NSString *)bundleID;
 - (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath;

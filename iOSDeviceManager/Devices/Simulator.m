@@ -1,12 +1,11 @@
 
 #import "Simulator.h"
-#import <XCTestBootstrap/XCTestBootstrap.h>
-#import "ShellRunner.h"
 #import "AppUtils.h"
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import "XCTestConfigurationPlist.h"
+#import "XCAppDataBundle.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -160,15 +159,24 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)bootWithFBSimulator:(FBSimulator *)simulator
                       error:(NSError * __autoreleasing*) error {
-  FBSimulatorBootOptions options = (FBSimulatorBootOptionsConnectBridge |
-                                    FBSimulatorBootOptionsAwaitServices);
-  FBSimulatorBootConfiguration *bootConfig;
-  bootConfig = [FBSimulatorBootConfiguration withOptions:options];
+    FBSimulatorBootOptions options;
 
-  FBSimulatorLifecycleCommands *lifecycleCommands;
-  lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:simulator];
+    if ([FBXcodeConfiguration isXcode9OrGreater]) {
+        options = (FBSimulatorBootOptionsConnectBridge |
+            FBSimulatorBootOptionsEnableDirectLaunch |
+            FBSimulatorBootOptionsAwaitServices);
+    } else {
+        options = (FBSimulatorBootOptionsConnectBridge |
+            FBSimulatorBootOptionsAwaitServices);
+    }
 
-  return [lifecycleCommands boot:bootConfig error:error];
+    FBSimulatorBootConfiguration *bootConfig;
+    bootConfig = [FBSimulatorBootConfiguration withOptions:options];
+
+    FBSimulatorLifecycleCommands *lifecycleCommands;
+    lifecycleCommands = [Simulator lifecycleCommandsWithFBSimulator:simulator];
+
+    return [lifecycleCommands boot:bootConfig error:error];
 }
 
 - (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error {
@@ -232,11 +240,11 @@ static const FBSimulatorControl *_control;
 
     BOOL needsToInstall = YES;
 
-    FBApplicationDescriptor *fbAppDescriptor;
-    fbAppDescriptor = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
-                                                                   error:&error];
+    FBInstalledApplication *installedApp;
+    installedApp = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
+                                                                error:&error];
 
-    if (fbAppDescriptor) {
+    if (installedApp) {
         // If the user doesn't want to update, we're done.
         if (!shouldUpdate) {
             return iOSReturnStatusCodeEverythingOkay;
@@ -450,12 +458,14 @@ static const FBSimulatorControl *_control;
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    FBApplicationDescriptor *installed = [self.fbSimulator installedApplicationWithBundleID:bundleID error:nil];
-    if (!installed) {
+    FBInstalledApplication *installedApp;
+    installedApp = [self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                                error:nil];
+    if (!installedApp) {
         return nil;
     }
 
-    return [Application withBundlePath:installed.path];
+    return [Application withBundlePath:installedApp.bundle.path];
 }
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
@@ -480,7 +490,7 @@ static const FBSimulatorControl *_control;
     }
 
     Simulator *replog = [Simulator new];
-    [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
+    [XCTestBootstrapFrameworkLoader allDependentFrameworks];
     NSArray *attributes = [Device startTestArguments];
     NSDictionary *environment = [Device startTestEnvironment];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
@@ -518,7 +528,9 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
 
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:filepath]) {
@@ -558,19 +570,70 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (FBApplicationDescriptor *)app:(NSString *)appPath {
-    NSError *e;
-    FBApplicationDescriptor *app = [FBApplicationDescriptor userApplicationWithPath:appPath
-                                                                              error:&e];
-    if (!app || e) {
-        ConsoleWriteErr(@"Error creating SimulatorApplication for path %@: %@", appPath, e);
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
+                              forApplication:(NSString *)bundleIdentifier {
+
+    if (![XCAppDataBundle isValid:xcappdata]) {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
+    if (!containerPath) {
+        ConsoleWriteErr(@"Unable to find container path for app %@ on device %@",
+                        bundleIdentifier, [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    NSArray *sources = [XCAppDataBundle sourceDirectoriesForSimulator:xcappdata];
+    NSArray *targets = @[
+        [containerPath stringByAppendingPathComponent:@"Documents"],
+        [containerPath stringByAppendingPathComponent:@"Library"],
+        [containerPath stringByAppendingPathComponent:@"tmp"]
+    ];
+
+    NSError *error = nil;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    for (NSUInteger index = 0; index < [sources count]; index++) {
+        NSString *target = targets[index];
+        if ([fileManager fileExistsAtPath:target isDirectory:nil]) {
+            if (![fileManager removeItemAtPath:target error:&error]) {
+                ConsoleWriteErr(@"Cannot remove existing file:\n  %@\n"
+                                    "because of error:\n  %@\n",
+                                "while trying to upload xcappdata",
+                                target, [error localizedDescription]);
+                return iOSReturnStatusCodeGenericFailure;
+            }
+        }
+
+        NSString *source = sources[index];
+
+        if (![fileManager copyItemAtPath:source toPath:target error:&error]) {
+            ConsoleWriteErr(@"Failed to upload xcappdata:\n  %@\n"
+                            "while trying to copy:\n  %@\n"
+                            "to:\n  %@",
+                            xcappdata, source, target);
+        }
+    }
+
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
++ (FBApplicationBundle *)app:(NSString *)appPath {
+    NSError *error = nil;
+
+    FBApplicationBundle *app = [FBApplicationBundle applicationWithPath:appPath
+                                                                  error:&error];
+    if (!app) {
+        ConsoleWriteErr(@"Error creating SimulatorApplication for path %@: %@",
+                        appPath, [error localizedDescription]);
         return nil;
     }
     return app;
 }
 
 + (FBApplicationLaunchConfiguration *)testRunnerLaunchConfig:(NSString *)testRunnerPath {
-    FBApplicationDescriptor *application = [self app:testRunnerPath];
+    FBApplicationBundle *application = [self app:testRunnerPath];
 
     return [FBApplicationLaunchConfiguration configurationWithApplication:application
                                                                 arguments:@[]
@@ -721,10 +784,10 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 - (NSString *)installPathForApplication:(NSString *)bundleID {
-    FBApplicationDescriptor *descriptor;
-    descriptor = [self.fbSimulator installedApplicationWithBundleID:bundleID
-                                                              error:nil];
-    return descriptor.path;
+    FBInstalledApplication *installedApp;
+    installedApp = [self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                                error:nil];
+    return installedApp.bundle.path;
 }
 
 - (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier

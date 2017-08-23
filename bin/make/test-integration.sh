@@ -4,6 +4,17 @@ set -e
 
 source bin/log_functions.sh
 
+info "Use the TESTS env variable to run specific tests:"
+info ""
+info "# Run single test:"
+info "$ TESTS=Integration/PhysicalDeviceCLIIntegrationTests/testLaunchAndKillApp make test-integration"
+info ""
+info "# Run all tests in a class:"
+info "$ TESTS=Integration/PhysicalDeviceCLIIntegrationTests make test-integration"
+info ""
+info "# General pattern:"
+info "$ TESTS=<Scheme>/<Class>/<testMethod>"
+
 banner "iOSDeviceManager emits no stderr"
 # Test to see if there is any unsual output e.g. "symbol is redefined"
 
@@ -49,12 +60,28 @@ else
   XC_PIPE='cat'
 fi
 
-xcrun xcodebuild \
-  -derivedDataPath ${BUILD_DIR} \
-  -SYMROOT="${BUILD_DIR}" \
-  -OBJROOT="${BUILD_DIR}" \
-  -workspace "${XC_WORKSPACE}" \
-  -scheme "${XC_SCHEME}" \
-  -configuration Debug \
-  -sdk macosx \
-  test | $XC_PIPE && exit ${PIPESTATUS[0]}
+#  -only-testing:"Integration/PhysicalDeviceTest/testUploadXCAppDataBundleCLI" \
+#  -only-testing:"Integration/SimulatorTest" \
+
+if [ -z "${TESTS}" ]; then
+  xcrun xcodebuild \
+    -derivedDataPath ${BUILD_DIR} \
+    -SYMROOT="${BUILD_DIR}" \
+    -OBJROOT="${BUILD_DIR}" \
+    -workspace "${XC_WORKSPACE}" \
+    -scheme "${XC_SCHEME}" \
+    -configuration Debug \
+    -sdk macosx \
+    test | $XC_PIPE && exit ${PIPESTATUS[0]}
+else
+  xcrun xcodebuild \
+    -derivedDataPath ${BUILD_DIR} \
+    -SYMROOT="${BUILD_DIR}" \
+    -OBJROOT="${BUILD_DIR}" \
+    -workspace "${XC_WORKSPACE}" \
+    -scheme "${XC_SCHEME}" \
+    -configuration Debug \
+    -sdk macosx \
+    -only-testing:"${TESTS}" \
+    test | $XC_PIPE && exit ${PIPESTATUS[0]}
+fi

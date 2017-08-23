@@ -20,13 +20,16 @@ typedef NS_ENUM(short, ApplicationType) {
 @property (nonatomic, strong) NSSet<NSString *> *arches;
 @property (nonatomic, assign) ApplicationType type;
 
-/**
-    Returns the path to the directory containing the application bundle. 
-    For .ipas, this will be two levels up. 
-    For simulator apps, this will be the immediate parent directory.
+/*
+ Returns the path to the directory containing the application bundle.
+ For .ipas, this will be two levels up.
+ For simulator apps, this will be the immediate parent directory.
  */
 - (NSString *)baseDir;
 + (Application *)withBundlePath:(NSString *)pathToBundle;
-+ (Application *)withBundleID:(NSString *)bundleID plist:(NSDictionary *)plist architectures:(NSSet *)architectures;
++ (Application *)withBundleID:(NSString *)bundleID
+                        plist:(NSDictionary *)plist
+                architectures:(NSSet *)architectures;
++ (BOOL)appBundleOrIpaArchiveExistsAtPath:(NSString *)path;
 
 @end

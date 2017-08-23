@@ -9,6 +9,7 @@
 #import "ConsoleWriter.h"
 #import "Application.h"
 #import "XCTestConfigurationPlist.h"
+#import "XCAppDataBundle.h"
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -258,12 +259,17 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
+    if (![self terminateApplication:bundleID wasRunning:nil]) {
+        return iOSReturnStatusCodeInternalError;
+    }
+
     if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID
                                                               error:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
+        return iOSReturnStatusCodeInternalError;
+    } else {
+        return iOSReturnStatusCodeEverythingOkay;
     }
-
-    return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
@@ -323,19 +329,57 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
+    BOOL wasRunning;
 
-    NSError *error;
-    BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
+    BOOL success = [self terminateApplication:bundleID wasRunning:&wasRunning];
 
-    if (error) {
-        ConsoleWriteErr(@"Failed killing app with bundle ID: %@ due to: %@", bundleID, error);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    if (result) {
+    if (success) {
+        if (wasRunning) {
+            ConsoleWrite(@"Terminated application: %@", bundleID);
+        } else {
+            ConsoleWrite(@"Application: %@ was not running.", bundleID);
+        }
         return iOSReturnStatusCodeEverythingOkay;
     } else {
-        return iOSReturnStatusCodeFalse;
+        return iOSReturnStatusCodeInternalError;
+    }
+}
+
+- (pid_t)processIdentifierForApplication:(NSString *)bundleIdentifier {
+    NSError *error = nil;
+    FBiOSDeviceOperator *operator = self.fbDeviceOperator;
+    pid_t PID = [operator processIDWithBundleID:bundleIdentifier error:&error];
+    if (PID < 1) {
+        return 0;
+    } else {
+        return PID;
+    }
+}
+
+- (BOOL)applicationIsRunning:(NSString *)bundleIdentifier {
+    return [self processIdentifierForApplication:bundleIdentifier] != 0;
+}
+
+- (BOOL)terminateApplication:(NSString *)bundleIdentifier
+                  wasRunning:(BOOL *)wasRunning {
+
+    NSError *error = nil;
+
+    FBiOSDeviceOperator *operator = self.fbDeviceOperator;
+    pid_t PID = [operator processIDWithBundleID:bundleIdentifier error:&error];
+    if (PID < 1) {
+        if (wasRunning) { *wasRunning = NO; }
+        return YES;
+    } else {
+        if (wasRunning) { *wasRunning = YES; }
+    }
+
+    if (![operator killProcessWithID:PID error:&error]) {
+        ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
+                        bundleIdentifier, [error localizedDescription]);
+        return NO;
+    } else {
+        return YES;
     }
 }
 
@@ -457,21 +501,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-///*
-// The algorithm here is to copy the application's container to the host,
-// [over]write the desired file into the appdata bundle, then reupload that
-// bundle since apparently uploading an xcappdata bundle is destructive.
-// */
-- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
 
     FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-
     NSError *e;
-
-    //We make an .xcappdata bundle, place the files there, and upload that
     NSFileManager *fm = [NSFileManager defaultManager];
 
-    //Ensure input file exists
     if (![fm fileExistsAtPath:filepath]) {
         ConsoleWriteErr(@"%@ doesn't exist!", filepath);
         return iOSReturnStatusCodeInvalidArguments;
@@ -508,12 +545,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
 
-    //TODO: depending on `overwrite`, upsert file
     NSString *filename = [filepath lastPathComponent];
     NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
     if ([fm fileExistsAtPath:dest]) {
         if (!overwrite) {
-            ConsoleWriteErr(@"'%@' already exists in the app container. Specify `-o true` to overwrite.", filename);
+            ConsoleWriteErr(@"'%@' already exists in the app container.\n"
+                             "Specify `-o true` to overwrite.", filename);
             return iOSReturnStatusCodeGenericFailure;
         } else {
             if (![fm removeItemAtPath:dest error:&e]) {
@@ -542,6 +579,27 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     [ConsoleWriter write:dest];
     return iOSReturnStatusCodeEverythingOkay;
 }
+
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
+                              forApplication:(NSString *)bundleIdentifier {
+    if (![XCAppDataBundle isValid:xcappdata]) {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    [operator fetchApplications];
+
+    NSError *error = nil;
+    if (![operator uploadApplicationDataAtPath:xcappdata
+                                      bundleID:bundleIdentifier
+                                         error:&error]) {
+        ConsoleWriteErr(@"Error uploading files to application container: %@",
+                        [error localizedDescription]);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 
 #pragma mark - Test Reporter Methods
 
@@ -673,11 +731,18 @@ testCaseDidStartForTestClass:(NSString *)testClass
 - (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
                                                    error:(NSError **)error {
 
-    NSString *xcAppDataPath = [self pathToEmptyXcappdata:error];
+    NSString *directory = NSTemporaryDirectory();
+    [XCAppDataBundle generateBundleSkeleton:directory
+                                       name:@"DeviceAgent.xcappdata"
+                                  overwrite:YES];
 
-    if (!xcAppDataPath) { return NO; }
+    NSString *xcappdata = [directory stringByAppendingPathComponent:@"DeviceAgent.xcappdata"];
 
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    if (!xcappdata) { return NO; }
+
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    [operator fetchApplications];
+
     NSString *runnerPath;
     runnerPath = [operator applicationPathForApplicationWithBundleID:bundleIdentifier
                                                                error:error];
@@ -686,8 +751,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
 
-
-    NSString *tmpDirectory = [[xcAppDataPath stringByAppendingPathComponent:@"AppData"]
+    NSString *tmpDirectory = [[xcappdata stringByAppendingPathComponent:@"AppData"]
                               stringByAppendingPathComponent:@"tmp"];
 
     NSString *filename = @"DeviceAgent.xctestconfiguration";
@@ -697,17 +761,19 @@ testCaseDidStartForTestClass:(NSString *)testClass
                         atomically:YES
                           encoding:NSUTF8StringEncoding
                              error:error]) {
+        ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
+                        xctestconfigPath);
         return NO;
     }
 
-    if (![operator uploadApplicationDataAtPath:xcAppDataPath
+    if (![operator uploadApplicationDataAtPath:xcappdata
                                       bundleID:bundleIdentifier
                                          error:error]) {
         return NO;
     }
 
     // Deliberately skipping error checking; error is ignorable.
-    [[NSFileManager defaultManager] removeItemAtPath:xcAppDataPath
+    [[NSFileManager defaultManager] removeItemAtPath:xcappdata
                                                error:nil];
 
     return YES;

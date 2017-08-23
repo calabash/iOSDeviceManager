@@ -1,11 +1,13 @@
+
 #import "PhysicalDevice.h"
 #import "ShellRunner.h"
 #import "Simulator.h"
 #import "AppUtils.h"
 #import "ConsoleWriter.h"
 #import "DeviceUtils.h"
-#import "JSONUtils.h"
-#import <XCTestBootstrap/XCTestBootstrap.h>
+#import "XCAppDataBundle.h"
+#import "FileUtils.h"
+
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
 
@@ -176,6 +178,21 @@
       };
 }
 
++ (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
+                                           overwrite:(BOOL)overwrite {
+    NSString *expanded = [FileUtils expandPath:path];
+    NSString *basePath = [expanded stringByDeletingLastPathComponent];
+    NSString *name = [expanded lastPathComponent];
+
+    if ([XCAppDataBundle generateBundleSkeleton:basePath
+                                           name:name
+                                      overwrite:overwrite]) {
+        return iOSReturnStatusCodeEverythingOkay;
+    } else {
+        return iOSReturnStatusCodeGenericFailure;
+    }
+}
+
 #pragma mark - Instance Methods
 
 - (FBiOSDeviceOperator *)fbDeviceOperator {
@@ -290,11 +307,20 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
+                                   sessionID:(NSUUID *)sessionID
+                                   keepAlive:(BOOL)keepAlive {
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)uploadFile:(NSString *)filepath forApplication:(NSString *)bundleID overwrite:(BOOL)overwrite {
+- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite {
+    MUST_OVERRIDE;
+}
+
+- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)filepath
+                              forApplication:(NSString *)bundleIdentifier {
     MUST_OVERRIDE;
 }
 

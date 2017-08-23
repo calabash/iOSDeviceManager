@@ -10,11 +10,11 @@
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
-		sTplsilKViTNWlQH+Y1XRGIHIGE=
+		1BgbkQvc8thOcGAQEG9MJzxt/mc=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		O0i7zGTEWBkVvIo0sXZTYjMjwXI=
+		YYX8BVbUzES6/oLj8Cc3WdyVyRU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -32,7 +32,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			8vygi3giyryuTuvW/N6vPe1w1x8=
+			+2QRxzbH5cZ9w6oHp2erfY3wZdE=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -151,33 +151,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8oeOvz13rG0ZgbeQ+hUbAkSOQ40=
+			gq6l3yVisbiRBsxgn5P2bMyarXc=
 			</data>
 			<key>hash2</key>
 			<data>
-			XNEe/FcgvORsnHh5GIt0Rx7Y9B78ZaD+pEL1v41uCfo=
+			MFwjnXxlA1jVl+F8ftnKpdYZuAJ+w5846+Er88MNuWA=
 			</data>
 		</dict>
 		<key>Headers/FBTestConfiguration.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			T0DjMKnLL36q/I7fRXzJjj5IzrI=
+			7ovbAhaQ8BPtAs3qb8x9F+CCeb8=
 			</data>
 			<key>hash2</key>
 			<data>
-			fw+lpm4/D0VJgOFj8kI9B71v8N0uEGeBCeHDglfPPSM=
+			xh/l+gA0rWpDcWJrd7yF6SjLEdq4t79LQdtoWli9ZGU=
 			</data>
 		</dict>
 		<key>Headers/FBTestLaunchConfiguration.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			tvWSfxp7768mm4PKPOXuUGGq4T0=
+			pKjGJuyl+vfS3qMoU1rmJWdrQtM=
 			</data>
 			<key>hash2</key>
 			<data>
-			a3ikNxEFZEuFnxpQA4uYsZ70G5HOovgqcILh471pAyU=
+			FjxyG3tv2ah2d+xVWXE80pUFGavOCoO7g1B0yV+X1+8=
 			</data>
 		</dict>
 		<key>Headers/FBTestManager.h</key>
@@ -349,11 +349,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4NUG9G4n7q3FQTpUA5FzF9jnuTg=
+			9mrliCo1uOD06NZ+TrQKEdyMCWE=
 			</data>
 			<key>hash2</key>
 			<data>
-			2ZUZTFkMws4lpK2PFobJeTrT+DDZiahmEDVManDqNvM=
+			bnfCDYLQOkYw2KO1n/YLLK3F9qNy2K3jH/h5knta44Y=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestCommands.h</key>
@@ -481,11 +481,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zHKZcK2pqTw9pFRDz0R/MSbxM1o=
+			pOCCjKkwb7S4FV69FdBdzKJgNrQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			X9Vm4lCtnGnlbs4geaIA7L4mJjIP7NBOOhp9PrWxUus=
+			BjSoQct/MydLlwz4z4XrjVjHcdSwM7gG8SD6taxKecU=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrap.h</key>
@@ -514,11 +514,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			5T1pjeKql+Bxe/4TWpnGAtpPnEM=
+			FySQrFqrgUwyA+3Iq0F5QlBmMdk=
 			</data>
 			<key>hash2</key>
 			<data>
-			uPAAFGtHqacZ+A7raPyEmU+Smwb35cldWS/bunpscM4=
+			gsth+tDERDpYin7IBZDoF7jPcd3bymECy1dKXFtAw9I=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -547,22 +547,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sTplsilKViTNWlQH+Y1XRGIHIGE=
+			1BgbkQvc8thOcGAQEG9MJzxt/mc=
 			</data>
 			<key>hash2</key>
 			<data>
-			vpmlK2XGVmw3pz5jEnwpyh/KX8L8CqESZt4lMWG1ipY=
+			NrZVP5O4Csw3sOkZZJebwErnDZXz1ER7JeQVy2ux0gc=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			O0i7zGTEWBkVvIo0sXZTYjMjwXI=
+			YYX8BVbUzES6/oLj8Cc3WdyVyRU=
 			</data>
 			<key>hash2</key>
 			<data>
-			aXUIbdfVBp2bdsHq4xE4gxjakgK7wa90//bw8PKrI2o=
+			oi4JaMvPENjAGWLw12tkVwvyrOXecbOIcUUPMRlf0Sg=
 			</data>
 		</dict>
 	</dict>

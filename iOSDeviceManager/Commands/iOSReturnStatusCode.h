@@ -1,4 +1,4 @@
-typedef NS_ENUM(int, iOSReturnStatusCode) {
+typedef NS_ENUM(NSUInteger, iOSReturnStatusCode) {
     iOSReturnStatusCodeEverythingOkay = 0,
     iOSReturnStatusCodeGenericFailure,
     iOSReturnStatusCodeFalse,

@@ -4,14 +4,15 @@
 #import "Simulator.h"
 #import "ShellRunner.h"
 #import "ShellResult.h"
-#import "MachClock.h"
-#import <FBControlCore/FBControlCore.h>
 #import "Application.h"
+#import "XCAppDataBundle.h"
+#import "CLI.h"
 
 @interface Simulator (TEST)
 
 - (FBSimulator *)fbSimulator;
 - (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error;
+- (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 
 @end
@@ -82,7 +83,7 @@
     expect(error).to.beNil;
 
     [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
-      return self.simulator.fbSimulator.state == FBSimulatorStateBooted;
+        return self.simulator.fbSimulator.state == FBSimulatorStateBooted;
     }];
 
     // Boot not required
@@ -123,6 +124,139 @@
 
     expect(installPath).to.beNil;
     expect(containerPath).to.beNil;
+}
+
+- (void)testInstallAndInjectTestRecorder {
+    NSArray *resources = @[[[Resources shared] TestRecorderDylibPath]];
+
+    // shouldUpdate argument is broken, so we need to uninstall
+    // When injecting resources, we should _always_ reinstall because
+    // the version of the resources may have changed?
+    Application *app = [Application withBundlePath:testApp(SIM)];
+
+    expect([self.simulator waitForBootableState:nil]).to.beTruthy();
+    expect([self.simulator bootIfNecessary:nil]).to.beTruthy();
+
+    if ([self.simulator isInstalled:app.bundleID withError:nil]) {
+        expect(
+               [self.simulator uninstallApp:app.bundleID]
+               ).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    iOSReturnStatusCode code = [self.simulator installApp:app
+                                        resourcesToInject:resources
+                                             shouldUpdate:NO];
+
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    code = [self.simulator launchApp:[app bundleID]];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    __block NSString *version = nil;
+
+    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+        version = [[Resources shared] TestRecorderVersionFromHost:@"127.0.0.1"];
+        return version != nil;
+    }];
+
+    expect(version).to.beTruthy();
+}
+
+- (void)testUploadXCAppDataBundle {
+    iOSReturnStatusCode code;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    Application *app = [Application withBundlePath:testApp(SIM)];
+
+    expect([self.simulator waitForBootableState:nil]).to.beTruthy();
+    expect([self.simulator bootIfNecessary:nil]).to.beTruthy();
+
+    if (![self.simulator isInstalled:app.bundleID withError:nil]) {
+        code = [self.simulator installApp:app resourcesToInject:nil shouldUpdate:NO];
+        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    // invalid xcappdata bundle
+    NSString *path = [[Resources shared] uniqueTmpDirectory];
+    code = [self.simulator uploadXCAppDataBundle:path forApplication:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeGenericFailure);
+
+    // installs successfully
+    NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
+    expect([XCAppDataBundle generateBundleSkeleton:path
+                                              name:@"New.xcappdata"
+                                         overwrite:YES]).to.beTruthy();
+    NSArray *sources = [XCAppDataBundle sourceDirectoriesForSimulator:xcappdata];
+    for (NSString *source in sources) {
+        NSString *file = [source stringByAppendingPathComponent:@"file.txt"];
+        NSData *data = [@"contents" dataUsingEncoding:NSUTF8StringEncoding];
+        expect([fileManager createFileAtPath:file
+                                    contents:data
+                                  attributes:nil]).to.beTruthy();
+    }
+    code = [self.simulator uploadXCAppDataBundle:xcappdata forApplication:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    NSString *containerPath = [self.simulator containerPathForApplication:app.bundleID];
+    NSArray *targets = @[
+                         [containerPath stringByAppendingPathComponent:@"Documents"],
+                         [containerPath stringByAppendingPathComponent:@"Library"],
+                         [containerPath stringByAppendingPathComponent:@"tmp"]
+                         ];
+
+    for (NSString *target in targets) {
+        NSString *file = [target stringByAppendingPathComponent:@"file.txt"];
+        expect([fileManager fileExistsAtPath:file isDirectory:nil]).to.beTruthy();
+    }
+
+    // fails if application is not installed
+    code = [self.simulator uninstallApp:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    code = [self.simulator uploadXCAppDataBundle:xcappdata forApplication:app.bundleID];
+    expect(code).to.equal(iOSReturnStatusCodeGenericFailure);
+}
+
+- (void)testUploadXCAppDataBundleCLI {
+    iOSReturnStatusCode code;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    Application *app = [Application withBundlePath:testApp(SIM)];
+
+    expect([self.simulator waitForBootableState:nil]).to.beTruthy();
+    expect([self.simulator bootIfNecessary:nil]).to.beTruthy();
+
+    if (![self.simulator isInstalled:app.bundleID withError:nil]) {
+        code = [self.simulator installApp:app resourcesToInject:nil shouldUpdate:NO];
+        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    NSString *path = [[Resources shared] uniqueTmpDirectory];
+    NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
+    expect([XCAppDataBundle generateBundleSkeleton:path
+                                              name:@"New.xcappdata"
+                                         overwrite:YES]).to.beTruthy();
+    NSArray *sources = [XCAppDataBundle sourceDirectoriesForSimulator:xcappdata];
+    for (NSString *source in sources) {
+        NSString *file = [source stringByAppendingPathComponent:@"file.txt"];
+        NSData *data = [@"contents" dataUsingEncoding:NSUTF8StringEncoding];
+        expect([fileManager createFileAtPath:file
+                                    contents:data
+                                  attributes:nil]).to.beTruthy();
+    }
+
+    // works with bundle identifier
+    NSArray *args = @[kProgramName, @"upload-xcappdata",
+                      app.bundleID, xcappdata,
+                      @"--device-id", self.simulator.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    // works with app path
+    args = @[kProgramName, @"upload-xcappdata",
+             app.path, xcappdata,
+             @"--device-id", self.simulator.uuid];
+    code = [CLI process:args];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
 @end

@@ -396,11 +396,11 @@
 
 @interface Resources ()
 
+@property(copy) NSMutableData *responseData;
 @property(strong, readonly) TestSimulator *defaultSimulator;
 @property(copy, readonly) NSString *defaultSimulatorUDID;
 @property(strong, readonly) TestDevice *defaultDevice;
 @property(copy, readonly) NSString *defaultDeviceUDID;
-
 
 @property(copy, readonly) NSString *resourcesDirectory;
 @property(copy, readonly) NSString *TMP;
@@ -657,6 +657,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)PermissionsIpaPath {
     return [self.resourcesDirectory stringByAppendingPathComponent:@"arm/Permissions.ipa"];
+}
+
+- (NSString *)TestRecorderDylibPath {
+    return [self.resourcesDirectory stringByAppendingPathComponent:@"recorderPluginCalabash.dylib"];
 }
 
 - (ShellResult *)successResultSingleLine {
@@ -970,6 +974,42 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (BOOL)isCompatibleDeviceConnected {
     return [[[self instruments] compatibleDevices] count] != 0;
+}
+
+- (NSString *)TestRecorderVersionFromHost:(NSString *)host {
+    NSString *string = [NSString stringWithFormat:@"http://%@:37265/recorderVersion", host];
+    NSURL *url = [NSURL URLWithString:string];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+
+    __block NSData *data = nil;
+    __block NSError *outerError = nil;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask;
+    dataTask = [session dataTaskWithRequest:request
+                        completionHandler:^(NSData *taskData,
+                                            NSURLResponse *response,
+                                            NSError *error) {
+                          data = taskData;
+                          outerError = error;
+                          dispatch_semaphore_signal(semaphore);
+                        }];
+    [dataTask resume];
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
+    if (!data) {
+        return nil;
+    } else {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options:0
+                                                                     error:&outerError];
+        if (!dictionary) {
+            return nil;
+        } else {
+            return (NSString *)dictionary[@"results"];
+        }
+    }
 }
 
 @end

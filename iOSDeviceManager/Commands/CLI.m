@@ -157,7 +157,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
 
-            DDLogVerbose(@"%@ ==> %d %@", [command name], ret, parsedArgs);
+            DDLogVerbose(@"%@ ==> %@ %@", [command name], @(ret), parsedArgs);
 
             if (ret != iOSReturnStatusCodeEverythingOkay &&
                 ret != iOSReturnStatusCodeFalse) {

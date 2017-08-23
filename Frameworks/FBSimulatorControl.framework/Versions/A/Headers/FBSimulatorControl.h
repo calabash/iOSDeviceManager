@@ -11,7 +11,7 @@
 #import <FBSimulatorControl/FBAddVideoPolyfill.h>
 #import <FBSimulatorControl/FBAgentLaunchConfiguration+Simulator.h>
 #import <FBSimulatorControl/FBAgentLaunchStrategy.h>
-#import <FBSimulatorControl/FBApplicationDescriptor+Simulator.h>
+#import <FBSimulatorControl/FBApplicationBundle+Simulator.h>
 #import <FBSimulatorControl/FBApplicationLaunchStrategy.h>
 #import <FBSimulatorControl/FBApplicationTestRunStrategy.h>
 #import <FBSimulatorControl/FBCompositeSimulatorEventSink.h>
@@ -29,9 +29,9 @@
 #import <FBSimulatorControl/FBSimulatorAgentCommands.h>
 #import <FBSimulatorControl/FBSimulatorAgentOperation.h>
 #import <FBSimulatorControl/FBSimulatorApplicationCommands.h>
+#import <FBSimulatorControl/FBSimulatorApplicationDataCommands.h>
 #import <FBSimulatorControl/FBSimulatorApplicationOperation.h>
 #import <FBSimulatorControl/FBSimulatorBitmapStream.h>
-#import <FBSimulatorControl/FBSimulatorBootConfiguration+Helpers.h>
 #import <FBSimulatorControl/FBSimulatorBootConfiguration.h>
 #import <FBSimulatorControl/FBSimulatorBootStrategy.h>
 #import <FBSimulatorControl/FBSimulatorBridge.h>

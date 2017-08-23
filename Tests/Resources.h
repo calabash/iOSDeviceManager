@@ -146,6 +146,8 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (NSString *)CalabashDylibPath;
 - (NSString *)PermissionsAppBundleID;
 - (NSString *)PermissionsIpaPath;
+- (NSString *)TestRecorderDylibPath;
+- (NSString *)TestRecorderVersionFromHost:(NSString *)host;
 
 - (ShellResult *)successResultSingleLine;
 - (ShellResult *)successResultMultiline;
