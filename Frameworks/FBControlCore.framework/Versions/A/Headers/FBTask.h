@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol FBFileConsumer;
 @class FBTaskConfiguration;
 
 /**
@@ -54,10 +55,11 @@ extern FBTerminationHandleType const FBTerminationHandleTypeTask;
 /**
  Asynchronously launches the task, returning immediately after the Task has launched.
 
+ @Param terminationQueue the queue to call the termination handler on.
  @param handler the handler to call when the Task has terminated.
  @return the reciever, for chaining.
  */
-- (instancetype)startAsynchronouslyWithTerminationHandler:(void (^)(FBTask *task))handler;
+- (instancetype)startAsynchronouslyWithTerminationQueue:(dispatch_queue_t)terminationQueue handler:(void (^)(FBTask *task))handler;
 
 /**
  Asynchronously launches the task, returning immediately after the Task has launched.
@@ -86,13 +88,23 @@ extern FBTerminationHandleType const FBTerminationHandleTypeTask;
 
 /**
  Returns a copy of the current state of stdout. May be called from any thread.
+ The types of these values are defined in FBTaskConfiguration.
  */
-- (nullable NSString *)stdOut;
+- (nullable id)stdOut;
 
 /**
- Returns a copy of the current state of stderr. May be called from any thread.
+ Returns the stdout of the process:
+ The types of these values are defined in FBTaskConfiguration.
  */
-- (nullable NSString *)stdErr;
+- (nullable id)stdErr;
+
+/**
+ Returns a consumer for the stdin.
+ This will only exist if:
+ - The Task is Configured to do so.
+ - The Task is running.
+ */
+- (nullable id<FBFileConsumer>)stdIn;
 
 /**
  Returns the Error associated with the task (if any). May be called from any thread.

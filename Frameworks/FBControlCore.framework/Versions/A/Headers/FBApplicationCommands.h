@@ -11,8 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBApplicationDescriptor;
 @class FBApplicationLaunchConfiguration;
+@class FBInstalledApplication;
 
 /**
  Defines an interface for interacting with iOS Applications.
@@ -66,12 +66,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Fetches a list of the Installed Applications.
- The returned FBApplicationDescriptor object is fully JSON Serializable.
+ The returned FBApplicationBundle object is fully JSON Serializable.
 
  @param error an error out for any error that occurs
  @return the Applications if successful, nil otherwise.
  */
-- (nullable NSArray<FBApplicationDescriptor *> *)installedApplicationsWithError:(NSError **)error;
+- (nullable NSArray<FBInstalledApplication *> *)installedApplicationsWithError:(NSError **)error;
 
 @end
 

@@ -7,7 +7,7 @@
 + (NSString *)plistWithTestBundlePath:(NSString *)testBundlePath {
     NSString *plist = nil;
 
-    NSDecimalNumber *activeXcodeVersion = FBControlCoreGlobalConfiguration.xcodeVersionNumber;
+    NSDecimalNumber *activeXcodeVersion = FBXcodeConfiguration.xcodeVersionNumber;
     if ([XCTestConfigurationPlist xcodeVersionIsGreaterThanEqualTo83:activeXcodeVersion]) {
         plist = [XCTestConfigurationPlist plistForXcode83];
     } else {
