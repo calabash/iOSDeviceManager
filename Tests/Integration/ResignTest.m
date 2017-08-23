@@ -57,6 +57,11 @@
 
     code = [device launchApp:[app bundleID]];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
+
+    code = [device uninstallApp:[app bundleID]];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testResignObjectWithIdentity {

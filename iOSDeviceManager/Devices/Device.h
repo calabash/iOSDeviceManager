@@ -12,6 +12,7 @@
 @interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 
 - (void)fetchApplications;
+- (BOOL)killProcessWithID:(NSInteger)processID error:(NSError **)error;
 
 // The keys-value pairs that are available in the plist returned by
 // #installedApplicationWithBundleIdentifier:error:

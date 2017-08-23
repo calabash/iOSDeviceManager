@@ -259,12 +259,17 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
+    if (![self terminateApplication:bundleID wasRunning:nil]) {
+        return iOSReturnStatusCodeInternalError;
+    }
+
     if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID
                                                               error:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
+        return iOSReturnStatusCodeInternalError;
+    } else {
+        return iOSReturnStatusCodeEverythingOkay;
     }
-
-    return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
@@ -324,19 +329,57 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
+    BOOL wasRunning;
 
-    NSError *error;
-    BOOL result = [self.fbDevice killApplicationWithBundleID:bundleID error:&error];
+    BOOL success = [self terminateApplication:bundleID wasRunning:&wasRunning];
 
-    if (error) {
-        ConsoleWriteErr(@"Failed killing app with bundle ID: %@ due to: %@", bundleID, error);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    if (result) {
+    if (success) {
+        if (wasRunning) {
+            ConsoleWrite(@"Terminated application: %@", bundleID);
+        } else {
+            ConsoleWrite(@"Application: %@ was not running.", bundleID);
+        }
         return iOSReturnStatusCodeEverythingOkay;
     } else {
-        return iOSReturnStatusCodeFalse;
+        return iOSReturnStatusCodeInternalError;
+    }
+}
+
+- (pid_t)processIdentifierForApplication:(NSString *)bundleIdentifier {
+    NSError *error = nil;
+    FBiOSDeviceOperator *operator = self.fbDeviceOperator;
+    pid_t PID = [operator processIDWithBundleID:bundleIdentifier error:&error];
+    if (PID < 1) {
+        return 0;
+    } else {
+        return PID;
+    }
+}
+
+- (BOOL)applicationIsRunning:(NSString *)bundleIdentifier {
+    return [self processIdentifierForApplication:bundleIdentifier] != 0;
+}
+
+- (BOOL)terminateApplication:(NSString *)bundleIdentifier
+                  wasRunning:(BOOL *)wasRunning {
+
+    NSError *error = nil;
+
+    FBiOSDeviceOperator *operator = self.fbDeviceOperator;
+    pid_t PID = [operator processIDWithBundleID:bundleIdentifier error:&error];
+    if (PID < 1) {
+        if (wasRunning) { *wasRunning = NO; }
+        return YES;
+    } else {
+        if (wasRunning) { *wasRunning = YES; }
+    }
+
+    if (![operator killProcessWithID:PID error:&error]) {
+        ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
+                        bundleIdentifier, [error localizedDescription]);
+        return NO;
+    } else {
+        return YES;
     }
 }
 

@@ -10,6 +10,9 @@
 @interface PhysicalDevice (TEST)
 
 - (FBDevice *)fbDevice;
+- (BOOL)terminateApplication:(NSString *)bundleIdentifier
+                  wasRunning:(BOOL *)wasRunning;
+- (BOOL)applicationIsRunning:(NSString *)bundleIdentifier;
 
 @end
 
@@ -155,12 +158,14 @@
              ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    [NSThread sleepForTimeInterval:5];
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
 
-    NSError *error;
-    pid_t pid = [[[Device withID:defaultDeviceUDID] fbDeviceOperator] processIDWithBundleID:testAppID error:&error];
-    XCTAssertTrue(pid > 0);
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+    BOOL wasRunning = NO;
+    BOOL success = [device terminateApplication:testAppID wasRunning:&wasRunning];
 
+    XCTAssertTrue(wasRunning, @"Expected %@ to have been running", testAppID);
+    XCTAssertTrue(success, @"Expected %@ to be terminted successfully", testAppID);
 }
 
 - (void)testAppInfo {
@@ -325,6 +330,13 @@
              ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
+
+    PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+    XCTAssertTrue([device applicationIsRunning:testAppID],
+                   @"Expected %@ to be launched successfully",
+                   testAppID);
+
     args = @[
              kProgramName, @"kill-app",
              testAppID,
@@ -332,6 +344,9 @@
              ];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
+    XCTAssertFalse([device applicationIsRunning:testAppID],
+                   @"Expected %@ to be terminated successfully",
+                   testAppID);
 }
 
 - (void)testResignObject {
@@ -397,6 +412,9 @@
     }];
 
     expect(version).to.beTruthy();
+
+    expect([device terminateApplication:app.bundleID
+                             wasRunning:nil]).to.beTruthy();
 }
 
 @end
