@@ -328,6 +328,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
+- (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
+                                     error:(NSError **)error {
+    return [self.fbDeviceOperator launchApplication:configuration error:error];
+}
+
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
     BOOL wasRunning;
 

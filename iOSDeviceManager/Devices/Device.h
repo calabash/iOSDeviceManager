@@ -107,6 +107,9 @@
 
 //TODO: this should accept Env and Args
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID;
+
+- (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
+                                     error:(NSError **)error;
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID;
 - (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc;
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;

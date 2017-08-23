@@ -423,6 +423,11 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeGenericFailure;
 }
 
+- (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
+                                     error:(NSError **)error {
+    return [self.fbSimulator launchApplication:configuration error:error];
+}
+
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
     BOOL result = [self.fbSimulator killApplicationWithBundleID:bundleID error:nil];
 
