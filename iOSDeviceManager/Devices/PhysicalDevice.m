@@ -259,12 +259,17 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
+    if (![self terminateApplication:bundleID wasRunning:nil]) {
+        return iOSReturnStatusCodeInternalError;
+    }
+
     if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID
                                                               error:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
+        return iOSReturnStatusCodeInternalError;
+    } else {
+        return iOSReturnStatusCodeEverythingOkay;
     }
-
-    return err == nil ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeInternalError;
 }
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
