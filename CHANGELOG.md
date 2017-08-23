@@ -1,3 +1,17 @@
+### 2.0.1
+
+Supports Xcode 9 beta 6.
+
+* Terminate apps before uninstalling to prevent black
+  screen/unresponsive apps on physical devices #177
+* FBSimulatorControl: sync to 0.4.0 f7c5822 on Aug 18 2017 #176
+* CLI for uploading in entire xcappdata bundles #175
+* Fixes getting resources from args for install-app #172
+
+calabash/FBSimulatorControl built from this tag:
+
+* https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-2017.08.18
+
 ### 2.0.0
 
 * Stabilize and improve the resigning integration tests #168
