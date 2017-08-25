@@ -10,16 +10,18 @@ describe "is-installed" do
       RunLoop::CoreSimulator.new(device, app).launch_simulator
     end
 
-    it "returns true if app is installed" do
+    it "prints true if app is installed" do
       args = ["is-installed", "com.apple.Preferences", "--device-id", udid]
       hash = IDM.shell(args)
       expect(hash[:out]).to be == "true"
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
     end
 
-    it "returns false if app is not installed" do
+    it "prints false if app is not installed" do
       args = ["is-installed", "com.apple.NoSuchApp", "--device-id", udid]
       hash = IDM.shell(args)
       expect(hash[:out]).to be == "false"
+      expect(hash[:exit_status]).to be == IDM.exit_status(:false)
     end
   end
 
@@ -28,16 +30,18 @@ describe "is-installed" do
       let(:device) { IDM::Resources.instance.default_physical_device}
       let(:udid) { device.udid }
 
-      it "returns true if app is installed" do
+      it "prints true if app is installed" do
         args = ["is-installed", "com.apple.Preferences", "--device-id", udid]
         hash = IDM.shell(args)
         expect(hash[:out]).to be == "true"
+        expect(hash[:exit_status]).to be == IDM.exit_status(:success)
       end
 
-      it "returns false if app is not installed" do
+      it "prints false if app is not installed" do
         args = ["is-installed", "com.apple.NoSuchApp", "--device-id", udid]
         hash = IDM.shell(args)
         expect(hash[:out]).to be == "false"
+        expect(hash[:exit_status]).to be == IDM.exit_status(:false)
       end
     end
   end
