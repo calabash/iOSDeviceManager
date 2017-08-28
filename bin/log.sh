@@ -4,7 +4,7 @@
 #
 # Usage:
 #
-# source bin/log_functions.sh
+# source bin/log.sh
 
 function info {
   if [ "${TERM}" = "dumb" ]; then
@@ -25,11 +25,12 @@ function error {
 function banner {
   if [ "${TERM}" = "dumb" ]; then
     echo ""
-    echo "######## $1 #######$"
+    echo "######## $1 ########"
     echo ""
   else
     echo ""
-    echo "$(tput setaf 5)######## $1 #######$(tput sgr0)"
+    echo "$(tput setaf 5)######## $1 ########$(tput sgr0)"
     echo ""
   fi
 }
+

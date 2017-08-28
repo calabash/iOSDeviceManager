@@ -31,14 +31,6 @@
     expect(dictionary[@"XCTestConfigurationFilePath"]).to.equal(@"thanksforusingcalabash");
 }
 
-- (void)testFBiOSDeviceOperatorProvidesMethodForApplicationAttributes {
-    NSDictionary *dictionary = [FBiOSDeviceOperator applicationReturnAttributesDictionary];
-    NSArray *attrs = dictionary[@"ReturnAttributes"];
-    expect(attrs).to.contain(@"CFBundleIdentifier");
-    expect(attrs).to.contain(@"Path");
-    expect(attrs).to.contain(@"Container");
-}
-
 @end
 
 SpecBegin(DeviceTest)

@@ -1,3 +1,16 @@
+### 2.0.2
+
+Really supports Xcode 9 beta 6.
+
+* Test "is-installed" command from rspec #182
+* FBiOSDeviceOperator is applicable to physical device only #181
+* Update build scripts with new log.sh and common simctl loading
+  function #179
+
+calabash/FBSimulatorControl built from this tag:
+
+* https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-2017.08.18-swift-dylib-patch
+
 ### 2.0.1
 
 Supports Xcode 9 beta 6.
