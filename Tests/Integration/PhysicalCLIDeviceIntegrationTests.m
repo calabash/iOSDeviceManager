@@ -205,55 +205,6 @@
 
 }
 
-- (void)testAppIsInstalled {
-    if (!device_available()) { return; }
-    NSArray *args = @[
-                      kProgramName, @"is-installed",
-                      @"com.apple.Preferences",
-                      @"-d", defaultDeviceUDID
-                      ];
-
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    args = @[
-             kProgramName, @"is-installed",
-             testAppID,
-             @"-d", defaultDeviceUDID
-             ];
-
-    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-        args = @[
-                 kProgramName, @"uninstall",
-                 testAppID,
-                 @"-d", defaultDeviceUDID,
-                 ];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    }
-
-    args = @[
-             kProgramName, @"is-installed",
-             testAppID,
-             @"-d", defaultDeviceUDID
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeFalse);
-
-    args = @[
-             kProgramName, @"install",
-             testApp(ARM),
-             @"-d", defaultDeviceUDID,
-             @"-c", kCodeSignIdentityKARL
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    args = @[
-             kProgramName, @"is-installed",
-             testAppID,
-             @"-d", defaultDeviceUDID
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-}
-
 - (void)testUploadFile {
     if (!device_available()) { return; }
     //Ensure app installed

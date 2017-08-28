@@ -44,6 +44,7 @@ rm -rf reports/*.xml
 
 make test-unit
 make test-integration
+make test-cli
 
 EXIT_STATUS=$?
 

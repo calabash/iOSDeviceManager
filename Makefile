@@ -23,28 +23,20 @@ fbframeworks:
 facebook-frameworks:
 	bin/make/frameworks.sh
 
-#
-# 	Runs the unit tests.
-#
 test-unit:
 	bin/make/test-unit.sh
 
-#
-# 	Runs the integration tests.
-#
 test-integration:
 	bin/make/test-integration.sh
 
-#
-#       Runs the run loop integration tests.
-#
+test-cli:
+	bin/test/cli.sh
+
 test-run-loop:
 	bin/make/test-run-loop.sh
 
-#
-# 	Runs the integration tests.
-#
 tests:
 	$(MAKE) test-unit
 	$(MAKE) test-integration
+	$(MAKE) test-cli
 	$(MAKE) test-run-loop
