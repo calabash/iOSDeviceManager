@@ -253,6 +253,7 @@
 		F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5CAA4531F4EC25000E48BFF /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */; };
 		F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */; };
 		F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
 		F5D438031E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
@@ -541,6 +542,7 @@
 		F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadXCTestConfigurationCommand.m; path = iOSDeviceManager/Commands/UploadXCTestConfigurationCommand.m; sourceTree = SOURCE_ROOT; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhysicalDeviceTest.m; sourceTree = "<group>"; };
 		F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationPlistTest.m; sourceTree = "<group>"; };
 		F5D437FF1E8BA3210036C80D /* XCTestConfigurationPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCTestConfigurationPlist.h; path = iOSDeviceManager/Utilities/XCTestConfigurationPlist.h; sourceTree = SOURCE_ROOT; };
 		F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XCTestConfigurationPlist.m; path = iOSDeviceManager/Utilities/XCTestConfigurationPlist.m; sourceTree = SOURCE_ROOT; };
@@ -969,6 +971,7 @@
 			children = (
 				F54ACEF01E8A6AEE00BC36DA /* DeviceTest.m */,
 				F54ACEF11E8A6AEE00BC36DA /* SimulatorTest.m */,
+				F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
@@ -1272,6 +1275,7 @@
 				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
 				89A1CEFA1E32217500D9FEC5 /* StringUtils.m in Sources */,
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
+				F5CAA4531F4EC25000E48BFF /* PhysicalDeviceTest.m in Sources */,
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
 				B2E68E191E38170E001D5D89 /* ResignCommand.m in Sources */,

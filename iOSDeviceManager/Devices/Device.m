@@ -42,8 +42,11 @@
                                                    environment:environment ?: @{}
                                                    waitForDebugger:NO
                                                    output:[FBProcessOutputConfiguration defaultForDeviceManager]];
-    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)[iOSTarget deviceOperator];
-    if (![deviceOperator launchApplication:appLaunch error:&innerError]) {
+
+    id<FBDeviceOperator> deviceOperator = [iOSTarget deviceOperator];
+    Device *device = [Device withID:[deviceOperator udid]];
+
+    if (![device launchApplicationWithConfiguration:appLaunch error:&innerError]) {
         if (error) {
             *error = [[[XCTestBootstrapError describe:@"Failed launch test runner"]
                        causedBy:innerError]
@@ -195,10 +198,6 @@
 
 #pragma mark - Instance Methods
 
-- (FBiOSDeviceOperator *)fbDeviceOperator {
-    MUST_OVERRIDE;
-}
-
 - (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc {
     NSError *isInstalledError;
     if ([self isInstalled:app.bundleID withError:&isInstalledError]) {
@@ -292,6 +291,11 @@
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+    MUST_OVERRIDE;
+}
+
+- (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
+                                     error:(NSError **)error {
     MUST_OVERRIDE;
 }
 

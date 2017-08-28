@@ -79,10 +79,6 @@ static const FBSimulatorControl *_control;
     return [FBSimulatorApplicationCommands commandsWithSimulator:simulator];
 }
 
-- (FBiOSDeviceOperator *)fbDeviceOperator {
-    return (FBiOSDeviceOperator *)self.fbSimulator.deviceOperator;
-}
-
 - (FBSimulatorState)state {
     return self.fbSimulator.state;
 }
@@ -421,6 +417,11 @@ static const FBSimulatorControl *_control;
     }
 
     return iOSReturnStatusCodeGenericFailure;
+}
+
+- (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
+                                     error:(NSError **)error {
+    return [self.fbSimulator launchApplication:configuration error:error];
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
