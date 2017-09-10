@@ -57,6 +57,8 @@ module IDM
       else
         dir = @tmp_dir
       end
+      FileUtils.mkdir_p(dir)
+      dir
     end
 
     def xcode
@@ -132,6 +134,5 @@ module IDM
     def physical_device_attached?
       default_physical_device != ""
     end
-
   end
 end
