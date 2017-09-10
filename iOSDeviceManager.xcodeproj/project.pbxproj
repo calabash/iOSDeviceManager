@@ -232,6 +232,12 @@
 		F54ACEF31E8A6AEE00BC36DA /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF11E8A6AEE00BC36DA /* SimulatorTest.m */; };
 		F54ACEF71E8A6AFD00BC36DA /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */; };
 		F54ACEF81E8A6AFD00BC36DA /* SimulatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */; };
+		F556B1771F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */; };
+		F556B1781F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */; };
+		F556B17A1F63C34500F949A6 /* XCTestConfigurationProxyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1791F63C34500F949A6 /* XCTestConfigurationProxyTest.m */; };
+		F564E2E31F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */; };
+		F564E2E41F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */; };
+		F564E2E51F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */; };
 		F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F578F4671D70A3C4001FC3BE /* ResignTest.m */; };
 		F59364991F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364971F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.m */; };
 		F593649C1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */; };
@@ -524,6 +530,12 @@
 		F54ACEF11E8A6AEE00BC36DA /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
 		F54ACEF51E8A6AFD00BC36DA /* PhysicalDeviceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalDeviceTest.m; sourceTree = "<group>"; };
 		F54ACEF61E8A6AFD00BC36DA /* SimulatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulatorTest.m; sourceTree = "<group>"; };
+		F556B1751F63C32900F949A6 /* XCTestConfigurationProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XCTestConfigurationProxy.h; path = iOSDeviceManager/Utilities/XCTestConfigurationProxy.h; sourceTree = SOURCE_ROOT; };
+		F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XCTestConfigurationProxy.m; path = iOSDeviceManager/Utilities/XCTestConfigurationProxy.m; sourceTree = SOURCE_ROOT; };
+		F556B1791F63C34500F949A6 /* XCTestConfigurationProxyTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationProxyTest.m; sourceTree = "<group>"; };
+		F564E2DF1F65015600EDC7EF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F564E2E11F650ED100EDC7EF /* XCTestConfigReadWriteCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XCTestConfigReadWriteCommand.h; path = iOSDeviceManager/Commands/XCTestConfigReadWriteCommand.h; sourceTree = SOURCE_ROOT; };
+		F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XCTestConfigReadWriteCommand.m; path = iOSDeviceManager/Commands/XCTestConfigReadWriteCommand.m; sourceTree = SOURCE_ROOT; };
 		F578F4671D70A3C4001FC3BE /* ResignTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResignTest.m; sourceTree = "<group>"; };
 		F57BF4561DC382420074747F /* CocoaAsyncSocket.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaAsyncSocket.LICENSE; sourceTree = "<group>"; };
 		F57BF4571DC382420074747F /* CocoaHTTPServer.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaHTTPServer.LICENSE; sourceTree = "<group>"; };
@@ -655,6 +667,8 @@
 				42CFBACC1F0FF73800357248 /* AppInfoCommand.m */,
 				F59364AD1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.h */,
 				F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */,
+				F564E2E11F650ED100EDC7EF /* XCTestConfigReadWriteCommand.h */,
+				F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -743,6 +757,8 @@
 				B2F797411E8DA7D000C2FE06 /* Stack.m */,
 				F593649A1F3F37CB00EB72BE /* XCAppDataBundle.h */,
 				F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */,
+				F556B1751F63C32900F949A6 /* XCTestConfigurationProxy.h */,
+				F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -913,6 +929,7 @@
 		89F6DB391D37F75F006A0FD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F564E2DF1F65015600EDC7EF /* XCTest.framework */,
 				F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */,
 				89F6DB311D37F746006A0FD5 /* FBControlCore.framework */,
 				89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */,
@@ -962,6 +979,7 @@
 				421D28101E942AB5003C7F10 /* FileUtilsTest.m */,
 				F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */,
 				F59364AB1F42E12200EB72BE /* StringUtilsTest.m */,
+				F556B1791F63C34500F949A6 /* XCTestConfigurationProxyTest.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1211,6 +1229,7 @@
 				898D7DD91DA4758A001578FE /* RouteRequest.m in Sources */,
 				F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */,
 				B22DC0061E1D799500BDD4CB /* Application.m in Sources */,
+				F564E2E31F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */,
 				892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				898D7D8E1DA47569001578FE /* HTTPDataResponse.m in Sources */,
 				892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */,
@@ -1257,6 +1276,7 @@
 				89A1CEF31E302FC200D9FEC5 /* Entitlement.m in Sources */,
 				89C29E251DAFA93500282526 /* UploadFileCommand.m in Sources */,
 				89A1CEF91E32217500D9FEC5 /* StringUtils.m in Sources */,
+				F556B1771F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */,
 				89A1CEF01E302FC200D9FEC5 /* Certificate.m in Sources */,
 				89A1CEF61E302FC200D9FEC5 /* ShasumProvider.m in Sources */,
 				898D7D851DA47569001578FE /* MultipartMessageHeader.m in Sources */,
@@ -1280,6 +1300,7 @@
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
 				B2E68E191E38170E001D5D89 /* ResignCommand.m in Sources */,
 				892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */,
+				F556B1781F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */,
 				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
 				B296D6FA1E31441000D365F3 /* Codesigner.m in Sources */,
@@ -1309,6 +1330,7 @@
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
 				B296D6FD1E31441D00D365F3 /* Entitlements.m in Sources */,
+				F564E2E41F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */,
 				898D7D741DA47569001578FE /* DDRange.m in Sources */,
 				F5D78DC31D8D327500497000 /* ShellResultTest.m in Sources */,
 				F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */,
@@ -1328,6 +1350,7 @@
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				898D7D6E1DA47569001578FE /* DDData.m in Sources */,
+				F556B17A1F63C34500F949A6 /* XCTestConfigurationProxyTest.m in Sources */,
 				89C29E261DAFA93500282526 /* UploadFileCommand.m in Sources */,
 				898D7D801DA47569001578FE /* HTTPServer.m in Sources */,
 				898D7DD71DA4758A001578FE /* Route.m in Sources */,
@@ -1384,6 +1407,7 @@
 				898D7DDE1DA4758A001578FE /* RouteResponse.m in Sources */,
 				B296378C1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				B296D7081E31489A00D365F3 /* ShasumProvider.m in Sources */,
+				F564E2E51F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */,
 				F5D584091D6A039B007B0D11 /* TestCase.m in Sources */,
 				898D7D7B1DA47569001578FE /* HTTPConnection.m in Sources */,
 				898D7D401DA47513001578FE /* GCDAsyncSocket.m in Sources */,
