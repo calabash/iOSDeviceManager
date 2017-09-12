@@ -3,7 +3,7 @@
 #import "IDMVersionDefines.h"
 #import "JSONUtils.h"
 
-static NSString *const VERSION = @"2.0.2";
+static NSString *const VERSION = @"2.1.0";
 static NSString *const JSON_VERSION_FLAG = @"-j";
 static NSString *const JSON_VERSION_OPTION_NAME = @"json";
 
