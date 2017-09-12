@@ -1,3 +1,10 @@
+### 2.1.0
+
+Supports Xcode 9 GM.
+
+Advancing the version to create a tag from which we can release
+binaries built with Xcode 9 GM.
+
 ### 2.0.2
 
 Really supports Xcode 9 beta 6.
