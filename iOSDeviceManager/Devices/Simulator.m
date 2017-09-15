@@ -99,57 +99,57 @@ static const FBSimulatorControl *_control;
   NSString *messageFmt = @"Simulator never finished %@ after %@ seconds";
 
   switch (self.state) {
-    case FBSimulatorStateBooted: { return YES; }
-    case FBSimulatorStateShutdown: { return YES; }
+      case FBSimulatorStateBooted: { return YES; }
+      case FBSimulatorStateShutdown: { return YES; }
 
-    case FBSimulatorStateBooting: {
-      if ([self waitForSimulatorState:FBSimulatorStateBooted
-                              timeout:waitTimeout]) {
-        return YES;
-      } else {
-        if (error) {
-          message = [NSString stringWithFormat:messageFmt,
-                     @"booting", @(waitTimeout)];
-          *error = [NSError errorWithDomain:@"iOSDeviceManager"
-                                       code:iOSReturnStatusCodeInternalError
-                                   userInfo:@{
-                                              NSLocalizedDescriptionKey : message
-                                              }];
-        }
-        return NO;
+      case FBSimulatorStateBooting: {
+          if ([self waitForSimulatorState:FBSimulatorStateBooted
+                                  timeout:waitTimeout]) {
+              return YES;
+          } else {
+              if (error) {
+                  message = [NSString stringWithFormat:messageFmt,
+                             @"booting", @(waitTimeout)];
+                  *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                               code:iOSReturnStatusCodeInternalError
+                                           userInfo:@{
+                                                      NSLocalizedDescriptionKey : message
+                                                      }];
+              }
+              return NO;
+          }
       }
-    }
 
-    case FBSimulatorStateShuttingDown: {
-      if ([self waitForSimulatorState:FBSimulatorStateShutdown
-                              timeout:waitTimeout]) {
-        return YES;
-      } else {
-        if (error) {
-          message = [NSString stringWithFormat:messageFmt,
-                     @"shutting down", @(waitTimeout)];
-          *error = [NSError errorWithDomain:@"iOSDeviceManager"
-                                       code:iOSReturnStatusCodeInternalError
-                                   userInfo:@{
-                                              NSLocalizedDescriptionKey : message
-                                              }];
-        }
-        return NO;
+      case FBSimulatorStateShuttingDown: {
+          if ([self waitForSimulatorState:FBSimulatorStateShutdown
+                                  timeout:waitTimeout]) {
+              return YES;
+          } else {
+              if (error) {
+                  message = [NSString stringWithFormat:messageFmt,
+                             @"shutting down", @(waitTimeout)];
+                  *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                               code:iOSReturnStatusCodeInternalError
+                                           userInfo:@{
+                                                      NSLocalizedDescriptionKey : message
+                                                      }];
+              }
+              return NO;
+          }
       }
-    }
 
-    default: {
-      if (error) {
-        message = [NSString stringWithFormat:@"Could not boot simulator from this state: %@",
-                   self.stateString];
-        *error = [NSError errorWithDomain:@"iOSDeviceManager"
-                                     code:iOSReturnStatusCodeInternalError
-                                 userInfo:@{
-                                            NSLocalizedDescriptionKey : message
-                                            }];
+      default: {
+          if (error) {
+              message = [NSString stringWithFormat:@"Could not boot simulator from this state: %@",
+                         self.stateString];
+              *error = [NSError errorWithDomain:@"iOSDeviceManager"
+                                           code:iOSReturnStatusCodeInternalError
+                                       userInfo:@{
+                                                  NSLocalizedDescriptionKey : message
+                                                  }];
+          }
+          return NO;
       }
-      return NO;
-    }
   }
 }
 
