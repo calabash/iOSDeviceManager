@@ -16,7 +16,7 @@
 
 @end
 
-typedef BOOL (^CBXWaitUntilTrueBlock)();
+typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 @interface SimulatorTest : TestCase
 
