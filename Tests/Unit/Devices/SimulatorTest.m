@@ -6,9 +6,6 @@
 @interface Simulator (TEST)
 
 - (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
-- (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error;
-- (BOOL)bootWithFBSimulator:(FBSimulator *)simulator
-                      error:(NSError * __autoreleasing*) error;
 - (BOOL)waitForSimulatorState:(FBSimulatorState)state
                       timeout:(NSTimeInterval)timeout;
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
@@ -42,37 +39,15 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
     [super tearDown];
 }
 
-- (void)testBootSimulatorIfNecessaryCouldPrepareWithSuccessfulLaunch {
-    OCMExpect([self.mock waitForBootableState:self.stubError]).andReturn(YES);
-    OCMExpect([self.mock bootWithFBSimulator:self.simulator.fbSimulator
-                                       error:self.stubError]).andReturn(YES);
-
-    expect([self.mock bootIfNecessary:self.stubError]).to.beTruthy();
-}
-
-- (void)testBootSimulatorIfNecessaryCouldPrepareWithFailedLaunch {
-    OCMExpect([self.mock waitForBootableState:self.stubError]).andReturn(YES);
-    OCMExpect([self.mock bootWithFBSimulator:self.simulator.fbSimulator
-                                       error:self.stubError]).andReturn(NO);
-
-    expect([self.mock bootIfNecessary:self.stubError]).to.beFalsy;
-}
-
-- (void)testBootSimulatorIfNecessaryCouldNotPrepare {
-    OCMExpect([self.mock waitForBootableState:self.stubError]).andReturn(NO);
-
-    expect([self.mock bootIfNecessary:self.stubError]).to.beFalsy();
-}
-
 - (void)testLaunchSuccess {
-    OCMExpect([self.mock bootIfNecessary:self.stubError]).andReturn(YES);
+    OCMExpect([self.mock waitForBootableState:self.stubError]).andReturn(YES);
 
     iOSReturnStatusCode actual = [(Simulator *)self.mock launch];
     expect(actual).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testLaunchFailure {
-    OCMExpect([self.mock bootIfNecessary:self.stubError]).andReturn(NO);
+    OCMExpect([self.mock waitForBootableState:self.stubError]).andReturn(NO);
 
     iOSReturnStatusCode actual = [(Simulator *)self.mock launch];
     expect(actual).to.equal(iOSReturnStatusCodeInternalError);
@@ -146,7 +121,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
     XCTAssertNotNil(error);
 
     XCTAssertTrue([[error localizedDescription]
-                      containsString:@"Could not boot simulator from this state:"]);
+                      containsString:@"Simulator never finished creating after 30 seconds"]);
 }
 
 - (void)testPrepareSimulatorForBootingWithStateUnknown {
@@ -160,6 +135,12 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
     XCTAssertTrue([[error localizedDescription]
                    containsString:@"Could not boot simulator from this state:"]);
+}
+
+- (void)testSimulatorAppURL {
+    NSURL *url = [Simulator simulatorAppURL];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    expect([manager fileExistsAtPath:url.path]).to.beTruthy();
 }
 
 @end

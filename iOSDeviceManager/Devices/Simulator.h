@@ -3,4 +3,7 @@
 @import Foundation;
 
 @interface Simulator : Device<FBTestManagerTestReporter, FBControlCoreLogger>
+
++ (NSURL *)simulatorAppURL;
+
 @end
