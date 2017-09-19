@@ -5,6 +5,7 @@
 
 @interface Simulator (TEST)
 
+- (BOOL)launchSimulatorApp:(NSError *__autoreleasing *)error;
 - (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
 - (BOOL)waitForSimulatorState:(FBSimulatorState)state
                       timeout:(NSTimeInterval)timeout;
@@ -18,7 +19,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 @interface SimulatorTest : TestCase
 
 @property(atomic, strong) Simulator *simulator;
-@property(atomic, strong) id mock;
+@property(atomic, strong) id instanceMock;
 @property(atomic, assign) NSError __autoreleasing **stubError;
 
 @end
@@ -28,58 +29,67 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 - (void)setUp {
     [super setUp];
     self.simulator = [Simulator withID:defaultSimUDID];
-    self.mock = OCMPartialMock(self.simulator);
+    self.instanceMock = OCMPartialMock(self.simulator);
     self.stubError = (NSError __autoreleasing **)[OCMArg anyPointer];
 }
 
 - (void)tearDown {
-    OCMVerify(self.mock);
-    self.mock = nil;
+    OCMVerify(self.instanceMock);
+    self.instanceMock = nil;
     self.simulator = nil;
     [super tearDown];
 }
 
 - (void)testLaunchSuccess {
-    OCMExpect([self.mock waitForBootableState:self.stubError]).andReturn(YES);
+    OCMExpect([self.instanceMock waitForBootableState:self.stubError]).andReturn(YES);
+    OCMExpect([self.instanceMock launchSimulatorApp:self.stubError]).andReturn(YES);
 
-    iOSReturnStatusCode actual = [(Simulator *)self.mock launch];
+    iOSReturnStatusCode actual = [Simulator launchSimulator:self.instanceMock];
     expect(actual).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
-- (void)testLaunchFailure {
-    OCMExpect([self.mock waitForBootableState:self.stubError]).andReturn(NO);
+- (void)testLaunchWaitingForBootableStateFailed {
+    OCMExpect([self.instanceMock waitForBootableState:self.stubError]).andReturn(NO);
 
-    iOSReturnStatusCode actual = [(Simulator *)self.mock launch];
-    expect(actual).to.equal(iOSReturnStatusCodeInternalError);
+    iOSReturnStatusCode actual = [Simulator launchSimulator:self.instanceMock];
+    expect(actual).to.equal(iOSReturnStatusCodeGenericFailure);
 }
 
-- (void)testPrepareSimulatorForBootingWithStateBooted {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateBooted);
+- (void)testLaunchLaunchingSimulatorAppFailed {
+    OCMExpect([self.instanceMock waitForBootableState:self.stubError]).andReturn(YES);
+    OCMExpect([self.instanceMock launchSimulatorApp:self.stubError]).andReturn(NO);
 
-    expect([self.mock waitForBootableState:self.stubError]).to.beTruthy();
+    iOSReturnStatusCode actual = [Simulator launchSimulator:self.instanceMock];
+    expect(actual).to.equal(iOSReturnStatusCodeGenericFailure);
 }
 
-- (void)testPrepareSimulatorForBootingWithStateShutdown {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateShutdown);
+- (void)testWaitForBootableStateWithStateBooted {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateBooted);
 
-    expect([self.mock waitForBootableState:self.stubError]).to.beTruthy();
+    expect([self.instanceMock waitForBootableState:self.stubError]).to.beTruthy();
 }
 
-- (void)testPrepareSimulatorForBootingWithStateBootingSuccess {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateBooting);
-    OCMExpect([self.mock waitForSimulatorState:FBSimulatorStateBooted
+- (void)testWaitForBootableStateWithStateShutdown {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateShutdown);
+
+    expect([self.instanceMock waitForBootableState:self.stubError]).to.beTruthy();
+}
+
+- (void)testWaitForBootableStateWithStateBootingSuccess {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateBooting);
+    OCMExpect([self.instanceMock waitForSimulatorState:FBSimulatorStateBooted
                                        timeout:30]).andReturn(YES);
 
-    expect([self.mock waitForBootableState:self.stubError]).to.beTruthy();
+    expect([self.instanceMock waitForBootableState:self.stubError]).to.beTruthy();
 }
 
-- (void)testPrepareSimulatorForBootingWithStateBootingFailure {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateBooting);
-    OCMExpect([self.mock waitForSimulatorState:FBSimulatorStateBooted
+- (void)testWaitForBootableStateWithStateBootingFailure {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateBooting);
+    OCMExpect([self.instanceMock waitForSimulatorState:FBSimulatorStateBooted
                                        timeout:30]).andReturn(NO);
 
     NSError __autoreleasing *error = nil;
-    BOOL actual = [self.mock waitForBootableState:&error];
+    BOOL actual = [self.instanceMock waitForBootableState:&error];
     expect(actual).to.beFalsy();
 
     XCTAssertNotNil(error);
@@ -88,21 +98,21 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
                    @"Simulator never finished booting after 30 seconds");
 }
 
-- (void)testPrepareSimulatorForBootingWithStateShuttingDownSuccess {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateShuttingDown);
-    OCMExpect([self.mock waitForSimulatorState:FBSimulatorStateShutdown
+- (void)testWaitForBootableWithStateShuttingDownSuccess {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateShuttingDown);
+    OCMExpect([self.instanceMock waitForSimulatorState:FBSimulatorStateShutdown
                                        timeout:30]).andReturn(YES);
 
-    expect([self.mock waitForBootableState:self.stubError]).to.beTruthy();
+    expect([self.instanceMock waitForBootableState:self.stubError]).to.beTruthy();
 }
 
-- (void)testPrepareSimulatorForBootingWithShuttingDownFailure {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateShuttingDown);
-    OCMExpect([self.mock waitForSimulatorState:FBSimulatorStateShutdown
+- (void)testWaitForBootableStateWithStateShuttingDownFailure {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateShuttingDown);
+    OCMExpect([self.instanceMock waitForSimulatorState:FBSimulatorStateShutdown
                                        timeout:30]).andReturn(NO);
 
     NSError __autoreleasing *error = nil;
-    BOOL actual = [self.mock waitForBootableState:&error];
+    BOOL actual = [self.instanceMock waitForBootableState:&error];
     expect(actual).to.beFalsy();
 
     XCTAssertNotNil(error);
@@ -111,11 +121,21 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
                           @"Simulator never finished shutting down after 30 seconds");
 }
 
-- (void)testPrepareSimulatorForBootingWithStateCreating {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateCreating);
+- (void)testWaitForBootableStateWithStateCreatingSuccess {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateCreating);
+    OCMExpect([self.instanceMock waitForSimulatorState:FBSimulatorStateShutdown
+                                       timeout:30]).andReturn(YES);
+
+    expect([self.instanceMock waitForBootableState:self.stubError]).to.beTruthy();
+}
+
+- (void)testWaitForBootableStateWithStateCreatingFailure {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateCreating);
+    OCMExpect([self.instanceMock waitForSimulatorState:FBSimulatorStateShutdown
+                                       timeout:30]).andReturn(NO);
 
     NSError __autoreleasing *error = nil;
-    BOOL actual = [self.mock waitForBootableState:&error];
+    BOOL actual = [self.instanceMock waitForBootableState:&error];
     expect(actual).to.beFalsy();
 
     XCTAssertNotNil(error);
@@ -124,11 +144,11 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
                       containsString:@"Simulator never finished creating after 30 seconds"]);
 }
 
-- (void)testPrepareSimulatorForBootingWithStateUnknown {
-    OCMExpect([self.mock state]).andReturn(FBSimulatorStateUnknown);
+- (void)testWaitForBootableStateBootingWithStateUnknown {
+    OCMExpect([self.instanceMock state]).andReturn(FBSimulatorStateUnknown);
 
     NSError __autoreleasing *error = nil;
-    BOOL actual = [self.mock waitForBootableState:&error];
+    BOOL actual = [self.instanceMock waitForBootableState:&error];
     expect(actual).to.beFalsy();
 
     XCTAssertNotNil(error);

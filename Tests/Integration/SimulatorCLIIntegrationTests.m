@@ -14,8 +14,7 @@
 
 @interface Simulator (TEST)
 
-- (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error;
-- (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
+- (BOOL)boot;
 
 @end
 
@@ -55,16 +54,6 @@
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
 
     args = @[kProgramName, @"set-location", kStockholmCoord, @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-}
-
-- (void)testLaunchSim {
-    NSArray *args = @[kProgramName, @"launch-simulator", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-}
-
-- (void)testKillSim {
-    NSArray *args = @[kProgramName, @"kill-simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
@@ -347,9 +336,8 @@
     // --update-app flag is not working, so we must uninstall
     // When injecting resources, we should _always_ reinstall because
     // the version of the resources may have changed?
-    expect([simulator kill]).to.equal(iOSReturnStatusCodeEverythingOkay);
-    expect([simulator waitForBootableState:nil]).to.beTruthy();
-    expect([simulator bootIfNecessary:nil]).to.beTruthy();
+    expect([Simulator killSimulatorApp]).to.equal(iOSReturnStatusCodeEverythingOkay);
+    expect([simulator boot]).to.beTruthy();
 
     if ([simulator isInstalled:app.bundleID withError:nil]) {
         expect(
