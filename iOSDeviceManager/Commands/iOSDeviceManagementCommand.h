@@ -2,12 +2,13 @@
 #import <Foundation/Foundation.h>
 #import "CommandOption.h"
 #import "Device.h"
+#import "Simulator.h"
 #import "iOSReturnStatusCode.h"
 
 @protocol iOSDeviceManagementCommand <NSObject>
 + (NSArray<NSString *> *)resourcesFromArgs:(NSDictionary *)args;
 + (Device *)deviceFromArgs:(NSDictionary *)args;
-+ (Device *)simulatorFromArgs:(NSDictionary *)args;
++ (Simulator *)simulatorFromArgs:(NSDictionary *)args;
 + (CodesignIdentity *)codesignIDFromArgs:(NSDictionary *)args;
 + (NSString *)name;
 + (void)printUsage;

@@ -75,6 +75,12 @@ module IDM
       end
     end
 
+    def random_iphone
+      simctl.simulators.select do |sim|
+        sim.name[/iPhone/] && sim.version >= RunLoop::Version.new("10.0")
+      end.sample
+    end
+
     def instruments
       @instruments ||= RunLoop::Instruments.new
     end
