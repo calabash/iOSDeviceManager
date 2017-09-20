@@ -38,25 +38,6 @@
     return plist[@"CFBundleVersion"];
 }
 
-- (void)testSetLocation {
-    NSArray *args = @[kProgramName, @"kill-simulator", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    //Should fail: device is dead
-    args = @[kProgramName, @"set-location", kStockholmCoord, @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
-
-    args = @[kProgramName, @"launch-simulator", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    //Should fail: invalid coordinates
-    args = @[kProgramName, @"set-location", @"Banana", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
-
-    args = @[kProgramName, @"set-location", kStockholmCoord, @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-}
-
 // Causes deadlock when run with other tests.
 //
 //- (void)testStartTest {

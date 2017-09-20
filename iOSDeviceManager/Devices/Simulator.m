@@ -557,21 +557,26 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat
                                            lng:(double)lng {
 
-    if (self.fbSimulator == nil) {
-        ConsoleWriteErr(@"No such simulator exists!");
-        return iOSReturnStatusCodeDeviceNotFound;
-    }
-
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ||
-        self.fbSimulator.state == FBSimulatorStateShuttingDown) {
-        ConsoleWriteErr(@"Sim is dead! Must boot first");
+    // Set the Location to a default location, when launched directly.
+    // This is effectively done by Simulator.app by a NSUserDefault with for the
+    // 'LocationMode', even when the location is 'None'. If the Location is set on the
+    // Simulator, then CLLocationManager will behave in a consistent manner inside
+    // launched Applications.
+    if (![self boot]) {
+        ConsoleWriteErr(@"Cannot set the location on the %@ simulator because the device "
+                        "would not boot",
+                        [self fbSimulator]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    NSError *e = nil;
-    FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:self.fbSimulator error:&e];
-    if (e || !bridge) {
-        ConsoleWriteErr(@"Unable to fetch simulator bridge: %@", e);
+    NSError *error = nil;
+    FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:self.fbSimulator
+                                                                error:&error];
+    if (!bridge) {
+        ConsoleWriteErr(@"Unable to fetch simulator bridge: %@");
+        if (error) {
+            ConsoleWriteErr(@"%@", [error localizedDescription]);
+        }
         return iOSReturnStatusCodeInternalError;
     }
 
