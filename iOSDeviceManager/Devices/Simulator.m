@@ -297,20 +297,34 @@ static const FBSimulatorControl *_control;
         return NO;
     }
 
-    NSDictionary *options = @{};
-    SimDevice *simDevice = [self.fbSimulator device];
-    if (![simDevice bootWithOptions:options error:&error]) {
-        ConsoleWriteErr(@"Could not boot simulator");
-        if (error) {
-            ConsoleWriteErr(@"%@", [error localizedDescription]);
-        }
-        return NO;
-    } else {
-        if (![self waitForSimulatorState:FBSimulatorStateBooted timeout:30]) {
+    FBSimulatorState state = self.state;
+    if (state == FBSimulatorStateBooted || state == FBSimulatorStateBooting) {
+        if (![self waitForSimulatorState:FBSimulatorStateBooted
+                                 timeout:30]) {
             ConsoleWriteErr(@"Could not boot simulator");
             return NO;
+        } else {
+            return YES;
         }
-        return YES;
+    } else {
+
+        NSDictionary *options = @{};
+        SimDevice *simDevice = [self.fbSimulator device];
+        if (![simDevice bootWithOptions:options
+                                  error:&error]) {
+            ConsoleWriteErr(@"Could not boot simulator");
+            if (error) {
+                ConsoleWriteErr(@"%@", [error localizedDescription]);
+            }
+            return NO;
+        } else {
+            if (![self waitForSimulatorState:FBSimulatorStateBooted
+                                     timeout:30]) {
+                ConsoleWriteErr(@"Could not boot simulator");
+                return NO;
+            }
+            return YES;
+        }
     }
 }
 
