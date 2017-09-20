@@ -55,9 +55,6 @@
 + (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
                                            overwrite:(BOOL)overwrite;
 
-- (iOSReturnStatusCode)launch;
-- (iOSReturnStatusCode)kill;
-
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths

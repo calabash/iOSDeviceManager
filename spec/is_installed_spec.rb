@@ -33,14 +33,14 @@ describe "is-installed" do
       it "prints true if app is installed" do
         args = ["is-installed", "com.apple.Preferences", "--device-id", udid]
         hash = IDM.shell(args)
-        expect(hash[:out]).to be == "true"
+        expect(hash[:out].split($-0).last).to be == "true"
         expect(hash[:exit_status]).to be == IDM.exit_status(:success)
       end
 
       it "prints false if app is not installed" do
         args = ["is-installed", "com.apple.NoSuchApp", "--device-id", udid]
         hash = IDM.shell(args)
-        expect(hash[:out]).to be == "false"
+        expect(hash[:out].split($-0).last).to be == "false"
         expect(hash[:exit_status]).to be == IDM.exit_status(:false)
       end
     end

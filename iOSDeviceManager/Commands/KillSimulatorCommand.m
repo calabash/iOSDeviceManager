@@ -1,6 +1,7 @@
-#import "Simulator.h"
+
 #import "KillSimulatorCommand.h"
-#import "DeviceUtils.h"
+#import "Simulator.h"
+#import "ConsoleWriter.h"
 
 @implementation KillSimulatorCommand
 + (NSString *)name {
@@ -15,20 +16,23 @@
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
                                              optionName:DEVICE_ID_OPTION_NAME
-                                                   info:@"iOS Simulator GUIDs"
-                                               required:YES
+                                                   info:@"iOS Simulator UDID"
+                                               required:NO
                                              defaultVal:nil]];
     });
     return options;
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    
-    Device *device = [self simulatorFromArgs:args];
-    if (!device) {
-        return iOSReturnStatusCodeDeviceNotFound;
+    if (args[DEVICE_ID_OPTION_NAME]) {
+        ConsoleWriteErr(@"This command no longer takes a --device-id argument");
+        ConsoleWriteErr(@"This command terminates the Simulator.app and requests that all"
+                        "simulators shutdown");
+        ConsoleWriteErr(@"In a future release, passing a --device-id argument will result"
+                        "in a failure");
     }
-    
-    return [device kill];
+
+    return [Simulator killSimulatorApp];
 }
+
 @end

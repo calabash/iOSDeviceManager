@@ -10,8 +10,8 @@
 
 @interface Simulator (TEST)
 
+- (BOOL)boot;
 - (FBSimulator *)fbSimulator;
-- (BOOL)bootIfNecessary:(NSError * __autoreleasing *) error;
 - (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 
@@ -27,75 +27,39 @@
 
 - (void)setUp {
     [super setUp];
-    [self quitSimulators];
+    [Simulator killSimulatorApp];
     self.simulator = [Simulator withID:defaultSimUDID];
 }
 
 - (void)tearDown {
-    [self.simulator kill];
     self.simulator = nil;
     [super tearDown];
 }
 
-- (void)quitSimulatorsWithSignal:(NSString *)signal {
-    NSArray<NSString *> *args =
-    @[
-      @"pkill",
-      [NSString stringWithFormat:@"-%@", signal],
-      @"Simulator"
-      ];
-
-    ShellResult *result = [ShellRunner xcrun:args timeout:10];
-
-    XCTAssertTrue([result success],
-                  @"Failed to send %@ signal to Simulator.app", signal);
-
-    __block NSArray<TestSimulator *> *simulators = [[Resources shared] simulators];
-    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
-
-        NSMutableArray *mutable = [NSMutableArray arrayWithCapacity:100];
-        for (TestSimulator *simulator in simulators) {
-            if (![[simulator stateString] isEqualToString:@"Shutdown"]) {
-                [ShellRunner xcrun:@[@"simctl", @"shutdown", simulator.UDID]
-                           timeout:10];
-                [mutable addObject:simulator];
-            }
-        }
-        simulators = [NSArray arrayWithArray:mutable];
-        return [simulators count] == 0;
-    }];
+- (void)testLaunchSimulator {
+    iOSReturnStatusCode code = [Simulator launchSimulator:self.simulator];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
-- (void)quitSimulators {
-    [self quitSimulatorsWithSignal:@"TERM"];
-    [self quitSimulatorsWithSignal:@"KILL"];
+- (void)testLaunchSimulatorRestartsIfSimulatorIsNotCorrect {
+    iOSReturnStatusCode code = [Simulator launchSimulator:self.simulator];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    NSArray<TestSimulator *> *simulators = [[Resources shared] simulators];
+    NSUInteger index = arc4random() % [simulators count];
+    TestSimulator *testSim = simulators[index];
+    Simulator *other = [Simulator withID:testSim.UDID];
+
+    code = [Simulator launchSimulator:other];
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
-- (void)testBootSimulatorIfNecessarySuccess {
-    NSError *error = nil;
-    BOOL success = NO;
-
-    // Boot required
-    success = [self.simulator bootIfNecessary:&error];
-    XCTAssertTrue(success,
-                  @"Boot is necessary - failed with error: %@",
-                  error);
-    expect(error).to.beNil;
-
-    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
-        return self.simulator.fbSimulator.state == FBSimulatorStateBooted;
-    }];
-
-    // Boot not required
-    success = [self.simulator bootIfNecessary:&error];
-    XCTAssertTrue(success,
-                  @"Boot is unnecessary - failed with error: %@",
-                  error);
-    expect(error).to.beNil;
+- (void)testBoot {
+    expect([self.simulator boot]).to.equal(YES);
 }
 
 - (void)testInstallPathAndContainerPathForApplication {
-    expect([self.simulator bootIfNecessary:nil]).to.equal(YES);
+    expect([self.simulator boot]).to.beTruthy();
 
     Application *app = [Application withBundlePath:testApp(SIM)];
     iOSReturnStatusCode code = [self.simulator installApp:app shouldUpdate:NO];
@@ -127,15 +91,14 @@
 }
 
 - (void)testInstallAndInjectTestRecorder {
+    expect([self.simulator boot]).to.beTruthy();
+
     NSArray *resources = @[[[Resources shared] TestRecorderDylibPath]];
 
     // shouldUpdate argument is broken, so we need to uninstall
     // When injecting resources, we should _always_ reinstall because
     // the version of the resources may have changed?
     Application *app = [Application withBundlePath:testApp(SIM)];
-
-    expect([self.simulator waitForBootableState:nil]).to.beTruthy();
-    expect([self.simulator bootIfNecessary:nil]).to.beTruthy();
 
     if ([self.simulator isInstalled:app.bundleID withError:nil]) {
         expect(
@@ -163,13 +126,12 @@
 }
 
 - (void)testUploadXCAppDataBundle {
+    expect([self.simulator boot]).to.beTruthy();
+
     iOSReturnStatusCode code;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     Application *app = [Application withBundlePath:testApp(SIM)];
-
-    expect([self.simulator waitForBootableState:nil]).to.beTruthy();
-    expect([self.simulator bootIfNecessary:nil]).to.beTruthy();
 
     if (![self.simulator isInstalled:app.bundleID withError:nil]) {
         code = [self.simulator installApp:app resourcesToInject:nil shouldUpdate:NO];
@@ -217,13 +179,12 @@
 }
 
 - (void)testUploadXCAppDataBundleCLI {
+    expect([self.simulator boot]).to.beTruthy();
+
     iOSReturnStatusCode code;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     Application *app = [Application withBundlePath:testApp(SIM)];
-
-    expect([self.simulator waitForBootableState:nil]).to.beTruthy();
-    expect([self.simulator bootIfNecessary:nil]).to.beTruthy();
 
     if (![self.simulator isInstalled:app.bundleID withError:nil]) {
         code = [self.simulator installApp:app resourcesToInject:nil shouldUpdate:NO];

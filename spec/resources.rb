@@ -57,6 +57,8 @@ module IDM
       else
         dir = @tmp_dir
       end
+      FileUtils.mkdir_p(dir)
+      dir
     end
 
     def xcode
@@ -71,6 +73,12 @@ module IDM
       @default_simulator ||= simctl.simulators.detect do |sim|
         sim.instruments_identifier(xcode) == RunLoop::Core.default_simulator
       end
+    end
+
+    def random_iphone
+      simctl.simulators.select do |sim|
+        sim.name[/iPhone/] && sim.version >= RunLoop::Version.new("10.0")
+      end.sample
     end
 
     def instruments
@@ -132,6 +140,5 @@ module IDM
     def physical_device_attached?
       default_physical_device != ""
     end
-
   end
 end

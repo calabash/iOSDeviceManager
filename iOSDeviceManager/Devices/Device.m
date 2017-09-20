@@ -234,14 +234,6 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)launch {
-    MUST_OVERRIDE;
-}
-
-- (iOSReturnStatusCode)kill {
-    MUST_OVERRIDE;
-}
-
 - (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
     MUST_OVERRIDE;
 }

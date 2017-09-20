@@ -4,18 +4,19 @@
 #import "DeviceUtils.h"
 
 @implementation LaunchSimulatorCommand
+
 + (NSString *)name {
     return @"launch-simulator";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    
-    Device *device = [self simulatorFromArgs:args];
-    if (!device) {
+
+    Simulator *simulator = [self simulatorFromArgs:args];
+    if (!simulator) {
         return iOSReturnStatusCodeDeviceNotFound;
     }
 
-    return [device launch];
+    return [Simulator launchSimulator:simulator];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -32,4 +33,5 @@
     });
     return options;
 }
+
 @end
