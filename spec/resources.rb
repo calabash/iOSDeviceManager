@@ -77,7 +77,9 @@ module IDM
 
     def random_iphone
       simctl.simulators.select do |sim|
-        sim.name[/iPhone/] && sim.version >= RunLoop::Version.new("10.0")
+        sim.name[/iPhone/] &&
+          sim.version >= RunLoop::Version.new("10.0") &&
+          sim.udid != default_simulator.udid
       end.sample
     end
 
