@@ -409,16 +409,16 @@ static const FBSimulatorControl *_control;
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
-    NSError *error = nil;
-    if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
 
-    if (self.fbSimulator.state != FBSimulatorStateBooted) {
-        ConsoleWriteErr(@"Simulator %@ must be booted to install an app - found state: %@",
-                        [self uuid], self.fbSimulator.stateString);
+    if (![self boot]) {
+        ConsoleWriteErr(@"Cannot install %@ on Simulator %@ because the device could not "
+                        "be booted", app.bundleID, [self fbSimulator]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     BOOL needsToInstall = YES;
+
+    NSError *error = nil;
 
     FBInstalledApplication *installedApp;
     installedApp = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
