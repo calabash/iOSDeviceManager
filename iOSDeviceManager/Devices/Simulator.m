@@ -524,18 +524,19 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
 
-    if (self.fbSimulator == nil) {
-        ConsoleWriteErr(@"No such simulator exists!");
-        return iOSReturnStatusCodeDeviceNotFound;
-    }
+    // uninstalling an app when the Simulator.app is running will cause the
+    // app bundle to be removed, but CoreSimulator will report the app is
+    // still installed.
+    [Simulator killSimulatorApp];
 
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ||
-        self.fbSimulator.state == FBSimulatorStateShuttingDown) {
-        ConsoleWriteErr(@"Simulator %@ is dead. Must launch before uninstalling apps.", [self uuid]);
+    if (![self boot]) {
+        ConsoleWriteErr(@"Cannot uninstall app %@ from %@ because the Simulator"
+                        " failed to boot", bundleID, [self fbSimulator]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    if (![self.fbSimulator installedApplicationWithBundleID:bundleID error:nil]) {
+    if (![self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                      error:nil]) {
         ConsoleWriteErr(@"App %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
@@ -544,7 +545,8 @@ static const FBSimulatorControl *_control;
     applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
     NSError *error = nil;
-    if (![applicationCommands uninstallApplicationWithBundleID:bundleID error:&error]) {
+    if (![applicationCommands uninstallApplicationWithBundleID:bundleID
+                                                         error:&error]) {
         ConsoleWriteErr(@"Error uninstalling app: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else {

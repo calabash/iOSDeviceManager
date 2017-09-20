@@ -75,26 +75,6 @@
 //    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 //}
 
-- (void)testUninstall {
-    NSArray *args = @[kProgramName, @"kill-simulator", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    args = @[kProgramName, @"uninstall", testAppID, @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
-
-    args = @[kProgramName, @"launch-simulator", @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    args = @[kProgramName, @"is-installed", testAppID, @"-d", defaultSimUDID];
-    if ([CLI process:args] == iOSReturnStatusCodeEverythingOkay) {
-        args = @[kProgramName, @"install", [self.resources TestAppPath:SIM], @"-d", defaultSimUDID];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    }
-
-    args = @[kProgramName, @"uninstall", testAppID, @"-d", defaultSimUDID];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-}
-
 - (void)testAppInfo {
     NSArray *args = @[kProgramName, @"kill-simulator", @"-d", defaultSimUDID];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
