@@ -56,6 +56,9 @@
 
 - (void)testBoot {
     expect([self.simulator boot]).to.equal(YES);
+
+    // Safe to call in state Booted
+    expect([self.simulator boot]).to.equal(YES);
 }
 
 - (void)testInstallPathAndContainerPathForApplication {

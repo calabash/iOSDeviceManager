@@ -297,20 +297,34 @@ static const FBSimulatorControl *_control;
         return NO;
     }
 
-    NSDictionary *options = @{};
-    SimDevice *simDevice = [self.fbSimulator device];
-    if (![simDevice bootWithOptions:options error:&error]) {
-        ConsoleWriteErr(@"Could not boot simulator");
-        if (error) {
-            ConsoleWriteErr(@"%@", [error localizedDescription]);
-        }
-        return NO;
-    } else {
-        if (![self waitForSimulatorState:FBSimulatorStateBooted timeout:30]) {
+    FBSimulatorState state = self.state;
+    if (state == FBSimulatorStateBooted || state == FBSimulatorStateBooting) {
+        if (![self waitForSimulatorState:FBSimulatorStateBooted
+                                 timeout:30]) {
             ConsoleWriteErr(@"Could not boot simulator");
             return NO;
+        } else {
+            return YES;
         }
-        return YES;
+    } else {
+
+        NSDictionary *options = @{};
+        SimDevice *simDevice = [self.fbSimulator device];
+        if (![simDevice bootWithOptions:options
+                                  error:&error]) {
+            ConsoleWriteErr(@"Could not boot simulator");
+            if (error) {
+                ConsoleWriteErr(@"%@", [error localizedDescription]);
+            }
+            return NO;
+        } else {
+            if (![self waitForSimulatorState:FBSimulatorStateBooted
+                                     timeout:30]) {
+                ConsoleWriteErr(@"Could not boot simulator");
+                return NO;
+            }
+            return YES;
+        }
     }
 }
 
@@ -395,16 +409,16 @@ static const FBSimulatorControl *_control;
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
                      shouldUpdate:(BOOL)shouldUpdate {
-    NSError *error = nil;
-    if (!self.fbSimulator) { return iOSReturnStatusCodeDeviceNotFound; }
 
-    if (self.fbSimulator.state != FBSimulatorStateBooted) {
-        ConsoleWriteErr(@"Simulator %@ must be booted to install an app - found state: %@",
-                        [self uuid], self.fbSimulator.stateString);
+    if (![self boot]) {
+        ConsoleWriteErr(@"Cannot install %@ on Simulator %@ because the device could not "
+                        "be booted", app.bundleID, [self fbSimulator]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     BOOL needsToInstall = YES;
+
+    NSError *error = nil;
 
     FBInstalledApplication *installedApp;
     installedApp = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
@@ -510,18 +524,19 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
 
-    if (self.fbSimulator == nil) {
-        ConsoleWriteErr(@"No such simulator exists!");
-        return iOSReturnStatusCodeDeviceNotFound;
-    }
+    // uninstalling an app when the Simulator.app is running will cause the
+    // app bundle to be removed, but CoreSimulator will report the app is
+    // still installed.
+    [Simulator killSimulatorApp];
 
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ||
-        self.fbSimulator.state == FBSimulatorStateShuttingDown) {
-        ConsoleWriteErr(@"Simulator %@ is dead. Must launch before uninstalling apps.", [self uuid]);
+    if (![self boot]) {
+        ConsoleWriteErr(@"Cannot uninstall app %@ from %@ because the Simulator"
+                        " failed to boot", bundleID, [self fbSimulator]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    if (![self.fbSimulator installedApplicationWithBundleID:bundleID error:nil]) {
+    if (![self.fbSimulator installedApplicationWithBundleID:bundleID
+                                                      error:nil]) {
         ConsoleWriteErr(@"App %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
@@ -530,7 +545,8 @@ static const FBSimulatorControl *_control;
     applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
     NSError *error = nil;
-    if (![applicationCommands uninstallApplicationWithBundleID:bundleID error:&error]) {
+    if (![applicationCommands uninstallApplicationWithBundleID:bundleID
+                                                         error:&error]) {
         ConsoleWriteErr(@"Error uninstalling app: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else {
@@ -541,21 +557,26 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat
                                            lng:(double)lng {
 
-    if (self.fbSimulator == nil) {
-        ConsoleWriteErr(@"No such simulator exists!");
-        return iOSReturnStatusCodeDeviceNotFound;
-    }
-
-    if (self.fbSimulator.state == FBSimulatorStateShutdown ||
-        self.fbSimulator.state == FBSimulatorStateShuttingDown) {
-        ConsoleWriteErr(@"Sim is dead! Must boot first");
+    // Set the Location to a default location, when launched directly.
+    // This is effectively done by Simulator.app by a NSUserDefault with for the
+    // 'LocationMode', even when the location is 'None'. If the Location is set on the
+    // Simulator, then CLLocationManager will behave in a consistent manner inside
+    // launched Applications.
+    if (![self boot]) {
+        ConsoleWriteErr(@"Cannot set the location on the %@ simulator because the device "
+                        "would not boot",
+                        [self fbSimulator]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    NSError *e = nil;
-    FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:self.fbSimulator error:&e];
-    if (e || !bridge) {
-        ConsoleWriteErr(@"Unable to fetch simulator bridge: %@", e);
+    NSError *error = nil;
+    FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:self.fbSimulator
+                                                                error:&error];
+    if (!bridge) {
+        ConsoleWriteErr(@"Unable to fetch simulator bridge: %@");
+        if (error) {
+            ConsoleWriteErr(@"%@", [error localizedDescription]);
+        }
         return iOSReturnStatusCodeInternalError;
     }
 
