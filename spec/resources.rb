@@ -77,7 +77,9 @@ module IDM
 
     def random_iphone
       simctl.simulators.select do |sim|
-        sim.name[/iPhone/] && sim.version >= RunLoop::Version.new("10.0")
+        sim.name[/iPhone/] &&
+          sim.version >= RunLoop::Version.new("10.0") &&
+          sim.udid != default_simulator.udid
       end.sample
     end
 
@@ -91,17 +93,23 @@ module IDM
 
       case type
       when :arm
-        app = File.join(resources_dir, "arm", "TestApp.app")
+        source = File.join(resources_dir, "arm", "TestApp.app")
+        target = File.join(tmp_dir("arm"), "TestApp.app")
       when :x86
-        app = File.join(resources_dir, "sim", "TestApp.app")
+        source = File.join(resources_dir, "sim", "TestApp.app")
+        target = File.join(tmp_dir("sim"), "TestApp.app")
       when :ipa
-        app = File.join(resources_dir, "arm", "TestApp.ipa")
+        source = File.join(resources_dir, "arm", "TestApp.ipa")
+        target = File.join(tmp_dir("arm"), "TestApp.ipa")
       else
         raise ArgumentError, "Expected :arm, :x86, or :ipa, found: #{type}"
       end
 
-      @test_app_hash[type] = app
-      app
+      FileUtils.rm_rf(target)
+      FileUtils.cp_r(source, target)
+
+      @test_app_hash[type] = target
+      target
     end
 
     def device_compatible_with_xcode?(device, xcode)

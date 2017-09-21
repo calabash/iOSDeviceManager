@@ -1,9 +1,16 @@
+### 2.1.1
+
+* Enforce correct simulator state before app life cycle events #187
+
 ### 2.1.0
 
-Supports Xcode 9 GM.
+Support for Xcode 9/iOS 11.
 
-Advancing the version to create a tag from which we can release
-binaries built with Xcode 9 GM.
+* Simulator#launch: launches the simulator #185
+
+calabash/FBSimulatorControl built from this tag:
+
+* https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-2017.08.18-patch-CoreSim-linking
 
 ### 2.0.2
 
