@@ -1,3 +1,7 @@
+### 2.1.1
+
+* Enforce correct simulator state before app life cycle events #187
+
 ### 2.1.0
 
 Support for Xcode 9/iOS 11.

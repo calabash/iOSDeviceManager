@@ -8,4 +8,5 @@ set -e
 source bin/log.sh
 
 make build
+bundle update
 bundle exec rspec spec

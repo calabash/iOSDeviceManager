@@ -61,4 +61,3 @@ fi
 
 # Disabling because they take too long to run.
 #bin/test/sim
-
