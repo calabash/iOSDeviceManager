@@ -672,9 +672,9 @@ static const FBSimulatorControl *_control;
                                                                 error:nil];
     if (!installedApp) {
         return nil;
+    } else {
+        return [Application withBundlePath:installedApp.bundle.path];
     }
-
-    return [Application withBundlePath:installedApp.bundle.path];
 }
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
