@@ -144,12 +144,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             return iOSReturnStatusCodeEverythingOkay;
         }
 
-        iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
+        iOSReturnStatusCode statusCodeRef = iOSReturnStatusCodeEverythingOkay;
 
-        //Check if the app differs from the installed version
-        needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
-        if (ret != iOSReturnStatusCodeEverythingOkay) {
-            return ret;
+        // Check if the app differs from the installed version
+        needsToInstall = [self shouldUpdateApp:app
+                                  installedApp:nil
+                                    statusCode:&statusCodeRef];
+        if (statusCodeRef != iOSReturnStatusCodeEverythingOkay) {
+            return statusCodeRef;
         }
         if (needsToInstall) {
             // Uninstall app to avoid application-identifier entitlement mismatch

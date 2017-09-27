@@ -431,9 +431,11 @@ static const FBSimulatorControl *_control;
         }
 
         iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
-        needsToInstall = [self shouldUpdateApp:app statusCode:&statusCode];
+        needsToInstall = [self shouldUpdateApp:app
+                                  installedApp:nil
+                                    statusCode:&statusCode];
         if (statusCode != iOSReturnStatusCodeEverythingOkay) {
-            // #shouldUpdateApp:statusCode: will log failure message if necessary
+            // #shouldUpdateApp:installedApp:statusCode: will log failure message if necessary
             return statusCode;
         }
     }

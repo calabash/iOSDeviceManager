@@ -54,7 +54,9 @@
 - (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
                                      error:(NSError **)error;
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID;
-- (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc;
+- (BOOL)shouldUpdateApp:(Application *)newApp
+           installedApp:(Application *)installedApp
+             statusCode:(iOSReturnStatusCode *)codeRef;
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error;
 - (Application *)installedApp:(NSString *)bundleID;
