@@ -444,18 +444,16 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    NSError *err = nil;
-    if (![self isInstalled:bundleID withError:&err] || err) {
+    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
+    NSDictionary *plist;
+    plist = [deviceOperator AMDinstalledApplicationWithBundleIdentifier:bundleID];
+    if (plist) {
+        return [Application withBundleID:bundleID
+                                   plist:plist
+                           architectures:self.fbDevice.supportedArchitectures];
+    } else {
         return nil;
     }
-
-
-    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
-    NSDictionary *plist = [deviceOperator AMDinstalledApplicationWithBundleIdentifier:bundleID];
-
-    return [Application withBundleID:bundleID
-                               plist:plist
-                       architectures:self.fbDevice.supportedArchitectures];
 }
 
 
