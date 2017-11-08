@@ -16,21 +16,6 @@
     [super tearDown];
 }
 
-- (void)testStartTestArguments {
-    NSArray *array = [Device startTestArguments];
-    expect(array.count).to.equal(4);
-    expect(array).to.contain(@"-NSTreatUnknownArgumentsAsOpen");
-    expect(array).to.contain(@"NO");
-    expect(array).to.contain(@"-ApplePersistenceIgnoreState");
-    expect(array).to.contain(@"YES");
-}
-
-- (void)testStartTestEnvironment {
-    NSDictionary *dictionary = [Device startTestEnvironment];
-    expect(dictionary.count).to.equal(1);
-    expect(dictionary[@"XCTestConfigurationFilePath"]).to.equal(@"thanksforusingcalabash");
-}
-
 @end
 
 SpecBegin(DeviceTest)
