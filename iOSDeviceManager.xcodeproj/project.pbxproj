@@ -51,8 +51,6 @@
 		892DE4EB1D230F5F00E1902C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
 		892DE4F61D23109000E1902C /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
 		892DE4F71D23109000E1902C /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
-		892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
-		892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
 		892DE5031D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
 		892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */; };
 		892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
@@ -277,7 +275,6 @@
 		F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4DC1D22F97A00E1902C /* CLI.m */; };
 		F5D583FE1D6A0387007B0D11 /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4E81D230F5F00E1902C /* Command.m */; };
 		F5D583FF1D6A0387007B0D11 /* CommandOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4F41D23109000E1902C /* CommandOption.m */; };
-		F5D584001D6A0387007B0D11 /* StartTestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE4FB1D23137100E1902C /* StartTestCommand.m */; };
 		F5D584011D6A0387007B0D11 /* IsInstalledCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE51F1D237E7700E1902C /* IsInstalledCommand.m */; };
 		F5D584021D6A0387007B0D11 /* InstallAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE50D1D237A0800E1902C /* InstallAppCommand.m */; };
 		F5D584031D6A0387007B0D11 /* KillSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */; };
@@ -397,8 +394,6 @@
 		892DE4E81D230F5F00E1902C /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = Command.m; path = iOSDeviceManager/Commands/Command.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE4F31D23109000E1902C /* CommandOption.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = CommandOption.h; path = iOSDeviceManager/Commands/CommandOption.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE4F41D23109000E1902C /* CommandOption.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CommandOption.m; path = iOSDeviceManager/Commands/CommandOption.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		892DE4FA1D23137100E1902C /* StartTestCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = StartTestCommand.h; path = iOSDeviceManager/Commands/StartTestCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		892DE4FB1D23137100E1902C /* StartTestCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = StartTestCommand.m; path = iOSDeviceManager/Commands/StartTestCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = LaunchSimulatorCommand.h; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchSimulatorCommand.m; path = iOSDeviceManager/Commands/LaunchSimulatorCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = KillSimulatorCommand.h; path = iOSDeviceManager/Commands/KillSimulatorCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -630,8 +625,6 @@
 				892DE4E81D230F5F00E1902C /* Command.m */,
 				892DE4F31D23109000E1902C /* CommandOption.h */,
 				892DE4F41D23109000E1902C /* CommandOption.m */,
-				892DE4FA1D23137100E1902C /* StartTestCommand.h */,
-				892DE4FB1D23137100E1902C /* StartTestCommand.m */,
 				892DE51E1D237E7700E1902C /* IsInstalledCommand.h */,
 				892DE51F1D237E7700E1902C /* IsInstalledCommand.m */,
 				892DE50C1D237A0800E1902C /* InstallAppCommand.h */,
@@ -1217,7 +1210,6 @@
 				89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				898D7D791DA47569001578FE /* HTTPConnection.m in Sources */,
-				892DE4FD1D23137100E1902C /* StartTestCommand.m in Sources */,
 				42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */,
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
@@ -1300,7 +1292,6 @@
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
 				B2E68E191E38170E001D5D89 /* ResignCommand.m in Sources */,
-				892DE4FE1D23137100E1902C /* StartTestCommand.m in Sources */,
 				F556B1781F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */,
 				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
@@ -1430,7 +1421,6 @@
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
 				898D7D781DA47569001578FE /* HTTPAuthenticationRequest.m in Sources */,
-				F5D584001D6A0387007B0D11 /* StartTestCommand.m in Sources */,
 				898D7D901DA47569001578FE /* HTTPDataResponse.m in Sources */,
 				F5D583FA1D6A0372007B0D11 /* Device.m in Sources */,
 				F5D583F51D6A035F007B0D11 /* main.m in Sources */,
