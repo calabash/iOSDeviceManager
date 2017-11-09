@@ -1,3 +1,16 @@
+### 2.1.2
+
+This release provides fixes for Xcode >= 9.0.1.
+
+* Update FBSimulatorControl frameworks to fix various Xcode > 9.0
+  problems #191
+* CLI: remove start-test command and sources #190
+* CLI: commands for decoding xctestconfiguration files #189
+
+calabash/FBSimulatorControl built from this tag:
+
+https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-2017.11.08-missing-devices-and-fix-device-console-hanging
+
 ### 2.1.1
 
 * Enforce correct simulator state before app life cycle events #187
