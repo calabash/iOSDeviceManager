@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		aPeigowHeIeBM3YkDNoPfx3re0c=
+		qkCKiFe5iUQzIcn0qrLomYpKBV8=
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
@@ -23,7 +23,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			takyqZj2DtkQrdKa0W1X9s5qGBc=
+			Mj5geVwoRO4HRnw225RtKVyFs9Q=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -32,7 +32,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			mHuWucFYimxBNHNgx/OJLGb4BYI=
+			CcooNDGYuEx5Q2iM+zZl+8RVvs4=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -536,11 +536,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			aPeigowHeIeBM3YkDNoPfx3re0c=
+			qkCKiFe5iUQzIcn0qrLomYpKBV8=
 			</data>
 			<key>hash2</key>
 			<data>
-			i7kcrHLWoVbDFqNgkP1Y2E9ZKjsZNS/3kvBsxaEuKN4=
+			mShXdbN9qFZZue60zA8YhRoGzH3wdAOhozNDjRoYeAQ=
 			</data>
 		</dict>
 		<key>Resources/libMaculator.dylib</key>

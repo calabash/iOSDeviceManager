@@ -458,77 +458,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                        architectures:self.fbDevice.supportedArchitectures];
 }
 
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
-                                   sessionID:(NSUUID *)sessionID
-                                   keepAlive:(BOOL)keepAlive{
-    if (![self isInstalled:runnerID withError:nil]) {
-        ConsoleWriteErr(@"Attempted to start test with runner id: %@ but app is not installed", runnerID);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
-            sessionID, [self uuid], runnerID);
-    NSError *error = nil;
-
-    NSArray *attributes = [Device startTestArguments];
-    NSDictionary *environment = [Device startTestEnvironment];
-
-    BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
-                                                                   error:&error];
-    if (!staged) {
-        ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
-    NSString *containerPath, *xctestConfigPath;
-    containerPath = [operator containerPathForApplicationWithBundleID:runnerID
-                                                                error:&error];
-    if (!containerPath) {
-        ConsoleWriteErr(@"Could not find the container path for %@: %@",
-                        runnerID, error);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    NSString *filename = @"Xcode83.xctestconfiguration";
-    xctestConfigPath = [[containerPath stringByAppendingPathComponent:@"tmp"]
-                        stringByAppendingPathComponent:filename];
-
-    NSMutableDictionary *mutable;
-    mutable = [NSMutableDictionary dictionaryWithDictionary:environment];
-
-    mutable[@"XCTestConfigurationFilePath"] = xctestConfigPath;
-    environment = [NSDictionary dictionaryWithDictionary:mutable];
-    ConsoleWrite(@"%@", xctestConfigPath);
-
-    FBTestManager *testManager =
-    [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
-                                       runnerBundleID:runnerID
-                                            sessionID:sessionID
-                                       withAttributes:attributes
-                                          environment:environment
-                                             reporter:self
-                                               logger:self
-                                                error:&error];
-
-    if (!testManager) {
-        ConsoleWriteErr(@"Could not start test: %@", error);
-        return iOSReturnStatusCodeInternalError;
-    } else
-
-        if (keepAlive) {
-            /*
-             `testingComplete` will be YES when testmanagerd calls
-             `testManagerMediatorDidFinishExecutingTestPlan:`
-             */
-
-            FBRunLoopSpinner *spinner = [FBRunLoopSpinner new];
-            [spinner spinUntilTrue:^BOOL () {
-                return ([testManager testingHasFinished] && self.testingComplete);
-            }];
-        }
-    return iOSReturnStatusCodeEverythingOkay;
-}
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
                    forApplication:(NSString *)bundleID
@@ -562,6 +491,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    // TODO This call needs to be removed
     [operator fetchApplications];
     if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
                     forInstalledApplicationWithBundleIdentifier:bundleID
