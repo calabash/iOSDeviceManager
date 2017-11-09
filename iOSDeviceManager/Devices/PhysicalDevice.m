@@ -491,6 +491,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    // TODO This call needs to be removed
     [operator fetchApplications];
     if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
                     forInstalledApplicationWithBundleIdentifier:bundleID
