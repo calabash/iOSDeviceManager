@@ -87,6 +87,52 @@ module IDM
       @instruments ||= RunLoop::Instruments.new
     end
 
+    def physical_devices
+      instruments.physical_devices.select do |device|
+        device_compatible_with_xcode?(device, xcode)
+      end
+    end
+
+    def physical_device_connected?
+      !physical_devices.empty?
+    end
+
+    def physical_device
+      return nil if !physical_device_connected?
+      return physical_devices[0] if physical_devices.count == 1
+
+      value = ENV["DEVICE_TARGET"]
+      if value.nil? || value == ""
+        raise(ArgumentError, %Q[
+More than one physical device is connected.
+
+Use DEVICE_TARGET={udid | device-name} or disconnect all but one device.
+])
+      end
+
+      device = instruments.physical_devices.select do |elm|
+        elm.udid == value || elm.name == value
+      end
+
+      return device if device
+
+      raise(ArgumentError %Q[
+More than one physical device is connected.
+
+DEVICE_TARGET=#{value} but no matching device is connected.
+
+# Compatible connected devices
+#{physical_devices}
+
+If a device is connected, it is possible that its iOS version is not
+compatible with the current Xcode version.
+
+# Connected devices
+#{instruments.physical_devices}
+
+])
+    end
+
     def test_app(type)
       @test_app_hash ||= Hash.new
       return @test_app_hash[type] if @test_app_hash[type]
@@ -147,6 +193,22 @@ module IDM
 
     def physical_device_attached?
       default_physical_device != ""
+    end
+
+    def tmpdir(subdir=nil)
+      @tmpdir ||= begin
+        path = File.expand_path("tmp")
+        FileUtils.mkdir_p(path)
+        path
+      end
+
+      if subdir
+        dir = File.join(@tmpdir, subdir)
+        FileUtils.rm_rf(dir)
+      else
+        dir = path
+      end
+      dir
     end
   end
 end
