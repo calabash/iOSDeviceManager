@@ -139,6 +139,8 @@
     code = [device installApp:app shouldUpdate:YES];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
+
     // invalid xcappdata bundle
     NSString *path = [[Resources shared] uniqueTmpDirectory];
     code = [device uploadXCAppDataBundle:path forApplication:app.bundleID];
@@ -171,6 +173,8 @@
     code = [device installApp:app shouldUpdate:YES];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
+
     NSString *path = [[Resources shared] uniqueTmpDirectory];
     NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
     expect([XCAppDataBundle generateBundleSkeleton:path
@@ -184,6 +188,8 @@
                       @"--device-id", device.uuid];
     code = [CLI process:args];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
 
     // works with path/to/app
     args = @[kProgramName, @"upload-xcappdata",
