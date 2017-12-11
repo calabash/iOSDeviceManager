@@ -41,8 +41,8 @@
 
 @interface DTDKRemoteDeviceToken : NSObject
 - (BOOL)simulateLatitude:(NSNumber *)lat
-             andLongitude:(NSNumber *)lng
-                withError:(NSError **)arg3;
+            andLongitude:(NSNumber *)lng
+               withError:(NSError **)arg3;
 - (BOOL)stopSimulatingLocationWithError:(NSError **)arg1;
 @end
 
@@ -509,7 +509,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if ([fm fileExistsAtPath:dest]) {
         if (!overwrite) {
             ConsoleWriteErr(@"'%@' already exists in the app container.\n"
-                             "Specify `-o true` to overwrite.", filename);
+                            "Specify `-o true` to overwrite.", filename);
             return iOSReturnStatusCodeGenericFailure;
         } else {
             if (![fm removeItemAtPath:dest error:&e]) {
