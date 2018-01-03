@@ -38,7 +38,6 @@ static const FBSimulatorControl *_control;
     FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                       configurationWithDeviceSetPath:nil
                                                       options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-
     NSError *error;
     _control = [FBSimulatorControl withConfiguration:configuration error:&error];
     if (error) {
@@ -417,12 +416,7 @@ static const FBSimulatorControl *_control;
     }
 
     BOOL needsToInstall = YES;
-
-    NSError *error = nil;
-
-    FBInstalledApplication *installedApp;
-    installedApp = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
-                                                                error:&error];
+    Application *installedApp = [self installedApp:app.bundleID];
 
     if (installedApp) {
         // If the user doesn't want to update, we're done.
@@ -432,15 +426,13 @@ static const FBSimulatorControl *_control;
 
         iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
         needsToInstall = [self shouldUpdateApp:app
-                                  installedApp:nil
+                                  installedApp:installedApp
                                     statusCode:&statusCode];
         if (statusCode != iOSReturnStatusCodeEverythingOkay) {
-            // #shouldUpdateApp:installedApp:statusCode: will log failure message if necessary
+            // #shouldUpdateApp:installedApp:statusCode: will log failure messages
             return statusCode;
         }
     }
-
-    error = nil;
 
     if (needsToInstall) {
         [Codesigner resignApplication:app
@@ -451,6 +443,7 @@ static const FBSimulatorControl *_control;
         FBSimulatorApplicationCommands *applicationCommands;
         applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
+        NSError *error = nil;
         BOOL success = [applicationCommands installApplicationWithPath:app.path
                                                                  error:&error];
         if (!success) {
