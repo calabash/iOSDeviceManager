@@ -56,10 +56,10 @@
     expect(profile.applicationIdentifierPrefix[0]).to.equal(@"FYD86LA7RE");
     expect(profile.developerCertificates.count).to.equal(1);
     expect(profile.developerCertificates[0]).to.beInstanceOf([Certificate class]);
-    expect(profile.provisionedDevices.count).to.equal(39);
+    expect(profile.provisionedDevices.count).to.equal(53);
     expect(profile.provisionedDevices[0]).to.equal(@"e60ef9ae876ab4a218ee966d0525c9fb79e5606d");
     expect(profile.teamIdentifier[0]).to.equal(@"FYD86LA7RE");
-    expect(profile.uuid).to.equal(@"47148def-f37f-4dd9-888a-ce659584fb5b");
+    expect(profile.uuid).to.equal(@"35102a64-7ce2-4d50-86cb-3270f637174c");
     expect(profile.teamName).to.equal(@"Karl Krukow");
     expect(profile.name).to.equal(@"CalabashWildcard");
     expect(profile.platform[0]).to.equal(@"iOS");
@@ -261,7 +261,7 @@ context(@".arrayOfProfilePaths:", ^{
         OCMExpect([MockMobileProfile profilesDirectory]).andReturn(directory);
 
         actual = [MobileProfile arrayOfProfilePaths];
-        expect(actual.count).to.equal(5);
+        expect(actual.count).to.equal(4);
         expect([[NSFileManager defaultManager]
                 fileExistsAtPath:actual[0]]).to.equal(YES);
     });

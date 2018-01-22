@@ -944,14 +944,14 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (CodesignIdentity *)KarlKrukowIdentityIOS {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"8742A8D1D6EB9AEB1955A1F759D244EB214A67AD";
+    NSString *identityShasum = @"F1C2B010FDE010A3F6C29B1AFA4ADDCF704842A8";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
 
 - (CodesignIdentity *)JoshuaMoodyIdentityIOS {
     NSString *identityName = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
-    NSString *identityShasum = @"CF8BE0BA703F8EA6CDB9F384B5D894C1546D2BC4";
+    NSString *identityShasum = @"07692C2444C18782ED337F68F8E3FC7B81B1B5D8";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
