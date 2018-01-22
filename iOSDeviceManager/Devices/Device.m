@@ -58,36 +58,26 @@
 
 #pragma mark - Instance Methods
 
-- (BOOL)shouldUpdateApp:(Application *)app statusCode:(iOSReturnStatusCode *)sc {
-    NSError *isInstalledError;
-    if ([self isInstalled:app.bundleID withError:&isInstalledError]) {
-        Application *installedApp = [self installedApp:app.bundleID];
-        NSDictionary *oldPlist = installedApp.infoPlist;
-        NSDictionary *newPlist = app.infoPlist;
-
-        if (oldPlist.count == 0) {
-            ConsoleWriteErr(@"Error fetching/parsing plist from installed application $@", installedApp.bundleID);
-            *sc = iOSReturnStatusCodeGenericFailure;
-            return NO;
-        }
-
-        if (newPlist.count == 0) {
-            ConsoleWriteErr(@"Unable to find Info.plist for bundle path %@", app.path);
-            *sc = iOSReturnStatusCodeGenericFailure;
-            return NO;
-        }
-
-        if ([AppUtils appVersionIsDifferent:oldPlist newPlist:newPlist]) {
-            ConsoleWrite(@"Installed version is different, attempting to update %@.", app.bundleID);
-            return YES;
-        } else {
-            ConsoleWrite(@"Latest version of %@ is installed, not reinstalling.", app.bundleID);
-            return NO;
-        }
+- (BOOL)shouldUpdateApp:(Application *)newApp
+           installedApp:(Application *)installedApp
+             statusCode:(iOSReturnStatusCode *)codeRef {
+    if (!installedApp) {
+        *codeRef = iOSReturnStatusCodeEverythingOkay;
+        return YES;
     }
 
-    //If it's not installed, it should be 'updated'
-    return YES;
+    NSDictionary *installedAppPlist = installedApp.infoPlist;
+    NSDictionary *newAppPlist = newApp.infoPlist;
+
+    if ([AppUtils appVersionIsDifferent:installedAppPlist newPlist:newAppPlist]) {
+        ConsoleWrite(@"Installed version is different - will update %@.",
+                     newApp.bundleID);
+        return YES;
+    } else {
+        ConsoleWrite(@"Latest version of %@ is installed  - not reinstalling.",
+                     newApp.bundleID);
+        return NO;
+    }
 }
 
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
