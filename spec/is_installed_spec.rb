@@ -27,6 +27,7 @@ describe "is-installed" do
 
   context "physical devices" do
     let(:device) { IDM::Resources.instance.default_physical_device}
+    let(:udid) { device.udid }
 
     it "prints true if app is installed" do
       if device && device != ""
