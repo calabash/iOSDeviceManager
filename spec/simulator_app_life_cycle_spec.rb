@@ -102,7 +102,6 @@ describe "app life cycle (simulator)" do
       hash = IDM.shell(args << "--force")
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
       expect(core_sim.app_is_installed?).to be_truthy
-      binding.pry
       expect(hash[:out].include?("Installed")).to be_truthy
     end
 
