@@ -331,6 +331,7 @@ static const FBSimulatorControl *_control;
     NSArray *arguments = @[@"--args",
                            @"-CurrentDeviceUDID", self.uuid,
                            @"-ConnectHardwareKeyboard", @"0",
+                           @"-DeviceBootTimeout", @"120",
                            @"LAUNCHED_WITH_IOS_DEVICE_MANAGER"
                            ];
 
