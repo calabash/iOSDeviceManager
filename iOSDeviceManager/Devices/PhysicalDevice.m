@@ -148,12 +148,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     BOOL needsInstall = YES;
     Application *installedApp = [self installedApp:app.bundleID];
-
-    if (installedApp) {
-        if (!shouldUpdate) {
-            return iOSReturnStatusCodeEverythingOkay;
-        }
-
+    
+    if (!shouldUpdate && installedApp) {
         iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
         needsInstall = [self shouldUpdateApp:app
                                 installedApp:installedApp
@@ -161,14 +157,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         if (statusCode != iOSReturnStatusCodeEverythingOkay) {
             return statusCode;
         }
-
-        if (needsInstall) {
-            // Uninstall app to avoid application-identifier entitlement mismatch
-            [self uninstallApp:app.bundleID];
-        }
     }
 
-    if (needsInstall) {
+    if (needsInstall || shouldUpdate) {
+        // Uninstall app to avoid application-identifier entitlement mismatch
+        [self uninstallApp:app.bundleID];
+        
         if (codesignID) {
             profile = [self resignApp:app
                              identity:codesignID
@@ -206,6 +200,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                             [error localizedDescription]);
             return iOSReturnStatusCodeInternalError;
         }
+        
+        ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID, app.bundleShortVersion, app.bundleVersion, [self uuid]);
     }
 
     return iOSReturnStatusCodeEverythingOkay;

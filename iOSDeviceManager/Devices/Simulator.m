@@ -418,12 +418,7 @@ static const FBSimulatorControl *_control;
     BOOL needsToInstall = YES;
     Application *installedApp = [self installedApp:app.bundleID];
 
-    if (installedApp) {
-        // If the user doesn't want to update, we're done.
-        if (!shouldUpdate) {
-            return iOSReturnStatusCodeEverythingOkay;
-        }
-
+    if (!shouldUpdate && installedApp) {
         iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
         needsToInstall = [self shouldUpdateApp:app
                                   installedApp:installedApp
@@ -434,7 +429,10 @@ static const FBSimulatorControl *_control;
         }
     }
 
-    if (needsToInstall) {
+    if (needsToInstall || shouldUpdate) {
+        // Uninstall app to avoid application-identifier entitlement mismatch
+        [self uninstallApp:app.bundleID];
+        
         [Codesigner resignApplication:app
               withProvisioningProfile:nil
                  withCodesignIdentity:nil
@@ -450,7 +448,7 @@ static const FBSimulatorControl *_control;
             ConsoleWriteErr(@"Error installing application: %@", error);
             return iOSReturnStatusCodeGenericFailure;
         } else {
-            LogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
+            ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID, app.bundleVersion, app.bundleShortVersion, [self uuid]);
         }
     }
 

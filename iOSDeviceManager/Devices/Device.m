@@ -69,6 +69,7 @@
     NSDictionary *installedAppPlist = installedApp.infoPlist;
     NSDictionary *newAppPlist = newApp.infoPlist;
 
+    // In case of output messages update we need to change rspec tests – https://github.com/calabash/iOSDeviceManager/blob/develop/spec/device_app_life_cycle_spec.rb
     if ([AppUtils appVersionIsDifferent:installedAppPlist newPlist:newAppPlist]) {
         ConsoleWrite(@"Installed version is different - will update %@.",
                      newApp.bundleID);
