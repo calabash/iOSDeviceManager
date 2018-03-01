@@ -9,7 +9,7 @@ static NSString *const FORCE_UPDATE_APP_FLAG = @"-f";
 static NSString *const PROFILE_PATH_FLAG = @"-p";
 static NSString *const RESOURCES_PATH_FLAG = @"-i";
 static NSString *const APP_PATH_OPTION_NAME = @"app-path";
-static NSString *const FORCE_UPDATE_APP_OPTION_NAME = @"force-update-app";
+static NSString *const FORCE_REINSTALL_APP_OPTION_NAME = @"force-reinstall-app";
 static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
 
 @implementation InstallAppCommand
@@ -18,9 +18,9 @@ static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    BOOL update = [[self optionDict][FORCE_UPDATE_APP_FLAG].defaultValue boolValue];
-    if ([[args allKeys] containsObject:FORCE_UPDATE_APP_OPTION_NAME]) {
-        update = [args[FORCE_UPDATE_APP_OPTION_NAME] boolValue];
+    BOOL shouldForceReinstall = [[self optionDict][FORCE_UPDATE_APP_FLAG].defaultValue boolValue];
+    if ([[args allKeys] containsObject:FORCE_REINSTALL_APP_OPTION_NAME]) {
+        shouldForceReinstall = [args[FORCE_REINSTALL_APP_OPTION_NAME] boolValue];
     }
     
     Device *device = [self deviceFromArgs:args];
@@ -53,19 +53,19 @@ static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
         return [device installApp:app
                     mobileProfile:profile
                 resourcesToInject:resources
-                     shouldUpdate:update];
+                     forceReinstall:shouldForceReinstall];
     }
     
     if (codesignIdentity) {
         return [device installApp:app
                  codesignIdentity:codesignIdentity
                 resourcesToInject:resources
-                     shouldUpdate:update];
+                     forceReinstall:shouldForceReinstall];
     }
     
     return [device installApp:app
             resourcesToInject:resources
-                 shouldUpdate:update];
+                 forceReinstall:shouldForceReinstall];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -86,7 +86,7 @@ static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
                                              defaultVal:nil]];
         [options addObject:[CommandOption withShortFlag:FORCE_UPDATE_APP_FLAG
                                                longFlag:@"--force"
-                                             optionName:FORCE_UPDATE_APP_OPTION_NAME
+                                             optionName:FORCE_REINSTALL_APP_OPTION_NAME
                                                    info:@"Reinstall the app if the device contains an older version than the bundle specified"
                                                required:NO
                                              defaultVal:@(NO)].asBooleanOption];

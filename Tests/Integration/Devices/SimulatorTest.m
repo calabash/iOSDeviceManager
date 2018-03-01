@@ -65,7 +65,7 @@
     expect([self.simulator boot]).to.beTruthy();
 
     Application *app = [Application withBundlePath:testApp(SIM)];
-    iOSReturnStatusCode code = [self.simulator installApp:app shouldUpdate:NO];
+    iOSReturnStatusCode code = [self.simulator installApp:app forceReinstall:NO];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     NSString *bundleIdentifier = @"sh.calaba.TestApp";
     NSString *installPath = [self.simulator installPathForApplication:bundleIdentifier];
@@ -111,7 +111,7 @@
 
     iOSReturnStatusCode code = [self.simulator installApp:app
                                         resourcesToInject:resources
-                                             shouldUpdate:NO];
+                                             forceReinstall:NO];
 
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 
@@ -137,7 +137,7 @@
     Application *app = [Application withBundlePath:testApp(SIM)];
 
     if (![self.simulator isInstalled:app.bundleID withError:nil]) {
-        code = [self.simulator installApp:app resourcesToInject:nil shouldUpdate:NO];
+        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:NO];
         expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 
@@ -190,7 +190,7 @@
     Application *app = [Application withBundlePath:testApp(SIM)];
 
     if (![self.simulator isInstalled:app.bundleID withError:nil]) {
-        code = [self.simulator installApp:app resourcesToInject:nil shouldUpdate:NO];
+        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:NO];
         expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 

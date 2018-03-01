@@ -408,7 +408,7 @@ static const FBSimulatorControl *_control;
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
 
     if (![self boot]) {
         ConsoleWriteErr(@"Cannot install %@ on Simulator %@ because the device could not "
@@ -419,7 +419,7 @@ static const FBSimulatorControl *_control;
     BOOL needsToInstall = YES;
     Application *installedApp = [self installedApp:app.bundleID];
 
-    if (!shouldUpdate && installedApp) {
+    if (!forceReinstall && installedApp) {
         iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
         needsToInstall = [self shouldUpdateApp:app
                                   installedApp:installedApp
@@ -430,7 +430,7 @@ static const FBSimulatorControl *_control;
         }
     }
 
-    if (needsToInstall || shouldUpdate) {
+    if (needsToInstall || forceReinstall) {
         // Uninstall app to avoid application-identifier entitlement mismatch
         [self uninstallApp:app.bundleID];
         
@@ -449,7 +449,8 @@ static const FBSimulatorControl *_control;
             ConsoleWriteErr(@"Error installing application: %@", error);
             return iOSReturnStatusCodeGenericFailure;
         } else {
-            ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID, app.bundleVersion, app.bundleShortVersion, [self uuid]);
+            ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID,
+                         app.bundleVersion, app.bundleShortVersion, [self uuid]);
         }
     }
 
@@ -458,62 +459,62 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     shouldUpdate:(BOOL)shouldUpdate{
+                     forceReinstall:(BOOL)forceReinstall{
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+- (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {

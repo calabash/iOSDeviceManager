@@ -69,7 +69,8 @@
     NSDictionary *installedAppPlist = installedApp.infoPlist;
     NSDictionary *newAppPlist = newApp.infoPlist;
 
-    // In case of output messages update we need to change rspec tests – https://github.com/calabash/iOSDeviceManager/blob/develop/spec/device_app_life_cycle_spec.rb
+// In case of output messages update we need to change rspec tests –
+// https://github.com/calabash/iOSDeviceManager/blob/develop/spec/device_app_life_cycle_spec.rb
     if ([AppUtils appVersionIsDifferent:installedAppPlist newPlist:newAppPlist]) {
         ConsoleWrite(@"Installed version is different - will update %@.",
                      newApp.bundleID);
@@ -85,39 +86,39 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+- (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall {
     MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     MUST_OVERRIDE;
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     MUST_OVERRIDE;
 }
 
