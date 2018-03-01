@@ -26,24 +26,24 @@
 + (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
                                            overwrite:(BOOL)overwrite;
 
-- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate;
+- (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall;
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate;
+                     forceReinstall:(BOOL)forceReinstall;
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     shouldUpdate:(BOOL)shouldUpdate;
+                     forceReinstall:(BOOL)forceReinstall;
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate;
+                     forceReinstall:(BOOL)forceReinstall;
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     shouldUpdate:(BOOL)shouldUpdate;
+                     forceReinstall:(BOOL)forceReinstall;
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate;
+                     forceReinstall:(BOOL)forceReinstall;
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID;
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng;
 - (iOSReturnStatusCode)stopSimulatingLocation;

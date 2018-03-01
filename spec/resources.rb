@@ -32,7 +32,7 @@ module IDM
 
   def self.shell(args)
     cmd = [Resources.instance.idm] + args
-    RunLoop::Shell.run_shell_command(cmd, {log_cmd: true, timeout: 60})
+    RunLoop::Shell.run_shell_command(cmd, {log_cmd: true, timeout: 180})
   end
 
   class Resources
@@ -139,14 +139,14 @@ compatible with the current Xcode version.
 
       case type
       when :arm
-        source = File.join(resources_dir, "arm", "TestApp.app")
-        target = File.join(tmp_dir("arm"), "TestApp.app")
+        source = File.join(resources_dir, "arm", "AppStub.app")
+        target = File.join(tmp_dir("arm"), "AppStub.app")
       when :x86
-        source = File.join(resources_dir, "sim", "TestApp.app")
-        target = File.join(tmp_dir("sim"), "TestApp.app")
+        source = File.join(resources_dir, "sim", "AppStub.app")
+        target = File.join(tmp_dir("sim"), "AppStub.app")
       when :ipa
-        source = File.join(resources_dir, "arm", "TestApp.ipa")
-        target = File.join(tmp_dir("arm"), "TestApp.ipa")
+        source = File.join(resources_dir, "arm", "AppStub.ipa")
+        target = File.join(tmp_dir("arm"), "AppStub.ipa")
       else
         raise ArgumentError, "Expected :arm, :x86, or :ipa, found: #{type}"
       end
@@ -155,6 +155,31 @@ compatible with the current Xcode version.
       FileUtils.cp_r(source, target)
 
       @test_app_hash[type] = target
+      target
+    end
+
+    def second_test_app(type)
+      @second_test_app_hash ||= Hash.new
+      return @second_test_app_hash[type] if @second_test_app_hash[type]
+
+      case type
+      when :arm
+        source = File.join(resources_dir, "arm", "AppStubDupe.app")
+        target = File.join(tmp_dir("arm"), "AppStubDupe.app")
+      when :x86
+        source = File.join(resources_dir, "sim", "AppStubDupe.app")
+        target = File.join(tmp_dir("sim"), "AppStubDupe.app")
+      when :ipa
+        source = File.join(resources_dir, "arm", "AppStubDupe.ipa")
+        target = File.join(tmp_dir("arm"), "AppStubDupe.ipa")
+      else
+        raise ArgumentError, "Expected :arm, :x86, or :ipa, found: #{type}"
+      end
+
+      FileUtils.rm_rf(target)
+      FileUtils.cp_r(source, target)
+
+      @second_test_app_hash[type] = target
       target
     end
 
