@@ -63,6 +63,8 @@
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error;
 - (Application *)installedApp:(NSString *)bundleID;
+- (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleId
+                                                      toPath:(NSString *)path;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
                    forApplication:(NSString *)bundleID
                         overwrite:(BOOL)overwrite;

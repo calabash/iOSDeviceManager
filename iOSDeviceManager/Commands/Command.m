@@ -3,6 +3,8 @@
 #import "Command.h"
 #import "IsInstalledCommand.h"
 #import "AppInfoCommand.h"
+#import "ClearAppDataCommand.h"
+#import "DownloadXCAppDataCommand.h"
 #import "CLI.h"
 #import "ConsoleWriter.h"
 #import "Device.h"
@@ -120,7 +122,9 @@ static NSMutableDictionary <NSString *, NSDictionary<NSString *, CommandOption *
         [usage appendFormat:@" <%@>", op.optionName];
 
         if (([[cmd name] isEqualToString:[IsInstalledCommand name]]
-            || [[cmd name] isEqualToString:[AppInfoCommand name]])
+            || [[cmd name] isEqualToString:[AppInfoCommand name]]
+            || [[cmd name] isEqualToString:[ClearAppDataCommand name]]
+            || [[cmd name] isEqualToString:[DownloadXCAppDataCommand name]])
             && [op.optionName isEqualToString:BUNDLE_ID_OPTION_NAME]) {
             [usage appendString:@" OR"];
         }

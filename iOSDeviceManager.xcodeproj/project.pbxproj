@@ -133,6 +133,12 @@
 		B2F797421E8DA7D000C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		B2F797431E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
+		B980C158206CA08600879BBD /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
+		B980C15B206CF30B00879BBD /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
+		B9C08F022073A0070032997D /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
+		B9C08F032073A0070032997D /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
+		B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
+		B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
 		F5004F551F7BCB73006CE0E0 /* XCTestConfigurationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */; };
 		F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
@@ -143,9 +149,9 @@
 		F51AC6DE1D6A408E00BA3988 /* Expecta.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F51AC6DF1D6A408E00BA3988 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F51AC6E01D6A408E00BA3988 /* Specta.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D41D6A3F3300BA3988 /* Specta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6E11D6A40AC00BA3988 /* Expecta.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6E21D6A40AC00BA3988 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6E31D6A40AC00BA3988 /* Specta.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D41D6A3F3300BA3988 /* Specta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F51AC6E11D6A40AC00BA3988 /* Expecta.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F51AC6E21D6A40AC00BA3988 /* OCMock.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F51AC6E31D6A40AC00BA3988 /* Specta.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F51AC6D41D6A3F3300BA3988 /* Specta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
 		F53764981D67A1FB009457C8 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
@@ -181,7 +187,7 @@
 		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC17891DD4C5A5008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5CAA4531F4EC25000E48BFF /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */; };
 		F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */; };
@@ -215,10 +221,10 @@
 		F5D5840E1D6A03C0007B0D11 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		F5D5840F1D6A03C0007B0D11 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
 		F5D584101D6A03D3007B0D11 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
-		F5D584121D6A03EA007B0D11 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5D584151D6A03EA007B0D11 /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D584121D6A03EA007B0D11 /* FBControlCore.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5D584151D6A03EA007B0D11 /* XCTestBootstrap.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5D78DC31D8D327500497000 /* ShellResultTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC21D8D327500497000 /* ShellResultTest.m */; };
 		F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
 		F5D78DC81D8D32EB00497000 /* ShellResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D78DC51D8D32EB00497000 /* ShellResult.m */; };
@@ -264,21 +270,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5D584111D6A03DB007B0D11 /* CopyFiles */ = {
+		F5D584111D6A03DB007B0D11 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F5D584121D6A03EA007B0D11 /* FBControlCore.framework in CopyFiles */,
-				F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in CopyFiles */,
-				F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in CopyFiles */,
-				F5D584151D6A03EA007B0D11 /* XCTestBootstrap.framework in CopyFiles */,
-				F51AC6E11D6A40AC00BA3988 /* Expecta.framework in CopyFiles */,
-				F51AC6E21D6A40AC00BA3988 /* OCMock.framework in CopyFiles */,
-				F51AC6E31D6A40AC00BA3988 /* Specta.framework in CopyFiles */,
-				F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in CopyFiles */,
+				F5D584121D6A03EA007B0D11 /* FBControlCore.framework in Copy Files */,
+				F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in Copy Files */,
+				F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in Copy Files */,
+				F5D584151D6A03EA007B0D11 /* XCTestBootstrap.framework in Copy Files */,
+				F51AC6E11D6A40AC00BA3988 /* Expecta.framework in Copy Files */,
+				F51AC6E21D6A40AC00BA3988 /* OCMock.framework in Copy Files */,
+				F51AC6E31D6A40AC00BA3988 /* Specta.framework in Copy Files */,
+				F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -386,6 +393,10 @@
 		B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResignAllCommand.m; path = iOSDeviceManager/Commands/ResignAllCommand.m; sourceTree = SOURCE_ROOT; };
 		B2F797401E8DA7B100C2FE06 /* Stack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = iOSDeviceManager/Utilities/Stack.h; sourceTree = SOURCE_ROOT; };
 		B2F797411E8DA7D000C2FE06 /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = iOSDeviceManager/Utilities/Stack.m; sourceTree = SOURCE_ROOT; };
+		B980C156206CA01700879BBD /* ClearAppDataCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ClearAppDataCommand.h; path = iOSDeviceManager/Commands/ClearAppDataCommand.h; sourceTree = "<group>"; };
+		B980C157206CA08600879BBD /* ClearAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClearAppDataCommand.m; path = iOSDeviceManager/Commands/ClearAppDataCommand.m; sourceTree = "<group>"; };
+		B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadXCAppDataCommand.h; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.h; sourceTree = "<group>"; };
+		B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadXCAppDataCommand.m; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.m; sourceTree = "<group>"; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 		F51AC6D21D6A3F3300BA3988 /* Expecta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Expecta.framework; path = Carthage/Build/Mac/Expecta.framework; sourceTree = SOURCE_ROOT; };
@@ -533,6 +544,10 @@
 				F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */,
 				F564E2E11F650ED100EDC7EF /* XCTestConfigReadWriteCommand.h */,
 				F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */,
+				B980C156206CA01700879BBD /* ClearAppDataCommand.h */,
+				B980C157206CA08600879BBD /* ClearAppDataCommand.m */,
+				B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */,
+				B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -837,7 +852,7 @@
 				F5D583E71D69FF6C007B0D11 /* Sources */,
 				F5D583E81D69FF6C007B0D11 /* Frameworks */,
 				F5D583E91D69FF6C007B0D11 /* Resources */,
-				F5D584111D6A03DB007B0D11 /* CopyFiles */,
+				F5D584111D6A03DB007B0D11 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -958,6 +973,7 @@
 				89C29E1A1DAE69C500282526 /* ConsoleWriter.m in Sources */,
 				B29637841E3FC1E600200661 /* LaunchAppCommand.m in Sources */,
 				42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */,
+				B980C15B206CF30B00879BBD /* DownloadXCAppDataCommand.m in Sources */,
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B2E68E181E38170E001D5D89 /* ResignCommand.m in Sources */,
@@ -1000,6 +1016,7 @@
 				89A1CEF61E302FC200D9FEC5 /* ShasumProvider.m in Sources */,
 				B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
 				F54ACEE11E8A687800BC36DA /* MachClock.m in Sources */,
+				B980C158206CA08600879BBD /* ClearAppDataCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1007,6 +1024,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C08F022073A0070032997D /* ClearAppDataCommand.m in Sources */,
+				B9C08F032073A0070032997D /* DownloadXCAppDataCommand.m in Sources */,
 				F593649D1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
 				F5D438031E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
@@ -1086,6 +1105,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */,
+				B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */,
 				89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */,
 				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
 				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,

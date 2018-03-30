@@ -537,6 +537,23 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeEverythingOkay;
 }
 
+- (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleIdentifier
+                                                      toPath:(NSString *)path{
+    NSError *e;
+    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    [operator fetchApplications];
+    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:path
+                    forInstalledApplicationWithBundleIdentifier:bundleIdentifier
+                                                          error:&e]) {
+        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+                        bundleIdentifier,
+                        path,
+                        e);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 - (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
                               forApplication:(NSString *)bundleIdentifier {
     if (![XCAppDataBundle isValid:xcappdata]) {

@@ -714,6 +714,25 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
+- (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleID
+                                                      toPath:(NSString *)path {
+    NSError *e;
+    NSString *containerPath = [self containerPathForApplication:bundleID];
+    if (!containerPath) {
+        ConsoleWriteErr(@"Unable to find container path for app %@ on device %@",
+                        bundleID, [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    if (![[NSFileManager defaultManager] copyItemAtPath:containerPath
+                                                 toPath:path
+                                                  error:&e]) {
+        ConsoleWriteErr(@"Unable to copy xcappdata for app %@ on device %@",
+                        bundleID, [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 - (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
                               forApplication:(NSString *)bundleIdentifier {
 
