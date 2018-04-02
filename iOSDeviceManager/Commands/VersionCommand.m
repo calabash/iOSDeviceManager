@@ -1,3 +1,4 @@
+
 #import "VersionCommand.h"
 #import "ConsoleWriter.h"
 #import "IDMVersionDefines.h"

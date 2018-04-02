@@ -1,4 +1,7 @@
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 #import "Entitlements.h"
 #import "Application.h"
 #import "Certificate.h"
