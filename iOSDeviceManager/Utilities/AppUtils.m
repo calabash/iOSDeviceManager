@@ -19,6 +19,13 @@
     NSString *newShortVersionString = [self valueForKeyOrThrow:newPlist key:@"CFBundleShortVersionString"];
     NSString *newBundleVersion = [self valueForKeyOrThrow:newPlist key:@"CFBundleVersion"];
 
+    ConsoleWrite(@"ShortVersion:");
+    ConsoleWrite(@"  old: %@", oldShortVersionString);
+    ConsoleWrite(@"  new: %@", newShortVersionString);
+    ConsoleWrite(@"BundleVersion:");
+    ConsoleWrite(@"  old: %@", oldBundleVersion);
+    ConsoleWrite(@"  new: %@", newBundleVersion);
+
     if (![oldShortVersionString isEqualToString:newShortVersionString] ||
         ![oldBundleVersion isEqualToString:newBundleVersion]) {
         return YES;
@@ -65,7 +72,7 @@
                         @"--keepParent",
                         payload,
                         outputPath];
-    
+
     ShellResult *result = [ShellRunner xcrun:params timeout:20];
     if (!result.success) {
         @throw [NSException exceptionWithName:@"Error zipping ipa"
@@ -99,13 +106,13 @@
             break;
         }
     }
-    
+
     if (bundlePath == nil) {
         @throw [NSException exceptionWithName:@"Error unzipping ipa"
                                        reason:@"Unable to find Payload/ in unzipped ipa"
                                      userInfo:nil];
     }
-    
+
     return bundlePath;
 }
 

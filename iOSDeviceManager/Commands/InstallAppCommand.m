@@ -5,11 +5,11 @@
 #import "MobileProfile.h"
 
 static NSString *const CODESIGN_ID_FLAG = @"-c";
-static NSString *const UPDATE_APP_FLAG = @"-u";
+static NSString *const FORCE_UPDATE_APP_FLAG = @"-f";
 static NSString *const PROFILE_PATH_FLAG = @"-p";
 static NSString *const RESOURCES_PATH_FLAG = @"-i";
 static NSString *const APP_PATH_OPTION_NAME = @"app-path";
-static NSString *const UPDATE_APP_OPTION_NAME = @"should-update-app";
+static NSString *const FORCE_REINSTALL_APP_OPTION_NAME = @"force-reinstall-app";
 static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
 
 @implementation InstallAppCommand
@@ -18,9 +18,9 @@ static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
 }
 
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
-    BOOL update = [[self optionDict][UPDATE_APP_FLAG].defaultValue boolValue];
-    if ([[args allKeys] containsObject:UPDATE_APP_OPTION_NAME]) {
-        update = [args[UPDATE_APP_OPTION_NAME] boolValue];
+    BOOL shouldForceReinstall = [[self optionDict][FORCE_UPDATE_APP_FLAG].defaultValue boolValue];
+    if ([[args allKeys] containsObject:FORCE_REINSTALL_APP_OPTION_NAME]) {
+        shouldForceReinstall = [args[FORCE_REINSTALL_APP_OPTION_NAME] boolValue];
     }
     
     Device *device = [self deviceFromArgs:args];
@@ -53,19 +53,19 @@ static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
         return [device installApp:app
                     mobileProfile:profile
                 resourcesToInject:resources
-                     shouldUpdate:update];
+                     forceReinstall:shouldForceReinstall];
     }
     
     if (codesignIdentity) {
         return [device installApp:app
                  codesignIdentity:codesignIdentity
                 resourcesToInject:resources
-                     shouldUpdate:update];
+                     forceReinstall:shouldForceReinstall];
     }
     
     return [device installApp:app
             resourcesToInject:resources
-                 shouldUpdate:update];
+                 forceReinstall:shouldForceReinstall];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -84,12 +84,12 @@ static NSString *const PROFILE_PATH_OPTION_NAME = @"profile-path";
                                                    info:@"iOS Simulator GUID or 40-digit physical device ID"
                                                required:YES
                                              defaultVal:nil]];
-        [options addObject:[CommandOption withShortFlag:UPDATE_APP_FLAG
-                                               longFlag:@"--update-app"
-                                             optionName:UPDATE_APP_OPTION_NAME
-                                                   info:@"When true, will reinstall the app if the device contains an older version than the bundle specified"
+        [options addObject:[CommandOption withShortFlag:FORCE_UPDATE_APP_FLAG
+                                               longFlag:@"--force"
+                                             optionName:FORCE_REINSTALL_APP_OPTION_NAME
+                                                   info:@"Reinstall the app if the device contains an older version than the bundle specified"
                                                required:NO
-                                             defaultVal:@(YES)]];
+                                             defaultVal:@(NO)].asBooleanOption];
         [options addObject:[CommandOption withShortFlag:PROFILE_PATH_FLAG
                                                longFlag:@"--profile-path"
                                              optionName:PROFILE_PATH_OPTION_NAME

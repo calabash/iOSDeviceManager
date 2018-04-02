@@ -41,8 +41,8 @@
 
 @interface DTDKRemoteDeviceToken : NSObject
 - (BOOL)simulateLatitude:(NSNumber *)lat
-             andLongitude:(NSNumber *)lng
-                withError:(NSError **)arg3;
+            andLongitude:(NSNumber *)lng
+               withError:(NSError **)arg3;
 - (BOOL)stopSimulatingLocationWithError:(NSError **)arg1;
 @end
 
@@ -121,68 +121,63 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return iOSReturnStatusCodeGenericFailure;
 }
 
+- (MobileProfile *)resignApp:(Application *)app
+                    identity:(CodesignIdentity *)identity
+           resourcesToInject:(NSArray<NSString *> *)resourcePaths {
+    ConsoleWriteErr(@"Deprecated behavior - resigning application with codesign "
+                    "identity: %@", identity);
+    MobileProfile *profile = [MobileProfile bestMatchProfileForApplication:app
+                                                                    device:self
+                                                          codesignIdentity:identity];
+    if (!profile) {
+        ConsoleWriteErr(@"Unable to find valid profile for codesign identity: %@", identity);
+        return nil;
+    }
+    [Codesigner resignApplication:app
+          withProvisioningProfile:profile
+             withCodesignIdentity:identity
+                resourcesToInject:resourcePaths];
+    return profile;
+}
+
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
-    if (!self.fbDevice) { return iOSReturnStatusCodeDeviceNotFound; }
+                     forceReinstall:(BOOL)forceReinstall {
 
-    NSError *err;
-    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-    BOOL needsToInstall = YES;
-
-    //First check if the app is installed
-    if ([operator isApplicationInstalledWithBundleID:app.bundleID error:&err] || err) {
-        if (err) {
-            ConsoleWriteErr(@"Error checking if app (%@) is installed. %@", app.bundleID, err);
-            return iOSReturnStatusCodeInternalError;
-        }
-
-        //If it's installed and the user opted for no update, we're done.
-        if (!shouldUpdate) {
-            return iOSReturnStatusCodeEverythingOkay;
-        }
-
-        iOSReturnStatusCode ret = iOSReturnStatusCodeEverythingOkay;
-
-        //Check if the app differs from the installed version
-        needsToInstall = [self shouldUpdateApp:app statusCode:&ret];
-        if (ret != iOSReturnStatusCodeEverythingOkay) {
-            return ret;
-        }
-        if (needsToInstall) {
-            // Uninstall app to avoid application-identifier entitlement mismatch
-            // during installation update
-            [self uninstallApp:app.bundleID];
+    BOOL needsInstall = YES;
+    Application *installedApp = [self installedApp:app.bundleID];
+    
+    if (!forceReinstall && installedApp) {
+        iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
+        needsInstall = [self shouldUpdateApp:app
+                                installedApp:installedApp
+                                  statusCode:&statusCode];
+        if (statusCode != iOSReturnStatusCodeEverythingOkay) {
+            return statusCode;
         }
     }
 
-    //Only codesign/install if we actually need to.
-    if (needsToInstall) {
-        //TODO: Skip resigning if the app is already signed for the device?
-        //Requires reading provisioning profiles on the device and comparing
-        //entitlements...
+    if (needsInstall || forceReinstall) {
+        // Uninstall app to avoid application-identifier entitlement mismatch
+        [self uninstallApp:app.bundleID];
+        
         if (codesignID) {
-            ConsoleWriteErr(@"Deprecated behavior - resigning application with codesign identity: %@", codesignID);
-            profile = [MobileProfile bestMatchProfileForApplication:app
-                                                             device:self
-                                                   codesignIdentity:codesignID];
+            profile = [self resignApp:app
+                             identity:codesignID
+                    resourcesToInject:resourcePaths];
             if (!profile) {
-                ConsoleWriteErr(@"Unable to find valid profile for codesignID: %@", codesignID);
                 return iOSReturnStatusCodeInternalError;
             }
-            [Codesigner resignApplication:app
-                  withProvisioningProfile:profile
-                     withCodesignIdentity:codesignID
-                        resourcesToInject:resourcePaths];
         } else {
             if (!profile) {
                 profile = [MobileProfile bestMatchProfileForApplication:app device:self];
-                NSAssert(profile != nil,
-                         @"Unable to find profile matching app %@ and device %@",
-                         app.path,
-                         self.uuid);
+                if (!profile) {
+                    ConsoleWriteErr(@"Unable to find profile matching app %@ and device %@",
+                                    app.path, self.uuid);
+                    return iOSReturnStatusCodeInternalError;
+                }
             }
             [Codesigner resignApplication:app
                   withProvisioningProfile:profile
@@ -190,19 +185,24 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                         resourcesToInject:resourcePaths];
         }
 
-        // Log entitlement comparisons
+        NSError *error = nil;
         [Entitlements compareEntitlementsWithProfile:profile app:app];
 
-        if (![self installProvisioningProfileAtPath:profile.path error:&err]) {
-            ConsoleWriteErr(@"Failed to install profile: %@ due to error: %@", profile.path, err);
+        if (![self installProvisioningProfileAtPath:profile.path error:&error]) {
+            ConsoleWriteErr(@"Failed to install profile: %@ due to error: %@",
+                            profile.path, [error localizedDescription]);
             return iOSReturnStatusCodeInternalError;
         }
 
         if (![self.applicationCommands installApplicationWithPath:app.path
-                                                            error:&err]) {
-            ConsoleWriteErr(@"Error installing application: %@", err);
+                                                            error:&error]) {
+            ConsoleWriteErr(@"Error installing application: %@",
+                            [error localizedDescription]);
             return iOSReturnStatusCodeInternalError;
         }
+        
+        ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID,
+                        app.bundleShortVersion, app.bundleVersion, [self uuid]);
     }
 
     return iOSReturnStatusCodeEverythingOkay;
@@ -210,62 +210,62 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     shouldUpdate:(BOOL)shouldUpdate{
+                     forceReinstall:(BOOL)forceReinstall{
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+- (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -444,18 +444,16 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
-    NSError *err = nil;
-    if (![self isInstalled:bundleID withError:&err] || err) {
+    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
+    NSDictionary *plist;
+    plist = [deviceOperator AMDinstalledApplicationWithBundleIdentifier:bundleID];
+    if (plist) {
+        return [Application withBundleID:bundleID
+                                   plist:plist
+                           architectures:self.fbDevice.supportedArchitectures];
+    } else {
         return nil;
     }
-
-
-    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
-    NSDictionary *plist = [deviceOperator AMDinstalledApplicationWithBundleIdentifier:bundleID];
-
-    return [Application withBundleID:bundleID
-                               plist:plist
-                       architectures:self.fbDevice.supportedArchitectures];
 }
 
 
@@ -509,7 +507,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if ([fm fileExistsAtPath:dest]) {
         if (!overwrite) {
             ConsoleWriteErr(@"'%@' already exists in the app container.\n"
-                             "Specify `-o true` to overwrite.", filename);
+                            "Specify `-o true` to overwrite.", filename);
             return iOSReturnStatusCodeGenericFailure;
         } else {
             if (![fm removeItemAtPath:dest error:&e]) {

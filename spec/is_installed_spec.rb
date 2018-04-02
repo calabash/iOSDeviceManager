@@ -25,23 +25,31 @@ describe "is-installed" do
     end
   end
 
-  if IDM::Resources.instance.physical_device_attached?
-    context "physical devices" do
-      let(:device) { IDM::Resources.instance.default_physical_device}
-      let(:udid) { device.udid }
+  context "physical devices" do
+    let(:device) { IDM::Resources.instance.default_physical_device}
+    let(:udid) { device.udid }
 
-      it "prints true if app is installed" do
+    it "prints true if app is installed" do
+      if device && device != ""
         args = ["is-installed", "com.apple.Preferences", "--device-id", udid]
         hash = IDM.shell(args)
         expect(hash[:out].split($-0).last).to be == "true"
         expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+      else
+        pending("No physical device is connected")
+        fail
       end
+    end
 
-      it "prints false if app is not installed" do
+    it "prints false if app is not installed" do
+      if device && device != ""
         args = ["is-installed", "com.apple.NoSuchApp", "--device-id", udid]
         hash = IDM.shell(args)
         expect(hash[:out].split($-0).last).to be == "false"
         expect(hash[:exit_status]).to be == IDM.exit_status(:false)
+      else
+        pending("No physical device is connected")
+        fail
       end
     end
   end

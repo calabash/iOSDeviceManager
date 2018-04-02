@@ -1,3 +1,16 @@
+### 3.0.0
+
+This release provides support for Xcode >= 9.3.
+
+* Project: remove server components #201
+* Replace install --update-app with --force flag and fix behavior #200
+* Xcode 9.3 and iOS 11.3 support #199
+* Ask if app is installed only once during app installation #193
+
+calabash/FBSimulatorControl built from this tag:
+
+https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-2018.02.20-iOS-11.3-and-Xcode-93-support
+
 ### 2.1.2
 
 This release provides fixes for Xcode >= 9.0.1.

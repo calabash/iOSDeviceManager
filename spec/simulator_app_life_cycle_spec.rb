@@ -1,7 +1,7 @@
 
 describe "app life cycle (simulator)" do
 
-  module Helper
+  module SimAppLSHelper
     require "run_loop"
 
     def self.uninstall(core_sim)
@@ -34,8 +34,10 @@ describe "app life cycle (simulator)" do
   let(:core_sim) { RunLoop::CoreSimulator.new(device, app) }
 
   context "installing apps on simulator" do
+    let(:app_dupe) { RunLoop::App.new(IDM::Resources.instance.second_test_app(:x86)) }
+
     it "installs app on simulator indicated by --device-id" do
-      Helper.prepare_for_install_test(core_sim)
+      SimAppLSHelper.prepare_for_install_test(core_sim)
 
       args = ["install", app.path, "--device-id", udid]
       hash = IDM.shell(args)
@@ -44,11 +46,76 @@ describe "app life cycle (simulator)" do
       expect(core_sim.app_is_installed?).to be_truthy
     end
 
-    it "updates app if CFBundleVersion is different"
-    it "updates app if CFBundleShortVersionString is different"
-    it "updates app if both CFBundle versions are different"
-    it "updates app if --force flag is passed"
-    it "does not update if app is the same"
+    it "updates app if CFBundleVersion is different" do
+      SimAppLSHelper.prepare_for_install_test(core_sim)
+
+      args = ["install", app.path, "--device-id", udid]
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      args = ["install", app_dupe.path, "--device-id", udid]
+      expect(app.bundle_version).not_to be == app_dupe.bundle_version
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      expect(core_sim.app_is_installed?).to be_truthy
+    end
+
+    it "updates app if CFBundleShortVersionString is different" do
+      SimAppLSHelper.prepare_for_install_test(core_sim)
+
+      args = ["install", app.path, "--device-id", udid]
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      args = ["install", app_dupe.path, "--device-id", udid]
+      expect(app.marketing_version).not_to be == app_dupe.marketing_version
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      expect(core_sim.app_is_installed?).to be_truthy
+    end
+
+    it "updates app if both CFBundle versions are different" do
+      SimAppLSHelper.prepare_for_install_test(core_sim)
+
+      args = ["install", app.path, "--device-id", udid]
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      args = ["install", app_dupe.path, "--device-id", udid]
+      expect(app.bundle_version).not_to be == app_dupe.bundle_version
+      expect(app.marketing_version).not_to be == app_dupe.marketing_version
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      expect(core_sim.app_is_installed?).to be_truthy
+    end
+
+    it "updates app if --force flag is passed" do
+      SimAppLSHelper.prepare_for_install_test(core_sim)
+
+      args = ["install", app.path, "--device-id", udid]
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      hash = IDM.shell(args << "--force")
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+      expect(core_sim.app_is_installed?).to be_truthy
+      expect(hash[:out].include?("Installed")).to be_truthy
+    end
+
+    it "does not update if app is the same" do
+      SimAppLSHelper.prepare_for_install_test(core_sim)
+
+      args = ["install", app.path, "--device-id", udid]
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+      expect(hash[:out].include?("not reinstalling")).to be_truthy
+    end
   end
 
   context "uninstalling apps on simulator" do
@@ -59,16 +126,16 @@ describe "app life cycle (simulator)" do
     end
 
     it "uninstalls app when first arg is a bundle id" do
-      Helper.prepare_for_uninstall_test(core_sim)
+      SimAppLSHelper.prepare_for_uninstall_test(core_sim)
       expect(core_sim.app_is_installed?).to be_truthy
-      expect(Helper.simctl_thinks_app_is_installed?(device, app)).to be_truthy
+      expect(SimAppLSHelper.simctl_thinks_app_is_installed?(device, app)).to be_truthy
 
       args = ["uninstall", app.bundle_identifier, "--device-id", udid]
       hash = IDM.shell(args)
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       expect(core_sim.app_is_installed?).to be_falsey
-      expect(Helper.simctl_thinks_app_is_installed?(device, app)).to be_falsey
+      expect(SimAppLSHelper.simctl_thinks_app_is_installed?(device, app)).to be_falsey
     end
 
     it "uninstalls app when first arg is a .app bundle"

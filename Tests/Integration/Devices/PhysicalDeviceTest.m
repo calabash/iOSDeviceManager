@@ -44,7 +44,7 @@
         expect(installed).to.equal(NO);
     }
 
-    code = [device installApp:app shouldUpdate:YES];
+    code = [device installApp:app forceReinstall:YES];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     installed = [device isInstalled:[app bundleID] withError:&error];
     expect(installed).to.equal(YES);
@@ -61,7 +61,7 @@
     PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
 
     Application *app = [Application withBundlePath:testApp(ARM)];
-    [device installApp:app shouldUpdate:YES];
+    [device installApp:app forceReinstall:YES];
 
     NSString *bundleIdentifier = @"sh.calaba.TestApp";
     NSString *installPath = [device installPathForApplication:bundleIdentifier];
@@ -103,7 +103,7 @@
 
     iOSReturnStatusCode code = [device installApp:app
                                 resourcesToInject:resources
-                                     shouldUpdate:NO];
+                                     forceReinstall:NO];
 
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 
@@ -136,8 +136,10 @@
     PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
 
     Application *app = [Application withBundlePath:testApp(ARM)];
-    code = [device installApp:app shouldUpdate:YES];
+    code = [device installApp:app forceReinstall:YES];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
 
     // invalid xcappdata bundle
     NSString *path = [[Resources shared] uniqueTmpDirectory];
@@ -168,8 +170,10 @@
     PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
 
     Application *app = [Application withBundlePath:testApp(ARM)];
-    code = [device installApp:app shouldUpdate:YES];
+    code = [device installApp:app forceReinstall:YES];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
 
     NSString *path = [[Resources shared] uniqueTmpDirectory];
     NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
@@ -184,6 +188,8 @@
                       @"--device-id", device.uuid];
     code = [CLI process:args];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5.0, false);
 
     // works with path/to/app
     args = @[kProgramName, @"upload-xcappdata",
@@ -202,7 +208,7 @@
 
     NSString *path = [[Resources shared] DeviceAgentPath:@"ARM"];
     Application *app = [Application withBundlePath:path];
-    code = [device installApp:app shouldUpdate:YES];
+    code = [device installApp:app forceReinstall:YES];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 
     // works with bundle identifier

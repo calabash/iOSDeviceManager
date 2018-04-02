@@ -94,7 +94,6 @@
     return sum;
 }
 
-// Log entitlement discrepancy
 + (void)compareEntitlementsWithProfile:(MobileProfile *)profile app:(Application *)app {
     
     Entitlement *appEntitlement, *profileEntitlement;
@@ -103,7 +102,7 @@
     EntitlementComparisonResult comparison;
 
     NSArray<NSString *> *keys = [appEntitlements.dictionary allKeys];
-    ConsoleWriteErr(@"Checking for profile and app entitlement discrepancy");
+    LogInfo(@"Checking for profile and app entitlement discrepancy");
     for (NSString *key in keys) {
         appEntitlement = [Entitlement entitlementWithKey:key
                                                    value:appEntitlements[key]];
@@ -111,9 +110,9 @@
                                                        value:profileEntitlements[key]];
         comparison = [Entitlement compareProfileEntitlement:profileEntitlement appEntitlement:appEntitlement];
         if (comparison == ProfileDoesNotHaveRequiredKey) {
-            ConsoleWriteErr(@"Profile does not have app entitlement key: %@", key);
+            LogInfo(@"Profile does not have app entitlement key: %@", key);
         } else if (comparison == ProfileHasKey) {
-            ConsoleWriteErr(@"Profile has non-exact value for app entitlement key: %@", key);
+            LogInfo(@"Profile has non-exact value for app entitlement key: %@", key);
         }
     }
 }

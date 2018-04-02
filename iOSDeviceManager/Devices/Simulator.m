@@ -38,7 +38,6 @@ static const FBSimulatorControl *_control;
     FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                       configurationWithDeviceSetPath:nil
                                                       options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-
     NSError *error;
     _control = [FBSimulatorControl withConfiguration:configuration error:&error];
     if (error) {
@@ -332,6 +331,7 @@ static const FBSimulatorControl *_control;
     NSArray *arguments = @[@"--args",
                            @"-CurrentDeviceUDID", self.uuid,
                            @"-ConnectHardwareKeyboard", @"0",
+                           @"-DeviceBootTimeout", @"120",
                            @"LAUNCHED_WITH_IOS_DEVICE_MANAGER"
                            ];
 
@@ -408,7 +408,7 @@ static const FBSimulatorControl *_control;
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
 
     if (![self boot]) {
         ConsoleWriteErr(@"Cannot install %@ on Simulator %@ because the device could not "
@@ -417,30 +417,23 @@ static const FBSimulatorControl *_control;
     }
 
     BOOL needsToInstall = YES;
+    Application *installedApp = [self installedApp:app.bundleID];
 
-    NSError *error = nil;
-
-    FBInstalledApplication *installedApp;
-    installedApp = [self.fbSimulator installedApplicationWithBundleID:app.bundleID
-                                                                error:&error];
-
-    if (installedApp) {
-        // If the user doesn't want to update, we're done.
-        if (!shouldUpdate) {
-            return iOSReturnStatusCodeEverythingOkay;
-        }
-
+    if (!forceReinstall && installedApp) {
         iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
-        needsToInstall = [self shouldUpdateApp:app statusCode:&statusCode];
+        needsToInstall = [self shouldUpdateApp:app
+                                  installedApp:installedApp
+                                    statusCode:&statusCode];
         if (statusCode != iOSReturnStatusCodeEverythingOkay) {
-            // #shouldUpdateApp:statusCode: will log failure message if necessary
+            // #shouldUpdateApp:installedApp:statusCode: will log failure messages
             return statusCode;
         }
     }
 
-    error = nil;
-
-    if (needsToInstall) {
+    if (needsToInstall || forceReinstall) {
+        // Uninstall app to avoid application-identifier entitlement mismatch
+        [self uninstallApp:app.bundleID];
+        
         [Codesigner resignApplication:app
               withProvisioningProfile:nil
                  withCodesignIdentity:nil
@@ -449,13 +442,15 @@ static const FBSimulatorControl *_control;
         FBSimulatorApplicationCommands *applicationCommands;
         applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
+        NSError *error = nil;
         BOOL success = [applicationCommands installApplicationWithPath:app.path
                                                                  error:&error];
         if (!success) {
             ConsoleWriteErr(@"Error installing application: %@", error);
             return iOSReturnStatusCodeGenericFailure;
         } else {
-            LogInfo(@"Installed %@ to %@", app.bundleID, [self uuid]);
+            ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID,
+                         app.bundleVersion, app.bundleShortVersion, [self uuid]);
         }
     }
 
@@ -464,62 +459,62 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     shouldUpdate:(BOOL)shouldUpdate{
+                     forceReinstall:(BOOL)forceReinstall{
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
-- (iOSReturnStatusCode)installApp:(Application *)app shouldUpdate:(BOOL)shouldUpdate {
+- (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:nil
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     shouldUpdate:(BOOL)shouldUpdate {
+                     forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:resourcePaths
-               shouldUpdate:shouldUpdate];
+               forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -672,9 +667,9 @@ static const FBSimulatorControl *_control;
                                                                 error:nil];
     if (!installedApp) {
         return nil;
+    } else {
+        return [Application withBundlePath:installedApp.bundle.path];
     }
-
-    return [Application withBundlePath:installedApp.bundle.path];
 }
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
