@@ -1,3 +1,4 @@
+
 #import "ResignObjectCommand.h"
 #import "Codesigner.h"
 #import "ConsoleWriter.h"

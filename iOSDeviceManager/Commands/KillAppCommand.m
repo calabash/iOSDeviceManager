@@ -1,3 +1,4 @@
+
 #import "KillAppCommand.h"
 
 @implementation KillAppCommand
