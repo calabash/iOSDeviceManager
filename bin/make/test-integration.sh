@@ -51,17 +51,16 @@ XCODE_VERSION=`xcrun xcodebuild -version | head -1 | awk '{print $2}' | tr -d '\
 REPORT="reports/${XC_SCHEME}-${XCODE_VERSION}.xml"
 rm -rf "${REPORT}"
 
-if [ "${XCPRETTY}" = "0" ]; then
-  USE_XCPRETTY=
-else
-  USE_XCPRETTY=`which xcpretty | tr -d '\n'`
-fi
-
-if [ ! -z ${USE_XCPRETTY} ]; then
+hash xcpretty 2>/dev/null
+if [ $? -eq 0 ] && [ "${XCPRETTY}" != "0" ]; then
   XC_PIPE="xcpretty -c --report junit --output ${REPORT}"
 else
   XC_PIPE='cat'
 fi
+
+info "Will pipe xcodebuild to: ${XC_PIPE}"
+
+set -e -o pipefail
 
 #  -only-testing:"Integration/PhysicalDeviceTest/testUploadXCAppDataBundleCLI" \
 #  -only-testing:"Integration/SimulatorTest" \

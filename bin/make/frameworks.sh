@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set +e
+source bin/log.sh
 source bin/simctl.sh
 ensure_valid_core_sim_service
-set -e
-
-source bin/log.sh
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   if [ -e "../FBSimulatorControl" ]; then

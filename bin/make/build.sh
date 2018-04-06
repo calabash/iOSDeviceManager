@@ -1,27 +1,23 @@
 #!/usr/bin/env bash
 
-set +e
+source bin/log.sh
 source bin/simctl.sh
 ensure_valid_core_sim_service
-set -e
-
-source bin/log.sh
 
 BUILD_DIR="build"
 XC_PROJECT="iOSDeviceManager.xcodeproj"
 XC_TARGET="iOSDeviceManager"
 
-if [ "${XCPRETTY}" = "0" ]; then
-  USE_XCPRETTY=
-else
-  USE_XCPRETTY=`which xcpretty | tr -d '\n'`
-fi
-
-if [ ! -z ${USE_XCPRETTY} ]; then
+hash xcpretty 2>/dev/null
+if [ $? -eq 0 ] && [ "${XCPRETTY}" != "0" ]; then
   XC_PIPE='xcpretty -c'
 else
   XC_PIPE='cat'
 fi
+
+info "Will pipe xcodebuild to: ${XC_PIPE}"
+
+set -e -o pipefail
 
 # We want to fail on warnings, but linking FBSimulatorControl
 # raises warnings.
@@ -33,7 +29,7 @@ xcrun xcodebuild \
   -target ${XC_TARGET} \
   -configuration Release \
   -sdk macosx \
-  GCC_TREAT_WARNINGS_AS_ERRORS=NO \
+  GCC_TREAT_WARNINGS_AS_ERRORS=YES \
   GCC_GENERATE_TEST_COVERAGE_FILES=NO \
   GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
   build | $XC_PIPE
@@ -43,4 +39,3 @@ mkdir Products
 
 # Will dynamically link Products/../Frameworks at runtime
 ditto build/Release/iOSDeviceManager Products/iOSDeviceManager
-
