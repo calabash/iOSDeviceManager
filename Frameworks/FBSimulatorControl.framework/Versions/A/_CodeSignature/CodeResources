@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		gJNwkvsrgDZeactXzMXqJpi3CfQ=
+		JMTLVIzQN5yCqg4CWxFQIsRnCbg=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			DF3ySU7Ic4t3gBSSO7dUiW5l3sM=
+			gsHDel1TxTLKmyciTMRVNFy/GDk=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			dojid80p1YkX37/x89OEMJgOwag=
+			RN0KB1NAdFs7hzu7+8cw71GQmjQ=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -860,11 +860,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gJNwkvsrgDZeactXzMXqJpi3CfQ=
+			JMTLVIzQN5yCqg4CWxFQIsRnCbg=
 			</data>
 			<key>hash2</key>
 			<data>
-			eTEydOc9X6oDqnra00TRAvMzmA1CapHx/oWpaALZ7Us=
+			DexWVKc910Q+hLm6nB5tn1B483ML0W6YQHtSKCiIr2A=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
