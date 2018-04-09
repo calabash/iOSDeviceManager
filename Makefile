@@ -1,42 +1,35 @@
 
 .PHONY: build
 .PHONY: tests
+.PHONY: frameworks
+.PHONY: dependencies
 
-#
-#	Cleans the build directory used by make scripts.
-#
 clean:
 	rm -rf build
 
-#
-#	Builds the executable
-#
 build:
 	bin/make/build.sh
 
 dependencies:
 	bin/make/dependencies.sh
 
-fbframeworks:
+frameworks:
 	bin/make/frameworks.sh
 
-facebook-frameworks:
-	bin/make/frameworks.sh
+unit-tests:
+	bin/test/unit.sh
 
-test-unit:
-	bin/make/test-unit.sh
+integration-tests:
+	bin/test/integration.sh
 
-test-integration:
-	bin/make/test-integration.sh
-
-test-cli:
+cli-tests:
 	bin/test/cli.sh
 
-test-run-loop:
-	bin/make/test-run-loop.sh
+run-loop-tests:
+	bin/test/run-loop.sh
 
 tests:
-	$(MAKE) test-unit
-	$(MAKE) test-integration
-	$(MAKE) test-cli
-	$(MAKE) test-run-loop
+	$(MAKE) unit-tests
+	$(MAKE) integration-tests
+	$(MAKE) cli-tests
+	$(MAKE) run-loop-tests
