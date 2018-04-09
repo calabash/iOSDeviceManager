@@ -650,6 +650,12 @@ static const FBSimulatorControl *_control;
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
 
     NSError *error = nil;
+    if (![self boot]) {
+        ConsoleWriteErr(@"Cannot check for installed application"
+                        "%@ on Simulator %@ because the device could not "
+                        "be booted", bundleID, self.fbSimulator);
+        return iOSReturnStatusCodeInternalError;
+    }
     BOOL installed = [self isInstalled:bundleID withError:&error];
 
     if (installed) {
