@@ -19,9 +19,6 @@ info "Will pipe xcodebuild to: ${XC_PIPE}"
 
 set -e -o pipefail
 
-# We want to fail on warnings, but linking FBSimulatorControl
-# raises warnings.
-# https://xamarin.atlassian.net/browse/TCFW-127
 xcrun xcodebuild \
   -SYMROOT="${BUILD_DIR}" \
   -OBJROOT="${BUILD_DIR}" \
