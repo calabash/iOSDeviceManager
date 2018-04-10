@@ -25,11 +25,7 @@ integration-tests:
 cli-tests:
 	bin/test/cli.sh
 
-run-loop-tests:
-	bin/test/run-loop.sh
-
 tests:
 	$(MAKE) unit-tests
 	$(MAKE) integration-tests
 	$(MAKE) cli-tests
-	$(MAKE) run-loop-tests
