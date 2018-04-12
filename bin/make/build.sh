@@ -2,6 +2,7 @@
 
 source bin/log.sh
 source bin/simctl.sh
+source bin/ditto.sh
 ensure_valid_core_sim_service
 
 BUILD_DIR="build"
@@ -36,3 +37,7 @@ mkdir Products
 
 # Will dynamically link Products/../Frameworks at runtime
 ditto build/Release/iOSDeviceManager Products/iOSDeviceManager
+
+install_with_ditto ThirdPartyNotices.txt Frameworks/ThirdPartyNotices.txt
+install_with_ditto Licenses/CocoaLumberjack.LICENSE Frameworks/CocoaLumberjack.LICENSE
+install_with_ditto Licenses/FBSimulatorControl.LICENSE Frameworks/FBSimulatorControl.LICENSE
