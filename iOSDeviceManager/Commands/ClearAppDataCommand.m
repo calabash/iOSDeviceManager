@@ -66,9 +66,25 @@ static NSString *const APP_PATH_OPTION_NAME = @"app-path";
         return iOSReturnStatusCodeFalse;
     }
     
-    [Device generateXCAppDataBundleAtPath:@"Empty.xcappdata" overwrite:YES];
+    NSString *emptyXcappdataPath =
+        [NSTemporaryDirectory() stringByAppendingPathComponent:@"Empty.xcappdata"];
     
-    [device uploadXCAppDataBundle:@"Empty.xcappdata" forApplication:bundleId];
+    @try {
+        [Device generateXCAppDataBundleAtPath:emptyXcappdataPath overwrite:YES];
+        [device uploadXCAppDataBundle:emptyXcappdataPath forApplication:bundleId];
+    }
+    @catch(NSException *e) {
+        ConsoleWriteErr(@"Error: %@", e.description);
+        return iOSReturnStatusCodeInternalError;
+    }
+    @finally {
+        NSError *error;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        [fileManager removeItemAtPath:emptyXcappdataPath error:&error];
+        if (error) {
+            ConsoleWriteErr(@"Error: %@", error.localizedDescription);
+        }
+    }
 
     return iOSReturnStatusCodeEverythingOkay;
 }
