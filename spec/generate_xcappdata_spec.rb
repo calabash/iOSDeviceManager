@@ -1,10 +1,12 @@
 
 describe "generate-xcappdata" do
 
-  let (:tmp) { IDM::Resources.instance.tmpdir("xcappdata") }
+  let (:tmp) { IDM::Resources.instance.tmp_dir("xcappdata") }
   let (:xcappdata) { File.join(tmp, "New.xcappdata") }
 
   it "generates a new .xcappdata bundle" do
+     FileUtils.rm_rf(xcappdata)
+
      args = ["generate-xcappdata", xcappdata]
      hash = IDM.shell(args)
 

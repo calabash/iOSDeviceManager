@@ -65,28 +65,10 @@ describe "clear-app-data command" do
           .test_app(device.physical_device? ? :arm : :x86)
         RunLoop::App.new(path)
       end
-      let(:xcappdata) do
-        appdata = File.join(IDM::Resources.instance.tmpdir("xcappdata"),
-                            "New.xcappdata")
-
-        args = ["generate-xcappdata", appdata]
-        hash = IDM.shell(args)
-        hash[:out]
-
-        documents = File.join(appdata, "AppData", "Documents")
-        FileUtils.mkdir_p(documents)
-
-        path = File.join(documents,
-                         "#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}.txt")
-        File.open(path, "w") do |file|
-          file.puts("content")
-        end
-
-        hash[:out]
-      end
+      let(:xcappdata) { IDM::Resources.instance.xcappdata }
 
       before(:each) do |test|
-        path = IDM::Resources.instance.tmpdir("xcappdata")
+        path = IDM::Resources.instance.tmp_dir("xcappdata")
         FileUtils.rm_rf(path)
         DeviceAppHelper.install(udid, app.path)
       end
@@ -163,9 +145,7 @@ describe "clear-app-data command" do
         hash = IDM.shell(args)
         expect(hash[:exit_status]).to be == IDM.exit_status(:success)
       end
-
     end
-
   end
   
   context "simulators" do
@@ -176,28 +156,10 @@ describe "clear-app-data command" do
         .test_app(device.physical_device? ? :arm : :x86)
       RunLoop::App.new(path)
     end
-    let(:xcappdata) do
-      appdata = File.join(IDM::Resources.instance.tmpdir("xcappdata"),
-                          "New.xcappdata")
-
-      args = ["generate-xcappdata", appdata]
-      hash = IDM.shell(args)
-      hash[:out]
-
-      documents = File.join(appdata, "AppData", "Documents")
-      FileUtils.mkdir_p(documents)
-
-      path = File.join(documents,
-                       "#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}.txt")
-      File.open(path, "w") do |file|
-        file.puts("content")
-      end
-
-      hash[:out]
-    end
+    let(:xcappdata) { IDM::Resources.instance.xcappdata }
 
     before(:each) do |test|
-      path = IDM::Resources.instance.tmpdir("xcappdata")
+      path = IDM::Resources.instance.tmp_dir("xcappdata")
       FileUtils.rm_rf(path)
       DeviceAppHelper.install(udid, app.path)
     end
