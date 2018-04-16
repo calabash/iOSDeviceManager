@@ -265,20 +265,24 @@ compatible with the current Xcode version.
       default_physical_device != "" && default_physical_device != nil
     end
 
-    def tmpdir(subdir=nil)
-      @tmpdir ||= begin
-        path = File.expand_path("tmp")
-        FileUtils.mkdir_p(path)
-        path
+    def xcappdata
+      appdata = File.join(tmp_dir("xcappdata"), "New.xcappdata")
+
+      args = ["generate-xcappdata", appdata]
+			hash = IDM.shell(args)
+      hash[:out]
+
+      documents = File.join(appdata, "AppData", "Documents")
+      FileUtils.mkdir_p(documents)
+
+      path = File.join(documents,
+        "#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}.txt")
+
+      File.open(path, "w") do |file|
+        file.puts("content")
       end
 
-      if subdir
-        dir = File.join(@tmpdir, subdir)
-        FileUtils.rm_rf(dir)
-      else
-        dir = path
-      end
-      dir
+      hash[:out]
     end
   end
 end

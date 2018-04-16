@@ -729,11 +729,16 @@ static const FBSimulatorControl *_control;
                         bundleID, [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
+    if (![[NSFileManager defaultManager] removeItemAtPath:path error:&e]) {
+        ConsoleWriteErr(@"Error: %@", e.localizedDescription);
+        return iOSReturnStatusCodeInternalError;
+    }
     if (![[NSFileManager defaultManager] copyItemAtPath:containerPath
                                                  toPath:path
                                                   error:&e]) {
-        ConsoleWriteErr(@"Unable to copy xcappdata for app %@ on device %@",
-                        bundleID, [self uuid]);
+        ConsoleWriteErr(@"Unable to copy xcappdata for app %@ on device %@\n"
+                        "Error: %@",
+                        bundleID, [self uuid], e.localizedDescription);
         return iOSReturnStatusCodeGenericFailure;
     }
     return iOSReturnStatusCodeEverythingOkay;

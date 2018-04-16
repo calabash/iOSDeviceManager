@@ -5,7 +5,7 @@ if IDM::Resources.instance.physical_device_connected?
     let(:device) { IDM::Resources.instance.physical_device }
     let(:app) { IDM::Resources.instance.test_app(:arm) }
     let(:xcappdata) do
-      appdata = File.join(IDM::Resources.instance.tmpdir("xcappdata"),
+      appdata = File.join(IDM::Resources.instance.tmp_dir("xcappdata"),
                           "New.xcappdata")
 
       args = ["generate-xcappdata", appdata]
