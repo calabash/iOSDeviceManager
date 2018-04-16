@@ -73,16 +73,15 @@ static NSString *const APP_PATH_OPTION_NAME = @"app-path";
         [Device generateXCAppDataBundleAtPath:emptyXcappdataPath overwrite:YES];
         [device uploadXCAppDataBundle:emptyXcappdataPath forApplication:bundleId];
     }
-    @catch(NSException *e) {
-        ConsoleWriteErr(@"Error: %@", e.description);
-        return iOSReturnStatusCodeInternalError;
-    }
     @finally {
         NSError *error;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         [fileManager removeItemAtPath:emptyXcappdataPath error:&error];
         if (error) {
-            ConsoleWriteErr(@"Error: %@", error.localizedDescription);
+            ConsoleWriteErr(@"Warning: could not delete temporary file: %@\n",
+                            "%@",
+                            emptyXcappdataPath,
+                            error.localizedDescription);
         }
     }
 

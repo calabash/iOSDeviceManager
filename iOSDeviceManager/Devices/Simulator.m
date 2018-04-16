@@ -729,8 +729,7 @@ static const FBSimulatorControl *_control;
                         bundleID, [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
-    [[NSFileManager defaultManager] removeItemAtPath:path error:&e];
-    if (e) {
+    if (![[NSFileManager defaultManager] removeItemAtPath:path error:&e]) {
         ConsoleWriteErr(@"Error: %@", e.localizedDescription);
         return iOSReturnStatusCodeInternalError;
     }
