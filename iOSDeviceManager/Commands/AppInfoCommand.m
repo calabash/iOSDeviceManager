@@ -1,3 +1,4 @@
+
 #import "AppInfoCommand.h"
 #import "ConsoleWriter.h"
 #import "JSONUtils.h"

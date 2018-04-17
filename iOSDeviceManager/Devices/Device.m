@@ -155,6 +155,11 @@
     MUST_OVERRIDE;
 }
 
+- (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleId
+                                                      toPath:(NSString *)path {
+    MUST_OVERRIDE;
+}
+
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
                    forApplication:(NSString *)bundleID
                         overwrite:(BOOL)overwrite {

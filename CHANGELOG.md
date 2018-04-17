@@ -1,3 +1,15 @@
+### 3.1.0
+
+* Clear app data: remove temporary created .xcappdata bundle  #207
+* Fixed is-installed command simulator bug #206
+* Bin/Make: logical organization of make rules and scripts #205
+* Update headers with MSFT OSS comment #204
+* Add clear-app-data and download-xcappdata commands #203
+
+calabash/FBSimulatorControl built from this tag:
+
+https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-2018.04.09-iOS-11.3-and-Xcode-93-support%2BMSFT_OSS_comments
+
 ### 3.0.0
 
 This release provides support for Xcode >= 9.3.

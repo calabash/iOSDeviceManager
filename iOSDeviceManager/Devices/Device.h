@@ -1,4 +1,7 @@
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 #import <FBControlCore/FBControlCore.h>
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <FBDeviceControl/FBDeviceControl.h>
@@ -60,6 +63,8 @@
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID;
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error;
 - (Application *)installedApp:(NSString *)bundleID;
+- (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleId
+                                                      toPath:(NSString *)path;
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
                    forApplication:(NSString *)bundleID
                         overwrite:(BOOL)overwrite;

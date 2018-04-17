@@ -10,6 +10,7 @@
 #import "DeviceUtils.h"
 #import "IsInstalledCommand.h"
 #import "AppInfoCommand.h"
+#import "LaunchSimulatorCommand.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -142,12 +143,15 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     [command printUsage];
 
                     if ([opt.optionName isEqualToString:DEVICE_ID_OPTION_NAME]) {
-                        NSString *physicalDeviceID = [DeviceUtils defaultPhysicalDeviceIDEnsuringOnlyOneAttached:NO];
-                        if (physicalDeviceID) {
-                            [ConsoleWriter write:@"\n Suggested deviceID from connected device: %@", physicalDeviceID];
+                        NSString *physicalDeviceID =
+                            [DeviceUtils defaultPhysicalDeviceIDEnsuringOnlyOneAttached:NO];
+                        if (physicalDeviceID && ![[command name] isEqualToString:[LaunchSimulatorCommand name]]) {
+                            [ConsoleWriter
+                             write:@"\n Suggested deviceID from connected device: %@", physicalDeviceID];
                         } else {
                             NSString *simulatorID = [DeviceUtils defaultSimulatorID];
-                            [ConsoleWriter write:@"\n Suggested deviceID for simulator: %@", simulatorID];
+                            [ConsoleWriter
+                             write:@"\n Suggested deviceID for simulator: %@", simulatorID];
                         }
                     }
                     return iOSReturnStatusCodeMissingArguments;

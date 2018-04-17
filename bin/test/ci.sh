@@ -44,9 +44,7 @@ pkill Simulator
 
 rm -rf reports/*.xml
 
-make test-unit
-make test-integration
-make test-cli
+make tests
 
 EXIT_STATUS=$?
 
@@ -60,6 +58,3 @@ else
   echo "Tests failed."
   exit 1
 fi
-
-# Disabling because they take too long to run.
-#bin/test/sim

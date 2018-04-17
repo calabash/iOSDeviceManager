@@ -29,13 +29,13 @@
 #pragma mark - Class Methods
 
 + (MobileProfile *)withPath:(NSString *)profilePath {
-    
+
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:profilePath]) {
         ConsoleWriteErr(@"No profile file at path: %@", profilePath);
         return nil;
     }
-    
+
     NSDictionary *dictionary = [MobileProfile dictionaryByExportingProfileWithSecurity:profilePath];
 
     if (!dictionary) {
@@ -49,7 +49,7 @@
         ConsoleWriteErr(@"Profile expired at path: %@", profilePath);
         return nil;
     }
-    
+
     return profile;
 }
 
@@ -60,12 +60,12 @@
                                            device:(Device *)device
                                  codesignIdentity:(CodesignIdentity *)codesignID {
     LogInfo(@"Using signing identity %@ to select best match profile.", codesignID);
-    
+
     NSArray<MobileProfile *> *profiles = [MobileProfile rankedProfiles:[self nonExpiredIOSProfiles]
                                                           withIdentity:codesignID
                                                             deviceUDID:device.uuid
                                                          appBundlePath:app.path];
-    
+
     MobileProfile *match = profiles.count ? profiles[0] : nil;
     LogInfo(@"Selected profile %@ for device %@ app %@", match, device.uuid, app.bundleID);
     return match;
@@ -81,14 +81,14 @@
              @"Unable to find appropriate codesign identity for device %@ / app %@ combo",
              device.uuid,
              app.bundleID);
-    
+
     LogInfo(@"Using signing identity %@ to select best match profile.", identity);
-    
+
     NSArray<MobileProfile *> *profiles = [MobileProfile rankedProfiles:[self nonExpiredIOSProfiles]
                                                           withIdentity:identity
                                                             deviceUDID:device.uuid
                                                          appBundlePath:app.path];
-    
+
     MobileProfile *match = profiles.count ? profiles[0] : nil;
     LogInfo(@"Selected profile %@ for device %@ app %@", match, device.uuid, app.bundleID);
     return match;
@@ -273,7 +273,7 @@
                                appBundlePath:(NSString *)appBundlePath {
     NSParameterAssert(mobileProfiles);
     NSParameterAssert(mobileProfiles.count);
-    
+
     NSArray<MobileProfile *> *valid = mobileProfiles;
 
     Entitlements *appEntitlements;
@@ -319,7 +319,7 @@
             }
         }
     }];
-    
+
     return [NSArray arrayWithArray:satisfyingProfiles];
 }
 
@@ -381,10 +381,10 @@
 - (NSArray<Certificate *> *)developerCertificates {
     if (!_certificates.count) {
         NSArray<NSData *> *data = (NSArray<NSData *> *)self[@"DeveloperCertificates"];
-        
+
         NSMutableArray<Certificate *> *certs = [NSMutableArray arrayWithCapacity:[data count]];
         Certificate *cert;
-        
+
         //'datum' is singular :)
         for (NSData *datum in data) {
             cert = [Certificate certificateWithData:datum];
@@ -392,7 +392,7 @@
                 [certs addObject:cert];
             }
         }
-        
+
         _certificates = [NSArray arrayWithArray:certs];
     };
     return _certificates;

@@ -17,6 +17,10 @@ Carthage/Build/**/*.bcsymbolmap
 !Carthage/Build/Mac/Specta.framework*
 !Carthage/Build/Mac/OCMock.framework*
 
+## OSS
+Frameworks/ThirdPartyNotices.txt
+Frameworks/*.LICENSE
+
 ## nuget
 *.nupkg
 

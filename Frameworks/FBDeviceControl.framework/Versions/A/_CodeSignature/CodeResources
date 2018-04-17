@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		Tp0Q5iUjG5fb4REl4vFQwxu74I0=
+		c5DZQnWzj8+uy3E/ruDJJMOONUc=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			DF3ySU7Ic4t3gBSSO7dUiW5l3sM=
+			gsHDel1TxTLKmyciTMRVNFy/GDk=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			dojid80p1YkX37/x89OEMJgOwag=
+			RN0KB1NAdFs7hzu7+8cw71GQmjQ=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -46,11 +46,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Aa9g3r9R1nJM+1+8O/q0BrNU7zs=
+			QOiU0h6abamdCH1o5lSPZ3qeJEQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			cynldVc2RxKEuMj5n24G2bIZ9Cz5G1jegp6XOWTk58I=
+			fmebsTN2JNVs8uXY/BmtZ7sMgraxdOdPp7agWx6rsvw=
 			</data>
 		</dict>
 		<key>Headers/FBDevice.h</key>
@@ -90,11 +90,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wQiYiJXnCmU1qE6S57yH5WxOwVc=
+			2MnjbZ3F8l+1q19n68r38LvO3NM=
 			</data>
 			<key>hash2</key>
 			<data>
-			SBCEYovZ1RbTtZnW3WNA8yWGQJhYn2rBgVZsyuXsTOE=
+			1fVFQ8cd8wXeExjRJS5bRsaspibmYSx+wx0h0aTeMlQ=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -112,11 +112,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Wo5y8MfWs0bGNjR+XaQtWagAFg8=
+			IBdjz3e6aGY6yBtj3E8b9sK+jgM=
 			</data>
 			<key>hash2</key>
 			<data>
-			SIHs4nyn7L5WwdsHcJXIv5mqNy8zjXytSFGCz41yULY=
+			GGVLVuHRZP4jM/c1KuLkxfS3DcJOi2JaC1ovVyKY0ug=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceSet.h</key>
@@ -167,11 +167,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			nicthVIXq6bt2SVpMmWBdg9rAYM=
+			c+G2J/NaSfxDlD+HH7dbgWRsSp4=
 			</data>
 			<key>hash2</key>
 			<data>
-			/17ztBZ6Ck6E9wOqBkOOrTnwckFVL7qkCMqY7kIwTu0=
+			WmJt2TbnL8RgCxVf4krcAfE683aB9U9A86Qu46bD4f8=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -189,11 +189,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Tp0Q5iUjG5fb4REl4vFQwxu74I0=
+			c5DZQnWzj8+uy3E/ruDJJMOONUc=
 			</data>
 			<key>hash2</key>
 			<data>
-			60Ki1eGpA2y5Ebg4XGXgJrKl/gwGcmTyWYQqaY+3+R4=
+			53Ph+nWEBt6CWLbOWkDzvz+6mZKnJk7Z5TXuoOv3aUs=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
