@@ -163,4 +163,17 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
     expect([manager fileExistsAtPath:url.path]).to.beTruthy();
 }
 
+- (void)testEraseSimulator {
+    id ClassMock = OCMClassMock([Simulator class]);
+    OCMExpect([ClassMock killSimulatorApp]).andReturn(iOSReturnStatusCodeEverythingOkay);
+
+    OCMExpect([self.instanceMock waitForSimulatorState:FBSimulatorStateShutdown
+                                               timeout:30]).andReturn(YES);
+
+    expect([ClassMock eraseSimulator:self.instanceMock]).to.equal(iOSReturnStatusCodeEverythingOkay);
+
+    OCMVerifyAll(ClassMock);
+    OCMVerifyAll(self.instanceMock);
+}
+
 @end

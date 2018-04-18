@@ -194,6 +194,13 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
++ (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
+    [Simulator killSimulatorApp];
+    [simulator waitForSimulatorState:FBSimulatorStateShutdown timeout:30];
+
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 - (FBSimulatorState)state {
     return self.fbSimulator.state;
 }
@@ -433,7 +440,7 @@ static const FBSimulatorControl *_control;
     if (needsToInstall || forceReinstall) {
         // Uninstall app to avoid application-identifier entitlement mismatch
         [self uninstallApp:app.bundleID];
-        
+
         [Codesigner resignApplication:app
               withProvisioningProfile:nil
                  withCodesignIdentity:nil
