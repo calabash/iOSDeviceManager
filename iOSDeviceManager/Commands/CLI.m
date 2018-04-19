@@ -11,6 +11,7 @@
 #import "IsInstalledCommand.h"
 #import "AppInfoCommand.h"
 #import "LaunchSimulatorCommand.h"
+#import "EraseSimulatorCommand.h"
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -145,7 +146,8 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     if ([opt.optionName isEqualToString:DEVICE_ID_OPTION_NAME]) {
                         NSString *physicalDeviceID =
                             [DeviceUtils defaultPhysicalDeviceIDEnsuringOnlyOneAttached:NO];
-                        if (physicalDeviceID && ![[command name] isEqualToString:[LaunchSimulatorCommand name]]) {
+                        NSArray *blackListedCommands = @[[LaunchSimulatorCommand name], [EraseSimulatorCommand name]];
+                        if (physicalDeviceID && ![blackListedCommands containsObject:[command name]]) {
                             [ConsoleWriter
                              write:@"\n Suggested deviceID from connected device: %@", physicalDeviceID];
                         } else {

@@ -194,6 +194,22 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
++ (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
+    [Simulator killSimulatorApp];
+    if (![simulator waitForSimulatorState:FBSimulatorStateShutdown timeout:30]) {
+        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    NSError *error = nil;
+    if (![simulator.fbSimulator eraseWithError:&error]) {
+        ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    return iOSReturnStatusCodeEverythingOkay;
+}
+
 - (FBSimulatorState)state {
     return self.fbSimulator.state;
 }
@@ -433,7 +449,7 @@ static const FBSimulatorControl *_control;
     if (needsToInstall || forceReinstall) {
         // Uninstall app to avoid application-identifier entitlement mismatch
         [self uninstallApp:app.bundleID];
-        
+
         [Codesigner resignApplication:app
               withProvisioningProfile:nil
                  withCodesignIdentity:nil
