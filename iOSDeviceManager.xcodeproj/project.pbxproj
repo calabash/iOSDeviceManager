@@ -135,6 +135,7 @@
 		B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		B9247ACA20878714008DA66D /* EraseSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B9247AC920878714008DA66D /* EraseSimulatorCommand.m */; };
 		B9247ACB208876EE008DA66D /* EraseSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B9247AC920878714008DA66D /* EraseSimulatorCommand.m */; };
+		B9247ACC20889034008DA66D /* EraseSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B9247AC920878714008DA66D /* EraseSimulatorCommand.m */; };
 		B980C158206CA08600879BBD /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
 		B980C15B206CF30B00879BBD /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
 		B9C08F022073A0070032997D /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
@@ -1113,6 +1114,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9247ACC20889034008DA66D /* EraseSimulatorCommand.m in Sources */,
 				B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */,
 				B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */,
 				89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */,
