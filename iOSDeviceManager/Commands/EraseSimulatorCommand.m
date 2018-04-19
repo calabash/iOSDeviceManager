@@ -42,8 +42,7 @@
       return iOSReturnStatusCodeDeviceNotFound;
     }
 
-    [Simulator eraseSimulator:(Simulator *)device];
-    return iOSReturnStatusCodeEverythingOkay;
+    return [Simulator eraseSimulator:(Simulator *)device];
 }
 
 @end

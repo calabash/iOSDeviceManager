@@ -201,10 +201,9 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeInternalError;
     }
 
-    NSError __autoreleasing *e;
-    [simulator.fbSimulator eraseWithError:&e];
-    if (e) {
-        ConsoleWriteErr(@"Error: %@", [e localizedDescription]);
+    NSError *error = nil;
+    if (![simulator.fbSimulator eraseWithError:&error]) {
+        ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
         return iOSReturnStatusCodeInternalError;
     }
 
