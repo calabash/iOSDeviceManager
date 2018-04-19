@@ -196,7 +196,17 @@ static const FBSimulatorControl *_control;
 
 + (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
     [Simulator killSimulatorApp];
-    [simulator waitForSimulatorState:FBSimulatorStateShutdown timeout:30];
+    if (![simulator waitForSimulatorState:FBSimulatorStateShutdown timeout:30]) {
+        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    NSError __autoreleasing *e;
+    [simulator.fbSimulator eraseWithError:&e];
+    if (e) {
+        ConsoleWriteErr(@"Error: %@", [e localizedDescription]);
+        return iOSReturnStatusCodeInternalError;
+    }
 
     return iOSReturnStatusCodeEverythingOkay;
 }
