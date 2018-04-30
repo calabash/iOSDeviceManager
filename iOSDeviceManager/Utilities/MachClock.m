@@ -13,7 +13,7 @@
 
 @implementation MachClock
 
-mach_timebase_info_data_t _clock_timebase;
+mach_timebase_info_data_t _idm_clock_timebase;
 
 + (instancetype)sharedClock
 {
@@ -29,13 +29,13 @@ mach_timebase_info_data_t _clock_timebase;
 {
     if(!(self = [super init]))
         return nil;
-    mach_timebase_info(&_clock_timebase);
+    mach_timebase_info(&_idm_clock_timebase);
     return self;
 }
 
 - (NSTimeInterval)machAbsoluteToTimeInterval:(uint64_t)machAbsolute
 {
-    uint64_t nanos = (machAbsolute * _clock_timebase.numer) / _clock_timebase.denom;
+    uint64_t nanos = (machAbsolute * _idm_clock_timebase.numer) / _idm_clock_timebase.denom;
 
     return nanos/1.0e9;
 }
