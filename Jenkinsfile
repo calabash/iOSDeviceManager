@@ -22,17 +22,14 @@ pipeline {
     }
     stage('Prepare CI env') {
       steps {
-        sh '''
-          DEVICEAGENT_PATH=./DeviceAgent.iOS make dependencies
-          bin/test/ci.sh
-        '''
+        sh 'bin/test/ci.sh'
       }
     }
-    stage('Test') {
+    /*stage('Test') {
       steps {
         sh 'make tests'
       }
-    }
+    }*/
   }
 
   post {
