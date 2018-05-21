@@ -9,7 +9,7 @@ BUILD_DIR="build"
 XC_PROJECT="iOSDeviceManager.xcodeproj"
 XC_TARGET="iOSDeviceManager"
 
-XC_PIPE="xcpretty -c --report junit --output ${REPORT}"
+XC_PIPE="xcpretty -c"
 hash "xcpretty" 2>/dev/null && [ "${XCPRETTY}" != "0" ] || {
   XC_PIPE='cat'
 }

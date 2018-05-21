@@ -34,10 +34,14 @@ pipeline {
 
   post {
     always {
-      sh '''
-        pkill iOSDeviceManager
-        pkill Simulator
-      '''
+      try {
+        sh '''
+          pkill iOSDeviceManager
+          pkill Simulator
+        '''
+      } catch (error) {
+        echo error
+      }
       junit 'reports/*.xml'
     }
     aborted {
