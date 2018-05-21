@@ -34,14 +34,11 @@ pipeline {
 
   post {
     always {
-      try {
-        sh '''
-          pkill iOSDeviceManager
-          pkill Simulator
-        '''
-      } catch (error) {
-        echo error
-      }
+      // Ignore errors on post step to prevent build failing
+      sh '''
+        pkill iOSDeviceManager || true
+        pkill Simulator || true
+      '''
       junit 'reports/*.xml'
     }
     aborted {
