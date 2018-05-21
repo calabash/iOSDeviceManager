@@ -35,7 +35,6 @@ fi
 
 rm -rf DeviceAgent.iOS
 git clone git@github.com:calabash/DeviceAgent.iOS.git
-DEVICEAGENT_PATH=./DeviceAgent.iOS make dependencies
 
 set +e
 
