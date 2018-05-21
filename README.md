@@ -1,3 +1,5 @@
+[![Build Status](http://calabash-ci.xyz:8081/job/Calabash-iOSDeviceManager/job/develop/badge/icon)](http://calabash-ci.xyz:8081/job/Calabash-iOSDeviceManager/job/develop/)
+
 ## iOSDeviceManager
 
 A tool for launching XCUITests on device and simulator, and a library
@@ -32,9 +34,12 @@ to see usage information.
 ### Testing
 
 ```shell
-$ make test-unit
-$ make test-integration
-$ make test-run-loop
+$ make unit-tests
+$ make integration-tests
+$ make cli-tests
+$ make run-loop-tests
+
+# Or just execute 'tests' to run all
 $ make tests
 
 # Test against an alternative Xcode
