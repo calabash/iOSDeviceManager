@@ -14,47 +14,54 @@ pipeline {
   }
 
   stages {
-    /*stage('Announce') {
+    stage('Announce') {
       steps {
         slackSend (color: "${env.SLACK_COLOR_INFO}",
-                   message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Started* (<${env.BUILD_URL}|Open>)")
+                  message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Started* (<${env.BUILD_URL}|Open>)")
       }
-    }*/
-    stage('Build') {
+    }
+    stage('Prepare CI env') {
       steps {
         sh 'bin/test/ci.sh'
       }
     }
-    //stage('Test') {    }
+    stage('Test') {
+      steps {
+        sh 'make tests'
+      }
+    }
   }
 
-  /*post {
+  post {
     always {
-      junit 'server/integration-tests/calabash-test-suite/test_report/*.xml'
+      sh '''
+        pkill iOSDeviceManager
+        pkill Simulator
+      '''
+      junit 'reports/*.xml'
     }
-
     aborted {
       echo "Sending 'aborted' message to Slack"
       slackSend (color: "${env.SLACK_COLOR_WARNING}",
-                 message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Aborted* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
+                message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Aborted* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
     }
 
     failure {
       echo "Sending 'failed' message to Slack"
       slackSend (color: "${env.SLACK_COLOR_DANGER}",
-                 message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Failed* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
+                message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Failed* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
     }
 
     success {
       echo "Sending 'success' message to Slack"
       slackSend (color: "${env.SLACK_COLOR_GOOD}",
-                 message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Success* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
+                message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Success* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
     }
-  }*/
+  }
 
   options {
     disableConcurrentBuilds()
-    // timeout(time: 30, unit: 'MINUTES') TODO: enable timeout after tests
+    timeout(time: 60, unit: 'MINUTES')
     timestamps()
   }
 }
