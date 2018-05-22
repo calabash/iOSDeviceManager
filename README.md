@@ -37,7 +37,6 @@ to see usage information.
 $ make unit-tests
 $ make integration-tests
 $ make cli-tests
-$ make run-loop-tests
 
 # Or just execute 'tests' to run all
 $ make tests

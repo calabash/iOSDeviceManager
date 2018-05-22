@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 String cron_string = BRANCH_NAME == "develop" ? "H H(0-8) * * *" : ""
 
 pipeline {
@@ -18,6 +19,15 @@ pipeline {
       steps {
         slackSend (color: "${env.SLACK_COLOR_INFO}",
                   message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Started* (<${env.BUILD_URL}|Open>)")
+      }
+    }
+    stage('Setup') {
+      steps {
+        // Ignore errors on setup step to prevent build failing
+        sh '''
+          pkill iOSDeviceManager || true
+          pkill Simulator || true
+        '''
       }
     }
     stage('Run build and tests') {
