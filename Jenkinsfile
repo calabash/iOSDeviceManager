@@ -20,16 +20,11 @@ pipeline {
                   message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Started* (<${env.BUILD_URL}|Open>)")
       }
     }
-    stage('Prepare CI env') {
+    stage('Run build and tests') {
       steps {
         sh 'bin/test/ci.sh'
       }
     }
-    /*stage('Test') {
-      steps {
-        sh 'make tests'
-      }
-    }*/
   }
 
   post {

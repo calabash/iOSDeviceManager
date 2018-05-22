@@ -45,3 +45,13 @@ pkill Simulator
 rm -rf reports/*.xml
 
 make tests
+
+EXIT_STATUS=$?
+
+if [ "${EXIT_STATUS}" = "0" ]; then
+  echo "Tests passed"
+  exit 0
+else
+  echo "Tests failed."
+  exit 1
+fi
