@@ -1,6 +1,10 @@
 
 describe "erase-simulator" do
 
+  before do
+    allow(RunLoop::Environment).to receive(:debug?).and_return(true)
+  end
+
   let(:device) { IDM::Resources.instance.default_simulator }
   let(:udid) { device.udid }
   let(:app) { RunLoop::App.new(IDM::Resources.instance.test_app(:x86)) }
