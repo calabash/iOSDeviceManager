@@ -38,7 +38,7 @@ static NSString *const LOCATION_OPTION_NAME = @"latitude,longitude";
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
                                              optionName:DEVICE_ID_OPTION_NAME
-                                                   info:@"iOS Simulator GUID or 40-digit physical device ID"
+                                                   info:@"iOS Simulator GUID or 40-digit physical device ID or alias"
                                                required:YES
                                              defaultVal:nil]];
     });
