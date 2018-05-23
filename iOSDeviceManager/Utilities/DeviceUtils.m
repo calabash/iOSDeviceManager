@@ -28,6 +28,22 @@ const double EPSILON = 0.001;
     return did.length == 40 && [did isBase64];
 }
 
++ (NSString*)findDeviceIDByName:(NSString *)name {
+    for (FBDevice* device in [DeviceUtils availableDevices])
+        if ([device.name isEqualToString:name]) {
+            ConsoleWrite(@"Physical device, UDID: %@", device.udid);
+            return device.udid;
+        }
+
+    for (FBSimulator* simulator in [DeviceUtils availableSimulators])
+        if ([simulator.name isEqualToString:name]) {
+            ConsoleWrite(@"Simulator, UDID: %@", simulator.udid);
+            return simulator.udid;
+        }
+
+    return NULL;
+}
+
 + (NSArray<FBDevice *> *)availableDevices {
     return [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
 }
