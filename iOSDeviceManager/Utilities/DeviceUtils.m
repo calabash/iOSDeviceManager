@@ -43,25 +43,41 @@ const double EPSILON = 0.001;
     return nil;
 }
 
+
 + (NSArray<FBDevice *> *)availableDevices {
-    return [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
+    static dispatch_once_t onceToken = 0;
+    static NSArray<FBDevice *> *m_availableDevices;
+
+    dispatch_once(&onceToken, ^{
+        m_availableDevices = [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
+    });
+    return m_availableDevices;
 }
 
+
 + (NSArray<FBSimulator *> *)availableSimulators {
-    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+    static dispatch_once_t onceToken = 0;
+    static NSArray<FBSimulator *> *m_availableSimulators;
+
+    dispatch_once(&onceToken, ^{
+
+        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                       configurationWithDeviceSetPath:nil
                                                       options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
     
-    NSError *err;
-    FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
-    if (err) {
-        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
-        @throw [NSException exceptionWithName:@"GenericException"
+        NSError *err;
+        FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
+        if (err) {
+            ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
+            @throw [NSException exceptionWithName:@"GenericException"
                                        reason:@"Failed detecting available simulators"
                                      userInfo:nil];
-    }
+        }
+
+        m_availableSimulators = [[simControl set] allSimulators];
+    });
     
-    return [[simControl set] allSimulators];
+    return m_availableSimulators;
 }
 
 + (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
