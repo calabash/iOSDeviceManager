@@ -36,10 +36,20 @@ describe "app life cycle (simulator)" do
   context "installing apps on simulator" do
     let(:app_dupe) { RunLoop::App.new(IDM::Resources.instance.second_test_app(:x86)) }
 
-    it "installs app on simulator indicated by --device-id" do
+    it "installs app on simulator indicated with udid by --device-id" do
       SimAppLSHelper.prepare_for_install_test(core_sim)
 
       args = ["install", app.path, "--device-id", udid]
+      hash = IDM.shell(args)
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+
+      expect(core_sim.app_is_installed?).to be_truthy
+    end
+
+    it "installs app on simulator indicated with alias by --device-id" do
+      SimAppLSHelper.prepare_for_install_test(core_sim)
+
+      args = ["install", app.path, "--device-id", device.name]
       hash = IDM.shell(args)
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
