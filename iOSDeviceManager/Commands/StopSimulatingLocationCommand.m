@@ -25,7 +25,7 @@
         [options addObject:[CommandOption withShortFlag:DEVICE_ID_FLAG
                                                longFlag:@"--device-id"
                                              optionName:DEVICE_ID_OPTION_NAME
-                                                   info:@"iOS Simulator GUID or 40-digit physical device ID or alias"
+                                                   info:@"iOS Simulator GUID, 40-digit physical device ID, or an alias"
                                                required:YES
                                              defaultVal:nil]];
     });

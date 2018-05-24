@@ -35,7 +35,7 @@ static NSString *const DOWNLOAD_PATH_OPTION_NAME = @"download-path";
                              defaultVal:nil],
             [CommandOption withPosition:2
                              optionName:DEVICE_ID_OPTION_NAME
-                                   info:@"iOS Simulator GUID or 40-digit physical device ID or alias"
+                                   info:@"iOS Simulator GUID, 40-digit physical device ID, or an alias"
                                required:NO
                              defaultVal:nil]
          ];

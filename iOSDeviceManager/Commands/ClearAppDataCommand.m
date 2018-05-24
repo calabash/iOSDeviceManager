@@ -29,7 +29,7 @@ static NSString *const APP_PATH_OPTION_NAME = @"app-path";
                              defaultVal:nil],
             [CommandOption withPosition:1
                              optionName:DEVICE_ID_OPTION_NAME
-                                   info:@"iOS Simulator GUID or 40-digit physical device ID or alias"
+                                   info:@"iOS Simulator GUID, 40-digit physical device ID, or an alias"
                                required:NO
                              defaultVal:nil]
         ];
