@@ -30,13 +30,11 @@ const double EPSILON = 0.001;
 
 + (NSString *)findDeviceIDByName:(NSString *)name {
 
-    NSArray<FBDevice *> *devices = [DeviceUtils availableDevices];
-    for (FBDevice *device in devices)
+    for (FBDevice *device in [DeviceUtils availableDevices])
         if ([device.name isEqualToString:name])
             return device.udid;
 
-    NSArray<FBSimulator *> *simulators = [DeviceUtils availableSimulators];
-    for (FBSimulator *simulator in simulators)
+    for (FBSimulator *simulator in [DeviceUtils availableSimulators])
         if ([simulator.name isEqualToString:name])
             return simulator.udid;
 
@@ -60,7 +58,6 @@ const double EPSILON = 0.001;
     static NSArray<FBSimulator *> *m_availableSimulators;
 
     dispatch_once(&onceToken, ^{
-
         FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                       configurationWithDeviceSetPath:nil
                                                       options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
