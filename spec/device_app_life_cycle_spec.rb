@@ -57,12 +57,21 @@ describe "app life cycle (physical device)" do
                 DeviceAppLCHelper.uninstall(udid, app_dupe.bundle_identifier)
               end
 
-              it "installs app on device indicated by --device-id" do
+              it "installs app on device indicated with udid by --device-id" do
                 args = ["install", app.path, "--device-id", udid]
                 hash = IDM.shell(args)
                 expect(hash[:exit_status]).to be == IDM.exit_status(:success)
                 expect(
                   DeviceAppLCHelper.is_installed?(udid, app.bundle_identifier)
+                ).to be_truthy
+              end
+
+              it "installs app on device indicated with alias by --device-id" do
+                args = ["install", app.path, "--device-id", device.name]
+                hash = IDM.shell(args)
+                expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+                expect(
+                  DeviceAppLCHelper.is_installed?(device.name, app.bundle_identifier)
                 ).to be_truthy
               end
 
