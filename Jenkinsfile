@@ -6,6 +6,8 @@ pipeline {
   triggers { cron(cron_string) }
 
   environment {
+    DEVELOPER_DIR = '/Xcode/9.2/Xcode.app/Contents/Developer'
+
     SLACK_COLOR_DANGER  = '#E01563'
     SLACK_COLOR_INFO    = '#6ECADC'
     SLACK_COLOR_WARNING = '#FFC300'
