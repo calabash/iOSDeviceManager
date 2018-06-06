@@ -9,12 +9,10 @@ BUILD_DIR="build"
 XC_PROJECT="iOSDeviceManager.xcodeproj"
 XC_TARGET="iOSDeviceManager"
 
-hash xcpretty 2>/dev/null
-if [ $? -eq 0 ] && [ "${XCPRETTY}" != "0" ]; then
-  XC_PIPE='xcpretty -c'
-else
+XC_PIPE="xcpretty -c"
+hash "xcpretty" 2>/dev/null && [ "${XCPRETTY}" != "0" ] || {
   XC_PIPE='cat'
-fi
+}
 
 info "Will pipe xcodebuild to: ${XC_PIPE}"
 

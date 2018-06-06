@@ -133,6 +133,9 @@
 		B2F797421E8DA7D000C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		B2F797431E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
 		B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F797411E8DA7D000C2FE06 /* Stack.m */; };
+		B9247ACA20878714008DA66D /* EraseSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B9247AC920878714008DA66D /* EraseSimulatorCommand.m */; };
+		B9247ACB208876EE008DA66D /* EraseSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B9247AC920878714008DA66D /* EraseSimulatorCommand.m */; };
+		B9247ACC20889034008DA66D /* EraseSimulatorCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B9247AC920878714008DA66D /* EraseSimulatorCommand.m */; };
 		B980C158206CA08600879BBD /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
 		B980C15B206CF30B00879BBD /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
 		B9C08F022073A0070032997D /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
@@ -393,6 +396,8 @@
 		B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResignAllCommand.m; path = iOSDeviceManager/Commands/ResignAllCommand.m; sourceTree = SOURCE_ROOT; };
 		B2F797401E8DA7B100C2FE06 /* Stack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = iOSDeviceManager/Utilities/Stack.h; sourceTree = SOURCE_ROOT; };
 		B2F797411E8DA7D000C2FE06 /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = iOSDeviceManager/Utilities/Stack.m; sourceTree = SOURCE_ROOT; };
+		B9247AC820878714008DA66D /* EraseSimulatorCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EraseSimulatorCommand.h; path = iOSDeviceManager/Commands/EraseSimulatorCommand.h; sourceTree = "<group>"; };
+		B9247AC920878714008DA66D /* EraseSimulatorCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EraseSimulatorCommand.m; path = iOSDeviceManager/Commands/EraseSimulatorCommand.m; sourceTree = "<group>"; };
 		B980C156206CA01700879BBD /* ClearAppDataCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ClearAppDataCommand.h; path = iOSDeviceManager/Commands/ClearAppDataCommand.h; sourceTree = "<group>"; };
 		B980C157206CA08600879BBD /* ClearAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClearAppDataCommand.m; path = iOSDeviceManager/Commands/ClearAppDataCommand.m; sourceTree = "<group>"; };
 		B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadXCAppDataCommand.h; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.h; sourceTree = "<group>"; };
@@ -548,6 +553,8 @@
 				B980C157206CA08600879BBD /* ClearAppDataCommand.m */,
 				B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */,
 				B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */,
+				B9247AC820878714008DA66D /* EraseSimulatorCommand.h */,
+				B9247AC920878714008DA66D /* EraseSimulatorCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -1011,6 +1018,7 @@
 				89A1CEF31E302FC200D9FEC5 /* Entitlement.m in Sources */,
 				89C29E251DAFA93500282526 /* UploadFileCommand.m in Sources */,
 				89A1CEF91E32217500D9FEC5 /* StringUtils.m in Sources */,
+				B9247ACA20878714008DA66D /* EraseSimulatorCommand.m in Sources */,
 				F556B1771F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */,
 				89A1CEF01E302FC200D9FEC5 /* Certificate.m in Sources */,
 				89A1CEF61E302FC200D9FEC5 /* ShasumProvider.m in Sources */,
@@ -1024,6 +1032,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9247ACB208876EE008DA66D /* EraseSimulatorCommand.m in Sources */,
 				B9C08F022073A0070032997D /* ClearAppDataCommand.m in Sources */,
 				B9C08F032073A0070032997D /* DownloadXCAppDataCommand.m in Sources */,
 				F593649D1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
@@ -1105,6 +1114,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9247ACC20889034008DA66D /* EraseSimulatorCommand.m in Sources */,
 				B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */,
 				B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */,
 				89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */,

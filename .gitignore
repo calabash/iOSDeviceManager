@@ -53,6 +53,7 @@ xcuserdata/
 
 # JetBrains
 .idea
+.floo
 
 # RunLoop & Dependencies
 run_loop/

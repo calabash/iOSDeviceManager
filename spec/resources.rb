@@ -77,6 +77,12 @@ module IDM
       end
     end
 
+    def default_simulator_for_active_xcode
+      RunLoop::Simctl.new.simulators.detect do |sim|
+        sim.instruments_identifier(xcode) == RunLoop::Core.default_simulator
+      end
+    end
+
     def random_iphone
       simctl.simulators.select do |sim|
         sim.name[/iPhone/] &&
@@ -91,48 +97,12 @@ module IDM
 
     def physical_devices
       instruments.physical_devices.select do |device|
-        device_compatible_with_xcode?(device, xcode)
+        device.compatible_with_xcode_version?(instruments.xcode.version)
       end
     end
 
     def physical_device_connected?
       !physical_devices.empty?
-    end
-
-    def physical_device
-      return nil if !physical_device_connected?
-      return physical_devices[0] if physical_devices.count == 1
-
-      value = ENV["DEVICE_TARGET"]
-      if value.nil? || value == ""
-        raise(ArgumentError, %Q[
-More than one physical device is connected.
-
-Use DEVICE_TARGET={udid | device-name} or disconnect all but one device.
-])
-      end
-
-      device = instruments.physical_devices.select do |elm|
-        elm.udid == value || elm.name == value
-      end
-
-      return device if device
-
-      raise(ArgumentError %Q[
-More than one physical device is connected.
-
-DEVICE_TARGET=#{value} but no matching device is connected.
-
-# Compatible connected devices
-#{physical_devices}
-
-If a device is connected, it is possible that its iOS version is not
-compatible with the current Xcode version.
-
-# Connected devices
-#{instruments.physical_devices}
-
-])
     end
 
     def test_app(type)
@@ -185,21 +155,6 @@ compatible with the current Xcode version.
       target
     end
 
-    def device_compatible_with_xcode?(device, xcode)
-      device_version = device.version
-      xcode_version = xcode.version
-
-      if device_version.major < (xcode_version.major + 2)
-        return true
-      end
-
-      if device_version.major == (xcode_version.major + 2)
-        return device_version.minor <= xcode_version.minor
-      end
-
-     false
-    end
-
     def with_developer_dir(developer_dir, &block)
       original_developer_dir = ENV['DEVELOPER_DIR']
       begin
@@ -234,43 +189,19 @@ compatible with the current Xcode version.
       end
     end
 
-    def physical_devices_for_testing
-      instruments = RunLoop::Instruments.new
-      xcode = instruments.xcode
-
-      instruments.physical_devices.select do |device|
-        device_compatible_with_xcode?(device, xcode)
-      end
-    end
-
-    def default_physical_device
-      if @default_physical_device == ""
-        return nil
-      elsif @default_physical_device
-        return @default_physical_device
-      end
-
-      devices = instruments.physical_devices.select do |device|
-        device_compatible_with_xcode?(device, xcode)
-      end
-
-      if devices.empty?
-        @default_physical_device = ""
-      else
-        @default_physical_device = devices.first
-      end
-    end
-
-    def physical_device_attached?
-      default_physical_device != "" && default_physical_device != nil
-    end
-
     def xcappdata
       appdata = File.join(tmp_dir("xcappdata"), "New.xcappdata")
-
       args = ["generate-xcappdata", appdata]
-			hash = IDM.shell(args)
-      hash[:out]
+      hash = IDM.shell(args)
+
+      if hash[:exit_status] != 0
+        raise %Q[
+Expected generate-xcappdata to exit with 0 found: #{hash[:exit_status]}
+
+#{hash[:out]}
+
+]
+      end
 
       documents = File.join(appdata, "AppData", "Documents")
       FileUtils.mkdir_p(documents)

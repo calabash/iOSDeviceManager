@@ -12,5 +12,6 @@
 
 + (iOSReturnStatusCode)launchSimulator:(Simulator *)simulator;
 + (iOSReturnStatusCode)killSimulatorApp;
++ (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator;
 
 @end
