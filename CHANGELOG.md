@@ -1,3 +1,10 @@
+### 3.1.1
+
+This release provides support for Xcode 9.4.
+
+* Commands: erase simulator command #209
+* Frameworks: update frameworks #210
+
 ### 3.1.0
 
 * Clear app data: remove temporary created .xcappdata bundle  #207
