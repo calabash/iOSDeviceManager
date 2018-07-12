@@ -59,21 +59,21 @@ const double EPSILON = 0.001;
 
     dispatch_once(&onceToken, ^{
         FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                      configurationWithDeviceSetPath:nil
-                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-    
+                                                          configurationWithDeviceSetPath:nil
+                                                          options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+
         NSError *err;
         FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
         if (err) {
             ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
             @throw [NSException exceptionWithName:@"GenericException"
-                                       reason:@"Failed detecting available simulators"
-                                     userInfo:nil];
+                                           reason:@"Failed detecting available simulators"
+                                         userInfo:nil];
         }
 
         m_availableSimulators = [[simControl set] allSimulators];
     });
-    
+
     return m_availableSimulators;
 }
 
@@ -89,7 +89,7 @@ const double EPSILON = 0.001;
     NSDecimalNumber *otherSimVersion = otherSim.configuration.os.number;
     NSString *simDeviceName = [sim name];
     NSString *otherSimDeviceName = [otherSim name];
-    
+
     if ([simVersion isGreaterThan:otherSimVersion]) {
         return NSOrderedDescending;
     } else if ([simVersion isEqual:otherSimVersion]) {
@@ -121,7 +121,7 @@ const double EPSILON = 0.001;
             return NSOrderedDescending;
         }
     }
-    
+
     return NSOrderedAscending;
 }
 
@@ -132,35 +132,35 @@ const double EPSILON = 0.001;
 
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow {
     NSArray<FBDevice *> *devices = [DeviceUtils availableDevices];
-    
+
     if ([devices count] == 1) {
         return [devices firstObject].udid;
     } else if ([devices count] > 1) {
         ConsoleWriteErr(@"Multiple physical devices detected but none specified");
         if (shouldThrow) {
             @throw [NSException exceptionWithName:@"AmbiguousArgumentsException"
-                                       reason:@"Multiple physical devices detected but none specified"
-                                     userInfo:nil];
+                                           reason:@"Multiple physical devices detected but none specified"
+                                         userInfo:nil];
         }
-        
+
         return [devices firstObject].udid;
     }
-    
+
     return nil;
 }
 
 + (NSString *)defaultDeviceID {
-    
+
     NSString *physicalDeviceID = [self defaultPhysicalDeviceIDEnsuringOnlyOneAttached:YES];
     if (physicalDeviceID.length) {
         return physicalDeviceID;
     }
-    
+
     NSString *simulatorDeviceID = [self defaultSimulatorID];
     if (simulatorDeviceID.length) {
         return simulatorDeviceID;
     }
-    
+
     @throw [NSException exceptionWithName:@"MissingDeviceException"
                                    reason:@"Unable to determine default device"
                                  userInfo:nil];
