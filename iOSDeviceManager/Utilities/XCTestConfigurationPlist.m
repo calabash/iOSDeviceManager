@@ -9,15 +9,25 @@
                      AUTBundleIdentifier:(NSString *)autBundleIdentifier
                      runnerInstalledPath:(NSString *)runnerInstalledPath
                   runnerBundleIdentifier:(NSString *)runnerBundleIdentifier
-                       sessionIdentifier:(NSString *)UUID{
-    NSString *plist = [[XCTestConfigurationPlist plist] mutableCopy];
-    plist = [plist stringByReplacingOccurrencesOfString:@"TEST_BUNDLE_URL" withString:[testInstallPath stringByAppendingString:@"file://"]];
-    plist = [plist stringByReplacingOccurrencesOfString:@"AUT_INSTALLED_PATH" withString:autInstalledPath];
-    plist = [plist stringByReplacingOccurrencesOfString:@"AUT_BUNDLE_IDENTIFIER" withString:autBundleIdentifier];
-    plist = [plist stringByReplacingOccurrencesOfString:@"RUNNER_INSTALLED_PATH" withString:runnerInstalledPath];
-    plist = [plist stringByReplacingOccurrencesOfString:@"RUNNER_BUNDLE_IDENTIFIER" withString:runnerBundleIdentifier];
-    NSString *base64EncodedSessionIdentifier = [[UUID dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:kNilOptions];
-    plist = [plist stringByReplacingOccurrencesOfString:@"SESSION_IDENTIFIER" withString:base64EncodedSessionIdentifier];
+                       sessionIdentifier:(NSString *)uuid{
+    NSString *plist = [XCTestConfigurationPlist plist];
+    plist = [plist stringByReplacingOccurrencesOfString:@"TEST_BUNDLE_URL"
+                                             withString:
+                                            [NSString stringWithFormat:@"file://%@", testInstallPath]];
+    plist = [plist stringByReplacingOccurrencesOfString:@"AUT_INSTALLED_PATH"
+                                             withString:autInstalledPath];
+    plist = [plist stringByReplacingOccurrencesOfString:@"AUT_BUNDLE_IDENTIFIER"
+                                             withString:autBundleIdentifier];
+    plist = [plist stringByReplacingOccurrencesOfString:@"RUNNER_INSTALLED_PATH"
+                                             withString:runnerInstalledPath];
+    plist = [plist stringByReplacingOccurrencesOfString:@"RUNNER_BUNDLE_IDENTIFIER"
+                                             withString:runnerBundleIdentifier];
+    uuid_t bytes;
+    [[[NSUUID alloc] initWithUUIDString:uuid] getUUIDBytes:bytes];
+    NSString *base64EncodedSessionIdentifier = [[NSData dataWithBytes:bytes length:16]
+                                                base64EncodedStringWithOptions:kNilOptions];
+    plist = [plist stringByReplacingOccurrencesOfString:@"SESSION_IDENTIFIER"
+                                             withString:base64EncodedSessionIdentifier];
 
     return plist;
 }

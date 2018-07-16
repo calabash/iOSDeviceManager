@@ -1027,16 +1027,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
 
     NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
-    id plist = [NSPropertyListSerialization dataWithPropertyList:plistData
-                                                          format:NSPropertyListBinaryFormat_v1_0
-                                                         options:0
-                                                           error:error];
 
-    if (![plist writeToFile:xctestconfigPath
+    if (![plistData writeToFile:xctestconfigPath
                         atomically:YES]) {
+        ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
+                        xctestconfigPath);
         return NO;
     }
-
+    
     ConsoleWrite(uuid);
     return YES;
 }

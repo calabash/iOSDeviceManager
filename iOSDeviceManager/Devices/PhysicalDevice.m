@@ -2,7 +2,6 @@
 #import "PhysicalDevice.h"
 #import <FBControlCore/FBControlCore.h>
 #import <XCTestBootstrap/XCTestBootstrap.h>
-#import "ShellRunner.h"
 #import "Codesigner.h"
 #import "AppUtils.h"
 #import "CodesignIdentity.h"
@@ -737,14 +736,10 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
-    
-    NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
-    id plist = [NSPropertyListSerialization dataWithPropertyList:plistData
-                                                          format:NSPropertyListBinaryFormat_v1_0
-                                                         options:0
-                                                           error:error];
 
-    if (![plist writeToFile:xctestconfigPath
+    NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
+
+    if (![plistData writeToFile:xctestconfigPath
                         atomically:YES]) {
         ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
                         xctestconfigPath);
