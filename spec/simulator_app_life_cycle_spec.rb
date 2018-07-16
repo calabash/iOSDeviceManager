@@ -33,6 +33,18 @@ describe "app life cycle (simulator)" do
   let(:app) { RunLoop::App.new(IDM::Resources.instance.test_app(:x86)) }
   let(:core_sim) { RunLoop::CoreSimulator.new(device, app) }
 
+  context "app-info" do
+    context "when passed a bundle identifier" do
+      it "exits non-zero when app is not installed on device"
+      it "prints app info to stdout when app is installed on device"
+    end
+
+    context "when passed path to app" do
+      it "exits non-zero when app is not installed on device"
+      it "prints app info to stdout when app is installed on device"
+    end
+  end
+
   context "installing apps on simulator" do
     let(:app_dupe) { RunLoop::App.new(IDM::Resources.instance.second_test_app(:x86)) }
 
