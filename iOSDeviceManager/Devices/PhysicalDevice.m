@@ -737,11 +737,15 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
+    
+    NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
+    id plist = [NSPropertyListSerialization dataWithPropertyList:plistData
+                                                          format:NSPropertyListBinaryFormat_v1_0
+                                                         options:0
+                                                           error:error];
 
-    if (![xctestconfig writeToFile:xctestconfigPath
-                        atomically:YES
-                          encoding:NSUTF8StringEncoding
-                             error:error]) {
+    if (![plist writeToFile:xctestconfigPath
+                        atomically:YES]) {
         ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
                         xctestconfigPath);
         return NO;
