@@ -46,6 +46,18 @@ describe "app life cycle (physical device)" do
               RunLoop::App.new(path)
             end
 
+            context "app-info" do
+              context "when passed a bundle identifier" do
+                it "exits non-zero when app is not installed on device"
+                it "prints app info to stdout when app is installed on device"
+              end
+
+              context "when passed a path to app" do
+                it "exits non-zero when app is not installed on device"
+                it "prints app info to stdout when app is installed on device"
+              end
+            end
+
             context "install app on #{device_str}" do
               let(:app_dupe) do
                 path = IDM::Resources.instance.second_test_app(:arm)

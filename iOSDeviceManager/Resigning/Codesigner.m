@@ -99,7 +99,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
         [Codesigner injectResources:resourcePaths intoAppDir:appDir codesignIdentity:adHocIdentity baseDir:baseDir];
     }
 
-    NSString *originalSigningID = [self getObjectSigningID:appDir];
+    NSString *originalSigningID = [self objectSigningID:appDir];
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
                                   @"--sign", @"-",
@@ -110,10 +110,10 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
     CBXThrowExceptionIf(success, @"Error codesigning %@: %@", appDir, result.stderrStr);
-    LogInfo(@"Codesigned %@: '%@' => '%@'",
+    LogInfo(@"Signed %@: '%@' => '%@'",
             [appDir lastPathComponent],
             originalSigningID,
-            [self getObjectSigningID:appDir]);
+            [self objectSigningID:appDir]);
 }
 
 
@@ -134,7 +134,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
  */
 + (void)resignObject:(NSString *)pathToObject
     codesignIdentity:(CodesignIdentity *)codesignID {
-    NSString *originalSigningID = [self getObjectSigningID:pathToObject];
+    NSString *originalSigningID = [self objectSigningID:pathToObject];
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
                                   @"--sign", [codesignID shasum],
@@ -144,10 +144,10 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
     CBXThrowExceptionIf(success, @"Error codesigning %@: %@", pathToObject, result.stderrStr);
-    LogInfo(@"Codesigned %@: '%@' => '%@'",
+    LogInfo(@"Signed %@: '%@' => '%@'",
             [pathToObject lastPathComponent],
             originalSigningID,
-            [self getObjectSigningID:pathToObject]);
+            [self objectSigningID:pathToObject]);
 }
 
 /**
@@ -157,7 +157,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     bundleExecutable:(NSString *)bundleExecutableFile
  appEntitlementsFile:(NSString *)pathToEntitlementsFile
     codesignIdentity:(CodesignIdentity *)codesignID {
-    NSString *originalSigningID = [self getObjectSigningID:pathToBundle];
+    NSString *originalSigningID = [self objectSigningID:pathToBundle];
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
                                   @"--sign", [codesignID shasum],
@@ -167,10 +167,10 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
     CBXThrowExceptionIf(success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
-    LogInfo(@"Codesigned %@: '%@' => '%@'",
+    LogInfo(@"Signed %@: '%@' => '%@'",
             [pathToBundle lastPathComponent],
             originalSigningID,
-            [self getObjectSigningID:pathToBundle]);
+            [self objectSigningID:pathToBundle]);
 }
 
 + (BOOL)isWildcardAppId:(NSString *)appId {
@@ -249,7 +249,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     TODO: Cache this result? It takes a _long_ time because
     the base dir can get checked many, many times for a complex app.
  */
-+ (NSString *)getObjectSigningID:(NSString *)object {
++ (NSString *)objectSigningID:(NSString *)object {
     if ([self isCodesigned:object]) {
         NSString *codesignInfo = [self codesignInfo:object];
         return [[codesignInfo matching:@"TeamIdentifier=([A-Z\\d]+)"] lastObject];
@@ -270,8 +270,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     if ([objectPath.lastPathComponent isEqualToString:@"calabash.dylib"]) {
         return YES;
     }
-    NSString *appSigningID = [self getObjectSigningID:appDir];
-    NSString *objectSigningID = [self getObjectSigningID:objectPath];
+    NSString *appSigningID = [self objectSigningID:appDir];
+    NSString *objectSigningID = [self objectSigningID:objectPath];
     return  appSigningID == nil ||
             [appSigningID isEqualToString:objectSigningID] ||
             [appSigningID isEqualToString:@"not set"];
