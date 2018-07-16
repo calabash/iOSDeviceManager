@@ -34,8 +34,8 @@
     NSString *autIdentifier = @"com.example.AUT";
     NSString *runnerInstalledPath = @"/private/path/to/AUT-Runner.app";
     NSString *runnerIdentifier = @"com.apple.test.AUT-Runner";
-    NSString *sessionIdentifier = @"BE5BA3D0-971C-4418-9ECF-E2D1ABCB66BE";
-    NSString *encodedSessionIdentifier = @"QkU1QkEzRDAtOTcxQy00NDE4LTlFQ0YtRTJEMUFCQ0I2NkJF";
+    NSString *sessionIdentifier = @"aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
+    NSString *encodedSessionIdentifier = @"qqqqqru7zMzd3e7u7u7u7g==";
 
     NSString *actual = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestPath
                                                            AUTInstalledPath:autInstalledPath
@@ -44,7 +44,7 @@
                                                      runnerBundleIdentifier:runnerIdentifier
                                                           sessionIdentifier:sessionIdentifier];
 
-    expect([actual containsString:[xctestPath stringByAppendingString:@"file://"]]).to.equal(YES);
+    expect([actual containsString:[NSString stringWithFormat:@"file://%@", xctestPath]]).to.equal(YES);
     expect([actual containsString:@"TEST_BUNDLE_URL"]).to.equal(NO);
 
     expect([actual containsString:autInstalledPath]).to.equal(YES);
