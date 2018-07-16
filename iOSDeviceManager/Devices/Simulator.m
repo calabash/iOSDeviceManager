@@ -980,14 +980,22 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installedApp.bundle.path;
 }
 
-- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                                  AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
                                                    error:(NSError **)error {
-    NSString *runnerPath = [self installPathForApplication:bundleIdentifier];
-    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+    NSString *runnerInstalledPath = [self installPathForApplication:runnerBundleIdentifier];
+    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerInstalledPath];
+    NSString *AUTInstalledPath = [self installPathForApplication:AUTBundleIdentifier];
+    NSString *uuid = [[NSUUID UUID] UUIDString];
 
-    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
+                                                                 AUTInstalledPath:AUTInstalledPath
+                                                              AUTBundleIdentifier:AUTBundleIdentifier
+                                                              runnerInstalledPath:runnerInstalledPath
+                                                           runnerBundleIdentifier:runnerBundleIdentifier
+                                                                sessionIdentifier:uuid];
 
-    NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
+    NSString *containerPath = [self containerPathForApplication:runnerBundleIdentifier];
     NSString *tmpDirectory = [containerPath stringByAppendingPathComponent:@"tmp"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:tmpDirectory]) {
         if (![[NSFileManager defaultManager] createDirectoryAtPath:tmpDirectory
@@ -998,7 +1006,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    NSString *filename = @"DeviceAgent.xctestconfiguration";
+    NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
 
     NSArray *tmpDirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDirectory
@@ -1018,13 +1026,18 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    if (![xctestconfig writeToFile:xctestconfigPath
-                        atomically:YES
-                          encoding:NSUTF8StringEncoding
-                             error:error]) {
+    NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
+    id plist = [NSPropertyListSerialization dataWithPropertyList:plistData
+                                                          format:NSPropertyListBinaryFormat_v1_0
+                                                         options:0
+                                                           error:error];
+
+    if (![plist writeToFile:xctestconfigPath
+                        atomically:YES]) {
         return NO;
     }
 
+    ConsoleWrite(uuid);
     return YES;
 }
 

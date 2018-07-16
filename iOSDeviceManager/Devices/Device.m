@@ -210,8 +210,9 @@
     return [testRunnerPath stringByAppendingPathComponent:bundlePath];
 }
 
-- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
-                                                   error:(NSError **)error {
+- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                                     AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
+                                                      error:(NSError **)error {
     MUST_OVERRIDE;
 }
 

@@ -148,7 +148,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     BOOL needsInstall = YES;
     Application *installedApp = [self installedApp:app.bundleID];
-    
+
     if (!forceReinstall && installedApp) {
         iOSReturnStatusCode statusCode = iOSReturnStatusCodeEverythingOkay;
         needsInstall = [self shouldUpdateApp:app
@@ -162,7 +162,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if (needsInstall || forceReinstall) {
         // Uninstall app to avoid application-identifier entitlement mismatch
         [self uninstallApp:app.bundleID];
-        
+
         if (codesignID) {
             profile = [self resignApp:app
                              identity:codesignID
@@ -200,7 +200,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                             [error localizedDescription]);
             return iOSReturnStatusCodeInternalError;
         }
-        
+
         ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID,
                         app.bundleShortVersion, app.bundleVersion, [self uuid]);
     }
@@ -702,7 +702,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return [operator AMDinstallProvisioningProfileAtPath:path error:error];
 }
 
-- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                                           AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
                                                    error:(NSError **)error {
 
     NSString *directory = NSTemporaryDirectory();
@@ -717,18 +718,24 @@ testCaseDidStartForTestClass:(NSString *)testClass
     FBiOSDeviceOperator *operator = [self fbDeviceOperator];
     [operator fetchApplications];
 
-    NSString *runnerPath;
-    runnerPath = [operator applicationPathForApplicationWithBundleID:bundleIdentifier
+    NSString *runnerPath = [operator applicationPathForApplicationWithBundleID:runnerBundleIdentifier
                                                                error:error];
-    if (!runnerPath) { return NO; }
+    NSString *AUTPath = [operator applicationPathForApplicationWithBundleID:AUTBundleIdentifier error:error];
+
+    NSString *uuid = [[NSUUID UUID] UUIDString];
 
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
-    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
+                                                                 AUTInstalledPath:AUTPath
+                                                              AUTBundleIdentifier:AUTBundleIdentifier
+                                                              runnerInstalledPath:runnerPath
+                                                            runnerBundleIdentifier:runnerBundleIdentifier
+                                                                sessionIdentifier:uuid];
 
     NSString *tmpDirectory = [[xcappdata stringByAppendingPathComponent:@"AppData"]
                               stringByAppendingPathComponent:@"tmp"];
 
-    NSString *filename = @"DeviceAgent.xctestconfiguration";
+    NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
 
     if (![xctestconfig writeToFile:xctestconfigPath
@@ -741,7 +748,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
 
     if (![operator uploadApplicationDataAtPath:xcappdata
-                                      bundleID:bundleIdentifier
+                                      bundleID:runnerBundleIdentifier
                                          error:error]) {
         return NO;
     }
@@ -750,6 +757,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     [[NSFileManager defaultManager] removeItemAtPath:xcappdata
                                                error:nil];
 
+    ConsoleWrite(uuid);
     return YES;
 }
 
