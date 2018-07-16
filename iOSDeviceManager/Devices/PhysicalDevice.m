@@ -756,6 +756,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
     [[NSFileManager defaultManager] removeItemAtPath:xcappdata
                                                error:nil];
 
+    ConsoleWrite(@"Runner: %@", runnerBundleIdentifier);
+    ConsoleWrite(@"AUT: %@", AUTBundleIdentifier);
     ConsoleWrite(uuid);
     return YES;
 }

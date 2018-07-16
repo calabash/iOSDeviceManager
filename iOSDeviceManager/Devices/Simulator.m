@@ -1035,6 +1035,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return NO;
     }
     
+    ConsoleWrite(@"Runner: %@", runnerBundleIdentifier);
+    ConsoleWrite(@"AUT: %@", AUTBundleIdentifier);
     ConsoleWrite(uuid);
     return YES;
 }

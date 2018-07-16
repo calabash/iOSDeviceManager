@@ -14,11 +14,13 @@
 + (BOOL) prepareBundle:(NSString *)appPath forDevice:(Device *)device {
     if (![device isInstalled:appPath withError:nil]) {
         if ([appPath isUniformTypeIdentifier]) {
-            ConsoleWriteErr(@"Application %@ is not installed on device %@. Provide path to a .app bundle or .ipa archive instead",
+            ConsoleWriteErr(@"Application %@ is not installed on device %@."
+                            "Provide path to a .app bundle or .ipa archive instead",
                             appPath, [device uuid]);
             return NO;
         }
-        [device installApp:[Application withBundlePath:[FileUtils expandPath:appPath]] forceReinstall:NO];
+        [device installApp:[Application withBundlePath:[FileUtils expandPath:appPath]]
+            forceReinstall:NO];
     }
     return YES;
 }
@@ -66,7 +68,9 @@
     }
 
     NSError *error = nil;
-    if ([device stageXctestConfigurationToTmpForRunnerBundleIdentifier:runnerBundleId AUTBundleIdentifier:AUTBundleId error:&error]) {
+    if ([device stageXctestConfigurationToTmpForRunnerBundleIdentifier:runnerBundleId
+                                                   AUTBundleIdentifier:AUTBundleId
+                                                                 error:&error]) {
         return iOSReturnStatusCodeEverythingOkay;
     } else {
         ConsoleWriteErr(@"%@", error);
