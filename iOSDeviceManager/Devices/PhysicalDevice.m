@@ -143,7 +143,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
 
     BOOL needsInstall = YES;
     Application *installedApp = [self installedApp:app.bundleID];
@@ -201,7 +201,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         }
 
         ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID,
-                        app.bundleShortVersion, app.bundleVersion, [self uuid]);
+                     app.bundleShortVersion, app.bundleVersion, [self uuid]);
     }
 
     return iOSReturnStatusCodeEverythingOkay;
@@ -209,22 +209,22 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     forceReinstall:(BOOL)forceReinstall{
+                   forceReinstall:(BOOL)forceReinstall{
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall {
@@ -232,39 +232,39 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -703,7 +703,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
                                            AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
-                                                   error:(NSError **)error {
+                                                         error:(NSError **)error {
 
     NSString *directory = NSTemporaryDirectory();
     [XCAppDataBundle generateBundleSkeleton:directory
@@ -718,7 +718,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     [operator fetchApplications];
 
     NSString *runnerPath = [operator applicationPathForApplicationWithBundleID:runnerBundleIdentifier
-                                                               error:error];
+                                                                         error:error];
     NSString *AUTPath = [operator applicationPathForApplicationWithBundleID:AUTBundleIdentifier error:error];
 
     NSString *uuid = [[NSUUID UUID] UUIDString];
@@ -728,7 +728,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                                                  AUTInstalledPath:AUTPath
                                                               AUTBundleIdentifier:AUTBundleIdentifier
                                                               runnerInstalledPath:runnerPath
-                                                            runnerBundleIdentifier:runnerBundleIdentifier
+                                                           runnerBundleIdentifier:runnerBundleIdentifier
                                                                 sessionIdentifier:uuid];
 
     NSString *tmpDirectory = [[xcappdata stringByAppendingPathComponent:@"AppData"]
@@ -740,7 +740,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
 
     if (![plistData writeToFile:xctestconfigPath
-                        atomically:YES]) {
+                     atomically:YES]) {
         ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
                         xctestconfigPath);
         return NO;
