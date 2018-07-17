@@ -23,7 +23,7 @@ pipeline {
     }
     stage('Run build and tests') {
       steps {
-        sh 'bin/test/ci.sh'
+        sh 'gtimeout --signal SIGKILL 75m bin/test/ci.sh'
       }
     }
   }
@@ -54,7 +54,6 @@ pipeline {
 
   options {
     disableConcurrentBuilds()
-    timeout(time: 60, unit: 'MINUTES')
     timestamps()
   }
 }
