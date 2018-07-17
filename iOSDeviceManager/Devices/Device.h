@@ -73,7 +73,8 @@
 - (NSString *)containerPathForApplication:(NSString *)bundleID;
 - (NSString *)installPathForApplication:(NSString *)bundleID;
 - (NSString *)xctestBundlePathForTestRunnerAtPath:(NSString *)testRunnerPath;
-- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
+- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                                     AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
                                                    error:(NSError **)error;
 
 @end

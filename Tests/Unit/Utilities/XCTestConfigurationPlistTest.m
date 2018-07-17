@@ -4,7 +4,12 @@
 
 @interface XCTestConfigurationPlist (TEST)
 
-+ (BOOL)xcodeVersionIsGreaterThanEqualTo83:(NSDecimalNumber *)activeXcodeVersion;
++ (NSString *)plistWithXCTestInstallPath:(NSString *)testInstallPath
+                        AUTInstalledPath:(NSString *)autInstallPath
+                     AUTBundleIdentifier:(NSString *)autBundleIdentifier
+                     runnerInstalledPath:(NSString *)runnerInstallPath
+                  runnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                       sessionIdentifier:(NSString *)UUID;
 
 @end
 
@@ -22,34 +27,40 @@
     [super tearDown];
 }
 
-- (void)testPlistWithTestBundlePathReplacesTEST_BUNDLE_URL {
-    NSString *bundlePath = @"/private/containers/DeviceAgent-Runner.app/PlugIns/DeviceTest.xctest";
+- (void)testGenerateConfigBySubstitutingValues {
 
-    NSString *actual = [XCTestConfigurationPlist plistWithTestBundlePath:bundlePath];
+    NSString *xctestPath = @"/private/path/to/My.xctest";
+    NSString *autInstalledPath = @"/private/path/to/AUT.app";
+    NSString *autIdentifier = @"com.example.AUT";
+    NSString *runnerInstalledPath = @"/private/path/to/AUT-Runner.app";
+    NSString *runnerIdentifier = @"com.apple.test.AUT-Runner";
+    NSString *sessionIdentifier = @"aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
+    NSString *encodedSessionIdentifier = @"qqqqqru7zMzd3e7u7u7u7g==";
 
-    expect([actual containsString:bundlePath]).to.beTruthy;
-    expect([actual containsString:@"TEST_BUNDLE_URL"]).notTo.beTruthy;
-}
+    NSString *actual = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestPath
+                                                           AUTInstalledPath:autInstalledPath
+                                                        AUTBundleIdentifier:autIdentifier
+                                                        runnerInstalledPath:runnerInstalledPath
+                                                     runnerBundleIdentifier:runnerIdentifier
+                                                          sessionIdentifier:sessionIdentifier];
 
-- (void)testXcodeVersionIsGreaterThanEqualTo83 {
+    expect([actual containsString:[NSString stringWithFormat:@"file://%@", xctestPath]]).to.equal(YES);
+    expect([actual containsString:@"TEST_BUNDLE_URL"]).to.equal(NO);
 
-    NSDecimalNumber *xcodeVersion;
-    BOOL actual;
+    expect([actual containsString:autInstalledPath]).to.equal(YES);
+    expect([actual containsString:@"AUT_INSTALLED_PATH"]).to.equal(NO);
 
-    // returns true for Xcode 8.3
-    xcodeVersion = [NSDecimalNumber decimalNumberWithString:@"8.3"];
-    actual = [XCTestConfigurationPlist xcodeVersionIsGreaterThanEqualTo83:xcodeVersion];
-    expect(actual).to.beTruthy;
+    expect([actual containsString:autIdentifier]).to.equal(YES);
+    expect([actual containsString:@"AUT_BUNDLE_IDENTIFIER"]).to.equal(NO);
 
-    // returns true for Xcode > 8.3
-    xcodeVersion = [NSDecimalNumber decimalNumberWithString:@"8.3.1"];
-    actual = [XCTestConfigurationPlist xcodeVersionIsGreaterThanEqualTo83:xcodeVersion];
-    expect(actual).to.beTruthy;
+    expect([actual containsString:runnerInstalledPath]).to.equal(YES);
+    expect([actual containsString:@"RUNNER_INSTALLED_PATH"]).to.equal(NO);
 
-    // returns false for Xcode < 8.3
-    xcodeVersion = [NSDecimalNumber decimalNumberWithString:@"8.2.1"];
-    actual = [XCTestConfigurationPlist xcodeVersionIsGreaterThanEqualTo83:xcodeVersion];
-    expect(actual).notTo.beTruthy;
+    expect([actual containsString:runnerIdentifier]).to.equal(YES);
+    expect([actual containsString:@"RUNNER_BUNDLE_IDENTIFIER"]).to.equal(NO);
+
+    expect([actual containsString:encodedSessionIdentifier]).to.equal(YES);
+    expect([actual containsString:@"SESSION_IDENTIFIER"]).to.equal(NO);
 }
 
 @end

@@ -424,7 +424,7 @@ static const FBSimulatorControl *_control;
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
 
     if (![self boot]) {
         ConsoleWriteErr(@"Cannot install %@ on Simulator %@ because the device could not "
@@ -475,22 +475,22 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     forceReinstall:(BOOL)forceReinstall{
+                   forceReinstall:(BOOL)forceReinstall{
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall {
@@ -498,39 +498,39 @@ static const FBSimulatorControl *_control;
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -980,14 +980,22 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installedApp.bundle.path;
 }
 
-- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
-                                                   error:(NSError **)error {
-    NSString *runnerPath = [self installPathForApplication:bundleIdentifier];
-    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                                           AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
+                                                         error:(NSError **)error {
+    NSString *runnerInstalledPath = [self installPathForApplication:runnerBundleIdentifier];
+    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerInstalledPath];
+    NSString *AUTInstalledPath = [self installPathForApplication:AUTBundleIdentifier];
+    NSString *uuid = [[NSUUID UUID] UUIDString];
 
-    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
+                                                                 AUTInstalledPath:AUTInstalledPath
+                                                              AUTBundleIdentifier:AUTBundleIdentifier
+                                                              runnerInstalledPath:runnerInstalledPath
+                                                           runnerBundleIdentifier:runnerBundleIdentifier
+                                                                sessionIdentifier:uuid];
 
-    NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
+    NSString *containerPath = [self containerPathForApplication:runnerBundleIdentifier];
     NSString *tmpDirectory = [containerPath stringByAppendingPathComponent:@"tmp"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:tmpDirectory]) {
         if (![[NSFileManager defaultManager] createDirectoryAtPath:tmpDirectory
@@ -998,7 +1006,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    NSString *filename = @"DeviceAgent.xctestconfiguration";
+    NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
 
     NSArray *tmpDirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDirectory
@@ -1018,13 +1026,18 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    if (![xctestconfig writeToFile:xctestconfigPath
-                        atomically:YES
-                          encoding:NSUTF8StringEncoding
-                             error:error]) {
+    NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
+
+    if (![plistData writeToFile:xctestconfigPath
+                     atomically:YES]) {
+        ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
+                        xctestconfigPath);
         return NO;
     }
 
+    ConsoleWrite(@"Runner: %@", runnerBundleIdentifier);
+    ConsoleWrite(@"AUT: %@", AUTBundleIdentifier);
+    ConsoleWrite(uuid);
     return YES;
 }
 
