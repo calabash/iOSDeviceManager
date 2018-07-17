@@ -1,9 +1,7 @@
 #!/usr/bin/env groovy
-String cron_string = BRANCH_NAME == "develop" ? "H H(0-8) * * *" : ""
 
 pipeline {
   agent { label 'master' }
-  triggers { cron(cron_string) }
 
   environment {
     DEVELOPER_DIR = '/Xcode/9.2/Xcode.app/Contents/Developer'
@@ -23,15 +21,6 @@ pipeline {
                   message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Started* (<${env.BUILD_URL}|Open>)")
       }
     }
-    stage('Setup') {
-      steps {
-        // Ignore errors on setup step to prevent build failing
-        sh '''
-          pkill iOSDeviceManager || true
-          pkill Simulator || true
-        '''
-      }
-    }
     stage('Run build and tests') {
       steps {
         sh 'bin/test/ci.sh'
@@ -41,13 +30,9 @@ pipeline {
 
   post {
     always {
-      // Ignore errors on post step to prevent build failing
-      sh '''
-        pkill iOSDeviceManager || true
-        pkill Simulator || true
-      '''
       junit 'reports/*.xml'
     }
+
     aborted {
       echo "Sending 'aborted' message to Slack"
       slackSend (color: "${env.SLACK_COLOR_WARNING}",
