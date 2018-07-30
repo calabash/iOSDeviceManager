@@ -24,6 +24,8 @@ integration-tests:
 
 cli-tests:
 	bin/test/cli.sh
+rspec:
+	bin/test/rspec.sh
 
 tests:
 	$(MAKE) unit-tests

@@ -1,27 +1,3 @@
-module DeviceAppHelper
-  def self.is_installed?(udid, bundle_id)
-    args = ["is-installed", bundle_id, "--device-id", udid]
-    hash = IDM.shell(args)
-
-    if hash[:exit_status] == IDM.exit_status(:success) ||
-        hash[:exit_status] == IDM.exit_status(:false)
-      hash[:out].split($-0).last == "true"
-    else
-      raise "Expected is-installed to pass: #{hash[:out]}"
-    end
-  end
-
-  def self.install(udid, bundle_id)
-    if !self.is_installed?(udid, bundle_id)
-      args = ["install", bundle_id, "--device-id", udid]
-      hash = IDM.shell(args)
-      if hash[:exit_status] != IDM.exit_status(:success)
-        raise "Expected install to pass: #{hash[:out]}"
-      end
-    end
-  end
-end
-
 describe "erase-simulator" do
 
   let(:device) { IDM::Resources.instance.default_simulator }
@@ -45,8 +21,8 @@ describe "erase-simulator" do
   end
 
   it "erases the simulator" do
-    if !DeviceAppHelper.is_installed?(udid, app.path)
-      DeviceAppHelper.install(udid, app.path)
+    if !TestHelper.is_installed?(udid, app.path)
+      TestHelper.install(udid, app.path)
     end
     expect(core_sim.app_is_installed?).to be_truthy
     args = ["erase-simulator", udid]
