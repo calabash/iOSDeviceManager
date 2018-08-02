@@ -29,7 +29,7 @@ pipeline {
     }
     stage('Run build and tests') {
       steps {
-        sh 'gtimeout --foreground --signal SIGKILL 5m bin/test/ci.sh'
+        sh 'gtimeout --foreground --signal SIGKILL 75m bin/test/ci.sh'
       }
     }
   }
