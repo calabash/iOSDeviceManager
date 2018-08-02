@@ -17,7 +17,7 @@ pipeline {
     disableConcurrentBuilds()
     timestamps()
     buildDiscarder(logRotator(numToKeepStr: '10'))
-    timeout(time: 5, unit: 'MINUTES')
+    timeout(time: 75, unit: 'MINUTES')
   }
 
   stages {
@@ -29,7 +29,7 @@ pipeline {
     }
     stage('Run build and tests') {
       steps {
-        sh 'gtimeout --foreground --signal SIGKILL 10m bin/test/ci.sh'
+        sh 'gtimeout --foreground --signal SIGKILL 5m bin/test/ci.sh'
       }
     }
   }
