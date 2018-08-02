@@ -2,9 +2,8 @@
 
 pipeline {
   agent { label 'master' }
-
   environment {
-    DEVELOPER_DIR = '/Xcode/9.2/Xcode.app/Contents/Developer'
+    DEVELOPER_DIR = '/Xcode/9.4.1/Xcode.app/Contents/Developer'
 
     SLACK_COLOR_DANGER  = '#E01563'
     SLACK_COLOR_INFO    = '#6ECADC'
@@ -12,6 +11,12 @@ pipeline {
     SLACK_COLOR_GOOD    = '#3EB991'
 
     PROJECT_NAME = 'iOSDeviceManager'
+  }
+  options {
+    disableConcurrentBuilds()
+    timestamps()
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    timeout(time: 75, unit: 'MINUTES')
   }
 
   stages {
@@ -50,12 +55,5 @@ pipeline {
       slackSend (color: "${env.SLACK_COLOR_GOOD}",
                 message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Success* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
     }
-  }
-
-  options {
-    disableConcurrentBuilds()
-    timestamps()
-    buildDiscarder(logRotator(numToKeepStr: '10'))
-    timeout(time: 75, unit: 'MINUTES')
   }
 }
