@@ -1,55 +1,17 @@
-#import "MachClock.h"
-#import "ShellRunner.h"
-#import "ShellResult.h"
-#import "ConsoleWriter.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
-static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+#import "ShellRunner.h"
+#import "MachClock.h"
+#import "ConsoleWriter.h"
+
 
 @implementation ShellRunner
 
-+ (NSArray<NSString *> *)xcrun:(NSArray *)args {
-    return [self shell:@"/usr/bin/xcrun" args:args];
-}
-
-/*
- http://stackoverflow.com/questions/412562/execute-a-terminal-command-from-a-cocoa-app/696942#696942
- */
-+ (NSArray<NSString *> *)shell:(NSString *)cmd args:(NSArray *)args {
-    NSMutableString *argString = [cmd mutableCopy];
-    for (NSString *arg in args) {
-        [argString appendFormat:@" %@", arg];
-    }
-    if ([self verbose]) {
-        DDLogInfo(@"$ %@", argString);
-    }
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath: cmd];
-    [task setArguments: args];
-
-    NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-
-    NSFileHandle *file = [pipe fileHandleForReading];
-
-    [task launch];
-
-    [task waitUntilExit];
-    if (task.terminationStatus != 0) {
-        ConsoleWriteErr(@"Failed to execute command `%@` (Exit Status: %@)",  argString, @(task.terminationStatus));
-        return nil;
-    }
-    
-    NSData *data = [file readDataToEndOfFile];
-    NSString *string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    return [string componentsSeparatedByString:@"\n"];
-}
-
-+ (ShellResult *)xcrun:(NSArray *)args timeout:(NSTimeInterval)timeout {
-    NSString *xcrun = @"/usr/bin/xcrun";
++ (ShellResult *)command:(NSString *)command
+                    args:(NSArray *)args
+                 timeout:(NSTimeInterval)timeout {
 
     NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath:xcrun];
+    [task setLaunchPath:command];
     [task setArguments:args];
 
     NSPipe *outPipe = [NSPipe pipe];
@@ -65,9 +27,9 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
     BOOL raised = NO;
     ShellResult *result = nil;
 
-    NSString *command = [xcrun stringByAppendingFormat:@" %@",
-                         [args componentsJoinedByString:@" "]];
-    DDLogInfo(@"EXEC: %@", command);
+    NSString *execStr;
+    NSString *argsStr = [args componentsJoinedByString:@" "];
+    execStr = [command stringByAppendingFormat:@" %@", argsStr];
 
     @try {
         [task launch];
@@ -80,7 +42,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
         }
     } @catch (NSException *exception) {
         ConsoleWriteErr(@"Caught an exception trying to execute:\n    %@ %@",
-              xcrun, [args componentsJoinedByString:@" "]);
+                       execStr);
         ConsoleWriteErr(@"===  EXCEPTION ===");
         ConsoleWriteErr(@"%@", exception);
         ConsoleWriteErr(@"");
@@ -105,15 +67,12 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
     return result;
 }
 
-+ (NSString *)pwd {
-    return [[NSFileManager defaultManager] currentDirectoryPath];
-}
-
-+ (NSString *)tmpDir {
-    return NSTemporaryDirectory();
++ (ShellResult *)xcrun:(NSArray *)args timeout:(NSTimeInterval)timeout {
+    return [ShellRunner command:@"/usr/bin/xcrun" args:args timeout:timeout];
 }
 
 + (BOOL)verbose {
     return [[NSProcessInfo processInfo].environment[@"VERBOSE"] boolValue];
 }
+
 @end

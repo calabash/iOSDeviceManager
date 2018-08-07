@@ -52,7 +52,8 @@
     if (_simulators) { return _simulators; }
 
     NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"simctl", @"list",
-                                                      @"devices", @"--json"]];
+                                                      @"devices", @"--json"]
+                                            timeout:10.0].stdoutLines;
     NSString *json = [lines componentsJoinedByString:@"\n"];
 
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
@@ -300,7 +301,9 @@
 - (NSArray<TestDevice *> *)connectedDevices {
     if (_connectedDevices) { return _connectedDevices; }
 
-    NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"instruments", @"-s", @"devices"]];
+    NSArray<NSString *> *lines;
+    lines = [ShellRunner xcrun:@[@"instruments", @"-s", @"devices"]
+                       timeout:10].stdoutLines;
 
     NSMutableArray<TestDevice *> *result = [@[] mutableCopy];
 
@@ -470,8 +473,9 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 - (NSString *)XcodeSelectPath {
     if (_XcodeSelectPath) { return _XcodeSelectPath; }
 
-    _XcodeSelectPath = [ShellRunner shell:@"/usr/bin/xcode-select"
-                                     args:@[@"--print-path"]][0];
+    _XcodeSelectPath = [ShellRunner command:@"/usr/bin/xcode-select"
+                                       args:@[@"--print-path"]
+                                    timeout:10].stdoutLines[0];
 
     return _XcodeSelectPath;
 }

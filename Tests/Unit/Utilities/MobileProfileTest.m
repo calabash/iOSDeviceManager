@@ -103,8 +103,8 @@
 - (void)testCanImportLJSProfile {
     NSString *path = [self.resources pathToVeryLongProfile];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
-    MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
-                                                                  path:path];
+    MobileProfile __unused *profile = [[MobileProfile alloc] initWithDictionary:hash
+                                                                           path:path];
 }
 
 
