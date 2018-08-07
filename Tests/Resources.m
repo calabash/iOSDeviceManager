@@ -51,6 +51,7 @@
 - (NSArray<TestSimulator *> *)simulators {
     if (_simulators) { return _simulators; }
 
+
     NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"simctl", @"list",
                                                       @"devices", @"--json"]
                                             timeout:10.0].stdoutLines;
