@@ -70,10 +70,9 @@ module IDM
     end
 
     def default_simulator
-      local_xcode = xcode
-      sim_string = RunLoop::Core.default_simulator(local_xcode)
+      sim_string = RunLoop::Core.default_simulator(xcode)
       simctl.simulators.detect do |sim|
-        sim.instruments_identifier(local_xcode) == sim_string
+        sim.instruments_identifier == sim_string
       end
     end
 
