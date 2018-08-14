@@ -16,6 +16,7 @@
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation CLI
+
 static NSMutableDictionary <NSString *, Class> *commandClasses;
 
 + (void)load {
@@ -105,7 +106,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             values[op.optionName] = @YES;
         }
     }
-    
+
     *exitCode = iOSReturnStatusCodeEverythingOkay;
     return values;
 }
@@ -117,7 +118,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     } else {
         NSString *commandName = [args[1] lowercaseString];
         Class <iOSDeviceManagementCommand> command = commandClasses[commandName];
-        
+
         if (command) {
             //Ensure args can be parsed correctly
             NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
@@ -128,7 +129,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             if (ec != iOSReturnStatusCodeEverythingOkay) {
                 return ec;
             }
-            
+
             //If the user specified they want help, just print help and exit.
             if ([parsedArgs hasKey:HELP_SHORT_FLAG] ||
                 [parsedArgs hasKey:HELP_LONG_FLAG]) {
@@ -159,7 +160,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     return iOSReturnStatusCodeMissingArguments;
                 }
             }
-            
+
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
 
