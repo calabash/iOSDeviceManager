@@ -72,15 +72,15 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                                exitCode:(int *)exitCode {
 
     if (args.count == 0) {
-      [command printUsage];
-      *exitCode = iOSReturnStatusCodeEverythingOkay;
-      return @{};
+        if (![[command name] isEqualToString:@"kill-simulator"]) {
+            [command printUsage];
+            *exitCode = iOSReturnStatusCodeEverythingOkay;
+            return @{};
+        }
     }
 
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
     NSUInteger positionalArgCount = 0;
-
-
 
     for (int i = 0; i < args.count; i++) {
         CommandOption *op = [command optionForFlag:args[i]];
