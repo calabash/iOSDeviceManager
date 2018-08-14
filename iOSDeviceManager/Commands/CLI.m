@@ -43,13 +43,17 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
 }
 
 + (void)printUsage {
-    printf("USAGE: %s [command] [flags]\n",
-           [[[NSProcessInfo processInfo].arguments[0] lastPathComponent]
-                cStringUsingEncoding:NSUTF8StringEncoding]);
-    for (Class<iOSDeviceManagementCommand> c in [commandClasses allValues]) {
-        [c printUsage];
+    ConsoleWrite(@"USAGE: %@ [command] [flags]\n",
+           [[NSProcessInfo processInfo].arguments[0] lastPathComponent]);
+    NSSortDescriptor *sorter;
+    sorter = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    NSArray *sorted;
+    sorted = [[commandClasses allValues] sortedArrayUsingDescriptors:@[sorter]];
+
+    for (Class<iOSDeviceManagementCommand> c in sorted) {
+        ConsoleWrite(@"\t%@", [c name]);
     }
-    printf("\n");
+    ConsoleWrite(@"\n");
 }
 
 /*
