@@ -10,29 +10,29 @@
                      runnerInstalledPath:(NSString *)runnerInstalledPath
                   runnerBundleIdentifier:(NSString *)runnerBundleIdentifier
                        sessionIdentifier:(NSString *)uuid{
-    NSString *plist = [XCTestConfigurationPlist plist];
-    plist = [plist stringByReplacingOccurrencesOfString:@"TEST_BUNDLE_URL"
+    NSString *template = [XCTestConfigurationPlist template];
+    template = [template stringByReplacingOccurrencesOfString:@"TEST_BUNDLE_URL"
                                              withString:
              [NSString stringWithFormat:@"file://%@", testInstallPath]];
-    plist = [plist stringByReplacingOccurrencesOfString:@"AUT_INSTALLED_PATH"
+    template = [template stringByReplacingOccurrencesOfString:@"AUT_INSTALLED_PATH"
                                              withString:autInstalledPath];
-    plist = [plist stringByReplacingOccurrencesOfString:@"AUT_BUNDLE_IDENTIFIER"
+    template = [template stringByReplacingOccurrencesOfString:@"AUT_BUNDLE_IDENTIFIER"
                                              withString:autBundleIdentifier];
-    plist = [plist stringByReplacingOccurrencesOfString:@"RUNNER_INSTALLED_PATH"
+    template = [template stringByReplacingOccurrencesOfString:@"RUNNER_INSTALLED_PATH"
                                              withString:runnerInstalledPath];
-    plist = [plist stringByReplacingOccurrencesOfString:@"RUNNER_BUNDLE_IDENTIFIER"
+    template = [template stringByReplacingOccurrencesOfString:@"RUNNER_BUNDLE_IDENTIFIER"
                                              withString:runnerBundleIdentifier];
     uuid_t bytes;
     [[[NSUUID alloc] initWithUUIDString:uuid] getUUIDBytes:bytes];
     NSString *base64EncodedSessionIdentifier = [[NSData dataWithBytes:bytes length:16]
                                                 base64EncodedStringWithOptions:kNilOptions];
-    plist = [plist stringByReplacingOccurrencesOfString:@"SESSION_IDENTIFIER"
+    template = [template stringByReplacingOccurrencesOfString:@"SESSION_IDENTIFIER"
                                              withString:base64EncodedSessionIdentifier];
 
-    return plist;
+    return template;
 }
 
-+ (NSString *)plist {
++ (NSString *)template {
     return @"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
     "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
     "<plist version=\"1.0\">\n"
