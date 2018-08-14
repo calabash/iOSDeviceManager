@@ -261,7 +261,7 @@
     "           <key>$classname</key>\n"
     "           <string>NSDictionary</string>\n"
     "       </dict>\n"
-    "       <string>UITests</string>\n"
+    "       <string>RUNNER_PRODUCT_NAME</string>\n"
     "       <dict>\n"
     "           <key>$class</key>\n"
     "           <dict>\n"
