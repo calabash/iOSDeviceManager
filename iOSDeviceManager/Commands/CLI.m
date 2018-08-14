@@ -43,8 +43,13 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
 }
 
 + (void)printUsage {
-    ConsoleWrite(@"USAGE: %@ [command] [flags]\n",
-           [[NSProcessInfo processInfo].arguments[0] lastPathComponent]);
+    NSString *program = [[NSProcessInfo processInfo].arguments[0]
+        lastPathComponent];
+    ConsoleWrite(@"USAGE: %@ [command] [flags]\n", program);
+
+    ConsoleWrite(@"To see command-specific help:");
+    ConsoleWrite(@"$ %@ [command]\n", program);
+
     NSSortDescriptor *sorter;
     sorter = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
     NSArray *sorted;
@@ -58,23 +63,35 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
 
 /*
  For parsing args - positional values may be used (regardless of order) and their
- corresponding property is determined by `positionalArgShortFlag`. Using redundant 
+ corresponding property is determined by `positionalArgShortFlag`. Using redundant
  args will result in iOSReturnStatusCodeInvalidArguments response.
 */
-+ (NSDictionary<NSString *, NSString *> *)parseArgs:(NSArray <NSString *> *)args
-                                         forCommand:(Class <iOSDeviceManagementCommand>)command
-                                           exitCode:(int *)exitCode {
++ (NSDictionary<NSString *,
+                NSString *> *)parseArgs:(NSArray <NSString *> *)args
+                             forCommand:(Class<iOSDeviceManagementCommand>)command
+                               exitCode:(int *)exitCode {
+
+    if (args.count == 0) {
+      [command printUsage];
+      *exitCode = iOSReturnStatusCodeEverythingOkay;
+      return @{};
+    }
+
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
     NSUInteger positionalArgCount = 0;
 
+
+
     for (int i = 0; i < args.count; i++) {
         CommandOption *op = [command optionForFlag:args[i]];
-        if (op == nil) { // This is true when the arg provided isn't a recognized flag or isn't a flag
+        // This is true when the arg provided isn't a recognized flag or isn't a flag
+        if (op == nil) {
             CommandOption *positionalOption;
             if ([[command name] isEqualToString:[IsInstalledCommand name]]
                 || [[command name] isEqualToString:[AppInfoCommand name]]) {
-                // IsInstalledCommand and AppInfoCommand accepts either bundle id OR app path as a positional (0) arg
-                // So determine the option based on the context
+                // IsInstalledCommand and AppInfoCommand accepts either bundle
+                // id OR app path as a positional (0) arg
+                // The determine the option based on the context
                 positionalOption = [command optionForAppPathOrBundleID:args[i]];
             } else {
                 positionalOption = [command optionForPosition:positionalArgCount];
