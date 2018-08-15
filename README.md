@@ -1,4 +1,4 @@
-[![Build Status](http://calabash-ci.xyz:8081/job/Calabash-iOSDeviceManager/job/develop/badge/icon)](http://calabash-ci.xyz:8081/job/Calabash-iOSDeviceManager/job/develop/)
+[![Build Status](https://calabash-ci.xyz/job/Calabash-iOSDeviceManager/job/develop/badge/icon)](https//calabash-ci.xyz/job/Calabash-iOSDeviceManager/job/develop/)
 
 ## iOSDeviceManager
 
@@ -6,8 +6,6 @@ A tool for launching XCUITests on device and simulator, and a library
 for device/simulator lifecycle management.
 
 ### Code Signing
-
-Starting in Xcode 8, a code signing identity is required for building.
 
 Project maintainers must clone the [codesign](https://github.com/calabash/calabash-codesign)
 repo and install the certs and profiles. Talk to @jmoody or @sapieneptus
@@ -42,7 +40,7 @@ $ make cli-tests
 $ make tests
 
 # Test against an alternative Xcode
-$ DEVELOPER_DIR=/Xcode/8.0/Xcode-beta.app/Contents/Developer make tests
+$ DEVELOPER_DIR=/Xcode/9.4.1/Xcode-beta.app/Contents/Developer make tests
 ```
 
 If you encounter build errors in the Xcode IDE, clean the DerivedData
@@ -59,16 +57,3 @@ We commit the frameworks to source control to avoid having to run
 `carthage bootstrap` on CI machines and locally.  To update the
 frameworks, run `carthage update` and commit the Cartfile.resolved and
 frameworks changes to git.
-
-### Packaging
-
-```shell
-# stage the dependences to ./Distribution/dependencies.
-$ make dependencies
-```
-
-The make `dependencies` rule expects the DeviceAgent.iOS repo
-to be located at `../DeviceAgent.iOS`.  If your local copy of DeviceAgent.iOS
-is in another location, use the `DEVICEAGENT_PATH` env var to specify
-the correct path.
-
