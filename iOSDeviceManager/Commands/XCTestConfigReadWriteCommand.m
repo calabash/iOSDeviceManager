@@ -1,9 +1,7 @@
 
 #import "XCTestConfigReadWriteCommand.h"
 #import "XCTestConfigurationProxy.h"
-#import "StringUtils.h"
-#import "FileUtils.h"
-#import "Application.h"
+#import "XCTestConfigurationPlist.h"
 #import "ConsoleWriter.h"
 
 /*
@@ -12,6 +10,9 @@
 
  # Print and write to .plist
  xctestconfig [input-file] [output-file] --overwrite true/false
+
+ # Print xctestconfiguration template to stdout
+ xctestconfig --print-template
  */
 
 @implementation XCTestConfigReadWriteCommand
@@ -20,9 +21,14 @@
     return @"xctestconfig";
 }
 
-
 + (iOSReturnStatusCode)execute:(NSDictionary *)args {
     NSString *inputFile = args[@"input-file"];
+
+    if ([@"--print-template" isEqualToString:inputFile]) {
+      ConsoleWrite(@"%@", [XCTestConfigurationPlist template]);
+      return iOSReturnStatusCodeEverythingOkay;
+    }
+
     NSFileManager *manager = [NSFileManager defaultManager];
 
     if (![manager fileExistsAtPath:inputFile]) {
@@ -73,7 +79,7 @@
         @[
             [CommandOption withPosition:0
                              optionName:@"input-file"
-                                   info:@"Path to an .xctestconfiguration file"
+                                   info:@"Path to an .xctestconfiguration file or --print-template to print .xctestconfig template"
                                required:YES
                              defaultVal:nil],
 
