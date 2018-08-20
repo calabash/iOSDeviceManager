@@ -61,7 +61,7 @@ describe "app life cycle (simulator)" do
     it "installs app on simulator indicated with alias by --device-id" do
       SimAppLSHelper.prepare_for_install_test(core_sim)
 
-      args = ["install", app.path, "--device-id", device.name]
+      args = ["install", app.path, "--device-id", device.instruments_identifier]
       hash = IDM.shell(args)
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 

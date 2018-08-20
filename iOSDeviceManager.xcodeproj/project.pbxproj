@@ -92,7 +92,6 @@
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
-		A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A18622731DE4FEA200A05031 /* MachClockTest.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
 		B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */; };
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
@@ -376,7 +375,6 @@
 		89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTestBootstrap.framework; path = Frameworks/XCTestBootstrap.framework; sourceTree = "<group>"; };
 		A186226E1DE4F44F00A05031 /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = iOSDeviceManager/Utilities/MachClock.h; sourceTree = SOURCE_ROOT; };
 		A186226F1DE4F47700A05031 /* MachClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachClock.m; path = iOSDeviceManager/Utilities/MachClock.m; sourceTree = SOURCE_ROOT; };
-		A18622731DE4FEA200A05031 /* MachClockTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MachClockTest.m; sourceTree = "<group>"; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
 		B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtilsTest.m; sourceTree = "<group>"; };
 		B22DC0051E1D799500BDD4CB /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = iOSDeviceManager/Application/Application.m; sourceTree = SOURCE_ROOT; };
@@ -737,7 +735,6 @@
 				63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */,
 				6342445D4215DC668C7923B2 /* EntitlementTest.m */,
 				A1D930C51DC29C620070573D /* ShasumProviderTest.m */,
-				A18622731DE4FEA200A05031 /* MachClockTest.m */,
 				F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */,
 				421D28101E942AB5003C7F10 /* FileUtilsTest.m */,
 				F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */,
@@ -1079,7 +1076,6 @@
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				F54ACEF31E8A6AEE00BC36DA /* SimulatorTest.m in Sources */,
-				A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */,
 				B296D6FC1E31441700D365F3 /* Entitlement.m in Sources */,
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
