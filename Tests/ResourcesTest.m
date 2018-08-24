@@ -150,6 +150,11 @@
     [Simctl shared];
 }
 
+- (void)testSimulators {
+    NSArray *sims = [[Simctl shared] simulators];
+    XCTAssertTrue([sims count] > 1);
+}
+
 #pragma mark - Provisioning Profiles
 
 - (void)testProvisioningProfiles {

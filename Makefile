@@ -2,16 +2,12 @@
 .PHONY: build
 .PHONY: tests
 .PHONY: frameworks
-.PHONY: dependencies
 
 clean:
 	rm -rf build
 
 build:
 	bin/make/build.sh
-
-dependencies:
-	bin/make/dependencies.sh
 
 frameworks:
 	bin/make/frameworks.sh

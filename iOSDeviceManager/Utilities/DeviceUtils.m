@@ -30,13 +30,27 @@ const double EPSILON = 0.001;
 
 + (NSString *)findDeviceIDByName:(NSString *)name {
 
-    for (FBDevice *device in [DeviceUtils availableDevices])
-        if ([device.name isEqualToString:name])
+    for (FBDevice *device in [DeviceUtils availableDevices]) {
+        if ([device.name isEqualToString:name]) {
             return device.udid;
+        }
+    }
 
-    for (FBSimulator *simulator in [DeviceUtils availableSimulators])
-        if ([simulator.name isEqualToString:name])
+    NSString *instrumentsName;
+    for (FBSimulator *simulator in [DeviceUtils availableSimulators]) {
+        FBOSVersion *version = simulator.osVersion;
+        if (![version.name containsString:@"iOS"]) {
+            // Ignore watches, tvs, and pairs.
+            continue;
+        }
+
+        instrumentsName = [simulator.name stringByAppendingFormat:@" (%@)",
+                           version.number];
+
+        if ([instrumentsName isEqualToString:name]) {
             return simulator.udid;
+        }
+    }
 
     return nil;
 }

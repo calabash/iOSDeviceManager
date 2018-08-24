@@ -13,4 +13,6 @@
                   runnerBundleIdentifier:(NSString *)runnerBundleIdentifier
                        sessionIdentifier:(NSString *)UUID;
 
++ (NSString *)template;
+
 @end

@@ -70,58 +70,6 @@
 
 }
 
-- (void)testUploadFile {
-    if (!device_available()) { return; }
-    //Ensure app installed
-    NSArray *args = @[
-                      kProgramName, @"is-installed",
-                      testAppID,
-                      @"-d", defaultDeviceUDID
-                      ];
-
-    if ([CLI process:args] == iOSReturnStatusCodeFalse) {
-        args = @[
-                 kProgramName, @"install",
-                 testApp(ARM),
-                 @"-d", defaultDeviceUDID,
-                 @"-c", kCodeSignIdentityKARL
-                 ];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-    }
-
-    //Upload a unique file
-    NSString *file = uniqueFile();
-    args = @[
-             kProgramName, @"upload",
-             file,
-             testAppID,
-             @"-d", defaultDeviceUDID,
-             @"-o", @"NO"
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    //Now attempt to overwrite with -o false
-    args = @[
-             kProgramName, @"upload",
-             file,
-             testAppID,
-             @"-d", defaultDeviceUDID,
-             @"-o", @"NO"
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeGenericFailure);
-
-    //Now attempt to overwrite with -o true
-    args = @[
-             kProgramName, @"upload",
-             file,
-             testAppID,
-             @"-d", defaultDeviceUDID,
-             @"-o", @"YES"
-             ];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-}
-
 - (void)testLaunchAndKillApp {
     if (!device_available()) { return; }
     NSArray *args = @[

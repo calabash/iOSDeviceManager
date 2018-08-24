@@ -55,13 +55,20 @@
     NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"simctl", @"list",
                                                       @"devices", @"--json"]
                                             timeout:10.0].stdoutLines;
-    NSString *json = [lines componentsJoinedByString:@"\n"];
+    NSString *json = [lines componentsJoinedByString:@" "];
 
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
     NSDictionary *raw =
     [NSJSONSerialization JSONObjectWithData:data
                                     options:NSJSONReadingMutableContainers
-                                      error:nil];
+                                      error:&error];
+
+    if (!raw) {
+       NSLog(@"Could not list create a list of simulators with simctl");
+       NSLog(@"Error: %@", error);
+       return nil;
+    }
 
     NSDictionary *devices = raw[@"devices"];
     NSMutableArray<TestSimulator *> *sims = [NSMutableArray array];

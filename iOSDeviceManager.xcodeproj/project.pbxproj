@@ -92,7 +92,6 @@
 		89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
 		89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
-		A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A18622731DE4FEA200A05031 /* MachClockTest.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
 		B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */; };
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
@@ -376,7 +375,6 @@
 		89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTestBootstrap.framework; path = Frameworks/XCTestBootstrap.framework; sourceTree = "<group>"; };
 		A186226E1DE4F44F00A05031 /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = iOSDeviceManager/Utilities/MachClock.h; sourceTree = SOURCE_ROOT; };
 		A186226F1DE4F47700A05031 /* MachClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachClock.m; path = iOSDeviceManager/Utilities/MachClock.m; sourceTree = SOURCE_ROOT; };
-		A18622731DE4FEA200A05031 /* MachClockTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MachClockTest.m; sourceTree = "<group>"; };
 		A1D930C51DC29C620070573D /* ShasumProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShasumProviderTest.m; sourceTree = "<group>"; };
 		B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtilsTest.m; sourceTree = "<group>"; };
 		B22DC0051E1D799500BDD4CB /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = iOSDeviceManager/Application/Application.m; sourceTree = SOURCE_ROOT; };
@@ -503,58 +501,58 @@
 		892DE4D41D22F8E100E1902C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
-				B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */,
-				892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */,
 				892DE4DB1D22F97A00E1902C /* CLI.h */,
 				892DE4DC1D22F97A00E1902C /* CLI.m */,
 				892DE4E71D230F5F00E1902C /* Command.h */,
 				892DE4E81D230F5F00E1902C /* Command.m */,
 				892DE4F31D23109000E1902C /* CommandOption.h */,
 				892DE4F41D23109000E1902C /* CommandOption.m */,
-				892DE51E1D237E7700E1902C /* IsInstalledCommand.h */,
-				892DE51F1D237E7700E1902C /* IsInstalledCommand.m */,
-				892DE50C1D237A0800E1902C /* InstallAppCommand.h */,
-				892DE50D1D237A0800E1902C /* InstallAppCommand.m */,
-				892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */,
-				892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */,
-				892DE5181D237B2B00E1902C /* UninstallAppCommand.h */,
-				892DE5191D237B2B00E1902C /* UninstallAppCommand.m */,
-				892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */,
-				892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */,
-				892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */,
-				892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */,
-				892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */,
-				892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */,
-				89C29E231DAFA93500282526 /* UploadFileCommand.h */,
-				89C29E241DAFA93500282526 /* UploadFileCommand.m */,
-				F59364981F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.h */,
-				F59364971F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.m */,
-				F59364A71F40912C00EB72BE /* GenerateXCAppDataCommand.h */,
-				F59364A61F40912C00EB72BE /* GenerateXCAppDataCommand.m */,
-				B2E68E161E3816DF001D5D89 /* ResignCommand.h */,
-				B2E68E171E38170E001D5D89 /* ResignCommand.m */,
-				B2E68E1B1E381731001D5D89 /* ResignAllCommand.h */,
-				B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */,
-				B23179E91E43B11D00B7D95E /* ResignObjectCommand.h */,
-				B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */,
-				B29637871E3FC20000200661 /* LaunchAppCommand.h */,
-				B29637831E3FC1E600200661 /* LaunchAppCommand.m */,
-				B29637881E3FC22700200661 /* KillAppCommand.h */,
-				B29637891E3FC23800200661 /* KillAppCommand.m */,
-				42148DF91EA5670700625741 /* VersionCommand.h */,
-				42148DFA1EA5671B00625741 /* VersionCommand.m */,
 				42CFBACB1F0FF70200357248 /* AppInfoCommand.h */,
 				42CFBACC1F0FF73800357248 /* AppInfoCommand.m */,
-				F59364AD1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.h */,
-				F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */,
-				F564E2E11F650ED100EDC7EF /* XCTestConfigReadWriteCommand.h */,
-				F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */,
 				B980C156206CA01700879BBD /* ClearAppDataCommand.h */,
 				B980C157206CA08600879BBD /* ClearAppDataCommand.m */,
 				B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */,
 				B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */,
 				B9247AC820878714008DA66D /* EraseSimulatorCommand.h */,
 				B9247AC920878714008DA66D /* EraseSimulatorCommand.m */,
+				F59364A71F40912C00EB72BE /* GenerateXCAppDataCommand.h */,
+				F59364A61F40912C00EB72BE /* GenerateXCAppDataCommand.m */,
+				892DE50C1D237A0800E1902C /* InstallAppCommand.h */,
+				892DE50D1D237A0800E1902C /* InstallAppCommand.m */,
+				892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */,
+				B29B2DA01E297D8900C4C7D1 /* iOSReturnStatusCode.h */,
+				892DE51E1D237E7700E1902C /* IsInstalledCommand.h */,
+				892DE51F1D237E7700E1902C /* IsInstalledCommand.m */,
+				B29637881E3FC22700200661 /* KillAppCommand.h */,
+				B29637891E3FC23800200661 /* KillAppCommand.m */,
+				892DE5061D2378AA00E1902C /* KillSimulatorCommand.h */,
+				892DE5071D2378AA00E1902C /* KillSimulatorCommand.m */,
+				B29637871E3FC20000200661 /* LaunchAppCommand.h */,
+				B29637831E3FC1E600200661 /* LaunchAppCommand.m */,
+				892DE5001D236CE400E1902C /* LaunchSimulatorCommand.h */,
+				892DE5011D236CE400E1902C /* LaunchSimulatorCommand.m */,
+				B2E68E1B1E381731001D5D89 /* ResignAllCommand.h */,
+				B2E68E1C1E381745001D5D89 /* ResignAllCommand.m */,
+				B2E68E161E3816DF001D5D89 /* ResignCommand.h */,
+				B2E68E171E38170E001D5D89 /* ResignCommand.m */,
+				B23179E91E43B11D00B7D95E /* ResignObjectCommand.h */,
+				B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */,
+				892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */,
+				892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */,
+				892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */,
+				892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */,
+				892DE5181D237B2B00E1902C /* UninstallAppCommand.h */,
+				892DE5191D237B2B00E1902C /* UninstallAppCommand.m */,
+				89C29E231DAFA93500282526 /* UploadFileCommand.h */,
+				89C29E241DAFA93500282526 /* UploadFileCommand.m */,
+				F59364981F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.h */,
+				F59364971F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.m */,
+				F59364AD1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.h */,
+				F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */,
+				42148DF91EA5670700625741 /* VersionCommand.h */,
+				42148DFA1EA5671B00625741 /* VersionCommand.m */,
+				F564E2E11F650ED100EDC7EF /* XCTestConfigReadWriteCommand.h */,
+				F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -737,7 +735,6 @@
 				63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */,
 				6342445D4215DC668C7923B2 /* EntitlementTest.m */,
 				A1D930C51DC29C620070573D /* ShasumProviderTest.m */,
-				A18622731DE4FEA200A05031 /* MachClockTest.m */,
 				F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */,
 				421D28101E942AB5003C7F10 /* FileUtilsTest.m */,
 				F59364A21F3F387F00EB72BE /* XCAppDataBundleTest.m */,
@@ -1079,7 +1076,6 @@
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				F54ACEF31E8A6AEE00BC36DA /* SimulatorTest.m in Sources */,
-				A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */,
 				B296D6FC1E31441700D365F3 /* Entitlement.m in Sources */,
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
