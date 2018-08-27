@@ -164,9 +164,14 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   @"-vv", bundleExecutableFile,
                                   @"--entitlements", pathToEntitlementsFile,
                                   pathToBundle];
-    ShellResult *result = [ShellRunner xcrun:args timeout:10];
+    NSTimeInterval timeout = 30;
+    ShellResult *result = [ShellRunner xcrun:args timeout:timeout];
+
+    CBXThrowExceptionIf(![result didTimeOut], @"Timeout in resigning %@ after %@ seconds", pathToBundle, @(timeout));
+
     BOOL success = result.success;
     CBXThrowExceptionIf(success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
+
     LogInfo(@"Signed %@: '%@' => '%@'",
             [pathToBundle lastPathComponent],
             originalSigningID,
