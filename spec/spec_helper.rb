@@ -33,9 +33,20 @@ RSpec.configure do |config|
 #config.filter_run :focus
 #config.run_all_when_everything_filtered = true
 
-# Many RSpec users commonly either run the entire suite or an individual
-# file, and it's useful to allow more verbose output when running an
-# individual spec file.
+  config.before(:suite) do
+    RunLoop.log_debug("Terminating stale CoreSimulator processes")
+    original = ENV["DEBUG"]
+    begin
+      ENV.delete("DEBUG")
+      RunLoop::CoreSimulator.terminate_core_simulator_processes
+    ensure
+      ENV["DEBUG"] = original
+    end
+  end
+
+  # Many RSpec users commonly either run the entire suite or an individual
+  # file, and it's useful to allow more verbose output when running an
+  # individual spec file.
   if config.files_to_run.one?
     # Use the documentation formatter for detailed output,
     # unless a formatter has already been configured

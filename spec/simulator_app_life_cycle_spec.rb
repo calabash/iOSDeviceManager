@@ -53,6 +53,7 @@ describe "app life cycle (simulator)" do
 
       args = ["install", app.path, "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       expect(core_sim.app_is_installed?).to be_truthy
@@ -63,6 +64,8 @@ describe "app life cycle (simulator)" do
 
       args = ["install", app.path, "--device-id", device.instruments_identifier]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
+
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       expect(core_sim.app_is_installed?).to be_truthy
@@ -73,11 +76,14 @@ describe "app life cycle (simulator)" do
 
       args = ["install", app.path, "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       args = ["install", app_dupe.path, "--device-id", udid]
       expect(app.bundle_version).not_to be == app_dupe.bundle_version
+
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       expect(core_sim.app_is_installed?).to be_truthy
@@ -88,11 +94,13 @@ describe "app life cycle (simulator)" do
 
       args = ["install", app.path, "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       args = ["install", app_dupe.path, "--device-id", udid]
       expect(app.marketing_version).not_to be == app_dupe.marketing_version
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       expect(core_sim.app_is_installed?).to be_truthy
@@ -103,12 +111,14 @@ describe "app life cycle (simulator)" do
 
       args = ["install", app.path, "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       args = ["install", app_dupe.path, "--device-id", udid]
       expect(app.bundle_version).not_to be == app_dupe.bundle_version
       expect(app.marketing_version).not_to be == app_dupe.marketing_version
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       expect(core_sim.app_is_installed?).to be_truthy
@@ -119,9 +129,11 @@ describe "app life cycle (simulator)" do
 
       args = ["install", app.path, "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       hash = IDM.shell(args << "--force")
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
       expect(core_sim.app_is_installed?).to be_truthy
       expect(hash[:out].include?("Installed")).to be_truthy
@@ -132,9 +144,11 @@ describe "app life cycle (simulator)" do
 
       args = ["install", app.path, "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
       expect(hash[:out].include?("not reinstalling")).to be_truthy
     end
@@ -144,6 +158,7 @@ describe "app life cycle (simulator)" do
     it "returns an non-zero exit code if app is not installed" do
       args = ["uninstall", "com.example.NotInstalled", "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:failure)
     end
 
@@ -154,6 +169,7 @@ describe "app life cycle (simulator)" do
 
       args = ["uninstall", app.bundle_identifier, "--device-id", udid]
       hash = IDM.shell(args)
+      hash[:out].split("\n").each { |line| puts line }
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
       expect(core_sim.app_is_installed?).to be_falsey
