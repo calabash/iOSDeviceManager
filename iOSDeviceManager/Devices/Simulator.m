@@ -115,17 +115,9 @@ static const FBSimulatorControl *_control;
 }
 
 + (NSArray<NSString *> *)requiredSimulatorAppProcesses {
-    NSMutableArray *array = [
-                             @[@"com.apple.backboardd",
-                               @"com.apple.mobile.installd",
-                               @"com.apple.SpringBoard"
-                               ] mutableCopy];
-    if (FBXcodeConfiguration.isXcode9OrGreater) {
-        [array addObject:@"com.apple.CoreSimulator.bridge"];
-    } else if (FBXcodeConfiguration.isXcode8OrGreater) {
-        [array addObject:@"com.apple.SimulatorBridge"];
-    }
-    return [NSArray arrayWithArray:array];
+    return @[@"com.apple.backboardd",
+             @"com.apple.mobile.installd",
+             @"com.apple.SpringBoard"];
 }
 
 + (iOSReturnStatusCode)launchSimulator:(Simulator *)simulator {
