@@ -18,13 +18,13 @@ set +e
 
 rm -rf reports/*.xml
 
-DEBUG=1 run-loop simctl manage-processes
+run-loop simctl manage-processes
 
 make tests
 
 EXIT_STATUS=$?
 
-DEBUG=1 run-loop simctl manage-processes
+run-loop simctl manage-processes
 
 if [ "${EXIT_STATUS}" = "0" ]; then
   echo "Tests passed"
