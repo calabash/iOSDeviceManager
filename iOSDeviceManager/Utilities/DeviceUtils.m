@@ -44,8 +44,16 @@ const double EPSILON = 0.001;
             continue;
         }
 
+        NSString *versionStr = [NSString stringWithFormat:@"%@", version.number];
+
+        // 11 => 11.0
+        // 12 => 12.0
+        if (![versionStr containsString:@"."]) {
+            versionStr = [versionStr stringByAppendingString:@".0"];
+        }
+
         instrumentsName = [simulator.name stringByAppendingFormat:@" (%@)",
-                           version.number];
+                           versionStr];
 
         if ([instrumentsName isEqualToString:name]) {
             return simulator.udid;
