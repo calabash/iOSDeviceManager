@@ -449,17 +449,41 @@ static const FBSimulatorControl *_control;
                     resourcesToInject:resourcePaths];
 
         FBSimulatorApplicationCommands *applicationCommands;
-        applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
+        applicationCommands = [Simulator
+                               applicationCommandsWithFBSimulator:self.fbSimulator];
 
+        NSUInteger tries = 5;
         NSError *error = nil;
-        BOOL success = [applicationCommands installApplicationWithPath:app.path
-                                                                 error:&error];
-        if (!success) {
-            ConsoleWriteErr(@"Error installing application: %@", error);
-            return iOSReturnStatusCodeGenericFailure;
-        } else {
+        BOOL success = NO;
+        for (NSUInteger try = 1; try < tries; try++) {
+            error = nil;
+            success = [applicationCommands installApplicationWithPath:app.path
+                                                                error:&error];
+            if (success) {
+                ConsoleWrite(@"Installed application on %@ of %@ attempts",
+                             @(try), @(tries));
+                break;
+            }
+
+            if ([[error description]
+                 containsString:@"This app could not be installed at this time"]) {
+                ConsoleWrite(@"Failed to install the app on attempt %@ of %@",
+                             @(try), @(tries));
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 2.0, false);
+            } else {
+                // Any other error
+                ConsoleWriteErr(@"Error installing application: %@", error);
+                success = NO;
+                break;
+            }
+        }
+
+        if (success) {
             ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID,
                          app.bundleVersion, app.bundleShortVersion, [self uuid]);
+            return iOSReturnStatusCodeEverythingOkay;
+        } else {
+            return iOSReturnStatusCodeGenericFailure;
         }
     }
 
