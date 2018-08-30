@@ -1,3 +1,12 @@
+### 3.2.0
+
+This release provides support for Xcode 10 beta 6.
+
+* Shell: all NSTask executed with timeout #219
+* Fix simulator-by-alias/name algorithm #225
+* Codesign is timing out on low resource machines #226
+* Stablize Simulator app life cycle events for Xcode 10 beta 6 #228
+
 ### 3.1.1
 
 This release provides support for Xcode 9.4.
