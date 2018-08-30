@@ -1,4 +1,4 @@
-[![Build Status](https://calabash-ci.xyz/job/Calabash-iOSDeviceManager/job/develop/badge/icon)](https//calabash-ci.xyz/job/Calabash-iOSDeviceManager/job/develop/)
+[![Build Status](https://calabash-ci.xyz/job/iOSDeviceManager/job/develop/badge/icon)](https://calabash-ci.xyz/job/iOSDeviceManager/job/develop/)
 
 ## iOSDeviceManager
 
@@ -8,8 +8,7 @@ for device/simulator lifecycle management.
 ### Code Signing
 
 Project maintainers must clone the [codesign](https://github.com/calabash/calabash-codesign)
-repo and install the certs and profiles. Talk to @jmoody or @sapieneptus
-for details.
+repo and install the certs and profiles. Talk to a maintainer for details.
 
 Contributors need to touch the Xcode project file with valid credentials.
 
