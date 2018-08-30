@@ -16,6 +16,7 @@
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation CLI
+
 static NSMutableDictionary <NSString *, Class> *commandClasses;
 
 + (void)load {
@@ -42,34 +43,55 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
 }
 
 + (void)printUsage {
-    printf("USAGE: %s [command] [flags]\n",
-           [[[NSProcessInfo processInfo].arguments[0] lastPathComponent]
-                cStringUsingEncoding:NSUTF8StringEncoding]);
-    for (Class<iOSDeviceManagementCommand> c in [commandClasses allValues]) {
-        [c printUsage];
+    NSString *program = [[NSProcessInfo processInfo].arguments[0]
+        lastPathComponent];
+    ConsoleWrite(@"USAGE: %@ [command] [flags]\n", program);
+
+    ConsoleWrite(@"To see command-specific help:");
+    ConsoleWrite(@"$ %@ [command]\n", program);
+
+    NSSortDescriptor *sorter;
+    sorter = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    NSArray *sorted;
+    sorted = [[commandClasses allValues] sortedArrayUsingDescriptors:@[sorter]];
+
+    for (Class<iOSDeviceManagementCommand> c in sorted) {
+        ConsoleWrite(@"\t%@", [c name]);
     }
-    printf("\n");
+    ConsoleWrite(@"\n");
 }
 
 /*
  For parsing args - positional values may be used (regardless of order) and their
- corresponding property is determined by `positionalArgShortFlag`. Using redundant 
+ corresponding property is determined by `positionalArgShortFlag`. Using redundant
  args will result in iOSReturnStatusCodeInvalidArguments response.
 */
-+ (NSDictionary<NSString *, NSString *> *)parseArgs:(NSArray <NSString *> *)args
-                                         forCommand:(Class <iOSDeviceManagementCommand>)command
-                                           exitCode:(int *)exitCode {
++ (NSDictionary<NSString *,
+                NSString *> *)parseArgs:(NSArray <NSString *> *)args
+                             forCommand:(Class<iOSDeviceManagementCommand>)command
+                               exitCode:(int *)exitCode {
+
+    if (args.count == 0) {
+        if (![[command name] isEqualToString:@"kill-simulator"]) {
+            [command printUsage];
+            *exitCode = iOSReturnStatusCodeEverythingOkay;
+            return @{};
+        }
+    }
+
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
     NSUInteger positionalArgCount = 0;
 
     for (int i = 0; i < args.count; i++) {
         CommandOption *op = [command optionForFlag:args[i]];
-        if (op == nil) { // This is true when the arg provided isn't a recognized flag or isn't a flag
+        // This is true when the arg provided isn't a recognized flag or isn't a flag
+        if (op == nil) {
             CommandOption *positionalOption;
             if ([[command name] isEqualToString:[IsInstalledCommand name]]
                 || [[command name] isEqualToString:[AppInfoCommand name]]) {
-                // IsInstalledCommand and AppInfoCommand accepts either bundle id OR app path as a positional (0) arg
-                // So determine the option based on the context
+                // IsInstalledCommand and AppInfoCommand accepts either bundle
+                // id OR app path as a positional (0) arg
+                // The determine the option based on the context
                 positionalOption = [command optionForAppPathOrBundleID:args[i]];
             } else {
                 positionalOption = [command optionForPosition:positionalArgCount];
@@ -105,7 +127,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             values[op.optionName] = @YES;
         }
     }
-    
+
     *exitCode = iOSReturnStatusCodeEverythingOkay;
     return values;
 }
@@ -117,7 +139,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
     } else {
         NSString *commandName = [args[1] lowercaseString];
         Class <iOSDeviceManagementCommand> command = commandClasses[commandName];
-        
+
         if (command) {
             //Ensure args can be parsed correctly
             NSArray *cmdArgs = args.count == 2 ? @[] : [args subarrayWithRange:NSMakeRange(2, args.count - 2)];
@@ -128,7 +150,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             if (ec != iOSReturnStatusCodeEverythingOkay) {
                 return ec;
             }
-            
+
             //If the user specified they want help, just print help and exit.
             if ([parsedArgs hasKey:HELP_SHORT_FLAG] ||
                 [parsedArgs hasKey:HELP_LONG_FLAG]) {
@@ -159,7 +181,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
                     return iOSReturnStatusCodeMissingArguments;
                 }
             }
-            
+
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
 

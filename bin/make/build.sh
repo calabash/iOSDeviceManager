@@ -9,10 +9,11 @@ BUILD_DIR="build"
 XC_PROJECT="iOSDeviceManager.xcodeproj"
 XC_TARGET="iOSDeviceManager"
 
-XC_PIPE="xcpretty -c"
-hash "xcpretty" 2>/dev/null && [ "${XCPRETTY}" != "0" ] || {
+if [ $(gem list -i xcpretty) = "true" ] && [ "${XCPRETTY}" != "0" ]; then
+  XC_PIPE="xcpretty -c"
+else
   XC_PIPE='cat'
-}
+fi
 
 info "Will pipe xcodebuild to: ${XC_PIPE}"
 

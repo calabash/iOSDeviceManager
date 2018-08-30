@@ -102,4 +102,14 @@ describe "xctestconfig" do
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
     end
   end
+
+  context "--print-template" do
+    it "prints a plist to stdout" do
+      args = ["xctestconfig", "--print-template"]
+      hash = IDM.shell(args)
+
+      expect(hash[:out][/NSKeyedArchiver/]).to be_truthy
+      expect(hash[:exit_status]).to be == IDM.exit_status(:success)
+    end
+  end
 end

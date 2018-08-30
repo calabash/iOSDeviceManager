@@ -11,6 +11,7 @@
 @interface SimDevice : NSObject
 
 - (BOOL)bootWithOptions:(NSDictionary *)options error:(NSError *__autoreleasing *)error;
+- (NSDictionary *)installedAppsWithError:(NSError **)error;
 
 @end
 
@@ -114,17 +115,9 @@ static const FBSimulatorControl *_control;
 }
 
 + (NSArray<NSString *> *)requiredSimulatorAppProcesses {
-    NSMutableArray *array = [
-                             @[@"com.apple.backboardd",
-                               @"com.apple.mobile.installd",
-                               @"com.apple.SpringBoard"
-                               ] mutableCopy];
-    if (FBXcodeConfiguration.isXcode9OrGreater) {
-        [array addObject:@"com.apple.CoreSimulator.bridge"];
-    } else if (FBXcodeConfiguration.isXcode8OrGreater) {
-        [array addObject:@"com.apple.SimulatorBridge"];
-    }
-    return [NSArray arrayWithArray:array];
+    return @[@"com.apple.backboardd",
+             @"com.apple.mobile.installd",
+             @"com.apple.SpringBoard"];
 }
 
 + (iOSReturnStatusCode)launchSimulator:(Simulator *)simulator {
@@ -424,7 +417,7 @@ static const FBSimulatorControl *_control;
                     mobileProfile:(MobileProfile *)profile
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
 
     if (![self boot]) {
         ConsoleWriteErr(@"Cannot install %@ on Simulator %@ because the device could not "
@@ -456,17 +449,41 @@ static const FBSimulatorControl *_control;
                     resourcesToInject:resourcePaths];
 
         FBSimulatorApplicationCommands *applicationCommands;
-        applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
+        applicationCommands = [Simulator
+                               applicationCommandsWithFBSimulator:self.fbSimulator];
 
+        NSUInteger tries = 5;
         NSError *error = nil;
-        BOOL success = [applicationCommands installApplicationWithPath:app.path
-                                                                 error:&error];
-        if (!success) {
-            ConsoleWriteErr(@"Error installing application: %@", error);
-            return iOSReturnStatusCodeGenericFailure;
-        } else {
+        BOOL success = NO;
+        for (NSUInteger try = 1; try < tries; try++) {
+            error = nil;
+            success = [applicationCommands installApplicationWithPath:app.path
+                                                                error:&error];
+            if (success) {
+                ConsoleWrite(@"Installed application on %@ of %@ attempts",
+                             @(try), @(tries));
+                break;
+            }
+
+            if ([[error description]
+                 containsString:@"This app could not be installed at this time"]) {
+                ConsoleWrite(@"Failed to install the app on attempt %@ of %@",
+                             @(try), @(tries));
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 2.0, false);
+            } else {
+                // Any other error
+                ConsoleWriteErr(@"Error installing application: %@", error);
+                success = NO;
+                break;
+            }
+        }
+
+        if (success) {
             ConsoleWrite(@"Installed %@ version: %@ / %@ to %@", app.bundleID,
                          app.bundleVersion, app.bundleShortVersion, [self uuid]);
+            return iOSReturnStatusCodeEverythingOkay;
+        } else {
+            return iOSReturnStatusCodeGenericFailure;
         }
     }
 
@@ -475,22 +492,22 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
-                     forceReinstall:(BOOL)forceReinstall{
+                   forceReinstall:(BOOL)forceReinstall{
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall {
@@ -498,39 +515,39 @@ static const FBSimulatorControl *_control;
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:nil
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                     mobileProfile:(MobileProfile *)profile
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:profile
            codesignIdentity:nil
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)installApp:(Application *)app
                  codesignIdentity:(CodesignIdentity *)codesignID
                 resourcesToInject:(NSArray<NSString *> *)resourcePaths
-                     forceReinstall:(BOOL)forceReinstall {
+                   forceReinstall:(BOOL)forceReinstall {
     return [self installApp:app
               mobileProfile:nil
            codesignIdentity:codesignID
           resourcesToInject:resourcePaths
-               forceReinstall:forceReinstall];
+             forceReinstall:forceReinstall];
 }
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
@@ -546,8 +563,7 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    if (![self.fbSimulator installedApplicationWithBundleID:bundleID
-                                                      error:nil]) {
+    if (![self isInstalled:bundleID withError:nil]) {
         ConsoleWriteErr(@"App %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
@@ -561,6 +577,18 @@ static const FBSimulatorControl *_control;
         ConsoleWriteErr(@"Error uninstalling app: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else {
+        if ([self isInstalled:bundleID withError:nil]) {
+            ConsoleWrite(@"Rebooting device to reset installed-apps database");
+            [self shutdown];
+            [self boot];
+
+            if ([self.fbSimulator isApplicationInstalledWithBundleID:bundleID
+                                                               error:&error]) {
+                ConsoleWriteErr(@"Could not uninstall app %@", error);
+                return iOSReturnStatusCodeInternalError;
+            }
+        }
+        ConsoleWrite(@"Application %@ was uninstalled", bundleID);
         return iOSReturnStatusCodeEverythingOkay;
     }
 }
@@ -659,8 +687,18 @@ static const FBSimulatorControl *_control;
 }
 
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
-    return [self.fbSimulator isApplicationInstalledWithBundleID:bundleID
-                                                          error:error];
+
+    if ([self.fbSimulator isApplicationInstalledWithBundleID:bundleID
+                                                       error:error]) {
+        return YES;
+    }
+
+    NSDictionary *installedApps = [self.fbSimulator.device installedAppsWithError:error];
+    if (installedApps[bundleID]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
@@ -980,14 +1018,22 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installedApp.bundle.path;
 }
 
-- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
-                                                   error:(NSError **)error {
-    NSString *runnerPath = [self installPathForApplication:bundleIdentifier];
-    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                                           AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
+                                                         error:(NSError **)error {
+    NSString *runnerInstalledPath = [self installPathForApplication:runnerBundleIdentifier];
+    NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerInstalledPath];
+    NSString *AUTInstalledPath = [self installPathForApplication:AUTBundleIdentifier];
+    NSString *uuid = [[NSUUID UUID] UUIDString];
 
-    NSString *xctestconfig = [XCTestConfigurationPlist plistWithTestBundlePath:xctestBundlePath];
+    NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
+                                                                 AUTInstalledPath:AUTInstalledPath
+                                                              AUTBundleIdentifier:AUTBundleIdentifier
+                                                              runnerInstalledPath:runnerInstalledPath
+                                                           runnerBundleIdentifier:runnerBundleIdentifier
+                                                                sessionIdentifier:uuid];
 
-    NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
+    NSString *containerPath = [self containerPathForApplication:runnerBundleIdentifier];
     NSString *tmpDirectory = [containerPath stringByAppendingPathComponent:@"tmp"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:tmpDirectory]) {
         if (![[NSFileManager defaultManager] createDirectoryAtPath:tmpDirectory
@@ -998,7 +1044,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    NSString *filename = @"DeviceAgent.xctestconfiguration";
+    NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
 
     NSArray *tmpDirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDirectory
@@ -1018,13 +1064,18 @@ testCaseDidStartForTestClass:(NSString *)testClass
         }
     }
 
-    if (![xctestconfig writeToFile:xctestconfigPath
-                        atomically:YES
-                          encoding:NSUTF8StringEncoding
-                             error:error]) {
+    NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
+
+    if (![plistData writeToFile:xctestconfigPath
+                     atomically:YES]) {
+        ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
+                        xctestconfigPath);
         return NO;
     }
 
+    ConsoleWrite(@"Runner: %@", runnerBundleIdentifier);
+    ConsoleWrite(@"AUT: %@", AUTBundleIdentifier);
+    ConsoleWrite(uuid);
     return YES;
 }
 

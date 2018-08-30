@@ -29,6 +29,8 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation ShellResult
 
+// NSTask will only capture the first 65535 bytes.
+// If this is a problem, we will have to implement streaming or chunking.
 + (NSString *)stringFromPipe:(NSPipe *)pipe
                      command:(NSString *)command
                     isStdOut:(BOOL)isStdOut {

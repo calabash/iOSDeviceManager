@@ -1,12 +1,10 @@
 #!/usr/bin/env groovy
-String cron_string = BRANCH_NAME == "develop" ? "H H(0-8) * * *" : ""
 
 pipeline {
   agent { label 'master' }
-  triggers { cron(cron_string) }
-
   environment {
-    DEVELOPER_DIR = '/Xcode/9.2/Xcode.app/Contents/Developer'
+    DEVELOPER_DIR = '/Xcode/9.4.1/Xcode.app/Contents/Developer'
+    XCPRETTY=1
 
     SLACK_COLOR_DANGER  = '#E01563'
     SLACK_COLOR_INFO    = '#6ECADC'
@@ -14,6 +12,12 @@ pipeline {
     SLACK_COLOR_GOOD    = '#3EB991'
 
     PROJECT_NAME = 'iOSDeviceManager'
+  }
+  options {
+    disableConcurrentBuilds()
+    timestamps()
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    timeout(time: 75, unit: 'MINUTES')
   }
 
   stages {
@@ -23,31 +27,18 @@ pipeline {
                   message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Started* (<${env.BUILD_URL}|Open>)")
       }
     }
-    stage('Setup') {
-      steps {
-        // Ignore errors on setup step to prevent build failing
-        sh '''
-          pkill iOSDeviceManager || true
-          pkill Simulator || true
-        '''
-      }
-    }
     stage('Run build and tests') {
       steps {
-        sh 'bin/test/ci.sh'
+        sh 'gtimeout --foreground --signal SIGKILL 75m bin/test/ci.sh'
       }
     }
   }
 
   post {
     always {
-      // Ignore errors on post step to prevent build failing
-      sh '''
-        pkill iOSDeviceManager || true
-        pkill Simulator || true
-      '''
       junit 'reports/*.xml'
     }
+
     aborted {
       echo "Sending 'aborted' message to Slack"
       slackSend (color: "${env.SLACK_COLOR_WARNING}",
@@ -65,11 +56,5 @@ pipeline {
       slackSend (color: "${env.SLACK_COLOR_GOOD}",
                 message: "${env.PROJECT_NAME} [${env.GIT_BRANCH}] #${env.BUILD_NUMBER} *Success* after ${currentBuild.durationString.replace('and counting', '')}(<${env.BUILD_URL}|Open>)")
     }
-  }
-
-  options {
-    disableConcurrentBuilds()
-    timeout(time: 60, unit: 'MINUTES')
-    timestamps()
   }
 }

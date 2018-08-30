@@ -28,25 +28,75 @@ const double EPSILON = 0.001;
     return did.length == 40 && [did isBase64];
 }
 
-+ (NSArray<FBDevice *> *)availableDevices {
-    return [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
++ (NSString *)findDeviceIDByName:(NSString *)name {
+
+    for (FBDevice *device in [DeviceUtils availableDevices]) {
+        if ([device.name isEqualToString:name]) {
+            return device.udid;
+        }
+    }
+
+    NSString *instrumentsName;
+    for (FBSimulator *simulator in [DeviceUtils availableSimulators]) {
+        FBOSVersion *version = simulator.osVersion;
+        if (![version.name containsString:@"iOS"]) {
+            // Ignore watches, tvs, and pairs.
+            continue;
+        }
+
+        NSString *versionStr = [NSString stringWithFormat:@"%@", version.number];
+
+        // 11 => 11.0
+        // 12 => 12.0
+        if (![versionStr containsString:@"."]) {
+            versionStr = [versionStr stringByAppendingString:@".0"];
+        }
+
+        instrumentsName = [simulator.name stringByAppendingFormat:@" (%@)",
+                           versionStr];
+
+        if ([instrumentsName isEqualToString:name]) {
+            return simulator.udid;
+        }
+    }
+
+    return nil;
 }
 
+
++ (NSArray<FBDevice *> *)availableDevices {
+    static dispatch_once_t onceToken = 0;
+    static NSArray<FBDevice *> *m_availableDevices;
+
+    dispatch_once(&onceToken, ^{
+        m_availableDevices = [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
+    });
+    return m_availableDevices;
+}
+
+
 + (NSArray<FBSimulator *> *)availableSimulators {
-    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                      configurationWithDeviceSetPath:nil
-                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-    
-    NSError *err;
-    FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
-    if (err) {
-        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
-        @throw [NSException exceptionWithName:@"GenericException"
-                                       reason:@"Failed detecting available simulators"
-                                     userInfo:nil];
-    }
-    
-    return [[simControl set] allSimulators];
+    static dispatch_once_t onceToken = 0;
+    static NSArray<FBSimulator *> *m_availableSimulators;
+
+    dispatch_once(&onceToken, ^{
+        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+                                                          configurationWithDeviceSetPath:nil
+                                                          options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+
+        NSError *err;
+        FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
+        if (err) {
+            ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
+            @throw [NSException exceptionWithName:@"GenericException"
+                                           reason:@"Failed detecting available simulators"
+                                         userInfo:nil];
+        }
+
+        m_availableSimulators = [[simControl set] allSimulators];
+    });
+
+    return m_availableSimulators;
 }
 
 + (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
@@ -61,7 +111,7 @@ const double EPSILON = 0.001;
     NSDecimalNumber *otherSimVersion = otherSim.configuration.os.number;
     NSString *simDeviceName = [sim name];
     NSString *otherSimDeviceName = [otherSim name];
-    
+
     if ([simVersion isGreaterThan:otherSimVersion]) {
         return NSOrderedDescending;
     } else if ([simVersion isEqual:otherSimVersion]) {
@@ -93,7 +143,7 @@ const double EPSILON = 0.001;
             return NSOrderedDescending;
         }
     }
-    
+
     return NSOrderedAscending;
 }
 
@@ -104,35 +154,35 @@ const double EPSILON = 0.001;
 
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow {
     NSArray<FBDevice *> *devices = [DeviceUtils availableDevices];
-    
+
     if ([devices count] == 1) {
         return [devices firstObject].udid;
     } else if ([devices count] > 1) {
         ConsoleWriteErr(@"Multiple physical devices detected but none specified");
         if (shouldThrow) {
             @throw [NSException exceptionWithName:@"AmbiguousArgumentsException"
-                                       reason:@"Multiple physical devices detected but none specified"
-                                     userInfo:nil];
+                                           reason:@"Multiple physical devices detected but none specified"
+                                         userInfo:nil];
         }
-        
+
         return [devices firstObject].udid;
     }
-    
+
     return nil;
 }
 
 + (NSString *)defaultDeviceID {
-    
+
     NSString *physicalDeviceID = [self defaultPhysicalDeviceIDEnsuringOnlyOneAttached:YES];
     if (physicalDeviceID.length) {
         return physicalDeviceID;
     }
-    
+
     NSString *simulatorDeviceID = [self defaultSimulatorID];
     if (simulatorDeviceID.length) {
         return simulatorDeviceID;
     }
-    
+
     @throw [NSException exceptionWithName:@"MissingDeviceException"
                                    reason:@"Unable to determine default device"
                                  userInfo:nil];

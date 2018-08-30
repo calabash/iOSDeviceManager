@@ -47,13 +47,13 @@
 
     args = @[kProgramName, @"install", @"fake/path/to/.app", @"-d"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
-    
+
     args = @[kProgramName, @"resign", @"-a", @"fake/path/to/.app"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
-    
+
     args = @[kProgramName, @"resign-object", @"/fake/path/to/.dylib"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
-    
+
     args = @[kProgramName, @"resign-all", @"fake/path/to/.app"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeMissingArguments);
 }
@@ -63,14 +63,6 @@
     NSArray *args = @[kProgramName, @"resign-all", @"fake/path/to/.app",
                       @"fake/path/to/profile.mobileprovision", @"-o", @"output-path"];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeInvalidArguments);
-}
-
-- (void)testAppInfoCommand {
-    NSArray *args = @[kProgramName, @"app-info", [[Resources shared] TaskyPath:SIM]];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    args = @[kProgramName, @"app-info", [[Resources shared] TaskyPath:ARM]];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testPositionalFrameworkOrDylib {

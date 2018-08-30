@@ -31,6 +31,13 @@
 + (instancetype)withID:(NSString *)uuid {
     if ([DeviceUtils isSimulatorID:uuid]) { return [Simulator withID:uuid]; }
     if ([DeviceUtils isDeviceID:uuid]) { return [PhysicalDevice withID:uuid]; }
+
+    NSString *uuidFromName = [DeviceUtils findDeviceIDByName:uuid];
+    if (uuidFromName) {
+        if ([DeviceUtils isSimulatorID:uuidFromName]) { return [Simulator withID:uuidFromName]; }
+        if ([DeviceUtils isDeviceID:uuidFromName]) { return [PhysicalDevice withID:uuidFromName]; }
+    }
+    
     ConsoleWriteErr(@"Specified device ID does not match simulator or device");
     return nil;
 }
@@ -203,8 +210,9 @@
     return [testRunnerPath stringByAppendingPathComponent:bundlePath];
 }
 
-- (BOOL)stageXctestConfigurationToTmpForBundleIdentifier:(NSString *)bundleIdentifier
-                                                   error:(NSError **)error {
+- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
+                                     AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
+                                                      error:(NSError **)error {
     MUST_OVERRIDE;
 }
 

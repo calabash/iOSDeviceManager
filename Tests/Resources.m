@@ -51,15 +51,24 @@
 - (NSArray<TestSimulator *> *)simulators {
     if (_simulators) { return _simulators; }
 
+
     NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"simctl", @"list",
-                                                      @"devices", @"--json"]];
-    NSString *json = [lines componentsJoinedByString:@"\n"];
+                                                      @"devices", @"--json"]
+                                            timeout:10.0].stdoutLines;
+    NSString *json = [lines componentsJoinedByString:@" "];
 
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
     NSDictionary *raw =
     [NSJSONSerialization JSONObjectWithData:data
                                     options:NSJSONReadingMutableContainers
-                                      error:nil];
+                                      error:&error];
+
+    if (!raw) {
+       NSLog(@"Could not list create a list of simulators with simctl");
+       NSLog(@"Error: %@", error);
+       return nil;
+    }
 
     NSDictionary *devices = raw[@"devices"];
     NSMutableArray<TestSimulator *> *sims = [NSMutableArray array];
@@ -300,7 +309,9 @@
 - (NSArray<TestDevice *> *)connectedDevices {
     if (_connectedDevices) { return _connectedDevices; }
 
-    NSArray<NSString *> *lines = [ShellRunner xcrun:@[@"instruments", @"-s", @"devices"]];
+    NSArray<NSString *> *lines;
+    lines = [ShellRunner xcrun:@[@"instruments", @"-s", @"devices"]
+                       timeout:10].stdoutLines;
 
     NSMutableArray<TestDevice *> *result = [@[] mutableCopy];
 
@@ -470,8 +481,9 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 - (NSString *)XcodeSelectPath {
     if (_XcodeSelectPath) { return _XcodeSelectPath; }
 
-    _XcodeSelectPath = [ShellRunner shell:@"/usr/bin/xcode-select"
-                                     args:@[@"--print-path"]][0];
+    _XcodeSelectPath = [ShellRunner command:@"/usr/bin/xcode-select"
+                                       args:@[@"--print-path"]
+                                    timeout:10].stdoutLines[0];
 
     return _XcodeSelectPath;
 }

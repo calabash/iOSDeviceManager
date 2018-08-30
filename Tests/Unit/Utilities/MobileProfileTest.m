@@ -65,8 +65,6 @@
     expect(profile.platform[0]).to.equal(@"iOS");
     expect(profile.expirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
-    NSLog(@"%@", profile.info);
-
     Certificate *cert = profile.developerCertificates[0];
     expect(cert.commonName).to.equal(@"iPhone Developer: Karl Krukow (YTTN6Y2QS9)");
 
@@ -95,23 +93,18 @@
     expect(profile.platform[0]).to.equal(@"iOS");
     expect(profile.expirationDate).to.beInstanceOf(NSClassFromString(@"__NSTaggedDate"));
 
-    NSLog(@"%@", profile.info);
-
     Certificate *cert = profile.developerCertificates[0];
     expect(cert.commonName).to.equal(@"iPhone Developer: Andrew Chung (28DXNYAUL2)");
 
     Entitlements *entitlements = profile.entitlements;
     expect(entitlements[@"get-task-allow"]).to.equal(@(1));
-    NSLog(@"%@", entitlements);
 }
 
 - (void)testCanImportLJSProfile {
     NSString *path = [self.resources pathToVeryLongProfile];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
-    MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
-                                                                  path:path];
-
-    NSLog(@"profile = %@", profile);
+    MobileProfile __unused *profile = [[MobileProfile alloc] initWithDictionary:hash
+                                                                           path:path];
 }
 
 

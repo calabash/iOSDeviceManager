@@ -1,9 +1,4 @@
-
 describe "erase-simulator" do
-
-  before do
-    allow(RunLoop::Environment).to receive(:debug?).and_return(true)
-  end
 
   let(:device) { IDM::Resources.instance.default_simulator }
   let(:udid) { device.udid }
@@ -26,7 +21,9 @@ describe "erase-simulator" do
   end
 
   it "erases the simulator" do
-    core_sim.install
+    if !TestHelper.is_installed?(udid, app.path)
+      TestHelper.install(udid, app.path)
+    end
     expect(core_sim.app_is_installed?).to be_truthy
     args = ["erase-simulator", udid]
     hash = IDM.shell(args)

@@ -150,11 +150,9 @@
     [Simctl shared];
 }
 
-#pragma mark - Simulators
-
 - (void)testSimulators {
-    NSArray *sims = [self.resources simulators];
-    XCTAssertTrue([sims count] > 0);
+    NSArray *sims = [[Simctl shared] simulators];
+    XCTAssertTrue([sims count] > 1);
 }
 
 #pragma mark - Provisioning Profiles

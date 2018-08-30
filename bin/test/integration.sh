@@ -51,10 +51,11 @@ XCODE_VERSION=`xcrun xcodebuild -version | head -1 | awk '{print $2}' | tr -d '\
 REPORT="reports/${XC_SCHEME}-${XCODE_VERSION}.xml"
 rm -rf "${REPORT}"
 
-XC_PIPE="xcpretty -c --report junit --output ${REPORT}"
-hash "xcpretty" 2>/dev/null && [ "${XCPRETTY}" != "0" ] || {
+if [ $(gem list -i xcpretty) = "true" ] && [ "${XCPRETTY}" != "0" ]; then
+  XC_PIPE="xcpretty -c --report junit --output ${REPORT}"
+else
   XC_PIPE='cat'
-}
+fi
 
 info "Will pipe xcodebuild to: ${XC_PIPE}"
 

@@ -15,6 +15,7 @@ NSString *const HELP_SHORT_FLAG = @"-h";
 NSString *const HELP_LONG_FLAG = @"--help";
 NSString *const DEVICE_ID_FLAG = @"-d";
 NSString *const BUNDLE_ID_OPTION_NAME = @"bundle-identifier";
+NSString *const RUNNER_BUNDLE_ID_OPTION_NAME = @"runner-bundle-identifier";
 NSString *const DEVICE_ID_OPTION_NAME = @"device-identifier";
 NSString *const CODESIGN_ID_OPTION_NAME = @"codesign-identifier";
 NSString *const RESOURCES_PATH_OPTION_NAME = @"resources-path";
