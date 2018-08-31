@@ -55,6 +55,9 @@ xcuserdata/
 .idea
 .floo
 
+# Ruby
+.irb-history
+
 # RunLoop & Dependencies
 run_loop/
 DeviceAgent.iOS/
