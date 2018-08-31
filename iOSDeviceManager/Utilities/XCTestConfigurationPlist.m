@@ -5,9 +5,9 @@
 @implementation XCTestConfigurationPlist
 
 + (NSString *)plistWithXCTestInstallPath:(NSString *)testInstallPath
-                        AUTInstalledPath:(NSString *)autInstalledPath
+                             AUTHostPath:(NSString *)autHostPath
                      AUTBundleIdentifier:(NSString *)autBundleIdentifier
-                     runnerInstalledPath:(NSString *)runnerInstalledPath
+                          runnerHostPath:(NSString *)runnerHostPath
                   runnerBundleIdentifier:(NSString *)runnerBundleIdentifier
                        sessionIdentifier:(NSString *)uuid{
     NSString *template = [XCTestConfigurationPlist template];
@@ -15,11 +15,11 @@
                                              withString:
              [NSString stringWithFormat:@"file://%@", testInstallPath]];
     template = [template stringByReplacingOccurrencesOfString:@"AUT_INSTALLED_PATH"
-                                             withString:autInstalledPath];
+                                             withString:autHostPath];
     template = [template stringByReplacingOccurrencesOfString:@"AUT_BUNDLE_IDENTIFIER"
                                              withString:autBundleIdentifier];
     template = [template stringByReplacingOccurrencesOfString:@"RUNNER_INSTALLED_PATH"
-                                             withString:runnerInstalledPath];
+                                             withString:runnerHostPath];
     template = [template stringByReplacingOccurrencesOfString:@"RUNNER_BUNDLE_IDENTIFIER"
                                              withString:runnerBundleIdentifier];
     uuid_t bytes;
@@ -28,6 +28,11 @@
                                                 base64EncodedStringWithOptions:kNilOptions];
     template = [template stringByReplacingOccurrencesOfString:@"SESSION_IDENTIFIER"
                                              withString:base64EncodedSessionIdentifier];
+
+    NSString *runnerProductName = [[runnerHostPath lastPathComponent]
+                                   componentsSeparatedByString:@"-"][0];
+    template = [template stringByReplacingOccurrencesOfString:@"RUNNER_PRODUCT_NAME"
+                                                   withString:runnerProductName];
 
     return template;
 }

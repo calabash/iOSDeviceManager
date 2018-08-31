@@ -701,40 +701,56 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return [operator AMDinstallProvisioningProfileAtPath:path error:error];
 }
 
-- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
-                                           AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
-                                                         error:(NSError **)error {
+- (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)pathToRunner
+                                           AUT:(NSString *)pathToAUT
+                                    deviceUDID:(NSString *)deviceUDID
+                                         error:(NSError **)error {
+
+    NSString *runnerName = [[pathToRunner lastPathComponent]
+                            componentsSeparatedByString:@"."][0];
+    NSString *appDataBundle = [runnerName stringByAppendingString:@".xcappdata"];
 
     NSString *directory = NSTemporaryDirectory();
-    [XCAppDataBundle generateBundleSkeleton:directory
-                                       name:@"DeviceAgent.xcappdata"
-                                  overwrite:YES];
 
-    NSString *xcappdata = [directory stringByAppendingPathComponent:@"DeviceAgent.xcappdata"];
+    if (![XCAppDataBundle generateBundleSkeleton:directory
+                                            name:appDataBundle
+                                       overwrite:YES]) {
+        return NO;
+    }
 
-    if (!xcappdata) { return NO; }
+    NSString *xcappdata = [directory stringByAppendingPathComponent:appDataBundle];
 
     FBiOSDeviceOperator *operator = [self fbDeviceOperator];
     [operator fetchApplications];
 
-    NSString *runnerPath = [operator applicationPathForApplicationWithBundleID:runnerBundleIdentifier
-                                                                         error:error];
-    NSString *AUTPath = [operator applicationPathForApplicationWithBundleID:AUTBundleIdentifier error:error];
+    Application *runnerApp = [Application withBundlePath:pathToRunner];
+    NSString *runnerBundleId = [runnerApp bundleID];
 
+    Application *AUTApp = [Application withBundlePath:pathToAUT];
+    NSString *AUTBundleId = [AUTApp bundleID];
+
+    NSString *runnerPath = [operator applicationPathForApplicationWithBundleID:runnerBundleId
+                                                                         error:error];
     NSString *uuid = [[NSUUID UUID] UUIDString];
 
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
+
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
-                                                                 AUTInstalledPath:AUTPath
-                                                              AUTBundleIdentifier:AUTBundleIdentifier
-                                                              runnerInstalledPath:runnerPath
-                                                           runnerBundleIdentifier:runnerBundleIdentifier
+                                                                      AUTHostPath:pathToAUT
+                                                              AUTBundleIdentifier:AUTBundleId
+                                                                   runnerHostPath:pathToRunner
+                                                           runnerBundleIdentifier:runnerBundleId
                                                                 sessionIdentifier:uuid];
 
     NSString *tmpDirectory = [[xcappdata stringByAppendingPathComponent:@"AppData"]
                               stringByAppendingPathComponent:@"tmp"];
 
-    NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
+
+    NSString *runnerProductName = [[pathToRunner lastPathComponent]
+                                   componentsSeparatedByString:@"-"][0];
+
+    NSString *filename = [NSString stringWithFormat:@"%@-%@.xctestconfiguration",
+                          runnerProductName, uuid];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
 
     NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
@@ -746,9 +762,24 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return NO;
     }
 
+    [[NSFileManager defaultManager] createDirectoryAtPath:@"xctestconfig"
+                              withIntermediateDirectories:NO
+                                               attributes:nil
+                                                    error:nil];
+
+    xctestconfigPath = [@"xctestconfig" stringByAppendingPathComponent:filename];
+    if (![plistData writeToFile:xctestconfigPath
+                     atomically:YES]) {
+        ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
+                        xctestconfigPath);
+        return NO;
+    }
+
     if (![operator uploadApplicationDataAtPath:xcappdata
-                                      bundleID:runnerBundleIdentifier
+                                      bundleID:runnerBundleId
                                          error:error]) {
+        ConsoleWriteErr(@"Could not upload %@ to %@",
+                        appDataBundle, runnerBundleId);
         return NO;
     }
 
@@ -756,9 +787,24 @@ testCaseDidStartForTestClass:(NSString *)testClass
     [[NSFileManager defaultManager] removeItemAtPath:xcappdata
                                                error:nil];
 
-    ConsoleWrite(@"Runner: %@", runnerBundleIdentifier);
-    ConsoleWrite(@"AUT: %@", AUTBundleIdentifier);
-    ConsoleWrite(uuid);
+    ConsoleWrite(@"\n");
+    ConsoleWrite(@" Runner: %@", runnerBundleId);
+    ConsoleWrite(@"    AUT: %@", AUTBundleId);
+    ConsoleWrite(@"Session: %@", uuid);
+
+    NSString *containerPath = [self containerPathForApplication:runnerBundleId];
+    NSString *installedPath = [[containerPath stringByAppendingPathComponent:@"tmp"]
+                               stringByAppendingPathComponent:filename];
+    ConsoleWrite(@"   Path: %@", xctestconfigPath);
+
+    ConsoleWrite(@"\n-a /Developer/usr/lib/libXCTTargetBootstrapInject.dylib \\\n"
+                  "-b %@ \\\n"
+                 "-t %@ \\\n"
+                 "-s %@ \\\n"
+                 "-u %@ \\\n"
+                 "-c %@\n",
+                 runnerBundleId, AUTBundleId, uuid, deviceUDID, installedPath);
+
     return YES;
 }
 

@@ -54,9 +54,11 @@
     NSString *basePath = [expanded stringByDeletingLastPathComponent];
     NSString *name = [expanded lastPathComponent];
 
-    if ([XCAppDataBundle generateBundleSkeleton:basePath
-                                           name:name
-                                      overwrite:overwrite]) {
+    NSString *bundle = [XCAppDataBundle generateBundleSkeleton:basePath
+                                                          name:name
+                                                     overwrite:overwrite];
+    if (bundle) {
+        ConsoleWrite(@"%@", bundle);
         return iOSReturnStatusCodeEverythingOkay;
     } else {
         return iOSReturnStatusCodeGenericFailure;
@@ -210,9 +212,10 @@
     return [testRunnerPath stringByAppendingPathComponent:bundlePath];
 }
 
-- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
-                                     AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
-                                                      error:(NSError **)error {
+- (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)runnerBundleIdentifier
+                                           AUT:(NSString *)AUTBundleIdentifier
+                                    deviceUDID:(NSString *)deviceUDID
+                                         error:(NSError **)error {
     MUST_OVERRIDE;
 }
 
