@@ -7,9 +7,9 @@
 @interface XCTestConfigurationPlist : NSObject
 
 + (NSString *)plistWithXCTestInstallPath:(NSString *)testInstallPath
-                        AUTInstalledPath:(NSString *)autInstallPath
+                             AUTHostPath:(NSString *)autInstallPath
                      AUTBundleIdentifier:(NSString *)autBundleIdentifier
-                     runnerInstalledPath:(NSString *)runnerInstallPath
+                          runnerHostPath:(NSString *)runnerInstallPath
                   runnerBundleIdentifier:(NSString *)runnerBundleIdentifier
                        sessionIdentifier:(NSString *)UUID;
 
