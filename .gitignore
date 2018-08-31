@@ -5,6 +5,7 @@ Products/
 tmp
 Distribution/dependencies
 results
+xctestconfig
 
 reports/*.xml
 reports/*.json

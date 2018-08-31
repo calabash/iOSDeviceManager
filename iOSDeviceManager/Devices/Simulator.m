@@ -1018,8 +1018,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return installedApp.bundle.path;
 }
 
-- (BOOL)stageXctestConfigurationToTmpForRunnerBundleIdentifier:(NSString *)runnerBundleIdentifier
-                                           AUTBundleIdentifier:(NSString *)AUTBundleIdentifier
+- (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)runnerBundleIdentifier
+                                           AUT:(NSString *)AUTBundleIdentifier
                                                          error:(NSError **)error {
     NSString *runnerInstalledPath = [self installPathForApplication:runnerBundleIdentifier];
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerInstalledPath];
@@ -1027,9 +1027,9 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *uuid = [[NSUUID UUID] UUIDString];
 
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
-                                                                 AUTInstalledPath:AUTInstalledPath
+                                                                 AUTHostPath:AUTInstalledPath
                                                               AUTBundleIdentifier:AUTBundleIdentifier
-                                                              runnerInstalledPath:runnerInstalledPath
+                                                              runnerHostPath:runnerInstalledPath
                                                            runnerBundleIdentifier:runnerBundleIdentifier
                                                                 sessionIdentifier:uuid];
 
