@@ -12,9 +12,9 @@
              [appData stringByAppendingPathComponent:@"tmp"]];
 }
 
-+ (BOOL)generateBundleSkeleton:(NSString *)path
-                          name:(NSString *) name
-                     overwrite:(BOOL)overwrite {
++ (NSString *)generateBundleSkeleton:(NSString *)path
+                                name:(NSString *) name
+                           overwrite:(BOOL)overwrite {
     NSString *expanded = [FileUtils expandPath:path];
 
     NSError *error = nil;
@@ -27,7 +27,7 @@
             ConsoleWriteErr(@"Cannot create .xcappdata bundle at path:\n  %@\n"
                             "because a directory could not be created:\n  %@",
                             expanded, [error localizedDescription]);
-            return NO;
+            return nil;
         }
     }
 
@@ -41,7 +41,7 @@
                             "Use the --overwrite flag to force the creation of a new "
                             "bundle.",
                             bundle);
-            return NO;
+            return nil;
         }
 
         if (![manager removeItemAtPath:bundle
@@ -50,7 +50,7 @@
                             "because a file or directory already exists with that "
                             "name and cannot be removed because:\n%@",
                             bundle, [error localizedDescription]);
-            return NO;
+            return nil;
         }
     }
 
@@ -61,7 +61,7 @@
         ConsoleWriteErr(@"Cannot create app data bundle at path:\n  %@\n"
                         "because .xcappdata directory could not be created:\n%@",
                         bundle, [error localizedDescription]);
-        return NO;
+        return nil;
     }
 
     NSString *appData = [bundle stringByAppendingPathComponent:@"AppData"];
@@ -81,19 +81,17 @@
                             "because a subdirectory:\n %@\n"
                             "could not be created:\n %@",
                             bundle, directory, [error localizedDescription]);
-            return NO;
+            return nil;
         }
     }
 
     if (![XCAppDataBundle isValid:bundle]) {
         ConsoleWriteErr(@"Could not create a valid app data bundle at path:\n  %@",
                         bundle);
-        return NO;
+        return nil;
     }
 
-    ConsoleWrite(@"%@", bundle);
-
-    return YES;
+    return bundle;
 }
 
 + (BOOL)isValid:(NSString *)path {

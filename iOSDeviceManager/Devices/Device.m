@@ -54,9 +54,11 @@
     NSString *basePath = [expanded stringByDeletingLastPathComponent];
     NSString *name = [expanded lastPathComponent];
 
-    if ([XCAppDataBundle generateBundleSkeleton:basePath
-                                           name:name
-                                      overwrite:overwrite]) {
+    NSString *bundle = [XCAppDataBundle generateBundleSkeleton:basePath
+                                                          name:name
+                                                     overwrite:overwrite];
+    if (bundle) {
+        ConsoleWrite(@"%@", bundle);
         return iOSReturnStatusCodeEverythingOkay;
     } else {
         return iOSReturnStatusCodeGenericFailure;
