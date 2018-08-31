@@ -46,10 +46,14 @@
                                                         error:&error];
 
     if (!plist || plist.count == 0) {
-        ConsoleWriteErr(@"Could not parse plist to dictionary:");
+        ConsoleWriteErr(@"Could not parse entitlements plist to dictionary.");
+        ConsoleWriteErr(@"This command:");
+        ConsoleWriteErr(@"  %@", result.command);
+        ConsoleWriteErr(@"produced this output:");
         ConsoleWriteErr(@"=== PLIST BEGIN ===");
         ConsoleWriteErr(@"%@", result.stdoutStr);
         ConsoleWriteErr(@"=== PLIST END ===");
+        ConsoleWriteErr(@"stderr: %@", result.stderrStr);
         ConsoleWriteErr(@"%@", [error localizedDescription]);
         return nil;
     }
