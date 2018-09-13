@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		ZX+gajmO7/ZdiCvFznfHTyLarEI=
+		GKOw2hQzZWHPgTz1gyalNha9G7U=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			Mj5geVwoRO4HRnw225RtKVyFs9Q=
+			aenRHjo2DIm+zI4ixRKWqZ8X4Wo=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -255,11 +255,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			25vhM5Sjj6pDv2G1NNproJ4pAtM=
+			3zgzrGGkneZLqeck4cYYd0qt80o=
 			</data>
 			<key>hash2</key>
 			<data>
-			bxRuoDx4f4OZ2oqSkQmcfsDuxXTLc6Ajup+Z41m6W10=
+			arSTavNI/SZyyh6dh9xWDEy60fNZg7/Njwqmi/Ohmnw=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreError.h</key>
@@ -937,11 +937,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZX+gajmO7/ZdiCvFznfHTyLarEI=
+			GKOw2hQzZWHPgTz1gyalNha9G7U=
 			</data>
 			<key>hash2</key>
 			<data>
-			dDkIijTpMpFXBvAmOeTQMoqU1xl8yr+w5KWPh5wl0vs=
+			4/OPoIBITCNE1QEIujR1wAjJRCh9iJ4yTFsn5IW/1Qk=
 			</data>
 		</dict>
 	</dict>
