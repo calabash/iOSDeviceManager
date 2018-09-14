@@ -1,5 +1,5 @@
 | develop | [versioning](VERSIONING.md) | [license](LICENSE) | [contributing](CONTRIBUTING.md)|
-|---------|---------|-----------------------------|--------------------|--------------------------------|
+|---------|-----------------------------|--------------------|--------------------------------|
 |[![Build Status](https://calabash-ci.xyz/buildStatus/icon?job=iOSDeviceManager/develop)](https://calabash-ci.xyz/job/iOSDeviceManager/develop) | [![Version](https://img.shields.io/badge/version-3.2.0-green.svg)](https://img.shields.io/badge/version-3.2.0-green.svg) |[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE) | [![Contributing](https://img.shields.io/badge/contrib-gitflow-orange.svg)](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow/)|
 
 ## iOSDeviceManager
