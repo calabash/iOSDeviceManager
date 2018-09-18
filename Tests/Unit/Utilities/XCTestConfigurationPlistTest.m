@@ -4,13 +4,6 @@
 
 @interface XCTestConfigurationPlist (TEST)
 
-+ (NSString *)plistWithXCTestInstallPath:(NSString *)testInstallPath
-                        AUTInstalledPath:(NSString *)autInstallPath
-                     AUTBundleIdentifier:(NSString *)autBundleIdentifier
-                     runnerInstalledPath:(NSString *)runnerInstallPath
-                  runnerBundleIdentifier:(NSString *)runnerBundleIdentifier
-                       sessionIdentifier:(NSString *)UUID;
-
 @end
 
 @interface XCTestConfigurationPlistTest : TestCase
@@ -38,9 +31,9 @@
     NSString *encodedSessionIdentifier = @"qqqqqru7zMzd3e7u7u7u7g==";
 
     NSString *actual = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestPath
-                                                           AUTInstalledPath:autInstalledPath
+                                                                AUTHostPath:autInstalledPath
                                                         AUTBundleIdentifier:autIdentifier
-                                                        runnerInstalledPath:runnerInstalledPath
+                                                             runnerHostPath:runnerInstalledPath
                                                      runnerBundleIdentifier:runnerIdentifier
                                                           sessionIdentifier:sessionIdentifier];
 
@@ -61,6 +54,9 @@
 
     expect([actual containsString:encodedSessionIdentifier]).to.equal(YES);
     expect([actual containsString:@"SESSION_IDENTIFIER"]).to.equal(NO);
+
+    expect([actual containsString:@"<string>AUT</string>"]).to.equal(YES);
+    expect([actual containsString:@"RUNNER_TARGET_NAME"]).to.equal(NO);
 }
 
 @end

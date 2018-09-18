@@ -19,7 +19,8 @@ integration-tests:
 	bin/test/integration.sh
 
 cli-tests:
-	bin/test/cli.sh
+	bin/test/rspec.sh
+
 rspec:
 	bin/test/rspec.sh
 

@@ -5,6 +5,7 @@ Products/
 tmp
 Distribution/dependencies
 results
+xctestconfig
 
 reports/*.xml
 reports/*.json
@@ -54,6 +55,9 @@ xcuserdata/
 # JetBrains
 .idea
 .floo
+
+# Ruby
+.irb-history
 
 # RunLoop & Dependencies
 run_loop/

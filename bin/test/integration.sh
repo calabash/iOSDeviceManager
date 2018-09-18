@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 source bin/simctl.sh
-ensure_valid_core_sim_service
+source bin/log.sh
 
 set -e
 

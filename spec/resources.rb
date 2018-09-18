@@ -118,8 +118,14 @@ module IDM
       when :ipa
         source = File.join(resources_dir, "arm", "AppStub.ipa")
         target = File.join(tmp_dir("arm"), "AppStub.ipa")
+      when :palisade_arm
+        source = File.join(resources_dir, "arm", "Palisade.app")
+        target = File.join(tmp_dir("arm"), "Palisade.app")
+      when :palisade_runner_arm
+        source = File.join(resources_dir, "arm", "UITests-Runner.app")
+        target = File.join(tmp_dir("arm"), "UITests-Runner.app")
       else
-        raise ArgumentError, "Expected :arm, :x86, or :ipa, found: #{type}"
+        raise ArgumentError, "Unexpected type: #{type}"
       end
 
       FileUtils.rm_rf(target)
