@@ -2,7 +2,6 @@
 
 source bin/log.sh
 source bin/simctl.sh
-ensure_valid_core_sim_service
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   if [ -e "../FBSimulatorControl" ]; then

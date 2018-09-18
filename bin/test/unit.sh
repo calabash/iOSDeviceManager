@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-set +e
-source bin/simctl.sh
-ensure_valid_core_sim_service
-set -e
-
 source bin/log.sh
+source bin/simctl.sh
+
+set -e
 
 info "Use the TESTS env variable to run specific tests:"
 info ""

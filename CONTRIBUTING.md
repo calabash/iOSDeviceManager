@@ -39,3 +39,42 @@ https://cla.microsoft.com/cladoc/microsoft-contribution-license-agreement.pdf.
 Please consult the LICENSE file in this project for copyright and
 license details.
 
+## Releasing
+
+After the release branch is created:
+
+* No more features can be added.
+* All in-progress features and un-merged pull-requests must wait for the next release.
+* You can, and should, make changes to the documentation.
+
+The release pull request ***must*** be made against the _master_ branch.
+
+```
+$ git co -b release/3.2.1
+
+1. Update the CHANGELOG.md.
+2. **IMPORTANT** Bump the version in iOSDeviceManager/Commands/VersionCommand.m
+3. **IMPORTANT** Bump the version in the README.md badges.
+4. Review the README.md and update content as necessary.
+
+$ git push -u origin release/3.2.1
+
+**IMPORTANT**
+
+1. Make a pull request on GitHub on the master branch.
+2. Wait for CI to finish.
+3. Merge pull request.
+
+$ git co master
+$ git pull
+$ bin/git-tag.sh
+
+$ git co develop
+$ git merge --no-ff release/3.2.1
+$ git push
+
+$ git branch -d release/3.2.1
+
+Announce the release on the public channels.
+```
+

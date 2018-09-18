@@ -1,3 +1,9 @@
+### 3.2.1
+
+* Upload xctestconfig command requires file paths #320
+* Frameworks: update FBSimControl related frameworks with new ios 12
+  device models #231
+
 ### 3.2.0
 
 This release provides support for Xcode 10 beta 6.
