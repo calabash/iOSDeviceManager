@@ -29,7 +29,11 @@ pipeline {
     }
     stage('Run build and tests') {
       steps {
-        sh 'gtimeout --foreground --signal SIGKILL 75m bin/test/ci.sh'
+        sh "run-loop simctl manage-processes"
+        sh "rm -rf reports/*.xml"
+        sh "gtimeout --foreground --signal SIGKILL 10m make unit-tests"
+        sh "gtimeout --foreground --signal SIGKILL 30m make integration-tests"
+        sh "gtimeout --foreground --signal SIGKILL 30m make cli-tests"
       }
     }
   }

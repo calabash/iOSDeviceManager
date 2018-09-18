@@ -3,7 +3,6 @@
 source bin/log.sh
 source bin/simctl.sh
 source bin/ditto.sh
-ensure_valid_core_sim_service
 
 BUILD_DIR="build"
 XC_PROJECT="iOSDeviceManager.xcodeproj"

@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
 source bin/simctl.sh
-ensure_valid_core_sim_service
+source bin/log.sh
 
 set -e
 
-source bin/log.sh
 
 info "Use the DEVICE env variable to run specific rspec tests"
 info "written for physical devices and test against connected one:"
@@ -30,8 +29,8 @@ fi
 banner "Rspec tests"
 
 if [ "$DEVICE" == "1" ]; then
-  bundle exec rspec --pattern "spec/*device*_spec.rb"
+  exec bundle exec rspec --pattern "spec/*device*_spec.rb"
 else
-  bundle exec rspec --exclude-pattern "spec/*device*_spec.rb"
+  exec bundle exec rspec --exclude-pattern "spec/*device*_spec.rb"
 fi
 
