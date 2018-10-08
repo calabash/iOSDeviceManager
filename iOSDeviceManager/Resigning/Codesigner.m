@@ -110,7 +110,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
     CBXThrowExceptionIf(success, @"Error codesigning %@: %@", appDir, result.stderrStr);
-    LogInfo(@"Signed %@: '%@' => '%@'",
+    LogInfo(@"ad hoc resigning of %@: '%@' => '%@'",
             [appDir lastPathComponent],
             originalSigningID,
             [self objectSigningID:appDir]);
@@ -144,7 +144,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
     CBXThrowExceptionIf(success, @"Error codesigning %@: %@", pathToObject, result.stderrStr);
-    LogInfo(@"Signed %@: '%@' => '%@'",
+    LogInfo(@"resigned object %@: '%@' => '%@'",
             [pathToObject lastPathComponent],
             originalSigningID,
             [self objectSigningID:pathToObject]);
@@ -172,7 +172,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     BOOL success = result.success;
     CBXThrowExceptionIf(success, @"Error codesigning %@: %@", pathToBundle, result.stderrStr);
 
-    LogInfo(@"Signed %@: '%@' => '%@'",
+    LogInfo(@"resigned bundle %@: '%@' => '%@'",
             [pathToBundle lastPathComponent],
             originalSigningID,
             [self objectSigningID:pathToBundle]);
