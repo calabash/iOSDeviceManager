@@ -1,6 +1,32 @@
 #import "DeviceUtils.h"
 #import "ConsoleWriter.h"
 
+void XcodeVersion(int *iMajor, int* iMinor) {
+    NSPipe *pipe = [NSPipe pipe];
+    NSFileHandle *file = pipe.fileHandleForReading;
+    
+    NSTask *task = [[NSTask alloc] init];
+    task.launchPath = @"/bin/sh";
+    task.arguments = @[@"-c", @"xcrun xcodebuild -version"];
+    task.standardOutput = pipe;
+    
+    [task launch];
+    
+    NSData *data = [file readDataToEndOfFile];
+    [file closeFile];
+    
+    NSString *str = [[NSString alloc] initWithData:data encoding: NSUTF8StringEncoding];
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"Xcode\\s+(\\d+)\\.(\\d+)" options:0 error:nil];
+    
+    NSArray *matches = [regex matchesInString:str options:0 range:NSMakeRange(0, [str length])];
+    
+    NSString *major = [str substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:1]];
+    NSString *minor = [str substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:2]];
+    *iMajor = major.intValue;
+    *iMinor = minor.intValue;
+}
+
 @interface NSString(Base64)
 - (BOOL)isBase64;
 @end
@@ -100,52 +126,47 @@ const double EPSILON = 0.001;
 }
 
 + (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
-    NSArray <FBSimulator *> *sorted = [simulators sortedArrayUsingComparator:^NSComparisonResult(id sim2, id sim1) {
-        return [DeviceUtils comparePreferredSimulator:sim1 to:sim2];
-    }];
-    return [sorted firstObject];
-}
+    // step 1. define desired simulator model and runtime
+    int xcode_major;
+    int xcode_minor;
+    XcodeVersion(&xcode_major, &xcode_minor);
+    // TODO: runtime versionwill be used in iOS version comparision
+    // int major=xcode_major+2;
+    // int minor=xcode_minor;
+    
+    NSString *defaultModel;
+    
+    if (xcode_major == 10) {
+        defaultModel=@"XS";
+    }else{
+        defaultModel=[NSString stringWithFormat:@"%d", xcode_major-1];
+    }
+    
+    // step 2. find FBSimulator with the desired simulators
+    // Re explanation:
+    //   iPhone\\s+  - skip anything before model name
+    //   (\\d+|XS)   - pickup either XS or one of 4..8 model and save into capture group #1
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"iPhone\\s+(\\d+|XS)" options:0 error:nil];
+    
+    // while we do not have iOS information will assign each matched simulator
+    // to "def" variable. The last one will be returned
+    FBSimulator *def = nil;
+    for (FBSimulator *simulator in simulators) {
+        NSString *simName = [simulator name];
+        NSArray *matches = [regex matchesInString:simName options:0 range:NSMakeRange(0, [simName length])];
+        if (matches==nil || matches.count == 0) continue;
 
-+ (NSComparisonResult)comparePreferredSimulator:(FBSimulator *)sim to:(FBSimulator *)otherSim {
-    NSDecimalNumber *simVersion = sim.configuration.os.number;
-    NSDecimalNumber *otherSimVersion = otherSim.configuration.os.number;
-    NSString *simDeviceName = [sim name];
-    NSString *otherSimDeviceName = [otherSim name];
-
-    if ([simVersion isGreaterThan:otherSimVersion]) {
-        return NSOrderedDescending;
-    } else if ([simVersion isEqual:otherSimVersion]) {
-        if ([simDeviceName containsString:@"iPhone"] && [otherSimDeviceName containsString:@"iPhone"]) {
-            NSCharacterSet *nonDigitCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-            NSString *simNumber = [[simDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
-            NSString *otherSimNumber = [[otherSimDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
-            if (simNumber.length == 0) {
-                return NSOrderedAscending;
-            }
-            if (otherSimNumber.length == 0) {
-                return NSOrderedSame;
-            }
-            if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < EPSILON) {
-                // Handle things like 6S vs 6
-                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+[Ss]" options:0 error:nil];
-                NSUInteger simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
-                NSUInteger otherSimIsS = [regex numberOfMatchesInString:otherSimDeviceName options:0 range:NSMakeRange(0, [otherSimDeviceName length])];
-
-                if (simIsS > 0 && otherSimIsS == 0) {
-                    return NSOrderedDescending;
-                }
-            } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > EPSILON) {
-                return NSOrderedDescending;
-            } else {
-                return NSOrderedAscending;
-            }
-        } else if ([simDeviceName containsString:@"iPhone"] && ![otherSimDeviceName containsString:@"iPhone"]) {
-            return NSOrderedDescending;
+        // rangeAtIndex:0 - the whole match
+        // rangeAtIndex:0 - the first captured group #1
+        NSString *model = [simName substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:1]];
+        if ([model isEqualToString:defaultModel]) {
+            def=simulator;
+        }else{
+            continue;
         }
     }
-
-    return NSOrderedAscending;
-}
+    return def;
+};
 
 + (NSString *)defaultSimulatorID {
     NSArray<FBSimulator *> *sims = [DeviceUtils availableSimulators];
