@@ -1,3 +1,11 @@
+### 3.2.2
+
+* FB Frameworks: handle missing simulator arches #234
+
+FBSimulatorControl libraries built from calabash fork off /develop
+branch @ a6687f10632a49d61df60c6817a7746ffd44a832, Xcode 10.0,
+and maco High Sierra.
+
 ### 3.2.1
 
 * Upload xctestconfig command requires file paths #320
