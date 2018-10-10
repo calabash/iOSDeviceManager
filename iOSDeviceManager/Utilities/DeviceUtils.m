@@ -1,6 +1,7 @@
 #import "DeviceUtils.h"
 #import "ConsoleWriter.h"
-
+#import "ShellResult.h"
+#import "ShellRunner.h"
 
 @interface NSString(Base64)
 - (BOOL)isBase64;
@@ -101,27 +102,17 @@ const double EPSILON = 0.001;
 }
 
 + (void) getXcodeVersionTo:(int *)major and:(int*) minor{
-    NSPipe *pipe = [NSPipe pipe];
-    NSFileHandle *file = pipe.fileHandleForReading;
-    
-    NSTask *task = [[NSTask alloc] init];
-    task.launchPath = @"/bin/sh";
-    task.arguments = @[@"-c", @"xcrun xcodebuild -version"];
-    task.standardOutput = pipe;
-    
-    [task launch];
-    
-    NSData *data = [file readDataToEndOfFile];
-    [file closeFile];
-    
-    NSString *str = [[NSString alloc] initWithData:data encoding: NSUTF8StringEncoding];
+
+    ShellResult *shellResult = [ShellRunner xcrun:@[@"xcodebuild", @"-version"]
+                                          timeout:10];
     
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"Xcode\\s+(\\d+)\\.(\\d+)" options:0 error:nil];
     
-    NSArray *matches = [regex matchesInString:str options:0 range:NSMakeRange(0, [str length])];
+    NSString *output = shellResult.stdoutStr;
+    NSArray *matches = [regex matchesInString:output options:0 range:NSMakeRange(0, [output length])];
     
-    NSString *j = [str substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:1]];
-    NSString *i = [str substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:2]];
+    NSString *j = [output substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:1]];
+    NSString *i = [output substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:2]];
     *major = j.intValue;
     *minor = i.intValue;
 }
