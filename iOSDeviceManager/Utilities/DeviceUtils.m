@@ -106,13 +106,21 @@ const double EPSILON = 0.001;
     ShellResult *shellResult = [ShellRunner xcrun:@[@"xcodebuild", @"-version"]
                                           timeout:10];
     
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"Xcode\\s+(\\d+)\\.(\\d+)" options:0 error:nil];
+    NSRegularExpression *regex = [NSRegularExpression
+                                  regularExpressionWithPattern:@"Xcode\\s+(\\d+)\\.(\\d+)"
+                                  options:0 error:nil];
     
     NSString *output = shellResult.stdoutStr;
-    NSArray *matches = [regex matchesInString:output options:0 range:NSMakeRange(0, [output length])];
+    NSArray *matches = [regex
+                        matchesInString:output
+                        options:0 range:NSMakeRange(0, [output length])];
     
-    NSString *j = [output substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:1]];
-    NSString *i = [output substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:2]];
+    NSString *j = [output
+                   substringWithRange:[(NSTextCheckingResult*)matches[0]
+                                       rangeAtIndex:1]];
+    NSString *i = [output
+                   substringWithRange:[(NSTextCheckingResult*)matches[0]
+                                       rangeAtIndex:2]];
     *major = j.intValue;
     *minor = i.intValue;
 }
@@ -139,7 +147,8 @@ const double EPSILON = 0.001;
     //   iPhone\\s+  - skip anything before model name
     //   (\\d+|XS)   - pickup either XS or one of 4..8 model
     //                 and save it into capture group #1
-    NSRegularExpression *regex = [NSRegularExpression
+    NSRegularExpression
+    *regex = [NSRegularExpression
                                   regularExpressionWithPattern:@"iPhone\\s+(\\d+|XS)"
                                   options:0 error:nil];
     
@@ -148,13 +157,17 @@ const double EPSILON = 0.001;
     FBSimulator *defaultSimulatorCandidate = nil;
     for (FBSimulator *simulator in simulators) {
         NSString *simName = [simulator name];
-        NSArray *matches = [regex matchesInString:simName options:0 range:NSMakeRange(0, [simName length])];
+        NSArray *matches = [regex
+                            matchesInString:simName
+                            options:0 range:NSMakeRange(0, [simName length])];
         if (!matches || matches.count == 0) {
             continue;
         }
         // rangeAtIndex:0 - the whole match
         // rangeAtIndex:1 - the first captured group #1
-        NSString *model = [simName substringWithRange:[(NSTextCheckingResult*)matches[0] rangeAtIndex:1]];
+        NSString *model = [simName
+                           substringWithRange:[(NSTextCheckingResult*)matches[0]
+                                               rangeAtIndex:1]];
         if ([model isEqualToString:defaultModel]) {
             defaultSimulatorCandidate=simulator;
         }else{
