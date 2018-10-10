@@ -1,7 +1,6 @@
 #import "DeviceUtils.h"
 #import "ConsoleWriter.h"
-#import "ShellResult.h"
-#import "ShellRunner.h"
+#import "XCodeUtils.h"
 
 @interface NSString(Base64)
 - (BOOL)isBase64;
@@ -101,35 +100,11 @@ const double EPSILON = 0.001;
     return m_availableSimulators;
 }
 
-+ (void) getXcodeVersionTo:(int *)major and:(int*) minor{
-
-    ShellResult *shellResult = [ShellRunner xcrun:@[@"xcodebuild", @"-version"]
-                                          timeout:10];
-    
-    NSRegularExpression *regex = [NSRegularExpression
-                                  regularExpressionWithPattern:@"Xcode\\s+(\\d+)\\.(\\d+)"
-                                  options:0 error:nil];
-    
-    NSString *output = shellResult.stdoutStr;
-    NSArray *matches = [regex
-                        matchesInString:output
-                        options:0 range:NSMakeRange(0, [output length])];
-    
-    NSString *j = [output
-                   substringWithRange:[(NSTextCheckingResult*)matches[0]
-                                       rangeAtIndex:1]];
-    NSString *i = [output
-                   substringWithRange:[(NSTextCheckingResult*)matches[0]
-                                       rangeAtIndex:2]];
-    *major = j.intValue;
-    *minor = i.intValue;
-}
-
 + (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
     // step 1. define desired simulator model and runtime
-    int xcode_major;
-    int xcode_minor;
-    [self getXcodeVersionTo:&xcode_major and:&xcode_minor];
+    int xcode_major = XCodeUtils.versionMajor;
+    int xcode_minor = XCodeUtils.versionMinor;
+
     // TODO: runtime versionwill be used in iOS version comparision
     // int major=xcode_major+2;
     // int minor=xcode_minor;
