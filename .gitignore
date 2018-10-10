@@ -68,6 +68,3 @@ Tests/cucumber/Gemfile*
 
 # Gemfile used in rspec tests for CLI
 Gemfile.lock
-#
-.bundle
-vendor
