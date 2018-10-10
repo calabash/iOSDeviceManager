@@ -29,14 +29,16 @@ const double EPSILON = 0.001;
     return did.length == 40 && [did isBase64];
 }
 
-+ (NSString *)findDeviceIDByName:(NSString *)name {
-
++ (FBDevice *)findDeviceByName:(NSString *)name {
     for (FBDevice *device in [DeviceUtils availableDevices]) {
         if ([device.name isEqualToString:name]) {
-            return device.udid;
+            return device;
         }
     }
+    return nil;
+}
 
++ (FBSimulator *)findSimulatorByName:(NSString *)name {
     NSString *instrumentsName;
     for (FBSimulator *simulator in [DeviceUtils availableSimulators]) {
         FBOSVersion *version = simulator.osVersion;
@@ -57,13 +59,19 @@ const double EPSILON = 0.001;
                            versionStr];
 
         if ([instrumentsName isEqualToString:name]) {
-            return simulator.udid;
+            return simulator;
         }
     }
-
     return nil;
 }
 
++ (NSString *)findDeviceIDByName:(NSString *)name {
+    FBDevice *device = [self findDeviceByName:name];
+    if (device) return device.udid;
+    FBSimulator *simulator = [self findSimulatorByName:name];
+    if (simulator) return simulator.udid;
+    return nil;
+}
 
 + (NSArray<FBDevice *> *)availableDevices {
     static dispatch_once_t onceToken = 0;
@@ -124,8 +132,8 @@ const double EPSILON = 0.001;
     //                 and save it into capture group #1
     NSRegularExpression
     *regex = [NSRegularExpression
-                                  regularExpressionWithPattern:@"iPhone\\s+(\\d+|XS)"
-                                  options:0 error:nil];
+              regularExpressionWithPattern:@"iPhone\\s+(\\d+|XS)"
+              options:0 error:nil];
     
     // while we do not have iOS information will assign each matched simulator
     // to "def" variable. The last one will be returned
@@ -152,9 +160,40 @@ const double EPSILON = 0.001;
     return defaultSimulatorCandidate;
 };
 
++ (FBSimulator *)defaultSimulator {
+    NSString *simulatorName = [self defaultSimulatorName];
+    FBSimulator *simulator = [self findSimulatorByName: simulatorName];
+    return simulator;
+};
+
 + (NSString *)defaultSimulatorID {
-    NSArray<FBSimulator *> *sims = [DeviceUtils availableSimulators];
-    return [DeviceUtils defaultSimulator:sims].udid;
+    NSString *simulatorName = [self defaultSimulatorName];
+    FBSimulator *simulator = [self findSimulatorByName: simulatorName];
+    if (simulator) {
+        return simulator.udid;
+    }else{
+        [NSException raise: @"Non existing simulator"
+                    format: @"Could not find default simulator: %@", simulatorName];
+        return nil;
+    }
+};
+
++ (NSString *)defaultSimulatorName {
+    int major = XCodeUtils.versionMajor + 2;
+    int minor = XCodeUtils.versionMinor;
+
+    if (XCodeUtils.versionMajor == 10) {
+        return [NSString
+                stringWithFormat:@"iPhone XS (%d.%d)",
+                major,
+                minor];
+    }else{
+        return [NSString
+                stringWithFormat:@"iPhone %d (%d.%d)",
+                XCodeUtils.versionMajor - 1,
+                major,
+                minor];
+    }
 }
 
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow {
