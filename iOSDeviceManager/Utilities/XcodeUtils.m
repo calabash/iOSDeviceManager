@@ -1,18 +1,18 @@
 //
-//  XCodeUtils.m
+//  XcodeUtils.m
 //  iOSDeviceManager
 //
 //  Created by Sergey Dolin on 10/10/2018.
 //  Copyright © 2018 Microsoft. All rights reserved.
 //
 
-#import "XCodeUtils.h"
+#import "XcodeUtils.h"
 #import "ShellResult.h"
 #import "ShellRunner.h"
 
-@implementation XCodeUtils
-static int _versionMajor=0;
-static int _versionMinor=0;
+@implementation XcodeUtils
+static int _versionMajor = 0;
+static int _versionMinor = 0;
 
 + (int) versionMajor {
     if (!_versionMajor) {

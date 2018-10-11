@@ -15,5 +15,5 @@
 + (NSString *)defaultDeviceID;
 + (NSArray<FBDevice *> *)availableDevices;
 + (NSArray<FBSimulator *> *)availableSimulators;
-+ (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators;
++ (FBSimulator *)defaultSimulator;
 @end

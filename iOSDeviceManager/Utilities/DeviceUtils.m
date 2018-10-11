@@ -1,6 +1,7 @@
 #import "DeviceUtils.h"
 #import "ConsoleWriter.h"
-#import "XCodeUtils.h"
+#import "SimDevice.h"
+#import "XcodeUtils.h"
 
 @interface NSString(Base64)
 - (BOOL)isBase64;
@@ -41,13 +42,28 @@ const double EPSILON = 0.001;
 + (FBSimulator *)findSimulatorByName:(NSString *)name {
     NSString *instrumentsName;
     for (FBSimulator *simulator in [DeviceUtils availableSimulators]) {
-        FBOSVersion *version = simulator.osVersion;
-        if (![version.name containsString:@"iOS"]) {
+        NSString *runtimeData = [(SimDevice *)simulator.device runtimeIdentifier];
+        if (![runtimeData containsString:@"iOS"]) {
             // Ignore watches, tvs, and pairs.
             continue;
         }
+        
+        // Regex to extract version: com.apple.CoreSimulator.SimRuntime.iOS-12-1 => 12-1
+        NSRegularExpression
+        *regex = [NSRegularExpression
+                  regularExpressionWithPattern:@"(\\d+)(-(\\d+))*"
+                  options:0 error:nil];
+        
+        NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:runtimeData
+                                     options:0 range:NSMakeRange(0, [runtimeData length])];
 
-        NSString *versionStr = [NSString stringWithFormat:@"%@", version.number];
+        if (NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
+           continue;
+        }
+        
+        // 12-1 => 12.1
+        NSString *versionStr = [[runtimeData substringWithRange:rangeOfFirstMatch]
+                                stringByReplacingOccurrencesOfString:@"-" withString:@"."];
 
         // 11 => 11.0
         // 12 => 12.0
@@ -108,58 +124,6 @@ const double EPSILON = 0.001;
     return m_availableSimulators;
 }
 
-+ (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
-    // step 1. define desired simulator model and runtime
-    int xcode_major = XCodeUtils.versionMajor;
-    int xcode_minor = XCodeUtils.versionMinor;
-
-    // TODO: runtime versionwill be used in iOS version comparision
-    // int major=xcode_major+2;
-    // int minor=xcode_minor;
-    
-    NSString *defaultModel;
-    
-    if (xcode_major == 10) {
-        defaultModel=@"XS";
-    }else{
-        defaultModel=[NSString stringWithFormat:@"%d", xcode_major-1];
-    }
-    
-    // step 2. find FBSimulator with the desired simulators
-    // Re explanation:
-    //   iPhone\\s+  - skip anything before model name
-    //   (\\d+|XS)   - pickup either XS or one of 4..8 model
-    //                 and save it into capture group #1
-    NSRegularExpression
-    *regex = [NSRegularExpression
-              regularExpressionWithPattern:@"iPhone\\s+(\\d+|XS)"
-              options:0 error:nil];
-    
-    // while we do not have iOS information will assign each matched simulator
-    // to "def" variable. The last one will be returned
-    FBSimulator *defaultSimulatorCandidate = nil;
-    for (FBSimulator *simulator in simulators) {
-        NSString *simName = [simulator name];
-        NSArray *matches = [regex
-                            matchesInString:simName
-                            options:0 range:NSMakeRange(0, [simName length])];
-        if (!matches || matches.count == 0) {
-            continue;
-        }
-        // rangeAtIndex:0 - the whole match
-        // rangeAtIndex:1 - the first captured group #1
-        NSString *model = [simName
-                           substringWithRange:[(NSTextCheckingResult*)matches[0]
-                                               rangeAtIndex:1]];
-        if ([model isEqualToString:defaultModel]) {
-            defaultSimulatorCandidate=simulator;
-        }else{
-            continue;
-        }
-    }
-    return defaultSimulatorCandidate;
-};
-
 + (FBSimulator *)defaultSimulator {
     NSString *simulatorName = [self defaultSimulatorName];
     FBSimulator *simulator = [self findSimulatorByName: simulatorName];
@@ -171,7 +135,7 @@ const double EPSILON = 0.001;
     FBSimulator *simulator = [self findSimulatorByName: simulatorName];
     if (simulator) {
         return simulator.udid;
-    }else{
+    } else {
         [NSException raise: @"Non existing simulator"
                     format: @"Could not find default simulator: %@", simulatorName];
         return nil;
@@ -179,18 +143,18 @@ const double EPSILON = 0.001;
 };
 
 + (NSString *)defaultSimulatorName {
-    int major = XCodeUtils.versionMajor + 2;
-    int minor = XCodeUtils.versionMinor;
+    int major = XcodeUtils.versionMajor + 2;
+    int minor = XcodeUtils.versionMinor;
 
-    if (XCodeUtils.versionMajor == 10) {
+    if (XcodeUtils.versionMajor == 10) {
         return [NSString
                 stringWithFormat:@"iPhone XS (%d.%d)",
                 major,
                 minor];
-    }else{
+    } else {
         return [NSString
                 stringWithFormat:@"iPhone %d (%d.%d)",
-                XCodeUtils.versionMajor - 1,
+                XcodeUtils.versionMajor - 1,
                 major,
                 minor];
     }

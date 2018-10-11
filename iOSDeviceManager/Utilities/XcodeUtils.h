@@ -1,5 +1,5 @@
 //
-//  XCodeUtils.h
+//  XcodeUtils.h
 //  iOSDeviceManager
 //
 //  Created by Sergey Dolin on 10/10/2018.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface XCodeUtils : NSObject
+@interface XcodeUtils : NSObject
 + (int) versionMajor;
 + (int) versionMinor;
 @end
