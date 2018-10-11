@@ -124,14 +124,8 @@ const double EPSILON = 0.001;
     return m_availableSimulators;
 }
 
-+ (FBSimulator *)defaultSimulator {
-    NSString *simulatorName = [self defaultSimulatorName];
-    FBSimulator *simulator = [self findSimulatorByName: simulatorName];
-    return simulator;
-};
-
 + (NSString *)defaultSimulatorID {
-    NSString *simulatorName = [self defaultSimulatorName];
+    NSString *simulatorName = [self defaultSimulator];
     FBSimulator *simulator = [self findSimulatorByName: simulatorName];
     if (simulator) {
         return simulator.udid;
@@ -142,7 +136,7 @@ const double EPSILON = 0.001;
     }
 };
 
-+ (NSString *)defaultSimulatorName {
++ (NSString *)defaultSimulator {
     int major = XcodeUtils.versionMajor + 2;
     int minor = XcodeUtils.versionMinor;
 

@@ -10,10 +10,10 @@
 + (BOOL)isDeviceID:(NSString *)uuid;
 + (BOOL)isSimulatorID:(NSString *)uuid;
 + (NSString *)findDeviceIDByName:(NSString *)name;
++ (NSString *)defaultSimulator;
 + (NSString *)defaultSimulatorID;
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow;
 + (NSString *)defaultDeviceID;
 + (NSArray<FBDevice *> *)availableDevices;
 + (NSArray<FBSimulator *> *)availableSimulators;
-+ (FBSimulator *)defaultSimulator;
 @end
