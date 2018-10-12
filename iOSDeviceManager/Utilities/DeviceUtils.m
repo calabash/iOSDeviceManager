@@ -1,5 +1,7 @@
 #import "DeviceUtils.h"
 #import "ConsoleWriter.h"
+#import "SimDevice.h"
+#import "XcodeUtils.h"
 
 @interface NSString(Base64)
 - (BOOL)isBase64;
@@ -28,23 +30,40 @@ const double EPSILON = 0.001;
     return did.length == 40 && [did isBase64];
 }
 
-+ (NSString *)findDeviceIDByName:(NSString *)name {
-
++ (FBDevice *)findDeviceByName:(NSString *)name {
     for (FBDevice *device in [DeviceUtils availableDevices]) {
         if ([device.name isEqualToString:name]) {
-            return device.udid;
+            return device;
         }
     }
+    return nil;
+}
 
++ (FBSimulator *)findSimulatorByName:(NSString *)name {
     NSString *instrumentsName;
     for (FBSimulator *simulator in [DeviceUtils availableSimulators]) {
-        FBOSVersion *version = simulator.osVersion;
-        if (![version.name containsString:@"iOS"]) {
+        NSString *runtimeData = [(SimDevice *)simulator.device runtimeIdentifier];
+        if (![runtimeData containsString:@"iOS"]) {
             // Ignore watches, tvs, and pairs.
             continue;
         }
+        
+        // Regex to extract version: com.apple.CoreSimulator.SimRuntime.iOS-12-1 => 12-1
+        NSRegularExpression
+        *regex = [NSRegularExpression
+                  regularExpressionWithPattern:@"(\\d+)(-(\\d+))*"
+                  options:0 error:nil];
+        
+        NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:runtimeData
+                                     options:0 range:NSMakeRange(0, [runtimeData length])];
 
-        NSString *versionStr = [NSString stringWithFormat:@"%@", version.number];
+        if (NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
+           continue;
+        }
+        
+        // 12-1 => 12.1
+        NSString *versionStr = [[runtimeData substringWithRange:rangeOfFirstMatch]
+                                stringByReplacingOccurrencesOfString:@"-" withString:@"."];
 
         // 11 => 11.0
         // 12 => 12.0
@@ -56,13 +75,19 @@ const double EPSILON = 0.001;
                            versionStr];
 
         if ([instrumentsName isEqualToString:name]) {
-            return simulator.udid;
+            return simulator;
         }
     }
-
     return nil;
 }
 
++ (NSString *)findDeviceIDByName:(NSString *)name {
+    FBDevice *device = [self findDeviceByName:name];
+    if (device) return device.udid;
+    FBSimulator *simulator = [self findSimulatorByName:name];
+    if (simulator) return simulator.udid;
+    return nil;
+}
 
 + (NSArray<FBDevice *> *)availableDevices {
     static dispatch_once_t onceToken = 0;
@@ -99,57 +124,34 @@ const double EPSILON = 0.001;
     return m_availableSimulators;
 }
 
-+ (FBSimulator *)defaultSimulator:(NSArray<FBSimulator *>*)simulators {
-    NSArray <FBSimulator *> *sorted = [simulators sortedArrayUsingComparator:^NSComparisonResult(id sim2, id sim1) {
-        return [DeviceUtils comparePreferredSimulator:sim1 to:sim2];
-    }];
-    return [sorted firstObject];
-}
-
-+ (NSComparisonResult)comparePreferredSimulator:(FBSimulator *)sim to:(FBSimulator *)otherSim {
-    NSDecimalNumber *simVersion = sim.configuration.os.number;
-    NSDecimalNumber *otherSimVersion = otherSim.configuration.os.number;
-    NSString *simDeviceName = [sim name];
-    NSString *otherSimDeviceName = [otherSim name];
-
-    if ([simVersion isGreaterThan:otherSimVersion]) {
-        return NSOrderedDescending;
-    } else if ([simVersion isEqual:otherSimVersion]) {
-        if ([simDeviceName containsString:@"iPhone"] && [otherSimDeviceName containsString:@"iPhone"]) {
-            NSCharacterSet *nonDigitCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-            NSString *simNumber = [[simDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
-            NSString *otherSimNumber = [[otherSimDeviceName componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
-            if (simNumber.length == 0) {
-                return NSOrderedAscending;
-            }
-            if (otherSimNumber.length == 0) {
-                return NSOrderedSame;
-            }
-            if (fabs(simNumber.doubleValue - otherSimNumber.doubleValue) < EPSILON) {
-                // Handle things like 6S vs 6
-                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".+\\d+[Ss]" options:0 error:nil];
-                NSUInteger simIsS = [regex numberOfMatchesInString:simDeviceName options:0 range:NSMakeRange(0, [simDeviceName length])];
-                NSUInteger otherSimIsS = [regex numberOfMatchesInString:otherSimDeviceName options:0 range:NSMakeRange(0, [otherSimDeviceName length])];
-
-                if (simIsS > 0 && otherSimIsS == 0) {
-                    return NSOrderedDescending;
-                }
-            } else if ((simNumber.doubleValue - otherSimNumber.doubleValue) > EPSILON) {
-                return NSOrderedDescending;
-            } else {
-                return NSOrderedAscending;
-            }
-        } else if ([simDeviceName containsString:@"iPhone"] && ![otherSimDeviceName containsString:@"iPhone"]) {
-            return NSOrderedDescending;
-        }
-    }
-
-    return NSOrderedAscending;
-}
-
 + (NSString *)defaultSimulatorID {
-    NSArray<FBSimulator *> *sims = [DeviceUtils availableSimulators];
-    return [DeviceUtils defaultSimulator:sims].udid;
+    NSString *simulatorName = [self defaultSimulator];
+    FBSimulator *simulator = [self findSimulatorByName: simulatorName];
+    if (simulator) {
+        return simulator.udid;
+    } else {
+        [NSException raise: @"Non existing simulator"
+                    format: @"Could not find default simulator: %@", simulatorName];
+        return nil;
+    }
+};
+
++ (NSString *)defaultSimulator {
+    int major = XcodeUtils.versionMajor + 2;
+    int minor = XcodeUtils.versionMinor;
+
+    if (XcodeUtils.versionMajor == 10) {
+        return [NSString
+                stringWithFormat:@"iPhone XS (%d.%d)",
+                major,
+                minor];
+    } else {
+        return [NSString
+                stringWithFormat:@"iPhone %d (%d.%d)",
+                XcodeUtils.versionMajor - 1,
+                major,
+                minor];
+    }
 }
 
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow {

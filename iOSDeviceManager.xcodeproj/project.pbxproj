@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		411B5769216DF48100913A9E /* XcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 411B5768216DF48100913A9E /* XcodeUtils.m */; };
+		411B576A216DF48100913A9E /* XcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 411B5768216DF48100913A9E /* XcodeUtils.m */; };
+		411B576B216DF48100913A9E /* XcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 411B5768216DF48100913A9E /* XcodeUtils.m */; };
 		42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
 		42148DFC1EA5672700625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
 		42148DFD1EA5672800625741 /* VersionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42148DFA1EA5671B00625741 /* VersionCommand.m */; };
@@ -293,6 +296,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2240779B216F758600265F45 /* SimDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimDevice.h; path = iOSDeviceManager/Devices/SimDevice.h; sourceTree = "<group>"; };
+		411B5767216DF48100913A9E /* XcodeUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XcodeUtils.h; path = iOSDeviceManager/Utilities/XcodeUtils.h; sourceTree = "<group>"; };
+		411B5768216DF48100913A9E /* XcodeUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XcodeUtils.m; path = iOSDeviceManager/Utilities/XcodeUtils.m; sourceTree = "<group>"; };
 		42148DF91EA5670700625741 /* VersionCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VersionCommand.h; path = iOSDeviceManager/Commands/VersionCommand.h; sourceTree = SOURCE_ROOT; };
 		42148DFA1EA5671B00625741 /* VersionCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionCommand.m; path = iOSDeviceManager/Commands/VersionCommand.m; sourceTree = SOURCE_ROOT; };
 		421A0AB01EC3D94800610BC1 /* IDMVersionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IDMVersionDefines.h; path = iOSDeviceManager/IDMVersionDefines.h; sourceTree = SOURCE_ROOT; };
@@ -606,6 +612,7 @@
 				892DE4991D22F84200E1902C /* Simulator.m */,
 				892DE4961D22F84200E1902C /* PhysicalDevice.h */,
 				892DE4971D22F84200E1902C /* PhysicalDevice.m */,
+				2240779B216F758600265F45 /* SimDevice.h */,
 			);
 			name = Devices;
 			sourceTree = "<group>";
@@ -640,6 +647,8 @@
 				F593649B1F3F37CB00EB72BE /* XCAppDataBundle.m */,
 				F556B1751F63C32900F949A6 /* XCTestConfigurationProxy.h */,
 				F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */,
+				411B5767216DF48100913A9E /* XcodeUtils.h */,
+				411B5768216DF48100913A9E /* XcodeUtils.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -998,6 +1007,7 @@
 				89A1CEF11E302FC200D9FEC5 /* Codesigner.m in Sources */,
 				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
 				89A1CF011E326A1E00D9FEC5 /* JSONUtils.m in Sources */,
+				411B5769216DF48100913A9E /* XcodeUtils.m in Sources */,
 				F593649C1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
 				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				892DE49B1D22F84200E1902C /* Device.m in Sources */,
@@ -1065,6 +1075,7 @@
 				892DE50A1D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				892DE4D21D22F87000E1902C /* main.m in Sources */,
 				B296D6FD1E31441D00D365F3 /* Entitlements.m in Sources */,
+				411B576A216DF48100913A9E /* XcodeUtils.m in Sources */,
 				F564E2E41F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */,
 				F5D78DC31D8D327500497000 /* ShellResultTest.m in Sources */,
 				F5E8D8221D67B60A00A41EFD /* TestCase.m in Sources */,
@@ -1137,6 +1148,7 @@
 				89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */,
 				F59364A91F40912C00EB72BE /* GenerateXCAppDataCommand.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
+				411B576B216DF48100913A9E /* XcodeUtils.m in Sources */,
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
 				F5D583FA1D6A0372007B0D11 /* Device.m in Sources */,
