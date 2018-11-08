@@ -130,7 +130,7 @@
                                                           options:0
                                                             error:NULL];
     NSRegularExpression *identifierRegex;
-    identifierRegex = [NSRegularExpression regularExpressionWithPattern:@"([A-F0-9]{40})"
+    identifierRegex = [NSRegularExpression regularExpressionWithPattern:@"([a-f0-9]{40}|([A-F0-9]{8}-[A-F0-9]{16}))"
                                                                 options:0
                                                                   error:NULL];
     NSMutableArray<CodesignIdentity *> *identities = [@[] mutableCopy];

@@ -27,7 +27,7 @@ const double EPSILON = 0.001;
 }
 
 + (BOOL)isDeviceID:(NSString *)did {
-    return did.length == 40 && [did isBase64];
+    return (did.length == 40 && [did isBase64]) || did.length == 25;
 }
 
 + (FBDevice *)findDeviceByName:(NSString *)name {
