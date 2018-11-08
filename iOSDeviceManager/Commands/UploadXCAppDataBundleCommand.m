@@ -63,7 +63,7 @@ static NSString *const FILEPATH_OPTION_NAME = @"file-path";
           [CommandOption withShortFlag:DEVICE_ID_FLAG
                               longFlag:@"--device-id"
                             optionName:DEVICE_ID_OPTION_NAME
-                                  info:@"iOS Simulator GUID, 40-digit physical device ID, or an alias"
+                                  info:@"iOS Simulator GUID, physical device ID, or an alias"
                               required:YES
                             defaultVal:nil]
           ];

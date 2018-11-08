@@ -43,6 +43,11 @@
     string = @"iPhone 5 (9.3) [D1B22B9C-F105-4DF0-8FA3-7AE41E212A9D] (Simulator)";
     actual = [[Instruments shared] extractUDID:string];
     XCTAssertNil(actual);
+
+    string = @"iPhone XS (12.0.1) [00008020-000C49542198002E]";
+    expected = @"00008020-000C49542198002E";
+    actual = [[Instruments shared] extractUDID:string];
+    XCTAssertEqualObjects(actual, expected);
 }
 
 - (void)testVersionRegex {
