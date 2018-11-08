@@ -1,3 +1,8 @@
+### 3.3.0
+
+* Fixed default simulator selection #236
+* Added compatibility with new device ids #238
+
 ### 3.2.2
 
 * FB Frameworks: handle missing simulator arches #234
