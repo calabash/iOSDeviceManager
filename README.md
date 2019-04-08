@@ -63,3 +63,11 @@ We commit the frameworks to source control to avoid having to run
 `carthage bootstrap` on CI machines and locally.  To update the
 frameworks, run `carthage update` and commit the Cartfile.resolved and
 frameworks changes to git.
+
+### FBSimulatorControl
+
+The calabash fork of FBSimulatorControl is expected to be located `../`
+relative to this directory. Checkout the branch you want to build and
+run: `make frameworks` to build and install.
+
+See `bin/make/frameworks.sh`
