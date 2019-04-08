@@ -60,7 +60,11 @@ h1 {margin-top: 44px;}
     }
   });
 }());
-
+window.onload = function(){
+	var elem = document.createElement('h3');
+	elem.innerHTML = 'Loaded!'
+	document.body.insertBefore(elem, document.body.childNodes[0])
+}
     </script>
   </div>
 
