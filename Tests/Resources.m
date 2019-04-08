@@ -97,7 +97,7 @@
 }
 
 - (NSString *)versionFromOSKey:(NSString *)OSKey {
-    if ([OSKey containsString:@""]) {
+    if ([OSKey containsString:@" "]) {
         return [OSKey componentsSeparatedByString:@" "][1];
     }
     NSRegularExpression *regEx = [NSRegularExpression regularExpressionWithPattern:@"(?:\\d+-?)+$" options:NSRegularExpressionCaseInsensitive error:NULL];
