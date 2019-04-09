@@ -100,10 +100,16 @@
     if ([OSKey containsString:@" "]) {
         return [OSKey componentsSeparatedByString:@" "][1];
     }
-    NSRegularExpression *regEx = [NSRegularExpression regularExpressionWithPattern:@"(?:\\d+-?)+$" options:NSRegularExpressionCaseInsensitive error:NULL];
-    NSTextCheckingResult *newSearchString = [regEx firstMatchInString:OSKey options:0 range:NSMakeRange(0, [OSKey length])];
+    NSRegularExpression *regEx = [NSRegularExpression
+                                    regularExpressionWithPattern:@"(?:\\d+-?)+$"
+                                    options:NSRegularExpressionCaseInsensitive error:NULL];
+    NSTextCheckingResult *newSearchString = [regEx
+                                                firstMatchInString:OSKey
+                                                options:0
+                                                range:NSMakeRange(0, [OSKey length])];
     NSString *OSKeyVersionXcodeGte101 = [OSKey substringWithRange:newSearchString.range];
-    return [OSKeyVersionXcodeGte101 stringByReplacingOccurrencesOfString:@"-" withString:@"."];
+    return [OSKeyVersionXcodeGte101 stringByReplacingOccurrencesOfString:@"-"
+                                    withString:@"."];
 }
 
 - (BOOL)isOSGte90:(NSString *)OSKey {
