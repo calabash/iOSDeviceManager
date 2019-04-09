@@ -954,16 +954,24 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [Entitlements entitlementsWithDictionary:dictionary];
 }
 
+// These can expire!
+// $ git/calabash-codesign/apple/create-keychain.sh
+// $ security find-identity -p codesigning -v
+// ^ find the lastest fingerprint
 - (CodesignIdentity *)KarlKrukowIdentityIOS {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"F1C2B010FDE010A3F6C29B1AFA4ADDCF704842A8";
+    NSString *identityShasum = @"9512C07D205343BCE676E60D457B286C9E30D6F9";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
 
+// These can expire!
+// $ git/calabash-codesign/apple/create-keychain.sh
+// $ security find-identity -p codesigning -v
+// ^ find the lastest fingerprint
 - (CodesignIdentity *)JoshuaMoodyIdentityIOS {
     NSString *identityName = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
-    NSString *identityShasum = @"07692C2444C18782ED337F68F8E3FC7B81B1B5D8";
+    NSString *identityShasum = @"AEA96FFA479B25E114CF20CF8B6F7D246BE75887";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
