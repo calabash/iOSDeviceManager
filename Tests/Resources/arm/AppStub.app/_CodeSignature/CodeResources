@@ -4,10 +4,6 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>AppStub.xcent</key>
-		<data>
-		bjD7XpqsTTc7ijoRIWQCEhwCanY=
-		</data>
 		<key>AppStubIcon20x20@2x.png</key>
 		<data>
 		bhqrIWI5ZN83+5fWDGnY917Zj+Y=
@@ -76,9 +72,13 @@
 		<data>
 		dJXY33rQo9CXUtOJ8pyfPbzadrs=
 		</data>
+		<key>Assets.car</key>
+		<data>
+		GIetiuEFTxtQ5zQsmlTr3N80cIs=
+		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		V0Xb1+oZVzU8qtGxTVHBTSQZ9v8=
+		sjFXx8UoWhVkc2BYcoGM5di0FIw=
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -86,11 +86,11 @@
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		pHIz9QN4yDs3U8fPqwifR3EFx+Q=
+		f54JxBPAz3/mUsXj/RqS69xNrvs=
 		</data>
 		<key>Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
 		<data>
-		Fi6Mpych8RwRqe8A5Wjxqik8ytg=
+		lyMEeYzZui4X7t0s7R3NQJXXbeg=
 		</data>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -98,38 +98,27 @@
 		</data>
 		<key>Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib</key>
 		<data>
-		FI8G84ncl6XYznWphO7wXMJwEA0=
+		Xzl9LUcXdRp5/0e8GILyQYdWU1U=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ZvJfK84s7PkXsE5Ns33s8Jhqp6k=
+		XmkY99DCEAr/gzr0IUyLuPnlwFM=
 		</data>
 		<key>LICENSE</key>
 		<data>
-		oFNT9Bf+qfdnjvG5L9vuFgrUvow=
+		CIL434yrMSzYMt5INXuvhxF7RJI=
 		</data>
 		<key>PkgInfo</key>
 		<data>
 		n57qDP4tZfLD1rCS43W0B4LQjzE=
 		</data>
-		<key>XTCEntitlementsMeta.plist</key>
+		<key>embedded.mobileprovision</key>
 		<data>
-		9xMCX+ukD1JB2DgKQ552sDOykD8=
+		1A/MBNRuy99mTuXVmsmPgnK4Txo=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>AppStub.xcent</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			bjD7XpqsTTc7ijoRIWQCEhwCanY=
-			</data>
-			<key>hash2</key>
-			<data>
-			Kdd77e7sd3or+8NN8ZWhdMYXyEXdUfdQA4hrwk1Yglk=
-			</data>
-		</dict>
 		<key>AppStubIcon20x20@2x.png</key>
 		<dict>
 			<key>hash</key>
@@ -317,15 +306,26 @@
 			fLacYoEhDMwriCnlE2Ot08Z8L7/sV5rxKdXFZtR5oN8=
 			</data>
 		</dict>
+		<key>Assets.car</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GIetiuEFTxtQ5zQsmlTr3N80cIs=
+			</data>
+			<key>hash2</key>
+			<data>
+			Mt//tBjparOtNhxXK37xVnyMrdcJj2B8UtNu2+rLAqA=
+			</data>
+		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			V0Xb1+oZVzU8qtGxTVHBTSQZ9v8=
+			sjFXx8UoWhVkc2BYcoGM5di0FIw=
 			</data>
 			<key>hash2</key>
 			<data>
-			gTL/VQHiUu2Z+bMDAebFrLkKW7qvFWOB4jm3+oxikFU=
+			Hd2vl2blwoX1ej4AAvW4OLcrh5nQke6rknNjGAPv++w=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
@@ -343,22 +343,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pHIz9QN4yDs3U8fPqwifR3EFx+Q=
+			f54JxBPAz3/mUsXj/RqS69xNrvs=
 			</data>
 			<key>hash2</key>
 			<data>
-			WzIoj4zRcx1wluhEb/mupOA8fk5L1X5fZpdlUTyuyJg=
+			e/nbK6jVe5Lm5Uu1UGeMJhlRBO2Ss6UyTQpBTsyI8GU=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Fi6Mpych8RwRqe8A5Wjxqik8ytg=
+			lyMEeYzZui4X7t0s7R3NQJXXbeg=
 			</data>
 			<key>hash2</key>
 			<data>
-			+gwSwwulWuy8xTojth0fYCClBmunoYVu8UDJUkKDlcg=
+			lHabmXiDoHCA4KMdSpqzaZ2ptWWd0h4/BT2KtfXfPfM=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
@@ -376,39 +376,39 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FI8G84ncl6XYznWphO7wXMJwEA0=
+			Xzl9LUcXdRp5/0e8GILyQYdWU1U=
 			</data>
 			<key>hash2</key>
 			<data>
-			JLODZCq7ydKStQV6Ad0S1NlWghWUguxKSI6rp31FndE=
+			fpknEL3RJTiS5ThH35D8tGyCkkgv8Dz78F99vT7IuK4=
 			</data>
 		</dict>
 		<key>LICENSE</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oFNT9Bf+qfdnjvG5L9vuFgrUvow=
+			CIL434yrMSzYMt5INXuvhxF7RJI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Jd0w+XdAWIPDjvbh69nBpHvLXZ4mJAFGcRISKpd7hmQ=
+			TAUR9kdHnh7EaT6S1njn9pYpmpaEdJiJhn1+d62gEBM=
 			</data>
 		</dict>
-		<key>XTCEntitlementsMeta.plist</key>
+		<key>embedded.mobileprovision</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9xMCX+ukD1JB2DgKQ552sDOykD8=
+			1A/MBNRuy99mTuXVmsmPgnK4Txo=
 			</data>
 			<key>hash2</key>
 			<data>
-			0mXSWNg43qgubjUNDVSiZdNIr4hCecCcECn3Qwyef4U=
+			NRocgnR3joYvA7x4tTC6waT/ZMWbGFBwCp6Akub2Jnk=
 			</data>
 		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
-		<key>^</key>
+		<key>^.*</key>
 		<true/>
 		<key>^.*\.lproj/</key>
 		<dict>
@@ -439,24 +439,12 @@
 			<key>weight</key>
 			<real>11</real>
 		</dict>
-		<key>^</key>
-		<dict>
-			<key>weight</key>
-			<real>20</real>
-		</dict>
 		<key>^(.*/)?\.DS_Store$</key>
 		<dict>
 			<key>omit</key>
 			<true/>
 			<key>weight</key>
 			<real>2000</real>
-		</dict>
-		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^.*</key>
 		<true/>
@@ -492,13 +480,6 @@
 			<true/>
 			<key>weight</key>
 			<real>20</real>
-		</dict>
-		<key>^[^/]+$</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^embedded\.provisionprofile$</key>
 		<dict>
