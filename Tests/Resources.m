@@ -93,11 +93,23 @@
 }
 
 - (BOOL)isIOS:(NSString *)OSKey {
-    return [OSKey hasPrefix:@"iOS"];
+    return [OSKey containsString:@"iOS"];
 }
 
 - (NSString *)versionFromOSKey:(NSString *)OSKey {
-    return [OSKey componentsSeparatedByString:@" "][1];
+    if ([OSKey containsString:@" "]) {
+        return [OSKey componentsSeparatedByString:@" "][1];
+    }
+    NSRegularExpression *regEx = [NSRegularExpression
+                                    regularExpressionWithPattern:@"(?:\\d+-?)+$"
+                                    options:NSRegularExpressionCaseInsensitive error:NULL];
+    NSTextCheckingResult *newSearchString = [regEx
+                                                firstMatchInString:OSKey
+                                                options:0
+                                                range:NSMakeRange(0, [OSKey length])];
+    NSString *OSKeyVersionXcodeGte101 = [OSKey substringWithRange:newSearchString.range];
+    return [OSKeyVersionXcodeGte101 stringByReplacingOccurrencesOfString:@"-"
+                                    withString:@"."];
 }
 
 - (BOOL)isOSGte90:(NSString *)OSKey {
@@ -997,8 +1009,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 }
 
 - (NSString *)TestRecorderVersionFromHost:(NSString *)host {
-    NSString *string = [NSString stringWithFormat:@"http://%@:37265/recorderVersion", host];
-    NSURL *url = [NSURL URLWithString:string];
+    // Host name should not contain spaces
+    NSString *encodedHost = [host stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    NSString *recorderUrl = [NSString stringWithFormat:@"http://%@:37265/recorderVersion", encodedHost];
+    NSURL *url = [NSURL URLWithString:recorderUrl];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"GET"];
 
