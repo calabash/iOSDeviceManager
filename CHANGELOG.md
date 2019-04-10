@@ -1,3 +1,12 @@
+### 3.3.1
+
+* Adapt iOSDeviceManager to Xcode 10.2 #241
+* Xcode 10.2 update code signing test fixtures #240
+
+* FB Frameworks built from tag/0.4.0-Xcode-10.2.0
+  - Xcode 10.2 GM
+  - macOS Mojave
+
 ### 3.3.0
 
 * Fixed default simulator selection #236
