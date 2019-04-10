@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>16A251</string>
+	<string>18E193</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>XCTRunner</string>
+	<string>DeviceAgent-Runner</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.apple.test.DeviceAgent-Runner</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>DeviceAgent</string>
+	<string>DeviceAgent-Runner</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.1</string>
+	<string>1.3.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -25,23 +27,23 @@
 		<string>iPhoneOS</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1472079450</string>
+	<string>1554707293</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>14A330</string>
+	<string>16E207</string>
 	<key>DTPlatformName</key>
 	<string>iphoneos</string>
 	<key>DTPlatformVersion</key>
-	<string>10.0</string>
+	<string>12.2</string>
 	<key>DTSDKBuild</key>
-	<string>14A330</string>
+	<string>16E207</string>
 	<key>DTSDKName</key>
-	<string>iphoneos10.0.internal</string>
+	<string>iphoneos12.2.internal</string>
 	<key>DTXcode</key>
-	<string>0800</string>
+	<string>1020</string>
 	<key>DTXcodeBuild</key>
-	<string>8R201d</string>
+	<string>10E113a</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -60,6 +62,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -141,10 +141,17 @@ const double EPSILON = 0.001;
     int minor = XcodeUtils.versionMinor;
 
     if (XcodeUtils.versionMajor == 10) {
-        return [NSString
-                stringWithFormat:@"iPhone XS (%d.%d)",
-                major,
-                minor];
+        if (XcodeUtils.versionMinor < 2) {
+            return [NSString
+                    stringWithFormat:@"iPhone XS (%d.%d)",
+                    major,
+                    minor];
+        } else {
+            return [NSString
+                    stringWithFormat:@"iPhone Xs (%d.%d)",
+                    major,
+                    minor];
+        }
     } else {
         return [NSString
                 stringWithFormat:@"iPhone %d (%d.%d)",

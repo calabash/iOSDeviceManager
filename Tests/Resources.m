@@ -93,11 +93,23 @@
 }
 
 - (BOOL)isIOS:(NSString *)OSKey {
-    return [OSKey hasPrefix:@"iOS"];
+    return [OSKey containsString:@"iOS"];
 }
 
 - (NSString *)versionFromOSKey:(NSString *)OSKey {
-    return [OSKey componentsSeparatedByString:@" "][1];
+    if ([OSKey containsString:@" "]) {
+        return [OSKey componentsSeparatedByString:@" "][1];
+    }
+    NSRegularExpression *regEx = [NSRegularExpression
+                                    regularExpressionWithPattern:@"(?:\\d+-?)+$"
+                                    options:NSRegularExpressionCaseInsensitive error:NULL];
+    NSTextCheckingResult *newSearchString = [regEx
+                                                firstMatchInString:OSKey
+                                                options:0
+                                                range:NSMakeRange(0, [OSKey length])];
+    NSString *OSKeyVersionXcodeGte101 = [OSKey substringWithRange:newSearchString.range];
+    return [OSKeyVersionXcodeGte101 stringByReplacingOccurrencesOfString:@"-"
+                                    withString:@"."];
 }
 
 - (BOOL)isOSGte90:(NSString *)OSKey {
@@ -954,16 +966,24 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     return [Entitlements entitlementsWithDictionary:dictionary];
 }
 
+// These can expire!
+// $ git/calabash-codesign/apple/create-keychain.sh
+// $ security find-identity -p codesigning -v
+// ^ find the lastest fingerprint
 - (CodesignIdentity *)KarlKrukowIdentityIOS {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"F1C2B010FDE010A3F6C29B1AFA4ADDCF704842A8";
+    NSString *identityShasum = @"9512C07D205343BCE676E60D457B286C9E30D6F9";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
 
+// These can expire!
+// $ git/calabash-codesign/apple/create-keychain.sh
+// $ security find-identity -p codesigning -v
+// ^ find the lastest fingerprint
 - (CodesignIdentity *)JoshuaMoodyIdentityIOS {
     NSString *identityName = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
-    NSString *identityShasum = @"07692C2444C18782ED337F68F8E3FC7B81B1B5D8";
+    NSString *identityShasum = @"AEA96FFA479B25E114CF20CF8B6F7D246BE75887";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
@@ -989,8 +1009,10 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 }
 
 - (NSString *)TestRecorderVersionFromHost:(NSString *)host {
-    NSString *string = [NSString stringWithFormat:@"http://%@:37265/recorderVersion", host];
-    NSURL *url = [NSURL URLWithString:string];
+    // Host name should not contain spaces
+    NSString *encodedHost = [host stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    NSString *recorderUrl = [NSString stringWithFormat:@"http://%@:37265/recorderVersion", encodedHost];
+    NSURL *url = [NSURL URLWithString:recorderUrl];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"GET"];
 
