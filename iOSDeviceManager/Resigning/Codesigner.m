@@ -105,6 +105,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   @"--sign", @"-",
                                   @"--verbose=4",
                                   @"--timestamp=none",
+                                  @"--digest-algorithm=sha1,sha256",
                                   @"--deep",
                                   appDir];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
@@ -140,6 +141,7 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
                                   @"--sign", [codesignID shasum],
                                   @"--verbose=4",
                                   @"--deep",
+                                  @"--digest-algorithm=sha1,sha256",
                                   pathToObject];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
     BOOL success = result.success;
@@ -161,8 +163,9 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
     NSArray<NSString *> *args = @[@"codesign",
                                   @"--force",
                                   @"--sign", [codesignID shasum],
-                                  @"-vv", bundleExecutableFile,
+                                  @"--verbose=4", bundleExecutableFile,
                                   @"--entitlements", pathToEntitlementsFile,
+                                  @"--digest-algorithm=sha1,sha256",
                                   pathToBundle];
     NSTimeInterval timeout = 30;
     ShellResult *result = [ShellRunner xcrun:args timeout:timeout];
@@ -227,8 +230,8 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
 + (NSString *)codesignInfo:(NSString *)objectPath {
     NSArray<NSString *> *args = @[@"codesign",
-                                  @"-d",
-                                  @"-vvv",
+                                  @"--display",
+                                  @"--verbose=4",
                                   objectPath];
     ShellResult *result = [ShellRunner xcrun:args timeout:10];
 
