@@ -140,25 +140,25 @@ const double EPSILON = 0.001;
     int major = XcodeUtils.versionMajor + 2;
     int minor = XcodeUtils.versionMinor;
 
-    if (XcodeUtils.versionMajor == 10) {
+    NSString *deviceVersion;
+
+    if (XcodeUtils.versionMajor == 11) {
+        deviceVersion = @"Xs";
+    } else if (XcodeUtils.versionMajor == 10) {
         if (XcodeUtils.versionMinor < 2) {
-            return [NSString
-                    stringWithFormat:@"iPhone XS (%d.%d)",
-                    major,
-                    minor];
+            deviceVersion = @"XS";
         } else {
-            return [NSString
-                    stringWithFormat:@"iPhone Xs (%d.%d)",
-                    major,
-                    minor];
+            deviceVersion = @"Xs";
         }
     } else {
-        return [NSString
-                stringWithFormat:@"iPhone %d (%d.%d)",
-                XcodeUtils.versionMajor - 1,
+        deviceVersion = [NSString stringWithFormat: @"%d", XcodeUtils.versionMajor - 1];
+    }
+
+    return [NSString
+                stringWithFormat:@"iPhone %@ (%d.%d)",
+                deviceVersion,
                 major,
                 minor];
-    }
 }
 
 + (NSString *)defaultPhysicalDeviceIDEnsuringOnlyOneAttached:(BOOL)shouldThrow {
