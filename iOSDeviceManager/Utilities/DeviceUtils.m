@@ -137,8 +137,8 @@ const double EPSILON = 0.001;
 };
 
 + (NSString *)defaultSimulator {
-    int major = XcodeUtils.versionMajor + 2;
-    int minor = XcodeUtils.versionMinor;
+    NSUInteger major = XcodeUtils.versionMajor + 2;
+    NSUInteger minor = XcodeUtils.versionMinor;
 
     NSString *deviceVersion;
 
@@ -151,11 +151,11 @@ const double EPSILON = 0.001;
             deviceVersion = @"Xs";
         }
     } else {
-        deviceVersion = [NSString stringWithFormat: @"%d", XcodeUtils.versionMajor - 1];
+        deviceVersion = [NSString stringWithFormat: @"%lu", XcodeUtils.versionMajor - 1];
     }
 
     return [NSString
-                stringWithFormat:@"iPhone %@ (%d.%d)",
+                stringWithFormat:@"iPhone %@ (%lu.%lu)",
                 deviceVersion,
                 major,
                 minor];
