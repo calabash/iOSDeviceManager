@@ -175,7 +175,7 @@ module IDM
     def xcode_install_paths
       @xcode_install_paths ||= begin
         min_xcode_version = RunLoop::Version.new("8.3.3")
-        Dir.glob('/Xcode/*/*.app/Contents/Developer').map do |path|
+        Dir.glob('/Users/Shared/Xcode/*/*.app/Contents/Developer').map do |path|
           xcode_version = path[/(\d+\.\d+(\.\d+)?)/]
           if RunLoop::Version.new(xcode_version) >= min_xcode_version
             path

@@ -505,7 +505,12 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
 
-    if (environment[@"DTX_CONNECTION_SERVICES_PATH"]) {
+    if (environment[@"PATH"]) {
+        NSArray *tokens = [environment[@"PATH"] componentsSeparatedByString:@":"];
+        NSString *xcodeUsrBin = tokens[0];
+        _XcodeFromProcessPath = [[xcodeUsrBin stringByDeletingLastPathComponent]
+                                 stringByDeletingLastPathComponent];
+    } else if (environment[@"DTX_CONNECTION_SERVICES_PATH"]) {
         _XcodeFromProcessPath = [[[environment[@"DTX_CONNECTION_SERVICES_PATH"]
                                    stringByDeletingLastPathComponent]
                                   stringByDeletingLastPathComponent]
@@ -513,11 +518,6 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     } else if (environment[@"DYLD_FALLBACK_FRAMEWORK_PATH"]) {
         _XcodeFromProcessPath = [[environment[@"DYLD_FALLBACK_FRAMEWORK_PATH"]
                                   stringByDeletingLastPathComponent]
-                                 stringByDeletingLastPathComponent];
-    } else if (environment[@"PATH"]) {
-        NSArray *tokens = [environment[@"PATH"] componentsSeparatedByString:@":"];
-        NSString *xcodeUsrBin = tokens[0];
-        _XcodeFromProcessPath = [[xcodeUsrBin stringByDeletingLastPathComponent]
                                  stringByDeletingLastPathComponent];
     }
 
