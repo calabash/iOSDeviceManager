@@ -14,7 +14,7 @@ physical iOS devices.
 
 ### Code Signing
 
-Project maintainers must clone the [codesign](https://github.com/calabash/calabash-codesign)
+Project maintainers must clone the [codesign](https://github.com/xamarinhq/calabash-codesign)
 repo and install the certs and profiles. Talk to a maintainer for details.
 
 Contributors need to touch the Xcode project file with valid credentials.
