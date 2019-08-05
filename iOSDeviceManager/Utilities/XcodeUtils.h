@@ -7,8 +7,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface XcodeUtils : NSObject
-+ (int) versionMajor;
-+ (int) versionMinor;
++ (NSUInteger) versionMajor;
++ (NSUInteger) versionMinor;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -4,17 +4,17 @@
 #import "ShellRunner.h"
 
 @implementation XcodeUtils
-static int _versionMajor = 0;
-static int _versionMinor = 0;
+static NSUInteger _versionMajor = 0;
+static NSUInteger _versionMinor = 0;
 
-+ (int) versionMajor {
++ (NSUInteger) versionMajor {
     if (!_versionMajor) {
         [self getXcodeVersionTo:&_versionMajor and:&_versionMinor];
     }
     return _versionMajor;
 }
 
-+ (int) versionMinor {
++ (NSUInteger) versionMinor {
     if (!_versionMinor) {
         [self getXcodeVersionTo:&_versionMajor and:&_versionMinor];
     }
@@ -22,7 +22,7 @@ static int _versionMinor = 0;
 
 }
 
-+ (void) getXcodeVersionTo:(int *)major and:(int*) minor{
++ (void) getXcodeVersionTo:(NSUInteger *)major and:(NSUInteger*) minor{
 
     ShellResult *shellResult = [ShellRunner xcrun:@[@"xcodebuild", @"-version"]
                                           timeout:10];
