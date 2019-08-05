@@ -32,7 +32,13 @@ module IDM
 
   def self.shell(args)
     cmd = [Resources.instance.idm] + args
-    RunLoop::Shell.run_shell_command(cmd, {log_cmd: true, timeout: 180})
+
+    timeout = 180
+    if RunLoop::Environment.ci?
+      timeout = 300
+    end
+
+    RunLoop::Shell.run_shell_command(cmd, {log_cmd: true, timeout: timeout})
   end
 
   class Resources

@@ -1,0 +1,55 @@
+jobs:
+- job:
+
+  strategy:
+    matrix:
+      Mojave-Xcode-10.2.1:
+        IMAGE_POOL: 'macOS-10.14'
+        XCODE_VERSION: '10.2.1'
+      Mojave-Xcode-11.0:
+        IMAGE_POOL: 'macOS-10.14'
+        XCODE_VERSION: '11'
+
+  pool:
+    vmImage: $(IMAGE_POOL)
+
+  steps:
+
+  - script: |
+      set -e
+      sudo xcode-select --switch "/Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer"
+      echo "Xcode version: $(xcrun xcodebuild -version)"
+      echo "Xcode path: $(xcrun -f xcodebuild)"
+      echo "Xcode select path: $(xcode-select --print-path)"
+    displayName: "Select Xcode $(XCODE_VERSION)"
+
+  - script: |
+      set -e
+      git clone -b master https://$(GitHubAccessToken):x-oauth-basic@github.com/xamarinhq/calabash-codesign.git
+      calabash-codesign/apple/create-keychain.sh
+    displayName: "Download and install keychain"
+
+  - script: |
+      set -e
+      ruby -v
+      echo -e "install: --no-document --env-shebang\nupdate:  --no-document --env-shebang" > ~/.gemrc
+      bundle install
+    displayName: "Prepare Ruby environment"
+
+  - script: make build
+    displayName: "Make build"
+
+  - script: make unit-tests
+    displayName: "Make unit-tests"
+
+  - script: make integration-tests
+    displayName: "Make integration-tests"
+
+  - script: make rspec
+    displayName: "Make rspec"
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    inputs:
+      testResultsFiles: 'reports/*.xml'
+    condition: always()

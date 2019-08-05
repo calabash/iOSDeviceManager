@@ -7,7 +7,7 @@ describe "launch-simulator" do
   let(:core_sim) { RunLoop::CoreSimulator.new(device, app) }
 
   before do
-    RunLoop::CoreSimulator.quit_simulator
+    RunLoop::CoreSimulator.terminate_core_simulator_processes
   end
 
   it "launches the simulator indicated by --device-id" do
