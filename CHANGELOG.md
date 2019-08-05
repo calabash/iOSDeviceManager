@@ -1,4 +1,4 @@
-### 3.3.2
+### 3.4.0
 
 * Add support for Xcode 11 #246
 * Add signing step #245
