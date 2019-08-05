@@ -27,8 +27,12 @@ jobs:
       calabash-codesign/apple/create-keychain.sh
     displayName: "Download and install keychain"
 
-  - script: bundle install
-    displayName: "Bundle install"
+  - script: |
+      set -e
+      ruby -v
+      echo "install: --no-document --env-shebang\nupdate:  --no-document --env-shebang" > ~/.gemrc
+      bundle install
+    displayName: "Prepare Ruby environment"
 
   - script: make build
     displayName: "Make build"
