@@ -15,11 +15,13 @@ jobs:
 
   steps:
 
-  - script: sudo xcode-select --switch "/Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer"
+  - script: |
+      set -e
+      sudo xcode-select --switch "/Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer"
+      echo "Xcode version: $(xcrun xcodebuild -version)"
+      echo "Xcode path: $(xcrun -f xcodebuild)"
+      echo "Xcode select path: $(xcode-select --print-path)"
     displayName: "Select Xcode $(XCODE_VERSION)"
-
-  - script: xcodebuild -version
-    displayName: "Version of xcodebuild"
 
   - script: |
       set -e
