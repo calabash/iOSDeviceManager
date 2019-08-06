@@ -1,3 +1,9 @@
+### 3.4.0
+
+* Add support for Xcode 11 #246
+* Add signing step #245
+* Use sha1 and sha256 digels algorighms #244
+
 ### 3.3.1
 
 * Adapt iOSDeviceManager to Xcode 10.2 #241
