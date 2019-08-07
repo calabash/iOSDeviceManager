@@ -17,7 +17,8 @@ physical iOS devices.
 Project maintainers must clone the [codesign](https://github.com/calabash/calabash-codesign)
 repo and install the certs and profiles. Talk to a maintainer for details.
 
-Contributors need to touch the Xcode project file with valid credentials.
+Contributors will need to update the Xcode project with valid code signing
+properties.
 
 ### Building
 
