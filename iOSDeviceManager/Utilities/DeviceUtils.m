@@ -140,6 +140,10 @@ const double EPSILON = 0.001;
     NSUInteger major = XcodeUtils.versionMajor + 2;
     NSUInteger minor = XcodeUtils.versionMinor;
 
+    if(XcodeUtils.versionMajor == 10 && XcodeUtils.versionMinor == 3){
+        minor = 4;
+    }
+    
     NSString *deviceVersion;
 
     if (XcodeUtils.versionMajor == 11) {
