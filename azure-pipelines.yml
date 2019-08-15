@@ -26,6 +26,8 @@ jobs:
 
   pool:
     vmImage: $(IMAGE_POOL)
+  variables:
+  - group: XTCRunTimeArtifactsCI
 
   steps:
 
@@ -39,7 +41,7 @@ jobs:
 
   - script: |
       set -e
-      git clone -b master https://$(GitHubAccessToken):x-oauth-basic@github.com/xamarinhq/calabash-codesign.git
+      git clone -b master https://$(CalabashKeychainGitHubAccessToken):x-oauth-basic@github.com/xamarinhq/calabash-codesign.git
       calabash-codesign/apple/create-keychain.sh
     displayName: "Download and install keychain"
 
