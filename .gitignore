@@ -6,6 +6,7 @@ tmp
 Distribution/dependencies
 results
 xctestconfig
+IDEWorkspaceChecks.plist
 
 reports/*.xml
 reports/*.json
