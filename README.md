@@ -1,6 +1,6 @@
-| develop | [versioning](VERSIONING.md) | [license](LICENSE) | [contributing](CONTRIBUTING.md)|
-|---------|-----------------------------|--------------------|--------------------------------|
-|[![Build Status](https://calabash-ci.xyz/job/iOSDeviceManager/job/develop/badge/icon)](https://calabash-ci.xyz/job/iOSDeviceManager/job/develop) | [![Version](https://img.shields.io/badge/version-3.4.0-green.svg)](https://img.shields.io/badge/version-3.4.0-green.svg) |[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE) | [![Contributing](https://img.shields.io/badge/contrib-gitflow-orange.svg)](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow/)|
+| develop | master | [versioning](VERSIONING.md) | [license](LICENSE) | [contributing](CONTRIBUTING.md)|
+|---------|--------|-----------------------------|--------------------|--------------------------------|
+|[![Build Status](https://msmobilecenter.visualstudio.com/Mobile-Center/_apis/build/status/test-cloud/xamarin-uitest/calabash.iOSDeviceManager?branchName=develop)](https://msmobilecenter.visualstudio.com/Mobile-Center/_build/latest?definitionId=3511&branchName=develop) | [![Build Status](https://msmobilecenter.visualstudio.com/Mobile-Center/_apis/build/status/test-cloud/xamarin-uitest/calabash.iOSDeviceManager?branchName=master)](https://msmobilecenter.visualstudio.com/Mobile-Center/_build/latest?definitionId=3511&branchName=master) | [![Version](https://img.shields.io/badge/version-3.5.0-green.svg)](https://img.shields.io/badge/version-3.5.0-green.svg) |[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE) | [![Contributing](https://img.shields.io/badge/contrib-gitflow-orange.svg)](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow/)|
 
 ## iOSDeviceManager
 

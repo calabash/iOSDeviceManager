@@ -147,7 +147,7 @@ const double EPSILON = 0.001;
     NSString *deviceVersion;
 
     if (XcodeUtils.versionMajor == 11) {
-        deviceVersion = @"Xs";
+        deviceVersion = @"11";
     } else if (XcodeUtils.versionMajor == 10) {
         if (XcodeUtils.versionMinor < 2) {
             deviceVersion = @"XS";
