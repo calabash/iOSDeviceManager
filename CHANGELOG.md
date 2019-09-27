@@ -1,8 +1,12 @@
+### 3.5.0
+
+* Add support for Xcode 10.3 #254
+
 ### 3.4.0
 
 * Add support for Xcode 11 #246
-* Add signing step #245
-* Use sha1 and sha256 digels algorighms #244
+* Build: add signing step for CocoaLumber framework #245
+* resigning: Use sha1 and sha256 digest algorighms #244
 
 ### 3.3.1
 
