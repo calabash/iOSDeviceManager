@@ -906,11 +906,11 @@
 			};
 			buildConfigurationList = 89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManager" */;
 			compatibilityVersion = "Xcode 6.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = 89331D3A1CE222C7003C2E59;
 			productRefGroup = 89331D441CE222C7003C2E59 /* Products */;
