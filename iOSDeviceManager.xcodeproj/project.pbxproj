@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -905,7 +905,7 @@
 				};
 			};
 			buildConfigurationList = 89331D3E1CE222C7003C2E59 /* Build configuration list for PBXProject "iOSDeviceManager" */;
-			compatibilityVersion = "Xcode 6.3";
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1351,7 +1351,11 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Tests/UnitInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1373,7 +1377,11 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Tests/UnitInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1395,7 +1403,11 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1417,7 +1429,11 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
