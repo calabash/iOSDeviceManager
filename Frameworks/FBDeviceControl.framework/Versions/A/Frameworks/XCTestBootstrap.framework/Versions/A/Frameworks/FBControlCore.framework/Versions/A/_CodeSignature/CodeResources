@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		oGyHWxGjtm8hVkWoe5mPOZUtAIU=
+		vYIKIr9PhHGXW154vPOy8B1YSY0=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,10 +15,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			aenRHjo2DIm+zI4ixRKWqZ8X4Wo=
+			Yd0H+JrKAaMfICWWEu5QuZWG0fg=
 			</data>
 			<key>requirement</key>
-			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Headers/FBASLParser.h</key>
 		<dict>
@@ -937,11 +937,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			oGyHWxGjtm8hVkWoe5mPOZUtAIU=
+			vYIKIr9PhHGXW154vPOy8B1YSY0=
 			</data>
 			<key>hash2</key>
 			<data>
-			g0dMIu30Ifx1nPgxijxkAVecsu83JgqKPsK4FoPYpbw=
+			y44WBn6YujrP1HQ8DBACZ9KRzQq1LlOx7TonpyibfGw=
 			</data>
 		</dict>
 	</dict>

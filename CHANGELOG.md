@@ -1,3 +1,10 @@
+### 3.6.0
+
+* FB Frameworks: add missing simulators and devices
+* https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-Xcode-11.2
+* macOS Mojave 10.14.6
+* Xcode 11.1
+
 ### 3.5.0
 
 * Add support for Xcode 10.3 #254
