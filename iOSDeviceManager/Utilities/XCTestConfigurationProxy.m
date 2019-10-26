@@ -65,7 +65,10 @@
 }
 
 + (id)XCTestConfigurationWithContentsOfFile:(NSString *)path {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+#pragma clang diagnostic pop
 }
 
 - (NSString *)description {
