@@ -1,3 +1,11 @@
+### 3.7.0
+
+#### FBSimulatorControl
+
+* https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-Xcode-11.2
+* macOS Mojave 10.14.6
+* Xcode 11.2.1
+
 ### 3.6.0
 
 * FB Frameworks: add missing simulators and devices
