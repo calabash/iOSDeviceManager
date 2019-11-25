@@ -110,6 +110,15 @@ context(@"#isIOSDeveloperIdentity", ^{
 
         expect([identity isIOSDeveloperIdentity]).to.equal(YES);
     });
+        
+    it(@"returns true if the name contains Apple Development", ^{
+        NSString *shasum, *name;
+        shasum = @"921D006C34510B86D66912F2C58344AC37A6B88E";
+        name = @"Apple Development: Joshua Moody";
+        identity = [[CodesignIdentity alloc] initWithShasum:shasum name:name];
+
+        expect([identity isIOSDeveloperIdentity]).to.equal(YES);
+    });
 
     it(@"returns false if the name does not contain iPhone Developer", ^{
         NSString *shasum, *name;
