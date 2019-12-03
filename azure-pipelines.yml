@@ -51,7 +51,7 @@ jobs:
       # 'unlimited' is recommended by Apple, but does not work => 10240
       #   which could be a function of the amount of RAM available.
       echo "setting maxfiles 2000 unlimited"
-      sudo launchctl limit maxfiles 52428 60000
+      sudo launchctl limit maxfiles 52428 600000
 
       echo "### launchctl limits: after ###"
       sudo launchctl limit
