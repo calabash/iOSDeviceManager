@@ -45,12 +45,10 @@ jobs:
       sudo launchctl limit
 
       # 2500 is a hard limit
-      echo "setting maxproc to 2048 2500"
       sudo launchctl limit maxproc 2048 2500
       # values derived empirically
       # 'unlimited' is recommended by Apple, but does not work => 10240
       #   which could be a function of the amount of RAM available.
-      echo "setting maxfiles 2000 unlimited"
       sudo launchctl limit maxfiles 52428 600000
 
       echo "### launchctl limits: after ###"
