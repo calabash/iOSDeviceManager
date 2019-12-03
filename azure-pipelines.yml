@@ -45,8 +45,12 @@ jobs:
       sudo launchctl limit
 
       # 2500 is a hard limit
-      echo "### setting maxproc to 2048 2500"
+      echo "setting maxproc to 2048 2500"
       sudo launchctl limit maxproc 2048 2500
+      # values recommended by Apple
+      # https://help.apple.com/simulator/mac/9.0/index.html#/dev8a5f2aa4e
+      echo "setting maxfiles 2000 unlimited"
+      sudo launchctl limit maxfiles 2000 unlimited
 
       echo "### launchctl limits: after ###"
       sudo launchctl limit
