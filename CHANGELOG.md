@@ -1,3 +1,9 @@
+### 3.7.1
+
+* Add 'Apple Development' string to isIOSDeveloperIdentity() #263
+
+Thank you @papalma
+
 ### 3.7.0
 
 #### FBSimulatorControl

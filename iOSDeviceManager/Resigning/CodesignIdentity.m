@@ -237,7 +237,7 @@
 }
 
 - (BOOL)isIOSDeveloperIdentity {
-    return [self.name containsString:@"iPhone Developer"];
+    return [self.name containsString:@"iPhone Developer"] || [self.name containsString:@"Apple Development"];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
