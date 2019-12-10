@@ -38,6 +38,24 @@ jobs:
   steps:
 
   - script: |
+      # Attempts to fix this problem:
+      # Unable to boot device due to insufficient system resources.
+      set -e
+      echo "### launchctl limits: before ###"
+      sudo launchctl limit
+
+      # 2500 is a hard limit
+      sudo launchctl limit maxproc 2048 2500
+      # values derived empirically
+      # 'unlimited' is recommended by Apple, but does not work => 10240
+      #   which could be a function of the amount of RAM available.
+      sudo launchctl limit maxfiles 52428 600000
+
+      echo "### launchctl limits: after ###"
+      sudo launchctl limit
+    displayName: "Setting maxproc and maxfiles limits"
+
+  - script: |
       set -e
       sudo xcode-select --switch "/Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer"
       echo "Xcode version: $(xcrun xcodebuild -version)"
