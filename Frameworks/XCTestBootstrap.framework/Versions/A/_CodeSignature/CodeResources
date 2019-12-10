@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		b9OVali9j2wsCZorPMaKZyRLLwo=
+		MVsR6O0S7jLSCkT0E+wzfIiQo6U=
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
@@ -32,7 +32,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			fClWbKTAFlDn5+GUsdWl+0LgRj4=
+			9DuBE9tlEFomKKWhwmVNRbSc3as=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -536,11 +536,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			b9OVali9j2wsCZorPMaKZyRLLwo=
+			MVsR6O0S7jLSCkT0E+wzfIiQo6U=
 			</data>
 			<key>hash2</key>
 			<data>
-			RxZUyWPRNSQ8h7N6+Nrbb1bWBW25hNAmIkOJ/5oBiTg=
+			QmE0nmxFc5kHrwjr68eHkNBdSu2P6vbJhKuSOz26iRA=
 			</data>
 		</dict>
 		<key>Resources/libMaculator.dylib</key>
