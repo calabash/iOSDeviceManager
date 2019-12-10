@@ -1,3 +1,14 @@
+### 3.7.2
+
+A release that contains resigned FaceBook frameworks.  Our developer account
+expired unexpectedly.
+
+#### FBSimulatorControl
+
+* https://github.com/calabash/FBSimulatorControl/releases/tag/0.4.0-Xcode-11.2
+* macOS Mojave 10.14.6
+* Xcode 11.2.1
+
 ### 3.7.1
 
 * Add 'Apple Development' string to isIOSDeveloperIdentity() #263
