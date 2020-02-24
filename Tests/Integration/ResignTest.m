@@ -65,8 +65,8 @@
 }
 
 - (void)testResignObjectWithIdentity {
-    CodesignIdentity *karlIdentity = [self.resources KarlKrukowIdentityIOS];
-    CodesignIdentity *moodyIdentity = [self.resources JoshuaMoodyIdentityIOS];
+    CodesignIdentity *iOSIdentity = [self.resources KarlKrukowIdentityIOS];
+    CodesignIdentity *combinedIdentity = [self.resources KarlKrukowIdentityCombined];
 
     NSString *target = [[self.resources uniqueTmpDirectory]
                         stringByAppendingPathComponent:@"signed.dylib"];
@@ -75,16 +75,16 @@
 
     result = [ShellRunner xcrun:@[@"codesign", @"-vvv", @"--display", source]
                         timeout:5];
-    expect([result.stderrStr containsString:karlIdentity.name]).to.beTruthy();
+    expect([result.stderrStr containsString:iOSIdentity.name]).to.beTruthy();
 
     NSFileManager *manager = [NSFileManager defaultManager];
     expect([manager copyItemAtPath:source toPath:target error:nil]).to.beTruthy();
 
-    [Codesigner resignObject:target codesignIdentity:moodyIdentity];
+    [Codesigner resignObject:target codesignIdentity:combinedIdentity];
 
     result = [ShellRunner xcrun:@[@"codesign", @"-vvv", @"--display", target]
                         timeout:5];
-    expect([result.stderrStr containsString:moodyIdentity.name]).to.beTruthy();
+    expect([result.stderrStr containsString:combinedIdentity.name]).to.beTruthy();
 }
 
 - (void)testResignWithExactMatchProfile {
