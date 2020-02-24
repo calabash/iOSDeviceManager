@@ -17,9 +17,6 @@ jobs:
 
   strategy:
     matrix:
-      Mojave-Xcode-10.3:
-        IMAGE_POOL: 'macOS-10.14'
-        XCODE_VERSION: '10.3'
       Mojave-Xcode-11.0:
         IMAGE_POOL: 'macOS-10.14'
         XCODE_VERSION: '11'
