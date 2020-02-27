@@ -41,14 +41,14 @@
 }
 
 - (void)testDictionaryFromProfile {
-    NSString *path = [self.resources CalabashWildcardPath];
+    NSString *path = [self.resources CalabashWildcardProfilePath];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     expect(hash.count).notTo.equal(0);
     expect(hash[@"AppIDName"]).to.equal(@"CalabashWildcard");
 }
 
 - (void)testHasMethodsForReturningProfileDetails {
-    NSString *path = [[Resources shared] CalabashWildcardPath];
+    NSString *path = [[Resources shared] CalabashWildcardProfilePath];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
                                                                   path:path];

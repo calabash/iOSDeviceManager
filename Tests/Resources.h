@@ -156,10 +156,10 @@ typedef NS_ENUM(NSUInteger, TestSimulatorState) {
 - (ShellResult *)failedResult;
 
 - (NSString *)stringPlist;
-- (NSString *)CalabashWildcardPath;
+- (NSString *)CalabashWildcardProfilePath;
+- (NSString *)PalisadeDevelopmentProfilePath;
 - (NSString *)PermissionsProfilePath;
 - (NSString *)pathToVeryLongProfile;
-- (NSString *)pathToLJSProvisioningProfile;
 - (NSString *)provisioningProfilesDirectory;
 - (NSString *)pathToCalabashWildcardPathCertificate;
 - (NSData *)certificateFromCalabashWildcardPath;

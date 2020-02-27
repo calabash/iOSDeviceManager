@@ -920,10 +920,16 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     "</plist>\n";
 }
 
-- (NSString *)CalabashWildcardPath {
+- (NSString *)CalabashWildcardProfilePath {
     return [self.resourcesDirectory
             stringByAppendingPathComponent:@"profiles/CalabashWildcard.mobileprovision"];
 }
+
+- (NSString *)PalisadeDevelopmentProfilePath {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"profiles/PalisadeDevelopment.mobileprovision"];
+}
+
 
 - (NSString *)PermissionsProfilePath {
     return [self.resourcesDirectory
@@ -932,11 +938,6 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)pathToVeryLongProfile {
     return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
-}
-
-- (NSString *)pathToLJSProvisioningProfile {
-    return [[self provisioningProfilesDirectory]
-            stringByAppendingPathComponent:@"LJS_Development_Profile.mobileprovision"];
 }
 
 - (NSString *)provisioningProfilesDirectory {
