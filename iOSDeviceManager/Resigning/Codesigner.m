@@ -320,9 +320,15 @@ static NSString *const IDMCodeSignErrorDomain = @"sh.calaba.iOSDeviceManger";
 
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
     NSString *oldBundleID = [self getOldBundleId:oldEntitlements infoPlist:infoPlist];
-    NSString *finalAppIdentifier = [self isWildcardAppId:mobileProfileAppID] ?
-    [NSString stringWithFormat:@"%@.%@", appIDPrefix, oldBundleID] :
-    [newEntitlements applicationIdentifier];
+
+    NSString *finalAppIdentifier;
+
+    if ([self isWildcardAppId:mobileProfileAppID]) {
+        finalAppIdentifier = [NSString stringWithFormat:@"%@.%@",
+                              appIDPrefix, oldBundleID];
+    } else {
+        finalAppIdentifier = [newEntitlements applicationIdentifier];
+    }
 
     LogInfo(@"Preparing to resign bundle %@ with profile %@", appDir.lastPathComponent, [profile name]);
 
