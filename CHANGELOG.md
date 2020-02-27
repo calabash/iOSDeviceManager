@@ -1,3 +1,7 @@
+### 3.7.4
+
+* FB Frameworks: add missing simulators and devices
+
 ### 3.7.3
 
 A release that contains resigned FaceBook frameworks.  Our developer account
