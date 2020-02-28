@@ -7,7 +7,7 @@ describe "kill-simulator" do
   let(:core_sim) { RunLoop::CoreSimulator.new(device, app) }
 
   before do
-    RunLoop::CoreSimulator.quit_simulator
+    IDM::Resources.instance.terminate_simulator_processes_then_wait
   end
 
   it "does not fail if simulator is not running" do

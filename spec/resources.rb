@@ -226,5 +226,16 @@ Expected generate-xcappdata to exit with 0 found: #{hash[:exit_status]}
 
       hash[:out]
     end
+
+    # iOSDeviceManager: rspec tests occasionally fail in CI w/ 'Couldn't posix_spawn: error 35'
+    # https://msmobilecenter.visualstudio.com/Mobile-Center/_workitems/edit/77257
+    #
+    # There maybe times when we need/want to do this locally as well.
+    def terminate_simulator_processes_then_wait
+      if RunLoop::Environment.azurepipelines?
+        RunLoop::CoreSimulator.terminate_core_simulator_processes
+        sleep(5)
+      end
+    end
   end
 end

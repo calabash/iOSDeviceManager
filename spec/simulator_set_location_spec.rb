@@ -4,6 +4,10 @@ describe "set-location" do
   let(:latitude) { "15.1790" }
   let(:longitude) { "-200.1982" }
 
+  before do
+    IDM::Resources.instance.terminate_simulator_processes_then_wait
+  end
+
   context "simulators" do
     let(:device) { IDM::Resources.instance.default_simulator }
     let(:udid) { device.udid }
