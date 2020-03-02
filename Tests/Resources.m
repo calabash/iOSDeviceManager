@@ -920,10 +920,16 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
     "</plist>\n";
 }
 
-- (NSString *)CalabashWildcardPath {
+- (NSString *)CalabashWildcardProfilePath {
     return [self.resourcesDirectory
             stringByAppendingPathComponent:@"profiles/CalabashWildcard.mobileprovision"];
 }
+
+- (NSString *)PalisadeDevelopmentProfilePath {
+    return [self.resourcesDirectory
+            stringByAppendingPathComponent:@"profiles/PalisadeDevelopment.mobileprovision"];
+}
+
 
 - (NSString *)PermissionsProfilePath {
     return [self.resourcesDirectory
@@ -932,11 +938,6 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 
 - (NSString *)pathToVeryLongProfile {
     return [self.provisioningProfilesDirectory stringByAppendingPathComponent:@"very-long-profile.mobileprovision"];
-}
-
-- (NSString *)pathToLJSProvisioningProfile {
-    return [[self provisioningProfilesDirectory]
-            stringByAppendingPathComponent:@"LJS_Development_Profile.mobileprovision"];
 }
 
 - (NSString *)provisioningProfilesDirectory {
@@ -981,9 +982,9 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 // $ git/calabash-codesign/apple/create-keychain.sh
 // $ security find-identity -p codesigning -v
 // ^ find the lastest fingerprint
-- (CodesignIdentity *)JoshuaMoodyIdentityIOS {
-    NSString *identityName = @"iPhone Developer: Joshua Moody (8QEQJFT59F)";
-    NSString *identityShasum = @"6D16C82E989CDBECBD3F0AB462A87DEB3860BC8E";
+- (CodesignIdentity *)KarlKrukowIdentityCombined {
+    NSString *identityName = @"Apple Development: Karl Krukow (YTTN6Y2QS9)";
+    NSString *identityShasum = @"E6CABAAD38ACB48A71A9E1598A10CCA354FFCE3F";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }

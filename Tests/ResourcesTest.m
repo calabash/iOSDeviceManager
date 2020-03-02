@@ -165,7 +165,7 @@
 #pragma mark - Provisioning Profiles
 
 - (void)testProvisioningProfiles {
-    expect([self fileExists:[self.resources CalabashWildcardPath]]).to.equal(YES);
+    expect([self fileExists:[self.resources CalabashWildcardProfilePath]]).to.equal(YES);
 }
 
 @end

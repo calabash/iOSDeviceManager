@@ -5,6 +5,8 @@ describe "is-installed" do
     let(:app) { RunLoop::App.new(IDM::Resources.instance.test_app(:x86)) }
 
     before do
+      IDM::Resources.instance.terminate_simulator_processes_then_wait
+
       RunLoop::CoreSimulator.new(device, app).launch_simulator
     end
 

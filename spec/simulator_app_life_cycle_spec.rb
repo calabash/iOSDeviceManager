@@ -28,6 +28,10 @@ describe "app life cycle (simulator)" do
     end
   end
 
+  before do
+    IDM::Resources.instance.terminate_simulator_processes_then_wait
+  end
+
   let(:device) { IDM::Resources.instance.default_simulator }
   let(:udid) { device.udid }
   let(:app) { RunLoop::App.new(IDM::Resources.instance.test_app(:x86)) }

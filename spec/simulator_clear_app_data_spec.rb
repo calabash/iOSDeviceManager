@@ -1,15 +1,17 @@
 context "clear-app-data command" do
   context "simulators" do
-    let (:device) { IDM::Resources.instance.default_simulator }
-    let (:udid) { device.udid }
-    let (:app) do
+    let(:device) { IDM::Resources.instance.default_simulator }
+    let(:udid) { device.udid }
+    let(:app) do
       path = IDM::Resources.instance
         .test_app(device.physical_device? ? :arm : :x86)
       RunLoop::App.new(path)
     end
     let(:xcappdata) { IDM::Resources.instance.xcappdata }
 
-    before(:each) do |test|
+    before do
+      IDM::Resources.instance.terminate_simulator_processes_then_wait
+
       path = IDM::Resources.instance.tmp_dir("xcappdata")
       FileUtils.rm_rf(path)
       TestHelper.install(udid, app.path)
