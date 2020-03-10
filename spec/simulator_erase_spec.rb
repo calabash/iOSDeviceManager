@@ -5,6 +5,10 @@ describe "erase-simulator" do
   let(:app) { RunLoop::App.new(IDM::Resources.instance.test_app(:x86)) }
   let(:core_sim) { RunLoop::CoreSimulator.new(device, app) }
 
+  before do
+    IDM::Resources.instance.terminate_simulator_processes_then_wait
+  end
+
   it "writes an error and exits non-zero if udid argument is a physical device" do
     args = ["erase-simulator", "0dfe68ff5e62f894f409619526e56184cdc76aef"]
     hash = IDM.shell(args)

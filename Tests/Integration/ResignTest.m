@@ -65,8 +65,8 @@
 }
 
 - (void)testResignObjectWithIdentity {
-    CodesignIdentity *karlIdentity = [self.resources KarlKrukowIdentityIOS];
-    CodesignIdentity *moodyIdentity = [self.resources JoshuaMoodyIdentityIOS];
+    CodesignIdentity *iOSIdentity = [self.resources KarlKrukowIdentityIOS];
+    CodesignIdentity *combinedIdentity = [self.resources KarlKrukowIdentityCombined];
 
     NSString *target = [[self.resources uniqueTmpDirectory]
                         stringByAppendingPathComponent:@"signed.dylib"];
@@ -75,16 +75,16 @@
 
     result = [ShellRunner xcrun:@[@"codesign", @"-vvv", @"--display", source]
                         timeout:5];
-    expect([result.stderrStr containsString:karlIdentity.name]).to.beTruthy();
+    expect([result.stderrStr containsString:iOSIdentity.name]).to.beTruthy();
 
     NSFileManager *manager = [NSFileManager defaultManager];
     expect([manager copyItemAtPath:source toPath:target error:nil]).to.beTruthy();
 
-    [Codesigner resignObject:target codesignIdentity:moodyIdentity];
+    [Codesigner resignObject:target codesignIdentity:combinedIdentity];
 
     result = [ShellRunner xcrun:@[@"codesign", @"-vvv", @"--display", target]
                         timeout:5];
-    expect([result.stderrStr containsString:moodyIdentity.name]).to.beTruthy();
+    expect([result.stderrStr containsString:combinedIdentity.name]).to.beTruthy();
 }
 
 - (void)testResignWithExactMatchProfile {
@@ -111,16 +111,37 @@
     NSDictionary *before = [Entitlements dictionaryOfEntitlementsWithBundlePath:app.path];
     expect(before[@"application-identifier"]).to.equal(@"FYD86LA7RE.sh.calaba.Permissions");
 
-    NSString *profilePath = [self.resources pathToLJSProvisioningProfile];
+    // Cannot test with the CalabashWildcardProfile because the final application
+    // identifier would be the same - the signing algorithm just replaces the
+    // prefix (eg. FYD86LA7RE.* => FYD86LA7RE.com.example.App) of the app
+    // identifier.
+    //
+    // Ideally, we would use a profile from different developer account, but
+    // that is expensive and hard to maintain.
+    NSString *profilePath = [self.resources PalisadeDevelopmentProfilePath];
     MobileProfile *profile = [MobileProfile withPath:profilePath];
 
-    [Codesigner resignApplication:app withProvisioningProfile:profile];
+    CodesignIdentity *combinedIdentity = [self.resources KarlKrukowIdentityCombined];
+
+    // Ideally, we would not specify a code sign identity, but instead rely on
+    // the algorithm to find a correct cert/profile/app triple.  This would
+    // mean using a certificate from another developer account which would be
+    // hard to maintain or creating special profile just for this test.
+    [Codesigner resignApplication:app
+          withProvisioningProfile:profile
+             withCodesignIdentity:combinedIdentity];
 
     NSDictionary *after = [Entitlements dictionaryOfEntitlementsWithBundlePath:app.path];
-    expect(after[@"application-identifier"]).to.equal(@"Y54WEA9F74.*");
+    expect(after[@"application-identifier"]).to.equal(@"FYD86LA7RE.com.microsoft.Palisade");
 
-    [self expectApplicationToInstallAndLaunch:app
-                                      profile:profile];
+
+    ShellResult *result;
+
+    result = [ShellRunner xcrun:@[@"codesign", @"-vvv", @"--display", app.path]
+                        timeout:5];
+    expect([result.stderrStr containsString:combinedIdentity.name]).to.beTruthy();
+
+    [self expectApplicationToInstallAndLaunch:app profile:profile];
 }
 
 @end

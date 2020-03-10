@@ -117,7 +117,7 @@
 
 - (void)testResignObject {
     ShellResult *result;
-    CodesignIdentity *identity = [self.resources JoshuaMoodyIdentityIOS];
+    CodesignIdentity *identity = [self.resources KarlKrukowIdentityCombined];
 
     NSString *target = [[self.resources uniqueTmpDirectory] stringByAppendingPathComponent:@"signed.dylib"];
     NSString *source = [self.resources CalabashDylibPath];

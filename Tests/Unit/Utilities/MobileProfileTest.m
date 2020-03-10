@@ -41,14 +41,14 @@
 }
 
 - (void)testDictionaryFromProfile {
-    NSString *path = [self.resources CalabashWildcardPath];
+    NSString *path = [self.resources CalabashWildcardProfilePath];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     expect(hash.count).notTo.equal(0);
     expect(hash[@"AppIDName"]).to.equal(@"CalabashWildcard");
 }
 
 - (void)testHasMethodsForReturningProfileDetails {
-    NSString *path = [[Resources shared] CalabashWildcardPath];
+    NSString *path = [[Resources shared] CalabashWildcardProfilePath];
     NSDictionary *hash = [MobileProfile dictionaryByExportingProfileWithSecurity:path];
     MobileProfile *profile = [[MobileProfile alloc] initWithDictionary:hash
                                                                   path:path];
@@ -56,10 +56,10 @@
     expect(profile.applicationIdentifierPrefix[0]).to.equal(@"FYD86LA7RE");
     expect(profile.developerCertificates.count).to.equal(1);
     expect(profile.developerCertificates[0]).to.beInstanceOf([Certificate class]);
-    expect(profile.provisionedDevices.count).to.equal(76);
+    expect(profile.provisionedDevices.count).to.equal(89);
     expect(profile.provisionedDevices[0]).to.equal(@"e60ef9ae876ab4a218ee966d0525c9fb79e5606d");
     expect(profile.teamIdentifier[0]).to.equal(@"FYD86LA7RE");
-    expect(profile.uuid).to.equal(@"7e92a918-bdf7-4654-ac7d-72a4000b6c2a");
+    expect(profile.uuid).to.equal(@"7aa7148f-f245-4d95-898e-dedff226429d");
     expect(profile.teamName).to.equal(@"Karl Krukow");
     expect(profile.name).to.equal(@"CalabashWildcard");
     expect(profile.platform[0]).to.equal(@"iOS");
@@ -434,6 +434,10 @@ context(@"embeddedMobileProvision:identity:deviceUDID:", ^{
     });
 
     it(@"returns a MobileProfile if the provision has the device and the cert", ^{
+        // will fail if:
+        // 1. device UDID is removed from profile
+        // 2. certificate embedded in the profile changes
+        // 3. the profile has expired (happens once a year)
         embedded = [MobileProfile embeddedMobileProvision:bundlePath
                                                  identity:identity
                                                deviceUDID:UDID];
