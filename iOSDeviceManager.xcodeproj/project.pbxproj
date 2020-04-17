@@ -882,7 +882,7 @@
 		89331D3B1CE222C7003C2E59 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
