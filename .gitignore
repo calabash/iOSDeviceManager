@@ -69,3 +69,7 @@ Tests/cucumber/Gemfile*
 
 # Gemfile used in rspec tests for CLI
 Gemfile.lock
+
+# node
+node_modules
+ppp/db

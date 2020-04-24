@@ -1,6 +1,5 @@
 
 module IDM
-  require "singleton"
   require "run_loop"
 
   def self.exit_status(key)
@@ -41,7 +40,15 @@ module IDM
     RunLoop::Shell.run_shell_command(cmd, {log_cmd: true, timeout: timeout})
   end
 
+  module PPP
+    def self.shell(args:, timeout: 10)
+      cmd = [Resources.instance.ppp] + args
+      RunLoop::Shell.run_shell_command(cmd, {log_cmd: true, timeout: timeout})
+    end
+  end
+
   class Resources
+    require "singleton"
     include Singleton
 
     def project_dir
@@ -54,6 +61,10 @@ module IDM
 
     def idm
       @idm ||= File.join(project_dir, "Products", "iOSDeviceManager")
+    end
+
+    def ppp
+      @ppp ||= File.join(project_dir, "ppp", "bin", "index.js")
     end
 
     def tmp_dir(subdir=nil)
