@@ -76,9 +76,9 @@ async function parse_and_archive(argv) {
     const plist = require("plist").parse(cms_output.stdout);
     const obj = extract_important_properties(plist);
     obj.path = profile_path;
-    //write_json(obj)
+    write_json(obj)
     write_sqlite(obj)
-    //write_couchdb(obj)
+    write_couchdb(obj)
   } else {
     process.exit(1);
   }
