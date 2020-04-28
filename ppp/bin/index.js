@@ -37,7 +37,6 @@ async function parse_and_archive_from_directory(argv) {
     if (err) {
       console.error('Faild reading directory');
     }
-
     const profile_paths = filenames.filter(filename => {
       return filename.endsWith('.mobileprovision');
     }).map(filename => {
@@ -77,12 +76,84 @@ async function parse_and_archive(argv) {
   if (cms_output !== undefined) {
     const plist = require("plist").parse(cms_output.stdout);
     const obj = extract_important_properties(plist);
+    obj.path = profile_path;
     //write_json(obj)
     write_sqlite(obj)
     //write_couchdb(obj)
   } else {
     process.exit(1);
   }
+}
+
+function prepare_text_value(value) {
+  return `'${JSON.stringify(value)}'`;
+}
+
+function profile_insert_stmt(obj) {
+  const columns = [
+    "UUID",
+    "ExpirationDate",
+    "Platform",
+    "ApplicationIdentifierPrefix",
+    "AppIDName",
+    "TeamIdentifier",
+    "TeamName",
+    "Name",
+    "Entitlements",
+    "path"
+  ].join(",");
+
+  const values = [
+    prepare_text_value(obj.UUID),
+    obj.ExpirationDate,
+    prepare_text_value(obj.Platform),
+    prepare_text_value(obj.ApplicationIdentifierPrefix),
+    prepare_text_value(obj.AppIDName),
+    prepare_text_value(obj.TeamIdentifier),
+    prepare_text_value(obj.TeamName),
+    prepare_text_value(obj.Name),
+    prepare_text_value(obj.Entitlements),
+    prepare_text_value(obj.path)
+  ].join(",");
+
+  return `INSERT INTO profiles (${columns}) VALUES (${values})`;
+}
+
+function write_sqlite(obj) {
+  const sqlite3 = require("sqlite3").verbose();
+  const db = new sqlite3.Database("./ppp.db", (e) => {
+    if (e) {
+      return console.error(e);
+    }
+    console.log("Connected ./ppp.db");
+  });
+  db.serialize(function() {
+    const statement = profile_insert_stmt(obj);
+
+    const stmt = db.prepare(statement,
+      e => {
+        if (e) {
+          console.error("Could not prepare:");
+          console.error(statement);
+          return console.error(e);
+        }
+        console.log("prepared profile statement");
+      });
+
+    stmt.finalize(e => {
+      if (e) {
+        return console.error(e);
+      }
+      console.log("finalized statement")
+    });
+  });
+
+  db.close(e =>  {
+    if (e) {
+      return console.error(e);
+    }
+    //console.log('Close the database connection.');
+  });
 }
 
 function extract_important_properties(plist) {
@@ -119,10 +190,6 @@ async function write_json(obj) {
 async function async_stringify(obj) {
   const { promisify } = require("util");
   return await promisify(JSON.stringify)(obj);
-}
-
-function write_sqlite(obj) {
-  console.log(`writing to sqlite is not yet implemented`);
 }
 
 async function write_couchdb(obj) {

@@ -1,10 +1,8 @@
-DROP DATABASE IF EXISTS ppp;
 
-CREATE DATABASE ppp;
-
+DROP TABLE IF EXISTS profiles;
 CREATE TABLE profiles (
   UUID TEXT PRIMARY KEY,
-  ExpiryDate integer NOT NULL,
+  ExpirationDate INTEGER NOT NULL,
   Platform TEXT NOT NULL,
   ApplicationIdentifierPrefix TEXT NOT NULL,
   AppIDName TEXT NOT NULL,
@@ -15,13 +13,15 @@ CREATE TABLE profiles (
   path TEXT NOT NULL
 );
 
+DROP TABLE IF EXISTS devices;
 CREATE TABLE devices (
   UDID TEXT PRIMARY KEY
 );
 
+DROP TABLE IF EXISTS device_profiles;
 CREATE TABLE device_profiles (
-  profile_id TEXT
-  device_id TEXT
+  profile_id TEXT,
+  device_id TEXT,
   PRIMARY KEY (profile_id, device_id),
   FOREIGN KEY (profile_id)
     REFERENCES profiles (UUID)
