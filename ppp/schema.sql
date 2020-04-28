@@ -1,4 +1,7 @@
 
+-- Legacy tables
+DROP TABLE IF EXISTS devices;
+
 DROP TABLE IF EXISTS profiles;
 CREATE TABLE profiles (
   UUID TEXT PRIMARY KEY,
@@ -13,11 +16,6 @@ CREATE TABLE profiles (
   path TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS devices;
-CREATE TABLE devices (
-  UDID TEXT PRIMARY KEY
-);
-
 DROP TABLE IF EXISTS device_profiles;
 CREATE TABLE device_profiles (
   profile_id TEXT,
@@ -25,10 +23,6 @@ CREATE TABLE device_profiles (
   PRIMARY KEY (profile_id, device_id),
   FOREIGN KEY (profile_id)
     REFERENCES profiles (UUID)
-      ON DELETE CASCADE
-      ON UPDATE NO ACTION,
-  FOREIGN KEY (device_id)
-    REFERENCES devices (UDID)
       ON DELETE CASCADE
       ON UPDATE NO ACTION
 );

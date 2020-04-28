@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const pry = require('pryjs')
 const yargs = require("yargs");
 
 const commands = yargs
@@ -23,12 +22,6 @@ const commands = yargs
     description: "Enable verbose logging"
   })
   .argv;
-
-async function* createAsyncIterable(syncIterable) {
-  for (const elem of syncIterable) {
-    yield elem;
-  }
-}
 
 async function parse_and_archive_from_directory(argv) {
   const dir_path = require("path").resolve(argv.directory);
@@ -64,6 +57,12 @@ async function parse_and_archive_from_directory(argv) {
       //      await parse_and_archive({ profile: path });
       //    });
       //  }
+      // async function* createAsyncIterable(syncIterable) {
+      //   for (const elem of syncIterable) {
+      //     yield elem;
+      //   }
+      // }
+      //
       await parse_and_archive({ profile: path });
     });
   });
@@ -83,77 +82,6 @@ async function parse_and_archive(argv) {
   } else {
     process.exit(1);
   }
-}
-
-function prepare_text_value(value) {
-  return `'${JSON.stringify(value)}'`;
-}
-
-function profile_insert_stmt(obj) {
-  const columns = [
-    "UUID",
-    "ExpirationDate",
-    "Platform",
-    "ApplicationIdentifierPrefix",
-    "AppIDName",
-    "TeamIdentifier",
-    "TeamName",
-    "Name",
-    "Entitlements",
-    "path"
-  ].join(",");
-
-  const values = [
-    prepare_text_value(obj.UUID),
-    obj.ExpirationDate,
-    prepare_text_value(obj.Platform),
-    prepare_text_value(obj.ApplicationIdentifierPrefix),
-    prepare_text_value(obj.AppIDName),
-    prepare_text_value(obj.TeamIdentifier),
-    prepare_text_value(obj.TeamName),
-    prepare_text_value(obj.Name),
-    prepare_text_value(obj.Entitlements),
-    prepare_text_value(obj.path)
-  ].join(",");
-
-  return `INSERT INTO profiles (${columns}) VALUES (${values})`;
-}
-
-function write_sqlite(obj) {
-  const sqlite3 = require("sqlite3").verbose();
-  const db = new sqlite3.Database("./ppp.db", (e) => {
-    if (e) {
-      return console.error(e);
-    }
-    console.log("Connected ./ppp.db");
-  });
-  db.serialize(function() {
-    const statement = profile_insert_stmt(obj);
-
-    const stmt = db.prepare(statement,
-      e => {
-        if (e) {
-          console.error("Could not prepare:");
-          console.error(statement);
-          return console.error(e);
-        }
-        console.log("prepared profile statement");
-      });
-
-    stmt.finalize(e => {
-      if (e) {
-        return console.error(e);
-      }
-      console.log("finalized statement")
-    });
-  });
-
-  db.close(e =>  {
-    if (e) {
-      return console.error(e);
-    }
-    //console.log('Close the database connection.');
-  });
 }
 
 function extract_important_properties(plist) {
@@ -187,9 +115,9 @@ async function write_json(obj) {
   console.log(`Wrote profile to ${path}`);
 }
 
-async function async_stringify(obj) {
-  const { promisify } = require("util");
-  return await promisify(JSON.stringify)(obj);
+async function write_sqlite(obj) {
+  const sqlite = require("../lib/sqlite");
+  sqlite.write_sqlite(obj);
 }
 
 async function write_couchdb(obj) {
