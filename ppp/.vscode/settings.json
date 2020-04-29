@@ -1,0 +1,25 @@
+{
+  "files.autoSave": "onFocusChange",
+  "editor.renderWhitespace": "boundary",
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.idea": true,
+    "**/.svn": true,
+    "**/.vs": true,
+    "**/CVS": true
+  },
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.showTabs": false,
+  "explorer.openEditors.visible": 0,
+  "editor.copyWithSyntaxHighlighting": false,
+  "editor.mouseWheelZoom": true,
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "editor.useTabStops": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "git.ignoreLimitWarning": true
+}
