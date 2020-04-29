@@ -104,15 +104,22 @@ async function write_json(obj) {
   const fs = require("fs");
   const uuid = obj.UUID;
   const path = `./db/json/${uuid}.json`
-  const jsonString = JSON.stringify(obj);
-  await fs.writeFile(path, jsonString, "utf8", function (err) {
-    if (err) {
-      console.error(`Could not write profile to file: ${path}`);
-      console.error(err);
-      process.exit(1);
-    }
-  });
-  console.log(`Wrote profile to ${path}`);
+
+  // This is slightly faster than always writing
+  try {
+    // File already exists
+    await fs.promises.access(path);
+  } catch (error) {
+    // File does not exist
+    const jsonString = JSON.stringify(obj);
+    await fs.writeFile(path, jsonString, "utf8", function (err) {
+      if (err) {
+        console.error(`Could not write profile to file: ${path}`);
+        console.error(err);
+        process.exit(1);
+      }
+    });
+  }
 }
 
 async function write_sqlite(obj) {
