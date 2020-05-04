@@ -73,3 +73,5 @@ Gemfile.lock
 # node
 node_modules
 ppp/db
+ppp/.nyc_output
+ppp/coverage
