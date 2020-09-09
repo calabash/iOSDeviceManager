@@ -1306,6 +1306,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -1327,6 +1328,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
