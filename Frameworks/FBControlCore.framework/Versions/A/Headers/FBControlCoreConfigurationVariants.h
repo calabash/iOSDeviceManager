@@ -86,6 +86,8 @@ extern FBDeviceModel const FBDeviceModelAppleWatchSeries4_40mm;
 extern FBDeviceModel const FBDeviceModelAppleWatchSeries4_44mm;
 extern FBDeviceModel const FBDeviceModelAppleWatchSeries5_40mm;
 extern FBDeviceModel const FBDeviceModelAppleWatchSeries5_44mm;
+extern FBDeviceModel const FBDeviceModelAppleWatchSeries6_40mm;
+extern FBDeviceModel const FBDeviceModelAppleWatchSeries6_44mm;
 
 /**
  OS Versions Name Enumeration.
@@ -128,6 +130,7 @@ extern FBOSVersionName const FBOSVersionNameiOS_13_3;
 extern FBOSVersionName const FBOSVersionNameiOS_13_3_1;
 extern FBOSVersionName const FBOSVersionNameiOS_13_4;
 extern FBOSVersionName const FBOSVersionNameiOS_13_5;
+extern FBOSVersionName const FBOSVersionNameiOS_14_0;
 extern FBOSVersionName const FBOSVersionNametvOS_9_0;
 extern FBOSVersionName const FBOSVersionNametvOS_9_1;
 extern FBOSVersionName const FBOSVersionNametvOS_9_2;
@@ -160,6 +163,7 @@ extern FBOSVersionName const FBOSVersionNamewatchOS_5_3;
 extern FBOSVersionName const FBOSVersionNamewatchOS_6_0;
 extern FBOSVersionName const FBOSVersionNamewatchOS_6_1;
 extern FBOSVersionName const FBOSVersionNamewatchOS_6_2;
+extern FBOSVersionName const FBOSVersionNamewatchOS_7_0;
 
 #pragma mark Devices
 
