@@ -28,7 +28,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			LPIFJnZpuils3n8klgC4Ar/xMvQ=
+			1O5nZBvnNSO/slMFGCKvaNKfOdA=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -37,7 +37,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			4QM/Q8h6BxyJCtNmwetDCseU7FU=
+			QW7rJJkeU2M1KXw+mCpRrR7WiiU=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -354,11 +354,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6nwjHUDzDYqo2RC913lk4et9uzg=
+			47t2JB1mLrKAghEBZVUT4nbu3YU=
 			</data>
 			<key>hash2</key>
 			<data>
-			aORfjqWbHnsVP82eKOuUlG9pQ2Ix0YPfImZ38/GKGgc=
+			0kZ/N7Y4JPkTqro/E/HEcsma7hvI6+HcHVkTQ6Dz3FE=
 			</data>
 		</dict>
 		<key>Headers/FBSimulatorBridgeCommands.h</key>
