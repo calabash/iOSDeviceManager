@@ -129,7 +129,7 @@
     expect(version).to.beTruthy();
 }
 
-- (void)testUploadXCAppDataBundle {
+/*- (void)testUploadXCAppDataBundle {
     expect([self.simulator boot]).to.beTruthy();
 
     iOSReturnStatusCode code;
@@ -181,7 +181,7 @@
     code = [self.simulator uploadXCAppDataBundle:xcappdata forApplication:app.bundleID];
     expect(code).to.equal(iOSReturnStatusCodeGenericFailure);
 }
-
+*/
 - (void)testUploadXCAppDataBundleCLI {
     expect([self.simulator boot]).to.beTruthy();
 
