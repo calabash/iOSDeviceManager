@@ -42,10 +42,20 @@
 - (void)testXcode11DefaultSimulator {
     id MockXcodeUtils = OCMClassMock([XcodeUtils class]);
     OCMStub([MockXcodeUtils versionMajor]).andReturn(11);
+    OCMStub([MockXcodeUtils versionMinor]).andReturn(7);
+    
+    NSString *actualName = [DeviceUtils defaultSimulator];
+    NSString *expectedName = @"iPhone 11 (13.7)";
+    expect(actualName).to.equal(expectedName);
+}
+
+- (void)testXcode12DefaultSimulator {
+    id MockXcodeUtils = OCMClassMock([XcodeUtils class]);
+    OCMStub([MockXcodeUtils versionMajor]).andReturn(12);
     OCMStub([MockXcodeUtils versionMinor]).andReturn(0);
     
     NSString *actualName = [DeviceUtils defaultSimulator];
-    NSString *expectedName = @"iPhone 11 (13.0)";
+    NSString *expectedName = @"iPhone 11 (14.0)";
     expect(actualName).to.equal(expectedName);
 }
 
