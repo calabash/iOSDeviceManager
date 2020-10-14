@@ -6,64 +6,43 @@
 	<dict>
 		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
 		<data>
-		3SLcqrzYDZd5+icRy1wr56WWZ7E=
+		r5QK4d2JlgPPrwStqgYl9z0Mqa8=
 		</data>
 		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
 		<data>
-		FA0lNojLhdc1EvUXZ01VaQS1nvA=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/Info.plist</key>
-		<data>
-		KEMRM+0q9+uY6t95yGJTflOoH70=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/LogArchiveCollector</key>
-		<data>
-		sv0eTFqqDBChyVKNqgW5BVSXscw=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/_CodeSignature/CodeResources</key>
-		<data>
-		DLxPwiu0Cz3WADD97ow6J3vpNV4=
-		</data>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/version.plist</key>
-		<data>
-		Jc4qKkuBy8afSwDb8qwPqMwaioQ=
+		kGLmOENUPyjKY71nnkgOB0g91gE=
 		</data>
 		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
 		<data>
-		vdlJ7TM1Cjjf8EOj8Ke1jiZm0iY=
+		Xs0udxH2SZ4cOVdo2tyQHbzd9s0=
 		</data>
 		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
 		<data>
-		rvFXVCr0BGxnp3WjcEfvSxvS91w=
+		9MiRHL4bgc2RVBqwz+9fnYNTZ/Q=
 		</data>
 		<key>Frameworks/XCTest.framework/Info.plist</key>
 		<data>
-		fi3ib33eH8RP1TjBOagPWvvG8QE=
+		kdJo1Mz49SHD25dnYx7GvxJ8a20=
 		</data>
 		<key>Frameworks/XCTest.framework/XCTest</key>
 		<data>
-		swsOiaTv/vf7BQ04XXVNpUkN5U8=
+		oZb01EunPL9owH9HfmyfkEBcNyA=
 		</data>
 		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
 		<data>
-		kTRUNU9loEy2/pfSPzB9885zOMI=
+		8t6+6MRH7eZXoePSIx2EjbkIfcw=
 		</data>
-		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			TuBj57ZP6zBqcL9HttO2Rucaw9E=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
 		<key>Frameworks/XCTest.framework/version.plist</key>
 		<data>
-		rvFXVCr0BGxnp3WjcEfvSxvS91w=
+		9MiRHL4bgc2RVBqwz+9fnYNTZ/Q=
+		</data>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
+		<data>
+		mNVPmKounXFNFLwOi6Ptuwmonh0=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		xVFmsfwsrCzWFO5PQuXl2utER4Q=
+		/qXj+/s2tEahKYNGA9vwO2SPVH8=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -75,7 +54,11 @@
 		</data>
 		<key>PlugIns/DeviceAgent.xctest.dSYM/Contents/Resources/DWARF/DeviceAgent</key>
 		<data>
-		nIVv9+zMjsGIcgU+woG7Op18leQ=
+		UJX1pEQDqpkXsJoBnPIabmGgB0s=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest/Assets.car</key>
+		<data>
+		0IV7Jt4CFg40uIhzoPYYASUtCFI=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/CBX.xctestconfiguration</key>
 		<data>
@@ -95,11 +78,11 @@
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/DeviceAgent</key>
 		<data>
-		UkvT7RMQWFFybfdjJsLp8GoPJ18=
+		AJ1Pe2qzEKEdsW/AMeuAFrNQMqM=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-device.xctestrun</key>
 		<data>
-		Sh89z1cjZ7X2BwpPncmuslsUY74=
+		h8+XkyPXYPiVHqoYYBmu6h64ha8=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-simulator-template.xctestrun</key>
 		<data>
@@ -111,7 +94,7 @@
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
 		<data>
-		A7aFb8vYo50ZVbpDjxjbpfvM3Yk=
+		Q8TjiTZiFmL/dsm4G8C7FvE4MGU=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/Info.plist</key>
 		<data>
@@ -123,7 +106,7 @@
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/Info.plist</key>
 		<data>
-		KOb7Jwk+lUMwm01vJWPlnhD4aqY=
+		vjkCmfnHcK+cGB0KC6gvbMAUS4o=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/LICENSE</key>
 		<data>
@@ -135,11 +118,11 @@
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/_CodeSignature/CodeResources</key>
 		<data>
-		jhyBHFgvJO6oKgnb6PCueTzOLJs=
+		FwQagOdY85L0yveMDTga/fJRaJw=
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		1A/MBNRuy99mTuXVmsmPgnK4Txo=
+		wBcAWvDxh6mTf8RCqGAawSnjFNc=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -148,145 +131,99 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3SLcqrzYDZd5+icRy1wr56WWZ7E=
+			r5QK4d2JlgPPrwStqgYl9z0Mqa8=
 			</data>
 			<key>hash2</key>
 			<data>
-			KpI0WXrdmSuInT4wBXL2xIXFzQ3yQEf7ebXDo3xMZNw=
+			+fDCJFZGI1zVHuosYMsO/9yh9FWiQLqBNOQNuxwbPKk=
 			</data>
 		</dict>
 		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FA0lNojLhdc1EvUXZ01VaQS1nvA=
+			kGLmOENUPyjKY71nnkgOB0g91gE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Q4zbzcnZXT0ntraXof60HvNPo+5PUMHlA8T22f3mZFc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			KEMRM+0q9+uY6t95yGJTflOoH70=
-			</data>
-			<key>hash2</key>
-			<data>
-			eT503CpA684WWuEXeNAIv354FcVd66Grg1IfK7PXXMo=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/LogArchiveCollector</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			sv0eTFqqDBChyVKNqgW5BVSXscw=
-			</data>
-			<key>hash2</key>
-			<data>
-			Yhf4L6YsOk34GJqq15HvFIAgxlJQruNdVQZLknVnkLY=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			DLxPwiu0Cz3WADD97ow6J3vpNV4=
-			</data>
-			<key>hash2</key>
-			<data>
-			yV80zSWPd6hHBKfEDuMY9Aekz/kuJ602lAoNzIiCEHU=
-			</data>
-		</dict>
-		<key>Frameworks/XCTAutomationSupport.framework/XPCServices/LogArchiveCollector.xpc/version.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Jc4qKkuBy8afSwDb8qwPqMwaioQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			+R+E/DBMB5fmbV1sIW9PpZL2eLiMtP7fI0eoF920BF4=
+			2Zl1EhzNN6hEYor57HgASMxNKrFIZGp3XfOAxE7xdTk=
 			</data>
 		</dict>
 		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			vdlJ7TM1Cjjf8EOj8Ke1jiZm0iY=
+			Xs0udxH2SZ4cOVdo2tyQHbzd9s0=
 			</data>
 			<key>hash2</key>
 			<data>
-			uEf+H5LMiA5R6cZt8So9wNkLrn5DyY4TtLyHjXGuvQc=
+			7BM0Qxe2g4zEt7TZ/yqGlTKfXEjvH6o/OgEYIya2Jso=
 			</data>
 		</dict>
 		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rvFXVCr0BGxnp3WjcEfvSxvS91w=
+			9MiRHL4bgc2RVBqwz+9fnYNTZ/Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			wehTZnVPrayPxv0Rf6+uyCJp4TB00jbPqyBvSSQgL0s=
+			wmVnN5ClqCGEISqv4kuNyZ1GDUDu+FvGdrxcJTB1h8w=
 			</data>
 		</dict>
 		<key>Frameworks/XCTest.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fi3ib33eH8RP1TjBOagPWvvG8QE=
+			kdJo1Mz49SHD25dnYx7GvxJ8a20=
 			</data>
 			<key>hash2</key>
 			<data>
-			sfhL9Gpcs68xXL02WveVi4moV4mM2PhogUCONzDOI+4=
+			xLJoqElbMAWXOWoA13X5/nbzMvoXzOsRwACAznbEovE=
 			</data>
 		</dict>
 		<key>Frameworks/XCTest.framework/XCTest</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			swsOiaTv/vf7BQ04XXVNpUkN5U8=
+			oZb01EunPL9owH9HfmyfkEBcNyA=
 			</data>
 			<key>hash2</key>
 			<data>
-			zP1CzQW9vQacJPoL0X6kZLaVpUmIApBneyVQ1xM5U4k=
+			8CnxaFWOCC4u1e6FB94RKwzMP4HGVL81OE1FRZxSzIU=
 			</data>
 		</dict>
 		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			kTRUNU9loEy2/pfSPzB9885zOMI=
+			8t6+6MRH7eZXoePSIx2EjbkIfcw=
 			</data>
 			<key>hash2</key>
 			<data>
-			hpMThK34rfpPxnf0tCBtKHH379wXTKTDLcr2yaVfzM8=
+			Su+lR2vhgFhyKmyKm8WA4sh7f7SdP24a0dN81OPO07M=
 			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			TuBj57ZP6zBqcL9HttO2Rucaw9E=
-			</data>
-			<key>hash2</key>
-			<data>
-			89RGkjZaKuewYnjpzwhIswhqfrU8+pcEXqM/DHVrUmo=
-			</data>
-			<key>optional</key>
-			<true/>
 		</dict>
 		<key>Frameworks/XCTest.framework/version.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rvFXVCr0BGxnp3WjcEfvSxvS91w=
+			9MiRHL4bgc2RVBqwz+9fnYNTZ/Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			wehTZnVPrayPxv0Rf6+uyCJp4TB00jbPqyBvSSQgL0s=
+			wmVnN5ClqCGEISqv4kuNyZ1GDUDu+FvGdrxcJTB1h8w=
+			</data>
+		</dict>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mNVPmKounXFNFLwOi6Ptuwmonh0=
+			</data>
+			<key>hash2</key>
+			<data>
+			Uy6kgHDF1LtLMj2ZeLufoC3wZ1Dei+lXiOQxvcsGJEQ=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest.dSYM/Contents/Info.plist</key>
@@ -304,11 +241,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			nIVv9+zMjsGIcgU+woG7Op18leQ=
+			UJX1pEQDqpkXsJoBnPIabmGgB0s=
 			</data>
 			<key>hash2</key>
 			<data>
-			XIJ2fXdrih2QZzyI/SlDt1LHl4J4E+12qb6zArK48Is=
+			HkH68zqOtVst6+ojj7NlhnNbEaRKzma54YSWUuWnYYk=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest/Assets.car</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0IV7Jt4CFg40uIhzoPYYASUtCFI=
+			</data>
+			<key>hash2</key>
+			<data>
+			IvCq/dRXHIYsCS1uZ4WGH2bkNAFLYOsmRpiBfQHDWMM=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/CBX.xctestconfiguration</key>
@@ -359,22 +307,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UkvT7RMQWFFybfdjJsLp8GoPJ18=
+			AJ1Pe2qzEKEdsW/AMeuAFrNQMqM=
 			</data>
 			<key>hash2</key>
 			<data>
-			h7HF+k8hKxqpT2ZJ3IEUKE/+ccx/CV0q2E+JhoWHY80=
+			abxvDQPbsR/mVT2FcZK6KtziVNUjkpTESX2hVZjHPsk=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-device.xctestrun</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Sh89z1cjZ7X2BwpPncmuslsUY74=
+			h8+XkyPXYPiVHqoYYBmu6h64ha8=
 			</data>
 			<key>hash2</key>
 			<data>
-			txPCTkOu05AgWc9kDUuALIbX2g6AkULaA+/D/rHwBwg=
+			pMyVvd5TjSCY8jekM4RWPi0zct2TVNX/kTwqy+mzrxo=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-simulator-template.xctestrun</key>
@@ -403,11 +351,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			A7aFb8vYo50ZVbpDjxjbpfvM3Yk=
+			Q8TjiTZiFmL/dsm4G8C7FvE4MGU=
 			</data>
 			<key>hash2</key>
 			<data>
-			rWW/LdJHNCwFSjfsAzvUVFZe8Fz4DE8idYE9THcHvUs=
+			LTyCI6vISR4jPsp6CsRegSlrlFCjWmraa9Yyc8IRPXM=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/Info.plist</key>
@@ -436,11 +384,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			KOb7Jwk+lUMwm01vJWPlnhD4aqY=
+			vjkCmfnHcK+cGB0KC6gvbMAUS4o=
 			</data>
 			<key>hash2</key>
 			<data>
-			oehEWeaNJ5YgEe0Mw556mZPCPI8hCwmBqsMAB2jJ3TA=
+			JKly+UfYSX3rqA+VZ3gI+Z2W28sCixlBhoreIsk5TRU=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/LICENSE</key>
@@ -469,22 +417,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			jhyBHFgvJO6oKgnb6PCueTzOLJs=
+			FwQagOdY85L0yveMDTga/fJRaJw=
 			</data>
 			<key>hash2</key>
 			<data>
-			510GlxDMwgSBLIfKm3RbA0VTCIdJVBhY6Xt0NFHpWSE=
+			iaVhzAAQwg3opZg504YJavA3/eC69vagaDbQ+1PZo3M=
 			</data>
 		</dict>
 		<key>embedded.mobileprovision</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1A/MBNRuy99mTuXVmsmPgnK4Txo=
+			wBcAWvDxh6mTf8RCqGAawSnjFNc=
 			</data>
 			<key>hash2</key>
 			<data>
-			NRocgnR3joYvA7x4tTC6waT/ZMWbGFBwCp6Akub2Jnk=
+			YGdYEJ4dnH+4wigbWEkCenXhWVbk1uxD0ddTzbDG2SI=
 			</data>
 		</dict>
 	</dict>

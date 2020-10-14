@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Assets.car</key>
+		<data>
+		0IV7Jt4CFg40uIhzoPYYASUtCFI=
+		</data>
 		<key>CBX.xctestconfiguration</key>
 		<data>
 		hK7jXKb6UZc+5uPSNPbAZ0AETXM=
@@ -22,7 +26,7 @@
 		</data>
 		<key>DeviceAgent-device.xctestrun</key>
 		<data>
-		Sh89z1cjZ7X2BwpPncmuslsUY74=
+		h8+XkyPXYPiVHqoYYBmu6h64ha8=
 		</data>
 		<key>DeviceAgent-simulator-template.xctestrun</key>
 		<data>
@@ -34,7 +38,7 @@
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
 		<data>
-		A7aFb8vYo50ZVbpDjxjbpfvM3Yk=
+		Q8TjiTZiFmL/dsm4G8C7FvE4MGU=
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>
 		<data>
@@ -46,7 +50,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		KOb7Jwk+lUMwm01vJWPlnhD4aqY=
+		vjkCmfnHcK+cGB0KC6gvbMAUS4o=
 		</data>
 		<key>LICENSE</key>
 		<data>
@@ -59,6 +63,17 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Assets.car</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0IV7Jt4CFg40uIhzoPYYASUtCFI=
+			</data>
+			<key>hash2</key>
+			<data>
+			IvCq/dRXHIYsCS1uZ4WGH2bkNAFLYOsmRpiBfQHDWMM=
+			</data>
+		</dict>
 		<key>CBX.xctestconfiguration</key>
 		<dict>
 			<key>hash</key>
@@ -107,11 +122,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Sh89z1cjZ7X2BwpPncmuslsUY74=
+			h8+XkyPXYPiVHqoYYBmu6h64ha8=
 			</data>
 			<key>hash2</key>
 			<data>
-			txPCTkOu05AgWc9kDUuALIbX2g6AkULaA+/D/rHwBwg=
+			pMyVvd5TjSCY8jekM4RWPi0zct2TVNX/kTwqy+mzrxo=
 			</data>
 		</dict>
 		<key>DeviceAgent-simulator-template.xctestrun</key>
@@ -140,11 +155,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			A7aFb8vYo50ZVbpDjxjbpfvM3Yk=
+			Q8TjiTZiFmL/dsm4G8C7FvE4MGU=
 			</data>
 			<key>hash2</key>
 			<data>
-			rWW/LdJHNCwFSjfsAzvUVFZe8Fz4DE8idYE9THcHvUs=
+			LTyCI6vISR4jPsp6CsRegSlrlFCjWmraa9Yyc8IRPXM=
 			</data>
 		</dict>
 		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>

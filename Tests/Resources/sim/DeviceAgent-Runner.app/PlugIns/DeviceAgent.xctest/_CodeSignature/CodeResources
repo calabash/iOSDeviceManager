@@ -4,9 +4,13 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE.xctestconfiguration</key>
+		<key>Assets.car</key>
 		<data>
-		9radjz/g5r6v4InxJP6UcA2z/8E=
+		0IV7Jt4CFg40uIhzoPYYASUtCFI=
+		</data>
+		<key>CBX.xctestconfiguration</key>
+		<data>
+		hK7jXKb6UZc+5uPSNPbAZ0AETXM=
 		</data>
 		<key>CocoaAsyncSocket.LICENSE</key>
 		<data>
@@ -18,19 +22,39 @@
 		</data>
 		<key>CocoaLumberjack.LICENSE</key>
 		<data>
-		wC3CSaW5d2hi9T9UllHr0t+epYM=
+		S9METBeN4Z6dm/Kn5jrPjovQm5M=
+		</data>
+		<key>DeviceAgent-device.xctestrun</key>
+		<data>
+		h8+XkyPXYPiVHqoYYBmu6h64ha8=
+		</data>
+		<key>DeviceAgent-simulator-template.xctestrun</key>
+		<data>
+		a3oQNxGy8Cqy/e1yxmccE+NWxEg=
 		</data>
 		<key>Facebook-WebDriverAgent.LICENSE</key>
 		<data>
 		mW6baz+r31kxrUqjLglkLBm3pX4=
 		</data>
+		<key>Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
+		<data>
+		gM6NZl9MygMfQIDNg80q77pNu+w=
+		</data>
+		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>
+		<data>
+		KrbbohHj3NfFebJVto3PvxsTEtU=
+		</data>
+		<key>Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
+		<data>
+		pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		9Y2ceKazhImMjnoRIjhNpZ7gmdE=
+		z/OSgBrNvVb4sLjsLV6ZiLoRYow=
 		</data>
 		<key>LICENSE</key>
 		<data>
-		oFNT9Bf+qfdnjvG5L9vuFgrUvow=
+		CIL434yrMSzYMt5INXuvhxF7RJI=
 		</data>
 		<key>RoutingHTTPServer.LICENSE</key>
 		<data>
@@ -39,15 +63,26 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE.xctestconfiguration</key>
+		<key>Assets.car</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9radjz/g5r6v4InxJP6UcA2z/8E=
+			0IV7Jt4CFg40uIhzoPYYASUtCFI=
 			</data>
 			<key>hash2</key>
 			<data>
-			TLtmKfXVUlSyFpVue1dkAHB25yIrJLDeXvOPSK+VF4g=
+			IvCq/dRXHIYsCS1uZ4WGH2bkNAFLYOsmRpiBfQHDWMM=
+			</data>
+		</dict>
+		<key>CBX.xctestconfiguration</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hK7jXKb6UZc+5uPSNPbAZ0AETXM=
+			</data>
+			<key>hash2</key>
+			<data>
+			MCyO4aarN4EckDdq2+Gz1UOdLVAmHyRXbRPF6ccM8rs=
 			</data>
 		</dict>
 		<key>CocoaAsyncSocket.LICENSE</key>
@@ -76,11 +111,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wC3CSaW5d2hi9T9UllHr0t+epYM=
+			S9METBeN4Z6dm/Kn5jrPjovQm5M=
 			</data>
 			<key>hash2</key>
 			<data>
-			l8nmAh1W/N8GEo+iryC7jFxHGns4q8FwFxmDzoqhZ/c=
+			zBpt658epQ1bu/SXsviPCaTVsJVrEFVHgFlGO+KiBWo=
+			</data>
+		</dict>
+		<key>DeviceAgent-device.xctestrun</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			h8+XkyPXYPiVHqoYYBmu6h64ha8=
+			</data>
+			<key>hash2</key>
+			<data>
+			pMyVvd5TjSCY8jekM4RWPi0zct2TVNX/kTwqy+mzrxo=
+			</data>
+		</dict>
+		<key>DeviceAgent-simulator-template.xctestrun</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			a3oQNxGy8Cqy/e1yxmccE+NWxEg=
+			</data>
+			<key>hash2</key>
+			<data>
+			iTdpuPr2WxcvWFSadKurfPm0IHBjvQjF57wz5K5CXbI=
 			</data>
 		</dict>
 		<key>Facebook-WebDriverAgent.LICENSE</key>
@@ -94,15 +151,48 @@
 			2ZEMa6XkwprkFe486HXJ4Ypg2LxNf+LC0QTbKnGLG7Q=
 			</data>
 		</dict>
+		<key>Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gM6NZl9MygMfQIDNg80q77pNu+w=
+			</data>
+			<key>hash2</key>
+			<data>
+			Pr5FvLSs9x9VCTj+V3Zq7j8SpinY1XjpPqee4mGrGD0=
+			</data>
+		</dict>
+		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			KrbbohHj3NfFebJVto3PvxsTEtU=
+			</data>
+			<key>hash2</key>
+			<data>
+			/v2Xzl22YnjMKuL3tpbzcvxzf7LM56+GAOUBxn2iiCQ=
+			</data>
+		</dict>
+		<key>Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
+			</data>
+			<key>hash2</key>
+			<data>
+			7eIWFjTDTbkUwfySphKjTiHStiuN3o2jG0Q/IiKbeg8=
+			</data>
+		</dict>
 		<key>LICENSE</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oFNT9Bf+qfdnjvG5L9vuFgrUvow=
+			CIL434yrMSzYMt5INXuvhxF7RJI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Jd0w+XdAWIPDjvbh69nBpHvLXZ4mJAFGcRISKpd7hmQ=
+			TAUR9kdHnh7EaT6S1njn9pYpmpaEdJiJhn1+d62gEBM=
 			</data>
 		</dict>
 		<key>RoutingHTTPServer.LICENSE</key>
@@ -119,7 +209,7 @@
 	</dict>
 	<key>rules</key>
 	<dict>
-		<key>^</key>
+		<key>^.*</key>
 		<true/>
 		<key>^.*\.lproj/</key>
 		<dict>
@@ -150,24 +240,12 @@
 			<key>weight</key>
 			<real>11</real>
 		</dict>
-		<key>^</key>
-		<dict>
-			<key>weight</key>
-			<real>20</real>
-		</dict>
 		<key>^(.*/)?\.DS_Store$</key>
 		<dict>
 			<key>omit</key>
 			<true/>
 			<key>weight</key>
 			<real>2000</real>
-		</dict>
-		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^.*</key>
 		<true/>
@@ -203,13 +281,6 @@
 			<true/>
 			<key>weight</key>
 			<real>20</real>
-		</dict>
-		<key>^[^/]+$</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^embedded\.provisionprofile$</key>
 		<dict>
