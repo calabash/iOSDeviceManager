@@ -17,6 +17,7 @@ static NSString *const FILEPATH_OPTION_NAME = @"file-path";
 
     Device *device = [self deviceFromArgs:args];
     if (!device) {
+        ConsoleWriteErr(@"Device is not found");
         return iOSReturnStatusCodeDeviceNotFound;
     }
 
@@ -34,10 +35,12 @@ static NSString *const FILEPATH_OPTION_NAME = @"file-path";
     }
 
     if (![device isInstalled:bundleId withError:nil]) {
+        ConsoleWriteErr(@"The app with @% bundle id is not installed on the simulator", bundleId);
         return iOSReturnStatusCodeGenericFailure;
     }
 
     NSString *path = [FileUtils expandPath:args[FILEPATH_OPTION_NAME]];
+    ConsoleWrite(@"Trying to upload xcappdata");
     return [device uploadXCAppDataBundle:path
                           forApplication:bundleId];
 }
