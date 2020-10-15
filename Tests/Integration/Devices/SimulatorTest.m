@@ -129,7 +129,47 @@
     expect(version).to.beTruthy();
 }
 
-/*- (void)testUploadXCAppDataBundle {
+- (void)testUploadXCAppDataBundleCLI {
+    expect([self.simulator boot]).to.beTruthy();
+
+    iOSReturnStatusCode code;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    Application *app = [Application withBundlePath:testApp(SIM)];
+
+    if (![self.simulator isInstalled:app.bundleID withError:nil]) {
+        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:NO];
+        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+
+    NSString *path = [[Resources shared] uniqueTmpDirectory];
+    NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
+    expect([XCAppDataBundle generateBundleSkeleton:path
+                                              name:@"New.xcappdata"
+                                         overwrite:YES]).to.beTruthy();
+    NSArray *sources = [XCAppDataBundle sourceDirectoriesForSimulator:xcappdata];
+    for (NSString *source in sources) {
+        NSString *file = [source stringByAppendingPathComponent:@"file.txt"];
+        NSData *data = [@"contents" dataUsingEncoding:NSUTF8StringEncoding];
+        expect([fileManager createFileAtPath:file
+                                    contents:data
+                                  attributes:nil]).to.beTruthy();
+    }
+
+    // works with bundle identifier
+    NSArray *args = @[kProgramName, @"upload-xcappdata",
+                      app.bundleID, xcappdata,
+                      @"--device-id", self.simulator.uuid];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+
+    // works with app path
+    args = @[kProgramName, @"upload-xcappdata",
+             app.path, xcappdata,
+             @"--device-id", self.simulator.uuid];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
+- (void)testUploadXCAppDataBundle {
     expect([self.simulator boot]).to.beTruthy();
 
     iOSReturnStatusCode code;
@@ -180,48 +220,6 @@
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     code = [self.simulator uploadXCAppDataBundle:xcappdata forApplication:app.bundleID];
     expect(code).to.equal(iOSReturnStatusCodeGenericFailure);
-}
-*/
-- (void)testUploadXCAppDataBundleCLI {
-    expect([self.simulator boot]).to.beTruthy();
-
-    iOSReturnStatusCode code;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    Application *app = [Application withBundlePath:testApp(SIM)];
-
-    if (![self.simulator isInstalled:app.bundleID withError:nil]) {
-        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:NO];
-        expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
-    }
-
-    NSString *path = [[Resources shared] uniqueTmpDirectory];
-    NSString *xcappdata = [path stringByAppendingPathComponent:@"New.xcappdata"];
-    expect([XCAppDataBundle generateBundleSkeleton:path
-                                              name:@"New.xcappdata"
-                                         overwrite:YES]).to.beTruthy();
-    NSArray *sources = [XCAppDataBundle sourceDirectoriesForSimulator:xcappdata];
-    for (NSString *source in sources) {
-        NSString *file = [source stringByAppendingPathComponent:@"file.txt"];
-        NSData *data = [@"contents" dataUsingEncoding:NSUTF8StringEncoding];
-        expect([fileManager createFileAtPath:file
-                                    contents:data
-                                  attributes:nil]).to.beTruthy();
-    }
-
-    // works with bundle identifier
-    NSArray *args = @[kProgramName, @"upload-xcappdata",
-                      app.bundleID, xcappdata,
-                      @"--device-id", self.simulator.uuid];
-    code = [CLI process:args];
-    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
-
-    // works with app path
-    args = @[kProgramName, @"upload-xcappdata",
-             app.path, xcappdata,
-             @"--device-id", self.simulator.uuid];
-    code = [CLI process:args];
-    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
 @end
