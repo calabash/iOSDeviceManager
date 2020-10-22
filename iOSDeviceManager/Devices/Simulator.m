@@ -802,14 +802,14 @@ static const FBSimulatorControl *_control;
                               forApplication:(NSString *)bundleIdentifier {
 
     if (![XCAppDataBundle isValid:xcappdata]) {
-        return 22;
+        return iOSReturnStatusCodeGenericFailure;
     }
 
     NSString *containerPath = [self containerPathForApplication:bundleIdentifier];
     if (!containerPath) {
         ConsoleWriteErr(@"Unable to find container path for app %@ on device %@",
                         bundleIdentifier, [self uuid]);
-        return 23;
+        return iOSReturnStatusCodeGenericFailure;
     }
 
     NSArray *sources = [XCAppDataBundle sourceDirectoriesForSimulator:xcappdata];
@@ -830,7 +830,7 @@ static const FBSimulatorControl *_control;
                                 "because of error:\n  %@\n",
                                 "while trying to upload xcappdata",
                                 target, [error localizedDescription]);
-                return 24;
+                return iOSReturnStatusCodeGenericFailure;
             }
         }
 

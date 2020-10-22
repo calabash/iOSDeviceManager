@@ -36,7 +36,7 @@ static NSString *const FILEPATH_OPTION_NAME = @"file-path";
 
     if (![device isInstalled:bundleId withError:nil]) {
         ConsoleWriteErr(@"The app with @% bundle id is not installed on the simulator", bundleId);
-        return 21;
+        return iOSReturnStatusCodeGenericFailure;
     }
 
     NSString *path = [FileUtils expandPath:args[FILEPATH_OPTION_NAME]];
