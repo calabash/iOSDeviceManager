@@ -191,7 +191,7 @@
     Application *app = [Application withBundlePath:testApp(SIM)];
 
     if (![self.simulator isInstalled:app.bundleID withError:nil]) {
-        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:NO];
+        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:YES];
         expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 
