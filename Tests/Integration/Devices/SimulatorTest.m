@@ -174,12 +174,6 @@
         NSString *file = [target stringByAppendingPathComponent:@"file.txt"];
         expect([fileManager fileExistsAtPath:file isDirectory:nil]).to.beTruthy();
     }
-
-    // fails if application is not installed
-    code = [self.simulator uninstallApp:app.bundleID];
-    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
-    code = [self.simulator uploadXCAppDataBundle:xcappdata forApplication:app.bundleID];
-    expect(code).to.equal(iOSReturnStatusCodeGenericFailure);
 }
 
 - (void)testUploadXCAppDataBundleCLI {
@@ -191,7 +185,7 @@
     Application *app = [Application withBundlePath:testApp(SIM)];
 
     if (![self.simulator isInstalled:app.bundleID withError:nil]) {
-        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:YES];
+        code = [self.simulator installApp:app resourcesToInject:nil forceReinstall:NO];
         expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 
