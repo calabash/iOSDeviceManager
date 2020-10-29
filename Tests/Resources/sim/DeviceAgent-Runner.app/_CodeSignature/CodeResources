@@ -4,194 +4,65 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Frameworks/XCTest.framework/Headers/XCAbstractTest.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
 		<data>
-		glimZR9g23UWmtfTfpa3DtRU32o=
+		SNjsYbRGGLFGXK1g6jEkVEuzxxA=
 		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTest.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
 		<data>
-		FeItRoIRWX9yeukRVtg0l8vKWu0=
+		PjOTa6bIw+mqkjk+GMf9WhRkIbI=
 		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestAssertions.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
 		<data>
-		t430vwqgq3wiAocVV386i0N+lOY=
+		gihwXqM2V3EAINcxcuodzWtPku8=
 		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestAssertionsImpl.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
 		<data>
-		ZbDVHohdSHIPtEqmg7zN34qa0T4=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestCase+AsynchronousTesting.h</key>
-		<data>
-		PL1ZOdDhdZzPNjCxecLsCysb3OQ=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestCase.h</key>
-		<data>
-		YzjVm663E0vT+P6c0ORX46w/zQ0=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestCaseRun.h</key>
-		<data>
-		/XUqDHA/BFdQDUxQU8Ft5LXo/Ps=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestDefines.h</key>
-		<data>
-		Dz7Tri4hztdVrwGfOLzpE53H3kk=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestErrors.h</key>
-		<data>
-		oZFqJmcKHuKZIgeKOwsFDxhfEEc=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestExpectation.h</key>
-		<data>
-		dwE0LefMLJ+L/tF8PwAW0Adc7I0=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestLog.h</key>
-		<data>
-		9BU/gwbaKcfn2L9dfo2dHRFN6Bc=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestObservation.h</key>
-		<data>
-		24hjfD82jAN7/PhxU8RiEWTo5gs=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestObservationCenter.h</key>
-		<data>
-		0rP5BQIIjFP/HdaM97/A9mUteRg=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestObserver.h</key>
-		<data>
-		DV3Cjdd1CAe6nYFEzmUrCtnzxQg=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestProbe.h</key>
-		<data>
-		fIVR0xRsxMAabrJmeGX3hPDwL0Y=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestRun.h</key>
-		<data>
-		LAZ8VzMsuBB9pLfqrrnltc7bl1E=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestSuite.h</key>
-		<data>
-		8I97NjqsYFEmiGVB5ZkFAdtT3ic=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCTestSuiteRun.h</key>
-		<data>
-		OX+g52bOAnhjLVDKkweTKM8jTHQ=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIApplication.h</key>
-		<data>
-		Dck9MbhtVGBeWIgQiEVEpTDtrTw=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUICoordinate.h</key>
-		<data>
-		rWeryK2BMCp9F3/mp9BKm7kg/1Q=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIDevice.h</key>
-		<data>
-		9pxehhPyrWb03igVA7PwEtgkzLM=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElement.h</key>
-		<data>
-		uzgoVBBig+CJOMv+jyGE6Ou4lx0=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementAttributes.h</key>
-		<data>
-		kWitRD0ClLa1hUvctZ6Jw2DmOW8=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementQuery.h</key>
-		<data>
-		owQe3VU8ucSdoJ7QiOvOS/rHAww=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementTypeQueryProvider.h</key>
-		<data>
-		DEWr4Nmwz7JAy6EydZYQIYgpTlE=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementTypes.h</key>
-		<data>
-		KfkqELrdD/Tb6UOCWX6a7rizJmE=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIKeyboardKeys.h</key>
-		<data>
-		RE/yMpRDrcsUljcKW/YgNGkt5Oc=
-		</data>
-		<key>Frameworks/XCTest.framework/Headers/XCUIRemote.h</key>
-		<data>
-		GuQMu1KdZMJO3/yRBQHEbrVVv38=
+		jPhBuRQZkSEkoKIUjyJiz7h+q58=
 		</data>
 		<key>Frameworks/XCTest.framework/Info.plist</key>
 		<data>
-		Re/YjkA3WJHU9XqgYbOL8jZo+ZE=
-		</data>
-		<key>Frameworks/XCTest.framework/Modules/module.modulemap</key>
-		<data>
-		0hPLcrGRiL8HEYGWbYL+qhcqBZI=
-		</data>
-		<key>Frameworks/XCTest.framework/TextBasedStubs/XCTest.tbd</key>
-		<data>
-		5N7uzaBRA9PExXWen7A88LQwsFc=
+		SSka4mPW4Za28F6teQN0jscJJRc=
 		</data>
 		<key>Frameworks/XCTest.framework/XCTest</key>
 		<data>
-		gMaqGosBx7JOxoBNWmS85wHpZEY=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/Info.plist</key>
-		<data>
-		6u7ePumfkLzPZJAAu2KvW+ADlAk=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/XCUIRecorderService</key>
-		<data>
-		bpanw0rVmNbBXv7R13kFG/iN+JM=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/_CodeSignature/CodeResources</key>
-		<data>
-		fOjMsHoEdhig55ihsoXxBbtW3qk=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/version.plist</key>
-		<data>
-		Tt2ud5Q62KmJB5HEMv8LJYteKx8=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/Info.plist</key>
-		<data>
-		JESh1cUvxHNIiSp3c7IiDjjrBoo=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/_CodeSignature/CodeResources</key>
-		<data>
-		kBC059BO2xnb8zMuywAvB3ONDIM=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/version.plist</key>
-		<data>
-		Tt2ud5Q62KmJB5HEMv8LJYteKx8=
-		</data>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/xctestSymbolicator</key>
-		<data>
-		srRhy+8pOKCnei7OW0kLC0ZEz00=
+		GAJxRlAKT7IBH3S9Jyl6mKlHwFA=
 		</data>
 		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
 		<data>
-		/Yu7TwE+gggTZz5MijJevSJIK9A=
+		hh8ub6vwLLTTxdCQPHYSl6ZkSFM=
 		</data>
-		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			WbY3O0G7IBs11w3Ll/yYYaDQvo8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
 		<key>Frameworks/XCTest.framework/version.plist</key>
 		<data>
-		KrtjUzOTv6ZuBMqBYhoy8aWgXwI=
+		jPhBuRQZkSEkoKIUjyJiz7h+q58=
+		</data>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
+		<data>
+		7YL27Gdyvz9WusaA6hD5u9T6iR0=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ozT/RNE6z4SGOIgK8NoNkP5hsQk=
+		YsA8QI1pVmCE2DiiFXV3ku9mtBo=
 		</data>
 		<key>PkgInfo</key>
 		<data>
 		n57qDP4tZfLD1rCS43W0B4LQjzE=
 		</data>
-		<key>PlugIns/DeviceAgent.xctest/CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE.xctestconfiguration</key>
+		<key>PlugIns/DeviceAgent.xctest.dSYM/Contents/Info.plist</key>
 		<data>
-		9radjz/g5r6v4InxJP6UcA2z/8E=
+		JsiCvpoIwmLXRrGCUMo+VJwDejU=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest.dSYM/Contents/Resources/DWARF/DeviceAgent</key>
+		<data>
+		y8rbjCCoMurO/dHtJS7g86s/YV8=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest/Assets.car</key>
+		<data>
+		0IV7Jt4CFg40uIhzoPYYASUtCFI=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest/CBX.xctestconfiguration</key>
+		<data>
+		hK7jXKb6UZc+5uPSNPbAZ0AETXM=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/CocoaAsyncSocket.LICENSE</key>
 		<data>
@@ -203,23 +74,43 @@
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/CocoaLumberjack.LICENSE</key>
 		<data>
-		wC3CSaW5d2hi9T9UllHr0t+epYM=
+		S9METBeN4Z6dm/Kn5jrPjovQm5M=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/DeviceAgent</key>
 		<data>
-		oGl/ShJzfMoACz+tcOQ8bPZ2V0A=
+		Ab3/Omq0L87Q6WSGgwf+I0+30h8=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-device.xctestrun</key>
+		<data>
+		h8+XkyPXYPiVHqoYYBmu6h64ha8=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-simulator-template.xctestrun</key>
+		<data>
+		a3oQNxGy8Cqy/e1yxmccE+NWxEg=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/Facebook-WebDriverAgent.LICENSE</key>
 		<data>
 		mW6baz+r31kxrUqjLglkLBm3pX4=
 		</data>
+		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
+		<data>
+		gM6NZl9MygMfQIDNg80q77pNu+w=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/Info.plist</key>
+		<data>
+		KrbbohHj3NfFebJVto3PvxsTEtU=
+		</data>
+		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
+		<data>
+		pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
+		</data>
 		<key>PlugIns/DeviceAgent.xctest/Info.plist</key>
 		<data>
-		9Y2ceKazhImMjnoRIjhNpZ7gmdE=
+		z/OSgBrNvVb4sLjsLV6ZiLoRYow=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/LICENSE</key>
 		<data>
-		oFNT9Bf+qfdnjvG5L9vuFgrUvow=
+		CIL434yrMSzYMt5INXuvhxF7RJI=
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/RoutingHTTPServer.LICENSE</key>
 		<data>
@@ -227,500 +118,152 @@
 		</data>
 		<key>PlugIns/DeviceAgent.xctest/_CodeSignature/CodeResources</key>
 		<data>
-		IUC173+RZuVbJli0v/QdH+EOO+4=
+		Lpn7otGmtI2bgISURWhPtj0ebn4=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Frameworks/XCTest.framework/Headers/XCAbstractTest.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			glimZR9g23UWmtfTfpa3DtRU32o=
+			SNjsYbRGGLFGXK1g6jEkVEuzxxA=
 			</data>
 			<key>hash2</key>
 			<data>
-			iJV+kqvtDhSFsj6V8IHHeUMh3uqAzOiOhNZJLxv/Yjo=
+			ngW7vIWJUSIXraeVF/gdSWG6ejvyDl4HJkVmNfuKHHo=
 			</data>
 		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTest.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FeItRoIRWX9yeukRVtg0l8vKWu0=
+			PjOTa6bIw+mqkjk+GMf9WhRkIbI=
 			</data>
 			<key>hash2</key>
 			<data>
-			cePpQAPDKPPX6Ewck1uGjz6XlhGY2+Xkn22o3S2HEhE=
+			k9NHQJEgqhN8+NWdZqYhJy2qjla33Zzz0H0MuHDR6lI=
 			</data>
 		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestAssertions.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			t430vwqgq3wiAocVV386i0N+lOY=
+			gihwXqM2V3EAINcxcuodzWtPku8=
 			</data>
 			<key>hash2</key>
 			<data>
-			pGvrq4y/YqWUdlF2m6LpdEp5xPWAw5OzuiryWTlaF3I=
+			dGlmfAP/nYSh1yIRyEiFGGAUQKCDBb0a0UzmmKdHqLc=
 			</data>
 		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestAssertionsImpl.h</key>
+		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ZbDVHohdSHIPtEqmg7zN34qa0T4=
+			jPhBuRQZkSEkoKIUjyJiz7h+q58=
 			</data>
 			<key>hash2</key>
 			<data>
-			RxajF3uw62Qphc/Icq0LxEM3ocmdcEbdthtDn0ABR2k=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestCase+AsynchronousTesting.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			PL1ZOdDhdZzPNjCxecLsCysb3OQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			2zBJeAHb9e6Y4kdJ0/haRtF3RwyzXQaNxTIXtxAlp7o=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestCase.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			YzjVm663E0vT+P6c0ORX46w/zQ0=
-			</data>
-			<key>hash2</key>
-			<data>
-			Gf33taQZIdxR5NyU75WAw1X4IxfI/flQ2aZ2wmMDHIY=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestCaseRun.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			/XUqDHA/BFdQDUxQU8Ft5LXo/Ps=
-			</data>
-			<key>hash2</key>
-			<data>
-			jEzXeXeFAbT7xbfbqjlf4yF+lZvOKKw9u0dhT8Lzpe4=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestDefines.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Dz7Tri4hztdVrwGfOLzpE53H3kk=
-			</data>
-			<key>hash2</key>
-			<data>
-			kN/qMEAwR27j0Phyq5tli2mY38/Rhl19QT47SZy9YiA=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestErrors.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			oZFqJmcKHuKZIgeKOwsFDxhfEEc=
-			</data>
-			<key>hash2</key>
-			<data>
-			bqmU7PnCm6GkYigcYehsZluZJau/3nfvDl9NneLn8NI=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestExpectation.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			dwE0LefMLJ+L/tF8PwAW0Adc7I0=
-			</data>
-			<key>hash2</key>
-			<data>
-			WKLqfVacGfP6KpNqRvb5c71MmE9nh5pUiDBfoOONtF4=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestLog.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9BU/gwbaKcfn2L9dfo2dHRFN6Bc=
-			</data>
-			<key>hash2</key>
-			<data>
-			Tu+6JYZZzftcXmUWH11IO9/jXCXi6QPeWDrL6izup6s=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestObservation.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			24hjfD82jAN7/PhxU8RiEWTo5gs=
-			</data>
-			<key>hash2</key>
-			<data>
-			bZQGOpPj/qLs1snCfbJDBnIeMfcP2Bs5EhkID+1qmjM=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestObservationCenter.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			0rP5BQIIjFP/HdaM97/A9mUteRg=
-			</data>
-			<key>hash2</key>
-			<data>
-			gJCADNWI0IDm5zuz+KL6LYNXWT0Lsxr4sEocmy5MPpc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestObserver.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			DV3Cjdd1CAe6nYFEzmUrCtnzxQg=
-			</data>
-			<key>hash2</key>
-			<data>
-			7CTdhCJbuEzQNSyp3exgcCn6JnIRjBwpUcOKmiddBtU=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestProbe.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			fIVR0xRsxMAabrJmeGX3hPDwL0Y=
-			</data>
-			<key>hash2</key>
-			<data>
-			FKXb32Ennc+6f3SkuVdo8bBNcIIWwryV5u5FmQYN8Fc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestRun.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			LAZ8VzMsuBB9pLfqrrnltc7bl1E=
-			</data>
-			<key>hash2</key>
-			<data>
-			QPsZNPPJMjhvKdJEwS32IX3eiBh5IaTv9hOuayOZD0g=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestSuite.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			8I97NjqsYFEmiGVB5ZkFAdtT3ic=
-			</data>
-			<key>hash2</key>
-			<data>
-			PmXhm9tv6asfgO3L46K3ks3u77vcSSyKhym7xg+L7Zc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCTestSuiteRun.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OX+g52bOAnhjLVDKkweTKM8jTHQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			QDxhlFfxAJEcudV29W9M96FJW5LQiR0yqdUHzkjMuA0=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIApplication.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Dck9MbhtVGBeWIgQiEVEpTDtrTw=
-			</data>
-			<key>hash2</key>
-			<data>
-			JkLYYE7r3tU7HcoCggIpStg31BvV5II6XmzRc8UFwVY=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUICoordinate.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			rWeryK2BMCp9F3/mp9BKm7kg/1Q=
-			</data>
-			<key>hash2</key>
-			<data>
-			nUiZ2Tur0bUvr5aMb4C8rjGb93zvhtTZJCMSZxHXjKc=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIDevice.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9pxehhPyrWb03igVA7PwEtgkzLM=
-			</data>
-			<key>hash2</key>
-			<data>
-			4F7O+P7bZ4FDk3pTby8bo9q5G0cwibsG9cW8z0Q86HQ=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElement.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			uzgoVBBig+CJOMv+jyGE6Ou4lx0=
-			</data>
-			<key>hash2</key>
-			<data>
-			9QxRETFinr/XJVF9/35Kukn15838D8MU72tFSQ8FMsw=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementAttributes.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			kWitRD0ClLa1hUvctZ6Jw2DmOW8=
-			</data>
-			<key>hash2</key>
-			<data>
-			9SI2mH0Fw8cgcd7e5L+9MJCRlhcVP03/Kb6JOrmb4DA=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementQuery.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			owQe3VU8ucSdoJ7QiOvOS/rHAww=
-			</data>
-			<key>hash2</key>
-			<data>
-			NMskO3WW4aROu6ZaP7LKB1edLWw7YuhyYtZI3TmlriY=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementTypeQueryProvider.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			DEWr4Nmwz7JAy6EydZYQIYgpTlE=
-			</data>
-			<key>hash2</key>
-			<data>
-			cbOnohF7eJyBVdhyKusSvWWBk4aKBh19HfZgfKFaVHE=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIElementTypes.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			KfkqELrdD/Tb6UOCWX6a7rizJmE=
-			</data>
-			<key>hash2</key>
-			<data>
-			7j1y+g8wo73vbn8tycgUCS4eC0reDvc610S59wmdbQM=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIKeyboardKeys.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			RE/yMpRDrcsUljcKW/YgNGkt5Oc=
-			</data>
-			<key>hash2</key>
-			<data>
-			kzhkCi7cyiO5rkZQfIpV5T9SL10/XMLDvluf1CewgSQ=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Headers/XCUIRemote.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			GuQMu1KdZMJO3/yRBQHEbrVVv38=
-			</data>
-			<key>hash2</key>
-			<data>
-			OyKIhJNyDgDu6svFc+wfN7RH20nNS2xcd6wxQhKwNpc=
+			mxFON+kmzOotvQ30sepTOaUPI8cdIykE2z8/vIdGdIQ=
 			</data>
 		</dict>
 		<key>Frameworks/XCTest.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Re/YjkA3WJHU9XqgYbOL8jZo+ZE=
+			SSka4mPW4Za28F6teQN0jscJJRc=
 			</data>
 			<key>hash2</key>
 			<data>
-			623UdKMmYKMNS2CgOhqHImQzg+U8xnITNwWxCC1wuME=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/Modules/module.modulemap</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			0hPLcrGRiL8HEYGWbYL+qhcqBZI=
-			</data>
-			<key>hash2</key>
-			<data>
-			jnKXP8AnVeA8lhMYYv9wWZO1A6Rn46h/Dz1jgopnxYQ=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/TextBasedStubs/XCTest.tbd</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5N7uzaBRA9PExXWen7A88LQwsFc=
-			</data>
-			<key>hash2</key>
-			<data>
-			Z9Dj3SNXCVDn54lFiwK+GW20cjhf8H/ibPHoLgGixWE=
+			f8reK34rNVYFhiQJGESTAc13MBHIWCuJga/aP6s32ww=
 			</data>
 		</dict>
 		<key>Frameworks/XCTest.framework/XCTest</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gMaqGosBx7JOxoBNWmS85wHpZEY=
+			GAJxRlAKT7IBH3S9Jyl6mKlHwFA=
 			</data>
 			<key>hash2</key>
 			<data>
-			eXGEjESVkfY3uXGr9JUaAjlkF1y7dtL2hgy5rBZFAZI=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XCTest.tbd</key>
-		<dict>
-			<key>symlink</key>
-			<string>TextBasedStubs/XCTest.tbd</string>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			6u7ePumfkLzPZJAAu2KvW+ADlAk=
-			</data>
-			<key>hash2</key>
-			<data>
-			RSVxiXKkelmbytJM3qNRr619JaB2YLrpSXk6FMUvD6c=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/XCUIRecorderService</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			bpanw0rVmNbBXv7R13kFG/iN+JM=
-			</data>
-			<key>hash2</key>
-			<data>
-			kvxrJ0tPBoD05uoGMfWB4Hkz3RiRgIyD1zX1f8XUmcg=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			fOjMsHoEdhig55ihsoXxBbtW3qk=
-			</data>
-			<key>hash2</key>
-			<data>
-			85mxvA5MCmuVjFOsFwiL4gCGvpF1YjOhAt0lgABRiUE=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/XCUIRecorderService.xpc/version.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Tt2ud5Q62KmJB5HEMv8LJYteKx8=
-			</data>
-			<key>hash2</key>
-			<data>
-			4v8PAdRqG+XAI+aORPCbeqhijNC7AaX8Mm0ucX8nFdk=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			JESh1cUvxHNIiSp3c7IiDjjrBoo=
-			</data>
-			<key>hash2</key>
-			<data>
-			qZ6VyhBnmEslufNXgNbWPpkO4F9TlbdYJKYkX941DkI=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			kBC059BO2xnb8zMuywAvB3ONDIM=
-			</data>
-			<key>hash2</key>
-			<data>
-			0aoSdnFMlddWX4x8lYTVCXDR+ZB2mMq7Vu+ZAZPUgXk=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/version.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Tt2ud5Q62KmJB5HEMv8LJYteKx8=
-			</data>
-			<key>hash2</key>
-			<data>
-			4v8PAdRqG+XAI+aORPCbeqhijNC7AaX8Mm0ucX8nFdk=
-			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/XPCServices/xctestSymbolicator.xpc/xctestSymbolicator</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			srRhy+8pOKCnei7OW0kLC0ZEz00=
-			</data>
-			<key>hash2</key>
-			<data>
-			XHw6t34RoiHPZXUs9rKGnQftXLE2JZfPGcyzPh6aZ68=
+			40A6SU8SQ0rsYnycfby4CCy88Ygz6NMcnAc3sGMpTJ0=
 			</data>
 		</dict>
 		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/Yu7TwE+gggTZz5MijJevSJIK9A=
+			hh8ub6vwLLTTxdCQPHYSl6ZkSFM=
 			</data>
 			<key>hash2</key>
 			<data>
-			wKHkBymzoa/69VivbrWck8xBGEDzElN/Wl7ftlJdrVc=
+			MtH9gIVWwMh/xV6LS3/Qrn1J+HRDurBZ1UYqtIVuxdw=
 			</data>
-		</dict>
-		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			WbY3O0G7IBs11w3Ll/yYYaDQvo8=
-			</data>
-			<key>hash2</key>
-			<data>
-			csRKk47Q2InuM0gffz1DO94bvTX6/Kv9tWEkpwDOEco=
-			</data>
-			<key>optional</key>
-			<true/>
 		</dict>
 		<key>Frameworks/XCTest.framework/version.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KrtjUzOTv6ZuBMqBYhoy8aWgXwI=
+			jPhBuRQZkSEkoKIUjyJiz7h+q58=
 			</data>
 			<key>hash2</key>
 			<data>
-			IqJO83wHySP6Dv2C1XvCW9B9rxzS4V1pEcufxZNEvnE=
+			mxFON+kmzOotvQ30sepTOaUPI8cdIykE2z8/vIdGdIQ=
 			</data>
 		</dict>
-		<key>PlugIns/DeviceAgent.xctest/CBX-BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE.xctestconfiguration</key>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9radjz/g5r6v4InxJP6UcA2z/8E=
+			7YL27Gdyvz9WusaA6hD5u9T6iR0=
 			</data>
 			<key>hash2</key>
 			<data>
-			TLtmKfXVUlSyFpVue1dkAHB25yIrJLDeXvOPSK+VF4g=
+			9q9+75OOlwPCElp7LLkAWrMPh8ZKLyH1ScWzZhgVW00=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest.dSYM/Contents/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JsiCvpoIwmLXRrGCUMo+VJwDejU=
+			</data>
+			<key>hash2</key>
+			<data>
+			/DgAfvaLZxcPRAyzCKvGlgsXQQNyLGGBkgMCMtp16d0=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest.dSYM/Contents/Resources/DWARF/DeviceAgent</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			y8rbjCCoMurO/dHtJS7g86s/YV8=
+			</data>
+			<key>hash2</key>
+			<data>
+			wFmoCycE6PhAUCx5vwQL2igx8CVVLT5GqyUHSt1Fdts=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest/Assets.car</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0IV7Jt4CFg40uIhzoPYYASUtCFI=
+			</data>
+			<key>hash2</key>
+			<data>
+			IvCq/dRXHIYsCS1uZ4WGH2bkNAFLYOsmRpiBfQHDWMM=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest/CBX.xctestconfiguration</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hK7jXKb6UZc+5uPSNPbAZ0AETXM=
+			</data>
+			<key>hash2</key>
+			<data>
+			MCyO4aarN4EckDdq2+Gz1UOdLVAmHyRXbRPF6ccM8rs=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/CocoaAsyncSocket.LICENSE</key>
@@ -749,22 +292,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wC3CSaW5d2hi9T9UllHr0t+epYM=
+			S9METBeN4Z6dm/Kn5jrPjovQm5M=
 			</data>
 			<key>hash2</key>
 			<data>
-			l8nmAh1W/N8GEo+iryC7jFxHGns4q8FwFxmDzoqhZ/c=
+			zBpt658epQ1bu/SXsviPCaTVsJVrEFVHgFlGO+KiBWo=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/DeviceAgent</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oGl/ShJzfMoACz+tcOQ8bPZ2V0A=
+			Ab3/Omq0L87Q6WSGgwf+I0+30h8=
 			</data>
 			<key>hash2</key>
 			<data>
-			l4GMiP+TiOhwFTMGWjWktuZ9pQr7R3o4Sxc7rB3QGoA=
+			QRc9DJnEpJICeN1zoTqwo1u0Vo7y+gPDYith09qNOjo=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-device.xctestrun</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			h8+XkyPXYPiVHqoYYBmu6h64ha8=
+			</data>
+			<key>hash2</key>
+			<data>
+			pMyVvd5TjSCY8jekM4RWPi0zct2TVNX/kTwqy+mzrxo=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest/DeviceAgent-simulator-template.xctestrun</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			a3oQNxGy8Cqy/e1yxmccE+NWxEg=
+			</data>
+			<key>hash2</key>
+			<data>
+			iTdpuPr2WxcvWFSadKurfPm0IHBjvQjF57wz5K5CXbI=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/Facebook-WebDriverAgent.LICENSE</key>
@@ -778,26 +343,59 @@
 			2ZEMa6XkwprkFe486HXJ4Ypg2LxNf+LC0QTbKnGLG7Q=
 			</data>
 		</dict>
+		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gM6NZl9MygMfQIDNg80q77pNu+w=
+			</data>
+			<key>hash2</key>
+			<data>
+			Pr5FvLSs9x9VCTj+V3Zq7j8SpinY1XjpPqee4mGrGD0=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			KrbbohHj3NfFebJVto3PvxsTEtU=
+			</data>
+			<key>hash2</key>
+			<data>
+			/v2Xzl22YnjMKuL3tpbzcvxzf7LM56+GAOUBxn2iiCQ=
+			</data>
+		</dict>
+		<key>PlugIns/DeviceAgent.xctest/Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
+			</data>
+			<key>hash2</key>
+			<data>
+			7eIWFjTDTbkUwfySphKjTiHStiuN3o2jG0Q/IiKbeg8=
+			</data>
+		</dict>
 		<key>PlugIns/DeviceAgent.xctest/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9Y2ceKazhImMjnoRIjhNpZ7gmdE=
+			z/OSgBrNvVb4sLjsLV6ZiLoRYow=
 			</data>
 			<key>hash2</key>
 			<data>
-			7Nsh9TDtJ4X4FQ8u7Wt/UVR7nnw6CB6bVHOu3XCdJQU=
+			ENq1xW3Xe9ypJMs1+GDuFdmE3elMK0FL1Lug4yxUyOw=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/LICENSE</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oFNT9Bf+qfdnjvG5L9vuFgrUvow=
+			CIL434yrMSzYMt5INXuvhxF7RJI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Jd0w+XdAWIPDjvbh69nBpHvLXZ4mJAFGcRISKpd7hmQ=
+			TAUR9kdHnh7EaT6S1njn9pYpmpaEdJiJhn1+d62gEBM=
 			</data>
 		</dict>
 		<key>PlugIns/DeviceAgent.xctest/RoutingHTTPServer.LICENSE</key>
@@ -815,17 +413,17 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IUC173+RZuVbJli0v/QdH+EOO+4=
+			Lpn7otGmtI2bgISURWhPtj0ebn4=
 			</data>
 			<key>hash2</key>
 			<data>
-			AwIszfJGh8Z0BCgSJWLtoxaYggpk9m7NtrXKMWs4GoE=
+			WDTRaMoeOAoIGQHVT42VYBowBS/F5KgVCgyuS6m0P2E=
 			</data>
 		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
-		<key>^</key>
+		<key>^.*</key>
 		<true/>
 		<key>^.*\.lproj/</key>
 		<dict>
@@ -856,24 +454,12 @@
 			<key>weight</key>
 			<real>11</real>
 		</dict>
-		<key>^</key>
-		<dict>
-			<key>weight</key>
-			<real>20</real>
-		</dict>
 		<key>^(.*/)?\.DS_Store$</key>
 		<dict>
 			<key>omit</key>
 			<true/>
 			<key>weight</key>
 			<real>2000</real>
-		</dict>
-		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^.*</key>
 		<true/>
@@ -909,13 +495,6 @@
 			<true/>
 			<key>weight</key>
 			<real>20</real>
-		</dict>
-		<key>^[^/]+$</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^embedded\.provisionprofile$</key>
 		<dict>

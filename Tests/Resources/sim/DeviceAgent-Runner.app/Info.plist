@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>16A251</string>
+	<string>20A2323e</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>XCTRunner</string>
+	<string>DeviceAgent-Runner</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.apple.test.DeviceAgent-Runner</string>
+	<string>sh.calaba.DeviceAgent.xctrunner</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>DeviceAgent</string>
+	<string>DeviceAgent-Runner</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.1</string>
+	<string>2.2.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -25,30 +27,76 @@
 		<string>iPhoneSimulator</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1472079314</string>
+	<string>1602671221</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>14A330</string>
+	<string>18A347</string>
 	<key>DTPlatformName</key>
 	<string>iphonesimulator</string>
 	<key>DTPlatformVersion</key>
-	<string>10.0</string>
+	<string>14.0</string>
 	<key>DTSDKBuild</key>
-	<string>14A330</string>
+	<string>18A347</string>
 	<key>DTSDKName</key>
-	<string>iphonesimulator10.0</string>
+	<string>iphonesimulator14.0.internal</string>
 	<key>DTXcode</key>
-	<string>0800</string>
+	<string>1200</string>
 	<key>DTXcodeBuild</key>
-	<string>8R201d</string>
+	<string>12A7200</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>9.0</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSHomeKitUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Access is necessary for automated testing.</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>unboundedTaskCompletion</string>
 		<string>continuous</string>
 	</array>
 	<key>UIDeviceFamily</key>
@@ -60,6 +108,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
