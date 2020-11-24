@@ -25,6 +25,8 @@ xcrun xcodebuild \
   -target ${XC_TARGET} \
   -configuration Release \
   -sdk macosx \
+  ARCHS="x86_64" \
+  VALID_ARCHS="x86_64" \
   GCC_TREAT_WARNINGS_AS_ERRORS=YES \
   GCC_GENERATE_TEST_COVERAGE_FILES=NO \
   GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
