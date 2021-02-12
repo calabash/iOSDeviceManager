@@ -56,10 +56,10 @@
     expect(profile.applicationIdentifierPrefix[0]).to.equal(@"FYD86LA7RE");
     expect(profile.developerCertificates.count).to.equal(1);
     expect(profile.developerCertificates[0]).to.beInstanceOf([Certificate class]);
-    expect(profile.provisionedDevices.count).to.equal(89);
-    expect(profile.provisionedDevices[0]).to.equal(@"e60ef9ae876ab4a218ee966d0525c9fb79e5606d");
+    expect(profile.provisionedDevices.count).to.equal(97);
+    expect(profile.provisionedDevices[0]).to.equal(@"9486119c3c9e4ac21e28862918ef0b77417df10a");
     expect(profile.teamIdentifier[0]).to.equal(@"FYD86LA7RE");
-    expect(profile.uuid).to.equal(@"7aa7148f-f245-4d95-898e-dedff226429d");
+    expect(profile.uuid).to.equal(@"9f62cbbb-8ee5-454c-bd49-d4fe8e442100");
     expect(profile.teamName).to.equal(@"Karl Krukow");
     expect(profile.name).to.equal(@"CalabashWildcard");
     expect(profile.platform[0]).to.equal(@"iOS");
