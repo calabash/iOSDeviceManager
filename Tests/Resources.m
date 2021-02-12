@@ -973,7 +973,7 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 // ^ find the lastest fingerprint
 - (CodesignIdentity *)KarlKrukowIdentityIOS {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"31141D2E4B4525C98FE5317CE7BF4BEF2D45EB0C";
+    NSString *identityShasum = @"D5EBCB1632F980B97DA879AAD900DF3E560E8590";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
@@ -984,7 +984,7 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 // ^ find the lastest fingerprint
 - (CodesignIdentity *)KarlKrukowIdentityCombined {
     NSString *identityName = @"Apple Development: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"E6CABAAD38ACB48A71A9E1598A10CCA354FFCE3F";
+    NSString *identityShasum = @"40239F7B6C4609B13B3138647BCB3B13763DEDD0";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }
