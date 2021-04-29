@@ -117,10 +117,10 @@
     [invocation setArgument:&pathCopy atIndex:2];
 
     BOOL success = NO;
-    void *buffer;
+
     [invocation invoke];
-    [invocation getReturnValue:&buffer];
-    success = (BOOL)buffer;
+    [invocation getReturnValue:&success];
+    
     return success;
 }
 
