@@ -32,6 +32,9 @@ jobs:
       Catalina-Xcode-12.4:
         IMAGE_POOL: 'macOS-10.15'
         XCODE_VERSION: '12.4'
+      Catalina-Xcode-12.5:
+        IMAGE_POOL: 'macOS-10.15'
+        XCODE_VERSION: '12.5'
   timeoutInMinutes: 180
   pool:
     vmImage: $(IMAGE_POOL)
