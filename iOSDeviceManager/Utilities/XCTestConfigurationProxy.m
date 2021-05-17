@@ -2,6 +2,7 @@
 #import "XCTestConfigurationProxy.h"
 #import <FBControlCore/FBControlCore.h>
 #import "ConsoleWriter.h"
+#import <objc/runtime.h>
 
 @implementation XCTestConfigurationProxy
 
@@ -75,6 +76,39 @@
     return [self.configuration description];
 }
 
+- (NSDictionary *) dictionaryWithPropertiesOfObject:(id)obj
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+
+    unsigned count;
+    objc_property_t *properties = class_copyPropertyList([obj class], &count);
+
+    for (int i = 0; i < count; i++) {
+        NSString *key = [NSString stringWithUTF8String:property_getName(properties[i])];
+        if ([obj valueForKey:key] != nil){
+            
+            if ([[obj valueForKey:key] isKindOfClass:[NSData class]] ||
+                [[obj valueForKey:key] isKindOfClass:[NSDate class]] ||
+                [[obj valueForKey:key] isKindOfClass:[NSNumber class]] ||
+                [[obj valueForKey:key] isKindOfClass:[NSString class]] ||
+                [[obj valueForKey:key] isKindOfClass:[NSArray class]] ||
+                [[obj valueForKey:key] isKindOfClass:[NSDictionary class]]){
+
+                [dict setObject:[obj valueForKey:key] forKey:key];
+            }
+            else{
+                NSString *str = [NSString stringWithFormat:@"%@", [obj valueForKey:key]];
+                [dict setObject:str forKey:key];
+            }
+
+        }
+    }
+
+    free(properties);
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (BOOL)writeToPlistFile:(NSString *)path overwrite:(BOOL)overwrite {
 
     NSError *error = nil;
@@ -100,28 +134,21 @@
         }
     }
 
-    Class klass = [self.configuration class];
-    SEL selector = NSSelectorFromString(@"writeToFile:");
+//    NSDictionary *plist;
+//
+//    plist = [NSPropertyListSerialization propertyListWithData:data
+//                                                      options:NSPropertyListImmutable
+//                                                       format:nil
+//                                                        error:&error];
+//    BOOL success = [plist writeToFile:path atomically:YES];
 
-    NSMethodSignature *signature;
-    signature = [klass instanceMethodSignatureForSelector:selector];
+    NSDictionary* dict = [self dictionaryWithPropertiesOfObject:self.configuration];
 
-    NSInvocation *invocation;
+    BOOL success = [dict writeToFile:path atomically:YES];
 
-    invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.target = self.configuration;
-    invocation.selector = selector;
-
-    [invocation retainArguments];
-    NSString *pathCopy = [NSString stringWithString:path];
-    [invocation setArgument:&pathCopy atIndex:2];
-
-    BOOL success = NO;
-
-    [invocation invoke];
-    [invocation getReturnValue:&success];
     
     return success;
 }
 
 @end
+
