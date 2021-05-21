@@ -134,14 +134,6 @@
         }
     }
 
-//    NSDictionary *plist;
-//
-//    plist = [NSPropertyListSerialization propertyListWithData:data
-//                                                      options:NSPropertyListImmutable
-//                                                       format:nil
-//                                                        error:&error];
-//    BOOL success = [plist writeToFile:path atomically:YES];
-
     NSDictionary* dict = [self dictionaryWithPropertiesOfObject:self.configuration];
 
     BOOL success = [dict writeToFile:path atomically:YES];
