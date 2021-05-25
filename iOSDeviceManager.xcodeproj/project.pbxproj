@@ -882,7 +882,7 @@
 		89331D3B1CE222C7003C2E59 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
@@ -1306,6 +1306,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator14.0]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1329,6 +1330,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator14.0]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (

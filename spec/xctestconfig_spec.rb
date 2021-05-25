@@ -75,7 +75,7 @@ describe "xctestconfig" do
       hash = IDM.shell(args)
 
       expect(File.exist?(path)).to be_truthy
-      expect(File.read(path)[/_private_sessionIdentifier/]).to be_truthy
+      expect(File.read(path)[/sessionIdentifier/]).to be_truthy
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
     end
 
@@ -98,7 +98,7 @@ describe "xctestconfig" do
       hash = IDM.shell(args)
 
       expect(File.exist?(path)).to be_truthy
-      expect(File.read(path)[/_private_sessionIdentifier/]).to be_truthy
+      expect(File.read(path)[/sessionIdentifier/]).to be_truthy
       expect(hash[:exit_status]).to be == IDM.exit_status(:success)
     end
   end

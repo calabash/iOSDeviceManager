@@ -1,3 +1,11 @@
+### 3.8.1
+
+Xcode 12.5 Support
+
+### 3.8.0
+
+Xcode 12.4 Support
+
 ### 3.7.4
 
 * FB Frameworks: add missing simulators and devices
