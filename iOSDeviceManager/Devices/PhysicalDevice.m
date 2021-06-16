@@ -10,29 +10,46 @@
 #import "XCTestConfigurationPlist.h"
 #import "XCAppDataBundle.h"
 
-@interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
+#import <FBDeviceControl/FBDevice.h>
+#import <FBSimulatorControl/FBSimulatorControl.h>
+#import <FBDeviceControl/FBDeviceControl.h>
+#import <FBControlCore/FBControlCore.h>
+#import <FBSimulatorControl/FBSimulatorControl.h>
 
-- (void)fetchApplications;
-- (BOOL)killProcessWithID:(NSInteger)processID error:(NSError **)error;
+#import <FBControlCore/FBiOSTargetCommandForwarder.h>
+#import <FBControlCore/FBFuture.h>
 
-// The keys-value pairs that are available in the plist returned by
-// #installedApplicationWithBundleIdentifier:error:
-+ (NSDictionary *)applicationReturnAttributesDictionary;
-- (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(NSString *)bundleID;
 
-// These will probably be moved to FBDeviceApplicationCommands
-- (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
-- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration
-                    error:(NSError **)error;
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "XCTestConfigurationPlist.h"
+#import "XCAppDataBundle.h"
+#import <FBControlCore/FBControlCore.h>
 
-// Originally, we used DVT APIs to install provisioning profiles.
-// Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
-// If we find there is a problem with the MobileDevice API we can
-// fall back on the DVT implementation.
-// - (BOOL)DVTinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
-- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
+#import <FBDeviceControl/FBDeviceControl.h>
 
-@end
+//@interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
+//
+//- (void)fetchApplications;
+//- (BOOL)killProcessWithID:(NSInteger)processID error:(NSError **)error;
+//
+//// The keys-value pairs that are available in the plist returned by
+//// #installedApplicationWithBundleIdentifier:error:
+//+ (NSDictionary *)applicationReturnAttributesDictionary;
+//- (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(NSString *)bundleID;
+//
+//// These will probably be moved to FBDeviceApplicationCommands
+//- (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
+//- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration
+//                    error:(NSError **)error;
+//
+//// Originally, we used DVT APIs to install provisioning profiles.
+//// Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
+//// If we find there is a problem with the MobileDevice API we can
+//// fall back on the DVT implementation.
+//// - (BOOL)DVTinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
+//- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
+//
+//@end
 
 @protocol DVTApplication
 - (NSDictionary *)plist;
@@ -67,7 +84,9 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
+
 @property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
+//@property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
@@ -83,18 +102,18 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     device.uuid = uuid;
 
     NSError *err;
-    FBDevice *fbDevice = [[FBDeviceSet defaultSetWithLogger:nil
-                                                      error:&err]
-                          deviceWithUDID:uuid];
+    
+    FBDevice *fbDevice = [[FBDeviceSet setWithLogger:FBControlCoreGlobalConfiguration.defaultLogger delegate:nil ecidFilter:nil error:&err] deviceWithUDID:uuid];
+
     if (!fbDevice) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
         return nil;
     }
 
-    if (![fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err]) {
-        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
-        return nil;
-    }
+//    if (![fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err]) {
+//        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
+//        return nil;
+//    }
 
     device.fbDevice = fbDevice;
 
@@ -102,15 +121,18 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (FBDeviceApplicationCommands *)applicationCommands {
+    
     if (_applicationCommands) { return _applicationCommands; }
 
-    _applicationCommands = [FBDeviceApplicationCommands commandsWithDevice:self.fbDevice];
+    _applicationCommands = [FBDeviceApplicationCommands commandsWithTarget:self.fbDevice];
     return _applicationCommands;
 }
 
-- (FBiOSDeviceOperator *)fbDeviceOperator {
-    return [FBiOSDeviceOperator forDevice:self.fbDevice];
-}
+//- (FBiOSDeviceOperator *)fbDeviceOperator {
+//    return [FBiOSDeviceOperator forDevice:self.fbDevice];
+//}
+
+
 
 - (iOSReturnStatusCode)launch {
     return iOSReturnStatusCodeGenericFailure;
@@ -193,8 +215,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             return iOSReturnStatusCodeInternalError;
         }
 
-        if (![self.applicationCommands installApplicationWithPath:app.path
-                                                            error:&error]) {
+        if (![[self.applicationCommands installApplicationWithPath:app.path] await:&error]) {
             ConsoleWriteErr(@"Error installing application: %@",
                             [error localizedDescription]);
             return iOSReturnStatusCodeInternalError;
@@ -269,10 +290,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
 
-    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-
     NSError *err;
-    if (![operator isApplicationInstalledWithBundleID:bundleID error:&err]) {
+    if (![[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:&err]) {
         ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeInternalError;
     }
@@ -286,8 +305,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    if (![self.applicationCommands uninstallApplicationWithBundleID:bundleID
-                                                              error:&err]) {
+    if (![[self.applicationCommands uninstallApplicationWithBundleID:bundleID] await:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
         return iOSReturnStatusCodeInternalError;
     } else {
@@ -297,17 +315,14 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)simulateLocationWithLat:(double)lat lng:(double)lng {
 
-    if (![self.fbDevice.dvtDevice supportsLocationSimulation]) {
+    NSError *error;
+    if (![[self.fbDevice overrideLocationWithLongitude:lng latitude:lat] await:&error]){
         ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    NSError *e;
-    [[self.fbDevice.dvtDevice token] simulateLatitude:@(lat)
-                                         andLongitude:@(lng)
-                                            withError:&e];
-    if (e) {
-        ConsoleWriteErr(@"Unable to set device location: %@", e);
+    if (error) {
+        ConsoleWriteErr(@"Unable to set device location: %@", error);
         return iOSReturnStatusCodeInternalError;
     }
 
@@ -315,11 +330,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)stopSimulatingLocation {
-    if (![self.fbDevice.dvtDevice supportsLocationSimulation]) {
-        ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
-        return iOSReturnStatusCodeGenericFailure;
-    }
 
+    [self.fbDevice startService:@"com.apple.dt.simulatelocation"];
     NSError *e;
     [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
     if (e) {
@@ -388,11 +400,43 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return [self processIdentifierForApplication:bundleIdentifier] != 0;
 }
 
+
+/*
+ 
+ - (FBFuture<id> *)processIDWithBundleID:(NSString *)bundleID
+ {
+   return [[FBDeviceControlError
+     describeFormat:@"-[%@ %@] is unimplemented", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]
+     failFuture];
+ }
+
+ - (FBFuture<NSNull *> *)killApplicationWithBundleID:(NSString *)bundleID
+ {
+   return [((FBiOSDeviceOperator *) self.device.deviceOperator) killApplicationWithBundleID:bundleID];
+   return [[FBDeviceControlError
+     describeFormat:@"-[%@ %@] is unimplemented", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]
+     failFuture];
+ }
+
+ */
+/*
+- (FBFuture<NSNull *> *)kill_application:(NSString *)bundleID
+{
+  return [self.target killApplicationWithBundleID:bundleID];
+}
+*/
+
 - (BOOL)terminateApplication:(NSString *)bundleIdentifier
                   wasRunning:(BOOL *)wasRunning {
 
     NSError *error = nil;
 
+//    FBDeviceLaunchedApplication
+    
+//    FBProcessTerminationStrategy *strategy = [FBProcessTerminationStrategy ]
+    //killProcessIdentifier
+    
+    
     FBiOSDeviceOperator *operator = self.fbDeviceOperator;
     pid_t PID = [operator processIDWithBundleID:bundleIdentifier error:&error];
     if (PID < 1) {
@@ -401,7 +445,9 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     } else {
         if (wasRunning) { *wasRunning = YES; }
     }
-
+    
+    killApplicationWithProcessIdentifier
+    
     if (![operator killProcessWithID:PID error:&error]) {
         ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
                         bundleIdentifier, [error localizedDescription]);
@@ -423,11 +469,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
-    NSError *err;
-    BOOL installed = [self isInstalled:bundleID withError:&err];
+    NSError *error;
+    BOOL installed = [self isInstalled:bundleID withError:&error];
 
     if (err) {
-        ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], err);
+        ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], error);
         @throw [NSException exceptionWithName:@"IsInstalledAppException"
                                        reason:@"Unable to determine if application is installed"
                                      userInfo:nil];

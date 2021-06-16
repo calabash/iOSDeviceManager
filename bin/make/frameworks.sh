@@ -4,9 +4,15 @@ source bin/log.sh
 source bin/simctl.sh
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
-  if [ -e "../FBSimulatorControl" ]; then
-    FBSIMCONTROL_PATH="../FBSimulatorControl"
+  #if [ -e "../FBSimulatorControl" ]; then
+  #  FBSIMCONTROL_PATH="../FBSimulatorControl"
+  #fi
+  if [ -e "../FBSimulatorControl_old" ]; then
+    FBSIMCONTROL_PATH="../FBSimulatorControl_old"
   fi
+  #if [ -e "../idb" ]; then
+  #  FBSIMCONTROL_PATH="../idb"
+  #fi
 fi
 
 if [ ! -d "${FBSIMCONTROL_PATH}" ]; then
@@ -20,7 +26,10 @@ fi
 rm -rf ./Frameworks/*.framework
 OUTPUT_DIR="${PWD}/Frameworks"
 
+echo "${FBSIMCONTROL_PATH}"
 (cd "${FBSIMCONTROL_PATH}";
+
+#./build.sh
 make frameworks;
 
 xcrun ditto build/Release/FBControlCore.framework \
@@ -35,9 +44,11 @@ xcrun ditto build/Release/FBSimulatorControl.framework \
 xcrun ditto build/Release/XCTestBootstrap.framework \
   "${OUTPUT_DIR}/XCTestBootstrap.framework" ;
 
-xcrun ditto Vendor/CocoaLumberjack.framework \
-  "${OUTPUT_DIR}/CocoaLumberjack.framework" ;
+#xcrun ditto Vendor/CocoaLumberjack.framework \
+#  "${OUTPUT_DIR}/CocoaLumberjack.framework" ;
 )
+#CocoaLumberjack.framework is temporarely copied from previous FBSimulatorControl build results, because there is no such framework in idm
+xcrun ditto ../CocoaLumberjack.framework ${OUTPUT_DIR}/CocoaLumberjack.framework
 
 xcrun codesign \
 --force \

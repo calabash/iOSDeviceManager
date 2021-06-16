@@ -8,7 +8,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import <CoreGraphics/CGImage.h>
 #import <FBSimulatorControl/FBFramebufferSurface.h>
 
 NS_ASSUME_NONNULL_BEGIN

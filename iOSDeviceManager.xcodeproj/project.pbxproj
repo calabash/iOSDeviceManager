@@ -970,7 +970,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bin/xcode-build-phase/gitversioning-after.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			shellScript = "bin/xcode-build-phase/gitversioning-after.sh \"iOSDeviceManager/IDMVersionDefines.h\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

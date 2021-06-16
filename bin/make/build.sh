@@ -39,5 +39,5 @@ mkdir Products
 ditto build/Release/iOSDeviceManager Products/iOSDeviceManager
 
 install_with_ditto ThirdPartyNotices.txt Frameworks/ThirdPartyNotices.txt
-install_with_ditto Licenses/CocoaLumberjack.LICENSE Frameworks/CocoaLumberjack.LICENSE
+#install_with_ditto Licenses/CocoaLumberjack.LICENSE Frameworks/CocoaLumberjack.LICENSE
 install_with_ditto Licenses/FBSimulatorControl.LICENSE Frameworks/FBSimulatorControl.LICENSE

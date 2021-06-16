@@ -4,7 +4,7 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        [iOSDeviceManagerLogging startLumberjackLogging];
+//        [iOSDeviceManagerLogging startLumberjackLogging];
         return (int)[CLI process:[NSProcessInfo processInfo].arguments];
     }
 }

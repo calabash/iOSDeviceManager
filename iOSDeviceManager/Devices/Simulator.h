@@ -6,7 +6,7 @@
 #import "Device.h"
 @import Foundation;
 
-@interface Simulator : Device<FBTestManagerTestReporter, FBControlCoreLogger>
+@interface Simulator : Device<FBXCTestReporter, FBControlCoreLogger>
 
 + (NSURL *)simulatorAppURL;
 

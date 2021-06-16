@@ -1,0 +1,13 @@
+bundle install
+make frameworks
+make unit-tests
+make integration-tests
+make build
+make rspec
+# There are pending rspec examples.  These can be ignored.
+
+# Clean up simulator processes
+run-loop simctl manage-processes
+
+# with connected device
+DEVICE=1 make rspec
