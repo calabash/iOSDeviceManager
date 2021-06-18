@@ -7,12 +7,12 @@ if [ -z "${FBSIMCONTROL_PATH}" ]; then
   #if [ -e "../FBSimulatorControl" ]; then
   #  FBSIMCONTROL_PATH="../FBSimulatorControl"
   #fi
-  if [ -e "../FBSimulatorControl_old" ]; then
-    FBSIMCONTROL_PATH="../FBSimulatorControl_old"
-  fi
-  #if [ -e "../idb" ]; then
-  #  FBSIMCONTROL_PATH="../idb"
+  #if [ -e "../FBSimulatorControl_old" ]; then
+  #  FBSIMCONTROL_PATH="../FBSimulatorControl_old"
   #fi
+  if [ -e "../idb" ]; then
+    FBSIMCONTROL_PATH="../idb"
+  fi
 fi
 
 if [ ! -d "${FBSIMCONTROL_PATH}" ]; then

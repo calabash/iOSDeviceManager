@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -15,13 +13,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FBFileConsumer;
+@protocol FBDataConsumer;
 @protocol FBControlCoreLogger;
 
 /**
  A Reporter using xctool's linewise-json output.
  */
-@interface FBJSONTestReporter : NSObject <FBXCTestReporter>
+@interface FBJSONTestReporter : NSObject <FBXCTestReporter, FBXCTestReporterWithFiles>
 
 /**
  The Designated Initializer.
@@ -29,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param testBundlePath the Test Bundle to Report for.
  @param testType the Test Type to Report for
  @param logger the logger to log out-of-band information to.
- @param fileConsumer the consumer of the output.
+ @param dataConsumer the consumer of the output.
  */
-- (instancetype)initWithTestBundlePath:(NSString *)testBundlePath testType:(NSString *)testType logger:(nullable id<FBControlCoreLogger>)logger fileConsumer:(id<FBFileConsumer>)fileConsumer;
+- (instancetype)initWithTestBundlePath:(NSString *)testBundlePath testType:(NSString *)testType logger:(nullable id<FBControlCoreLogger>)logger dataConsumer:(id<FBDataConsumer>)dataConsumer;
 
 @end
 

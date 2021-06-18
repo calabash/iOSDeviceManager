@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -12,6 +10,10 @@
 #import <FBControlCore/FBControlCore.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class FBProcessOutput;
+
+@protocol FBiOSTarget;
 
 /**
  The Marker File Path if a File is to be output to a default location.
@@ -21,7 +23,9 @@ extern NSString *const FBProcessOutputToFileDefaultLocation;
 /**
  The Output Configuration for a Process.
  */
-@interface FBProcessOutputConfiguration : NSObject <NSCopying, FBJSONSerializable, FBJSONDeserializable>
+@interface FBProcessOutputConfiguration : NSObject <NSCopying>
+
+#pragma mark Initializers
 
 /**
  The Designated Initializer
@@ -44,7 +48,7 @@ extern NSString *const FBProcessOutputToFileDefaultLocation;
 + (instancetype)outputToDevNull;
 
 /**
- Construct a copy of the reciever, with the stdOut applied
+ Construct a copy of the receiver, with the stdOut applied
 
  @param stdOut the stdout, see the documentation for the stdOut property for details.
  @param error an error if the parameters are incorrect.
@@ -53,7 +57,7 @@ extern NSString *const FBProcessOutputToFileDefaultLocation;
 - (nullable instancetype)withStdOut:(id)stdOut error:(NSError **)error;
 
 /**
- Construct a copy of the reciever, with the stdErr applied
+ Construct a copy of the receiver, with the stdErr applied
 
  @param stdErr the stdout, see the documentation for the stdOut property for details.
  @param error an error if the parameters are incorrect.
@@ -61,13 +65,15 @@ extern NSString *const FBProcessOutputToFileDefaultLocation;
  */
 - (nullable instancetype)withStdErr:(id)stdErr error:(NSError **)error;
 
+#pragma mark Properties
+
 /**
  The Output Configuration for stdout.
  Must be one of the following:
  - NSNull if the output is not to be redirected.
  - NSString for the File Path to output to.
  - FBProcessOutputToDefaultLocation if the output is to be directed to a file, at a default location.
- - FBFileConsumer for consuming the output.
+ - FBDataConsumer for consuming the output.
  */
 @property (nonatomic, strong, readonly) id stdOut;
 
@@ -77,9 +83,19 @@ extern NSString *const FBProcessOutputToFileDefaultLocation;
  - NSNull if the output is not to be redirected.
  - NSString for the File Path to output to.
  - FBProcessOutputToDefaultLocation if the output is to be directed to a file, at a default location.
- - FBFileConsumer for consuming the output.
+ - FBDataConsumer for consuming the output.
  */
 @property (nonatomic, strong, readonly) id stdErr;
+
+#pragma mark Public Methods
+
+/**
+ Creates the IO wrapper object for a given target
+
+ @param target the target to create the output for.
+ @return a Future that wraps the IO.
+ */
+- (FBFuture<FBProcessIO *> *)createIOForTarget:(id<FBiOSTarget>)target;
 
 @end
 

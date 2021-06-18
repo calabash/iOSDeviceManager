@@ -6,928 +6,643 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		4WNhrRybTS3eYAOhgfKx+0rMUL8=
+		MCx8ummuVqiFBQz6UFKmobbfpi0=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Frameworks/CocoaLumberjack.framework</key>
+		<key>Headers/FBAccessibilityCommands.h</key>
 		<dict>
-			<key>cdhash</key>
-			<data>
-			tDiU93ngfUwTt03Pd7IJ/MGyTmY=
-			</data>
-			<key>requirement</key>
-			<string>identifier "com.deusty.CocoaLumberjack" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
-		</dict>
-		<key>Headers/FBASLParser.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			8dghkSSpHge8bJp6xJnKVCXCo6w=
-			</data>
 			<key>hash2</key>
 			<data>
-			4qhxIaudJXAo214Rt/3xRlJPLKnXQMZYEkl8dLBSj9I=
+			cSJKQ6Lh+Ku55lWvZkmugmNwbdN8BG1PmyqsyhLrYmo=
+			</data>
+		</dict>
+		<key>Headers/FBAccessibilityTraits.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			LOPtbMAQlnT7Wh0h2tffCh+Ro60BqTZdXhh2Pgn2fsE=
 			</data>
 		</dict>
 		<key>Headers/FBAgentLaunchConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			dpAtzLszYTRll8HimhQhHP/A/Ok=
-			</data>
 			<key>hash2</key>
 			<data>
-			nFHz1s+53jbLbeaNcg/GPHVPWF1tkhaaPpgIYGDLlPM=
-			</data>
-		</dict>
-		<key>Headers/FBApplicationBundle.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			hQuiu2TFOdUteOdZ4j2Q94stkNw=
-			</data>
-			<key>hash2</key>
-			<data>
-			MR0auK0snfsA1/9+MXVpGgWvU/K0T5Swu++JODZ95Bo=
+			vtz0UhsD5ds15W2jyoejYD4cb/DK69sPEcRKUz6sfOw=
 			</data>
 		</dict>
 		<key>Headers/FBApplicationCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			MYkagUWgOdqDmNPFjnYyMrDJDxE=
-			</data>
 			<key>hash2</key>
 			<data>
-			MluAQQOx4WDoKeyLvvF4fv0uGKi+XRhbGPHx8Gl2/g4=
-			</data>
-		</dict>
-		<key>Headers/FBApplicationDataCommands.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ZiU8ZY414BWecRyOXG33DRKPQ1o=
-			</data>
-			<key>hash2</key>
-			<data>
-			Btjoqkq0Bi9eCxm1vPzS0ROEr9kjG5JXOZA7ysP0XXc=
-			</data>
-		</dict>
-		<key>Headers/FBApplicationInstallConfiguration.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			+FMlsyEELzFPtmGI/qTJrLkyXO8=
-			</data>
-			<key>hash2</key>
-			<data>
-			9bxEius8Iwr2d1svNuZ6g2u8CyoQCSVD3QkxHrHOcMk=
+			7ikp/smAVlmXLtNOkCbUYWIKTLAB/Ai8X0R5sFYk1F4=
 			</data>
 		</dict>
 		<key>Headers/FBApplicationLaunchConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			UKOc0EcPxLCM5aVHi4NqnQKVMxg=
-			</data>
 			<key>hash2</key>
 			<data>
-			6cptPW2PbdviWAz1t70BpOMG/O0YDkvR99hxuSELdMI=
+			j141q968UnWpOqHVXgXy5lDSifYZmHbld6tSyaGMOXI=
 			</data>
 		</dict>
 		<key>Headers/FBArchitecture.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			Tv//M1VQUm5NkDu4YvUwGf59PmU=
-			</data>
 			<key>hash2</key>
 			<data>
-			7eAc0X18zx6xGa8tJu17KpGyKM9z2kXd2GQYshX4kF4=
+			/uyynfp65bpQcTVYOSpWTW+bJTm/PohoFt47I58+BeE=
 			</data>
 		</dict>
-		<key>Headers/FBBatchLogSearch.h</key>
+		<key>Headers/FBArchiveOperations.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			be213JGuHWsvrCytjC44slqfsmw=
-			</data>
 			<key>hash2</key>
 			<data>
-			VhLSk3XwvSv4hh2Aw1U3QElNWOGdJaO9cFumbSS5MPU=
+			o1MgXr+tOn/RwkpqnM2V8+N6vbeGjJblTbrd12n4c2s=
 			</data>
 		</dict>
 		<key>Headers/FBBinaryDescriptor.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			kI19L7S6ZFCrCePqn+VBdnFIFFA=
-			</data>
 			<key>hash2</key>
 			<data>
-			80o0nBs36lTObdPXDY0m8JPghJVwYqK9tJAlutWoe4I=
+			PkZXmexiPy+yEJxogZUiwNwfQEWjYQMKVF3eEabJaiU=
 			</data>
 		</dict>
-		<key>Headers/FBBinaryParser.h</key>
+		<key>Headers/FBBundleDescriptor+Application.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			K992b7Ul05SVtnsvLIHIbM+wGp0=
-			</data>
 			<key>hash2</key>
 			<data>
-			ThCKY9ZyAZdru8KxKVsJwtaceEq7Ai1pGkfFR8pX3Uc=
-			</data>
-		</dict>
-		<key>Headers/FBBitmapStream.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			6rN7WoomKaq9KrzEpLfC4SNLR4w=
-			</data>
-			<key>hash2</key>
-			<data>
-			tr+ubETm2kRcYOkwJy3qyjZjktuoO4pSVCAZNY8Dnl0=
-			</data>
-		</dict>
-		<key>Headers/FBBitmapStreamConfiguration.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			RZc3wqZgRiRebt80RLiAtFA5y5Q=
-			</data>
-			<key>hash2</key>
-			<data>
-			rX/RnyngJFluIU8d8cB2fs1JHP5AABNl3drS3BPIhe4=
-			</data>
-		</dict>
-		<key>Headers/FBBitmapStreamingCommands.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			lNcEMO6pMOLd6UP7Th7/agFcg20=
-			</data>
-			<key>hash2</key>
-			<data>
-			d+eR5h4GxD41tR+MibHu/P/fV1vRqtoS3mWBbbRRNDA=
+			PSaAE2Q69E7y6CqM4hn50a2mDgCw/wCM0KmYyMfhkW0=
 			</data>
 		</dict>
 		<key>Headers/FBBundleDescriptor.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			GV1tVN1FnPwUK1q7DywuKEdZh+c=
-			</data>
 			<key>hash2</key>
 			<data>
-			FB+V5J+vnB9phdqyDjdLIQ90xAkbjaeh8/SUEMfliS4=
-			</data>
-		</dict>
-		<key>Headers/FBCapacityQueue.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9fuwn2Z7ie8e9E9oi2RKYPu2N8E=
-			</data>
-			<key>hash2</key>
-			<data>
-			Hx3qf5P+9bX2bc5yMQkRF2KLM8bk6RBaAQmtzetQdP0=
+			0xkQGIAD9zEh8f2AYtUvODXMycJ+1ObphLovIgVYAb8=
 			</data>
 		</dict>
 		<key>Headers/FBCodesignProvider.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			z4+1xOSHTeC2iejC+G2G6JIq9nQ=
-			</data>
 			<key>hash2</key>
 			<data>
-			g+gSyXpPIINj9OpiipJvWEC/D/+rCm5IqThg+JuhMoA=
+			JxYsDXZGkadN7ARhz5dwht6b6rm37M21ZBWEHi1L+cc=
 			</data>
 		</dict>
 		<key>Headers/FBCollectionInformation.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			IrFVnB0RWJZAUezRxoDSZhQKMf0=
-			</data>
 			<key>hash2</key>
 			<data>
-			BcB6qNVaH4tswuCLCfOabZsROH68gOs1FdE6XJSon9Y=
+			5LrVJ78yONCy4hytSXDTne3bmS0/smnme+fcF9RGjYE=
 			</data>
 		</dict>
 		<key>Headers/FBCollectionOperations.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			vmn20l1L5raxH92JDGXjWzqUm/M=
-			</data>
 			<key>hash2</key>
 			<data>
-			RtXn88I501oBay4lR8aZepkaKs0GcySNyOtCyJcPJIQ=
+			e0sXC4+itVl+/KJZVi0xZG334VmluHm9yrje4dGG4d4=
 			</data>
 		</dict>
 		<key>Headers/FBConcurrentCollectionOperations.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			rulnwDUCs4yDz/RLQid5osEncQ0=
-			</data>
 			<key>hash2</key>
 			<data>
-			fDIAGJM7r/0gMUynPhyLZW7zVYzqNgMC6WPe+csMalI=
+			Ej8sly2cxzbGj+xoxnWxbFAwKnFFmw9AN12K3nqfDyM=
 			</data>
 		</dict>
 		<key>Headers/FBControlCore.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			AUAhyuMvUIl9JiCE8IeZe3j+pDA=
-			</data>
 			<key>hash2</key>
 			<data>
-			Wxv93s8Z/StucXdZ+TXPbCU+um11JCGmOK2aHt58d/I=
-			</data>
-		</dict>
-		<key>Headers/FBControlCoreConfigurationVariants.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			QkBRITNR84JApJcxwyu35TjirAA=
-			</data>
-			<key>hash2</key>
-			<data>
-			XHqrt9jhgS+fZjpoabkLrRtUN+IbygMRxh8BR/kNm1A=
+			X3kS4HXA7pazA+hKeOPR0P5np0kimxGBBorqluS6SUc=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreError.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			XPAOeBqAUOhn7+RqnfBEs2RZp9A=
-			</data>
 			<key>hash2</key>
 			<data>
-			sQOTTaIU8IvELMC9JABa8wlV9cKcZdE+VKz4M7t4G7I=
+			2TgCFe8YMTabWeMUgc0znyJR9J8OgNwQ9ZsumMBBHmw=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreFrameworkLoader.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			AEF2g4EfoLa7aEUGDQsKBg7GbpY=
-			</data>
 			<key>hash2</key>
 			<data>
-			i6vOO3fIdewLk+ZxYsudjMYvexPVXb8G4UNeiHth/ds=
+			Ohox5HwVUSVwmx6lCcE5PXJs2671MWi08rjQAVZibbk=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreGlobalConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			HIiJyVUYMM7OT9BcdsSgWGXuDjc=
-			</data>
 			<key>hash2</key>
 			<data>
-			JUQLS5dWKBGr1uGfGohqNClWixKzGYnyFt7s+YCdI+M=
+			AyrNQMb6mEck3alNbAdqHmdgEWi/LytSU16ubrz3bg8=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreLogger.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			oe/w4dCFhv9aeDMv87LlaYcXXE4=
-			</data>
 			<key>hash2</key>
 			<data>
-			Xwvkco7fBrk0S3eQD5GHJxCWa90HPbo8yFlSRivBjN0=
+			GYEMaJVhKI2cQfUZtv5L3B37qgX9A76i8a2QqGJpi20=
 			</data>
 		</dict>
-		<key>Headers/FBCrashLogInfo.h</key>
+		<key>Headers/FBCrashLog.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			d4vMRjxSgqoCwWN2nB7Mz6LvmzQ=
-			</data>
 			<key>hash2</key>
 			<data>
-			ms9zyZEQVh90zKI+f87nijYxhXB3GLvff++gRDDPTI0=
+			/O7PFMRE9yRA06rkqhyCkS6VaprUMRN0bpRVpp6Ey3I=
 			</data>
 		</dict>
-		<key>Headers/FBDebugDescribeable.h</key>
+		<key>Headers/FBCrashLogCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			xEphR9xFegVBObKObGC8xXZvPlY=
-			</data>
 			<key>hash2</key>
 			<data>
-			oC6HN7YYyMzn0xaCpLUmzWM7Dijo/3EjZ6QtYg1rbl8=
+			TfKbrjq8NHwycUHIw96PogR7IYOyk+Gn2ClAj7DPSi0=
 			</data>
 		</dict>
-		<key>Headers/FBDependentDylib+ApplePrivateDylibs.h</key>
+		<key>Headers/FBCrashLogNotifier.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			QWxw89PWmuRQTLQ1MRVmT0U6he4=
-			</data>
 			<key>hash2</key>
 			<data>
-			hBjuGCI0YSfjWoD1xk4f7i27C7A0BRWlpYfQxjUmUbo=
+			5FLPQAVhDINCrHC896bmElmXbnS4aXgjNTvxluQpqts=
 			</data>
 		</dict>
-		<key>Headers/FBDependentDylib.h</key>
+		<key>Headers/FBCrashLogStore.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			nBLVUu9RFwUX6SbNjw6sbZ8Hr1g=
-			</data>
 			<key>hash2</key>
 			<data>
-			WSs0Tt26k1Uz+2CU3mOOHeGzMNq2q7UNfbevRF8M/l4=
+			13Wp/kRFIFpw7nxW3wpBUXjkdt8CC1fWMyrKbTU4Ig0=
 			</data>
 		</dict>
-		<key>Headers/FBDiagnostic.h</key>
+		<key>Headers/FBDataBuffer.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			UHYQ7UFDJsZaNPua0c81sPHw07o=
-			</data>
 			<key>hash2</key>
 			<data>
-			WaXtc9CvZb1JMuiobaRM8u6zELwdZ4vIWUMrLx9fXdg=
+			+6dkyXLK8lGBobYDFq1RM+akFBkeO6MKsj8d5JbGWro=
 			</data>
 		</dict>
-		<key>Headers/FBDiagnosticQuery.h</key>
+		<key>Headers/FBDataConsumer.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			/QVYjlghiuv5JcVA1mfbtUV6lS8=
-			</data>
 			<key>hash2</key>
 			<data>
-			1aUNQhEE/Jf7rSW56BzpLs9RJpN47DCj7D5IdbSYoQA=
+			Vy5r3LFYyMmQZyTBtAt1FVX21jJVaXjOvb+rOqnbNpw=
+			</data>
+		</dict>
+		<key>Headers/FBDebuggerCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			OIxUsc2vatNY9nQ/aZFr7rLOCIGfW2wgPxLzTuDkEOI=
+			</data>
+		</dict>
+		<key>Headers/FBDeveloperDiskImage.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			smWiyCB3cKterXEd0uFbXbsHB73dxldE/Yw0bAaAZDw=
+			</data>
+		</dict>
+		<key>Headers/FBDeveloperDiskImageCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			tYhpVPeOeohftawuPQ1Dt90ZcXsLT83Gmri7yjmhdk4=
+			</data>
+		</dict>
+		<key>Headers/FBDiagnosticInformationCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			7iBEDJAmX39UkOBYazipJa4J25oqDoMbk+EACB81cqY=
 			</data>
 		</dict>
 		<key>Headers/FBDispatchSourceNotifier.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			Tw8gSbo2bppsBb8z1dgjPUUrGss=
-			</data>
 			<key>hash2</key>
 			<data>
-			ItHiCQv1rsPRcg5v94/u0CE+GTV0DbQ2XvUsRyOnF8k=
+			bSoj33frq9GDVpW9xzLbYyVrSxrPIfB74SqU7bH7PP8=
 			</data>
 		</dict>
-		<key>Headers/FBEventInterpreter.h</key>
+		<key>Headers/FBEraseCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			roQYTC/3wMIP0Tp5FQUCpXqcpx8=
-			</data>
 			<key>hash2</key>
 			<data>
-			UUEExIBRMWfx/gQevYbplcwjK1guHiLora15obwyvyA=
+			Su5qCK6Nao+6xIxQYOEmVO/AEHGvuSYPB5N9OwZGObE=
 			</data>
 		</dict>
-		<key>Headers/FBFileConsumer.h</key>
+		<key>Headers/FBEventReporter.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			+gqwqRnCwztzoop2dtcMM7uHJDI=
-			</data>
 			<key>hash2</key>
 			<data>
-			+1PxNZiHH6kHCmu3ZlhDbFKxV2MuoBaD2urDnJ46M+M=
+			kx3Iacyb9L2Qpo/LOWyhC44tm7DYZyrvsUe3+b/p/5w=
 			</data>
 		</dict>
-		<key>Headers/FBFileFinder.h</key>
+		<key>Headers/FBEventReporterSubject.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			cog62pKFG1IKqTl/whBQGYC4CLQ=
-			</data>
 			<key>hash2</key>
 			<data>
-			zsTYAeVsb6feO79G0WMm8MR6y18cbr1Jdkn+RQ7Ssek=
+			LY+mXeBG6oOiFOLRgbGW0Ake0QJsvKC/eXiXvllNQoo=
 			</data>
 		</dict>
-		<key>Headers/FBFileManager.h</key>
+		<key>Headers/FBFileCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			a6UOZrNgAEfMSuldKqo5Nd9SKIk=
-			</data>
 			<key>hash2</key>
 			<data>
-			XN0myy8hhEdSuyqVtSJ3H8MWe1DEyu4x2birLu/8rBw=
+			zt2CuhhmRwsSgRugczKDylYZhjuFCegbXlKmYY8SPuE=
+			</data>
+		</dict>
+		<key>Headers/FBFileContainer.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			cigQBFQEPPpIZlRl1G5HIK2thSd8HiloFEC57KRElMY=
 			</data>
 		</dict>
 		<key>Headers/FBFileReader.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			SBkBS6lvHEPtCBqHA5hKMDuZ7ow=
-			</data>
 			<key>hash2</key>
 			<data>
-			zBqWqM/wYUQveJ5+WEGkLERbxsJfRYWI1BNx2RymghI=
+			1PWfLBpbDLFG53n2kiv/LleeLQW5zcrdAC69zIVPcks=
 			</data>
 		</dict>
 		<key>Headers/FBFileWriter.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			eOhOZMJJD8zzARSknl1B+8z6rtM=
-			</data>
 			<key>hash2</key>
 			<data>
-			VjdwuNZHKR3W0h8P3kXSO8We3QS34HiZUCwoo12ponA=
+			xT4S00TCYAhXD+fN6YVVWqal3krz+e2saJeI5/K/0HQ=
+			</data>
+		</dict>
+		<key>Headers/FBFuture+Sync.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			NZ4sBkOGRwoUDIWGSr81a1/L1N4UVJnQNE1tK/9DXk8=
+			</data>
+		</dict>
+		<key>Headers/FBFuture.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			JpEhX6DNi7fJXpl82dXUh6Pw1NMvI6NC82v+FYrEtbw=
+			</data>
+		</dict>
+		<key>Headers/FBFutureContextManager.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			tJG1SGNtAjBaaPEMpL6+iyTS4SLSuaQfw7qEr7ooPD0=
 			</data>
 		</dict>
 		<key>Headers/FBInstalledApplication.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			++CvV0neR25TLSDnhYGXRP4UMbc=
-			</data>
 			<key>hash2</key>
 			<data>
-			wH177bHl4PCibH2TooEuW1U84+pZ0P5aevgf/z+LyTs=
+			WB/VuiDe3HAK6v1kd6wjQhrsfRFdP7EBE7o7mysPm4Y=
 			</data>
 		</dict>
-		<key>Headers/FBJSONConversion.h</key>
+		<key>Headers/FBInstrumentsCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			SDQAIW8ztuJnUA/04SehuuLKGow=
-			</data>
 			<key>hash2</key>
 			<data>
-			xcEy2ak4OIBC3gjhfD/pLFMtMVR80i8bfzYwvZiruUg=
+			yBzJ3sxzi6AWWZg4ITBPjX09IvtexK4T+YknUEfy6bU=
 			</data>
 		</dict>
-		<key>Headers/FBJSONEnums.h</key>
+		<key>Headers/FBInstrumentsConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			qImn9haFAd7siSE/18VSBJW87LU=
-			</data>
 			<key>hash2</key>
 			<data>
-			HiV/xQndrCY24JC5hMtz9CJCKswsarCjn25zevujMQg=
+			yFGN0o1utnF0Tz0vFjAj5msJQBI54nrG44RPt3J+nNE=
 			</data>
 		</dict>
-		<key>Headers/FBLineBuffer.h</key>
+		<key>Headers/FBInstrumentsOperation.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			hSAaTcYj1b4sSlOwR40e7N+MJxw=
-			</data>
 			<key>hash2</key>
 			<data>
-			4JiHTxiVMnLCRsvrxsgQxzgmXw0TZwygQY+b2zhUhqI=
+			mAm5vMtj0QES5PibEAwK6Pv2xaVj+yYMARXuvsYjm4k=
 			</data>
 		</dict>
-		<key>Headers/FBLocalizationOverride.h</key>
+		<key>Headers/FBLaunchedProcess.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			YTpZqwJE1hviHiSL0V+DHhoPLs8=
-			</data>
 			<key>hash2</key>
 			<data>
-			LaU1KMoWzoSgzC33dixAw8NTXA+lOkcliMUb250RTdo=
+			+lUYl+DwOv+aoXAW2FJ+XKo58xNinulPHPiNz+lwf/0=
+			</data>
+		</dict>
+		<key>Headers/FBLocationCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			jaNWfYmzgJNRYIYlM9ZkkLHdBAB8az1j2D1jJ/LO3KU=
 			</data>
 		</dict>
 		<key>Headers/FBLogCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			4byJY2vTGqUWT7zXJxYajENPJ0Y=
-			</data>
 			<key>hash2</key>
 			<data>
-			SJbbeefSyeeFKlXtSRHKtm2MWA0bwkhzDaH8ycmzC28=
+			1CIpa+gISB79HqeKntMWSIdBy6XEF2M2V6RyPo08bB8=
 			</data>
 		</dict>
-		<key>Headers/FBLogSearch.h</key>
+		<key>Headers/FBLoggingWrapper.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			NaX6HJDGe1ZHiM7BbJ0MvnJoqxE=
-			</data>
 			<key>hash2</key>
 			<data>
-			puJYv7wCJlN7VksMSuXusCCuKuKI0Zw+nXMaWfylKzs=
+			gZTa5DAIZMH6MGwY9Ba+wnxnvEpuUli5aClw6Uu6q90=
 			</data>
 		</dict>
-		<key>Headers/FBLogTailConfiguration.h</key>
+		<key>Headers/FBPowerCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			Rk/GUw+uA6JwOQDn6AH3SH1h9nY=
-			</data>
 			<key>hash2</key>
 			<data>
-			2zazslTz0r6cRBoC9JxcUpvqJ1D9mEVtujUxK3Os0vc=
-			</data>
-		</dict>
-		<key>Headers/FBPipeReader.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			sDGY2NlY91INP70UQPdLsGyZ4LU=
-			</data>
-			<key>hash2</key>
-			<data>
-			1DT9nBfA1VYa8wm8fG7uD1zZxGIWt8Qg6TC6KYMuaJg=
+			OHJtvcmDQRfQ9ncG3IUe5CYkpnenYpPaSM1Qoq8g7qI=
 			</data>
 		</dict>
 		<key>Headers/FBProcessFetcher+Helpers.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			/UPUgAPhfGST+QXTBx+NY015vsU=
-			</data>
 			<key>hash2</key>
 			<data>
-			FAuf48zaqjCHbDhTpA2HE6Rz8HyM9E8+/5Vf8yST/Eo=
+			vXPpu2z+wOtK7hPBshv0Vu9xNgkGxb06cvDc6p7kgOM=
 			</data>
 		</dict>
 		<key>Headers/FBProcessFetcher.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			tUBASWeXv3o1b6ASLcPgaLnjgnA=
-			</data>
 			<key>hash2</key>
 			<data>
-			VqyZm5dXHyin2CI6y6OEX/jrbG00jCW9VW630RPvDQI=
+			LIegbT6G+qcF9b9KooWj6Zj63idxa/nOT2zFqzjnKT8=
+			</data>
+		</dict>
+		<key>Headers/FBProcessIO.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			W0YM0Q4xhGLBh2BELbI6vNEWsM6hceVpg60J1wToaQU=
 			</data>
 		</dict>
 		<key>Headers/FBProcessInfo.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			8zYai/Cpb7uMQXdkT7i1BaxkpIU=
-			</data>
 			<key>hash2</key>
 			<data>
-			L699OiNCQia7Pm4+9sAAj17mWDnecr4UciRhs1Yqy9I=
+			FFAMgLZt3fLV8IUg5ccl0clyiOoQUUQsCHzN26Grm4k=
 			</data>
 		</dict>
 		<key>Headers/FBProcessLaunchConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			X+d/5zuEEXT3oWorCeM8KL3PN8Q=
-			</data>
 			<key>hash2</key>
 			<data>
-			7RElLF1Q/4tjG9C4muIIhuJZq1m/ycNDYDScP850mmU=
+			RHOcz61BrzJpgE+pqDyAh6MQQGqIPzPBfwlVSTjsyc4=
 			</data>
 		</dict>
 		<key>Headers/FBProcessOutputConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			3N6R7tASQjSOGfdFg2vbIBY3cgc=
-			</data>
 			<key>hash2</key>
 			<data>
-			KfOdA3/OLdMgYWyMcBxW0aKzyG1nYxY4D2dvTl6Va24=
+			pCQ9EVVxwdV/wGEK+tZfzpimNutR/4JAKHK0mjX+TYA=
+			</data>
+		</dict>
+		<key>Headers/FBProcessStream.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			5oj5WqUqdpy7agDzd4Fk5N2rxx9OF/UfwBYxP5FtK0Y=
 			</data>
 		</dict>
 		<key>Headers/FBProcessTerminationStrategy.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			azN5fQqlNsPMr+4qW7NuPiImqAM=
-			</data>
 			<key>hash2</key>
 			<data>
-			I2cPnZnhp17au6jBsYqONfh1XN6reJ3p36wDX+G2LYY=
+			7BybAa0alEEdGRPCBKG4D8/5asxFKe1q0pJqoNDRrF4=
 			</data>
 		</dict>
-		<key>Headers/FBReportingiOSActionReaderDelegate.h</key>
+		<key>Headers/FBProvisioningProfileCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			JD9emkyrX5szCU75NOejjVIyhco=
-			</data>
 			<key>hash2</key>
 			<data>
-			MWLWcwfdvfrCDG41zwJCD1XkANtm8m0EHj0ZoRzE8Dg=
-			</data>
-		</dict>
-		<key>Headers/FBRunLoopSpinner.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			LO09feZ2P5r37xdFjy0OYBKlynw=
-			</data>
-			<key>hash2</key>
-			<data>
-			yHohlr+KZc6BzRaPcY0imhLtcI7Y3+BGJ23HZdflqJU=
+			9n3FjkoT8maOqRXEw+F524+7jqYxs2ZPnLGyWLsB1KA=
 			</data>
 		</dict>
 		<key>Headers/FBScale.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			9brrRfN+lvj+0fAqG0Q/2wrmlzo=
-			</data>
 			<key>hash2</key>
 			<data>
-			H3GK7Qjr8oyiss54nUhiqb1e1l58pakUHC3k9ma84i0=
+			hDTrKwZQV7gsLgHDDSE66SRYohNNNwrIc41kwC73tJ4=
+			</data>
+		</dict>
+		<key>Headers/FBScreenshotCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			T5LmxnzCDk0uCDBpCTTE5V4jFgr98K5K5nJ6h6idNB0=
 			</data>
 		</dict>
 		<key>Headers/FBServiceManagement.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			ju+X0ZgpyWdQdxzHOJt7J1S+hvs=
-			</data>
 			<key>hash2</key>
 			<data>
-			F08HsMhx+EyxBQ5NaOGgS3w0I054SI1Sbyqb2+CI9TQ=
+			Ib+JeezLsJ3cmkEJYoD6jWb9BPXaanJiiB7Xy8zRluI=
 			</data>
 		</dict>
-		<key>Headers/FBSocketReader.h</key>
+		<key>Headers/FBSettingsCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			a8eg3ORcDbXM2mlZmXLI9doN+fE=
-			</data>
 			<key>hash2</key>
 			<data>
-			GKD8nhQ36feh9emGfr6xfGbksqMlfoQwhQ/IWmCPtCU=
+			bZ354196OQxrPss9ntAt3uccLKV1Xujj3XYbpz5uSis=
 			</data>
 		</dict>
 		<key>Headers/FBSocketServer.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			5EEZqXAcKDGxq8CexOLxrAtIYOg=
-			</data>
 			<key>hash2</key>
 			<data>
-			OVi1NFRnw/ErmXurPL9Z2hOOjO72AXKY3poDBAW36ZI=
+			T02oT7fpfzoqJbRzJwhqG9xTUZqkoh8mlxG9HccEQYo=
 			</data>
 		</dict>
-		<key>Headers/FBSocketWriter.h</key>
+		<key>Headers/FBTask+Helpers.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			1oniB8VbDk952jd2ZAMxmrlxRgw=
-			</data>
 			<key>hash2</key>
 			<data>
-			AhjVeXngmQgeOoULU3+Fw4w6v3/UjU50ZkLGkxVydBM=
-			</data>
-		</dict>
-		<key>Headers/FBSubject.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			iAFw92c0+L2+Lwk50uubLNrjj9U=
-			</data>
-			<key>hash2</key>
-			<data>
-			QAV0Yf/WKHFrp/fTA6nNrzttFz8R/p8nN/wyAtjwLj8=
-			</data>
-		</dict>
-		<key>Headers/FBSubstringUtilities.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			lKWSOdCj7AQpcNS+ROMPZMOiuv8=
-			</data>
-			<key>hash2</key>
-			<data>
-			y+DYfJ18h0rIGqaMmbeFvB8Pe1lvmpeB7wSVGV7Mv+I=
+			bGUKEBYpQguEZ3NoVEazxdHuyi7EWNFVFqfbxZWIEx4=
 			</data>
 		</dict>
 		<key>Headers/FBTask.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			Ncb3dFRZKgOio5OdremTqPsckRg=
-			</data>
 			<key>hash2</key>
 			<data>
-			vDUASEUQtMSBe+jXioVZ7QcXJ5JxRKrFdFZA+r1yNYk=
+			2itjuT5y1gNhQqPET9rjMpY3g8UdBGqJGfK77ZO4jZM=
 			</data>
 		</dict>
 		<key>Headers/FBTaskBuilder.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			vQIGHlISzkgE74GtFi/kei2lIa4=
-			</data>
 			<key>hash2</key>
 			<data>
-			ZoFLT1F0mc6Cmo3PZ5mzkNu7dISfwfCSIJ076qga+ig=
+			vkEZ0/KV8IbtZPVVMjHqkysNK8tr713Nt++YLTpe8Rc=
 			</data>
 		</dict>
-		<key>Headers/FBTerminationHandle.h</key>
+		<key>Headers/FBTestLaunchConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			tiZedpiDoIS+lJCfRikuvJiRGTk=
-			</data>
 			<key>hash2</key>
 			<data>
-			th5zteZ2OkQa8BK1BM8FwrlVB5w+pc+4hKde094YIYE=
-			</data>
-		</dict>
-		<key>Headers/FBUploadBuffer.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			/LV5MR305lwhpJxZY/crwpIPVvQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			CtMSP+m/kBKpmNlWC/TX3LZaucA76V4+hIDFoq3CIgQ=
+			QMbjcDo3noSPexNl92v0mYNftmsP3cBLxnvs3TQ7rIE=
 			</data>
 		</dict>
 		<key>Headers/FBVideoRecordingCommands.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			MHoT8FDqm/fCL6V20ozGFdUrezQ=
-			</data>
 			<key>hash2</key>
 			<data>
-			qNm2RiJV2fuvzHvxtpfjWyAFp2KUvaX/YmQYGAwHiv4=
+			V9P4DL+JSICAD2SI1WyiB5KrQk85W86sIEO1kSzFUaY=
+			</data>
+		</dict>
+		<key>Headers/FBVideoStream.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			sdwJHTYX9rC7N2dFGc1gSVL3NXZ/27ObkdmneoG0smE=
+			</data>
+		</dict>
+		<key>Headers/FBVideoStreamCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			pO1BA0IhfuW7wQH1Xc6KJpIAlmsF0h0PccK3NSI+rbA=
+			</data>
+		</dict>
+		<key>Headers/FBVideoStreamConfiguration.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			N/MKg285u/++qmA9FasJpdL7EHMBfT/CrM7oWyFxhMk=
 			</data>
 		</dict>
 		<key>Headers/FBWeakFramework+ApplePrivateFrameworks.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			78R1C1vIhvEvdUJ1AHUuCVcG2mM=
-			</data>
 			<key>hash2</key>
 			<data>
-			1JBXFuqZKPCZFBnyeJXoJjvcZQlmnVYH6AJptcxf2dk=
+			NC7uB94WdSrIM8qkE7Tn5GOB06uSLSaEzo/SjD7PTyk=
 			</data>
 		</dict>
 		<key>Headers/FBWeakFramework.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			inyiswQO1hntStjh8ekyCOm98vw=
-			</data>
 			<key>hash2</key>
 			<data>
-			44ufsUV6gLsZV1M2sHDRv55WHGw8yBmfHrf857cAD9E=
+			6TcxZKhKg44r6tnH6aBEV+RFe327OmOEkS9ML2dPI+k=
 			</data>
 		</dict>
 		<key>Headers/FBWeakFrameworkLoader.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			6hVh3ihg85iMHjGIY290h5RxDeA=
-			</data>
 			<key>hash2</key>
 			<data>
-			8GN+xOuKXhxngUAnAASpHPloKeobLtullro6gYKGv6g=
+			o8ORF1wjaCtHTnlZ2d+tzWzfS1Nl3RMGgHhghNT0hwQ=
+			</data>
+		</dict>
+		<key>Headers/FBXCTestCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+xEb/5mkE14rKSe2PmUzRqM59qd10k/FhupUhwMSNos=
+			</data>
+		</dict>
+		<key>Headers/FBXCTestShimConfiguration.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			RwB3g8c8OIGumfqdZ3HEgNdbU2gdo9g6lTL642TEGOc=
+			</data>
+		</dict>
+		<key>Headers/FBXCTraceConfiguration.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			spbsmdAxm3GvBLElG9vEv3qISVSKwuTVJQg6NTdDB5E=
+			</data>
+		</dict>
+		<key>Headers/FBXCTraceOperation.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			tjh+POAsy0H/XF4gwRKl2dTvOsA4qTbLmnMjdMYl640=
+			</data>
+		</dict>
+		<key>Headers/FBXCTraceRecordCommands.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			EyJFKoD7NxVHZeWshZey9vGK1tctAjXPCeNnqiC2mIs=
 			</data>
 		</dict>
 		<key>Headers/FBXcodeConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			JfKWLbCSW7BqwfFgTJxMGX5sluE=
-			</data>
 			<key>hash2</key>
 			<data>
-			afLQn4iB3QL3mGdjDk0U87e4aCH+ly+xGp4VESqre/c=
+			wiBFdT+jTV1PmP9KQq0uNIr+u9CY5nrcpwOjRbcLFCs=
 			</data>
 		</dict>
 		<key>Headers/FBXcodeDirectory.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			HXiMmY5MwO8NYJl4K339fMlum3g=
-			</data>
 			<key>hash2</key>
 			<data>
-			eQLWSVnohJ5/vHZ4iDa6wSQB9EJTYhHw30w7pao9oTs=
-			</data>
-		</dict>
-		<key>Headers/FBiOSActionReader.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			RnrqMQvIeYV+CQWZdglcjWfKiqY=
-			</data>
-			<key>hash2</key>
-			<data>
-			CY9RKK/9aIqIeeTSePQi21pOwOu/1pbEuTlo1UJSGLA=
-			</data>
-		</dict>
-		<key>Headers/FBiOSActionRouter.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			exoe5fkJGSsGqZozmfSafAQmwNQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			l4i3UVgxn8J+Vq9CVkDA8Xp7tmvz2Varrx7Snti9pOw=
+			tXBJFrkzUbc4L+ZFXo3o8ux7LSbXOseriX4H9ZmTm0U=
 			</data>
 		</dict>
 		<key>Headers/FBiOSTarget.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			1Ab/YcsaTX9ALWcdxvxO028TQSI=
-			</data>
 			<key>hash2</key>
 			<data>
-			JFnwaLGJ4mhzaN3i8M4dm/6FZ9Zqupcq3Vd57BHbO6I=
+			1f4bcIWy8W1d87QEaFZ12cQF4ev1GReEceWHc39A7/g=
 			</data>
 		</dict>
-		<key>Headers/FBiOSTargetAction.h</key>
+		<key>Headers/FBiOSTargetCommandForwarder.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			4Vkw4nHyaipo90yZ1yeWWj6tt0o=
-			</data>
 			<key>hash2</key>
 			<data>
-			msgFwCFo8dOsTHZlJPvR3Jl4dDRn83Jx974DvwdOZsc=
+			PKhX1s83Ny9KAqqPIn53Oxm1fr6Kr67bx9agT3KiWvI=
 			</data>
 		</dict>
-		<key>Headers/FBiOSTargetDiagnostics.h</key>
+		<key>Headers/FBiOSTargetConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			2v/QiY96dAUtmdz8fDMpdCSVd5U=
-			</data>
 			<key>hash2</key>
 			<data>
-			RzZeK+EczWwNE+ZXtQvrY94AlCa/THB3FAaKuY5tOXc=
+			K9xJumWU00q4W5gODv87b3F9embhZ4ZxRs8jtWEdx8k=
 			</data>
 		</dict>
 		<key>Headers/FBiOSTargetFormat.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			Nfh9nWGs0bc3yZSxkzXwcfaz5Cw=
-			</data>
 			<key>hash2</key>
 			<data>
-			UvF7Fsa9y0yk7b3mBEg0GPx2OnzvrHfArBFGcLzXYP0=
+			5wM3TOiBD6cWzvjfgcJ3Gil/rA8GolRZa2gXGdJHaOI=
+			</data>
+		</dict>
+		<key>Headers/FBiOSTargetOperation.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			gWO96Zh76CQXFJfWbhRObG2jEaFOEIWrq+0QBZaTmhg=
 			</data>
 		</dict>
 		<key>Headers/FBiOSTargetPredicates.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			cEQyRTqHP9DoI84hyEdunz6yy+E=
-			</data>
 			<key>hash2</key>
 			<data>
-			Pefc3sN0SX+gT4okmtx37eoAnnUbGNlJuhrAoDzVhvo=
+			JktUMZn9rbkyuVBuY5VqWVbnDDnMrBtXWrcT5s2yhi0=
 			</data>
 		</dict>
 		<key>Headers/FBiOSTargetQuery.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			W/91DmU0zECyl4WIpqHBn2MeOng=
-			</data>
 			<key>hash2</key>
 			<data>
-			BcpUnzSVRWFIwGz76s5N65fg6rFt4YsSPxk29wI8awg=
+			KiS2GWTAIbcpKMGj6TVWfnPYuh9r+Q+CxZE2JxOh/IM=
+			</data>
+		</dict>
+		<key>Headers/FBiOSTargetSet.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Vg4b+SR2fog+bvm7M0k59UHiPOGlSdHHqPHgtifoC0A=
 			</data>
 		</dict>
 		<key>Headers/NSPredicate+FBControlCore.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			ELDuXpAV8CRt/9s30qb5NqOj0C0=
-			</data>
 			<key>hash2</key>
 			<data>
-			cA5Ma5zh0xL8LEF8wmkU/b9Yg9z8kM7i+YXMtPYIxRQ=
+			0Xvxf5R5vZLdL/bXISLRqlN2mJe5js5og8KPq4/NYbY=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			2MqBlxeUawaWALS2UofrWin3mjk=
-			</data>
 			<key>hash2</key>
 			<data>
 			GrYzcfCV4wPUqKFYMWjOaJCgSg0vnS+ms5yBTGn/ePU=
@@ -935,13 +650,9 @@
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			4WNhrRybTS3eYAOhgfKx+0rMUL8=
-			</data>
 			<key>hash2</key>
 			<data>
-			al4ffvYiL75bhJViW0bc64N1GIimw25cbu7GLB4ARLw=
+			1BFbitFmu1pzxX5zqkXUvVrD9MyB7besujnd9+24RuM=
 			</data>
 		</dict>
 	</dict>

@@ -1,13 +1,13 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
+
+#import <FBControlCore/FBFuture.h>
 
 #import <sys/socket.h>
 #import <netinet/in.h>
@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FBSocketServer : NSObject
 
+#pragma mark Initializers
+
 /**
  Creates and returns a socket reader for the provided port and consumer.
 
@@ -30,21 +32,35 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)socketServerOnPort:(in_port_t)port delegate:(id<FBSocketServerDelegate>)delegate;
 
+#pragma mark Properties
+
+/**
+ The Port the Server is Bound on
+ */
+@property (nonatomic, assign, readonly) in_port_t port;
+
+#pragma mark Public Methods
+
 /**
  Create and Listen to the socket.
 
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+ @return A future that resolves when listening has started.
  */
-- (BOOL)startListeningWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)startListening;
 
 /**
  Stop listening to the socket
 
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+ @return A future that resolves when listening has ended.
  */
-- (BOOL)stopListeningWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)stopListening;
+
+/**
+ Starts the socket server, managed by a context manager
+
+ @return a FBFutureContext that will stop listening when the context is torn down.
+ */
+- (FBFutureContext<NSNull *> *)startListeningContext;
 
 @end
 
@@ -55,16 +71,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Called when the socket server has a new client connected.
- The File Handle return will close on deallocation so it is up to consumers to retain it.
+ The File Descriptor will not be automatically be closed, so it's up to implementors to ensure that this happens so file descriptors do not leak.
+ If you wish to reject the connection, close the file handle immediately.
 
  @param server the socket server.
  @param address the IP Address of the connected client.
- @param fileHandle the file handle of the connected socket.
+ @param fileDescriptor the file descriptor of the connected socket.
  */
-- (void)socketServer:(FBSocketServer *)server clientConnected:(struct in6_addr)address handle:(NSFileHandle *)fileHandle;
+- (void)socketServer:(FBSocketServer *)server clientConnected:(struct in6_addr)address fileDescriptor:(int)fileDescriptor;
 
 /**
- The Queue to call the delegate on.
+ The Queue on which the Delegate will be called.
+ This may be a serial or a concurrent queue.
  */
 @property (nonatomic, strong, readonly) dispatch_queue_t queue;
 

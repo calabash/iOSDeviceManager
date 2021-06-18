@@ -1,24 +1,25 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-@class FBSimulator;
-@class FBSimulatorSet;
-@protocol FBControlCoreLogger;
+#import <FBControlCore/FBControlCore.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class FBSimulator;
+@class FBSimulatorSet;
 
 /**
  A class for terminating Simulators.
  */
 @interface FBSimulatorTerminationStrategy : NSObject
+
+#pragma mark Initializers
 
 /**
  Creates a FBSimulatorTerminationStrategy using the provided configuration.
@@ -28,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)strategyForSet:(FBSimulatorSet *)set;
 
+#pragma mark Public Methods
+
 /**
  Kills the provided Simulators.
  This call ensures that all of the Simulators:
@@ -35,24 +38,22 @@ NS_ASSUME_NONNULL_BEGIN
  2) Have the appropriate SimDevice state at 'Shutdown'
 
  @param simulators the Simulators to Kill.
- @param error an error out if any error occured.
- @return an array of the Simulators that this were killed if successful, nil otherwise.
+ @return A future that wraps an array of the Simulators that were killed.
  */
-- (nullable NSArray<FBSimulator *> *)killSimulators:(NSArray<FBSimulator *> *)simulators error:(NSError **)error;
+- (FBFuture<NSArray<FBSimulator *> *> *)killSimulators:(NSArray<FBSimulator *> *)simulators;
 
 /**
  Kills all of the Simulators that are not launched by `FBSimulatorControl`.
- This can mean Simulators that werelaunched via Xcode or Instruments.
+ This can mean Simulators that were launched via Xcode or Instruments.
  Getting a Simulator host into a clean state improves the general reliability of Simulator management and launching.
  In addition, performance should increase as these Simulators won't take up any system resources.
 
  To make the runtime environment more predicatable, it is best to avoid using FBSimulatorControl in conjuction with tradition Simulator launching systems at the same time.
  This method will not kill Simulators that are launched by FBSimulatorControl in another, or the same process.
 
- @param error an error out if any error occured.
- @return an YES if successful, nil otherwise.
+ @return A future that resolves when the simulators are killed.
  */
-- (BOOL)killSpuriousSimulatorsWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)killSpuriousSimulators;
 
 @end
 

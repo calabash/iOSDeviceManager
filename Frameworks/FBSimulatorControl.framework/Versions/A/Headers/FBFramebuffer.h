@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -13,90 +11,87 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBFramebufferConfiguration;
-@class FBFramebufferSurface;
-@class FBSimulator;
-@class FBSimulatorImage;
-@class FBSimulatorVideo;
 @class SimDeviceFramebufferService;
-@protocol FBFramebufferFrameSink;
-@protocol FBFramebufferSurfaceConsumer;
+
+@protocol SimDisplayDamageRectangleDelegate;
+@protocol SimDisplayIOSurfaceRenderableDelegate;
+@protocol SimDeviceIOPortConsumer;
+@protocol SimDeviceIOProtocol;
 
 /**
- A container and client for a Simulator's Framebuffer.
- The Framebuffer is a representation of a Simulator's Screen, exposed as public API.
- By default there are the default 'video' and 'image' components that allow access to a video encoder and image representation respectively.
-
- It is also possible to attach to a Framebuffer in two ways:
- 1) Connecting using an FBFramebufferSurfaceConsumer. This allows consumption of an IOSurface backing the Simulator as well as events for damage rectangles.
- 2) Connecting using a FBFramebufferFrameSink. This will internally generate an FBFramebufferFrame object, suitable for further consumption.
+ A Consumer of a Framebuffer.
  */
-@interface FBFramebuffer : NSObject <FBJSONSerializable>
+@protocol FBFramebufferConsumer <NSObject>
+
+/**
+ Called when an IOSurface becomes available or invalid
+
+ @param surface the surface, or NULL if a surface is not available/becomes unavailable
+ */
+- (void)didChangeIOSurface:(nullable IOSurfaceRef)surface;
+
+/**
+ When a Damage Rect becomes available.
+
+ @param rect the damage rectangle.
+ */
+- (void)didReceiveDamageRect:(CGRect)rect;
+
+/**
+ The Identifier of the Consumer.
+ */
+@property (nonatomic, copy, readonly) NSString *consumerIdentifier;
+
+@end
+
+/**
+ Provides a Framebuffer to interested consumers, wrapping the underlying implementation.
+ */
+@interface FBFramebuffer : NSObject
 
 #pragma mark Initializers
 
 /**
- Creates and returns a FBFramebuffer.
+ Obtains an IOSurface from the SimDeviceIOClient.
 
- @param framebufferService the SimDeviceFramebufferService to connect to.
- @param configuration the configuration of the Framebuffer.
- @param simulator the Simulator to which the Framebuffer belongs.
- @return a new FBSimulatorDirectLaunch instance. Must not be nil.
+ @param ioClient the IOClient to attach to.
+ @param logger the logger to log to.
+ @return a new FBFramebuffer.
  */
-+ (instancetype)framebufferWithService:(SimDeviceFramebufferService *)framebufferService configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
-
-/**
- Creates and returns a FBFramebuffer.
-
- @param surface the Renderable to connect to.
- @param configuration the configuration of the Framebuffer.
- @param simulator the Simulator to which the Framebuffer belongs.
- @return a new FBSimulatorDirectLaunch instance. Must not be nil.
- */
-+ (instancetype)framebufferWithRenderable:(FBFramebufferSurface *)surface configuration:(FBFramebufferConfiguration *)configuration simulator:(FBSimulator *)simulator;
++ (nullable instancetype)mainScreenSurfaceForClient:(id<SimDeviceIOProtocol>)ioClient logger:(id<FBControlCoreLogger>)logger error:(NSError **)error;
 
 #pragma mark Public Methods
 
 /**
- Causes the Framebuffer to Tear Down.
- Must only be called from the main queue.
- A dispatch_group is provided to allow for delegates to append any asychronous operations that may need cleanup.
- For example in the case of the Video Recorder, this means completing the writing to file.
+ Attaches a Consumer.
+ The Consumer will be called on the provided queue.
 
- @param teardownGroup the dispatch_group to append asynchronous operations to.
+ @param consumer the consumer to attach.
+ @param queue the queue to notify the consumer on.
+ @return A Surface is one is *immediately* available. This is not mutually exclusive the consumer being called on a queue.
  */
-- (void)teardownWithGroup:(dispatch_group_t)teardownGroup;
+- (nullable IOSurfaceRef)attachConsumer:(id<FBFramebufferConsumer>)consumer onQueue:(dispatch_queue_t)queue;
 
 /**
- Attaches a Frame Sink
+ Detaches a Consumer.
+ The Consumer will be called on the provided queue.
 
- @param frameSink the Frame Sink to attach.
+ @param consumer the consumer to attach.
  */
-- (void)attachFrameSink:(id<FBFramebufferFrameSink>)frameSink;
+- (void)detachConsumer:(id<FBFramebufferConsumer>)consumer;
 
 /**
- Detaches a Frame Sink
-
- @param frameSink the Frame Sink to detach.
+ An Array of all attached consumers
  */
-- (void)detachFrameSink:(id<FBFramebufferFrameSink>)frameSink;
-
-#pragma mark Properties
+- (NSArray<id<FBFramebufferConsumer>> *)attachedConsumers;
 
 /**
- The FBSimulatorVideo instance owned by the receiver.
- */
-@property (nonatomic, strong, readonly) FBSimulatorVideo *video;
+ Queries if the consumer is attached.
 
-/**
- The FBSimulatorImage instance owned by the receiver.
+ @param consumer the consumer to use.
+ @return YES if attached, NO otherwise.
  */
-@property (nonatomic, strong, readonly) FBSimulatorImage *image;
-
-/**
- The FBFramebufferSurface owned by the reciever, if supported.
- */
-@property (nonatomic, strong, nullable, readonly) FBFramebufferSurface *surface;
+- (BOOL)isConsumerAttached:(id<FBFramebufferConsumer>)consumer;
 
 @end
 

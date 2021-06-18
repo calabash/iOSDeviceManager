@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -51,29 +49,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)loggerInDirectory:(NSString *)directory name:(NSString *)name;
 
 /**
- Returns the last n lines of logger output, for debugging purposes.
-
- @param lineCount the number of lines to output.
- @return the output, if it could be fetched.
- */
-- (nullable NSString *)lastLinesOfOutput:(NSUInteger)lineCount;
-
-/**
- Returns all the lines of logger output, for debugging purposes.
-
- @return the output, if it could be fetched.
- */
-- (nullable NSString *)allLinesOfOutput;
-
-/**
  Logs the Consumption of the consumer to a file
 
  @param consumer the consumer to wrap.
  @param outputKind kind of output that is written.
  @param uuid a UUID to identify the current invocation.
- @return a new consumer, which also logs to the log directory.
+ @param logger the logger to log the mirrored path to.
+ @return a Future that resolves with the new consumer.
  */
-- (id<FBFileConsumer>)logConsumptionToFile:(id<FBFileConsumer>)consumer outputKind:(NSString *)outputKind udid:(NSUUID *)uuid;
+- (FBFuture<id<FBDataConsumer, FBDataConsumerLifecycle>> *)logConsumptionToFile:(id<FBDataConsumer>)consumer outputKind:(NSString *)outputKind udid:(NSUUID *)uuid logger:(id<FBControlCoreLogger>)logger;
 
 @end
 

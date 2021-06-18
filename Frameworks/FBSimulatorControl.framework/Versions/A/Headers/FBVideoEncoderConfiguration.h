@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -19,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  Options for FBSimulatorVideo.
  */
 typedef NS_OPTIONS(NSUInteger, FBVideoEncoderOptions) {
-  FBVideoEncoderOptionsAutorecord = 1 << 0, /** If Set, will automatically start recording when the first video frame is recieved. **/
+  FBVideoEncoderOptionsAutorecord = 1 << 0, /** If Set, will automatically start recording when the first video frame is received. **/
   FBVideoEncoderOptionsImmediateFrameStart = 1 << 1, /** If Set, will start recording a video immediately, using the previously delivered frame **/
   FBVideoEncoderOptionsFinalFrame = 1 << 2, /** If Set, will repeat the last frame just before a video is stopped **/
 };
@@ -27,7 +25,7 @@ typedef NS_OPTIONS(NSUInteger, FBVideoEncoderOptions) {
 /**
  Configuration for the Built In Video Encoder.
  */
-@interface FBVideoEncoderConfiguration : NSObject <NSCopying, FBJSONDeserializable, FBJSONSerializable>
+@interface FBVideoEncoderConfiguration : NSObject <NSCopying>
 
 #pragma mark Properties
 
@@ -59,13 +57,13 @@ typedef NS_OPTIONS(NSUInteger, FBVideoEncoderOptions) {
 #pragma mark Defaults & Initializers
 
 /**
- The Default Value of FBFramebufferConfiguration.
+ The Default Value of FBVideoEncoderConfiguration.
  Uses Reasonable Defaults.
  */
 + (instancetype)defaultConfiguration;
 
 /**
- The Default Value of FBFramebufferConfiguration.
+ The Default Value of FBVideoEncoderConfiguration.
  Use this in preference to 'defaultConfiguration' if video encoding is problematic.
  */
 + (instancetype)prudentConfiguration;
@@ -101,8 +99,6 @@ typedef NS_OPTIONS(NSUInteger, FBVideoEncoderOptions) {
  */
 - (instancetype)withFilePath:(NSString *)filePath;
 + (instancetype)withFilePath:(NSString *)filePath;
-- (instancetype)withDiagnostic:(FBDiagnostic *)diagnostic;
-+ (instancetype)withDiagnostic:(FBDiagnostic *)diagnostic;
 
 #pragma mark File Type
 

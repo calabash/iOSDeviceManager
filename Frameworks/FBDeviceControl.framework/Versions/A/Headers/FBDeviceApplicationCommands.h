@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -19,14 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
  An Implementation of FBApplicationCommands for Devices
  */
 @interface FBDeviceApplicationCommands : NSObject <FBApplicationCommands>
-
-/**
- The Designated Initializers.
-
- @param device the Device to use.
- @return an implemented of FBApplicationCommands.
- */
-+ (instancetype)commandsWithDevice:(FBDevice *)device;
 
 @end
 

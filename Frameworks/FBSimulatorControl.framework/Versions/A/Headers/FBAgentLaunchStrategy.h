@@ -1,31 +1,19 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBControlCore.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class FBAgentLaunchConfiguration;
-@class FBProcessInfo;
 @class FBSimulator;
 @class FBSimulatorAgentOperation;
-@protocol FBFileConsumer;
-
-/**
- The Callback when an Agent process terminates.
-
- The parameter to the block is an integer from waitpid(2).
- This is a bitmasked integer, so information about the exit of the process
- can be obtained using the macros defined in <sys/wait.h>
- The details of these macros are documented in the manpage for waitpid.
- */
-typedef void (^FBAgentTerminationHandler)(int stat_loc);
 
 /**
  A Strategy for Launching Agents on a Simulator.
@@ -45,58 +33,30 @@ typedef void (^FBAgentTerminationHandler)(int stat_loc);
 #pragma mark Long-Running Processes
 
 /**
- Launches an agent with the given configuration.
+ Launches a long-running process with the given configuration.
 
  @param agentLaunch the agent to launch.
- @param error an error out for any error that occurs.
- @return an Agent Operation wrapper, nil on failure.
+ @return an Agent Launch Operation, wrapped in a future.
  */
-- (nullable FBSimulatorAgentOperation *)launchAgent:(FBAgentLaunchConfiguration *)agentLaunch error:(NSError **)error;
-
-/**
- Launches an agent with the given configuration.
-
- @param agentLaunch the agent to launch.
- @param terminationHandler the Termnation Handler to call when the process has terminated.
- @param error an error out for any error that occurs.
- @return an Agent Operation wrapper, nil on failure.
- */
-- (nullable FBSimulatorAgentOperation *)launchAgent:(FBAgentLaunchConfiguration *)agentLaunch terminationHandler:(nullable FBAgentTerminationHandler)terminationHandler error:(NSError **)error;
-
-/**
- Launches an agent with the provided parameters.
-
- @param launchPath to the executable to launch.
- @param arguments the arguments.
- @param environment the environment
- @param waitForDebugger YES if the process should be launched waiting for a debugger to attach. NO otherwise.
- @param stdOut the stdout to use, may be nil.
- @param stdErr the stderr to use, may be nil.
- @param error an error out for any error that occurs.
- @return the Process Info of the launched agent, nil if there was a failure.
- */
-- (nullable FBProcessInfo *)launchAgentWithLaunchPath:(NSString *)launchPath arguments:(NSArray<NSString *> *)arguments environment:(NSDictionary<NSString *, NSString *> *)environment waitForDebugger:(BOOL)waitForDebugger stdOut:(nullable NSFileHandle *)stdOut stdErr:(nullable NSFileHandle *)stdErr terminationHandler:(nullable FBAgentTerminationHandler)terminationHandler error:(NSError **)error;
+- (FBFuture<FBSimulatorAgentOperation *> *)launchAgent:(FBAgentLaunchConfiguration *)agentLaunch;
 
 #pragma mark Short-Running Processes
 
 /**
- Launches an agent, consuming it's output with the consumer.
+ Launches a short-running process with the given configuration.
 
- @param agentLaunch the configuration for launching the process. The 'output' of the configuration will be ignored.
- @param consumer the consumer to consume with.
- @param error an error out for any error that occurs.
- @return the stdout of the launched process, nil on error.
+ @param agentLaunch the agent to launch.
+ @return the stat_loc exit of the process, wrapped in a Future.
  */
-- (BOOL)launchAndWait:(FBAgentLaunchConfiguration *)agentLaunch consumer:(id<FBFileConsumer>)consumer error:(NSError **)error;
+- (FBFuture<NSNumber *> *)launchAndNotifyOfCompletion:(FBAgentLaunchConfiguration *)agentLaunch;
 
 /**
  Launches an agent, consuming it's output and returning it as a String.
 
  @param agentLaunch the configuration for launching the process. The 'output' of the configuration will be ignored.
- @param error an error out for any error that occurs.
- @return the stdout of the launched process, nil on error.
+ @return A future that wraps the stdout of the launched process.
  */
-- (nullable NSString *)launchConsumingStdout:(FBAgentLaunchConfiguration *)agentLaunch error:(NSError **)error;
+- (FBFuture<NSString *> *)launchConsumingStdout:(FBAgentLaunchConfiguration *)agentLaunch;
 
 @end
 

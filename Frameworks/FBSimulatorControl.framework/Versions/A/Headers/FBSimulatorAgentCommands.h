@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -20,16 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Commands relating to the launching of Agents on a Simulator.
  */
-@protocol FBSimulatorAgentCommands <NSObject>
+@protocol FBSimulatorAgentCommands <NSObject, FBiOSTargetCommand>
 
 /**
  Launches the provided Agent with the given Configuration.
 
  @param agentLaunch the Agent Launch Configuration to Launch.
- @param error an error out, for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @return A future wrapping the Agent Operation.
  */
-- (nullable FBSimulatorAgentOperation *)launchAgent:(FBAgentLaunchConfiguration *)agentLaunch error:(NSError **)error;
+- (FBFuture<FBSimulatorAgentOperation *> *)launchAgent:(FBAgentLaunchConfiguration *)agentLaunch;
 
 @end
 
@@ -37,14 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
  An Implementation of FBSimulatorAgentCommands.
  */
 @interface FBSimulatorAgentCommands : NSObject <FBSimulatorAgentCommands>
-
-/**
- The Designated Intializer
-
- @param simulator the Simulator.
- @return a new Simulator Agent Commands Instance.
- */
-+ (instancetype)commandsWithSimulator:(FBSimulator *)simulator;
 
 @end
 

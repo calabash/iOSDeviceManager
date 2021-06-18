@@ -1,69 +1,76 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBJSONConversion.h>
-
 NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString *FBBinaryArchitecture NS_STRING_ENUM;
+
+extern FBBinaryArchitecture const FBBinaryArchitecturei386;
+extern FBBinaryArchitecture const FBBinaryArchitecturex86_64;
+extern FBBinaryArchitecture const FBBinaryArchitectureArm;
+extern FBBinaryArchitecture const FBBinaryArchitectureArm64;
 
 /**
  Concrete value wrapper around a binary artifact.
  */
-@interface FBBinaryDescriptor : NSObject <NSCopying, FBJSONSerializable, FBJSONDeserializable>
+@interface FBBinaryDescriptor : NSObject <NSCopying>
+
+#pragma mark Initializers
 
 /**
  The Designated Initializer.
 
  @param name The name of the executable. Must not be nil.
+ @param architectures The supported architectures of the executable. Must not be nil.
+ @param uuid the LC_UUID of the binary.
  @param path The path to the executable. Must not be nil.
- @param architectures The supported architectures of the executable. Must not be nil.
- @returns a new FBBinaryDescriptor instance.
+ @return a new FBBinaryDescriptor instance.
  */
-- (instancetype)initWithName:(NSString *)name path:(NSString *)path architectures:(NSSet *)architectures;
+- (instancetype)initWithName:(NSString *)name architectures:(NSSet<FBBinaryArchitecture> *)architectures uuid:(nullable NSUUID *)uuid path:(NSString *)path;
 
 /**
- An initializer for FBBinaryDescriptor that checks the nullability of the arguments
+ Returns the FBBinaryDescriptor for the given binary path, by parsing the binary.
 
- @param name The name of the executable. May be nil.
- @param path The path to the executable. May be nil.
- @param architectures The supported architectures of the executable. Must not be nil.
- @returns a new FBBinaryDescriptor instance, if all arguments are non-nil. Nil otherwise.
+ @param path the path to the binary.
+ @param error an error out for any error that occurs.
+ @return a Binary Descriptor, if one could be parsed.
  */
-+ (nullable instancetype)withName:(NSString *)name path:(NSString *)path architectures:(NSSet *)architectures;
++ (nullable instancetype)binaryWithPath:(NSString *)path error:(NSError **)error;
+
+#pragma mark Properties
 
 /**
- The Name of the Executable.
+ The name of the executable.
  */
 @property (nonatomic, copy, readonly) NSString *name;
 
 /**
- The File Path to the Executable.
+ The Supported Architectures of the Executable.
+ */
+@property (nonatomic, copy, readonly) NSSet<FBBinaryArchitecture> *architectures;
+
+/**
+ The LC_UUID of the binary (if present)
+ */
+@property (nonatomic, copy, nullable, readonly) NSUUID *uuid;
+
+/**
+ The file path to the executable.
  */
 @property (nonatomic, copy, readonly) NSString *path;
 
-/**
- The Supported Architectures of the Executable.
- */
-@property (nonatomic, copy, readonly) NSSet *architectures;
-
-@end
+#pragma mark Public Methods
 
 /**
- Conveniences for building FBBinaryDescriptor instances
+ Obtain the rpaths in the binary.
  */
-@interface FBBinaryDescriptor (Helpers)
-
-/**
- Returns the FBBinaryDescriptor for the given binary path
- */
-+ (nullable instancetype)binaryWithPath:(NSString *)path error:(NSError **)error;
+- (nullable NSArray<NSString *> *)rpathsWithError:(NSError **)error;
 
 @end
 

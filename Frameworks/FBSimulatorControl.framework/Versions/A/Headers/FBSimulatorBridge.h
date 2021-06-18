@@ -1,37 +1,34 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
 #import <FBControlCore/FBControlCore.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class FBApplicationLaunchConfiguration;
 @class FBSimulator;
-
-NS_ASSUME_NONNULL_BEGIN
 
 /**
  Wraps the 'SimulatorBridge' Connection and Protocol
  */
-@interface FBSimulatorBridge : NSObject <FBJSONSerializable>
+@interface FBSimulatorBridge : NSObject
 
 #pragma mark Initializers
 
 /**
  Creates and Returns a SimulatorBridge for the attaching to the provided Simulator.
- Fails if the connection could not established.
+ The future will fail if the connection could not established.
 
  @param simulator the Simulator to attach to.
- @param error an error out for any error that occurs.
- @return a FBSimulatorBridge object on success, nil otherwise.
+ @return a FBSimulatorBridge wrapped in a Future.
  */
-+ (nullable instancetype)bridgeForSimulator:(FBSimulator *)simulator error:(NSError **)error;
++ (FBFuture<FBSimulatorBridge *> *)bridgeForSimulator:(FBSimulator *)simulator;
 
 /**
  Should be called when the connection to the remote bridge should be disconnected.
@@ -41,36 +38,48 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Interacting with the Simulator
 
 /**
- The Acessibility Elements.
-
- @return the Available Accessibility Elements.
- */
-- (NSArray<NSDictionary<NSString *, id> *> *)accessibilityElements;
-
-/**
- Enables Accessibility on the Simulator.
- */
-- (void)enableAccessibility;
-
-/**
  Sets latitude and longitude of the Simulator.
  The behaviour of a directly-launched Simulator differs from Simulator.app slightly, in that the location isn't automatically set.
  Simulator.app will typically set a location from NSUserDefaults, so Applications will have a default location.
 
  @param latitude the latitude of the location.
  @param longitude the longitude of the location.
+ @return a Future that resolves when the location has been sent.
  */
-- (void)setLocationWithLatitude:(double)latitude longitude:(double)longitude;
+- (FBFuture<NSNull *> *)setLocationWithLatitude:(double)latitude longitude:(double)longitude;
 
 /**
- Launches an Application.
+ Enables Accessibility on the Simulator.
 
- @param configuration the Configuration of the App to Launch,
- @param stdOutPath the Path of a File to write stdout to.
- @param stdErrPath the path of a File to write stderr to.
- @return the Process Identifeir of the Launched Application if successful, -1 otherwise.
+ @return a future that resolves when accessibility has been enabled.
  */
-- (pid_t)launch:(FBApplicationLaunchConfiguration *)configuration stdOutPath:(nullable NSString *)stdOutPath stdErrPath:(nullable NSString *)stdErrPath error:(NSError **)error;
+- (FBFuture<NSNull *> *)enableAccessibility;
+
+/**
+ The Acessibility Elements.
+ Obtain the acessibility elements for the main screen.
+ The returned value is fully JSON serializable.
+
+ @return the accessibility elements for the main screen, wrapped in a Future.
+ */
+- (FBFuture<NSArray<NSDictionary<NSString *, id> *> *> *)accessibilityElements;
+
+/**
+ Obtain the acessibility element for the main screen at the given point.
+ The returned value is fully JSON serializable.
+
+ @param point the coordinate at which to obtain the accessibility element.
+ @return the accessibility element at the provided point, wrapped in a Future.
+ */
+- (FBFuture<NSDictionary<NSString *, id> *> *)accessibilityElementAtPoint:(CGPoint)point;
+
+/**
+ Enables or disables the hardware keyboard.
+
+ @param enabled YES if enabled, NO if disabled.
+ @return a Future that resolves when successful.
+ */
+- (FBFuture<NSNull *> *)setHardwareKeyboardEnabled:(BOOL)enabled;
 
 @end
 

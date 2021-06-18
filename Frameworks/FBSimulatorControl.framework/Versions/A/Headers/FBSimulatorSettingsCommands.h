@@ -1,74 +1,72 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBControlCore.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBApplicationBundle;
-@class FBLocalizationOverride;
+@class FBBundleDescriptor;
 @class FBSimulator;
-@class FBSimulatorBootConfiguration;
 
 /**
  Modifies the Settings, Preferences & Defaults of a Simulator.
  */
-@protocol FBSimulatorSettingsCommands <NSObject>
+@protocol FBSimulatorSettingsCommands <NSObject, FBiOSTargetCommand>
 
 /**
- Overrides the Global Localization of the Simulator.
+ Enables or disables the hardware keyboard.
 
- @param localizationOverride the Localization Override to set.
- @param error an error out for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @param enabled YES if enabled, NO if disabled.
+ @return a Future that resolves when successful.
  */
-- (BOOL)overridingLocalization:(FBLocalizationOverride *)localizationOverride error:(NSError **)error;
+- (FBFuture<NSNull *> *)setHardwareKeyboardEnabled:(BOOL)enabled;
 
 /**
- Authorizes the Location Settings for the provided bundleIDs
+ Sets the Locale, by Locale Identifier
 
- @param bundleIDs an NSArray<NSString> of bundle IDs to to authorize location settings for.
- @param error an error out for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @param identifier the locale identifier.
+ @return a Future that resolves when successful.
  */
-- (BOOL)authorizeLocationSettings:(NSArray<NSString *> *)bundleIDs error:(NSError **)error;
+- (FBFuture<NSNull *> *)setLocaleWithIdentifier:(NSString *)identifier;
 
 /**
- Authorizes the Location Settings for the provided application.
+ Gets the Locale, by Locale Identifier
 
- @param application the Application to authorize settings for.
- @param error an error out for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @return a Future that resolves with the current locale identifier.
  */
-- (BOOL)authorizeLocationSettingForApplication:(FBApplicationBundle *)application error:(NSError **)error;
+- (FBFuture<NSString *> *)getCurrentLocaleIdentifier;
 
 /**
- Overrides the default SpringBoard watchdog timer for the applications. You can use this to give your application more
- time to startup before being killed by SpringBoard. (SB's default is 20 seconds.)
+ Grants access to the provided services.
 
- @param bundleIDs The bundle IDs of the applications to override.
- @param timeout The new startup timeout.
- @param error an error out for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @param bundleIDs the bundle ids to provide access to.
+ @return A future that resolves when the setting change is complete.
  */
-- (BOOL)overrideWatchDogTimerForApplications:(NSArray<NSString *> *)bundleIDs withTimeout:(NSTimeInterval)timeout error:(NSError **)error;
+- (FBFuture<NSNull *> *)grantAccess:(NSSet<NSString *> *)bundleIDs toServices:(NSSet<FBSettingsApprovalService> *)services;
 
 /**
- Prepares the Simulator Keyboard, prior to launch.
- 1) Disables Caps Lock
- 2) Disables Auto Capitalize
- 3) Disables Auto Correction / QuickType
+ Grants access to the provided deeplink scheme.
 
- @param error an error out for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @param bundleIDs the bundle ids to provide access to.
+ @param scheme the deeplink scheme to allow
+ @return A future that resolves when the setting change is complete.
  */
-- (BOOL)setupKeyboardWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)grantAccess:(NSSet<NSString *> *)bundleIDs toDeeplink:(NSString*)scheme;
+
+/**
+ Updates the contacts on the target, using the provided local databases.
+ Takes local paths to AddressBook Databases. These replace the existing databases for the Address Book.
+ Only sqlitedb paths should be provided, journaling files will be ignored.
+
+ @param databaseDirectory the directory containing AddressBook.sqlitedb and AddressBookImages.sqlitedb paths.
+ */
+- (FBFuture<NSNull *> *)updateContacts:(NSString *)databaseDirectory;
 
 @end
 
@@ -76,14 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
  Modifies the Settings, Preferences & Defaults of a Simulator.
  */
 @interface FBSimulatorSettingsCommands : NSObject <FBSimulatorSettingsCommands>
-
-/**
- Creates and returns a new Commmands Instance.
-
- @param simulator the Simulator to operate on.
- @return a strategy for the provided Simulator.
- */
-+ (instancetype)commandsWithSimulator:(FBSimulator *)simulator;
 
 @end
 

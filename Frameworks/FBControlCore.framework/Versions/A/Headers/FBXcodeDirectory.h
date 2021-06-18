@@ -1,13 +1,13 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
+
+#import <FBControlCore/FBFuture.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,18 +16,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FBXcodeDirectory : NSObject
 
+#pragma mark Implementations
+
 /**
  The Xcode install path, using xcode-select(1).
  */
 @property (nonatomic, copy, class, readonly) FBXcodeDirectory *xcodeSelectFromCommandLine;
 
-/**
- Returns the Path to the Xcode Install.
+#pragma mark Public Methods
 
- @param error error out for any error that occurs.
- @return the Xcode Path if successful, NO otherwise.
+/**
+ Finds the file path of the Xcode install.
+
+ @return a future that resolves with the path
  */
-- (nullable NSString *)xcodePathWithError:(NSError **)error;
+- (FBFuture<NSString *> *)xcodePath;
 
 @end
 

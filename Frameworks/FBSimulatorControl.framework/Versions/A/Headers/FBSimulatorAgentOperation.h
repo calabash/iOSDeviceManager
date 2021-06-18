@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -20,24 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 @class FBProcessOutput;
 
 /**
- The Termination Handle Type for an Agent.
- */
-extern FBTerminationHandleType const FBTerminationHandleTypeSimulatorAgent;
-
-/**
  An Operation for an Agent.
  This class is explicitly a reference type as it retains the File Handles that are used by the Agent Process.
  The lifecycle of the process is managed internally and this class should not be instantiated directly by consumers.
  */
-@interface FBSimulatorAgentOperation : NSObject <FBTerminationAwaitable>
+@interface FBSimulatorAgentOperation : NSObject <FBLaunchedProcess>
 
-/**
- Extracts termination information for the provided process.
-
- @param statLoc the value from waitpid(2).
- @return YES if the termination is expected. NO otherwise.
- */
-+ (BOOL)isExpectedTerminationForStatLoc:(int)statLoc;
+#pragma mark Properties
 
 /**
  The Configuration Launched with.
@@ -54,16 +41,6 @@ extern FBTerminationHandleType const FBTerminationHandleTypeSimulatorAgent;
  */
 @property (nonatomic, strong, nullable, readonly) FBProcessOutput *stdErr;
 
-/**
- The Launched Process Info.
- */
-@property (nonatomic, copy, nullable, readonly) FBProcessInfo *process;
-
-/**
- The Handler that to provide to the launch.
- */
-@property (nonatomic, copy, nullable, readonly) FBAgentTerminationHandler handler;
-
 @end
 
 /**
@@ -78,17 +55,11 @@ extern FBTerminationHandleType const FBTerminationHandleTypeSimulatorAgent;
  @param configuration the configuration the process was launched with.
  @param stdOut the Stdout output.
  @param stdErr the Stderr output.
- @param handler the handler continuation.
+ @param launchFuture a future that will fire when the process has launched. The value is the process identifier.
+ @param processStatusFuture a future that will fire when the process has terminated. The value is that of waitpid(2).
+ @return a Future that resolves when the process is launched.
  */
-+ (instancetype)operationWithSimulator:(FBSimulator *)simulator configuration:(FBAgentLaunchConfiguration *)configuration stdOut:(nullable FBProcessOutput *)stdOut stdErr:(nullable FBProcessOutput *)stdErr handler:(nullable FBAgentTerminationHandler)handler;
-
-/**
- Called internally by the framework when the owning process has been launched.
- This should never be called by consumers.
-
- @param process the process info of the launched process.
- */
-- (void)processDidLaunch:(FBProcessInfo *)process;
++ (FBFuture<FBSimulatorAgentOperation *> *)operationWithSimulator:(FBSimulator *)simulator configuration:(FBAgentLaunchConfiguration *)configuration stdOut:(nullable FBProcessOutput *)stdOut stdErr:(nullable FBProcessOutput *)stdErr launchFuture:(FBFuture<NSNumber *> *)launchFuture processStatusFuture:(FBFuture<NSNumber *> *)processStatusFuture;
 
 @end
 

@@ -1,31 +1,24 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBTerminationHandle.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @class FBSimulator;
 @class FBSimulatorSet;
 @class SimDevice;
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
- The Termination Handle Type.
+ A Notifies of Lifecycle events in CoreSimulator.
  */
-extern FBTerminationHandleType const FBTerminationHandleTypeCoreSimulatorNotifier;
+@interface FBCoreSimulatorNotifier : NSObject
 
-/**
- A class for wrapping Core Simulator Notifiers in a `FBTerminationHandle`
- */
-@interface FBCoreSimulatorNotifier : NSObject <FBTerminationHandle>
+#pragma mark Initializers
 
 /**
  Creates and returns an FBSimDeviceNotifier for the lifecycle events that SimDevice broadcasts.
@@ -46,6 +39,13 @@ extern FBTerminationHandleType const FBTerminationHandleTypeCoreSimulatorNotifie
  @return an instance of FBSimDeviceNotifier for later termination.
  */
 + (instancetype)notifierForSet:(FBSimulatorSet *)set queue:(dispatch_queue_t)queue block:(void (^)(NSDictionary *info))block;
+
+#pragma mark Public Methods
+
+/**
+ Terminates the Notifier.
+ */
+- (void)terminate;
 
 @end
 

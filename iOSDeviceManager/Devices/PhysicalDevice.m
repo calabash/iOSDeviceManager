@@ -16,16 +16,19 @@
 #import <FBControlCore/FBControlCore.h>
 #import <FBSimulatorControl/FBSimulatorControl.h>
 
-#import <FBControlCore/FBiOSTargetCommandForwarder.h>
-#import <FBControlCore/FBFuture.h>
+//#import <FBControlCore/FBiOSTargetCommandForwarder.h>
+//#import <FBControlCore/FBFuture.h>
 
 
-#import <CocoaLumberjack/CocoaLumberjack.h>
-#import "XCTestConfigurationPlist.h"
-#import "XCAppDataBundle.h"
-#import <FBControlCore/FBControlCore.h>
+//#import <CocoaLumberjack/CocoaLumberjack.h>
+//#import "XCTestConfigurationPlist.h"
+//#import "XCAppDataBundle.h"
+//#import <FBControlCore/FBControlCore.h>
+//
+//#import <FBDeviceControl/FBDeviceControl.h>
 
-#import <FBDeviceControl/FBDeviceControl.h>
+
+
 
 //@interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 //
@@ -331,14 +334,27 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)stopSimulatingLocation {
 
-    [self.fbDevice startService:@"com.apple.dt.simulatelocation"];
-    NSError *e;
-    [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
-    if (e) {
-        ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
+    //the original functional is gone. That's how it implemented in idb
+    NSError *error;
+    if (![[self.fbDevice overrideLocationWithLongitude:-122.147911 latitude:37.485023] await:&error]){
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    if (error) {
+        ConsoleWriteErr(@"Unable to set device location: %@", error);
         return iOSReturnStatusCodeInternalError;
     }
+
     return iOSReturnStatusCodeEverythingOkay;
+    
+//    NSError *e;
+//    [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
+//    if (e) {
+//        ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
@@ -354,8 +370,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     NSError *error = nil;
 
-    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
-    if (![deviceOperator launchApplication:appLaunch error:&error]) {
+    if (![[self.applicationCommands launchApplication:appLaunch] await:&error]) {
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
     }
@@ -365,7 +380,12 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
                                      error:(NSError **)error {
-    return [self.fbDeviceOperator launchApplication:configuration error:error];
+    if ([[self.applicationCommands launchApplication:configuration] await:error]){
+        return YES;
+    }
+    else{
+        return NO;
+    }
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
@@ -387,12 +407,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (pid_t)processIdentifierForApplication:(NSString *)bundleIdentifier {
     NSError *error = nil;
-    FBiOSDeviceOperator *operator = self.fbDeviceOperator;
-    pid_t PID = [operator processIDWithBundleID:bundleIdentifier error:&error];
-    if (PID < 1) {
+    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
+    if ([PID intValue] < 1) {
         return 0;
     } else {
-        return PID;
+        return [PID intValue];
     }
 }
 
@@ -430,25 +449,16 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                   wasRunning:(BOOL *)wasRunning {
 
     NSError *error = nil;
-
-//    FBDeviceLaunchedApplication
     
-//    FBProcessTerminationStrategy *strategy = [FBProcessTerminationStrategy ]
-    //killProcessIdentifier
-    
-    
-    FBiOSDeviceOperator *operator = self.fbDeviceOperator;
-    pid_t PID = [operator processIDWithBundleID:bundleIdentifier error:&error];
-    if (PID < 1) {
+    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
+    if ([PID intValue] < 1) {
         if (wasRunning) { *wasRunning = NO; }
         return YES;
     } else {
         if (wasRunning) { *wasRunning = YES; }
     }
-    
-    killApplicationWithProcessIdentifier
-    
-    if (![operator killProcessWithID:PID error:&error]) {
+
+    if (![[self.applicationCommands killApplicationWithBundleID:bundleIdentifier] await:&error]) {
         ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
                         bundleIdentifier, [error localizedDescription]);
         return NO;
@@ -458,21 +468,15 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError **)error {
-    FBiOSDeviceOperator *deviceOperator = (FBiOSDeviceOperator *)self.fbDevice.deviceOperator;
-    BOOL installed = [deviceOperator isApplicationInstalledWithBundleID:bundleID
-                                                                  error:error];
-    if (installed) {
-        return YES;
-    } else {
-        return NO;
-    }
+    NSNumber * installed = [[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:error];
+    return installed.boolValue;
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
     NSError *error;
     BOOL installed = [self isInstalled:bundleID withError:&error];
 
-    if (err) {
+    if (error) {
         ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], error);
         @throw [NSException exceptionWithName:@"IsInstalledAppException"
                                        reason:@"Unable to determine if application is installed"
@@ -488,10 +492,83 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 }
 
+- (NSArray <NSString*> *)applicationReturnAttributesDictionary
+{
+  static NSArray *attrs = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    attrs = @[@"CFBundleIdentifier",
+                        @"ApplicationType",
+                        @"CFBundleExecutable",
+                        @"CFBundleDisplayName",
+                        @"CFBundleName",
+                        @"CFBundleNumericVersion",
+                        @"CFBundleVersion",
+                        @"CFBundleShortVersionString",
+                        @"CFBundleURLTypes",
+                        @"CFBundleDevelopmentRegion",
+                        @"Entitlements",
+                        @"SignerIdentity",
+                        @"ProfileValidated",
+                        @"Path",
+                        @"Container",
+                        @"UIStatusBarTintParameters",
+                        @"UIDeviceFamily",
+                        @"UISupportedInterfaceOrientations",
+                        @"DTPlatformVersion",
+                        @"DTXcode",
+                        @"MinimumOSVersion"
+                        ];
+  });
+  return attrs;
+}
+
+- (FBFuture<NSArray<NSDictionary<NSString *, id> *> *> *)installedApplicationsData:(NSArray<NSString *> *)returnAttributes
+{
+  return [[self.fbDevice
+    connectToDeviceWithPurpose:@"installed_apps"]
+    onQueue:self.fbDevice.workQueue pop:^ FBFuture<NSDictionary<NSString *, NSDictionary<NSString *, id> *> *> * (id<FBDeviceCommands> device) {
+      NSDictionary<NSString *, id> *options = @{
+        @"ReturnAttributes": returnAttributes,
+      };
+      CFDictionaryRef applications;
+      int status = device.calls.LookupApplications(
+        device.amDeviceRef,
+        (__bridge CFDictionaryRef _Nullable)(options),
+        &applications
+      );
+      if (status != 0) {
+        NSString *errorMessage = CFBridgingRelease(device.calls.CopyErrorText(status));
+        return [[FBDeviceControlError
+          describeFormat:@"Failed to get list of applications 0x%x (%@)", status, errorMessage]
+          failFuture];
+      }
+      return [FBFuture futureWithResult:CFBridgingRelease(applications)];
+    }];
+}
+
+- (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(NSString *)bundleID
+{
+  NSError *error = nil;
+    
+  NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [self applicationReturnAttributesDictionary]] await:&error];
+
+  if (!apps){
+    return nil;
+  }
+
+  for (NSDictionary *app in apps) {
+    if ([app[@"CFBundleIdentifier"] isEqualToString:bundleID]) {
+      return app;
+    }
+  }
+  return nil;
+}
+
 - (Application *)installedApp:(NSString *)bundleID {
-    FBiOSDeviceOperator *deviceOperator = [self fbDeviceOperator];
+    
     NSDictionary *plist;
-    plist = [deviceOperator AMDinstalledApplicationWithBundleIdentifier:bundleID];
+    plist = [self AMDinstalledApplicationWithBundleIdentifier:bundleID];
     if (plist) {
         return [Application withBundleID:bundleID
                                    plist:plist

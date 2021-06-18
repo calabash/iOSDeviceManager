@@ -1,23 +1,22 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBFileConsumer.h>
+#import <FBControlCore/FBDataConsumer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- A File Data Consumer that writes to a file handle.
- Writes are non-blocking.
+ A Data Consumer that writes out to a file or file descriptor.
+ The dual of FBFileReader.
+ Unlike FBFileReader, once initialized, there doesn't need to be an additional call to start writing.
  */
-@interface FBFileWriter : NSObject <FBFileConsumer>
+@interface FBFileWriter : NSObject
 
 #pragma mark Initializers
 
@@ -26,41 +25,55 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return a File Reader.
  */
-@property (nonatomic, strong, readonly, class) FBFileWriter *nullWriter;
+@property (nonatomic, strong, readonly, class) id<FBDataConsumer> nullWriter;
 
 /**
- Creates a Blocking Writer from a File Handle.
+ Creates a synchronous data consumer from a file handle.
 
- @param fileHandle the file handle to write to. It will be closed when an EOF is sent.
- @return a File Reader.
+ @param fileDescriptor the file descriptor to write to.
+ @param closeOnEndOfFile YES if the file descriptor should be closed on consumeEndOfFile, NO otherwise.
+ @return a data consumer.
  */
-+ (instancetype)syncWriterWithFileHandle:(NSFileHandle *)fileHandle;
++ (id<FBDataConsumer, FBDataConsumerLifecycle, FBDataConsumerStackConsuming>)syncWriterWithFileDescriptor:(int)fileDescriptor closeOnEndOfFile:(BOOL)closeOnEndOfFile;
 
 /**
- Creates a Non-Blocking Writer from a File Handle.
+ Creates a non-blocking Data Consumer from a file handle.
+ The file handle will be closed when and end-of-file is sent.
 
- @param fileHandle the file handle to write to. It will be closed when an EOF is sent.
- @return a File Reader.
+ @param fileDescriptor the file descriptor to write to.
+ @param closeOnEndOfFile YES if the file descriptor should be closed on consumeEndOfFile, NO otherwise.
+ @return a data consumer.
  */
-+ (instancetype)asyncWriterWithFileHandle:(NSFileHandle *)fileHandle error:(NSError **)error;
++ (nullable id<FBDataConsumer, FBDataConsumerLifecycle>)asyncWriterWithFileDescriptor:(int)fileDescriptor closeOnEndOfFile:(BOOL)closeOnEndOfFile error:(NSError **)error;
 
 /**
- Creates a Blocking File Writer from a File Path
+ Creates a non-blocking Dispatch Data Consumer from a file Handle.
 
- @param filePath the file handle to write to from. It will be closed when an EOF is sent.
+ @param fileDescriptor the file descriptor to write to.
+ @param closeOnEndOfFile YES if the file descriptor should be closed on consumeEndOfFile, NO otherwise.
+ @return a Future wrapping the Data Consumer.
+ */
++ (FBFuture<id<FBDispatchDataConsumer>> *)asyncDispatchDataWriterWithFileDescriptor:(int)fileDescriptor closeOnEndOfFile:(BOOL)closeOnEndOfFile;
+
+/**
+ Creates a blocking Data Consumer from a file path.
+ The file handle backing this path will be closed when and end-of-file is sent.
+
+ @param filePath the file handle to write to from.
  @param error an error out for any error that occurs.
- @return a File Reader on success, nil otherwise.
+ @return a data consumer on success, nil otherwise.
  */
-+ (nullable instancetype)syncWriterForFilePath:(NSString *)filePath error:(NSError **)error;
++ (nullable id<FBDataConsumer, FBDataConsumerLifecycle, FBDataConsumerStackConsuming>)syncWriterForFilePath:(NSString *)filePath error:(NSError **)error;
 
 /**
- Creates a Non-Blocking File Writer from a File Path
+ Creates a non-blocking Data Consumer from a file path.
+ The file path will be opened asynchronously so that the caller is not blocked on opening a file handle for the path.
+ The file handle backing this path will be closed when and end-of-file is sent.
 
- @param filePath the file handle to write to from. It will be closed when an EOF is sent.
- @param error an error out for any error that occurs.
- @return a File Reader on success, nil otherwise.
+ @param filePath the file handle to write to from.
+ @return a future that resolves with the data consumer.
  */
-+ (nullable instancetype)asyncWriterForFilePath:(NSString *)filePath error:(NSError **)error;
++ (FBFuture<id<FBDataConsumer, FBDataConsumerLifecycle>> *)asyncWriterForFilePath:(NSString *)filePath;
 
 @end
 

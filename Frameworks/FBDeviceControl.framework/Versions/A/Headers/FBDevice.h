@@ -1,30 +1,26 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
 #import <FBControlCore/FBControlCore.h>
-#import <XCTestBootstrap/XCTestBootstrap.h>
-
-@class DVTiOSDevice;
-@class FBDeviceSet;
-@class FBProductBundle;
-@class FBTestRunnerConfiguration;
-@protocol FBDeviceOperator;
-@protocol FBControlCoreLogger;
+#import <FBDeviceControl/FBDeviceCommands.h>
+#import <FBDeviceControl/FBDeviceRecoveryCommands.h>
+#import <FBDeviceControl/FBDeviceActivationCommands.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class FBDeviceSet;
+@protocol FBControlCoreLogger;
+
 /**
- Class that wraps DVTAbstractiOSDevice and it's device operator that can perform actions on it.
+ A class that represents an iOS Device.
  */
-@interface FBDevice : NSObject <FBiOSTarget, FBXCTestCommands>
+@interface FBDevice : NSObject <FBiOSTarget, FBDeviceCommands, FBDiagnosticInformationCommands, FBLocationCommands, FBDeviceRecoveryCommands, FBDeviceActivationCommands, FBPowerCommands, FBDeveloperDiskImageCommands>
 
 /**
  The Device Set to which the Device Belongs.
@@ -32,29 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, readonly) FBDeviceSet *set;
 
 /**
- The DVTDevice, corresponding to the reciever.
- */
-@property (nonatomic, nullable, strong, readonly) DVTiOSDevice *dvtDevice;
+ Constructs an Operating System Version from a string.
 
-/**
- Device's name
+ @param string the string to interpolate.
+ @return an NSOperatingSystemVersion for the string.
  */
-@property (nonatomic, copy, readonly) NSString *name;
-
-/**
- Device's model name
- */
-@property (nonatomic, copy, readonly) NSString *modelName;
-
-/**
- Device's system Version
- */
-@property (nonatomic, copy, readonly) NSString *systemVersion;
-
-/**
- Architectures suported by device
- */
-@property (nonatomic, copy, readonly) NSSet *supportedArchitectures;
++ (NSOperatingSystemVersion)operatingSystemVersionFromString:(NSString *)string;
 
 @end
 
