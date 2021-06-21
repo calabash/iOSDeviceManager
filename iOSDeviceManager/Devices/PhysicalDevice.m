@@ -89,7 +89,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 @property (nonatomic, strong) FBDevice *fbDevice;
 
 @property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
-//@property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
@@ -565,14 +564,50 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
   return nil;
 }
 
+- (NSString *)containerPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
+{
+    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [self applicationReturnAttributesDictionary]] await:error];
+
+    if (!apps){
+      return nil;
+    }
+
+    for (NSDictionary *app in apps) {
+        if ([app[@"CFBundleIdentifier"] isEqualToString:bundleID]) {
+          return app[@"Container"];
+        }
+    }
+    return nil;
+}
+
+- (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
+{
+    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [self applicationReturnAttributesDictionary]] await:error];
+
+    if (!apps){
+      return nil;
+    }
+
+    for (NSDictionary *app in apps) {
+        if ([app[@"CFBundleIdentifier"] isEqualToString:bundleID]) {
+          return app[@"Path"];
+        }
+    }
+    return nil;
+}
+
 - (Application *)installedApp:(NSString *)bundleID {
     
     NSDictionary *plist;
     plist = [self AMDinstalledApplicationWithBundleIdentifier:bundleID];
     if (plist) {
+        NSString *targetArch = self.fbDevice.architecture;
+        //just to keep the old format
+        NSSet *set = [NSSet setWithObject:targetArch];
+        
         return [Application withBundleID:bundleID
                                    plist:plist
-                           architectures:self.fbDevice.supportedArchitectures];
+                           architectures:set];
     } else {
         return nil;
     }
@@ -582,8 +617,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
                    forApplication:(NSString *)bundleID
                         overwrite:(BOOL)overwrite {
-
-    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    
     NSError *e;
     NSFileManager *fm = [NSFileManager defaultManager];
 
@@ -610,70 +644,123 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         ConsoleWriteErr(@"Error creating data dir: %@", e);
         return iOSReturnStatusCodeGenericFailure;
     }
-
-    // TODO This call needs to be removed
-    [operator fetchApplications];
-    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
-                    forInstalledApplicationWithBundleIdentifier:bundleID
-                                                          error:&e]) {
+    
+    
+    
+    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+        ConsoleWriteErr(@"uploadFile: Target doesn't conform to FBFileCommands protocol %@", e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    NSError *error = nil;
+    BOOL success = [[[commands fileCommandsForContainerApplication:bundleID]
+                     onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+        return [container copyPathOnHost:[NSURL fileURLWithPath:filepath] toDestination:@"Documents"];
+    }] await:&error] != nil;
+    
+    if (!success){
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
                         bundleID,
                         xcappdataPath,
                         e);
         return iOSReturnStatusCodeInternalError;
     }
-    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
-
-    NSString *filename = [filepath lastPathComponent];
-    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
-    if ([fm fileExistsAtPath:dest]) {
-        if (!overwrite) {
-            ConsoleWriteErr(@"'%@' already exists in the app container.\n"
-                            "Specify `-o true` to overwrite.", filename);
-            return iOSReturnStatusCodeGenericFailure;
-        } else {
-            if (![fm removeItemAtPath:dest error:&e]) {
-                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
-                return iOSReturnStatusCodeGenericFailure;
-            }
-        }
-    }
-
-    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
-        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-
-    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
-        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
-        return iOSReturnStatusCodeInternalError;
-    }
-
-    // Remove the temporary data bundle
-    if (![fm removeItemAtPath:dataBundle error:&e]) {
-        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
-                        dataBundle, e);
-    }
-
-    [ConsoleWriter write:dest];
+    
+    [ConsoleWriter write:filepath];
+    [ConsoleWriter write:dataBundle];
     return iOSReturnStatusCodeEverythingOkay;
+    
+    //copyPathOnHost
+    
+//    // TODO This call needs to be removed
+////    [operator fetchApplications];
+////    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
+////                    forInstalledApplicationWithBundleIdentifier:bundleID
+////                                                          error:&e]) {
+////        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+////                        bundleID,
+////                        xcappdataPath,
+////                        e);
+////        return iOSReturnStatusCodeInternalError;
+////    }
+//
+//
+//    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
+//
+//    NSString *filename = [filepath lastPathComponent];
+//    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
+//    if ([fm fileExistsAtPath:dest]) {
+//        if (!overwrite) {
+//            ConsoleWriteErr(@"'%@' already exists in the app container.\n"
+//                            "Specify `-o true` to overwrite.", filename);
+//            return iOSReturnStatusCodeGenericFailure;
+//        } else {
+//            if (![fm removeItemAtPath:dest error:&e]) {
+//                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
+//                return iOSReturnStatusCodeGenericFailure;
+//            }
+//        }
+//    }
+//
+//    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
+//        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+//        return iOSReturnStatusCodeGenericFailure;
+//    }
+//
+//    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
+//        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//
+//    // Remove the temporary data bundle
+//    if (![fm removeItemAtPath:dataBundle error:&e]) {
+//        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
+//                        dataBundle, e);
+//    }
+//
+//    [ConsoleWriter write:dest];
+//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleIdentifier
                                                       toPath:(NSString *)path{
+    
     NSError *e;
-    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-    [operator fetchApplications];
-    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:path
-                    forInstalledApplicationWithBundleIdentifier:bundleIdentifier
-                                                          error:&e]) {
+    
+    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+        
+        return [container copyItemInContainer:@"." toDestinationOnHost:path];
+    }] await:&e] != nil;
+                   
+    if (!success){
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
                         bundleIdentifier,
                         path,
                         e);
         return iOSReturnStatusCodeInternalError;
     }
+    
     return iOSReturnStatusCodeEverythingOkay;
+//    NSError *e;
+//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+//    [operator fetchApplications];
+//    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:path
+//                    forInstalledApplicationWithBundleIdentifier:bundleIdentifier
+//                                                          error:&e]) {
+//        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+//                        bundleIdentifier,
+//                        path,
+//                        e);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
@@ -682,18 +769,37 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-    [operator fetchApplications];
-
-    NSError *error = nil;
-    if (![operator uploadApplicationDataAtPath:xcappdata
-                                      bundleID:bundleIdentifier
-                                         error:&error]) {
-        ConsoleWriteErr(@"Error uploading files to application container: %@",
-                        [error localizedDescription]);
+    NSError *e;
+    
+    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+        //TODO: may be Documents instead of "./"
+        return [container copyPathOnHost:[NSURL fileURLWithPath:xcappdata] toDestination:@"./"];
+    }] await:&e] != nil;
+                   
+    if (!success){
         return iOSReturnStatusCodeInternalError;
     }
+    
     return iOSReturnStatusCodeEverythingOkay;
+    
+//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+//    [operator fetchApplications];
+//
+//    NSError *error = nil;
+//    if (![operator uploadApplicationDataAtPath:xcappdata
+//                                      bundleID:bundleIdentifier
+//                                         error:&error]) {
+//        ConsoleWriteErr(@"Error uploading files to application container: %@",
+//                        [error localizedDescription]);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 
@@ -776,15 +882,16 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return self;
 }
 
+
+
+
 - (NSString *)containerPathForApplication:(NSString *)bundleID {
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
-    return [operator containerPathForApplicationWithBundleID:bundleID
+    return [self containerPathForApplicationWithBundleID:bundleID
                                                        error:nil];
 }
 
 - (NSString *)installPathForApplication:(NSString *)bundleID {
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
-    return [operator applicationPathForApplicationWithBundleID:bundleID
+    return [self applicationPathForApplicationWithBundleID:bundleID
                                                          error:nil];
 }
 
@@ -819,9 +926,24 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error {
-    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
-
-    return [operator AMDinstallProvisioningProfileAtPath:path error:error];
+    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", *error);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+    
+    
+    BOOL success = [[[commands fileCommandsForProvisioningProfiles]
+                     onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+        //in this case (in case of FBFileContainer_ProvisioningProfile)
+        //path toDestination means nothing in implementation
+        return [container copyPathOnHost:[NSURL fileURLWithPath:path] toDestination:@""];
+    }] await:error] != nil;
+    
+    return success;
+//    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+//
+//    return [operator AMDinstallProvisioningProfileAtPath:path error:error];
 }
 
 - (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)pathToRunner
@@ -843,8 +965,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
     NSString *xcappdata = [directory stringByAppendingPathComponent:appDataBundle];
 
-    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-    [operator fetchApplications];
+//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+//    [operator fetchApplications];
 
     Application *runnerApp = [Application withBundlePath:pathToRunner];
     NSString *runnerBundleId = [runnerApp bundleID];
@@ -852,8 +974,8 @@ testCaseDidStartForTestClass:(NSString *)testClass
     Application *AUTApp = [Application withBundlePath:pathToAUT];
     NSString *AUTBundleId = [AUTApp bundleID];
 
-    NSString *runnerPath = [operator applicationPathForApplicationWithBundleID:runnerBundleId
-                                                                         error:error];
+    
+    NSString *runnerPath = [self applicationPathForApplicationWithBundleID:runnerBundleId error:error];
     NSString *uuid = [[NSUUID UUID] UUIDString];
 
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
@@ -898,13 +1020,19 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return NO;
     }
 
-    if (![operator uploadApplicationDataAtPath:xcappdata
-                                      bundleID:runnerBundleId
-                                         error:error]) {
+    if ([self uploadXCAppDataBundle:xcappdata forApplication:runnerBundleId] != iOSReturnStatusCodeEverythingOkay){
         ConsoleWriteErr(@"Could not upload %@ to %@",
                         appDataBundle, runnerBundleId);
         return NO;
     }
+    
+//    if (![operator uploadApplicationDataAtPath:xcappdata
+//                                      bundleID:runnerBundleId
+//                                         error:error]) {
+//        ConsoleWriteErr(@"Could not upload %@ to %@",
+//                        appDataBundle, runnerBundleId);
+//        return NO;
+//    }
 
     // Deliberately skipping error checking; error is ignorable.
     [[NSFileManager defaultManager] removeItemAtPath:xcappdata
