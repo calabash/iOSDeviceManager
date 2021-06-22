@@ -28,6 +28,7 @@
 + (instancetype)withID:(NSString *)uuid;
 + (iOSReturnStatusCode)generateXCAppDataBundleAtPath:(NSString *)path
                                            overwrite:(BOOL)overwrite;
++ (NSArray <NSString*> *)applicationReturnAttributesDictionary;
 
 - (iOSReturnStatusCode)installApp:(Application *)app forceReinstall:(BOOL)forceReinstall;
 - (iOSReturnStatusCode)installApp:(Application *)app

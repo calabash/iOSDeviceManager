@@ -16,19 +16,6 @@
 #import <FBControlCore/FBControlCore.h>
 #import <FBSimulatorControl/FBSimulatorControl.h>
 
-//#import <FBControlCore/FBiOSTargetCommandForwarder.h>
-//#import <FBControlCore/FBFuture.h>
-
-
-//#import <CocoaLumberjack/CocoaLumberjack.h>
-//#import "XCTestConfigurationPlist.h"
-//#import "XCAppDataBundle.h"
-//#import <FBControlCore/FBControlCore.h>
-//
-//#import <FBDeviceControl/FBDeviceControl.h>
-
-
-
 
 //@interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
 //
@@ -491,37 +478,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 }
 
-- (NSArray <NSString*> *)applicationReturnAttributesDictionary
-{
-  static NSArray *attrs = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    attrs = @[@"CFBundleIdentifier",
-                        @"ApplicationType",
-                        @"CFBundleExecutable",
-                        @"CFBundleDisplayName",
-                        @"CFBundleName",
-                        @"CFBundleNumericVersion",
-                        @"CFBundleVersion",
-                        @"CFBundleShortVersionString",
-                        @"CFBundleURLTypes",
-                        @"CFBundleDevelopmentRegion",
-                        @"Entitlements",
-                        @"SignerIdentity",
-                        @"ProfileValidated",
-                        @"Path",
-                        @"Container",
-                        @"UIStatusBarTintParameters",
-                        @"UIDeviceFamily",
-                        @"UISupportedInterfaceOrientations",
-                        @"DTPlatformVersion",
-                        @"DTXcode",
-                        @"MinimumOSVersion"
-                        ];
-  });
-  return attrs;
-}
-
 - (FBFuture<NSArray<NSDictionary<NSString *, id> *> *> *)installedApplicationsData:(NSArray<NSString *> *)returnAttributes
 {
   return [[self.fbDevice
@@ -550,7 +506,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 {
   NSError *error = nil;
     
-  NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [self applicationReturnAttributesDictionary]] await:&error];
+  NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:&error];
 
   if (!apps){
     return nil;
@@ -566,7 +522,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (NSString *)containerPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
 {
-    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [self applicationReturnAttributesDictionary]] await:error];
+    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
 
     if (!apps){
       return nil;
@@ -582,7 +538,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
 {
-    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [self applicationReturnAttributesDictionary]] await:error];
+    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
 
     if (!apps){
       return nil;

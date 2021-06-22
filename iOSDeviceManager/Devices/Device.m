@@ -65,6 +65,37 @@
     }
 }
 
++ (NSArray <NSString*> *)applicationReturnAttributesDictionary
+{
+  static NSArray *attrs = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    attrs = @[@"CFBundleIdentifier",
+                        @"ApplicationType",
+                        @"CFBundleExecutable",
+                        @"CFBundleDisplayName",
+                        @"CFBundleName",
+                        @"CFBundleNumericVersion",
+                        @"CFBundleVersion",
+                        @"CFBundleShortVersionString",
+                        @"CFBundleURLTypes",
+                        @"CFBundleDevelopmentRegion",
+                        @"Entitlements",
+                        @"SignerIdentity",
+                        @"ProfileValidated",
+                        @"Path",
+                        @"Container",
+                        @"UIStatusBarTintParameters",
+                        @"UIDeviceFamily",
+                        @"UISupportedInterfaceOrientations",
+                        @"DTPlatformVersion",
+                        @"DTXcode",
+                        @"MinimumOSVersion"
+                        ];
+  });
+  return attrs;
+}
+
 #pragma mark - Instance Methods
 
 - (BOOL)shouldUpdateApp:(Application *)newApp

@@ -3,11 +3,11 @@
 #import "PhysicalDevice.h"
 #import <FBDeviceControl/FBDeviceControl.h>
 
-@interface FBiOSDeviceOperator (TEST)
-
-+ (NSDictionary *)applicationReturnAttributesDictionary;
-
-@end
+//@interface FBiOSDeviceOperator (TEST)
+//
+//+ (NSDictionary *)applicationReturnAttributesDictionary;
+//
+//@end
 
 @interface PhysicalDeviceTest : TestCase
 
@@ -24,7 +24,9 @@
 }
 
 - (void)testFBiOSDeviceOperatorProvidesMethodForApplicationAttributes {
-    NSDictionary *dictionary = [FBiOSDeviceOperator applicationReturnAttributesDictionary];
+    NSDictionary<NSString *, id> *dictionary = @{
+      @"ReturnAttributes": [PhysicalDevice applicationReturnAttributesDictionary],
+    };
     NSArray *attrs = dictionary[@"ReturnAttributes"];
     expect(attrs).to.contain(@"CFBundleIdentifier");
     expect(attrs).to.contain(@"Path");
