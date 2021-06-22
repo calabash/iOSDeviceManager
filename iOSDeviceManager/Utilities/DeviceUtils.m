@@ -94,7 +94,7 @@ const double EPSILON = 0.001;
     static NSArray<FBDevice *> *m_availableDevices;
 
     dispatch_once(&onceToken, ^{
-        m_availableDevices = [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
+        m_availableDevices = [[FBDeviceSet setWithLogger:FBControlCoreGlobalConfiguration.defaultLogger delegate:nil ecidFilter:nil error:nil] allDevices];
     });
     return m_availableDevices;
 }
@@ -105,9 +105,7 @@ const double EPSILON = 0.001;
     static NSArray<FBSimulator *> *m_availableSimulators;
 
     dispatch_once(&onceToken, ^{
-        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                          configurationWithDeviceSetPath:nil
-                                                          options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
 
         NSError *err;
         FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
