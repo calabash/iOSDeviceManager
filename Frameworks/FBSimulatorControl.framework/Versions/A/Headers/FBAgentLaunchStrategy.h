@@ -11,9 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBAgentLaunchConfiguration;
+@class FBProcessSpawnConfiguration;
 @class FBSimulator;
-@class FBSimulatorAgentOperation;
+
+@protocol FBLaunchedProcess;
 
 /**
  A Strategy for Launching Agents on a Simulator.
@@ -36,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
  Launches a long-running process with the given configuration.
 
  @param agentLaunch the agent to launch.
- @return an Agent Launch Operation, wrapped in a future.
+ @return a future, wrapping the launched process.
  */
-- (FBFuture<FBSimulatorAgentOperation *> *)launchAgent:(FBAgentLaunchConfiguration *)agentLaunch;
+- (FBFuture<id<FBLaunchedProcess>> *)launchAgent:(FBProcessSpawnConfiguration *)agentLaunch;
 
 #pragma mark Short-Running Processes
 
@@ -48,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param agentLaunch the agent to launch.
  @return the stat_loc exit of the process, wrapped in a Future.
  */
-- (FBFuture<NSNumber *> *)launchAndNotifyOfCompletion:(FBAgentLaunchConfiguration *)agentLaunch;
+- (FBFuture<NSNumber *> *)launchAndNotifyOfCompletion:(FBProcessSpawnConfiguration *)agentLaunch;
 
 /**
  Launches an agent, consuming it's output and returning it as a String.
@@ -56,7 +57,19 @@ NS_ASSUME_NONNULL_BEGIN
  @param agentLaunch the configuration for launching the process. The 'output' of the configuration will be ignored.
  @return A future that wraps the stdout of the launched process.
  */
-- (FBFuture<NSString *> *)launchConsumingStdout:(FBAgentLaunchConfiguration *)agentLaunch;
+- (FBFuture<NSString *> *)launchConsumingStdout:(FBProcessSpawnConfiguration *)agentLaunch;
+
+#pragma mark Helpers
+
+/**
+ Builds the CoreSimulator launch Options for Launching an App or Process on a Simulator.
+
+ @param arguments the arguments to use.
+ @param environment the environment to use.
+ @param waitForDebugger YES if the Application should be launched waiting for a debugger to attach. NO otherwise.
+ @return a Dictionary of the Launch Options.
+ */
++ (NSDictionary<NSString *, id> *)launchOptionsWithArguments:(NSArray<NSString *> *)arguments environment:(NSDictionary<NSString *, NSString *> *)environment waitForDebugger:(BOOL)waitForDebugger;
 
 @end
 

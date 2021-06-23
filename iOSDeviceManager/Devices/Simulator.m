@@ -201,19 +201,61 @@ static const FBSimulatorControl *_control;
 }
 
 + (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
-    [Simulator killSimulatorApp];
-    if (![simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
+//    FBFuture<NSArray<FBSimulator *> *> *simulatorFutures = [FBFuture futureWithFutures:@[
+//      [self assertObtainsSimulatorWithConfiguration:[FBSimulatorConfiguration withDeviceModel:SimulatorControlTestsDefaultiPhoneModel]],
+//      [self assertObtainsSimulatorWithConfiguration:[FBSimulatorConfiguration withDeviceModel:SimulatorControlTestsDefaultiPhoneModel]],
+//      [self assertObtainsSimulatorWithConfiguration:[FBSimulatorConfiguration withDeviceModel:SimulatorControlTestsDefaultiPadModel]],
+//    ]];
+//    NSError *error = nil;
+//    NSArray<FBSimulator *> *simulators = [simulatorFutures await:&error];
+//    XCTAssertNil(error);
+//    XCTAssertTrue(simulators);
+//
+//    FBSimulator *simulator1 = simulators[0];
+    
+    
+    
+    NSError *error = nil;
+    //[[[simulator.fbSimulator.set eraseSimulator:simulator.fbSimulator] mapReplace:NSNull.null] await:&error];
+    
+    
+
+//    BOOL success = [[simulator.fbSimulator shutdown] await:&error] != nil;
+    FBFuture *shutdownFuture = [FBFuture futureWithFutures:@[
+      [simulator.fbSimulator shutdown],
+    ]];
+    BOOL success = [shutdownFuture await:&error] != nil;
+    
+    if (!success){
         ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
         return iOSReturnStatusCodeInternalError;
     }
     
-    NSError *error = nil;
-    if ([[simulator.fbSimulator erase] await:&error] == nil) {
-        ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
+    [[simulator.fbSimulator erase] await:&error];
+    
+    if (error){
+        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
         return iOSReturnStatusCodeInternalError;
     }
-
+    
     return iOSReturnStatusCodeEverythingOkay;
+//    [Simulator killSimulatorApp];
+//    if (![simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
+//        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//
+//    FBFuture<NSNull *> *future = [simulator.fbSimulator erase];
+//
+//
+//    NSError *error = nil;
+////    if ([[simulator.fbSimulator erase] await:&error] == nil) {
+//    if (!future.result) {
+//        ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//
+//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (FBiOSTargetState)state {
