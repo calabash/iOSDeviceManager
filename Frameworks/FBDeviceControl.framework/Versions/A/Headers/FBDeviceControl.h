@@ -17,7 +17,6 @@
 #import <FBDeviceControl/FBDeviceControlFrameworkLoader.h>
 #import <FBDeviceControl/FBDevicePowerCommands.h>
 #import <FBDeviceControl/FBDeviceRecoveryCommands.h>
-#import <FBDeviceControl/FBDeviceApplicationCommands.h>
 #import <FBDeviceControl/FBDeviceSet.h>
 #import <FBDeviceControl/FBDeviceVideo.h>
 #import <FBDeviceControl/FBDeviceVideo.h>

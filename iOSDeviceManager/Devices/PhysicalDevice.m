@@ -75,7 +75,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 @property (nonatomic, strong) FBDevice *fbDevice;
 
-@property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
+//@property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
@@ -83,7 +83,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 @implementation PhysicalDevice
 
-@synthesize applicationCommands = _applicationCommands;
+//@synthesize applicationCommands = _applicationCommands;
 
 + (PhysicalDevice *)withID:(NSString *)uuid {
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
@@ -109,18 +109,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return device;
 }
 
-- (FBDeviceApplicationCommands *)applicationCommands {
-    
-    if (_applicationCommands) { return _applicationCommands; }
-
-    _applicationCommands = [FBDeviceApplicationCommands commandsWithTarget:self.fbDevice];
-    return _applicationCommands;
-}
-
-//- (FBiOSDeviceOperator *)fbDeviceOperator {
-//    return [FBiOSDeviceOperator forDevice:self.fbDevice];
+//- (FBDeviceApplicationCommands *)applicationCommands {
+//
+//    if (_applicationCommands) { return _applicationCommands; }
+//
+//    _applicationCommands = [FBDeviceApplicationCommands commandsWithTarget:self.fbDevice];
+//    return _applicationCommands;
 //}
-
 
 
 - (iOSReturnStatusCode)launch {
@@ -204,7 +199,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             return iOSReturnStatusCodeInternalError;
         }
 
-        if (![[self.applicationCommands installApplicationWithPath:app.path] await:&error]) {
+//        if (![[self.applicationCommands installApplicationWithPath:app.path] await:&error]) {
+        if (![[self.fbDevice installApplicationWithPath:app.path] await:&error]) {
             ConsoleWriteErr(@"Error installing application: %@",
                             [error localizedDescription]);
             return iOSReturnStatusCodeInternalError;
@@ -280,7 +276,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
 
     NSError *err;
-    if (![[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:&err]) {
+//    if (![[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:&err]) {
+    if (![[self.fbDevice isApplicationInstalledWithBundleID:bundleID] await:&err]) {
         ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeInternalError;
     }
@@ -294,7 +291,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    if (![[self.applicationCommands uninstallApplicationWithBundleID:bundleID] await:&err]) {
+//    if (![[self.applicationCommands uninstallApplicationWithBundleID:bundleID] await:&err]) {
+    if (![[self.fbDevice uninstallApplicationWithBundleID:bundleID] await:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
         return iOSReturnStatusCodeInternalError;
     } else {
@@ -346,17 +344,19 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
 
     // Currently unsupported to have environment vars passed here.
-    FBApplicationLaunchConfiguration *appLaunch = [FBApplicationLaunchConfiguration
-                                                   configurationWithBundleID:bundleID
-                                                   bundleName:nil
-                                                   arguments:@[]
-                                                   environment:@{}
-                                                   waitForDebugger:NO
-                                                   output:[FBProcessOutputConfiguration defaultForDeviceManager]];
-
+    FBApplicationLaunchConfiguration *appLaunch = [[FBApplicationLaunchConfiguration alloc]
+      initWithBundleID:bundleID
+      bundleName:nil
+      arguments:@[]
+      environment:@{}
+      waitForDebugger:NO
+      io:FBProcessIO.outputToDevNull
+      launchMode:FBApplicationLaunchModeRelaunchIfRunning];
+    
     NSError *error = nil;
 
-    if (![[self.applicationCommands launchApplication:appLaunch] await:&error]) {
+//    if (![[self.applicationCommands launchApplication:appLaunch] await:&error]) {
+    if (![[self.fbDevice launchApplication:appLaunch] await:&error]) {
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
     }
@@ -366,7 +366,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
                                      error:(NSError **)error {
-    if ([[self.applicationCommands launchApplication:configuration] await:error]){
+//    if ([[self.applicationCommands launchApplication:configuration] await:error]){
+    if ([[self.fbDevice launchApplication:configuration] await:error]){
         return YES;
     }
     else{
@@ -393,7 +394,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (pid_t)processIdentifierForApplication:(NSString *)bundleIdentifier {
     NSError *error = nil;
-    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
+//    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
+    NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
     if ([PID intValue] < 1) {
         return 0;
     } else {
@@ -436,7 +438,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     NSError *error = nil;
     
-    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
+//    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
+    NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
     if ([PID intValue] < 1) {
         if (wasRunning) { *wasRunning = NO; }
         return YES;
@@ -444,7 +447,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         if (wasRunning) { *wasRunning = YES; }
     }
 
-    if (![[self.applicationCommands killApplicationWithBundleID:bundleIdentifier] await:&error]) {
+//    if (![[self.applicationCommands killApplicationWithBundleID:bundleIdentifier] await:&error]) {
+    if (![[self.fbDevice killApplicationWithBundleID:bundleIdentifier] await:&error]) {
         ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
                         bundleIdentifier, [error localizedDescription]);
         return NO;
@@ -454,7 +458,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError **)error {
-    NSNumber * installed = [[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:error];
+//    NSNumber * installed = [[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:error];
+    NSNumber * installed = [[self.fbDevice isApplicationInstalledWithBundleID:bundleID] await:error];
     return installed.boolValue;
 }
 

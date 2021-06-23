@@ -105,6 +105,7 @@ const double EPSILON = 0.001;
     static NSArray<FBSimulator *> *m_availableSimulators;
 
     dispatch_once(&onceToken, ^{
+        
         FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
 
         NSError *err;
@@ -117,6 +118,16 @@ const double EPSILON = 0.001;
         }
 
         m_availableSimulators = [[simControl set] allSimulators];
+        
+//        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+//          configurationWithDeviceSetPath:nil
+//          logger:nil
+//          reporter:nil];
+//
+//        NSError *error;
+//        FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
+//
+//        m_availableSimulators = [[control set] allSimulators];
     });
 
     return m_availableSimulators;

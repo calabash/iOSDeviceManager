@@ -19,19 +19,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			WMuKybNtJg1eDYjBs6xHzdUUiZw=
+			aXtuo9KYT3j6GMWAesNRqGVZSbw=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"58cb8ac9b36d260d5e0d88c1b3ac47cdd514899c"</string>
+			<string>cdhash H"697b6ea3d2984f78fa18c5807ac351a8655949bc"</string>
 		</dict>
 		<key>Frameworks/XCTestBootstrap.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			6Zf3fzt61xV+0O6yCX6eG1pe094=
+			vifkgT3wppILl7tOUQkvi8p/CCI=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"e997f77f3b7ad7157ed0eeb2097e9e1b5a5ed3de"</string>
+			<string>cdhash H"be27e4813df0a6920b97bb4e51092f8bca7f0822"</string>
 		</dict>
 		<key>Headers/FBAFCConnection.h</key>
 		<dict>
@@ -82,13 +82,6 @@
 			5Q7lZrCxAsFgb49kycgb+haFaXUmDF6pxNV/w+ySvVQ=
 			</data>
 		</dict>
-		<key>Headers/FBDeviceApplicationCommands.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			FFgFz60/ofmhlllzLAyM/MFWRTblwd2ls69CS2L6V08=
-			</data>
-		</dict>
 		<key>Headers/FBDeviceCommands.h</key>
 		<dict>
 			<key>hash2</key>
@@ -100,7 +93,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ACGh90zvs3ULYvFVbZD1+Ckr2LQZ0+RH5N7Der6QCxA=
+			a2sMZEkr8LmK+9KFIEJJ8z69dY2n2ahl1A0XfPLWSlI=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>

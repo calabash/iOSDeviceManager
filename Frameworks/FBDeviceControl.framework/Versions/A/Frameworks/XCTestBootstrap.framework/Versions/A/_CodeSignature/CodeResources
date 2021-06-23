@@ -23,10 +23,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			WMuKybNtJg1eDYjBs6xHzdUUiZw=
+			aXtuo9KYT3j6GMWAesNRqGVZSbw=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"58cb8ac9b36d260d5e0d88c1b3ac47cdd514899c"</string>
+			<string>cdhash H"697b6ea3d2984f78fa18c5807ac351a8655949bc"</string>
 		</dict>
 		<key>Headers/FBActivityRecord.h</key>
 		<dict>
@@ -130,7 +130,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lTnZNxb215j2evI2pWxLyvaxhTpfKmxNRqzV/7nGrrU=
+			Six8oE+wx+2W3vVAhqpv7MjryIQtXZ+Kqo/RfAsoTPI=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerResultSummary.h</key>

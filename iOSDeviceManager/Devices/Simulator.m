@@ -208,7 +208,7 @@ static const FBSimulatorControl *_control;
     }
     
     NSError *error = nil;
-    if (![[simulator.fbSimulator erase] await:&error]) {
+    if ([[simulator.fbSimulator erase] await:&error] == nil) {
         ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
         return iOSReturnStatusCodeInternalError;
     }
@@ -667,16 +667,15 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    FBProcessOutputConfiguration *outConfig;
-    outConfig = [FBProcessOutputConfiguration defaultForDeviceManager];
-
-    FBApplicationLaunchConfiguration *launchConfig;
-    launchConfig = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID
-                                                                    bundleName:nil
-                                                                     arguments:@[]
-                                                                   environment:@{}
-                                                               waitForDebugger:NO
-                                                                        output:outConfig];
+    FBApplicationLaunchConfiguration *launchConfig = [[FBApplicationLaunchConfiguration alloc]
+      initWithBundleID:bundleID
+      bundleName:nil
+      arguments:@[]
+      environment:@{}
+      waitForDebugger:NO
+      io:FBProcessIO.outputToDevNull
+      launchMode:FBApplicationLaunchModeRelaunchIfRunning];
+    
 
     if ([[self.fbSimulator launchApplication:launchConfig] await:&error]) {
         return iOSReturnStatusCodeEverythingOkay;
@@ -886,12 +885,15 @@ static const FBSimulatorControl *_control;
 
 + (FBApplicationLaunchConfiguration *)testRunnerLaunchConfig:(NSString *)testRunnerPath {
     FBBundleDescriptor *application = [self app:testRunnerPath];
-
-    return [FBApplicationLaunchConfiguration configurationWithApplication:application
-                                                                arguments:@[]
-                                                              environment:@{}
-                                                          waitForDebugger:NO
-                                                                   output:[FBProcessOutputConfiguration defaultForDeviceManager]];
+    
+    return [[FBApplicationLaunchConfiguration alloc]
+            initWithBundleID:application.identifier
+            bundleName:application.name
+            arguments:@[]
+            environment:@{}
+            waitForDebugger:NO
+            io:FBProcessIO.outputToDevNull
+            launchMode:FBApplicationLaunchModeRelaunchIfRunning];
 }
 
 + (BOOL)iOS_GTE_9:(NSString *)versionString {

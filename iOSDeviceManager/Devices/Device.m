@@ -11,13 +11,13 @@
 
 #define MUST_OVERRIDE @throw [NSException exceptionWithName:@"ProgrammerErrorException" reason:@"Method should be overridden by a subclass" userInfo:@{@"method" : NSStringFromSelector(_cmd)}]
 
-@implementation FBProcessOutputConfiguration (iOSDeviceManagerAdditions)
-
-+ (FBProcessOutputConfiguration *)defaultForDeviceManager {
-    return [FBProcessOutputConfiguration outputToDevNull];
-}
-
-@end
+//@implementation FBProcessOutputConfiguration (iOSDeviceManagerAdditions)
+//
+//+ (FBProcessOutputConfiguration *)defaultForDeviceManager {
+//    return [FBProcessOutputConfiguration outputToDevNull];
+//}
+//
+//@end
 
 @implementation Device
 
