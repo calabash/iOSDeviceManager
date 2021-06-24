@@ -100,36 +100,69 @@ static const FBSimulatorControl *_control;
     return [NSURL fileURLWithPath:path];
 }
 
-+ (BOOL)waitForSimulatorAppServices:(FBSimulator *)fbSimulator {
-    NSArray<NSString *> *requiredServiceNames = [Simulator requiredSimulatorAppProcesses];
-    __block NSDictionary<id, NSString *> *processIdentifiers = @{};
-    BOOL success = NO;
++ (FBFuture<NSNull *> *)performBootVerification:(FBSimulator *)simulator
+{
+    NSArray<NSString *> *requiredServiceNames = [Simulator requiredSimulatorAppProcesses:simulator];
+    
+  return [[simulator
+    listServices]
+    onQueue:simulator.asyncQueue fmap:^ FBFuture<NSNull *> * (NSDictionary<NSString *, id> *services) {
+      NSDictionary<id, NSString *> *processIdentifiers = [NSDictionary
+        dictionaryWithObjects:requiredServiceNames
+        forKeys:[services objectsForKeys:requiredServiceNames notFoundMarker:NSNull.null]];
+      // At least on process has not launched yet.
+      if (processIdentifiers[NSNull.null]) {
+        return [[FBSimulatorError
+          describeFormat:@"Service %@ has not started", processIdentifiers[NSNull.null]]
+          failFuture];
+      }
+      return FBFuture.empty;
+    }];
+}
 
++ (BOOL)waitForSimulatorAppServices:(FBSimulator *)fbSimulator {
+    
+    BOOL success = NO;
+    
     return [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:120 untilTrue:^BOOL{
-        FBFuture<NSDictionary<NSString *,id> *> *future_list = [fbSimulator listServices];
-        NSDictionary<NSString *,id> *services = future_list.result;
+
+        NSError *error = nil;
+        
         // No services running yet.
-        if (!services) { return NO; }
+        if (![[Simulator performBootVerification:fbSimulator] await:&error]) { return NO; }
         
-        NSArray *keys = [services objectsForKeys:requiredServiceNames
-                                  notFoundMarker:[NSNull null]];
-        processIdentifiers = [NSDictionary dictionaryWithObjects:requiredServiceNames
-                                                         forKeys:keys];
-        
-        // At least on process has not launched yet.
-        if (processIdentifiers[NSNull.null]) { return NO; }
-        
-        // No null values in the dictionary means all processes have started.
         return YES;
     }];
-
+    
     return success;
 }
 
-+ (NSArray<NSString *> *)requiredSimulatorAppProcesses {
-    return @[@"com.apple.backboardd",
-             @"com.apple.mobile.installd",
-             @"com.apple.SpringBoard"];
+
++ (NSArray<NSString *> *)requiredSimulatorAppProcesses: (FBSimulator*)simulator {
+    FBControlCoreProductFamily family = simulator.productFamily;
+    if (family == FBControlCoreProductFamilyiPhone || family == FBControlCoreProductFamilyiPad) {
+      if (FBXcodeConfiguration.isXcode9OrGreater) {
+        return @[
+          @"com.apple.backboardd",
+          @"com.apple.mobile.installd",
+          @"com.apple.CoreSimulator.bridge",
+          @"com.apple.SpringBoard",
+        ];
+      }
+        return @[
+          @"com.apple.backboardd",
+          @"com.apple.mobile.installd",
+          @"com.apple.SimulatorBridge",
+          @"com.apple.SpringBoard",
+        ];
+    }
+    if (family == FBControlCoreProductFamilyAppleWatch || family == FBControlCoreProductFamilyAppleTV) {
+      return @[
+        @"com.apple.mobileassetd",
+        @"com.apple.nsurlsessiond",
+      ];
+    }
+    return @[];
 }
 
 + (iOSReturnStatusCode)launchSimulator:(Simulator *)simulator {
@@ -212,37 +245,37 @@ static const FBSimulatorControl *_control;
 //    return iOSReturnStatusCodeEverythingOkay;
     
     
-    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
-
-    NSError *error;
-    FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
-    NSArray<FBSimulator *> *simulators = control.set.allSimulators;
-
-    for (FBSimulator *simulator in simulators) {
-        if (![simulator shutdown]) {
-            //print(@"Could not shutdown simulator: %@", simulator);
-            //return iOSReturnStatusCodeGenericFailure;
-            return iOSReturnStatusCodeGenericFailure;
-        }
-    }
-
-
-    return iOSReturnStatusCodeEverythingOkay;
-    
-    
-    
-    
-//    FBSimulatorSet *simulators = _control.set;
-//    FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
-//    NSArray <FBSimulator *> *results = [simulators query:query];
-//    for (FBSimulator *simulator in results) {
-//        Simulator *sim = [Simulator withID:simulator.udid];
-//        if (![sim shutdown]) {
-//            ConsoleWriteErr(@"Could not shutdown simulator: %@", simulator);
+//    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
+//
+//    NSError *error;
+//    FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
+//    NSArray<FBSimulator *> *simulators = control.set.allSimulators;
+//
+//    for (FBSimulator *simulator in simulators) {
+//        if (![simulator shutdown]) {
+//            //print(@"Could not shutdown simulator: %@", simulator);
+//            //return iOSReturnStatusCodeGenericFailure;
 //            return iOSReturnStatusCodeGenericFailure;
 //        }
 //    }
+//
+//
 //    return iOSReturnStatusCodeEverythingOkay;
+//    
+    
+    
+    
+    FBSimulatorSet *simulators = _control.set;
+    FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
+    NSArray <FBSimulator *> *results = [simulators query:query];
+    for (FBSimulator *simulator in results) {
+        Simulator *sim = [Simulator withID:simulator.udid];
+        if (![sim shutdown]) {
+            ConsoleWriteErr(@"Could not shutdown simulator: %@", simulator);
+            return iOSReturnStatusCodeGenericFailure;
+        }
+    }
+    return iOSReturnStatusCodeEverythingOkay;
 }
 
 + (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
