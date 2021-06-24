@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		uBo7/x8ZwI3MXAVgOm3/GUP6gE8=
+		vmaqAiVJUAzmUTg+dFueUouTA3s=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -19,19 +19,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			5oMUx/MlWpw7AfLY5XW+++JPB2Y=
+			HmO1ZEXfU9C8pggx4pgbV8JFutk=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"e68314c7f3255a9c3b01f2d8e575befbe24f0766"</string>
+			<string>cdhash H"1e63b56445df53d0bca60831e2981b57c245bad9"</string>
 		</dict>
 		<key>Frameworks/XCTestBootstrap.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			GuEqzoagsFCxWyJ7edvaXvUO3Qc=
+			kKzD6jfX2xscG9jsCPwiw7syiM0=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"1ae12ace86a0b050b15b227b79dbda5ef50edd07"</string>
+			<string>cdhash H"90acc3ea37d7db1b1c1bd8ec08fc22c3bb3288cd"</string>
 		</dict>
 		<key>Headers/FBAFCConnection.h</key>
 		<dict>
@@ -205,7 +205,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vxdg/icBkVX40kmKg7WfxL0sfEa81dDA6v/u+oJiXbw=
+			LkWJtBjxWx3kfCRIbOLU2AGIYFKp9E1rizKA78haPTA=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>

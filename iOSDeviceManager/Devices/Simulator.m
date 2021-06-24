@@ -562,6 +562,7 @@ static const FBSimulatorControl *_control;
             if ([[applicationCommands installApplicationWithPath:app.path] await:&error]){
                 ConsoleWrite(@"Installed application on %@ of %@ attempts",
                              @(try), @(tries));
+                success = YES;
                 break;
             }
 
@@ -573,7 +574,6 @@ static const FBSimulatorControl *_control;
             } else {
                 // Any other error
                 ConsoleWriteErr(@"Error installing application: %@", error);
-                success = NO;
                 break;
             }
         }
@@ -790,16 +790,22 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
 
-    if ([[self.fbSimulator isApplicationInstalledWithBundleID:bundleID] await:error]) {
-        return YES;
-    }
-
+    //returns a wrong result
+//    if ([[self.fbSimulator isApplicationInstalledWithBundleID:bundleID] await:error]) {
+//        return YES;
+//    }
+    
+    //may try this
+    //    if [[self.fbSimulator installedApplicationWithBundleID:bundleID] await:error];
+    
+    //breakout way
     NSDictionary *installedApps = [self.fbSimulator.device installedAppsWithError:error];
     if (installedApps[bundleID]) {
         return YES;
     } else {
         return NO;
     }
+    
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {

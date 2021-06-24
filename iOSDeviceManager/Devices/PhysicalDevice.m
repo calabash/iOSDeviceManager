@@ -823,41 +823,18 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return self;
 }
 
-- (id<FBControlCoreLogger>)info {
-    return self;
-}
-
-- (id<FBControlCoreLogger>)debug {
-    return self;
-}
-
-- (id<FBControlCoreLogger>)error {
-    return self;
-}
-
-- (id<FBControlCoreLogger>)onQueue:(dispatch_queue_t)queue {
-    return self;
-}
-
-- (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix {
-    return self;
-}
-
-
-
-
 - (NSString *)containerPathForApplication:(NSString *)bundleID {
     return [self containerPathForApplicationWithBundleID:bundleID
-                                                       error:nil];
+                                                   error:nil];
 }
 
 - (NSString *)installPathForApplication:(NSString *)bundleID {
     return [self applicationPathForApplicationWithBundleID:bundleID
-                                                         error:nil];
+                                                     error:nil];
 }
 
 - (NSString *)pathToEmptyXcappdata:(NSError **)error {
-
+    
     NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
     NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
     NSString *xcappdataPath = [[NSTemporaryDirectory()
@@ -866,11 +843,11 @@ testCaseDidStartForTestClass:(NSString *)testClass
     NSString *documents = [[xcappdataPath
                             stringByAppendingPathComponent:@"AppData"]
                            stringByAppendingPathComponent:@"Documents"];
-
+    
     NSString *library = [[xcappdataPath
                           stringByAppendingPathComponent:@"AppData"]
                          stringByAppendingPathComponent:@"Library"];
-
+    
     NSString *tmp = [[xcappdataPath
                       stringByAppendingPathComponent:@"AppData"]
                      stringByAppendingPathComponent:@"tmp"];
@@ -902,77 +879,77 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }] await:error] != nil;
     
     return success;
-//    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
-//
-//    return [operator AMDinstallProvisioningProfileAtPath:path error:error];
+    //    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
+    //
+    //    return [operator AMDinstallProvisioningProfileAtPath:path error:error];
 }
 
 - (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)pathToRunner
                                            AUT:(NSString *)pathToAUT
                                     deviceUDID:(NSString *)deviceUDID
                                          error:(NSError **)error {
-
+    
     NSString *runnerName = [[pathToRunner lastPathComponent]
                             componentsSeparatedByString:@"."][0];
     NSString *appDataBundle = [runnerName stringByAppendingString:@".xcappdata"];
-
+    
     NSString *directory = NSTemporaryDirectory();
-
+    
     if (![XCAppDataBundle generateBundleSkeleton:directory
                                             name:appDataBundle
                                        overwrite:YES]) {
         return NO;
     }
-
+    
     NSString *xcappdata = [directory stringByAppendingPathComponent:appDataBundle];
-
-//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-//    [operator fetchApplications];
-
+    
+    //    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+    //    [operator fetchApplications];
+    
     Application *runnerApp = [Application withBundlePath:pathToRunner];
     NSString *runnerBundleId = [runnerApp bundleID];
-
+    
     Application *AUTApp = [Application withBundlePath:pathToAUT];
     NSString *AUTBundleId = [AUTApp bundleID];
-
+    
     
     NSString *runnerPath = [self applicationPathForApplicationWithBundleID:runnerBundleId error:error];
     NSString *uuid = [[NSUUID UUID] UUIDString];
-
+    
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerPath];
-
+    
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
                                                                       AUTHostPath:pathToAUT
                                                               AUTBundleIdentifier:AUTBundleId
                                                                    runnerHostPath:pathToRunner
                                                            runnerBundleIdentifier:runnerBundleId
                                                                 sessionIdentifier:uuid];
-
+    
     NSString *tmpDirectory = [[xcappdata stringByAppendingPathComponent:@"AppData"]
                               stringByAppendingPathComponent:@"tmp"];
-
-
+    
+    
     NSString *runnerProductName = [[pathToRunner lastPathComponent]
                                    componentsSeparatedByString:@"-"][0];
-
+    
     NSString *filename = [NSString stringWithFormat:@"%@-%@.xctestconfiguration",
                           runnerProductName, uuid];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
-
+    
     NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
-
+    
     if (![plistData writeToFile:xctestconfigPath
                      atomically:YES]) {
         ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
                         xctestconfigPath);
         return NO;
     }
-
+    
     [[NSFileManager defaultManager] createDirectoryAtPath:@"xctestconfig"
                               withIntermediateDirectories:NO
                                                attributes:nil
                                                     error:nil];
-
+    
     xctestconfigPath = [@"xctestconfig" stringByAppendingPathComponent:filename];
     if (![plistData writeToFile:xctestconfigPath
                      atomically:YES]) {
@@ -980,44 +957,135 @@ testCaseDidStartForTestClass:(NSString *)testClass
                         xctestconfigPath);
         return NO;
     }
-
+    
     if ([self uploadXCAppDataBundle:xcappdata forApplication:runnerBundleId] != iOSReturnStatusCodeEverythingOkay){
         ConsoleWriteErr(@"Could not upload %@ to %@",
                         appDataBundle, runnerBundleId);
         return NO;
     }
     
-//    if (![operator uploadApplicationDataAtPath:xcappdata
-//                                      bundleID:runnerBundleId
-//                                         error:error]) {
-//        ConsoleWriteErr(@"Could not upload %@ to %@",
-//                        appDataBundle, runnerBundleId);
-//        return NO;
-//    }
-
+    //    if (![operator uploadApplicationDataAtPath:xcappdata
+    //                                      bundleID:runnerBundleId
+    //                                         error:error]) {
+    //        ConsoleWriteErr(@"Could not upload %@ to %@",
+    //                        appDataBundle, runnerBundleId);
+    //        return NO;
+    //    }
+    
     // Deliberately skipping error checking; error is ignorable.
     [[NSFileManager defaultManager] removeItemAtPath:xcappdata
                                                error:nil];
-
+    
     ConsoleWrite(@"\n");
     ConsoleWrite(@" Runner: %@", runnerBundleId);
     ConsoleWrite(@"    AUT: %@", AUTBundleId);
     ConsoleWrite(@"Session: %@", uuid);
-
+    
     NSString *containerPath = [self containerPathForApplication:runnerBundleId];
     NSString *installedPath = [[containerPath stringByAppendingPathComponent:@"tmp"]
                                stringByAppendingPathComponent:filename];
     ConsoleWrite(@"   Path: %@", xctestconfigPath);
-
+    
     ConsoleWrite(@"\n-a /Developer/usr/lib/libXCTTargetBootstrapInject.dylib \\\n"
-                  "-b %@ \\\n"
+                 "-b %@ \\\n"
                  "-t %@ \\\n"
                  "-s %@ \\\n"
                  "-u %@ \\\n"
                  "-c %@\n",
                  runnerBundleId, AUTBundleId, uuid, deviceUDID, installedPath);
-
+    
     return YES;
 }
+
+- (id<FBControlCoreLogger>)info {
+    level = FBControlCoreLogLevelInfo;
+    return self;
+}
+
+- (id<FBControlCoreLogger>)debug {
+    level = FBControlCoreLogLevelDebug;
+    return self;
+}
+
+- (id<FBControlCoreLogger>)error {
+    level = FBControlCoreLogLevelError;
+    return self;
+}
+
+- (nonnull id<FBControlCoreLogger>)withDateFormatEnabled:(BOOL)enabled { 
+    return self;
+}
+
+
+- (nonnull id<FBControlCoreLogger>)withName:(nonnull NSString *)name { 
+    return self;
+}
+
+
+- (id<FBControlCoreLogger>)onQueue:(dispatch_queue_t)queue {
+    return self;
+}
+
+- (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix {
+    return self;
+}
+
+- (void)debuggerAttached { 
+    [self log:@"Debugger attached"];
+}
+
+- (void)didBeginExecutingTestPlan {
+}
+
+- (void)didCrashDuringTest:(nonnull NSError *)error { 
+    [self logFormat:@"didCrashDuringTest: %@", error];
+}
+
+- (void)didFinishExecutingTestPlan { 
+    //TODO:
+}
+
+- (void)finishedWithSummary:(nonnull FBTestManagerResultSummary *)summary { 
+    // didFinishExecutingTestPlan should be used to signify completion instead
+}
+
+- (void)handleExternalEvent:(nonnull NSString *)event { 
+    [self logFormat:@"handleExternalEvent: %@", event];
+}
+
+- (BOOL)printReportWithError:(NSError *__autoreleasing  _Nullable * _Nullable)error { 
+    [self logFormat:@"printReportWithError: %@", *error];
+    return NO;
+}
+
+- (void)processUnderTestDidExit { 
+    //TODO:
+}
+
+- (void)processWaitingForDebuggerWithProcessIdentifier:(pid_t)pid { 
+    [self logFormat:@"Tests waiting for debugger. To debug run: lldb -p %d", pid];
+}
+
+- (void)testCaseDidFailForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method withMessage:(nonnull NSString *)message file:(nullable NSString *)file line:(NSUInteger)line { 
+    [self logFormat:@"Got failure info for %@/%@", testClass, method];
+}
+
+- (void)testCaseDidFinishForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method withStatus:(FBTestReportStatus)status duration:(NSTimeInterval)duration logs:(nullable NSArray<NSString *> *)logs { 
+    //TODO:
+}
+
+- (void)testCaseDidStartForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method { 
+    //TODO:
+}
+
+- (void)testHadOutput:(nonnull NSString *)output { 
+    [self logFormat:@"testHadOutput: %@", output];
+}
+
+- (void)testSuite:(nonnull NSString *)testSuite didStartAt:(nonnull NSString *)startTime { 
+    //TODO:
+}
+
+@synthesize level;
 
 @end
