@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		hh3OT3CQh03G2CyomCGqjJnYr94=
+		CEUMBfD2B5oFBei0mJD6Vuwtp3s=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -19,19 +19,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			wbirTMNuK2ojDcCvS52JEZ8572U=
+			7lhDonkWaNOHSy0cKZr2wQduzr8=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"c1b8ab4cc36e2b6a230dc0af4b9d89119f39ef65"</string>
+			<string>cdhash H"ee5843a2791668d3874b2d1c299af6c1076ecebf"</string>
 		</dict>
 		<key>Frameworks/XCTestBootstrap.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			Vx3NwwsQEEOJKcVio4V6o/wRpus=
+			2aglSUEN3SF8/0tjSr5geSFR3Dk=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"571dcdc30b1010438929c562a3857aa3fc11a6eb"</string>
+			<string>cdhash H"d9a82549410ddd217cff4b634abe60792151dc39"</string>
 		</dict>
 		<key>Headers/FBAgentLaunchStrategy.h</key>
 		<dict>
@@ -401,7 +401,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			2verSDOBN+16GM/EkCBdrwE+KRf3VISoS6fvJbgubzY=
+			yO/HJS8NonCfHR39pS5bDUGdFMg3VzAhm9AYfNRyNj8=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>

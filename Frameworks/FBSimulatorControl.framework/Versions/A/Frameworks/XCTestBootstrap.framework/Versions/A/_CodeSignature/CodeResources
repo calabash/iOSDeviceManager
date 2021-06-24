@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		T5RZRbQoo29CWyRd7TtEDBguIlM=
+		eD0+bXNkJrcMci6T6ZT6il0uuXU=
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
@@ -23,10 +23,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			wbirTMNuK2ojDcCvS52JEZ8572U=
+			7lhDonkWaNOHSy0cKZr2wQduzr8=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"c1b8ab4cc36e2b6a230dc0af4b9d89119f39ef65"</string>
+			<string>cdhash H"ee5843a2791668d3874b2d1c299af6c1076ecebf"</string>
 		</dict>
 		<key>Headers/FBActivityRecord.h</key>
 		<dict>
@@ -249,7 +249,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Hmsw/xCLM68TJgsvzBmy32/a3/qwwH3IS0rrLUFBKzo=
+			GpVOcUdryBGZs18DrSMYW6LH/9eX4N2xsM/7mKk3z3k=
 			</data>
 		</dict>
 		<key>Resources/libMaculator.dylib</key>

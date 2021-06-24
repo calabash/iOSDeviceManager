@@ -106,28 +106,28 @@ const double EPSILON = 0.001;
 
     dispatch_once(&onceToken, ^{
         
-        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
-
-        NSError *err;
-        FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
-        if (err) {
-            ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
-            @throw [NSException exceptionWithName:@"GenericException"
-                                           reason:@"Failed detecting available simulators"
-                                         userInfo:nil];
-        }
-
-        m_availableSimulators = [[simControl set] allSimulators];
+//        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
+//
+//        NSError *err;
+//        FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];
+//        if (err) {
+//            ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", err);
+//            @throw [NSException exceptionWithName:@"GenericException"
+//                                           reason:@"Failed detecting available simulators"
+//                                         userInfo:nil];
+//        }
+//
+//        m_availableSimulators = [[simControl set] allSimulators];
         
-//        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-//          configurationWithDeviceSetPath:nil
-//          logger:nil
-//          reporter:nil];
-//
-//        NSError *error;
-//        FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
-//
-//        m_availableSimulators = [[control set] allSimulators];
+        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+          configurationWithDeviceSetPath:nil
+          logger:nil
+          reporter:nil];
+
+        NSError *error;
+        FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
+
+        m_availableSimulators = [[control set] allSimulators];
     });
 
     return m_availableSimulators;

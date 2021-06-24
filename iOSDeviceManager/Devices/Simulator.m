@@ -12,7 +12,6 @@
 
 - (BOOL)bootWithOptions:(NSDictionary *)options error:(NSError *__autoreleasing *)error;
 - (NSDictionary *)installedAppsWithError:(NSError **)error;
-
 @end
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
@@ -171,7 +170,7 @@ static const FBSimulatorControl *_control;
             BOOL termed = [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:2 untilTrue:^BOOL{
                 return application.terminated;
             }];
-            
+
             if (!termed) {
                 [application forceTerminate];
             }
@@ -187,75 +186,79 @@ static const FBSimulatorControl *_control;
         }
     }
 
-    FBSimulatorSet *simulators = _control.set;
-    FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
-    NSArray <FBSimulator *> *results = [simulators query:query];
-    for (FBSimulator *simulator in results) {
-        Simulator *sim = [Simulator withID:simulator.udid];
-        if (![sim shutdown]) {
-            ConsoleWriteErr(@"Could not shutdown simulator: %@", simulator);
+//    NSArray<FBSimulator *> *simulators = _control.set.allSimulators;
+//    for (FBSimulator *simulator in simulators) {
+//        if (![simulator shutdown]) {
+//            ConsoleWriteErr(@"Could not shutdown simulator: %@", simulator);
+//            return iOSReturnStatusCodeGenericFailure;
+//        }
+//    }
+  
+//    NSError *error;
+//    FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
+//    NSArray<FBSimulator *> *simulators = control.set.allSimulators;
+//
+//    XCTAssertEqual(simulators.count, simDevices.count);
+//
+//    for (FBSimulator *simulator in simulators) {
+//        if (![simulator shutdown]) {
+//            //print(@"Could not shutdown simulator: %@", simulator);
+//            //return iOSReturnStatusCodeGenericFailure;
+//            return iOSReturnStatusCodeGenericFailure;
+//        }
+//    }
+//
+//
+//    return iOSReturnStatusCodeEverythingOkay;
+    
+    
+    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
+
+    NSError *error;
+    FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
+    NSArray<FBSimulator *> *simulators = control.set.allSimulators;
+
+    for (FBSimulator *simulator in simulators) {
+        if (![simulator shutdown]) {
+            //print(@"Could not shutdown simulator: %@", simulator);
+            //return iOSReturnStatusCodeGenericFailure;
             return iOSReturnStatusCodeGenericFailure;
         }
     }
+
+
     return iOSReturnStatusCodeEverythingOkay;
+    
+    
+    
+    
+//    FBSimulatorSet *simulators = _control.set;
+//    FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
+//    NSArray <FBSimulator *> *results = [simulators query:query];
+//    for (FBSimulator *simulator in results) {
+//        Simulator *sim = [Simulator withID:simulator.udid];
+//        if (![sim shutdown]) {
+//            ConsoleWriteErr(@"Could not shutdown simulator: %@", simulator);
+//            return iOSReturnStatusCodeGenericFailure;
+//        }
+//    }
+//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 + (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
-//    FBFuture<NSArray<FBSimulator *> *> *simulatorFutures = [FBFuture futureWithFutures:@[
-//      [self assertObtainsSimulatorWithConfiguration:[FBSimulatorConfiguration withDeviceModel:SimulatorControlTestsDefaultiPhoneModel]],
-//      [self assertObtainsSimulatorWithConfiguration:[FBSimulatorConfiguration withDeviceModel:SimulatorControlTestsDefaultiPhoneModel]],
-//      [self assertObtainsSimulatorWithConfiguration:[FBSimulatorConfiguration withDeviceModel:SimulatorControlTestsDefaultiPadModel]],
-//    ]];
-//    NSError *error = nil;
-//    NSArray<FBSimulator *> *simulators = [simulatorFutures await:&error];
-//    XCTAssertNil(error);
-//    XCTAssertTrue(simulators);
-//
-//    FBSimulator *simulator1 = simulators[0];
     
-    
+    [Simulator killSimulatorApp];
     
     NSError *error = nil;
-    //[[[simulator.fbSimulator.set eraseSimulator:simulator.fbSimulator] mapReplace:NSNull.null] await:&error];
-    
-    
 
-//    BOOL success = [[simulator.fbSimulator shutdown] await:&error] != nil;
-    FBFuture *shutdownFuture = [FBFuture futureWithFutures:@[
-      [simulator.fbSimulator shutdown],
-    ]];
-    BOOL success = [shutdownFuture await:&error] != nil;
-    
-    if (!success){
-        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
-        return iOSReturnStatusCodeInternalError;
-    }
-    
     [[simulator.fbSimulator erase] await:&error];
-    
+
     if (error){
         ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
         return iOSReturnStatusCodeInternalError;
     }
-    
+
     return iOSReturnStatusCodeEverythingOkay;
-//    [Simulator killSimulatorApp];
-//    if (![simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
-//        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
-//        return iOSReturnStatusCodeInternalError;
-//    }
-//
-//    FBFuture<NSNull *> *future = [simulator.fbSimulator erase];
-//
-//
-//    NSError *error = nil;
-////    if ([[simulator.fbSimulator erase] await:&error] == nil) {
-//    if (!future.result) {
-//        ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
-//        return iOSReturnStatusCodeInternalError;
-//    }
-//
-//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (FBiOSTargetState)state {
@@ -268,11 +271,11 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)waitForSimulatorState:(FBiOSTargetState)state
                       timeout:(NSTimeInterval)timeout {
+    NSError* error = nil;
+    [[[self.fbSimulator resolveState:state]
+                                   timeout:timeout waitingFor:@"Simulator to resolve state %@", FBiOSTargetStateStringFromState(state).lowercaseString] await:&error] ;
     
-    FBFuture<NSNull *> *future = [[self.fbSimulator resolveState:state]
-            timeout:timeout waitingFor:@"Simulator to resolve state %@", state];
-    
-    if (future.result) {
+    if (error == nil) {
         return YES;
     }
     else{
@@ -1028,14 +1031,17 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 - (id<FBControlCoreLogger>)info {
+    level = FBControlCoreLogLevelInfo;
     return self;
 }
 
 - (id<FBControlCoreLogger>)debug {
+    level = FBControlCoreLogLevelDebug;
     return self;
 }
 
 - (id<FBControlCoreLogger>)error {
+    level = FBControlCoreLogLevelError;
     return self;
 }
 
@@ -1049,7 +1055,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (NSString *)containerPathForApplication:(NSString *)bundleID {
     NSFileManager *fm = [NSFileManager defaultManager];
-
+    
     NSString *appDataPath = [[[[[[[[[NSHomeDirectory()
                                      stringByAppendingPathComponent:@"Library"]
                                     stringByAppendingPathComponent:@"Developer"]
@@ -1060,14 +1066,14 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                stringByAppendingPathComponent:@"Containers"]
                               stringByAppendingPathComponent:@"Data"]
                              stringByAppendingPathComponent:@"Application"];
-
+    
     NSArray *bundleFolders = [fm contentsOfDirectoryAtPath:appDataPath error:nil];
-
+    
     for (id bundleFolder in bundleFolders) {
         NSString *bundleFolderPath = [appDataPath stringByAppendingPathComponent:bundleFolder];
         NSString *plistFile = [bundleFolderPath
                                stringByAppendingPathComponent:@".com.apple.mobile_container_manager.metadata.plist"];
-
+        
         if ([fm fileExistsAtPath:plistFile]) {
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistFile];
             if ([plist[@"MCMMetadataIdentifier"] isEqualToString:bundleID]) {
@@ -1075,7 +1081,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
             }
         }
     }
-
+    
     return nil;
 }
 
@@ -1088,19 +1094,19 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)runnerBundleIdentifier
                                            AUT:(NSString *)AUTBundleIdentifier
-                                                         error:(NSError **)error {
+                                         error:(NSError **)error {
     NSString *runnerInstalledPath = [self installPathForApplication:runnerBundleIdentifier];
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerInstalledPath];
     NSString *AUTInstalledPath = [self installPathForApplication:AUTBundleIdentifier];
     NSString *uuid = [[NSUUID UUID] UUIDString];
-
+    
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
-                                                                 AUTHostPath:AUTInstalledPath
+                                                                      AUTHostPath:AUTInstalledPath
                                                               AUTBundleIdentifier:AUTBundleIdentifier
-                                                              runnerHostPath:runnerInstalledPath
+                                                                   runnerHostPath:runnerInstalledPath
                                                            runnerBundleIdentifier:runnerBundleIdentifier
                                                                 sessionIdentifier:uuid];
-
+    
     NSString *containerPath = [self containerPathForApplication:runnerBundleIdentifier];
     NSString *tmpDirectory = [containerPath stringByAppendingPathComponent:@"tmp"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:tmpDirectory]) {
@@ -1111,16 +1117,16 @@ testCaseDidStartForTestClass:(NSString *)testClass
             return NO;
         }
     }
-
+    
     NSString *filename = [uuid stringByAppendingString:@".xctestconfiguration"];
     NSString *xctestconfigPath = [tmpDirectory stringByAppendingPathComponent:filename];
-
+    
     NSArray *tmpDirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDirectory
                                                                                   error:error];
     if (!tmpDirContents) {
         return NO;
     }
-
+    
     for (NSString *fileName in tmpDirContents) {
         if ([@"xctestconfiguration" isEqualToString:[fileName pathExtension]]) {
             NSString *path = [tmpDirectory stringByAppendingPathComponent:fileName];
@@ -1128,23 +1134,90 @@ testCaseDidStartForTestClass:(NSString *)testClass
                                                             error:error]) {
                 return NO;
             }
-
+            
         }
     }
-
+    
     NSData *plistData = [xctestconfig dataUsingEncoding:NSUTF8StringEncoding];
-
+    
     if (![plistData writeToFile:xctestconfigPath
                      atomically:YES]) {
         ConsoleWriteErr(@"Could not create an .xctestconfiguration at path:\n  %@\n",
                         xctestconfigPath);
         return NO;
     }
-
+    
     ConsoleWrite(@"Runner: %@", runnerBundleIdentifier);
     ConsoleWrite(@"AUT: %@", AUTBundleIdentifier);
     ConsoleWrite(uuid);
     return YES;
 }
+
+- (nonnull id<FBControlCoreLogger>)withDateFormatEnabled:(BOOL)enabled {
+    return self;
+}
+
+
+- (nonnull id<FBControlCoreLogger>)withName:(nonnull NSString *)name {
+    return self;
+}
+
+- (void)debuggerAttached {
+    [self log:@"Debugger attached"];
+}
+
+- (void)didBeginExecutingTestPlan {
+}
+
+- (void)didCrashDuringTest:(nonnull NSError *)error {
+    [self logFormat:@"didCrashDuringTest: %@", error];
+}
+
+- (void)didFinishExecutingTestPlan {
+//TODO:
+}
+
+- (void)finishedWithSummary:(nonnull FBTestManagerResultSummary *)summary {
+    // didFinishExecutingTestPlan should be used to signify completion instead
+}
+
+- (void)handleExternalEvent:(nonnull NSString *)event {
+    [self logFormat:@"handleExternalEvent: %@", event];
+}
+
+- (BOOL)printReportWithError:(NSError *__autoreleasing  _Nullable * _Nullable)error {
+    [self logFormat:@"printReportWithError: %@", *error];
+    return NO;
+}
+
+- (void)processUnderTestDidExit {
+//TODO:
+}
+
+- (void)processWaitingForDebuggerWithProcessIdentifier:(pid_t)pid {
+    [self logFormat:@"Tests waiting for debugger. To debug run: lldb -p %d", pid];
+}
+
+- (void)testCaseDidFailForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method withMessage:(nonnull NSString *)message file:(nullable NSString *)file line:(NSUInteger)line {
+    [self logFormat:@"Got failure info for %@/%@", testClass, method];
+}
+
+- (void)testCaseDidFinishForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method withStatus:(FBTestReportStatus)status duration:(NSTimeInterval)duration logs:(nullable NSArray<NSString *> *)logs {
+//TODO:
+}
+
+- (void)testCaseDidStartForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method {
+    //TODO:
+}
+
+- (void)testHadOutput:(nonnull NSString *)output {
+    [self logFormat:@"testHadOutput: %@", output];
+}
+
+- (void)testSuite:(nonnull NSString *)testSuite didStartAt:(nonnull NSString *)startTime {
+//TODO:
+}
+
+@synthesize level;
 
 @end
