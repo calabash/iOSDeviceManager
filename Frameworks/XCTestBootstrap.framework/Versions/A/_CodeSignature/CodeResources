@@ -23,10 +23,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			7suoiQfI08s7yEgWLE35P4rLxMs=
+			/J7y35CZQ0OwyZo9VVNVdD4RQ0c=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"eecba88907c8d3cb3bc848162c4df93f8acbc4cb"</string>
+			<string>cdhash H"fc9ef2df90994343b0c99a3d555355743e114347"</string>
 		</dict>
 		<key>Headers/FBActivityRecord.h</key>
 		<dict>

@@ -23,7 +23,7 @@ OUTPUT_DIR="${PWD}/Frameworks"
 echo "${FBSIMCONTROL_PATH}"
 (cd "${FBSIMCONTROL_PATH}";
 
-#./build.sh
+#TODO: remove this and change relative way to /usr/local/Cellar/idb-companion/1.1.3
 make frameworks;
 
 xcrun ditto build/Release/FBControlCore.framework \

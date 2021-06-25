@@ -10,37 +10,6 @@
 #import "XCTestConfigurationPlist.h"
 #import "XCAppDataBundle.h"
 
-#import <FBDeviceControl/FBDevice.h>
-#import <FBSimulatorControl/FBSimulatorControl.h>
-#import <FBDeviceControl/FBDeviceControl.h>
-#import <FBControlCore/FBControlCore.h>
-#import <FBSimulatorControl/FBSimulatorControl.h>
-
-
-//@interface FBiOSDeviceOperator (iOSDeviceManagerAdditions)
-//
-//- (void)fetchApplications;
-//- (BOOL)killProcessWithID:(NSInteger)processID error:(NSError **)error;
-//
-//// The keys-value pairs that are available in the plist returned by
-//// #installedApplicationWithBundleIdentifier:error:
-//+ (NSDictionary *)applicationReturnAttributesDictionary;
-//- (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(NSString *)bundleID;
-//
-//// These will probably be moved to FBDeviceApplicationCommands
-//- (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
-//- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration
-//                    error:(NSError **)error;
-//
-//// Originally, we used DVT APIs to install provisioning profiles.
-//// Facebook is migrating from DVT to MobileDevice (Apple MD) APIs.
-//// If we find there is a problem with the MobileDevice API we can
-//// fall back on the DVT implementation.
-//// - (BOOL)DVTinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
-//- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error;
-//
-//@end
-
 @protocol DVTApplication
 - (NSDictionary *)plist;
 @end
@@ -75,15 +44,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 @property (nonatomic, strong) FBDevice *fbDevice;
 
-//@property (atomic, strong, readonly) FBDeviceApplicationCommands *applicationCommands;
-
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
 @end
 
 @implementation PhysicalDevice
-
-//@synthesize applicationCommands = _applicationCommands;
 
 + (PhysicalDevice *)withID:(NSString *)uuid {
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
@@ -99,24 +64,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return nil;
     }
 
-//    if (![fbDevice.deviceOperator waitForDeviceToBecomeAvailableWithError:&err]) {
-//        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
-//        return nil;
-//    }
-
     device.fbDevice = fbDevice;
 
     return device;
 }
-
-//- (FBDeviceApplicationCommands *)applicationCommands {
-//
-//    if (_applicationCommands) { return _applicationCommands; }
-//
-//    _applicationCommands = [FBDeviceApplicationCommands commandsWithTarget:self.fbDevice];
-//    return _applicationCommands;
-//}
-
 
 - (iOSReturnStatusCode)launch {
     return iOSReturnStatusCodeGenericFailure;
@@ -870,7 +821,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
         return iOSReturnStatusCodeGenericFailure;
     }
     
-    
+    //copy provisioning profile
     BOOL success = [[[commands fileCommandsForProvisioningProfiles]
                      onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
         //in this case (in case of FBFileContainer_ProvisioningProfile)
@@ -879,9 +830,6 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }] await:error] != nil;
     
     return success;
-    //    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)self.fbDevice.deviceOperator);
-    //
-    //    return [operator AMDinstallProvisioningProfileAtPath:path error:error];
 }
 
 - (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)pathToRunner
@@ -963,14 +911,6 @@ testCaseDidStartForTestClass:(NSString *)testClass
                         appDataBundle, runnerBundleId);
         return NO;
     }
-    
-    //    if (![operator uploadApplicationDataAtPath:xcappdata
-    //                                      bundleID:runnerBundleId
-    //                                         error:error]) {
-    //        ConsoleWriteErr(@"Could not upload %@ to %@",
-    //                        appDataBundle, runnerBundleId);
-    //        return NO;
-    //    }
     
     // Deliberately skipping error checking; error is ignorable.
     [[NSFileManager defaultManager] removeItemAtPath:xcappdata

@@ -55,6 +55,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
     XCTAssertEqual([self.simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30], YES);
 
     [[self.simulator.fbSimulator erase] await:&error];
+    NSLog(@"Error is: %@\n", error);
     XCTAssertEqual(error, nil);
     XCTAssertEqual([Simulator eraseSimulator:self.simulator], iOSReturnStatusCodeEverythingOkay);
 }

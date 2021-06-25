@@ -3,12 +3,6 @@
 #import "PhysicalDevice.h"
 #import <FBDeviceControl/FBDeviceControl.h>
 
-//@interface FBiOSDeviceOperator (TEST)
-//
-//+ (NSDictionary *)applicationReturnAttributesDictionary;
-//
-//@end
-
 @interface PhysicalDeviceTest : TestCase
 
 @end

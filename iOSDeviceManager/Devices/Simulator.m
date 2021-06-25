@@ -971,13 +971,13 @@ static const FBSimulatorControl *_control;
     FBBundleDescriptor *application = [self app:testRunnerPath];
     
     return [[FBApplicationLaunchConfiguration alloc]
-            initWithBundleID:application.identifier
-            bundleName:application.name
-            arguments:@[]
-            environment:@{}
-            waitForDebugger:NO
-            io:FBProcessIO.outputToDevNull
-            launchMode:FBApplicationLaunchModeRelaunchIfRunning];
+     initWithBundleID:application.identifier
+     bundleName:application.name
+     arguments:@[]
+     environment:@{}
+     waitForDebugger:NO
+     io:FBProcessIO.outputToDevNull
+     launchMode:FBApplicationLaunchModeRelaunchIfRunning];
 }
 
 + (BOOL)iOS_GTE_9:(NSString *)versionString {
