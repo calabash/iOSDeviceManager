@@ -10,36 +10,6 @@
 #import "XCTestConfigurationPlist.h"
 #import "XCAppDataBundle.h"
 
-@protocol DVTApplication
-- (NSDictionary *)plist;
-@end
-
-@interface DTDKRemoteDeviceToken : NSObject
-- (BOOL)simulateLatitude:(NSNumber *)lat
-            andLongitude:(NSNumber *)lng
-               withError:(NSError **)arg3;
-- (BOOL)stopSimulatingLocationWithError:(NSError **)arg1;
-@end
-
-@interface DVTAbstractiOSDevice : NSObject
-@property (nonatomic, strong) DTDKRemoteDeviceToken *token;
-- (id)applications;
-@end
-
-@interface DVTiOSDevice : DVTAbstractiOSDevice
-- (BOOL)supportsLocationSimulation;
-- (BOOL)downloadApplicationDataToPath:(NSString *)arg1
-forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
-                                error:(NSError **)arg3;
-- (void)installProvisioningProfile:(id)arg1;
-@end
-
-@interface DTDKProvisioningProfile : NSObject
-+ (DTDKProvisioningProfile *)profileWithPath:(NSString *)path
-                        certificateUtilities:(id)utils
-                                       error:(NSError **)e;
-@end
-
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
@@ -149,8 +119,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                             profile.path, [error localizedDescription]);
             return iOSReturnStatusCodeInternalError;
         }
-
-//        if (![[self.applicationCommands installApplicationWithPath:app.path] await:&error]) {
+        
         if (![[self.fbDevice installApplicationWithPath:app.path] await:&error]) {
             ConsoleWriteErr(@"Error installing application: %@",
                             [error localizedDescription]);
@@ -227,7 +196,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID {
 
     NSError *err;
-//    if (![[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:&err]) {
+    
     if (![[self.fbDevice isApplicationInstalledWithBundleID:bundleID] await:&err]) {
         ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeInternalError;
@@ -241,8 +210,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     if (![self terminateApplication:bundleID wasRunning:nil]) {
         return iOSReturnStatusCodeInternalError;
     }
-
-//    if (![[self.applicationCommands uninstallApplicationWithBundleID:bundleID] await:&err]) {
+    
     if (![[self.fbDevice uninstallApplicationWithBundleID:bundleID] await:&err]) {
         ConsoleWriteErr(@"Error uninstalling app %@: %@", bundleID, err);
         return iOSReturnStatusCodeInternalError;
@@ -271,6 +239,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     //the original functional is gone. That's how it implemented in idb
     NSError *error;
+    //in the past it was [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
     if (![[self.fbDevice overrideLocationWithLongitude:-122.147911 latitude:37.485023] await:&error]){
         ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
         return iOSReturnStatusCodeGenericFailure;
@@ -282,14 +251,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 
     return iOSReturnStatusCodeEverythingOkay;
-    
-//    NSError *e;
-//    [[self.fbDevice.dvtDevice token] stopSimulatingLocationWithError:&e];
-//    if (e) {
-//        ConsoleWriteErr(@"Unable to stop simulating device location: %@", e);
-//        return iOSReturnStatusCodeInternalError;
-//    }
-//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
@@ -305,8 +266,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
       launchMode:FBApplicationLaunchModeRelaunchIfRunning];
     
     NSError *error = nil;
-
-//    if (![[self.applicationCommands launchApplication:appLaunch] await:&error]) {
+    
     if (![[self.fbDevice launchApplication:appLaunch] await:&error]) {
         ConsoleWriteErr(@"Failed launching app with bundleID: %@ due to error: %@", bundleID, error);
         return iOSReturnStatusCodeInternalError;
@@ -317,7 +277,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
                                      error:(NSError **)error {
-//    if ([[self.applicationCommands launchApplication:configuration] await:error]){
     if ([[self.fbDevice launchApplication:configuration] await:error]){
         return YES;
     }
@@ -345,7 +304,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (pid_t)processIdentifierForApplication:(NSString *)bundleIdentifier {
     NSError *error = nil;
-//    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
     NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
     if ([PID intValue] < 1) {
         return 0;
@@ -358,38 +316,11 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return [self processIdentifierForApplication:bundleIdentifier] != 0;
 }
 
-
-/*
- 
- - (FBFuture<id> *)processIDWithBundleID:(NSString *)bundleID
- {
-   return [[FBDeviceControlError
-     describeFormat:@"-[%@ %@] is unimplemented", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]
-     failFuture];
- }
-
- - (FBFuture<NSNull *> *)killApplicationWithBundleID:(NSString *)bundleID
- {
-   return [((FBiOSDeviceOperator *) self.device.deviceOperator) killApplicationWithBundleID:bundleID];
-   return [[FBDeviceControlError
-     describeFormat:@"-[%@ %@] is unimplemented", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]
-     failFuture];
- }
-
- */
-/*
-- (FBFuture<NSNull *> *)kill_application:(NSString *)bundleID
-{
-  return [self.target killApplicationWithBundleID:bundleID];
-}
-*/
-
 - (BOOL)terminateApplication:(NSString *)bundleIdentifier
                   wasRunning:(BOOL *)wasRunning {
 
     NSError *error = nil;
     
-//    NSNumber *PID = [[self.applicationCommands processIDWithBundleID:bundleIdentifier] await:&error];
     NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
     if ([PID intValue] < 1) {
         if (wasRunning) { *wasRunning = NO; }
@@ -397,8 +328,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     } else {
         if (wasRunning) { *wasRunning = YES; }
     }
-
-//    if (![[self.applicationCommands killApplicationWithBundleID:bundleIdentifier] await:&error]) {
+    
     if (![[self.fbDevice killApplicationWithBundleID:bundleIdentifier] await:&error]) {
         ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
                         bundleIdentifier, [error localizedDescription]);
@@ -409,7 +339,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 }
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError **)error {
-//    NSNumber * installed = [[self.applicationCommands isApplicationInstalledWithBundleID:bundleID] await:error];
     NSNumber * installed = [[self.fbDevice isApplicationInstalledWithBundleID:bundleID] await:error];
     return installed.boolValue;
 }
@@ -434,6 +363,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 }
 
+//taken from idb. Couldn't been imported - should be looked.
 - (FBFuture<NSArray<NSDictionary<NSString *, id> *> *> *)installedApplicationsData:(NSArray<NSString *> *)returnAttributes
 {
   return [[self.fbDevice
@@ -458,6 +388,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }];
 }
 
+//was removed in idb, but it's required at this moment
 - (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(NSString *)bundleID
 {
   NSError *error = nil;
@@ -476,6 +407,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
   return nil;
 }
 
+//was removed in idb, but it's required at this moment
 - (NSString *)containerPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
 {
     NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
@@ -492,6 +424,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     return nil;
 }
 
+//was removed in idb, but it's required at this moment
 - (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
 {
     NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
@@ -511,6 +444,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 - (Application *)installedApp:(NSString *)bundleID {
     
     NSDictionary *plist;
+    
     plist = [self AMDinstalledApplicationWithBundleIdentifier:bundleID];
     if (plist) {
         NSString *targetArch = self.fbDevice.architecture;
@@ -582,57 +516,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     [ConsoleWriter write:filepath];
     [ConsoleWriter write:dataBundle];
     return iOSReturnStatusCodeEverythingOkay;
-    
-    //copyPathOnHost
-    
-//    // TODO This call needs to be removed
-////    [operator fetchApplications];
-////    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:xcappdataPath
-////                    forInstalledApplicationWithBundleIdentifier:bundleID
-////                                                          error:&e]) {
-////        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
-////                        bundleID,
-////                        xcappdataPath,
-////                        e);
-////        return iOSReturnStatusCodeInternalError;
-////    }
-//
-//
-//    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
-//
-//    NSString *filename = [filepath lastPathComponent];
-//    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
-//    if ([fm fileExistsAtPath:dest]) {
-//        if (!overwrite) {
-//            ConsoleWriteErr(@"'%@' already exists in the app container.\n"
-//                            "Specify `-o true` to overwrite.", filename);
-//            return iOSReturnStatusCodeGenericFailure;
-//        } else {
-//            if (![fm removeItemAtPath:dest error:&e]) {
-//                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
-//                return iOSReturnStatusCodeGenericFailure;
-//            }
-//        }
-//    }
-//
-//    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
-//        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
-//        return iOSReturnStatusCodeGenericFailure;
-//    }
-//
-//    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
-//        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
-//        return iOSReturnStatusCodeInternalError;
-//    }
-//
-//    // Remove the temporary data bundle
-//    if (![fm removeItemAtPath:dataBundle error:&e]) {
-//        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
-//                        dataBundle, e);
-//    }
-//
-//    [ConsoleWriter write:dest];
-//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleIdentifier
@@ -647,8 +530,8 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+        return [container copyItemInContainer:@"Documents" toDestinationOnHost:path];
         
-        return [container copyItemInContainer:@"." toDestinationOnHost:path];
     }] await:&e] != nil;
                    
     if (!success){
@@ -660,19 +543,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     return iOSReturnStatusCodeEverythingOkay;
-//    NSError *e;
-//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-//    [operator fetchApplications];
-//    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:path
-//                    forInstalledApplicationWithBundleIdentifier:bundleIdentifier
-//                                                          error:&e]) {
-//        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
-//                        bundleIdentifier,
-//                        path,
-//                        e);
-//        return iOSReturnStatusCodeInternalError;
-//    }
-//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
@@ -690,8 +560,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
-        //TODO: may be Documents instead of "./"
-        return [container copyPathOnHost:[NSURL fileURLWithPath:xcappdata] toDestination:@"./"];
+        return [container copyPathOnHost:[NSURL fileURLWithPath:xcappdata] toDestination:@"Documents"];
     }] await:&e] != nil;
                    
     if (!success){
@@ -699,19 +568,6 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
     
     return iOSReturnStatusCodeEverythingOkay;
-    
-//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-//    [operator fetchApplications];
-//
-//    NSError *error = nil;
-//    if (![operator uploadApplicationDataAtPath:xcappdata
-//                                      bundleID:bundleIdentifier
-//                                         error:&error]) {
-//        ConsoleWriteErr(@"Error uploading files to application container: %@",
-//                        [error localizedDescription]);
-//        return iOSReturnStatusCodeInternalError;
-//    }
-//    return iOSReturnStatusCodeEverythingOkay;
 }
 
 
@@ -850,9 +706,6 @@ testCaseDidStartForTestClass:(NSString *)testClass
     }
     
     NSString *xcappdata = [directory stringByAppendingPathComponent:appDataBundle];
-    
-    //    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
-    //    [operator fetchApplications];
     
     Application *runnerApp = [Application withBundlePath:pathToRunner];
     NSString *runnerBundleId = [runnerApp bundleID];

@@ -37,9 +37,7 @@ static const FBSimulatorControl *_control;
 + (void)initialize {
     
     FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
-//    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-//                                                      configurationWithDeviceSetPath:nil
-//                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+
     NSError *error;
     _control = [FBSimulatorControl withConfiguration:configuration error:&error];
     if (error) {
@@ -80,15 +78,6 @@ static const FBSimulatorControl *_control;
     
     return [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
 }
-
-//+ (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)simulator {
-//    FBSimulatorEventRelay *relay = [simulator eventSink];
-//    if (relay.connection) {
-//        [relay.connection terminateWithTimeout:5];
-//    }
-//
-//    return [FBSimulatorLifecycleCommands commandsWithSimulator:simulator];
-//}
 
 + (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)simulator {
     return [FBSimulatorApplicationCommands commandsWithTarget:simulator];
@@ -137,7 +126,7 @@ static const FBSimulatorControl *_control;
     return success;
 }
 
-
+//taken from idb. Couldn't been imported - should be looked.
 + (NSArray<NSString *> *)requiredSimulatorAppProcesses: (FBSimulator*)simulator {
     FBControlCoreProductFamily family = simulator.productFamily;
     if (family == FBControlCoreProductFamilyiPhone || family == FBControlCoreProductFamilyiPad) {
@@ -219,52 +208,6 @@ static const FBSimulatorControl *_control;
         }
     }
 
-//    NSArray<FBSimulator *> *simulators = _control.set.allSimulators;
-//    for (FBSimulator *simulator in simulators) {
-//        if (![simulator shutdown]) {
-//            ConsoleWriteErr(@"Could not shutdown simulator: %@", simulator);
-//            return iOSReturnStatusCodeGenericFailure;
-//        }
-//    }
-  
-//    NSError *error;
-//    FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
-//    NSArray<FBSimulator *> *simulators = control.set.allSimulators;
-//
-//    XCTAssertEqual(simulators.count, simDevices.count);
-//
-//    for (FBSimulator *simulator in simulators) {
-//        if (![simulator shutdown]) {
-//            //print(@"Could not shutdown simulator: %@", simulator);
-//            //return iOSReturnStatusCodeGenericFailure;
-//            return iOSReturnStatusCodeGenericFailure;
-//        }
-//    }
-//
-//
-//    return iOSReturnStatusCodeEverythingOkay;
-    
-    
-//    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
-//
-//    NSError *error;
-//    FBSimulatorControl *control = [FBSimulatorControl withConfiguration:configuration error:&error];
-//    NSArray<FBSimulator *> *simulators = control.set.allSimulators;
-//
-//    for (FBSimulator *simulator in simulators) {
-//        if (![simulator shutdown]) {
-//            //print(@"Could not shutdown simulator: %@", simulator);
-//            //return iOSReturnStatusCodeGenericFailure;
-//            return iOSReturnStatusCodeGenericFailure;
-//        }
-//    }
-//
-//
-//    return iOSReturnStatusCodeEverythingOkay;
-//    
-    
-    
-    
     FBSimulatorSet *simulators = _control.set;
     FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
     NSArray <FBSimulator *> *results = [simulators query:query];
@@ -281,13 +224,17 @@ static const FBSimulatorControl *_control;
 + (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
     
     [Simulator killSimulatorApp];
+    if (![simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
+        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
+        return iOSReturnStatusCodeInternalError;
+    }
     
     NSError *error = nil;
 
     [[simulator.fbSimulator erase] await:&error];
 
     if (error){
-        ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
+        ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
         return iOSReturnStatusCodeInternalError;
     }
 
@@ -790,22 +737,12 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
 
-    //returns a wrong result
-//    if ([[self.fbSimulator isApplicationInstalledWithBundleID:bundleID] await:error]) {
-//        return YES;
-//    }
-    
-    //may try this
-    //    if [[self.fbSimulator installedApplicationWithBundleID:bundleID] await:error];
-    
-    //breakout way
     NSDictionary *installedApps = [self.fbSimulator.device installedAppsWithError:error];
     if (installedApps[bundleID]) {
         return YES;
     } else {
         return NO;
     }
-    
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {

@@ -19,19 +19,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			/J7y35CZQ0OwyZo9VVNVdD4RQ0c=
+			ZYLM3i8B4tjWeXcUngEHGXWm21k=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"fc9ef2df90994343b0c99a3d555355743e114347"</string>
+			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Frameworks/XCTestBootstrap.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			aF6tpydlPP9tFvcfuFAAR1fXnoA=
+			+t12iU0Kd4VoaKW8G4d7FieulAM=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"685eada727653cff6d16f71fb850004757d79e80"</string>
+			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Headers/FBAgentLaunchStrategy.h</key>
 		<dict>
