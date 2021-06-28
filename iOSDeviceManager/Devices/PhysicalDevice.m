@@ -9,6 +9,7 @@
 #import "Application.h"
 #import "XCTestConfigurationPlist.h"
 #import "XCAppDataBundle.h"
+#import "DeviceUtils.h"
 
 @interface PhysicalDevice()
 
@@ -27,7 +28,8 @@
 
     NSError *err;
     
-    FBDevice *fbDevice = [[FBDeviceSet setWithLogger:FBControlCoreGlobalConfiguration.defaultLogger delegate:nil ecidFilter:nil error:&err] deviceWithUDID:uuid];
+    FBDeviceSet *deviceSet = [[DeviceUtils deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&err];
+    FBDevice *fbDevice = [deviceSet deviceWithUDID:uuid];
 
     if (!fbDevice) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
