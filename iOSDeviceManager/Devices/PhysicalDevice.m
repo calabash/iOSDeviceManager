@@ -366,7 +366,7 @@
 }
 
 //taken from idb. Couldn't been imported - should be looked.
-- (FBFuture<NSArray<NSDictionary<NSString *, id> *> *> *)installedApplicationsData:(NSArray<NSString *> *)returnAttributes
+- (FBFuture<NSDictionary<NSString *, NSDictionary<NSString *, id> *> *> *)installedApplicationsData:(NSArray<NSString *> *)returnAttributes
 {
   return [[self.fbDevice
     connectToDeviceWithPurpose:@"installed_apps"]
@@ -393,54 +393,57 @@
 //was removed in idb, but it's required at this moment
 - (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(NSString *)bundleID
 {
-  NSError *error = nil;
+    NSError *error = nil;
+
+    NSDictionary<NSString *, NSDictionary<NSString *, id> *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:&error];
     
-  NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:&error];
-
-  if (!apps){
-    return nil;
-  }
-
-  for (NSDictionary *app in apps) {
-    if ([app[@"CFBundleIdentifier"] isEqualToString:bundleID]) {
-      return app;
+    if (!apps){
+        return nil;
     }
-  }
-  return nil;
+    
+    NSDictionary<NSString *, id> *app = apps[bundleID];
+    
+    if (!app) {
+        return nil;
+    }
+    
+    return app;
 }
 
 //was removed in idb, but it's required at this moment
 - (NSString *)containerPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
 {
-    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
-
+    NSDictionary<NSString *, NSDictionary<NSString *, id> *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
+    
     if (!apps){
-      return nil;
+        return nil;
     }
-
-    for (NSDictionary *app in apps) {
-        if ([app[@"CFBundleIdentifier"] isEqualToString:bundleID]) {
-          return app[@"Container"];
-        }
+    
+    NSDictionary<NSString *, id> *app = apps[bundleID];
+    
+    if (!app) {
+        return nil;
     }
-    return nil;
+    
+    return app[@"Container"];
 }
 
 //was removed in idb, but it's required at this moment
 - (NSString *)applicationPathForApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error
 {
-    NSArray<NSDictionary *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
-
+    NSDictionary<NSString *, NSDictionary<NSString *, id> *> *apps = [[self installedApplicationsData: [PhysicalDevice applicationReturnAttributesDictionary]] await:error];
+    
     if (!apps){
-      return nil;
+        return nil;
     }
-
-    for (NSDictionary *app in apps) {
-        if ([app[@"CFBundleIdentifier"] isEqualToString:bundleID]) {
-          return app[@"Path"];
-        }
+    
+    NSDictionary<NSString *, id> *app = apps[bundleID];
+    
+    if (!app) {
+        return nil;
     }
-    return nil;
+    
+    return app[@"Path"];
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
