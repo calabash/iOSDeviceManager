@@ -325,6 +325,10 @@
     lines = [ShellRunner xcrun:@[@"instruments", @"-s", @"devices"]
                        timeout:10].stdoutLines;
 
+    if ([lines count] == 1){
+        lines = [ShellRunner xcrun:@[@"xctrace", @"list", @"devices"]
+                           timeout:10].stdoutLines;
+    }
     NSMutableArray<TestDevice *> *result = [@[] mutableCopy];
 
     [lines enumerateObjectsUsingBlock:^(NSString *line,
