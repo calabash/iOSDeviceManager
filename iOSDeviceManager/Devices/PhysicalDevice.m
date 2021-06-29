@@ -206,7 +206,7 @@
 
     NSError *err;
     
-    if (![[self.fbDevice isApplicationInstalledWithBundleID:bundleID] await:&err]) {
+    if (![self isInstalled:bundleID withError:&err]) {
         ConsoleWriteErr(@"Application %@ is not installed on %@", bundleID, [self uuid]);
         return iOSReturnStatusCodeInternalError;
     }
@@ -329,17 +329,15 @@
                   wasRunning:(BOOL *)wasRunning {
 
     NSError *error = nil;
-//
-//    NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
-//
-//    if ([PID intValue] < 1) {
-//        if (wasRunning) { *wasRunning = NO; }
-//        return YES;
-//    } else {
-//        if (wasRunning) { *wasRunning = YES; }
-//    }
-    
-    if (wasRunning) { *wasRunning = !wasRunning; }
+
+    NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
+
+    if ([PID intValue] < 1) {
+        if (wasRunning) { *wasRunning = NO; }
+        return YES;
+    } else {
+        if (wasRunning) { *wasRunning = YES; }
+    }
     
     if (![[self.fbDevice killApplicationWithBundleID:bundleIdentifier] await:&error]) {
         ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
