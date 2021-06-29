@@ -22,6 +22,7 @@
                                    error:(NSError **)error;
 @end
 
+
 @implementation PhysicalDevice
 
 + (PhysicalDevice *)withID:(NSString *)uuid {
@@ -41,6 +42,9 @@
 
     device.fbDevice = fbDevice;
 
+    
+    
+    
     return device;
 }
 
@@ -680,88 +684,182 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return xcappdataPath;
 }
 
-//- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error
-//{
-//  NSNumber *returnCode = [self.fbDevice.amDeviceRef] //[self.device.amDevice handleWithBlockDeviceSession:^id (CFTypeRef device) {
+_Nullable CFArrayRef (*_Nonnull FBAMDCreateDeviceList)(void);
+int (*FBAMDeviceConnect)(CFTypeRef device);
+int (*FBAMDeviceDisconnect)(CFTypeRef device);
+int (*FBAMDeviceIsPaired)(CFTypeRef device);
+int (*FBAMDeviceValidatePairing)(CFTypeRef device);
+int (*FBAMDeviceStartSession)(CFTypeRef device);
+int (*FBAMDeviceStopSession)(CFTypeRef device);
+int (*FBAMDServiceConnectionGetSocket)(CFTypeRef connection);
+int (*FBAMDServiceConnectionInvalidate)(CFTypeRef connection);
+int (*FBAMDeviceSecureStartService)(CFTypeRef device, CFStringRef service_name, _Nullable CFDictionaryRef userinfo, void *handle);
+_Nullable CFStringRef (*_Nonnull FBAMDeviceGetName)(CFTypeRef device);
+_Nullable CFStringRef (*_Nonnull FBAMDeviceCopyValue)(CFTypeRef device, _Nullable CFStringRef domain, CFStringRef name);
+int (*FBAMDeviceSecureTransferPath)(int arg0, CFTypeRef arg1, CFURLRef arg2, CFDictionaryRef arg3, void *_Nullable arg4, int arg5);
+int (*FBAMDeviceSecureInstallApplication)(int arg0, CFTypeRef arg1, CFURLRef arg2, CFDictionaryRef arg3,  void *_Nullable arg4, int arg5);
+int (*FBAMDeviceSecureUninstallApplication)(int arg0, CFTypeRef arg1, CFStringRef arg2, int arg3, void *_Nullable arg4, int arg5);
+int (*FBAMDeviceLookupApplications)(CFTypeRef arg0, CFDictionaryRef arg1, CFDictionaryRef *arg2);
+int (*FBAMDeviceInstallProvisioningProfile)(CFTypeRef device, CFTypeRef profile, void *_Nullable handle);
+_Nullable CFTypeRef (*_Nonnull FBMISProfileCreateWithFile)(int arg0, CFStringRef profilePath);
+MISProfileRef (*FBMISProfileCreateWithData)(CFDataRef data);
+void (*FBAMDSetLogLevel)(int32_t level);
+
+- (void)loadFBAMDeviceSymbols
+{
+  void *handle = dlopen("/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice", RTLD_LAZY);
+  NSCAssert(handle, @"MobileDevice could not be opened");
+  FBAMDSetLogLevel = (void(*)(int32_t))FBGetSymbolFromHandle(handle, "AMDSetLogLevel");
+  FBAMDeviceConnect = (int(*)(CFTypeRef device))FBGetSymbolFromHandle(handle, "AMDeviceConnect");
+  FBAMDeviceDisconnect = (int(*)(CFTypeRef device))FBGetSymbolFromHandle(handle, "AMDeviceDisconnect");
+  FBAMDeviceIsPaired = (int(*)(CFTypeRef device))FBGetSymbolFromHandle(handle, "AMDeviceIsPaired");
+  FBAMDeviceValidatePairing = (int(*)(CFTypeRef device))FBGetSymbolFromHandle(handle, "AMDeviceValidatePairing");
+  FBAMDeviceStartSession = (int(*)(CFTypeRef device))FBGetSymbolFromHandle(handle, "AMDeviceStartSession");
+  FBAMDeviceStopSession =  (int(*)(CFTypeRef device))FBGetSymbolFromHandle(handle, "AMDeviceStopSession");
+  FBAMDServiceConnectionGetSocket = (int(*)(CFTypeRef))FBGetSymbolFromHandle(handle, "AMDServiceConnectionGetSocket");
+  FBAMDServiceConnectionInvalidate = (int(*)(CFTypeRef))FBGetSymbolFromHandle(handle, "AMDServiceConnectionInvalidate");
+  FBAMDeviceSecureStartService = (int(*)(CFTypeRef, CFStringRef, CFDictionaryRef, void *))FBGetSymbolFromHandle(handle, "AMDeviceSecureStartService");
+  FBAMDCreateDeviceList = (CFArrayRef(*)(void))FBGetSymbolFromHandle(handle, "AMDCreateDeviceList");
+  FBAMDeviceGetName = (CFStringRef(*)(CFTypeRef))FBGetSymbolFromHandle(handle, "AMDeviceGetName");
+  FBAMDeviceCopyValue = (CFStringRef(*)(CFTypeRef, CFStringRef, CFStringRef))FBGetSymbolFromHandle(handle, "AMDeviceCopyValue");
+  FBAMDeviceSecureTransferPath = (int(*)(int, CFTypeRef, CFURLRef, CFDictionaryRef, void *, int))FBGetSymbolFromHandle(handle, "AMDeviceSecureTransferPath");
+  FBAMDeviceSecureInstallApplication = (int(*)(int, CFTypeRef, CFURLRef, CFDictionaryRef, void *, int))FBGetSymbolFromHandle(handle, "AMDeviceSecureInstallApplication");
+  FBAMDeviceSecureUninstallApplication = (int(*)(int, CFTypeRef, CFStringRef, int, void *, int))FBGetSymbolFromHandle(handle, "AMDeviceSecureUninstallApplication");
+  FBAMDeviceLookupApplications = (int(*)(CFTypeRef, CFDictionaryRef, CFDictionaryRef*))FBGetSymbolFromHandle(handle, "AMDeviceLookupApplications");
+  FBAMDeviceInstallProvisioningProfile = (int (*)(CFTypeRef, CFTypeRef, void *))FBGetSymbolFromHandle(handle, "AMDeviceInstallProvisioningProfile");
+  FBMISProfileCreateWithFile = (CFTypeRef(*)(int, CFStringRef))FBGetSymbolFromHandle(handle, "MISProfileCreateWithFile");
+  FBMISProfileCreateWithData = FBGetSymbolFromHandle(handle, "MISProfileCreateWithData");
+}
+
+- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error
+{
+//    CFTypeRef device = self.fbDevice.amDeviceRef;
+        NSURL *url = [NSURL fileURLWithPath:path];
+        NSData *profileData = [NSData dataWithContentsOfURL:url options:0 error:error];
+    
+    FBFuture<NSDictionary<NSString *, id> *> * future = [[self.fbDevice
+          connectToDeviceWithPurpose:@"install_provisioning_profile"]
+          onQueue:self.fbDevice.workQueue pop:^(id<FBDeviceCommands> device) {
+            ConsoleWriteErr(@"install_provisioning_profile");
+            NSURL *url = [NSURL fileURLWithPath:path];
+            NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
+            CFStringRef stringRef = (__bridge CFStringRef)encoded;
+            CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
+//            MISProfileRef profile2 = device.calls.ProvisioningProfileCreateWithData((__bridge CFDataRef)(profileData));
+            //MISProfileRef profile2 = FBMISProfileCreateWithData((__bridge CFDataRef)(profileData));
+        
+            if (!profile) {
+              return [[FBControlCoreError
+                describeFormat:@"Could not construct profile from data %@", profileData]
+                failFuture];
+            }
+            int status = device.calls.InstallProvisioningProfile(device.amDeviceRef, profile);
+            if (status != 0) {
+              NSString *errorDescription = CFBridgingRelease(device.calls.ProvisioningProfileCopyErrorStringForCode(status));
+              return [[FBControlCoreError
+                describeFormat:@"Failed to install profile %@: %@", profile, errorDescription]
+                failFuture];
+            }
+            NSDictionary<NSString *, id> *payload = CFBridgingRelease(device.calls.ProvisioningProfileCopyPayload(profile));
+            payload = [FBCollectionOperations recursiveFilteredJSONSerializableRepresentationOfDictionary:payload];
+            if (!payload) {
+              return [[FBControlCoreError
+                describeFormat:@"Failed to get payload of %@", profile]
+                failFuture];
+            }
+            return [FBFuture futureWithResult:payload];
+        }];
+     
+    BOOL success = [future await:error] != nil;
+    
+    return success;
+    
+    
+//
+//    id<FBDeviceCommands> device = [[[self.fbDevice connectToDeviceWithPurpose:@"install_provisioning_profile"] future] result];
+//
 //    NSURL *url = [NSURL fileURLWithPath:path];
 //    NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
 //    CFStringRef stringRef = (__bridge CFStringRef)encoded;
 //    CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
-//    return @(FBAMDeviceInstallProvisioningProfile(device, profile, 0));
-//  } error:error];
+//    NSNumber *returnCode = @(FBAMDeviceInstallProvisioningProfile(device.amDeviceRef, profile, 0));
 //
-//  if (!returnCode) {
-//    [[FBDeviceControlError
-//      describe:@"Failed to install application"]
-//     failBool:error];
-//  }
+//    if (!returnCode) {
+//      [[FBDeviceControlError
+//        describe:@"Failed to install application"]
+//       failBool:error];
+//    }
 //
-//  if ([returnCode intValue] != 0) {
-//    [[FBDeviceControlError
-//      describe:@"Failed to install application"]
-//     failBool:error];
-//  }
+//    if ([returnCode intValue] != 0) {
+//      [[FBDeviceControlError
+//        describe:@"Failed to install application"]
+//       failBool:error];
+//    }
 //
-//  return YES;
-//}
+  return YES;
+}
 
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error {
+    [self loadFBAMDeviceSymbols];
+    return [self AMDinstallProvisioningProfileAtPath:path error:error];
     
-    NSURL *url = [NSURL fileURLWithPath:path];
-    NSData *profileData = [NSData dataWithContentsOfURL:url options:0 error:error];
-    
-    if (!profileData) {
-        ConsoleWriteErr(@"Could not create profile data");
-        return NO;
-    }
-    
-    MISProfileRef profile = self.fbDevice.calls.ProvisioningProfileCreateWithData((__bridge CFDataRef)(profileData));
-    if (!profile) {
-        ConsoleWriteErr(@"Could not construct profile from data %@", profileData);
-        return NO;
-    }
-    int status = self.fbDevice.calls.InstallProvisioningProfile(self.fbDevice.amDeviceRef, profile);
-    if (status != 0) {
-      NSString *errorDescription = CFBridgingRelease(self.fbDevice.calls.ProvisioningProfileCopyErrorStringForCode(status));
-        ConsoleWriteErr(@"Failed to install profile %@: %@", profile, errorDescription);
-        return NO;
-    }
-    NSDictionary<NSString *, id> *payload = CFBridgingRelease(self.fbDevice.calls.ProvisioningProfileCopyPayload(profile));
-    payload = [FBCollectionOperations recursiveFilteredJSONSerializableRepresentationOfDictionary:payload];
-    if (!payload) {
-        ConsoleWriteErr(@"Failed to get payload of %@", profile);
-        return NO;
-    }
-    
-    return YES;
+//    NSURL *url = [NSURL fileURLWithPath:path];
+//    NSData *profileData = [NSData dataWithContentsOfURL:url options:0 error:error];
+//
+//    if (!profileData) {
+//        ConsoleWriteErr(@"Could not create profile data");
+//        return NO;
+//    }
+//
+//    MISProfileRef profile = self.fbDevice.calls.ProvisioningProfileCreateWithData((__bridge CFDataRef)(profileData));
+//    if (!profile) {
+//        ConsoleWriteErr(@"Could not construct profile from data %@", profileData);
+//        return NO;
+//    }
+//    int status = self.fbDevice.calls.InstallProvisioningProfile(self.fbDevice.amDeviceRef, profile);
+//    if (status != 0) {
+//      NSString *errorDescription = CFBridgingRelease(self.fbDevice.calls.ProvisioningProfileCopyErrorStringForCode(status));
+//        ConsoleWriteErr(@"Failed to install profile %@: %@", profile, errorDescription);
+//        return NO;
+//    }
+//    NSDictionary<NSString *, id> *payload = CFBridgingRelease(self.fbDevice.calls.ProvisioningProfileCopyPayload(profile));
+//    payload = [FBCollectionOperations recursiveFilteredJSONSerializableRepresentationOfDictionary:payload];
+//    if (!payload) {
+//        ConsoleWriteErr(@"Failed to get payload of %@", profile);
+//        return NO;
+//    }
+//
+//    return YES;
     
     
 //    _Nullable CFTypeRef (*_Nonnull FBMISProfileCreateWithFile)(int arg0, CFStringRef profilePath);
-//    
+//    int (*FBAMDeviceInstallProvisioningProfile)(CFTypeRef device, CFTypeRef profile, void *_Nullable handle);
+//
 //    void *handle = dlopen("/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice", RTLD_LAZY);
 //    FBMISProfileCreateWithFile = (CFTypeRef(*)(int, CFStringRef))FBGetSymbolFromHandle(handle, "MISProfileCreateWithFile");
-//    
+//    FBAMDeviceInstallProvisioningProfile = (int (*)(CFTypeRef, CFTypeRef, void *))FBGetSymbolFromHandle(handle, "AMDeviceInstallProvisioningProfile");
+//
 //    NSURL *url = [NSURL fileURLWithPath:path];
 //    NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
 //    CFStringRef stringRef = (__bridge CFStringRef)encoded;
 //    CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
-//    
-//    
-//    int status = self.fbDevice.calls.InstallProvisioningProfile(self.fbDevice.amDeviceRef, profile);
-//    
+//
+//    int status = @(FBAMDeviceInstallProvisioningProfile(self.fbDevice, profile, 0));
+//    //int status = self.fbDevice.calls.InstallProvisioningProfile(self.fbDevice.amDeviceRef, profile);
+//
 //    if (status != 0) {
 //        return NO;
 //    }
-//    
+//
 //    return YES;
     
     
     
     
     
-//
+
 //
 //    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
 //    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
@@ -778,7 +876,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
 //    [future await:error];
 //
 //    return error != nil;
-//
+
     
     
     
