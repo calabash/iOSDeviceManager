@@ -351,8 +351,20 @@
 }
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError **)error {
-    NSNumber * installed = [[self.fbDevice isApplicationInstalledWithBundleID:bundleID] await:error];
-    return installed.boolValue;
+    
+    FBFuture *future = [[self.fbDevice
+      isApplicationInstalledWithBundleID:bundleID]
+      onQueue:self.fbDevice.workQueue fmap:^FBFuture<NSNull *> *(NSNumber *isInstalled) {
+        return [FBFuture futureWithResult:isInstalled];
+      }];
+    
+    NSNumber *isInstalled = [future await:error];
+    if (!isInstalled.boolValue) {
+        return NO;
+    }
+    else{
+        return YES;
+    }
 }
 
 - (iOSReturnStatusCode)isInstalled:(NSString *)bundleID {
