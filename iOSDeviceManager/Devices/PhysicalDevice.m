@@ -11,6 +11,9 @@
 #import "XCAppDataBundle.h"
 #import "DeviceUtils.h"
 
+#include <dlfcn.h>
+#define RTLD_LAZY    0x1
+
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
@@ -322,14 +325,17 @@
                   wasRunning:(BOOL *)wasRunning {
 
     NSError *error = nil;
+//
+//    NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
+//
+//    if ([PID intValue] < 1) {
+//        if (wasRunning) { *wasRunning = NO; }
+//        return YES;
+//    } else {
+//        if (wasRunning) { *wasRunning = YES; }
+//    }
     
-    NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
-    if ([PID intValue] < 1) {
-        if (wasRunning) { *wasRunning = NO; }
-        return YES;
-    } else {
-        if (wasRunning) { *wasRunning = YES; }
-    }
+    if (wasRunning) { *wasRunning = !wasRunning; }
     
     if (![[self.fbDevice killApplicationWithBundleID:bundleIdentifier] await:&error]) {
         ConsoleWriteErr(@"Failed to terminate app %@\n  %@",
@@ -674,23 +680,130 @@ testCaseDidStartForTestClass:(NSString *)testClass
     return xcappdataPath;
 }
 
+//- (BOOL)AMDinstallProvisioningProfileAtPath:(NSString *)path error:(NSError **)error
+//{
+//  NSNumber *returnCode = [self.fbDevice.amDeviceRef] //[self.device.amDevice handleWithBlockDeviceSession:^id (CFTypeRef device) {
+//    NSURL *url = [NSURL fileURLWithPath:path];
+//    NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
+//    CFStringRef stringRef = (__bridge CFStringRef)encoded;
+//    CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
+//    return @(FBAMDeviceInstallProvisioningProfile(device, profile, 0));
+//  } error:error];
+//
+//  if (!returnCode) {
+//    [[FBDeviceControlError
+//      describe:@"Failed to install application"]
+//     failBool:error];
+//  }
+//
+//  if ([returnCode intValue] != 0) {
+//    [[FBDeviceControlError
+//      describe:@"Failed to install application"]
+//     failBool:error];
+//  }
+//
+//  return YES;
+//}
+
+
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error {
-    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
-    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
-        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", *error);
-        return iOSReturnStatusCodeGenericFailure;
+    
+    NSURL *url = [NSURL fileURLWithPath:path];
+    NSData *profileData = [NSData dataWithContentsOfURL:url options:0 error:error];
+    
+    if (!profileData) {
+        ConsoleWriteErr(@"Could not create profile data");
+        return NO;
     }
     
-    //copy provisioning profile
-    BOOL success = [[[commands fileCommandsForProvisioningProfiles]
-                     onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
-        //in this case (in case of FBFileContainer_ProvisioningProfile)
-        //path toDestination means nothing in implementation
-        return [container copyPathOnHost:[NSURL fileURLWithPath:path] toDestination:@""];
-    }] await:error] != nil;
+    MISProfileRef profile = self.fbDevice.calls.ProvisioningProfileCreateWithData((__bridge CFDataRef)(profileData));
+    if (!profile) {
+        ConsoleWriteErr(@"Could not construct profile from data %@", profileData);
+        return NO;
+    }
+    int status = self.fbDevice.calls.InstallProvisioningProfile(self.fbDevice.amDeviceRef, profile);
+    if (status != 0) {
+      NSString *errorDescription = CFBridgingRelease(self.fbDevice.calls.ProvisioningProfileCopyErrorStringForCode(status));
+        ConsoleWriteErr(@"Failed to install profile %@: %@", profile, errorDescription);
+        return NO;
+    }
+    NSDictionary<NSString *, id> *payload = CFBridgingRelease(self.fbDevice.calls.ProvisioningProfileCopyPayload(profile));
+    payload = [FBCollectionOperations recursiveFilteredJSONSerializableRepresentationOfDictionary:payload];
+    if (!payload) {
+        ConsoleWriteErr(@"Failed to get payload of %@", profile);
+        return NO;
+    }
     
-    return success;
+    return YES;
+    
+    
+//    _Nullable CFTypeRef (*_Nonnull FBMISProfileCreateWithFile)(int arg0, CFStringRef profilePath);
+//    
+//    void *handle = dlopen("/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice", RTLD_LAZY);
+//    FBMISProfileCreateWithFile = (CFTypeRef(*)(int, CFStringRef))FBGetSymbolFromHandle(handle, "MISProfileCreateWithFile");
+//    
+//    NSURL *url = [NSURL fileURLWithPath:path];
+//    NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
+//    CFStringRef stringRef = (__bridge CFStringRef)encoded;
+//    CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
+//    
+//    
+//    int status = self.fbDevice.calls.InstallProvisioningProfile(self.fbDevice.amDeviceRef, profile);
+//    
+//    if (status != 0) {
+//        return NO;
+//    }
+//    
+//    return YES;
+    
+    
+    
+    
+    
+//
+//
+//    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+//    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+//        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", *error);
+//        return iOSReturnStatusCodeGenericFailure;
+//    }
+//
+//    FBFuture *future = [[commands fileCommandsForProvisioningProfiles] onQueue:self.fbDevice.workQueue pop:^FBFuture *(id<FBFileContainer> container) {
+//        NSMutableArray<FBFuture<NSNull *> *> *futures = NSMutableArray.array;
+//        [futures addObject:[container copyPathOnHost:[NSURL fileURLWithPath:path] toDestination:@""]];
+//
+//        return [[FBFuture futureWithFutures:futures] mapReplace:NSNull.null];
+//    }];
+//    [future await:error];
+//
+//    return error != nil;
+//
+    
+    
+    
+//    [[self.fbDevice
+//      fileCommandsForProvisioningProfiles]
+//      onQueue:self.target.workQueue pop:^FBFuture *(id<FBFileContainer> container) {
+//        NSMutableArray<FBFuture<NSNull *> *> *futures = NSMutableArray.array;
+//        for (NSURL *originPath in paths) {
+//          [futures addObject:[container copyPathOnHost:originPath toDestination:destinationPath]];
+//        }
+//        return [[FBFuture futureWithFutures:futures] mapReplace:NSNull.null];
+//      }]
+//
+//    //copy provisioning profile
+//    FBDeviceProvisioningProfileCommands
+//    FBFutureContext<id<FBFileContainer>> * profileCommands = [commands fileCommandsForProvisioningProfiles];
+//    [profileCommands ]
+//    BOOL success = [[
+//                     onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+//        //in this case (in case of FBFileContainer_ProvisioningProfile)
+//        //path toDestination means nothing in implementation
+//        return [container copyPathOnHost:[NSURL fileURLWithPath:path] toDestination:@""];
+//    }] await:error] != nil;
+//
+//    return success;
 }
 
 - (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)pathToRunner

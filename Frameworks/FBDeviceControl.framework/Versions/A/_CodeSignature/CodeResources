@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		vmaqAiVJUAzmUTg+dFueUouTA3s=
+		uBo7/x8ZwI3MXAVgOm3/GUP6gE8=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
@@ -19,19 +19,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			qgOg9qs/y6G7/f+2a8IGpSEFPic=
+			c1fuVM20n56WHgx8Qxlt11o3fDY=
 			</data>
 			<key>requirement</key>
-			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+			<string>cdhash H"7357ee54cdb49f9e961e0c7c43196dd75a377c36"</string>
 		</dict>
 		<key>Frameworks/XCTestBootstrap.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			JaGzJWJywTFPZwDNWlr0DyMC7DQ=
+			SXtzgwiCd0fuLA1k9vsDvUT4GDo=
 			</data>
 			<key>requirement</key>
-			<string>identifier "com.facebook.XCTestBootstrap" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+			<string>cdhash H"497b738308827747ee2c0d64f6fb03bd44f8183a"</string>
 		</dict>
 		<key>Headers/FBAFCConnection.h</key>
 		<dict>
@@ -93,7 +93,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			a2sMZEkr8LmK+9KFIEJJ8z69dY2n2ahl1A0XfPLWSlI=
+			1AJXSnrWxiUnXrw3P2MJQDc9vTW8BhYjJY2YLS+4lM8=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceControlError.h</key>
@@ -152,13 +152,6 @@
 			hY2MPSYzP6Gd0Yo5UkCTHKEodZEAp08ivWpW8upQLoc=
 			</data>
 		</dict>
-		<key>Headers/FBDeviceVideoFileEncoder.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			fxdko1YHpzy2rNTXlEQTLEpxAvy/DtVAF6vnA+QePfY=
-			</data>
-		</dict>
 		<key>Headers/FBDeviceVideoStream.h</key>
 		<dict>
 			<key>hash2</key>
@@ -205,7 +198,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			LkWJtBjxWx3kfCRIbOLU2AGIYFKp9E1rizKA78haPTA=
+			vxdg/icBkVX40kmKg7WfxL0sfEa81dDA6v/u+oJiXbw=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>

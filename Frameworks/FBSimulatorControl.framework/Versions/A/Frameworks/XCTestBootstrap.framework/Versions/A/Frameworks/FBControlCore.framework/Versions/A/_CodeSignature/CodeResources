@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		MCx8ummuVqiFBQz6UFKmobbfpi0=
+		DinvINTR3q89rVpEzoN709QFh0I=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -106,7 +106,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			h2i1vsFdBdTKY5hg/xpDhVd3PXwHylsamSokz4ZN3JM=
+			hY+k9M6p5tmyqaxyJ/Ei2zPZKxU4AF2DdvZvR9QDfdA=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreError.h</key>
@@ -274,7 +274,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			JpEhX6DNi7fJXpl82dXUh6Pw1NMvI6NC82v+FYrEtbw=
+			Cd4h/pmyTUIbHNBuDB6a68NihKs4UxKsmyFHwhy1QK0=
 			</data>
 		</dict>
 		<key>Headers/FBFutureContextManager.h</key>
@@ -365,7 +365,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pjMf9da3RhDhoCFtWi95GHWKnbMwHSauXucapAQSeD0=
+			LF6aNbkT1sXXdVQAPV7ya+Fv6kUHQKzfN/2TCrCXoDg=
 			</data>
 		</dict>
 		<key>Headers/FBProcessInfo.h</key>
@@ -393,7 +393,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			iFKKAN7R8bu2Uuwbq7eYjxOLimZWoTqDfx63ZgnStjQ=
+			kjz4uc1mQ5FyzF0RmrUDMLO66fPmfjFTpBHDyrKXYeQ=
 			</data>
 		</dict>
 		<key>Headers/FBProcessStream.h</key>
@@ -463,14 +463,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5Rb/tCsgJ/nx4c4XXqEsROSGw1BaS/8N1v7JaGKwCDs=
+			4GqQABqxbKJm3FPyVLZSMite1WtUMnXA9l+Q29Bm3kw=
 			</data>
 		</dict>
 		<key>Headers/FBTaskBuilder.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vkEZ0/KV8IbtZPVVMjHqkysNK8tr713Nt++YLTpe8Rc=
+			x3fzP6WsbfUQBKQW/IOqyVwnOQfBRhqOGXnUwaXFQWY=
 			</data>
 		</dict>
 		<key>Headers/FBTestLaunchConfiguration.h</key>
@@ -478,6 +478,13 @@
 			<key>hash2</key>
 			<data>
 			QMbjcDo3noSPexNl92v0mYNftmsP3cBLxnvs3TQ7rIE=
+			</data>
+		</dict>
+		<key>Headers/FBVideoFileWriter.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			EG8DTJTP7GWS+LSR3lbT11M15eXD1nUgQirC2I83zpE=
 			</data>
 		</dict>
 		<key>Headers/FBVideoRecordingCommands.h</key>
@@ -652,7 +659,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1BFbitFmu1pzxX5zqkXUvVrD9MyB7besujnd9+24RuM=
+			w/D2m+Eiu1RCiVCmmf6vXdQjA0BDXvPRQgzIgj4Pa/A=
 			</data>
 		</dict>
 	</dict>
