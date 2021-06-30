@@ -23,10 +23,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			znCZFd1Q+9aoxWHobAgugYPEY8c=
+			geS9k66wviGmsajq9UD4H54Sx+c=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"ce709915dd50fbd6a8c561e86c082e8183c463c7"</string>
+			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Headers/FBActivityRecord.h</key>
 		<dict>

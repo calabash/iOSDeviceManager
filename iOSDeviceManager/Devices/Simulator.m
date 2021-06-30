@@ -628,7 +628,7 @@ static const FBSimulatorControl *_control;
             [self shutdown];
             [self boot];
 
-            if ([[self.fbSimulator isApplicationInstalledWithBundleID:bundleID] await:&error]) {
+            if ([self isInstalled:bundleID withError:&error]){
                 ConsoleWriteErr(@"Could not uninstall app %@", error);
                 return iOSReturnStatusCodeInternalError;
             }
