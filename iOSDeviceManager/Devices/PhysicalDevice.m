@@ -531,7 +531,7 @@
     }] await:&error] != nil;
     
     if (!success){
-        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+        ConsoleWriteErr(@"uploadFile: Unable to download app data for %@ to %@: %@",
                         bundleID,
                         xcappdataPath,
                         e);
@@ -555,12 +555,11 @@
     }
     
     BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
-        return [container copyItemInContainer:@"Documents" toDestinationOnHost:path];
-        
+        return [container copyItemInContainer:[@"Documents" stringByAppendingPathComponent:path.lastPathComponent] toDestinationOnHost:path];
     }] await:&e] != nil;
                    
     if (!success){
-        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Unable to download app data for %@ to %@: %@",
                         bundleIdentifier,
                         path,
                         e);
