@@ -1165,6 +1165,16 @@ if (atLeastXcode102) {
     if (![XCAppDataBundle isValid:xcappdata]) {
         return iOSReturnStatusCodeGenericFailure;
     }
+    
+    
+    [self fetchApplications];
+    NSError *error = nil;
+    
+    if(![self uploadApplicationDataAtPath:xcappdata bundleID:bundleIdentifier error:&error]){
+        ConsoleWriteErr(@"Error uploading files to application container: %@",
+                        [error localizedDescription]);
+        return iOSReturnStatusCodeInternalError;
+    }
 //
 //    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
 //    [operator fetchApplications];
