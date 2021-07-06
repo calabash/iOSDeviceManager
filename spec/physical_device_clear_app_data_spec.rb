@@ -36,25 +36,46 @@ context "clear-app-data command" do
                   uploaded_data_path = IDM::Resources.instance.tmp_dir("xcappdata/Uploaded.xcappdata")
                   cleared_data_path = IDM::Resources.instance.tmp_dir("xcappdata/Cleared.xcappdata")
 
+                  puts "Step1"
+                  puts app.bundle_identifier
+                  puts original_data_path
+                  puts udid
                   args = ["download-xcappdata", app.bundle_identifier, original_data_path, udid]
                   hash = IDM.shell(args)
                   expect(hash[:exit_status]).to be == IDM.exit_status(:success)
                   original_data = TestHelper.collect_files_in_xcappdata(original_data_path)
 
+                  puts "Step2"
+                  puts app.bundle_identifier
+                  puts xcappdata
+                  puts udid
                   args = ["upload-xcappdata", app.bundle_identifier, xcappdata, "--device-id", udid]
                   hash = IDM.shell(args)
                   expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
+                  puts "Step3"
+                  puts app.bundle_identifier
+                  puts uploaded_data_path
+                  puts udid
                   args = ["download-xcappdata", app.bundle_identifier, uploaded_data_path, udid]
                   hash = IDM.shell(args)
                   expect(hash[:exit_status]).to be == IDM.exit_status(:success)
                   uploaded_data = TestHelper.collect_files_in_xcappdata(uploaded_data_path)
+                  puts uploaded_data 
+                  puts original_data
                   expect(uploaded_data - original_data).not_to be_empty
 
+                  puts "Step4"
+                  puts app.path
+                  puts udid
                   args = ["clear-app-data", app.path, udid]
                   hash = IDM.shell(args)
                   expect(hash[:exit_status]).to be == IDM.exit_status(:success)
 
+                  puts "Step5"
+                  puts app.bundle_identifier
+                  puts cleared_data_path
+                  puts udid
                   args = ["download-xcappdata", app.bundle_identifier, cleared_data_path, udid]
                   hash = IDM.shell(args)
                   expect(hash[:exit_status]).to be == IDM.exit_status(:success)

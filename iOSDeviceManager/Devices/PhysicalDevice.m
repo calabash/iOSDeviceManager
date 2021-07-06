@@ -11,12 +11,28 @@
 #import "XCAppDataBundle.h"
 #import "DeviceUtils.h"
 
+
+#import <objc/runtime.h>
+#import <IDEFoundation/IDEFoundationTestInitializer.h>
+
+#import <DVTFoundation/DVTPlatform.h>
+#import <DVTFoundation/DVTDeviceType.h>
+#import <IDEiOSSupportCore/DVTiOSDevice.h>
+#import <DVTFoundation/DVTDeviceManager.h>
+
+#import "FBDependentDylib.h"
+
 #include <dlfcn.h>
 #define RTLD_LAZY    0x1
+
+#import <libkern/OSAtomic.h>
+#import <objc/runtime.h>
+#import <stdatomic.h>
 
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
+@property (nonatomic, strong) DVTiOSDevice *dvtDevice;
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
@@ -46,6 +62,229 @@
     
     
     return device;
+}
+
+- (void)loadPrivateFrameworksOrAbort:(NSArray<FBWeakFramework *> *)frameworks
+{
+  id<FBControlCoreLogger> logger = FBControlCoreGlobalConfiguration.defaultLogger;
+  NSError *error = nil;
+    BOOL result = [FBWeakFrameworkLoader loadPrivateFrameworks:frameworks logger:logger error:&error];
+  
+  if (result) {
+    return;
+  }
+  NSString *message = [NSString stringWithFormat:@"Failed to load private frameworks with error %@", error];
+
+  // Log the message.
+  [logger.error log:message];
+  // Assertions give a better message in the crash report.
+//  NSAssert(NO, message);
+  // However if assertions are compiled out, then we still need to abort.
+  abort();
+}
+
+- (NSArray<FBDependentDylib *> *)SwiftDylibs
+{
+
+  // Starting in Xcode 8.3, IDEFoundation.framework requires Swift libraries to
+  // be loaded prior to loading the framework itself.
+  //
+  // You can inspect what libraries are loaded and in what order using:
+  //
+  // $ xcrun otool -l Xcode.app/Contents/Frameworks/IDEFoundation.framework
+  //
+  // The minimum macOS version for Xcode 8.3 is Sierra 10.12 so there is no need
+  // to branch on the macOS version.
+  //
+  // The order matters!  The first swift dylib loaded by IDEFoundation.framework
+  // is AppKit.  However, AppKit requires CoreImage and QuartzCore to be loaded
+  // first.
+
+  NSDecimalNumber *xcodeVersion = FBXcodeConfiguration.xcodeVersionNumber;
+  NSDecimalNumber *xcode83 = [NSDecimalNumber decimalNumberWithString:@"8.3"];
+  BOOL atLeastXcode83 = [xcodeVersion compare:xcode83] != NSOrderedAscending;
+
+  NSDecimalNumber *xcode90 = [NSDecimalNumber decimalNumberWithString:@"9.0"];
+  BOOL atLeastXcode90 = [xcodeVersion compare:xcode90] != NSOrderedAscending;
+
+  NSDecimalNumber *xcode102 = [NSDecimalNumber decimalNumberWithString:@"10.2"];
+  BOOL atLeastXcode102 = [xcodeVersion compare:xcode102] != NSOrderedAscending;
+  // dylibs not required prior to Xcode 8.3.3
+  NSArray *dylibs = @[];
+if (atLeastXcode102) {
+    dylibs =
+    @[
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCore.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftDarwin.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftObjectiveC.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftDispatch.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreFoundation.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftIOKit.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreGraphics.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftFoundation.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftXPC.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftos.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftMetal.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreImage.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftQuartzCore.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreData.dylib"],
+       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftAppKit.dylib"]
+     ];
+} else if (atLeastXcode90) {
+    dylibs =
+    @[
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCore.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDarwin.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftObjectiveC.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDispatch.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreFoundation.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftIOKit.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreGraphics.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftFoundation.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftXPC.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftos.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftMetal.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreImage.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftQuartzCore.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreData.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftAppKit.dylib"]
+      ];
+  } else if (atLeastXcode83) {
+    dylibs =
+    @[
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCore.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDarwin.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftObjectiveC.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDispatch.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftIOKit.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreGraphics.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftFoundation.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftXPC.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreImage.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftQuartzCore.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreData.dylib"],
+      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftAppKit.dylib"]
+      ];
+  }
+  return dylibs;
+}
+
+
+- (FBWeakFramework *)DebugHierarchyFoundation
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+}
+
+- (FBWeakFramework *)DebugHierarchyKit
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyKit.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+}
+
+- (FBWeakFramework *)DevToolsFoundation
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+}
+
+- (FBWeakFramework *)DevToolsSupport
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsSupport.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+}
+
+- (FBWeakFramework *)DevToolsCore
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsCore.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+}
+
+- (FBWeakFramework *)IBAutolayoutFoundation
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IBAutolayoutFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+}
+
+- (FBWeakFramework *)IDEKit
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEKit.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+}
+
+- (NSDictionary<NSString *, DVTiOSDevice *> *)keyDVTDevicesByUDID:(NSArray<DVTiOSDevice *> *)devices
+{
+  NSMutableDictionary<NSString *, DVTiOSDevice *> *dictionary = [NSMutableDictionary dictionary];
+  for (DVTiOSDevice *device in devices) {
+    dictionary[device.identifier] = device;
+  }
+  return [dictionary copy];
+}
+
+-(void)testDVT{
+    NSError *err;
+    
+    for (FBDependentDylib *dylib in [self SwiftDylibs]) {
+      if (![dylib loadWithLogger:FBControlCoreGlobalConfiguration.defaultLogger error:&err]) {
+          ConsoleWriteErr(@"Failed to initialize SwiftDylibs");
+      }
+    }
+
+
+    NSMutableArray<FBWeakFramework *> *frameworks = [[NSMutableArray alloc] init];
+    
+    FBWeakFramework *framework1 = [FBWeakFramework frameworkWithPath:@"/System/Library/PrivateFrameworks/MobileDevice.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+
+    [frameworks addObject:framework1];
+    
+    FBWeakFramework *framework2 = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DTXConnectionServices.framework" requiredClassNames:@[@"DTXConnection", @"DTXRemoteInvocationReceipt"]  requiredFrameworks:@[] rootPermitted:NO];
+    [frameworks addObject:framework2];
+    
+    FBWeakFramework *framework3 = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEFoundation.framework" requiredClassNames:@[@"IDEFoundationTestInitializer"]  requiredFrameworks:@[] rootPermitted:NO];
+    
+    [frameworks addObject:framework3];
+    
+    FBWeakFramework *framework4 = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.ideplugin" requiredClassNames:@[@"DVTiPhoneSimulator"]  requiredFrameworks:@[
+        [self DevToolsFoundation],
+        [self DevToolsSupport],
+        [self DevToolsCore],
+    ] rootPermitted:NO];
+
+    [frameworks addObject:framework4];
+    
+    [frameworks addObject:[self IBAutolayoutFoundation]];
+    [frameworks addObject:[self IDEKit]];
+    
+    [frameworks addObject:[self DebugHierarchyFoundation]];
+    [frameworks addObject:[self DebugHierarchyKit]];
+    
+
+    [self loadPrivateFrameworksOrAbort:frameworks];
+    
+
+        
+          if (![objc_lookUpClass("IDEFoundationTestInitializer") initializeTestabilityWithUI:NO error:&err]) {
+              ConsoleWriteErr(@"Failed to initialize testability");
+          }
+        
+        if (![objc_lookUpClass("DVTPlatform") loadAllPlatformsReturningError:&err]) {
+            ConsoleWriteErr(@"Failed to load all platforms");
+        }
+        
+        if (![objc_lookUpClass("DVTDeviceType") deviceTypeWithIdentifier:@"Xcode.DeviceType.iPhone"]) {
+            ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
+        }
+        
+        
+        if (!objc_lookUpClass("DVTDeviceType")) {
+            ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
+        }
+//
+//        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
+//      DVTiOSDevice *device2;
+//
+//      NSSet* set = [deviceManager availableDevices];
+//        [deviceManager searchForDevicesWithType:nil options:nil timeout:2 error:&err];
+//    //    });
+//
+//        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
+//        ConsoleWriteErr(@"devices count: %@", [devices count]);
+//    //    NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [PhysicalDevice keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
+//    //    DVTiOSDevice *dvt = dvtDevices[uuid];
+
 }
 
 - (iOSReturnStatusCode)launch {
@@ -485,10 +724,333 @@
 }
 
 
+
+//
+//- (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+//                   forApplication:(NSString *)bundleID
+//                        overwrite:(BOOL)overwrite {
+//
+//    NSError *e;
+//    NSFileManager *fm = [NSFileManager defaultManager];
+//
+//    if (![fm fileExistsAtPath:filepath]) {
+//        ConsoleWriteErr(@"%@ doesn't exist!", filepath);
+//        return iOSReturnStatusCodeInvalidArguments;
+//    }
+//
+//    NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
+//    NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
+//    NSString *xcappdataPath = [[NSTemporaryDirectory()
+//                                stringByAppendingPathComponent:guid]
+//                               stringByAppendingPathComponent:xcappdataName];
+//    NSString *dataBundle = [[xcappdataPath
+//                             stringByAppendingPathComponent:@"AppData"]
+//                            stringByAppendingPathComponent:@"Documents"];
+//
+//    LogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
+//
+//    if (![fm createDirectoryAtPath:xcappdataPath
+//       withIntermediateDirectories:YES
+//                        attributes:nil
+//                             error:&e]) {
+//        ConsoleWriteErr(@"Error creating data dir: %@", e);
+//        return iOSReturnStatusCodeGenericFailure;
+//    }
+//
+//
+//    /*
+//    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+//    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+//        ConsoleWriteErr(@"uploadFile: Target doesn't conform to FBFileCommands protocol %@", e);
+//        return iOSReturnStatusCodeGenericFailure;
+//    }
+//
+//    NSError *error = nil;
+//    BOOL success = [[[commands fileCommandsForContainerApplication:bundleID]
+//                     onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+//        return [container copyPathOnHost:[NSURL fileURLWithPath:filepath] toDestination:@"Documents"];
+//    }] await:&error] != nil;
+//
+//    if (!success){
+//        ConsoleWriteErr(@"uploadFile: Unable to download app data for %@ to %@: %@",
+//                        bundleID,
+//                        xcappdataPath,
+//                        e);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//
+//    [ConsoleWriter write:filepath];
+//    [ConsoleWriter write:dataBundle];
+//    */
+//
+//    // TODO This call needs to be removed
+//
+//    [self testDVT];
+//
+//    static BOOL success = false;
+//
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        // It seems that searching for a device that does not exist will cause all available devices/simulators etc. to be cached.
+//        // There's probably a better way of fetching all the available devices, but this appears to work well enough.
+//        // This means that all the cached available devices can then be found.
+//
+//        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
+//        ConsoleWriteErr(@"Quering device manager for %f seconds to cache devices");
+//        [deviceManager searchForDevicesWithType:nil options:@{@"id" : @"I_DONT_EXIST_AT_ALL"} timeout:2 error:nil];
+//        ConsoleWriteErr(@"Finished querying devices to cache them");
+//
+//        //
+//        //        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
+//        //        ConsoleWriteErr(@"devices count: %@", [devices count]);
+//        NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [self keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
+//        DVTiOSDevice *dvtDevice = dvtDevices[self.fbDevice.udid];
+//
+//        NSError *e;
+//
+//
+//        if (![dvtDevice downloadApplicationDataToPath:xcappdataPath
+//                        forInstalledApplicationWithBundleIdentifier:bundleID
+//                                                              error:&e]) {
+//            ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+//                            bundleID,
+//                            xcappdataPath,
+//                            e);
+//            //return;
+////            return iOSReturnStatusCodeInternalError;
+//        }
+//        LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
+//
+//        NSString *filename = [filepath lastPathComponent];
+//        NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
+//        if ([fm fileExistsAtPath:dest]) {
+//            if (!overwrite) {
+//                ConsoleWriteErr(@"'%@' already exists in the app container.\n"
+//                                "Specify `-o true` to overwrite.", filename);
+////                return iOSReturnStatusCodeGenericFailure;
+//                return;
+//            } else {
+//                if (![fm removeItemAtPath:dest error:&e]) {
+//                    ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
+////                    return iOSReturnStatusCodeGenericFailure;
+//                    return;
+//                }
+//            }
+//        }
+//
+//        if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
+//            ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+////            return iOSReturnStatusCodeGenericFailure;
+////            return;
+//        }
+//
+//
+//        if(![dvtDevice uploadApplicationDataWithPath:filepath forInstalledApplicationWithBundleIdentifier:bundleID error:&e]){
+//            ConsoleWriteErr(@"Error uploading files to application container: %@", e);
+//            return;
+//        }
+//        success = true;
+//
+//        [ConsoleWriter write:dest];
+//    });
+//
+//    if (!success){
+//        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+///*
+//    if (![operator uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
+//        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//*/
+//    // Remove the temporary data bundle
+//    if (![fm removeItemAtPath:dataBundle error:&e]) {
+//        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
+//                        dataBundle, e);
+//    }
+//
+//    return iOSReturnStatusCodeEverythingOkay;
+//}
+//
+//- (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleIdentifier
+//                                                      toPath:(NSString *)path{
+//
+//    NSError *e;
+//
+//    [self testDVT];
+//
+//    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+//    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+//        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", e);
+//        return iOSReturnStatusCodeGenericFailure;
+//    }
+//
+//    static BOOL success = false;
+//
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//      // It seems that searching for a device that does not exist will cause all available devices/simulators etc. to be cached.
+//      // There's probably a better way of fetching all the available devices, but this appears to work well enough.
+//      // This means that all the cached available devices can then be found.
+//
+//        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
+//        ConsoleWriteErr(@"Quering device manager for %f seconds to cache devices");
+//        [deviceManager searchForDevicesWithType:nil options:@{@"id" : @"I_DONT_EXIST_AT_ALL"} timeout:2 error:nil];
+//        ConsoleWriteErr(@"Finished querying devices to cache them");
+////
+////        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
+////        ConsoleWriteErr(@"devices count: %@", [devices count]);
+//        NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [self keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
+//        DVTiOSDevice *dvtDevice = dvtDevices[self.fbDevice.udid];
+//
+//        NSError *e;
+//
+//        if(![dvtDevice downloadApplicationDataToPath:path forInstalledApplicationWithBundleIdentifier:bundleIdentifier error:&e]){
+//            ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+//                            bundleIdentifier,
+//                            path,
+//                            e);
+//            return;
+//        }
+//        success = true;
+//    });
+//
+//    if (!success){
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//
+//    return iOSReturnStatusCodeEverythingOkay;
+//
+//
+////    BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+////        return [container copyItemInContainer:[@"Documents" stringByAppendingPathComponent:path.lastPathComponent] toDestinationOnHost:path];
+////    }] await:&e] != nil;
+////
+////    if (!success){
+////        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Unable to download app data for %@ to %@: %@",
+////                        bundleIdentifier,
+////                        path,
+////                        e);
+////        return iOSReturnStatusCodeInternalError;
+////    }
+////
+////    return iOSReturnStatusCodeEverythingOkay;
+//}
+//
+//
+//- (iOSReturnStatusCode)uploadXCAppDataBundle:(NSString *)xcappdata
+//                              forApplication:(NSString *)bundleIdentifier {
+//    if (![XCAppDataBundle isValid:xcappdata]) {
+//        return iOSReturnStatusCodeGenericFailure;
+//    }
+//
+//    NSError *e;
+//
+//    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
+//    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
+//        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", e);
+//        return iOSReturnStatusCodeGenericFailure;
+//    }
+//
+//    BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
+//        return [container copyPathOnHost:[NSURL fileURLWithPath:xcappdata] toDestination:@"Documents"];
+//    }] await:&e] != nil;
+//
+//    if (!success){
+//        return iOSReturnStatusCodeInternalError;
+//    }
+//
+//    return iOSReturnStatusCodeEverythingOkay;
+//}
+
+- (void)fetchApplications
+{
+    
+    [self testDVT];
+    
+//    static BOOL success = false;
+    
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+        // It seems that searching for a device that does not exist will cause all available devices/simulators etc. to be cached.
+        // There's probably a better way of fetching all the available devices, but this appears to work well enough.
+        // This means that all the cached available devices can then be found.
+        
+        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
+        ConsoleWriteErr(@"Quering device manager for %f seconds to cache devices");
+        [deviceManager searchForDevicesWithType:nil options:@{@"id" : @"I_DONT_EXIST_AT_ALL"} timeout:2 error:nil];
+        ConsoleWriteErr(@"Finished querying devices to cache them");
+        //
+        //        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
+        //        ConsoleWriteErr(@"devices count: %@", [devices count]);
+        NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [self keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
+        self.dvtDevice = dvtDevices[self.fbDevice.udid];
+        
+        NSError *e;
+        
+        
+//        if (!dvtDevice.applications) {
+//            [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:2 untilExists:^id{
+//                DVTFuture *future = dvtDevice.token.fetchApplications;
+//                [future waitUntilFinished];
+//                return nil;
+//            }];
+//        }
+    if (!self.dvtDevice.applications) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
+            DVTFuture *future = self.dvtDevice.token.fetchApplications;
+            [future waitUntilFinished];
+        });
+    }
+    //added by myself - without this line the dvtDevice variable contains no applications
+    [[self.fbDevice installedApplications] await:&e];//NSArray<FBInstalledApplication *> * apps =
+    while (!self.dvtDevice.applications){
+        usleep(500);
+        ConsoleWriteErr(@"Wait for the applications");
+    }
+//    });
+}
+
+- (BOOL)uploadApplicationDataAtPath:(NSString *)path bundleID:(NSString *)bundleID error:(NSError **)error
+{
+    __block NSError *innerError = nil;
+//    BOOL result = [[FBRunLoopSpinner spinUntilBlockFinished:^id{
+//      return @([self.dvtDevice uploadApplicationDataWithPath:path forInstalledApplicationWithBundleIdentifier:bundleID error:&innerError]);
+//    }] boolValue];
+//    *error = innerError;
+//    return result;
+    
+    
+    __block volatile atomic_bool didFinish = false;
+    __block id returnObject;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      returnObject = @([self.dvtDevice uploadApplicationDataWithPath:path forInstalledApplicationWithBundleIdentifier:bundleID error:&innerError]);
+      atomic_fetch_or(&didFinish, true);
+    });
+    while (!didFinish) {
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+    return [returnObject boolValue];
+    
+    
+//    static BOOL res = NO;
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
+//        NSError* innerError;
+//        res = [self.dvtDevice uploadApplicationDataWithPath:path forInstalledApplicationWithBundleIdentifier:bundleID error:&innerError];
+//    });
+//
+//    while (!res){
+//        usleep(500);
+//        ConsoleWriteErr(@"Wait for the upload finished");
+//    }
+//    return res;
+}
+
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
                    forApplication:(NSString *)bundleID
                         overwrite:(BOOL)overwrite {
-    
+
     NSError *e;
     NSFileManager *fm = [NSFileManager defaultManager];
 
@@ -515,56 +1077,85 @@
         ConsoleWriteErr(@"Error creating data dir: %@", e);
         return iOSReturnStatusCodeGenericFailure;
     }
+
+//    [self testDVT];
+    // TODO This call needs to be removed
+    [self fetchApplications];
     
-    
-    
-    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
-    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
-        ConsoleWriteErr(@"uploadFile: Target doesn't conform to FBFileCommands protocol %@", e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-    
-    NSError *error = nil;
-    BOOL success = [[[commands fileCommandsForContainerApplication:bundleID]
-                     onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
-        return [container copyPathOnHost:[NSURL fileURLWithPath:filepath] toDestination:@"Documents"];
-    }] await:&error] != nil;
-    
-    if (!success){
-        ConsoleWriteErr(@"uploadFile: Unable to download app data for %@ to %@: %@",
+    if (![self.dvtDevice downloadApplicationDataToPath:xcappdataPath
+                    forInstalledApplicationWithBundleIdentifier:bundleID
+                                                          error:&e]) {
+        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
                         bundleID,
                         xcappdataPath,
                         e);
         return iOSReturnStatusCodeInternalError;
     }
-    
-    [ConsoleWriter write:filepath];
-    [ConsoleWriter write:dataBundle];
+    LogInfo(@"Copied container data for %@ to %@", bundleID, xcappdataPath);
+
+    NSString *filename = [filepath lastPathComponent];
+    NSString *dest = [dataBundle stringByAppendingPathComponent:filename];
+    if ([fm fileExistsAtPath:dest]) {
+        if (!overwrite) {
+            ConsoleWriteErr(@"'%@' already exists in the app container.\n"
+                            "Specify `-o true` to overwrite.", filename);
+            return iOSReturnStatusCodeGenericFailure;
+        } else {
+            if (![fm removeItemAtPath:dest error:&e]) {
+                ConsoleWriteErr(@"Unable to remove file at path %@: %@", dest, e);
+                return iOSReturnStatusCodeGenericFailure;
+            }
+        }
+    }
+
+    if (![fm copyItemAtPath:filepath toPath:dest error:&e]) {
+        ConsoleWriteErr(@"Error copying file %@ to data bundle: %@", filepath, e);
+        return iOSReturnStatusCodeGenericFailure;
+    }
+
+    if (![self uploadApplicationDataAtPath:xcappdataPath bundleID:bundleID error:&e]) {
+        ConsoleWriteErr(@"Error uploading files to application container: %@", e);
+        return iOSReturnStatusCodeInternalError;
+    }
+
+    // Remove the temporary data bundle
+    if (![fm removeItemAtPath:dataBundle error:&e]) {
+        ConsoleWriteErr(@"Could not remove temporary data bundle: %@\n%@",
+                        dataBundle, e);
+    }
+
+    [ConsoleWriter write:dest];
     return iOSReturnStatusCodeEverythingOkay;
 }
 
 - (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleIdentifier
                                                       toPath:(NSString *)path{
-    
     NSError *e;
+//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+//    [operator fetchApplications];
+//    if (![self.fbDevice.dvtDevice downloadApplicationDataToPath:path
+//                    forInstalledApplicationWithBundleIdentifier:bundleIdentifier
+//                                                          error:&e]) {
+//        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
+//                        bundleIdentifier,
+//                        path,
+//                        e);
+//        return iOSReturnStatusCodeInternalError;
+//    }
     
-    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
-    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
-        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
     
-    BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
-        return [container copyItemInContainer:[@"Documents" stringByAppendingPathComponent:path.lastPathComponent] toDestinationOnHost:path];
-    }] await:&e] != nil;
-                   
-    if (!success){
-        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Unable to download app data for %@ to %@: %@",
+    [self fetchApplications];
+    
+    if (![self.dvtDevice downloadApplicationDataToPath:path
+                    forInstalledApplicationWithBundleIdentifier:bundleIdentifier
+                                                          error:&e]) {
+        ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
                         bundleIdentifier,
                         path,
                         e);
         return iOSReturnStatusCodeInternalError;
     }
+    
     
     return iOSReturnStatusCodeEverythingOkay;
 }
@@ -574,25 +1165,21 @@
     if (![XCAppDataBundle isValid:xcappdata]) {
         return iOSReturnStatusCodeGenericFailure;
     }
-
-    NSError *e;
-    
-    id<FBFileCommands> commands = (id<FBFileCommands>) self.fbDevice;
-    if (![commands conformsToProtocol:@protocol(FBFileCommands)]) {
-        ConsoleWriteErr(@"downloadXCAppDataBundleForApplication: Target doesn't conform to FBFileCommands protocol %@", e);
-        return iOSReturnStatusCodeGenericFailure;
-    }
-    
-    BOOL success = [[[commands fileCommandsForContainerApplication:bundleIdentifier] onQueue:self.fbDevice.asyncQueue pop:^(id<FBFileContainer> container) {
-        return [container copyPathOnHost:[NSURL fileURLWithPath:xcappdata] toDestination:@"Documents"];
-    }] await:&e] != nil;
-                   
-    if (!success){
-        return iOSReturnStatusCodeInternalError;
-    }
-    
+//
+//    FBiOSDeviceOperator *operator = [self fbDeviceOperator];
+//    [operator fetchApplications];
+//
+//    NSError *error = nil;
+//    if (![operator uploadApplicationDataAtPath:xcappdata
+//                                      bundleID:bundleIdentifier
+//                                         error:&error]) {
+//        ConsoleWriteErr(@"Error uploading files to application container: %@",
+//                        [error localizedDescription]);
+//        return iOSReturnStatusCodeInternalError;
+//    }
     return iOSReturnStatusCodeEverythingOkay;
 }
+
 
 
 #pragma mark - Test Reporter Methods

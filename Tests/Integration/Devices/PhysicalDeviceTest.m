@@ -5,6 +5,8 @@
 #import "XCAppDataBundle.h"
 #import "CLI.h"
 
+
+
 @interface PhysicalDevice (TEST)
 
 - (FBDevice *)fbDevice;
@@ -32,6 +34,7 @@
     if (!device_available()) { return; }
 
     PhysicalDevice *device = [PhysicalDevice withID:defaultDeviceUDID];
+    
     Application *app = [Application withBundlePath:testApp(ARM)];
     NSError *error = nil;
     BOOL installed = NO;

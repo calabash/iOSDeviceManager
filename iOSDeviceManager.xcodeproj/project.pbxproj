@@ -17,6 +17,12 @@
 		427823EB1F10294E00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
 		427823EC1F10294F00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
 		42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
+		474DA294268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */; };
+		474DA295268F52D50052EA61 /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA291268F52D50052EA61 /* FBDependentDylib.m */; };
+		474DA296268F57680052EA61 /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA291268F52D50052EA61 /* FBDependentDylib.m */; };
+		474DA297268F57680052EA61 /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA291268F52D50052EA61 /* FBDependentDylib.m */; };
+		474DA298268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */; };
+		474DA299268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */; };
 		634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */; };
 		634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424B5EAA3E57132288C79A /* MobileProfileTest.m */; };
 		6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */; };
@@ -305,6 +311,11 @@
 		421D28101E942AB5003C7F10 /* FileUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtilsTest.m; sourceTree = "<group>"; };
 		42CFBACB1F0FF70200357248 /* AppInfoCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppInfoCommand.h; path = iOSDeviceManager/Commands/AppInfoCommand.h; sourceTree = SOURCE_ROOT; };
 		42CFBACC1F0FF73800357248 /* AppInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppInfoCommand.m; path = iOSDeviceManager/Commands/AppInfoCommand.m; sourceTree = SOURCE_ROOT; };
+		474DA28F268F339E0052EA61 /* PrivateHeaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PrivateHeaders; sourceTree = "<group>"; };
+		474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FBDependentDylib+ApplePrivateDylibs.m"; sourceTree = "<group>"; };
+		474DA291268F52D50052EA61 /* FBDependentDylib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBDependentDylib.m; sourceTree = "<group>"; };
+		474DA292268F52D50052EA61 /* FBDependentDylib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBDependentDylib.h; sourceTree = "<group>"; };
+		474DA293268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FBDependentDylib+ApplePrivateDylibs.h"; sourceTree = "<group>"; };
 		63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAndSpectaStandupTests.m; sourceTree = "<group>"; };
 		6342445D4215DC668C7923B2 /* EntitlementTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntitlementTest.m; sourceTree = "<group>"; };
 		634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignIdentityTest.m; sourceTree = "<group>"; };
@@ -567,6 +578,7 @@
 			isa = PBXGroup;
 			children = (
 				F5169D261CFEAE5900252F52 /* LICENSE */,
+				474DA28F268F339E0052EA61 /* PrivateHeaders */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
@@ -649,6 +661,10 @@
 				F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */,
 				411B5767216DF48100913A9E /* XcodeUtils.h */,
 				411B5768216DF48100913A9E /* XcodeUtils.m */,
+				474DA292268F52D50052EA61 /* FBDependentDylib.h */,
+				474DA291268F52D50052EA61 /* FBDependentDylib.m */,
+				474DA293268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.h */,
+				474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -990,6 +1006,7 @@
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B2E68E181E38170E001D5D89 /* ResignCommand.m in Sources */,
+				474DA295268F52D50052EA61 /* FBDependentDylib.m in Sources */,
 				B296378A1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */,
 				B22DC0061E1D799500BDD4CB /* Application.m in Sources */,
@@ -1030,6 +1047,7 @@
 				89A1CEF01E302FC200D9FEC5 /* Certificate.m in Sources */,
 				89A1CEF61E302FC200D9FEC5 /* ShasumProvider.m in Sources */,
 				B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
+				474DA294268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				F54ACEE11E8A687800BC36DA /* MachClock.m in Sources */,
 				B980C158206CA08600879BBD /* ClearAppDataCommand.m in Sources */,
 			);
@@ -1045,6 +1063,7 @@
 				F593649D1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
 				F5D438031E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
+				474DA298268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				89A1CEFA1E32217500D9FEC5 /* StringUtils.m in Sources */,
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
 				F5CAA4531F4EC25000E48BFF /* PhysicalDeviceTest.m in Sources */,
@@ -1087,6 +1106,7 @@
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				F54ACEF31E8A6AEE00BC36DA /* SimulatorTest.m in Sources */,
+				474DA296268F57680052EA61 /* FBDependentDylib.m in Sources */,
 				B296D6FC1E31441700D365F3 /* Entitlement.m in Sources */,
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
@@ -1121,10 +1141,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				474DA297268F57680052EA61 /* FBDependentDylib.m in Sources */,
 				B9247ACC20889034008DA66D /* EraseSimulatorCommand.m in Sources */,
 				B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */,
 				B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */,
 				89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */,
+				474DA299268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
 				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,
 				F5D583FF1D6A0387007B0D11 /* CommandOption.m in Sources */,
@@ -1303,6 +1325,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLE_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../Frameworks";
+				APPLE_OTHER_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../OtherFrameworks";
+				APPLE_PLUGINS_DIR = "$(DEVELOPER_DIR)/../PlugIns";
+				APPLE_SHARED_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../SharedFrameworks";
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
@@ -1312,13 +1338,40 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(APPLE_FRAMEWORKS_DIR)",
+					"$(APPLE_PLUGINS_DIR)",
+					"$(APPLE_OTHER_FRAMEWORKS_DIR)",
+					"$(APPLE_SHARED_FRAMEWORKS_DIR)",
+					"$(DEVELOPER_LIBRARY_DIR)/PrivateFrameworks",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
 				);
 				GCC_PREFIX_HEADER = "";
 				GENERATE_MASTER_OBJECT_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/PrivateHeaders",
+				);
+				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				"MTL_ENABLE_DEBUG_INFO[arch=*]" = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-weak_framework",
+					DTXConnectionServices,
+					"-weak_framework",
+					DVTFoundation,
+					"-weak_framework",
+					IDEFoundation,
+					"-weak_framework",
+					IDEKit,
+					"-weak_library",
+					"$(DEVELOPER_DIR)/../PlugIns/IDEiOSSupportCore.ideplugin/Contents/MacOS/IDEiOSSupportCore",
+				);
+				PRIVATE_HEADERS_FOLDER_PATH = "$(SRCROOT)/PrivateHeaders";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -1327,6 +1380,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLE_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../Frameworks";
+				APPLE_OTHER_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../OtherFrameworks";
+				APPLE_PLUGINS_DIR = "$(DEVELOPER_DIR)/../PlugIns";
+				APPLE_SHARED_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../SharedFrameworks";
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
@@ -1336,13 +1393,39 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(APPLE_FRAMEWORKS_DIR)",
+					"$(APPLE_PLUGINS_DIR)",
+					"$(APPLE_OTHER_FRAMEWORKS_DIR)",
+					"$(APPLE_SHARED_FRAMEWORKS_DIR)",
+					"$(DEVELOPER_LIBRARY_DIR)/PrivateFrameworks",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
 				);
 				GCC_PREFIX_HEADER = "";
 				GENERATE_MASTER_OBJECT_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/PrivateHeaders",
+				);
+				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-weak_framework",
+					DTXConnectionServices,
+					"-weak_framework",
+					DVTFoundation,
+					"-weak_framework",
+					IDEFoundation,
+					"-weak_framework",
+					IDEKit,
+					"-weak_library",
+					"$(DEVELOPER_DIR)/../PlugIns/IDEiOSSupportCore.ideplugin/Contents/MacOS/IDEiOSSupportCore",
+				);
+				PRIVATE_HEADERS_FOLDER_PATH = "$(SRCROOT)/PrivateHeaders";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -1367,6 +1450,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1393,6 +1477,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1413,12 +1498,17 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/PrivateHeaders",
+				);
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1439,12 +1529,17 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/Tests/Tests.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/PrivateHeaders",
+				);
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Integration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
