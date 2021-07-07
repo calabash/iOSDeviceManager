@@ -24,7 +24,6 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 @end
 
-
 @implementation SimulatorTest
 
 - (void)setUp {

@@ -95,7 +95,7 @@
 }
 
 - (void)testInstallAndInjectTestRecorder {
-    XCTAssertEqual([self.simulator boot], YES);
+    expect([self.simulator boot]).to.beTruthy();
 
     NSArray *resources = @[[[Resources shared] TestRecorderDylibPath]];
 
@@ -105,20 +105,20 @@
     Application *app = [Application withBundlePath:testApp(SIM)];
 
     if ([self.simulator isInstalled:app.bundleID withError:nil]) {
-        XCTAssertEqual([self.simulator uninstallApp:app.bundleID], iOSReturnStatusCodeEverythingOkay);
-//        BOOL success = [[self.simulator.fbSimulator uninstallApplicationWithBundleID:app.bundleID] await:&error] != nil;
-//        XCTAssertNil(error);
-//        XCTAssertTrue(success);
+        expect(
+               [self.simulator uninstallApp:app.bundleID]
+               ).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 
     iOSReturnStatusCode code = [self.simulator installApp:app
                                         resourcesToInject:resources
                                              forceReinstall:NO];
 
-    XCTAssertEqual(code, iOSReturnStatusCodeEverythingOkay);
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 
     code = [self.simulator launchApp:[app bundleID]];
-    XCTAssertEqual(code, iOSReturnStatusCodeEverythingOkay);
+    expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
+
 
     __block NSString *version = nil;
 
