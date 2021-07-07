@@ -20,6 +20,8 @@ fi
 rm -rf ./Frameworks/*.framework
 OUTPUT_DIR="${PWD}/Frameworks"
 
+cp -a bin/idb/. ${FBSIMCONTROL_PATH}
+
 echo "${FBSIMCONTROL_PATH}"
 (cd "${FBSIMCONTROL_PATH}";
 
@@ -37,6 +39,9 @@ xcrun ditto build/Release/FBSimulatorControl.framework \
 
 xcrun ditto build/Release/XCTestBootstrap.framework \
   "${OUTPUT_DIR}/XCTestBootstrap.framework" ;
+
+rm -rf Makefile;
+rm -rf bin;
 )
 
 xcrun ditto ./Vendor/CocoaLumberjack.framework ${OUTPUT_DIR}/CocoaLumberjack.framework
@@ -47,3 +52,32 @@ xcrun codesign \
 --sign "Mac Developer: Karl Krukow (YTTN6Y2QS9)" \
 --keychain "${HOME}/.calabash/Calabash.keychain" \
 "Frameworks/CocoaLumberjack.framework"
+
+xcrun codesign \
+--force \
+--deep \
+--sign "Mac Developer: Karl Krukow (YTTN6Y2QS9)" \
+--keychain "${HOME}/.calabash/Calabash.keychain" \
+"Frameworks/FBControlCore.framework"
+
+xcrun codesign \
+--force \
+--deep \
+--sign "Mac Developer: Karl Krukow (YTTN6Y2QS9)" \
+--keychain "${HOME}/.calabash/Calabash.keychain" \
+"Frameworks/FBDeviceControl.framework"
+
+xcrun codesign \
+--force \
+--deep \
+--sign "Mac Developer: Karl Krukow (YTTN6Y2QS9)" \
+--keychain "${HOME}/.calabash/Calabash.keychain" \
+"Frameworks/FBSimulatorControl.framework"
+
+xcrun codesign \
+--force \
+--deep \
+--sign "Mac Developer: Karl Krukow (YTTN6Y2QS9)" \
+--keychain "${HOME}/.calabash/Calabash.keychain" \
+"Frameworks/XCTestBootstrap.framework"
+
