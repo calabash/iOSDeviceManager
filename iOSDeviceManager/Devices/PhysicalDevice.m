@@ -11,28 +11,15 @@
 #import "XCAppDataBundle.h"
 #import "DeviceUtils.h"
 
+#import "FBLegacy.h"
 
-#import <objc/runtime.h>
-#import <IDEFoundation/IDEFoundationTestInitializer.h>
-
-#import <DVTFoundation/DVTPlatform.h>
-#import <DVTFoundation/DVTDeviceType.h>
-#import <IDEiOSSupportCore/DVTiOSDevice.h>
-#import <DVTFoundation/DVTDeviceManager.h>
-
-#import "FBDependentDylib.h"
-
-#include <dlfcn.h>
-#define RTLD_LAZY    0x1
-
-#import <libkern/OSAtomic.h>
-#import <objc/runtime.h>
-#import <stdatomic.h>
+//#import <libkern/OSAtomic.h>
+//#import <objc/runtime.h>
+//#import <stdatomic.h>
 
 @interface PhysicalDevice()
 
 @property (nonatomic, strong) FBDevice *fbDevice;
-@property (nonatomic, strong) DVTiOSDevice *dvtDevice;
 
 - (BOOL)installProvisioningProfileAtPath:(NSString *)path
                                    error:(NSError **)error;
@@ -64,228 +51,21 @@
     return device;
 }
 
-- (void)loadPrivateFrameworksOrAbort:(NSArray<FBWeakFramework *> *)frameworks
-{
-  id<FBControlCoreLogger> logger = FBControlCoreGlobalConfiguration.defaultLogger;
-  NSError *error = nil;
-    BOOL result = [FBWeakFrameworkLoader loadPrivateFrameworks:frameworks logger:logger error:&error];
-  
-  if (result) {
-    return;
-  }
-  NSString *message = [NSString stringWithFormat:@"Failed to load private frameworks with error %@", error];
-
-  // Log the message.
-  [logger.error log:message];
-  // Assertions give a better message in the crash report.
-//  NSAssert(NO, message);
-  // However if assertions are compiled out, then we still need to abort.
-  abort();
-}
-
-- (NSArray<FBDependentDylib *> *)SwiftDylibs
-{
-
-  // Starting in Xcode 8.3, IDEFoundation.framework requires Swift libraries to
-  // be loaded prior to loading the framework itself.
-  //
-  // You can inspect what libraries are loaded and in what order using:
-  //
-  // $ xcrun otool -l Xcode.app/Contents/Frameworks/IDEFoundation.framework
-  //
-  // The minimum macOS version for Xcode 8.3 is Sierra 10.12 so there is no need
-  // to branch on the macOS version.
-  //
-  // The order matters!  The first swift dylib loaded by IDEFoundation.framework
-  // is AppKit.  However, AppKit requires CoreImage and QuartzCore to be loaded
-  // first.
-
-  NSDecimalNumber *xcodeVersion = FBXcodeConfiguration.xcodeVersionNumber;
-  NSDecimalNumber *xcode83 = [NSDecimalNumber decimalNumberWithString:@"8.3"];
-  BOOL atLeastXcode83 = [xcodeVersion compare:xcode83] != NSOrderedAscending;
-
-  NSDecimalNumber *xcode90 = [NSDecimalNumber decimalNumberWithString:@"9.0"];
-  BOOL atLeastXcode90 = [xcodeVersion compare:xcode90] != NSOrderedAscending;
-
-  NSDecimalNumber *xcode102 = [NSDecimalNumber decimalNumberWithString:@"10.2"];
-  BOOL atLeastXcode102 = [xcodeVersion compare:xcode102] != NSOrderedAscending;
-  // dylibs not required prior to Xcode 8.3.3
-  NSArray *dylibs = @[];
-if (atLeastXcode102) {
-    dylibs =
-    @[
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCore.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftDarwin.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftObjectiveC.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftDispatch.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreFoundation.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftIOKit.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreGraphics.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftFoundation.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftXPC.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftos.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftMetal.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreImage.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftQuartzCore.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftCoreData.dylib"],
-       [FBDependentDylib dependentWithAbsolutePath:@"/usr/lib/swift/libswiftAppKit.dylib"]
-     ];
-} else if (atLeastXcode90) {
-    dylibs =
-    @[
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCore.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDarwin.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftObjectiveC.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDispatch.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreFoundation.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftIOKit.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreGraphics.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftFoundation.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftXPC.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftos.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftMetal.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreImage.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftQuartzCore.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreData.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftAppKit.dylib"]
-      ];
-  } else if (atLeastXcode83) {
-    dylibs =
-    @[
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCore.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDarwin.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftObjectiveC.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftDispatch.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftIOKit.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreGraphics.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftFoundation.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftXPC.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreImage.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftQuartzCore.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftCoreData.dylib"],
-      [FBDependentDylib dependentWithRelativePath:@"../Frameworks/libswiftAppKit.dylib"]
-      ];
-  }
-  return dylibs;
-}
 
 
-- (FBWeakFramework *)DebugHierarchyFoundation
-{
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-}
-
-- (FBWeakFramework *)DebugHierarchyKit
-{
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyKit.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-}
-
-- (FBWeakFramework *)DevToolsFoundation
-{
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-}
-
-- (FBWeakFramework *)DevToolsSupport
-{
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsSupport.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-}
-
-- (FBWeakFramework *)DevToolsCore
-{
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsCore.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-}
-
-- (FBWeakFramework *)IBAutolayoutFoundation
-{
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IBAutolayoutFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-}
-
-- (FBWeakFramework *)IDEKit
-{
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEKit.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-}
-
-- (NSDictionary<NSString *, DVTiOSDevice *> *)keyDVTDevicesByUDID:(NSArray<DVTiOSDevice *> *)devices
-{
-  NSMutableDictionary<NSString *, DVTiOSDevice *> *dictionary = [NSMutableDictionary dictionary];
-  for (DVTiOSDevice *device in devices) {
-    dictionary[device.identifier] = device;
-  }
-  return [dictionary copy];
-}
-
--(void)testDVT{
-    NSError *err;
-    
-    for (FBDependentDylib *dylib in [self SwiftDylibs]) {
-      if (![dylib loadWithLogger:FBControlCoreGlobalConfiguration.defaultLogger error:&err]) {
-          ConsoleWriteErr(@"Failed to initialize SwiftDylibs");
-      }
-    }
 
 
-    NSMutableArray<FBWeakFramework *> *frameworks = [[NSMutableArray alloc] init];
-    
-    FBWeakFramework *framework1 = [FBWeakFramework frameworkWithPath:@"/System/Library/PrivateFrameworks/MobileDevice.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
 
-    [frameworks addObject:framework1];
-    
-    FBWeakFramework *framework2 = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DTXConnectionServices.framework" requiredClassNames:@[@"DTXConnection", @"DTXRemoteInvocationReceipt"]  requiredFrameworks:@[] rootPermitted:NO];
-    [frameworks addObject:framework2];
-    
-    FBWeakFramework *framework3 = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEFoundation.framework" requiredClassNames:@[@"IDEFoundationTestInitializer"]  requiredFrameworks:@[] rootPermitted:NO];
-    
-    [frameworks addObject:framework3];
-    
-    FBWeakFramework *framework4 = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.ideplugin" requiredClassNames:@[@"DVTiPhoneSimulator"]  requiredFrameworks:@[
-        [self DevToolsFoundation],
-        [self DevToolsSupport],
-        [self DevToolsCore],
-    ] rootPermitted:NO];
 
-    [frameworks addObject:framework4];
-    
-    [frameworks addObject:[self IBAutolayoutFoundation]];
-    [frameworks addObject:[self IDEKit]];
-    
-    [frameworks addObject:[self DebugHierarchyFoundation]];
-    [frameworks addObject:[self DebugHierarchyKit]];
-    
 
-    [self loadPrivateFrameworksOrAbort:frameworks];
-    
 
-        
-          if (![objc_lookUpClass("IDEFoundationTestInitializer") initializeTestabilityWithUI:NO error:&err]) {
-              ConsoleWriteErr(@"Failed to initialize testability");
-          }
-        
-        if (![objc_lookUpClass("DVTPlatform") loadAllPlatformsReturningError:&err]) {
-            ConsoleWriteErr(@"Failed to load all platforms");
-        }
-        
-        if (![objc_lookUpClass("DVTDeviceType") deviceTypeWithIdentifier:@"Xcode.DeviceType.iPhone"]) {
-            ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
-        }
-        
-        
-        if (!objc_lookUpClass("DVTDeviceType")) {
-            ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
-        }
-//
-//        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
-//      DVTiOSDevice *device2;
-//
-//      NSSet* set = [deviceManager availableDevices];
-//        [deviceManager searchForDevicesWithType:nil options:nil timeout:2 error:&err];
-//    //    });
-//
-//        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
-//        ConsoleWriteErr(@"devices count: %@", [devices count]);
-//    //    NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [PhysicalDevice keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
-//    //    DVTiOSDevice *dvt = dvtDevices[uuid];
 
-}
+
+
+
+
+
+
 
 - (iOSReturnStatusCode)launch {
     return iOSReturnStatusCodeGenericFailure;
@@ -964,87 +744,11 @@ if (atLeastXcode102) {
 //    return iOSReturnStatusCodeEverythingOkay;
 //}
 
-- (void)fetchApplications
-{
-    
-    [self testDVT];
-    
-//    static BOOL success = false;
-    
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-        // It seems that searching for a device that does not exist will cause all available devices/simulators etc. to be cached.
-        // There's probably a better way of fetching all the available devices, but this appears to work well enough.
-        // This means that all the cached available devices can then be found.
-        
-        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
-        ConsoleWriteErr(@"Quering device manager for %f seconds to cache devices");
-        [deviceManager searchForDevicesWithType:nil options:@{@"id" : @"I_DONT_EXIST_AT_ALL"} timeout:2 error:nil];
-        ConsoleWriteErr(@"Finished querying devices to cache them");
-        //
-        //        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
-        //        ConsoleWriteErr(@"devices count: %@", [devices count]);
-        NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [self keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
-        self.dvtDevice = dvtDevices[self.fbDevice.udid];
-        
-        NSError *e;
-        
-        
-//        if (!dvtDevice.applications) {
-//            [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:2 untilExists:^id{
-//                DVTFuture *future = dvtDevice.token.fetchApplications;
-//                [future waitUntilFinished];
-//                return nil;
-//            }];
-//        }
-    if (!self.dvtDevice.applications) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-            DVTFuture *future = self.dvtDevice.token.fetchApplications;
-            [future waitUntilFinished];
-        });
-    }
-    //added by myself - without this line the dvtDevice variable contains no applications
-    [[self.fbDevice installedApplications] await:&e];//NSArray<FBInstalledApplication *> * apps =
-    while (!self.dvtDevice.applications){
-        usleep(500);
-        ConsoleWriteErr(@"Wait for the applications");
-    }
-//    });
-}
 
 - (BOOL)uploadApplicationDataAtPath:(NSString *)path bundleID:(NSString *)bundleID error:(NSError **)error
 {
-    __block NSError *innerError = nil;
-//    BOOL result = [[FBRunLoopSpinner spinUntilBlockFinished:^id{
-//      return @([self.dvtDevice uploadApplicationDataWithPath:path forInstalledApplicationWithBundleIdentifier:bundleID error:&innerError]);
-//    }] boolValue];
-//    *error = innerError;
-//    return result;
-    
-    
-    __block volatile atomic_bool didFinish = false;
-    __block id returnObject;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      returnObject = @([self.dvtDevice uploadApplicationDataWithPath:path forInstalledApplicationWithBundleIdentifier:bundleID error:&innerError]);
-      atomic_fetch_or(&didFinish, true);
-    });
-    while (!didFinish) {
-      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-    }
-    return [returnObject boolValue];
-    
-    
-//    static BOOL res = NO;
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-//        NSError* innerError;
-//        res = [self.dvtDevice uploadApplicationDataWithPath:path forInstalledApplicationWithBundleIdentifier:bundleID error:&innerError];
-//    });
-//
-//    while (!res){
-//        usleep(500);
-//        ConsoleWriteErr(@"Wait for the upload finished");
-//    }
-//    return res;
+    BOOL result = [FBLegacy uploadApplicationDataAtPath:path bundleID:bundleID error:error];
+    return result;
 }
 
 - (iOSReturnStatusCode)uploadFile:(NSString *)filepath
@@ -1078,13 +782,9 @@ if (atLeastXcode102) {
         return iOSReturnStatusCodeGenericFailure;
     }
 
-//    [self testDVT];
-    // TODO This call needs to be removed
-    [self fetchApplications];
+    [FBLegacy fetchApplications:self.fbDevice];
     
-    if (![self.dvtDevice downloadApplicationDataToPath:xcappdataPath
-                    forInstalledApplicationWithBundleIdentifier:bundleID
-                                                          error:&e]) {
+    if (![FBLegacy downloadApplicationDataToPath:xcappdataPath bundleID:bundleID error:&e]) {
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
                         bundleID,
                         xcappdataPath,
@@ -1144,11 +844,10 @@ if (atLeastXcode102) {
 //    }
     
     
-    [self fetchApplications];
+    [FBLegacy fetchApplications:self.fbDevice];
     
-    if (![self.dvtDevice downloadApplicationDataToPath:path
-                    forInstalledApplicationWithBundleIdentifier:bundleIdentifier
-                                                          error:&e]) {
+    
+    if (![FBLegacy downloadApplicationDataToPath:path bundleID:bundleIdentifier error:&e]) {
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
                         bundleIdentifier,
                         path,
@@ -1167,7 +866,7 @@ if (atLeastXcode102) {
     }
     
     
-    [self fetchApplications];
+    [FBLegacy fetchApplications:self.fbDevice];
     NSError *error = nil;
     
     if(![self uploadApplicationDataAtPath:xcappdata bundleID:bundleIdentifier error:&error]){

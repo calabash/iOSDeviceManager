@@ -17,12 +17,15 @@
 		427823EB1F10294E00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
 		427823EC1F10294F00F7D972 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
 		42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CFBACC1F0FF73800357248 /* AppInfoCommand.m */; };
-		474DA294268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */; };
-		474DA295268F52D50052EA61 /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA291268F52D50052EA61 /* FBDependentDylib.m */; };
-		474DA296268F57680052EA61 /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA291268F52D50052EA61 /* FBDependentDylib.m */; };
-		474DA297268F57680052EA61 /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA291268F52D50052EA61 /* FBDependentDylib.m */; };
-		474DA298268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */; };
-		474DA299268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */; };
+		47DE8C492695F30500801F7E /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C472695F30500801F7E /* FBDependentDylib.m */; };
+		47DE8C4A2695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C482695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m */; };
+		47DE8C4C2695F4DF00801F7E /* FBLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C4B2695F4DF00801F7E /* FBLegacy.m */; };
+		47DE8C4D2695F4F400801F7E /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C482695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m */; };
+		47DE8C4E2695F4F500801F7E /* FBDependentDylib+ApplePrivateDylibs.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C482695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m */; };
+		47DE8C4F2695F4F800801F7E /* FBLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C4B2695F4DF00801F7E /* FBLegacy.m */; };
+		47DE8C502695F4F800801F7E /* FBLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C4B2695F4DF00801F7E /* FBLegacy.m */; };
+		47DE8C512695F4FA00801F7E /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C472695F30500801F7E /* FBDependentDylib.m */; };
+		47DE8C522695F4FB00801F7E /* FBDependentDylib.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DE8C472695F30500801F7E /* FBDependentDylib.m */; };
 		634241B7EEE1B79526A5DD6B /* EntitlementsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424BBE0D938D5415C2FCBD /* EntitlementsTest.m */; };
 		634241D716F57B21F877DCC9 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424B5EAA3E57132288C79A /* MobileProfileTest.m */; };
 		6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */; };
@@ -312,10 +315,12 @@
 		42CFBACB1F0FF70200357248 /* AppInfoCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppInfoCommand.h; path = iOSDeviceManager/Commands/AppInfoCommand.h; sourceTree = SOURCE_ROOT; };
 		42CFBACC1F0FF73800357248 /* AppInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppInfoCommand.m; path = iOSDeviceManager/Commands/AppInfoCommand.m; sourceTree = SOURCE_ROOT; };
 		474DA28F268F339E0052EA61 /* PrivateHeaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PrivateHeaders; sourceTree = "<group>"; };
-		474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FBDependentDylib+ApplePrivateDylibs.m"; sourceTree = "<group>"; };
-		474DA291268F52D50052EA61 /* FBDependentDylib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBDependentDylib.m; sourceTree = "<group>"; };
-		474DA292268F52D50052EA61 /* FBDependentDylib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBDependentDylib.h; sourceTree = "<group>"; };
-		474DA293268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FBDependentDylib+ApplePrivateDylibs.h"; sourceTree = "<group>"; };
+		47DE8C452695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FBDependentDylib+ApplePrivateDylibs.h"; path = "iOSDeviceManager/Utilities/FBLegacy/FBDependentDylib+ApplePrivateDylibs.h"; sourceTree = "<group>"; };
+		47DE8C462695F30500801F7E /* FBDependentDylib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBDependentDylib.h; path = iOSDeviceManager/Utilities/FBLegacy/FBDependentDylib.h; sourceTree = "<group>"; };
+		47DE8C472695F30500801F7E /* FBDependentDylib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBDependentDylib.m; path = iOSDeviceManager/Utilities/FBLegacy/FBDependentDylib.m; sourceTree = "<group>"; };
+		47DE8C482695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FBDependentDylib+ApplePrivateDylibs.m"; path = "iOSDeviceManager/Utilities/FBLegacy/FBDependentDylib+ApplePrivateDylibs.m"; sourceTree = "<group>"; };
+		47DE8C4B2695F4DF00801F7E /* FBLegacy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FBLegacy.m; path = iOSDeviceManager/Utilities/FBLegacy/FBLegacy.m; sourceTree = "<group>"; };
+		47DE8C532695F51300801F7E /* FBLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FBLegacy.h; path = iOSDeviceManager/Utilities/FBLegacy/FBLegacy.h; sourceTree = "<group>"; };
 		63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAndSpectaStandupTests.m; sourceTree = "<group>"; };
 		6342445D4215DC668C7923B2 /* EntitlementTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntitlementTest.m; sourceTree = "<group>"; };
 		634247F427CD2210BD0DCA7D /* CodesignIdentityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignIdentityTest.m; sourceTree = "<group>"; };
@@ -515,6 +520,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		47DE8C442695F2ED00801F7E /* FBLegacy */ = {
+			isa = PBXGroup;
+			children = (
+				47DE8C462695F30500801F7E /* FBDependentDylib.h */,
+				47DE8C472695F30500801F7E /* FBDependentDylib.m */,
+				47DE8C452695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.h */,
+				47DE8C482695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m */,
+				47DE8C4B2695F4DF00801F7E /* FBLegacy.m */,
+				47DE8C532695F51300801F7E /* FBLegacy.h */,
+			);
+			name = FBLegacy;
+			sourceTree = "<group>";
+		};
 		892DE4D41D22F8E100E1902C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,6 +650,7 @@
 		896F7F041CF9C51900FD8572 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				47DE8C442695F2ED00801F7E /* FBLegacy */,
 				89C29E1D1DAE69CC00282526 /* Logging */,
 				F5D78DC41D8D32EB00497000 /* ShellResult.h */,
 				F5D78DC51D8D32EB00497000 /* ShellResult.m */,
@@ -661,10 +680,6 @@
 				F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */,
 				411B5767216DF48100913A9E /* XcodeUtils.h */,
 				411B5768216DF48100913A9E /* XcodeUtils.m */,
-				474DA292268F52D50052EA61 /* FBDependentDylib.h */,
-				474DA291268F52D50052EA61 /* FBDependentDylib.m */,
-				474DA293268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.h */,
-				474DA290268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1006,7 +1021,6 @@
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B2E68E181E38170E001D5D89 /* ResignCommand.m in Sources */,
-				474DA295268F52D50052EA61 /* FBDependentDylib.m in Sources */,
 				B296378A1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				F5D78DC71D8D32EB00497000 /* ShellResult.m in Sources */,
 				B22DC0061E1D799500BDD4CB /* Application.m in Sources */,
@@ -1015,11 +1029,13 @@
 				892DE5211D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				892DE4F61D23109000E1902C /* CommandOption.m in Sources */,
 				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
+				47DE8C4A2695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */,
 				89B50D801D466BB800F34D67 /* AppUtils.m in Sources */,
 				892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */,
 				892DE50F1D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				89A1CF051E326A2900D9FEC5 /* FileUtils.m in Sources */,
+				47DE8C492695F30500801F7E /* FBDependentDylib.m in Sources */,
 				892DE4C31D22F85F00E1902C /* ShellRunner.m in Sources */,
 				89A1CEF11E302FC200D9FEC5 /* Codesigner.m in Sources */,
 				892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */,
@@ -1041,13 +1057,13 @@
 				F59364AF1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m in Sources */,
 				89A1CEF31E302FC200D9FEC5 /* Entitlement.m in Sources */,
 				89C29E251DAFA93500282526 /* UploadFileCommand.m in Sources */,
+				47DE8C4C2695F4DF00801F7E /* FBLegacy.m in Sources */,
 				89A1CEF91E32217500D9FEC5 /* StringUtils.m in Sources */,
 				B9247ACA20878714008DA66D /* EraseSimulatorCommand.m in Sources */,
 				F556B1771F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */,
 				89A1CEF01E302FC200D9FEC5 /* Certificate.m in Sources */,
 				89A1CEF61E302FC200D9FEC5 /* ShasumProvider.m in Sources */,
 				B29B2DA41E2E93C800C4C7D1 /* DeviceUtils.m in Sources */,
-				474DA294268F52D50052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				F54ACEE11E8A687800BC36DA /* MachClock.m in Sources */,
 				B980C158206CA08600879BBD /* ClearAppDataCommand.m in Sources */,
 			);
@@ -1063,7 +1079,6 @@
 				F593649D1F3F37CB00EB72BE /* XCAppDataBundle.m in Sources */,
 				F5D438031E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B22DC0071E1D799500BDD4CB /* Application.m in Sources */,
-				474DA298268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				89A1CEFA1E32217500D9FEC5 /* StringUtils.m in Sources */,
 				892DE4C41D22F85F00E1902C /* ShellRunner.m in Sources */,
 				F5CAA4531F4EC25000E48BFF /* PhysicalDeviceTest.m in Sources */,
@@ -1106,13 +1121,13 @@
 				892DE49C1D22F84200E1902C /* Device.m in Sources */,
 				892DE5041D236CE400E1902C /* LaunchSimulatorCommand.m in Sources */,
 				F54ACEF31E8A6AEE00BC36DA /* SimulatorTest.m in Sources */,
-				474DA296268F57680052EA61 /* FBDependentDylib.m in Sources */,
 				B296D6FC1E31441700D365F3 /* Entitlement.m in Sources */,
 				892A93C91D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */,
 				892DE5221D237E7700E1902C /* IsInstalledCommand.m in Sources */,
 				F556B17A1F63C34500F949A6 /* XCTestConfigurationProxyTest.m in Sources */,
 				89C29E261DAFA93500282526 /* UploadFileCommand.m in Sources */,
 				B23179EC1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
+				47DE8C4D2695F4F400801F7E /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				634247CB4BEE40EFF301DDC8 /* CodesignerTest.m in Sources */,
 				B296D6FB1E31441400D365F3 /* CodesignIdentity.m in Sources */,
 				F59364A31F3F387F00EB72BE /* XCAppDataBundleTest.m in Sources */,
@@ -1122,10 +1137,12 @@
 				F5D78DC81D8D32EB00497000 /* ShellResult.m in Sources */,
 				F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */,
 				6342433D53854BB74BEF4D5B /* CodesignIdentityTest.m in Sources */,
+				47DE8C512695F4FA00801F7E /* FBDependentDylib.m in Sources */,
 				63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */,
 				63424C56537485910D385EB7 /* CertificateTest.m in Sources */,
 				421D28111E942AB5003C7F10 /* FileUtilsTest.m in Sources */,
 				B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */,
+				47DE8C4F2695F4F800801F7E /* FBLegacy.m in Sources */,
 				42148DFC1EA5672700625741 /* VersionCommand.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
@@ -1141,14 +1158,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				474DA297268F57680052EA61 /* FBDependentDylib.m in Sources */,
 				B9247ACC20889034008DA66D /* EraseSimulatorCommand.m in Sources */,
 				B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */,
 				B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */,
 				89F49A0A1DAFAD8E00BA1122 /* UploadFileCommand.m in Sources */,
-				474DA299268F576A0052EA61 /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				F5D583FD1D6A0387007B0D11 /* CLI.m in Sources */,
 				F5D5840A1D6A039B007B0D11 /* Resources.m in Sources */,
+				47DE8C502695F4F800801F7E /* FBLegacy.m in Sources */,
 				F5D583FF1D6A0387007B0D11 /* CommandOption.m in Sources */,
 				F5D5840B1D6A039B007B0D11 /* ResourcesTest.m in Sources */,
 				B296D7031E31474800D365F3 /* CodesignIdentity.m in Sources */,
@@ -1170,6 +1186,7 @@
 				89A1CF081E36CCFE00D9FEC5 /* JSONUtils.m in Sources */,
 				F59364A91F40912C00EB72BE /* GenerateXCAppDataCommand.m in Sources */,
 				F5D583FB1D6A0374007B0D11 /* Simulator.m in Sources */,
+				47DE8C522695F4FB00801F7E /* FBDependentDylib.m in Sources */,
 				411B576B216DF48100913A9E /* XcodeUtils.m in Sources */,
 				B296D7051E31475600D365F3 /* MobileProfile.m in Sources */,
 				B2E68E1A1E38170E001D5D89 /* ResignCommand.m in Sources */,
@@ -1193,6 +1210,7 @@
 				B296D7071E31480800D365F3 /* Entitlement.m in Sources */,
 				634246D3964A2BFFE504829E /* MockAndSpectaStandupTests.m in Sources */,
 				427823EC1F10294F00F7D972 /* AppInfoCommand.m in Sources */,
+				47DE8C4E2695F4F500801F7E /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
 				89A1CF091E36E8EA00D9FEC5 /* StringUtils.m in Sources */,
 				B2F797441E8DAB7A00C2FE06 /* Stack.m in Sources */,
 				F578F4681D70A3C4001FC3BE /* ResignTest.m in Sources */,

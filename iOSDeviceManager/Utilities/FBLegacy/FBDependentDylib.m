@@ -14,7 +14,6 @@
 #import <FBControlCore/FBControlCore.h>
 //#import "FBXcodeConfiguration.h"
 //#import "FBControlCoreLogger.h"
-#import <dlfcn.h>
 
 @interface FBDependentDylib ()
 
@@ -36,7 +35,7 @@
 {
   self = [super init];
   if (self) {
-      NSString *developerDirectory = @"/Users/Shared/Xcode/12.5/Xcode.app/Contents/Developer";//FBXcodeConfiguration.developerDirectory;
+      NSString *developerDirectory = FBXcodeConfiguration.developerDirectory;// @"/Users/Shared/Xcode/12.5/Xcode.app/Contents/Developer";//
     NSString *joined = [developerDirectory stringByAppendingPathComponent:relativePath];
     _path = [joined stringByStandardizingPath];
   }

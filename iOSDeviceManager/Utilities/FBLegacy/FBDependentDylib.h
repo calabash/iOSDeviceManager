@@ -10,6 +10,8 @@
 /* Portions Copyright © Microsoft Corporation. */
 
 #import <Foundation/Foundation.h>
+#import <FBDeviceControl/FBDeviceControl.h>
+#import <dlfcn.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
