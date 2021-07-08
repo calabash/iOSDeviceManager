@@ -37,6 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)uploadApplicationDataAtPath:(NSString *)path bundleID:(NSString *)bundleID error:(NSError **)error;
 
+/*
+ description
+ */
++ (BOOL)AMDinstallProvisioningProfileAtPath:(FBDevice*)fbDevice path:(NSString *)path error:(NSError **)error;
+
++ (NSArray <NSString*> *)applicationReturnAttributesDictionary;
++ (NSDictionary *)AMDinstalledApplicationWithBundleIdentifier:(FBDevice*)fbDevice bundleID:(NSString *)bundleID;
++ (NSString *)containerPathForApplicationWithBundleID:(FBDevice*)fbDevice bundleID:(NSString *)bundleID error:(NSError **)error;
++ (NSString *)applicationPathForApplicationWithBundleID:(FBDevice*)fbDevice bundleID:(NSString *)bundleID error:(NSError **)error;
+
 @end
 
 NS_ASSUME_NONNULL_END

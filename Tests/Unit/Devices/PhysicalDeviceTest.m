@@ -19,7 +19,7 @@
 
 - (void)testFBiOSDeviceOperatorProvidesMethodForApplicationAttributes {
     NSDictionary<NSString *, id> *dictionary = @{
-      @"ReturnAttributes": [PhysicalDevice applicationReturnAttributesDictionary],
+      @"ReturnAttributes": [FBLegacy applicationReturnAttributesDictionary],
     };
     NSArray *attrs = dictionary[@"ReturnAttributes"];
     expect(attrs).to.contain(@"CFBundleIdentifier");

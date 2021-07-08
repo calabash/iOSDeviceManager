@@ -92,7 +92,7 @@ static const FBSimulatorControl *_control;
 
     return [NSURL fileURLWithPath:path];
 }
-//taken from idb. Couldn't been imported - should be looked.
+//taken from idb. Couldn't been imported - should be tracked.
 + (FBFuture<NSNull *> *)performBootVerification:(FBSimulator *)simulator
 {
     NSArray<NSString *> *requiredServiceNames = [Simulator requiredSimulatorAppProcesses:simulator];
@@ -129,7 +129,7 @@ static const FBSimulatorControl *_control;
     return success;
 }
 
-//taken from idb. Couldn't been imported - should be looked.
+//taken from idb. Couldn't been imported - should be tracked.
 + (NSArray<NSString *> *)requiredSimulatorAppProcesses: (FBSimulator*)simulator {
     FBControlCoreProductFamily family = simulator.productFamily;
     if (family == FBControlCoreProductFamilyiPhone || family == FBControlCoreProductFamilyiPad) {
