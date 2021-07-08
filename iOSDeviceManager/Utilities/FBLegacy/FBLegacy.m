@@ -65,7 +65,7 @@
   // Log the message.
   [logger.error log:message];
   // Assertions give a better message in the crash report.
-//  NSAssert(NO, message);
+  NSAssert(NO, message);
   // However if assertions are compiled out, then we still need to abort.
   abort();
 }
@@ -78,15 +78,15 @@ DVT contains an old set of functions
     NSError *err;
     
     for (FBDependentDylib *dylib in [FBDependentDylib SwiftDylibs]) {
-      if (![dylib loadWithLogger:FBControlCoreGlobalConfiguration.defaultLogger error:&err]) {
-          ConsoleWriteErr(@"Failed to initialize SwiftDylibs");
-      }
+        if (![dylib loadWithLogger:FBControlCoreGlobalConfiguration.defaultLogger error:&err]) {
+            ConsoleWriteErr(@"Failed to initialize SwiftDylibs");
+        }
     }
-
+    
     NSMutableArray<FBWeakFramework *> *frameworks = [[NSMutableArray alloc] init];
     
     FBWeakFramework *mobileDeviceFramework = [FBWeakFramework frameworkWithPath:@"/System/Library/PrivateFrameworks/MobileDevice.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
-
+    
     [frameworks addObject:mobileDeviceFramework];
     
     FBWeakFramework *dtxConnectionFramework = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DTXConnectionServices.framework" requiredClassNames:@[@"DTXConnection", @"DTXRemoteInvocationReceipt"]  requiredFrameworks:@[] rootPermitted:NO];
@@ -101,7 +101,7 @@ DVT contains an old set of functions
         [self DevToolsSupport],
         [self DevToolsCore],
     ] rootPermitted:NO];
-
+    
     [frameworks addObject:ideiOSSupportCorePlugin];
     
     [frameworks addObject:[self IBAutolayoutFoundation]];
@@ -110,40 +110,24 @@ DVT contains an old set of functions
     [frameworks addObject:[self DebugHierarchyFoundation]];
     [frameworks addObject:[self DebugHierarchyKit]];
     
-
     [self loadPrivateFrameworksOrAbort:frameworks];
     
-
-        
-          if (![objc_lookUpClass("IDEFoundationTestInitializer") initializeTestabilityWithUI:NO error:&err]) {
-              ConsoleWriteErr(@"Failed to initialize testability");
-          }
-        
-        if (![objc_lookUpClass("DVTPlatform") loadAllPlatformsReturningError:&err]) {
-            ConsoleWriteErr(@"Failed to load all platforms");
-        }
-        
-        if (![objc_lookUpClass("DVTDeviceType") deviceTypeWithIdentifier:@"Xcode.DeviceType.iPhone"]) {
-            ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
-        }
-        
-        
-        if (!objc_lookUpClass("DVTDeviceType")) {
-            ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
-        }
-//
-//        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
-//      DVTiOSDevice *device2;
-//
-//      NSSet* set = [deviceManager availableDevices];
-//        [deviceManager searchForDevicesWithType:nil options:nil timeout:2 error:&err];
-//    //    });
-//
-//        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
-//        ConsoleWriteErr(@"devices count: %@", [devices count]);
-//    //    NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [PhysicalDevice keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
-//    //    DVTiOSDevice *dvt = dvtDevices[uuid];
-
+    
+    if (![objc_lookUpClass("IDEFoundationTestInitializer") initializeTestabilityWithUI:NO error:&err]) {
+        ConsoleWriteErr(@"Failed to initialize testability");
+    }
+    
+    if (![objc_lookUpClass("DVTPlatform") loadAllPlatformsReturningError:&err]) {
+        ConsoleWriteErr(@"Failed to load all platforms");
+    }
+    
+    if (![objc_lookUpClass("DVTDeviceType") deviceTypeWithIdentifier:@"Xcode.DeviceType.iPhone"]) {
+        ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
+    }
+    
+    if (!objc_lookUpClass("DVTDeviceType")) {
+        ConsoleWriteErr(@"Device Type 'Xcode.DeviceType.iPhone' hasn't been initialized yet");
+    }
 }
 
 + (NSDictionary<NSString *, DVTiOSDevice *> *)keyDVTDevicesByUDID:(NSArray<DVTiOSDevice *> *)devices
@@ -164,35 +148,21 @@ static DVTiOSDevice * _dvtDevice;
     
     [FBLegacy loadDVTFrameworks];
     
-//    static BOOL success = false;
+    // It seems that searching for a device that does not exist will cause all available devices/simulators etc. to be cached.
+    // There's probably a better way of fetching all the available devices, but this appears to work well enough.
+    // This means that all the cached available devices can then be found.
     
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-        // It seems that searching for a device that does not exist will cause all available devices/simulators etc. to be cached.
-        // There's probably a better way of fetching all the available devices, but this appears to work well enough.
-        // This means that all the cached available devices can then be found.
-        
-        DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
-        ConsoleWriteErr(@"Quering device manager for %f seconds to cache devices");
-        [deviceManager searchForDevicesWithType:nil options:@{@"id" : @"I_DONT_EXIST_AT_ALL"} timeout:2 error:nil];
-        ConsoleWriteErr(@"Finished querying devices to cache them");
-        //
-        //        NSArray<DVTiOSDevice *> *devices = [objc_lookUpClass("DVTiOSDevice") alliOSDevices];
-        //        ConsoleWriteErr(@"devices count: %@", [devices count]);
-        NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [self keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
+    DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
+    ConsoleWriteErr(@"Quering device manager for %f seconds to cache devices");
+    [deviceManager searchForDevicesWithType:nil options:@{@"id" : @"I_DONT_EXIST_AT_ALL"} timeout:2 error:nil];
+    ConsoleWriteErr(@"Finished querying devices to cache them");
     
-        _dvtDevice = dvtDevices[fbDevice.udid];
-        
-        NSError *e;
-        
-        
-//        if (!dvtDevice.applications) {
-//            [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:2 untilExists:^id{
-//                DVTFuture *future = dvtDevice.token.fetchApplications;
-//                [future waitUntilFinished];
-//                return nil;
-//            }];
-//        }
+    NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [self keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
+    
+    _dvtDevice = dvtDevices[fbDevice.udid];
+    
+    NSError *e;
+    
     if (!self.dvtDevice.applications) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
             DVTFuture *future = self.dvtDevice.token.fetchApplications;
@@ -205,7 +175,6 @@ static DVTiOSDevice * _dvtDevice;
         usleep(500);
         ConsoleWriteErr(@"Wait for the applications");
     }
-//    });
 }
 
 + (BOOL)uploadApplicationDataAtPath:(NSString *)path bundleID:(NSString *)bundleID error:(NSError **)error
@@ -214,13 +183,6 @@ static DVTiOSDevice * _dvtDevice;
         return NO;
     }
     __block NSError *innerError = nil;
-//    BOOL result = [[FBRunLoopSpinner spinUntilBlockFinished:^id{
-//      return @([self.dvtDevice uploadApplicationDataWithPath:path forInstalledApplicationWithBundleIdentifier:bundleID error:&innerError]);
-//    }] boolValue];
-//    *error = innerError;
-//    return result;
-    
-    
     __block volatile atomic_bool didFinish = false;
     __block id returnObject;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -238,7 +200,7 @@ static DVTiOSDevice * _dvtDevice;
 
 + (BOOL)downloadApplicationDataToPath:(NSString *)path bundleID:(NSString *)bundleID error:(NSError **)error{
     return [_dvtDevice downloadApplicationDataToPath:path
-                    forInstalledApplicationWithBundleIdentifier:bundleID
+         forInstalledApplicationWithBundleIdentifier:bundleID
                                                error:error];
 }
 
@@ -298,77 +260,51 @@ void (*FBAMDSetLogLevel)(int32_t level);
 {
     [self loadFBAMDeviceSymbols];
     
-//    CFTypeRef device = self.fbDevice.amDeviceRef;
-        NSURL *url = [NSURL fileURLWithPath:path];
-        NSData *profileData = [NSData dataWithContentsOfURL:url options:0 error:error];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    NSData *profileData = [NSData dataWithContentsOfURL:url options:0 error:error];
     
     FBFuture<NSDictionary<NSString *, id> *> * future = [[fbDevice
-          connectToDeviceWithPurpose:@"install_provisioning_profile"]
-          onQueue:fbDevice.workQueue pop:^(id<FBDeviceCommands> device) {
-            ConsoleWriteErr(@"install_provisioning_profile");
-            NSURL *url = [NSURL fileURLWithPath:path];
-            NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
-            CFStringRef stringRef = (__bridge CFStringRef)encoded;
-            CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
+                                                          connectToDeviceWithPurpose:@"install_provisioning_profile"]
+                                                         onQueue:fbDevice.workQueue pop:^(id<FBDeviceCommands> device) {
+        ConsoleWriteErr(@"install_provisioning_profile");
+        NSURL *url = [NSURL fileURLWithPath:path];
+        NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
+        CFStringRef stringRef = (__bridge CFStringRef)encoded;
+        CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
         
         //TODO: when these lines will start to work again - all provisioning profile installation legacy functional could be removed
-//            MISProfileRef profile2 = device.calls.ProvisioningProfileCreateWithData((__bridge CFDataRef)(profileData));
-            //MISProfileRef profile2 = FBMISProfileCreateWithData((__bridge CFDataRef)(profileData));
+        //            MISProfileRef profile2 = device.calls.ProvisioningProfileCreateWithData((__bridge CFDataRef)(profileData));
+        //MISProfileRef profile2 = FBMISProfileCreateWithData((__bridge CFDataRef)(profileData));
         
-            if (!profile) {
-              return [[FBControlCoreError
-                describeFormat:@"Could not construct profile from data %@", profileData]
-                failFuture];
-            }
-            int status = device.calls.InstallProvisioningProfile(device.amDeviceRef, profile);
-            if (status != 0) {
-              NSString *errorDescription = CFBridgingRelease(device.calls.ProvisioningProfileCopyErrorStringForCode(status));
-              return [[FBControlCoreError
-                describeFormat:@"Failed to install profile %@: %@", profile, errorDescription]
-                failFuture];
-            }
-            NSDictionary<NSString *, id> *payload = CFBridgingRelease(device.calls.ProvisioningProfileCopyPayload(profile));
-            payload = [FBCollectionOperations recursiveFilteredJSONSerializableRepresentationOfDictionary:payload];
-            if (!payload) {
-              return [[FBControlCoreError
-                describeFormat:@"Failed to get payload of %@", profile]
-                failFuture];
-            }
-            return [FBFuture futureWithResult:payload];
-        }];
-     
+        if (!profile) {
+            return [[FBControlCoreError
+                     describeFormat:@"Could not construct profile from data %@", profileData]
+                    failFuture];
+        }
+        int status = device.calls.InstallProvisioningProfile(device.amDeviceRef, profile);
+        if (status != 0) {
+            NSString *errorDescription = CFBridgingRelease(device.calls.ProvisioningProfileCopyErrorStringForCode(status));
+            return [[FBControlCoreError
+                     describeFormat:@"Failed to install profile %@: %@", profile, errorDescription]
+                    failFuture];
+        }
+        NSDictionary<NSString *, id> *payload = CFBridgingRelease(device.calls.ProvisioningProfileCopyPayload(profile));
+        payload = [FBCollectionOperations recursiveFilteredJSONSerializableRepresentationOfDictionary:payload];
+        if (!payload) {
+            return [[FBControlCoreError
+                     describeFormat:@"Failed to get payload of %@", profile]
+                    failFuture];
+        }
+        return [FBFuture futureWithResult:payload];
+    }];
+    
     BOOL success = [future await:error] != nil;
     
     return success;
-    
-    
-//
-//    id<FBDeviceCommands> device = [[[self.fbDevice connectToDeviceWithPurpose:@"install_provisioning_profile"] future] result];
-//
-//    NSURL *url = [NSURL fileURLWithPath:path];
-//    NSString *encoded = [NSString stringWithUTF8String:[url fileSystemRepresentation]];
-//    CFStringRef stringRef = (__bridge CFStringRef)encoded;
-//    CFTypeRef profile = FBMISProfileCreateWithFile(0, stringRef);
-//    NSNumber *returnCode = @(FBAMDeviceInstallProvisioningProfile(device.amDeviceRef, profile, 0));
-//
-//    if (!returnCode) {
-//      [[FBDeviceControlError
-//        describe:@"Failed to install application"]
-//       failBool:error];
-//    }
-//
-//    if ([returnCode intValue] != 0) {
-//      [[FBDeviceControlError
-//        describe:@"Failed to install application"]
-//       failBool:error];
-//    }
-//
-  return YES;
 }
 
-
 ////
-//functions for tracking of installed applications
+//functions for installed applications tracking 
 
 //taken from idb. Couldn't been imported - should be tracked.
 + (NSArray <NSString*> *)applicationReturnAttributesDictionary

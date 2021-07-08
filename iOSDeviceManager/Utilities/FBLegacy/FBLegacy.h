@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FBLegacy : NSObject
 
 /*
- description
+ fetch all installed applications on the device using DVT. It's required for 
  */
 + (void)fetchApplications:(FBDevice *)fbDevice;
 /*
