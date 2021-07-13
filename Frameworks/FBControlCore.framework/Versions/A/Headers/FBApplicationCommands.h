@@ -1,77 +1,98 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
+
+#import <FBControlCore/FBiOSTargetCommandForwarder.h>
+#import <FBControlCore/FBFuture.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class FBApplicationLaunchConfiguration;
 @class FBInstalledApplication;
+@class FBProcessInfo;
+
+@protocol FBLaunchedApplication;
 
 /**
  Defines an interface for interacting with iOS Applications.
  */
-@protocol FBApplicationCommands <NSObject>
+@protocol FBApplicationCommands <NSObject, FBiOSTargetCommand>
 
 /**
  Installs application at given path on the host.
 
  @param path the file path of the Application Bundle on the host.
- @param error an error out for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @return A future that resolves when successful.
  */
-- (BOOL)installApplicationWithPath:(NSString *)path error:(NSError **)error;
+- (FBFuture<NSNull *> *)installApplicationWithPath:(NSString *)path;
 
 /**
  Uninstalls application with given bundle id.
 
  @param bundleID the bundle id of the application to uninstall.
- @param error an error out for any error that occurs.
- @returns YES if the command succeeds, NO otherwise.
+ @return A future that resolves when successful.
  */
-- (BOOL)uninstallApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (FBFuture<NSNull *> *)uninstallApplicationWithBundleID:(NSString *)bundleID;
 
 /**
  Queries to see if an Application is installed on iOS.
 
  @param bundleID The Bundle ID of the application.
- @param error an error out for any error that occurs.
- @return YES if the command succeeds, NO otherwise,
+ @return A future that identifies if the application was installed.
  */
-- (BOOL)isApplicationInstalledWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (FBFuture<NSNumber *> *)isApplicationInstalledWithBundleID:(NSString *)bundleID;
 
 /**
  Launches an Application with the provided Application Launch Configuration.
 
  @param configuration the Application Launch Configuration to use.
- @param error an error out for any error that occurs.
- @return YES if the operation succeeds, otherwise NO.
+ @return A future that resolves with the launched process.
  */
-- (BOOL)launchApplication:(FBApplicationLaunchConfiguration *)configuration error:(NSError **)error;
+- (FBFuture<id<FBLaunchedApplication>> *)launchApplication:(FBApplicationLaunchConfiguration *)configuration;
 
 /**
- Kills application with given bundleID
+ Kills application with the given bundle identifier.
 
  @param bundleID bundle ID of installed application
- @param error an error out for any error that occurs.
- @return YES if the operation succeeds, otherwise NO.
+ @return A future that resolves successfully if the bundle was running and is now killed.
  */
-- (BOOL)killApplicationWithBundleID:(NSString *)bundleID error:(NSError **)error;
+- (FBFuture<NSNull *> *)killApplicationWithBundleID:(NSString *)bundleID;
 
 /**
  Fetches a list of the Installed Applications.
- The returned FBApplicationBundle object is fully JSON Serializable.
+ The returned FBBundleDescriptor object is fully JSON Serializable.
 
- @param error an error out for any error that occurs
- @return the Applications if successful, nil otherwise.
+ @return A future wrapping a List of Installed Applications.
  */
-- (nullable NSArray<FBInstalledApplication *> *)installedApplicationsWithError:(NSError **)error;
+- (FBFuture<NSArray<FBInstalledApplication *> *> *)installedApplications;
+
+/**
+ Fetches the FBInstalledApplication instance by Bundle ID.
+
+ @param bundleID the Bundle ID to fetch an installed application for.
+ @return a Future with the installed application.
+ */
+- (FBFuture<FBInstalledApplication *> *)installedApplicationWithBundleID:(NSString *)bundleID;
+
+/**
+ Returns the Applications running on the target.
+
+ @return A future wrapping a mapping of Bundle ID to Process ID.
+ */
+- (FBFuture<NSDictionary<NSString *, NSNumber *> *> *)runningApplications;
+
+/**
+ Returns PID of application with given bundleID
+
+ @param bundleID bundle ID of installed application.
+ @return A future wrapping the process id.
+ */
+- (FBFuture<NSNumber *> *)processIDWithBundleID:(NSString *)bundleID;
 
 @end
 

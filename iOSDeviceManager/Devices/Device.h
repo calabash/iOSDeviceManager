@@ -10,12 +10,6 @@
 #import "iOSReturnStatusCode.h"
 #import "CodesignIdentity.h"
 
-@interface FBProcessOutputConfiguration (iOSDeviceManagerAdditions)
-
-+ (FBProcessOutputConfiguration *)defaultForDeviceManager;
-
-@end
-
 @class MobileProfile;
 @class Application;
 

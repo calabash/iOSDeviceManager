@@ -1,22 +1,17 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBSimulatorControl/FBFramebufferSurface.h>
-
-@class FBDiagnostic;
-@class FBFramebufferFrameGenerator;
-@class FBFramebufferSurface;
-@protocol FBSimulatorEventSink;
+#import <FBSimulatorControl/FBFramebuffer.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class FBFramebuffer;
 
 /**
  Provides access to an Image Representation of a Simulator's Framebuffer.
@@ -26,24 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Initializers
 
 /**
- Creates a new FBSimulatorImage instance using a Frame Generator.
-
- @param filePath the File Path to write to.
- @param frameGenerator the Frame Generator to register with.
- @param eventSink the Event Sink to report Image Logs to.
- @return a new FBSimulatorImage instance.
- */
-+ (instancetype)imageWithFilePath:(NSString *)filePath frameGenerator:(FBFramebufferFrameGenerator *)frameGenerator eventSink:(id<FBSimulatorEventSink>)eventSink;
-
-/**
  Creates a new FBSimulatorImage instance using a Surface.
 
- @param filePath the File Path to write to.
- @param surface the surface to obtain frames from.
- @param eventSink the Event Sink to report Image Logs to.
+ @param framebuffer the framebuffer to obtain frames from.
+ @param logger the logger to use.
  @return a new FBSimulatorImage instance.
  */
-+ (instancetype)imageWithFilePath:(NSString *)filePath surface:(FBFramebufferSurface *)surface eventSink:(id<FBSimulatorEventSink>)eventSink;
++ (instancetype)imageWithFramebuffer:(FBFramebuffer *)framebuffer logger:(nullable id<FBControlCoreLogger>)logger;
 
 #pragma mark Public Methods
 

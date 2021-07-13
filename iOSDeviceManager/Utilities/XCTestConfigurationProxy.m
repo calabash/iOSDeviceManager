@@ -15,8 +15,7 @@
 }
 
 + (FBWeakFramework *)XCTestFramework {
-    NSString *path = @"Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework";
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:path];
+    return [FBWeakFramework XCTest];
 }
 
 + (BOOL)loadXCTestFramework:(FBWeakFramework *)framework {

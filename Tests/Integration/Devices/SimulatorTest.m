@@ -119,13 +119,14 @@
     code = [self.simulator launchApp:[app bundleID]];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 
+
     __block NSString *version = nil;
 
-    [[[FBRunLoopSpinner new] timeout:180] spinUntilTrue:^BOOL{
+    [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:100 untilTrue:^BOOL{
         version = [[Resources shared] TestRecorderVersionFromHost:@"127.0.0.1"];
         return version != nil;
     }];
-
+    
     expect(version).to.beTruthy();
 }
 

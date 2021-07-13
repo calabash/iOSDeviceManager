@@ -1,15 +1,11 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
-
-#import <FBControlCore/FBJSONConversion.h>
 
 @protocol FBControlCoreLogger;
 
@@ -29,7 +25,7 @@ extern NSString *const FBControlCoreDebugLogging;
  Environment Globals & other derived constants.
  These values can be accessed before the Private Frameworks are loaded.
  */
-@interface FBControlCoreGlobalConfiguration : NSObject <FBJSONSerializable>
+@interface FBControlCoreGlobalConfiguration : NSObject
 
 /**
  A Timeout Value when waiting on events that should happen 'fast'
@@ -57,26 +53,14 @@ extern NSString *const FBControlCoreDebugLogging;
 @property (nonatomic, strong, readwrite, class) id<FBControlCoreLogger> defaultLogger;
 
 /**
- YES if additional debug logging should be provided to the logger, NO otherwise.
- This affects a number of subsystems.
+ Confirm the existence of code signatures, where relevant.
  */
-@property (nonatomic, assign, readwrite, class) BOOL debugLoggingEnabled;
-
-@end
+@property (nonatomic, assign, readonly, class) BOOL confirmCodesignaturesAreValid;
 
 /**
- Updates the Global Configuration.
- These Methods should typically be called *before any other* method in FBControlCore.
+ Environment in this process that should be passed down to child processes.
  */
-@interface FBControlCoreGlobalConfiguration (Setters)
-
-/**
- Update the current process environment to enable logging to stderr.
-
- @param stderrLogging YES if stderr logging should be enabled, NO otherwise.
- @param debugLogging YES if stdout logging should be enabled, NO otherwise.
- */
-+ (void)setDefaultLoggerToASLWithStderrLogging:(BOOL)stderrLogging debugLogging:(BOOL)debugLogging;
+@property (nonatomic, copy, readonly, class) NSDictionary<NSString *, NSString *> *safeSubprocessEnvironment;
 
 @end
 

@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -19,41 +17,42 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A Class for obtaining Video Configuration for a Device.
  */
-@interface FBDeviceVideo : NSObject <FBVideoRecordingSession>
+@interface FBDeviceVideo : NSObject <FBiOSTargetOperation>
+
+#pragma mark Initializers
 
 /**
  Obtains the AVCaptureSession for a Device.
 
  @param device the Device to obtain the Session for.
- @param error an error out for any error that occurs.
  @return A Capture Session if successful, nil otherwise.
  */
-+ (nullable AVCaptureSession *)captureSessionForDevice:(FBDevice *)device error:(NSError **)error;
++ (FBFuture<AVCaptureSession *> *)captureSessionForDevice:(FBDevice *)device;
 
 /**
  A Factory method for obtaining the Video for a Device.
 
  @param device the Device.
  @param filePath the location of the video to record to, will be deleted if it already exists.
- @param error an error out for any error that occurs.
+ @return a Future wrapping the Device Video.
  */
-+ (nullable instancetype)videoForDevice:(FBDevice *)device filePath:(NSString *)filePath error:(NSError **)error;
++ (FBFuture<FBDeviceVideo *> *)videoForDevice:(FBDevice *)device filePath:(NSString *)filePath;
+
+#pragma mark Public
 
 /**
  Starts Recording the Video for a Device.
 
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+ @return a Future that resolves when recording has started.
  */
-- (BOOL)startRecordingWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)startRecording;
 
 /**
  Stops Recording the Video for a Device.
 
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+ @return a Future that resolves when recording has stopped.
  */
-- (BOOL)stopRecordingWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)stopRecording;
 
 @end
 

@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -17,14 +15,16 @@ NS_ASSUME_NONNULL_BEGIN
 @class FBProcessInfo;
 @class FBSimulator;
 @class FBSimulatorBootConfiguration;
+@class FBSimulatorBridge;
 @class FBSimulatorConnection;
+@class FBSimulatorHID;
 
 @protocol FBControlCoreLogger;
 
 /**
  Interactions for the Lifecycle of the Simulator.
  */
-@protocol FBSimulatorLifecycleCommands <NSObject>
+@protocol FBSimulatorLifecycleCommands <NSObject, FBiOSTargetCommand, FBEraseCommands, FBPowerCommands>
 
 #pragma mark Boot/Shutdown
 
@@ -32,114 +32,82 @@ NS_ASSUME_NONNULL_BEGIN
  Boots the Simulator with the default Simulator Launch Configuration.
  Will fail if the Simulator is currently booted.
 
- @param error an error out for any error that occurs.
- @return the reciever, for chaining.
+ @return a Future that resolves when the Simulator is booted.
  */
-- (BOOL)bootWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)boot;
 
 /**
  Boots the Simulator with the default Simulator Launch Configuration.
  Will fail if the Simulator is currently booted.
 
- @param error an error out for any error that occurs.
- @return the reciever, for chaining.
+ @param configuration the configuration to boot with.
+ @return a Future that resolves when the Simulator is booted.
  */
-- (BOOL)boot:(FBSimulatorBootConfiguration *)configuration error:(NSError **)error;
-
-/**
- Shuts the Simulator down.
- Will fail if the Simulator is not booted.
-
- @param error an error out for any error that occurs.
- @return the reciever, for chaining.
- */
-- (BOOL)shutdownWithError:(NSError **)error;
-
-#pragma mark Erase
-
-/**
- Calls `freeSimulator:error:` on this device's pool, with the reciever as the first argument.
-
- @param error an error out for any error that occured.
- @returns YES if the freeing of the device was successful, NO otherwise.
- */
-- (BOOL)freeFromPoolWithError:(NSError **)error;
-
-/**
- Erases the Simulator, with a descriptive message in the event of a failure.
-
- @param error a descriptive error for any error that occurred.
- @return YES if successful, NO otherwise.
- */
-- (BOOL)eraseWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)bootWithConfiguration:(FBSimulatorBootConfiguration *)configuration;
 
 #pragma mark States
 
 /**
- Synchronously waits on the provided state.
+ Asynchronously waits on the provided state.
 
  @param state the state to wait on
- @returns YES if the Simulator transitioned to the given state with the default timeout, NO otherwise
+ @return A future that resolves when it has transitioned to the given state.
  */
-- (BOOL)waitOnState:(FBSimulatorState)state;
-
-/**
- Synchronously waits on the provided state.
-
- @param state the state to wait on
- @param timeout timeout
- @returns YES if the Simulator transitioned to the given state with the timeout, NO otherwise
- */
-- (BOOL)waitOnState:(FBSimulatorState)state timeout:(NSTimeInterval)timeout;
-
-/**
- A Synchronous wait, with a default timeout, producing a meaningful error message.
-
- @param state the state to wait on
- @param error an error out for a timeout error if one occurred
- @returns YES if the Simulator transitioned to the given state with the timeout, NO otherwise
- */
-- (BOOL)waitOnState:(FBSimulatorState)state error:(NSError **)error;
+- (FBFuture<NSNull *> *)resolveState:(FBiOSTargetState)state;
 
 #pragma mark Focus
 
 /**
  Brings the Simulator window to front, with a descriptive message in the event of a failure.
 
- @param error a descriptive error for any error that occurred.
- @return YES if successful, NO otherwise.
+ @return A future that resolves when successful
  */
-- (BOOL)focusWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)focus;
 
 #pragma mark Connection
 
 /**
  Connects to the FBSimulatorConnection.
 
- @param error an error out for any error that occurs.
- @return the Simulator Connection on success, nil otherwise.
+ @return A Future wrapping the the Simulator Connection.
  */
-- (nullable FBSimulatorConnection *)connectWithError:(NSError **)error;
+- (FBFuture<FBSimulatorConnection *> *)connect;
+
+/**
+ Connects to the FBSimulatorConnection, using existing values.
+
+ @param hid the hid to connect.
+ @param framebuffer the framebuffer to connect.
+ @return A Future wrapping the the Simulator Connection.
+ */
+- (FBFuture<FBSimulatorConnection *> *)connectWithHID:(nullable FBSimulatorHID *)hid framebuffer:(nullable FBFramebuffer *)framebuffer;
 
 /**
  Disconnects from FBSimulatorConnection.
 
  @param timeout the timeout in seconds to wait for all connected components to disconnect.
  @param logger a logger to log to
- @param error an error for any error that occurs.
  @return YES if successful, NO otherwise.
  */
-- (BOOL)disconnectWithTimeout:(NSTimeInterval)timeout logger:(nullable id<FBControlCoreLogger>)logger error:(NSError **)error;
+- (FBFuture<NSNull *> *)disconnectWithTimeout:(NSTimeInterval)timeout logger:(nullable id<FBControlCoreLogger>)logger;
+
+#pragma mark Bridge
+
+/**
+ Connects to the FBSimulatorBridge.
+
+ @return a Future Wrapping the Simulator Bridge.
+ */
+- (FBFuture<FBSimulatorBridge *> *)connectToBridge;
 
 #pragma mark Framebuffer
 
 /**
- Obtains the Framebuffer.
+ Connects to the Framebuffer.
 
- @param error an error out for any error that occurs.
- @return the Framebuffer on success, nil otherwise.
+ @return the Future wrapping the Framebuffer.
  */
-- (nullable FBFramebuffer *)framebufferWithError:(NSError **)error;
+- (FBFuture<FBFramebuffer *> *)connectToFramebuffer;
 
 #pragma mark URLs
 
@@ -147,21 +115,9 @@ NS_ASSUME_NONNULL_BEGIN
  Opens the provided URL on the Simulator.
 
  @param url the URL to open.
- @param error an error out for any error that occurs.
- @return the reciever, for chaining.
+ @return Future that resolves when the url is opened
  */
-- (BOOL)openURL:(NSURL *)url error:(NSError **)error;
-
-#pragma mark Subprocesses
-
-/**
- Terminates a Subprocess of the Simulator.
-
- @param process the process to terminate.
- @param error an error out for any error that occurs.
- @return the reciever, for chaining.
- */
-- (BOOL)terminateSubprocess:(FBProcessInfo *)process error:(NSError **)error;
+- (FBFuture<NSNull *> *)openURL:(NSURL *)url;
 
 @end
 
@@ -169,14 +125,6 @@ NS_ASSUME_NONNULL_BEGIN
  The Implementation of FBSimulatorLifecycleCommands
  */
 @interface FBSimulatorLifecycleCommands : NSObject <FBSimulatorLifecycleCommands>
-
-/**
- The Designated Intializer
-
- @param simulator the Simulator.
- @return a new Simulator Lifecycle Commands Instance.
- */
-+ (instancetype)commandsWithSimulator:(FBSimulator *)simulator;
 
 @end
 

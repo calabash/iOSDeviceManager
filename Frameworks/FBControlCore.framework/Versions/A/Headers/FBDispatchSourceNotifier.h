@@ -1,36 +1,30 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBTerminationHandle.h>
+#import <FBControlCore/FBFuture.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- The Termination Handle type for a Dispatch Source.
- */
-extern FBTerminationHandleType const FBTerminationHandleTypeDispatchSource;
-
-/**
  A class for wrapping `dispatch_source` with some conveniences.
  */
-@interface FBDispatchSourceNotifier : NSObject <FBTerminationHandle>
+@interface FBDispatchSourceNotifier : NSObject
+
+#pragma mark Constructors
 
 /**
- Creates and returns an `FBDispatchSourceNotifier` that will call the `handler` when the provided `processIdentifier` quits
+ A future that resolves when the given process identifier terminates.
 
- @param processIdentifier the Process Identifier of the Process to Monitor
- @param queue the queue to call back on.
- @param handler the handler to call when the process exits
+ @param processIdentifier the process identifier to observe.
+ @return a Future that resolves when the process identifier terminates, with the process identifier.
  */
-+ (instancetype)processTerminationNotifierForProcessIdentifier:(pid_t)processIdentifier queue:(dispatch_queue_t)queue handler:(void (^)(FBDispatchSourceNotifier *))handler;
++ (FBFuture<NSNumber *> *)processTerminationFutureNotifierForProcessIdentifier:(pid_t)processIdentifier;
 
 /**
  Creates and returns an `FBDispatchSourceNotifier` that will call the `handler` at a provided timing interval.
@@ -40,6 +34,15 @@ extern FBTerminationHandleType const FBTerminationHandleTypeDispatchSource;
  @param handler the handler to call when the process exits
  */
 + (instancetype)timerNotifierNotifierWithTimeInterval:(uint64_t)timeInterval queue:(dispatch_queue_t)queue handler:(void (^)(FBDispatchSourceNotifier *))handler;
+
+#pragma mark Public Methods
+
+/**
+ Stops the Notifier.
+ */
+- (void)terminate;
+
+#pragma mark Properties
 
 /**
  The Wrapped Dispatch Source.

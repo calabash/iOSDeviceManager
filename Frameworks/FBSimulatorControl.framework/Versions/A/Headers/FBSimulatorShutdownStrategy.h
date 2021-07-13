@@ -1,13 +1,13 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
+
+#import <FBControlCore/FBControlCore.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FBSimulatorShutdownStrategy : NSObject
 
+#pragma mark Initializers
+
 /**
  Create a Strategy for Shutting Down a Simulator.
 
@@ -25,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return a new Strategy.
  */
 + (instancetype)strategyWithSimulator:(FBSimulator *)simulator;
+
+#pragma mark Public Methdos
 
 /**
  'Shutting Down' a Simulator can be a little hairier than just calling '-[SimDevice shutdownWithError:]'.
@@ -41,10 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
  - A Simulator has no corresponding 'Simulator.app'. This is the case if `-[SimDevice bootWithOptions:error]` has been called directly.
  - After Simulator's corresponding 'Simulator.app' has been killed.
 
- @param error a descriptive error for any error that occurred.
- @return YES if successful, NO otherwise.
+ @return A future that resolves when successful.
  */
-- (BOOL)shutdownWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)shutdown;
 
 @end
 

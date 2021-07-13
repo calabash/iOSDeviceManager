@@ -1,15 +1,13 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBControlCoreConfigurationVariants.h>
+#import <FBControlCore/FBiOSTargetConfiguration.h>
 #import <FBControlCore/FBiOSTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -35,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param state the state to match against.
  @return an NSPredicate.
  */
-+ (NSPredicate *)state:(FBSimulatorState)state;
++ (NSPredicate *)state:(FBiOSTargetState)state;
 
 /**
  Predicate for matching against Simulator based on a Option Set Target Type.
@@ -84,6 +82,14 @@ NS_ASSUME_NONNULL_BEGIN
  @return an NSPredicate.
  */
 + (NSPredicate *)udids:(NSArray<NSString *> *)udids;
+
+/**
+ Predicate for matching against UDIDs matching a specific target type.
+
+ @param targetType the Target Type Option Set to match against.
+ @return an NSPredicate.
+ */
++ (NSPredicate *)udidsOfType:(FBiOSTargetType)targetType;
 
 /**
  Predicate for matching against many Device Configurations.

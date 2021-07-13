@@ -1,17 +1,16 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBControlCore.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
-@class FBLocalizationOverride;
 @class FBSimulator;
 
 /**
@@ -32,26 +31,31 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param domainOrPath the domain or path to modify.
  @param defaults key value pair of defaults to set.
- @param error an error out for any error that occurs.
- @return YES if succesful, NO otherwise.
+ @return a future that resolves when completed.
  */
-- (BOOL)modifyDefaultsInDomainOrPath:(nullable NSString *)domainOrPath defaults:(NSDictionary<NSString *, id> *)defaults error:(NSError **)error;
+- (FBFuture<NSNull *> *)modifyDefaultsInDomainOrPath:(nullable NSString *)domainOrPath defaults:(NSDictionary<NSString *, id> *)defaults;
 
 @end
 
 /**
- Modifies the Global Preferences for a Localization
+ Modifies the Apple Locale used by Applications
  */
-@interface FBLocalizationDefaultsModificationStrategy : FBDefaultsModificationStrategy
+@interface FBLocaleModificationStrategy : FBDefaultsModificationStrategy
 
 /**
- Adds a Localization Override.
+ Sets the Locale, by Locale Identifier
 
- @param localizationOverride the Localization Override to use.
- @param error an error out for any error that occurs.
- @return YES if succesful, NO otherwise.
+ @param localeIdentifier the locale identifier.
+ @return a Future that resolves when successful.
  */
-- (BOOL)overrideLocalization:(FBLocalizationOverride *)localizationOverride error:(NSError **)error;
+- (FBFuture<NSNull *> *)setLocaleWithIdentifier:(NSString *)localeIdentifier;
+
+/**
+ Gets the Locale, by Locale Identifier
+
+ @return a Future that resolves with the current locale identifier.
+ */
+- (FBFuture<NSString *> *)getCurrentLocaleIdentifier;
 
 @end
 
@@ -64,46 +68,9 @@ NS_ASSUME_NONNULL_BEGIN
  Approves Location Services for Applications.
 
  @param bundleIDs an NSArray<NSString> of bundle IDs to to authorize location settings for.
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+ @return a future that resolves when completed.
  */
-- (BOOL)approveLocationServicesForBundleIDs:(NSArray<NSString *> *)bundleIDs error:(NSError **)error;
-
-@end
-
-/**
- Modifies the Frontboard Watchdog Override.
- */
-@interface FBWatchdogOverrideModificationStrategy : FBDefaultsModificationStrategy
-
-/**
- Overrides the default SpringBoard watchdog timer for the applications. You can use this to give your application more
- time to startup before being killed by SpringBoard. (SB's default is 20 seconds.)
-
- @param bundleIDs The bundle IDs of the applications to override.
- @param timeout The new startup timeout.
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
- */
-- (BOOL)overrideWatchDogTimerForApplications:(NSArray<NSString *> *)bundleIDs timeout:(NSTimeInterval)timeout error:(NSError **)error;
-
-@end
-
-/**
- Modifies the Keyboard Settings.
- */
-@interface FBKeyboardSettingsModificationStrategy : FBDefaultsModificationStrategy
-
-/**
- Prepares the Simulator Keyboard, prior to launch.
- 1) Disables Caps Lock
- 2) Disables Auto Capitalize
- 3) Disables Auto Correction / QuickType
-
- @param error an error out for any error that occurs.
- @return the reciever, for chaining.
- */
-- (BOOL)setupKeyboardWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)approveLocationServicesForBundleIDs:(NSArray<NSString *> *)bundleIDs;
 
 @end
 

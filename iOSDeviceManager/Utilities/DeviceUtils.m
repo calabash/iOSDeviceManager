@@ -89,12 +89,26 @@ const double EPSILON = 0.001;
     return nil;
 }
 
+//taken from idb
++ (FBFuture<FBDeviceSet *> *)deviceSet:(id<FBControlCoreLogger>)logger ecidFilter:(NSString *)ecidFilter {
+  return [[FBFuture
+    onQueue:dispatch_get_main_queue() resolveValue:^ FBDeviceSet * (NSError **error) {
+      FBDeviceSet *deviceSet = [FBDeviceSet setWithLogger:logger delegate:nil ecidFilter:ecidFilter error:error];
+      if (!deviceSet) {
+        return nil;
+      }
+      return deviceSet;
+    }]
+    delay:0.2]; // This is needed to give the Restorable Devices time to populate.
+}
+
 + (NSArray<FBDevice *> *)availableDevices {
     static dispatch_once_t onceToken = 0;
     static NSArray<FBDevice *> *m_availableDevices;
-
+    
     dispatch_once(&onceToken, ^{
-        m_availableDevices = [[FBDeviceSet defaultSetWithLogger:nil error:nil] allDevices];
+        FBDeviceSet *deviceSet = [[self deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:nil];
+        m_availableDevices = [deviceSet allDevices];
     });
     return m_availableDevices;
 }
@@ -105,9 +119,8 @@ const double EPSILON = 0.001;
     static NSArray<FBSimulator *> *m_availableSimulators;
 
     dispatch_once(&onceToken, ^{
-        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                          configurationWithDeviceSetPath:nil
-                                                          options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+        
+        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration configurationWithDeviceSetPath:nil logger:nil reporter:nil];
 
         NSError *err;
         FBSimulatorControl *simControl = [FBSimulatorControl withConfiguration:configuration error:&err];

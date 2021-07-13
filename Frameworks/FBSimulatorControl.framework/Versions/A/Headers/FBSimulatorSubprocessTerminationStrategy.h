@@ -1,23 +1,25 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-@class FBProcessInfo;
-@class FBSimulator;
+#import <FBControlCore/FBControlCore.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class FBProcessInfo;
+@class FBSimulator;
+
 /**
- A Strategy for Terminating the Suprocesses of a Simulator.
+ A Strategy for Terminating the Applications launched by a Simulator.
  */
 @interface FBSimulatorSubprocessTerminationStrategy : NSObject
+
+#pragma mark Initializers
 
 /**
  Creates and Returns a Strategy for Terminating the Subprocesses of a Simulator's 'launchd_sim'
@@ -26,15 +28,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)strategyWithSimulator:(FBSimulator *)simulator;
 
-/**
- Terminates a Process for a Simulator.
- Will fail if the Process does not belong to the Simulator.
+#pragma mark Public Methods
 
- @param process the Process to terminate.
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+/**
+ Terminates an Application Directly.
+
+ @param bundleID the Bundle ID the bundle ID of the Application to terminate.
+ @return a future that resolves successfully when the application is terminated.
  */
-- (BOOL)terminate:(FBProcessInfo *)process error:(NSError **)error;
+- (FBFuture<NSNull *> *)terminateApplication:(NSString *)bundleID;
 
 @end
 

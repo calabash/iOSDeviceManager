@@ -1,20 +1,20 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBTerminationHandle.h>
+#import <FBControlCore/FBFuture.h>
+#import <FBControlCore/FBLaunchedProcess.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FBFileConsumer;
-@class FBTaskConfiguration;
+static const size_t FBTaskOutputErrorMessageLength = 200;
+
+@class FBProcessSpawnConfiguration;
 
 /**
  Error Doman for all FBTask errors.
@@ -22,104 +22,64 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString *const FBTaskErrorDomain;
 
 /**
- The Termination Handle Type for a Task.
- */
-extern FBTerminationHandleType const FBTerminationHandleTypeTask;
-
-/**
  Programmatic interface to a Task.
  */
-@interface FBTask : NSObject <FBTerminationHandle>
+@interface FBTask <StdInType : id, StdOutType : id, StdErrType : id> : NSObject <FBLaunchedProcess>
 
 #pragma mark Initializers
 
 /**
- Creates a Task with the provided configuration.
+ Creates a Task with the provided configuration and starts it.
 
- @param configuration the configuration to use
- @return a task.
+ @param configuration the configuration to use.
+ @param acceptableExitCodes the set of status codes that apply to the "completed" future.
+ @param logger an optional logger to log task lifecycle events to.
+ @return a future that resolves when the task has been started.
  */
-+ (instancetype)taskWithConfiguration:(FBTaskConfiguration *)configuration;
++ (FBFuture<FBTask *> *)startTaskWithConfiguration:(FBProcessSpawnConfiguration *)configuration acceptableExitCodes:(nullable NSSet<NSNumber *> *)acceptableExitCodes logger:(nullable id<FBControlCoreLogger>)logger;
 
-#pragma mark Starting a Task
+#pragma mark Public Methods
 
 /**
- Runs the reciever, returning when the Task has completed or when the timeout is hit.
- If the timeout is reached, the process will be terminated.
+ Signal the process.
+ The future returned will resolve when the process has terminated and can be ignored if not required.
 
- @param timeout the the maximum time to evaluate the task.
- @return the reciever, for chaining.
+ @param signo the signal number to send.
+ @return a successful Future that resolves to the signal number when the process has terminated.
  */
-- (instancetype)startSynchronouslyWithTimeout:(NSTimeInterval)timeout;
-
-/**
- Asynchronously launches the task, returning immediately after the Task has launched.
-
- @Param terminationQueue the queue to call the termination handler on.
- @param handler the handler to call when the Task has terminated.
- @return the reciever, for chaining.
- */
-- (instancetype)startAsynchronouslyWithTerminationQueue:(dispatch_queue_t)terminationQueue handler:(void (^)(FBTask *task))handler;
-
-/**
- Asynchronously launches the task, returning immediately after the Task has launched.
-
- @return the reciever, for chaining.
- */
-- (instancetype)startAsynchronously;
-
-#pragma mark Awaiting Completion
-
-/**
- Runs the reciever, returning when the Task has completed or when the timeout is hit.
- If the timeout is reached, the process will not be automatically terminated.
-
- @param timeout the the maximum time to evaluate the task.
- @return the reciever, for chaining.
- */
-- (BOOL)waitForCompletionWithTimeout:(NSTimeInterval)timeout error:(NSError **)error;
+- (FBFuture<NSNumber *> *)sendSignal:(int)signo;
 
 #pragma mark Accessors
 
 /**
- Returns the Process Identifier of the Launched Process.
+ A future that resolves with the exit code when the process has finished.
+ Cancelling this future will send a SIGTERM to the launched process.
+ If the process exited with an exit code different than the acceptable
+ values then the future will resolve to failure otherwise it will resolve to success.
+ Any errors will also be surfaced in this future.
  */
-- (pid_t)processIdentifier;
+@property (nonatomic, strong, readonly) FBFuture<NSNumber *> *completed;
 
 /**
- Returns a copy of the current state of stdout. May be called from any thread.
- The types of these values are defined in FBTaskConfiguration.
+ Returns the stdin of the task.
+ May be called from any thread.
+ The valid types for these values are the wrapped types in FBProcessInput.
  */
-- (nullable id)stdOut;
+@property (nonatomic, strong, nullable, readonly) StdInType stdIn;
 
 /**
- Returns the stdout of the process:
- The types of these values are defined in FBTaskConfiguration.
+ Returns the stdout of the task.
+ May be called from any thread.
+ The valid types for these values are the wrapped types in FBProcessOutput.
  */
-- (nullable id)stdErr;
+@property (nonatomic, strong, nullable, readonly) StdOutType stdOut;
 
 /**
- Returns a consumer for the stdin.
- This will only exist if:
- - The Task is Configured to do so.
- - The Task is running.
+ Returns the stdout of the task.
+ May be called from any thread.
+ The valid types for these values are the wrapped types in FBProcessOutput.
  */
-- (nullable id<FBFileConsumer>)stdIn;
-
-/**
- Returns the Error associated with the task (if any). May be called from any thread.
- */
-- (nullable NSError *)error;
-
-/**
- Returns YES if the task has terminated, NO otherwise.
- */
-- (BOOL)hasTerminated;
-
-/**
- Returns YES if the task terminated without an error, NO otherwise
- */
-- (BOOL)wasSuccessful;
+@property (nonatomic, strong, nullable, readonly) StdErrType stdErr;
 
 @end
 

@@ -1,92 +1,95 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-/* Portions Copyright © Microsoft Corporation. */
-
-#import <FBControlCore/FBAgentLaunchConfiguration.h>
-#import <FBControlCore/FBApplicationBundle.h>
+#import <FBControlCore/FBAccessibilityCommands.h>
+#import <FBControlCore/FBAccessibilityTraits.h>
 #import <FBControlCore/FBApplicationCommands.h>
-#import <FBControlCore/FBApplicationDataCommands.h>
-#import <FBControlCore/FBApplicationInstallConfiguration.h>
 #import <FBControlCore/FBApplicationLaunchConfiguration.h>
 #import <FBControlCore/FBArchitecture.h>
-#import <FBControlCore/FBASLParser.h>
-#import <FBControlCore/FBBatchLogSearch.h>
+#import <FBControlCore/FBArchiveOperations.h>
 #import <FBControlCore/FBBinaryDescriptor.h>
-#import <FBControlCore/FBBinaryParser.h>
-#import <FBControlCore/FBBitmapStream.h>
-#import <FBControlCore/FBBitmapStreamConfiguration.h>
-#import <FBControlCore/FBBitmapStreamingCommands.h>
-#import <FBControlCore/FBBundleDescriptor.h>
-#import <FBControlCore/FBCapacityQueue.h>
+#import <FBControlCore/FBBundleDescriptor+Application.h>
 #import <FBControlCore/FBCodesignProvider.h>
 #import <FBControlCore/FBCollectionInformation.h>
 #import <FBControlCore/FBCollectionOperations.h>
 #import <FBControlCore/FBConcurrentCollectionOperations.h>
-#import <FBControlCore/FBControlCoreConfigurationVariants.h>
 #import <FBControlCore/FBControlCoreError.h>
 #import <FBControlCore/FBControlCoreFrameworkLoader.h>
 #import <FBControlCore/FBControlCoreGlobalConfiguration.h>
 #import <FBControlCore/FBControlCoreLogger.h>
-#import <FBControlCore/FBCrashLogInfo.h>
-#import <FBControlCore/FBDebugDescribeable.h>
-#import <FBControlCore/FBDiagnostic.h>
-#import <FBControlCore/FBDiagnosticQuery.h>
+#import <FBControlCore/FBCrashLog.h>
+#import <FBControlCore/FBCrashLogCommands.h>
+#import <FBControlCore/FBCrashLogNotifier.h>
+#import <FBControlCore/FBCrashLogStore.h>
+#import <FBControlCore/FBDataBuffer.h>
+#import <FBControlCore/FBDataConsumer.h>
+#import <FBControlCore/FBDebuggerCommands.h>
+#import <FBControlCore/FBDeveloperDiskImage.h>
+#import <FBControlCore/FBDeveloperDiskImageCommands.h>
+#import <FBControlCore/FBDiagnosticInformationCommands.h>
 #import <FBControlCore/FBDispatchSourceNotifier.h>
-#import <FBControlCore/FBEventInterpreter.h>
-#import <FBControlCore/FBFileConsumer.h>
-#import <FBControlCore/FBFileFinder.h>
-#import <FBControlCore/FBFileManager.h>
+#import <FBControlCore/FBEraseCommands.h>
+#import <FBControlCore/FBEventReporter.h>
+#import <FBControlCore/FBEventReporterSubject.h>
+#import <FBControlCore/FBFileCommands.h>
+#import <FBControlCore/FBFileContainer.h>
 #import <FBControlCore/FBFileReader.h>
 #import <FBControlCore/FBFileWriter.h>
+#import <FBControlCore/FBFuture+Sync.h>
+#import <FBControlCore/FBFuture.h>
+#import <FBControlCore/FBFutureContextManager.h>
 #import <FBControlCore/FBInstalledApplication.h>
-#import <FBControlCore/FBiOSActionReader.h>
-#import <FBControlCore/FBiOSActionRouter.h>
+#import <FBControlCore/FBInstrumentsCommands.h>
+#import <FBControlCore/FBInstrumentsConfiguration.h>
+#import <FBControlCore/FBInstrumentsOperation.h>
 #import <FBControlCore/FBiOSTarget.h>
-#import <FBControlCore/FBiOSTargetAction.h>
-#import <FBControlCore/FBiOSTargetDiagnostics.h>
+#import <FBControlCore/FBiOSTargetCommandForwarder.h>
+#import <FBControlCore/FBiOSTargetConfiguration.h>
 #import <FBControlCore/FBiOSTargetFormat.h>
+#import <FBControlCore/FBiOSTargetOperation.h>
 #import <FBControlCore/FBiOSTargetPredicates.h>
 #import <FBControlCore/FBiOSTargetQuery.h>
-#import <FBControlCore/FBJSONConversion.h>
-#import <FBControlCore/FBJSONEnums.h>
-#import <FBControlCore/FBLineBuffer.h>
-#import <FBControlCore/FBLocalizationOverride.h>
+#import <FBControlCore/FBiOSTargetSet.h>
+#import <FBControlCore/FBLaunchedProcess.h>
+#import <FBControlCore/FBLocationCommands.h>
 #import <FBControlCore/FBLogCommands.h>
-#import <FBControlCore/FBLogSearch.h>
-#import <FBControlCore/FBLogTailConfiguration.h>
-#import <FBControlCore/FBPipeReader.h>
+#import <FBControlCore/FBLoggingWrapper.h>
+#import <FBControlCore/FBPowerCommands.h>
 #import <FBControlCore/FBProcessFetcher+Helpers.h>
 #import <FBControlCore/FBProcessFetcher.h>
 #import <FBControlCore/FBProcessInfo.h>
+#import <FBControlCore/FBProcessIO.h>
 #import <FBControlCore/FBProcessLaunchConfiguration.h>
-#import <FBControlCore/FBProcessOutputConfiguration.h>
+#import <FBControlCore/FBProcessSpawnCommands.h>
+#import <FBControlCore/FBProcessSpawnConfiguration.h>
+#import <FBControlCore/FBProcessStream.h>
 #import <FBControlCore/FBProcessTerminationStrategy.h>
-#import <FBControlCore/FBReportingiOSActionReaderDelegate.h>
-#import <FBControlCore/FBRunLoopSpinner.h>
+#import <FBControlCore/FBProvisioningProfileCommands.h>
 #import <FBControlCore/FBScale.h>
+#import <FBControlCore/FBScreenshotCommands.h>
 #import <FBControlCore/FBServiceManagement.h>
-#import <FBControlCore/FBSocketReader.h>
+#import <FBControlCore/FBSettingsCommands.h>
 #import <FBControlCore/FBSocketServer.h>
-#import <FBControlCore/FBSocketWriter.h>
-#import <FBControlCore/FBSubject.h>
-#import <FBControlCore/FBSubstringUtilities.h>
+#import <FBControlCore/FBTask+Helpers.h>
 #import <FBControlCore/FBTask.h>
 #import <FBControlCore/FBTaskBuilder.h>
-#import <FBControlCore/FBTerminationHandle.h>
-#import <FBControlCore/FBUploadBuffer.h>
+#import <FBControlCore/FBTestLaunchConfiguration.h>
 #import <FBControlCore/FBVideoRecordingCommands.h>
-#import <FBControlCore/FBDependentDylib+ApplePrivateDylibs.h>
-#import <FBControlCore/FBDependentDylib.h>
+#import <FBControlCore/FBVideoFileWriter.h>
+#import <FBControlCore/FBVideoStream.h>
+#import <FBControlCore/FBVideoStreamCommands.h>
+#import <FBControlCore/FBVideoStreamConfiguration.h>
 #import <FBControlCore/FBWeakFramework+ApplePrivateFrameworks.h>
 #import <FBControlCore/FBWeakFrameworkLoader.h>
 #import <FBControlCore/FBXcodeConfiguration.h>
 #import <FBControlCore/FBXcodeDirectory.h>
+#import <FBControlCore/FBXCTestCommands.h>
+#import <FBControlCore/FBXCTestShimConfiguration.h>
+#import <FBControlCore/FBXCTraceConfiguration.h>
+#import <FBControlCore/FBXCTraceOperation.h>
+#import <FBControlCore/FBXCTraceRecordCommands.h>
 #import <FBControlCore/NSPredicate+FBControlCore.h>
-

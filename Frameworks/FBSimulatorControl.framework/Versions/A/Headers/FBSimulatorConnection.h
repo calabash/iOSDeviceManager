@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -28,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  These arguments can be nil, but will not change during the lifetime of a connection.
  The 'Simulator Bridge' connection can be established lazily, that is to say the Bridge Connection can be made *after* the connection is created.
  */
-@interface FBSimulatorConnection : NSObject  <FBJSONSerializable>
+@interface FBSimulatorConnection : NSObject
 
 #pragma mark Initializers
 
@@ -41,38 +39,36 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithSimulator:(FBSimulator *)simulator framebuffer:(nullable FBFramebuffer *)framebuffer hid:(nullable FBSimulatorHID *)hid;
 
-/**
- Tears down the bridge and it's resources, waiting for any asynchronous teardown to occur before returning.
- Must only ever be called from the main thread.
-
- @param timeout the number of seconds to wait for termination to occur in. If 0 or fewer, the reciever won't wait.
- @return YES if the termination occurred within timeout seconds, NO otherwise.
- */
-- (BOOL)terminateWithTimeout:(NSTimeInterval)timeout;
+#pragma mark Connection Lifecycle
 
 /**
- Connects to the SimulatorBridge.
+ Tears down the bridge and it's resources.
+ If there is any asynchronous work that is pending, it will resolve the returned future upon completion.
 
- @param error an error out for any error that occurs.
- @return the Bridge Instance if successful, nil otherwise.
+ @return A Future that resolves when the connection has been terminated.
  */
-- (nullable FBSimulatorBridge *)connectToBridge:(NSError **)error;
+- (FBFuture<NSNull *> *)terminate;
 
 /**
- Connects to the Framebuffer.
+ Connects to the FBSimulatorBridge.
 
- @param error an error out for any error that occurs.
- @return the Framebuffer instance if successful, nil otherwise.
+ @return a Future wrapping the Bridge Instance if successful, nil otherwise.
  */
-- (nullable FBFramebuffer *)connectToFramebuffer:(NSError **)error;
+- (FBFuture<FBSimulatorBridge *> *)connectToBridge;
+
+/**
+ Connects to the Framebuffer's Surface.
+
+ @return a Future that resolves with the Framebuffer instance.
+ */
+- (FBFuture<FBFramebuffer *> *)connectToFramebuffer;
 
 /**
  Connects to the FBSimulatorHID.
 
- @param error an error out for any error that occurs.
  @return the HID instance if successful, nil otherwise.
  */
-- (nullable FBSimulatorHID *)connectToHID:(NSError **)error;
+- (FBFuture<FBSimulatorHID *> *)connectToHID;
 
 @end
 

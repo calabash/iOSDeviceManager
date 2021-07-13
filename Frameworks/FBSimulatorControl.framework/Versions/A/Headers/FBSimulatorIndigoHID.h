@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <CoreGraphics/CoreGraphics.h>
@@ -15,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  An Enumeration for the Direction of the Event.
  */
-typedef NS_ENUM(NSUInteger, FBSimulatorHIDDirection) {
+typedef NS_ENUM(int, FBSimulatorHIDDirection) {
   FBSimulatorHIDDirectionDown = 1,
   FBSimulatorHIDDirectionUp = 2,
 };
@@ -23,7 +21,7 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDDirection) {
 /**
  An Enumeration Representing a button press.
  */
-typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
+typedef NS_ENUM(int, FBSimulatorHIDButton) {
   FBSimulatorHIDButtonApplePay = 1,
   FBSimulatorHIDButtonHomeButton = 2,
   FBSimulatorHIDButtonLock = 3,
@@ -37,17 +35,17 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
 @interface FBSimulatorIndigoHID : NSObject
 
 /**
- The Designated Initializer
- */
-+ (instancetype)defaultHID;
-
-/**
  The SimulatorKit Implementation.
+
+ @param error an error out for any error that occurs in construction.
+ @return a new FBSimulatorIndigoHID instance if successful, nil otherwise.
  */
-+ (instancetype)simulatorKit;
++ (nullable instancetype)simulatorKitHIDWithError:(NSError **)error;
 
 /**
- The internal Implementation.
+ An implementation of FBSimulatorIndigoHID, by re-implementing SimulatorKit directly.
+
+ @return a new FBSimulatorIndigoHID instance.
  */
 + (instancetype)reimplemented;
 
@@ -56,7 +54,7 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
 
  @param direction the direction of the event.
  @param keycode the Key Code to send. The keycodes are 'Hardware Independent' as described in <HIToolbox/Events.h>.
- @return an NSData-Wrapped IndigoMessage. The data is owned by the reciever and will be freed when the data is deallocated.
+ @return an NSData-Wrapped IndigoMessage. The data is owned by the receiver and will be freed when the data is deallocated.
  */
 - (NSData *)keyboardWithDirection:(FBSimulatorHIDDirection)direction keyCode:(unsigned int)keycode;
 
@@ -65,7 +63,7 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
 
  @param direction the direction of the event.
  @param button the button.
- @return an NSData-Wrapped IndigoMessage. The data is owned by the reciever and will be freed when the data is deallocated.
+ @return an NSData-Wrapped IndigoMessage. The data is owned by the receiver and will be freed when the data is deallocated.
  */
 - (NSData *)buttonWithDirection:(FBSimulatorHIDDirection)direction button:(FBSimulatorHIDButton)button;
 
@@ -76,9 +74,21 @@ typedef NS_ENUM(NSUInteger, FBSimulatorHIDButton) {
  @param direction the direction of the event.
  @param x the X-Coordinate in pixels
  @param y the Y-Coordinate pixels
- @return an NSData-Wrapped IndigoMessage. The data is owned by the reciever and will be freed when the data is deallocated.
+ @return an NSData-Wrapped IndigoMessage. The data is owned by the receiver and will be freed when the data is deallocated.
  */
 - (NSData *)touchScreenSize:(CGSize)screenSize direction:(FBSimulatorHIDDirection)direction x:(double)x y:(double)y;
+
+
+/**
+ A Touch Event.
+ @param screenSize the size of the screen in pixels.
+ @param screenScale the scale of the screen e.g. @2x
+ @param direction the direction of the event.
+ @param x the X-Coordinate in pixels
+ @param y the Y-Coordinate pixels
+ @return an NSData-Wrapped IndigoMessage. The data is owned by the receiver and will be freed when the data is deallocated.
+ */
+- (NSData *)touchScreenSize:(CGSize)screenSize screenScale:(float)screenScale direction:(FBSimulatorHIDDirection)direction x:(double)x y:(double)y;
 
 @end
 

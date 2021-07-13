@@ -172,7 +172,7 @@
     NSString *hostname = [NSString stringWithFormat:@"%@.local",
                           device.fbDevice.name];
 
-    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+    [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:30 untilTrue:^BOOL{
         version = [[Resources shared] TestRecorderVersionFromHost:hostname];
         return version != nil;
     }];

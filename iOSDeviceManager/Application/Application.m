@@ -44,9 +44,16 @@
         ConsoleWriteErr(@"Could not find bundle executable at path: %@", executablePath);
         return nil;
     }
-
+    
     NSError *archError;
-    NSSet<NSString *> *arches = [FBBinaryParser architecturesForBinaryAtPath:executablePath error:&archError];
+    FBBinaryDescriptor *description = [FBBinaryDescriptor binaryWithPath:executablePath error:&archError];
+    if (description == nil){
+        ConsoleWriteErr(@"Could not determine app architectures for executable at path: %@ \n with error: %@", executablePath, archError);
+        return nil;
+    }
+    
+    
+    NSSet<NSString *> *arches = description.architectures;
 
     if (archError) {
         ConsoleWriteErr(@"Could not determine app architectures for executable at path: %@ \n with error: %@", executablePath, archError);
@@ -54,16 +61,15 @@
     }
 
     NSError *productBundleErr;
-    FBProductBundle *productBundle = [[[FBProductBundleBuilder builder]
-                                       withBundlePath:path]
-                                      buildWithError:&productBundleErr];
+    
+    FBBundleDescriptor *productBundle = [FBBundleDescriptor bundleFromPath:path error:&productBundleErr];
     if (productBundleErr) {
         ConsoleWriteErr(@"Could not determine bundle id for bundle at: %@ \n withError: %@", path, productBundleErr);
         return nil;
     }
 
 
-    Application *app = [self withBundleID:productBundle.bundleID
+    Application *app = [self withBundleID:productBundle.identifier
                                     plist:infoPlist
                             architectures:arches];
     app.path = path;

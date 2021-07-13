@@ -23,9 +23,9 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 + (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
-- (FBSimulatorState)state;
+- (FBiOSTargetState)state;
 - (NSString *)stateString;
-- (BOOL)waitForSimulatorState:(FBSimulatorState)state
+- (BOOL)waitForSimulatorState:(FBiOSTargetState)state
                       timeout:(NSTimeInterval)timeout;
 - (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
 
@@ -38,7 +38,9 @@ static const FBSimulatorControl *_control;
 + (void)initialize {
     FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
                                                       configurationWithDeviceSetPath:nil
-                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+                                                      logger:nil
+                                                      reporter:nil];
+
     NSError *error;
     _control = [FBSimulatorControl withConfiguration:configuration error:&error];
     if (error) {
@@ -71,53 +73,88 @@ static const FBSimulatorControl *_control;
 }
 
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)simulator {
-    FBSimulatorEventRelay *relay = [simulator eventSink];
-    if (relay.connection) {
-        [relay.connection terminateWithTimeout:5];
-    }
-
-    return [FBSimulatorLifecycleCommands commandsWithSimulator:simulator];
+    FBSimulatorConnection *connection = [[FBSimulatorConnection alloc]
+                                         initWithSimulator:simulator
+                                         framebuffer:nil
+                                         hid:nil];
+   
+    [[connection terminate] timeout:5 waitingFor:@"The Simulator Connection to teardown"];
+    
+    return [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
 }
 
 + (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)simulator {
-    return [FBSimulatorApplicationCommands commandsWithSimulator:simulator];
+    return [FBSimulatorApplicationCommands commandsWithTarget:simulator];
 }
 
 + (NSURL *)simulatorAppURL {
-    NSString *path = [[FBApplicationBundle xcodeSimulator] path];
+    NSString *path = [[FBBundleDescriptor xcodeSimulator] path];
 
     return [NSURL fileURLWithPath:path];
 }
+//taken from idb. Couldn't been imported - should be tracked.
++ (FBFuture<NSNull *> *)performBootVerification:(FBSimulator *)simulator
+{
+    NSArray<NSString *> *requiredServiceNames = [Simulator requiredSimulatorAppProcesses:simulator];
+    
+  return [[simulator
+    listServices]
+    onQueue:simulator.asyncQueue fmap:^ FBFuture<NSNull *> * (NSDictionary<NSString *, id> *services) {
+      NSDictionary<id, NSString *> *processIdentifiers = [NSDictionary
+        dictionaryWithObjects:requiredServiceNames
+        forKeys:[services objectsForKeys:requiredServiceNames notFoundMarker:NSNull.null]];
+      // At least on process has not launched yet.
+      if (processIdentifiers[NSNull.null]) {
+        return [[FBSimulatorError
+          describeFormat:@"Service %@ has not started", processIdentifiers[NSNull.null]]
+          failFuture];
+      }
+      return FBFuture.empty;
+    }];
+}
 
 + (BOOL)waitForSimulatorAppServices:(FBSimulator *)fbSimulator {
-    NSArray<NSString *> *requiredServiceNames = [Simulator requiredSimulatorAppProcesses];
-    __block NSDictionary<id, NSString *> *processIdentifiers = @{};
+    
     BOOL success = NO;
-
-    success = [[[FBRunLoopSpinner new] timeout:120] spinUntilTrue:^BOOL {
-        NSDictionary<NSString *, id> *services = [fbSimulator listServicesWithError:nil];
+    
+    return [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:120 untilTrue:^BOOL{
+        NSError *error = nil;
         // No services running yet.
-        if (!services) { return NO; }
-
-        NSArray *keys = [services objectsForKeys:requiredServiceNames
-                                  notFoundMarker:[NSNull null]];
-        processIdentifiers = [NSDictionary dictionaryWithObjects:requiredServiceNames
-                                                         forKeys:keys];
-
-        // At least on process has not launched yet.
-        if (processIdentifiers[NSNull.null]) { return NO; }
-
+        if (![[Simulator performBootVerification:fbSimulator] await:&error]) { return NO; }
+        
         // No null values in the dictionary means all processes have started.
         return YES;
     }];
-
+    
     return success;
 }
 
-+ (NSArray<NSString *> *)requiredSimulatorAppProcesses {
-    return @[@"com.apple.backboardd",
-             @"com.apple.mobile.installd",
-             @"com.apple.SpringBoard"];
+//taken from idb. Couldn't been imported - should be tracked.
++ (NSArray<NSString *> *)requiredSimulatorAppProcesses: (FBSimulator*)simulator {
+    FBControlCoreProductFamily family = simulator.productFamily;
+    if (family == FBControlCoreProductFamilyiPhone || family == FBControlCoreProductFamilyiPad) {
+      if (FBXcodeConfiguration.isXcode9OrGreater) {
+        return @[
+          @"com.apple.backboardd",
+          @"com.apple.mobile.installd",
+          @"com.apple.CoreSimulator.bridge",
+          @"com.apple.SpringBoard",
+        ];
+      }
+        return @[
+          @"com.apple.backboardd",
+          @"com.apple.mobile.installd",
+          @"com.apple.SimulatorBridge",
+          @"com.apple.SpringBoard",
+        ];
+    }
+    if (family == FBControlCoreProductFamilyAppleWatch || family == FBControlCoreProductFamilyAppleTV) {
+      return @[
+        @"com.apple.mobileassetd",
+        @"com.apple.nsurlsessiond",
+      ];
+    }
+    return @[];
 }
 
 + (iOSReturnStatusCode)launchSimulator:(Simulator *)simulator {
@@ -155,7 +192,7 @@ static const FBSimulatorControl *_control;
         for (NSRunningApplication *application in applications) {
             [application terminate];
 
-            BOOL termed = [[[FBRunLoopSpinner new] timeout:2] spinUntilTrue:^BOOL {
+            BOOL termed = [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:2 untilTrue:^BOOL{
                 return application.terminated;
             }];
 
@@ -163,7 +200,7 @@ static const FBSimulatorControl *_control;
                 [application forceTerminate];
             }
 
-            termed = [[[FBRunLoopSpinner new] timeout:2] spinUntilTrue:^BOOL {
+            termed = [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:2 untilTrue:^BOOL{
                 return application.terminated;
             }];
 
@@ -189,13 +226,13 @@ static const FBSimulatorControl *_control;
 
 + (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator {
     [Simulator killSimulatorApp];
-    if (![simulator waitForSimulatorState:FBSimulatorStateShutdown timeout:30]) {
+    if (![simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
         ConsoleWriteErr(@"Error: Could not shutdown simulator: %@", simulator);
         return iOSReturnStatusCodeInternalError;
     }
 
     NSError *error = nil;
-    if (![simulator.fbSimulator eraseWithError:&error]) {
+    if (![[simulator.fbSimulator erase] await:&error]){
         ConsoleWriteErr(@"Error: %@", [error localizedDescription]);
         return iOSReturnStatusCodeInternalError;
     }
@@ -203,7 +240,7 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-- (FBSimulatorState)state {
+- (FBiOSTargetState)state {
     return self.fbSimulator.state;
 }
 
@@ -211,9 +248,17 @@ static const FBSimulatorControl *_control;
     return self.fbSimulator.stateString;
 }
 
-- (BOOL)waitForSimulatorState:(FBSimulatorState)state
+- (BOOL)waitForSimulatorState:(FBiOSTargetState)state
                       timeout:(NSTimeInterval)timeout {
-    return [self.fbSimulator waitOnState:state timeout:timeout];
+    NSError* error = nil;
+
+    if ([[[self.fbSimulator resolveState:state]
+          timeout:timeout waitingFor:@"Simulator to resolve state %@", FBiOSTargetStateStringFromState(state).lowercaseString] await:&error]) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
 }
 
 - (BOOL)waitForBootableState:(NSError *__autoreleasing *)error {
@@ -223,11 +268,11 @@ static const FBSimulatorControl *_control;
     NSString *messageFmt = @"Simulator never finished %@ after %@ seconds";
 
     switch (self.state) {
-        case FBSimulatorStateBooted: { return YES; }
-        case FBSimulatorStateShutdown: { return YES; }
+        case FBiOSTargetStateBooted: { return YES; }
+        case FBiOSTargetStateShutdown: { return YES; }
 
-        case FBSimulatorStateCreating: {
-            if ([self waitForSimulatorState:FBSimulatorStateShutdown
+        case FBiOSTargetStateCreating: {
+            if ([self waitForSimulatorState:FBiOSTargetStateShutdown
                                     timeout:waitTimeout]) {
                 return YES;
             } else {
@@ -244,8 +289,8 @@ static const FBSimulatorControl *_control;
             }
         }
 
-        case FBSimulatorStateBooting: {
-            if ([self waitForSimulatorState:FBSimulatorStateBooted
+        case FBiOSTargetStateBooting: {
+            if ([self waitForSimulatorState:FBiOSTargetStateBooted
                                     timeout:waitTimeout]) {
                 return YES;
             } else {
@@ -262,8 +307,8 @@ static const FBSimulatorControl *_control;
             }
         }
 
-        case FBSimulatorStateShuttingDown: {
-            if ([self waitForSimulatorState:FBSimulatorStateShutdown
+        case FBiOSTargetStateShuttingDown: {
+            if ([self waitForSimulatorState:FBiOSTargetStateShutdown
                                     timeout:waitTimeout]) {
                 return YES;
             } else {
@@ -305,9 +350,9 @@ static const FBSimulatorControl *_control;
         return NO;
     }
 
-    FBSimulatorState state = self.state;
-    if (state == FBSimulatorStateBooted || state == FBSimulatorStateBooting) {
-        if (![self waitForSimulatorState:FBSimulatorStateBooted
+    FBiOSTargetState state = self.state;
+    if (state == FBiOSTargetStateBooted || state == FBiOSTargetStateBooting) {
+        if (![self waitForSimulatorState:FBiOSTargetStateBooted
                                  timeout:30]) {
             ConsoleWriteErr(@"Could not boot simulator");
             return NO;
@@ -326,7 +371,7 @@ static const FBSimulatorControl *_control;
             }
             return NO;
         } else {
-            if (![self waitForSimulatorState:FBSimulatorStateBooted
+            if (![self waitForSimulatorState:FBiOSTargetStateBooted
                                      timeout:30]) {
                 ConsoleWriteErr(@"Could not boot simulator");
                 return NO;
@@ -389,14 +434,14 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)shutdown {
     NSError *error = nil;
-    if (self.state == FBSimulatorStateShutdown) { return YES; }
+    if (self.state == FBiOSTargetStateShutdown) { return YES; }
 
     FBSimulatorShutdownStrategy *strategy;
     strategy = [FBSimulatorShutdownStrategy strategyWithSimulator:self.fbSimulator];
 
-    if (self.state != FBSimulatorStateShuttingDown ||
-        self.state == FBSimulatorStateShutdown) {
-        if (![strategy shutdownWithError:&error]) {
+    if (self.state != FBiOSTargetStateShuttingDown ||
+        self.state == FBiOSTargetStateShutdown) {
+        if (![[strategy shutdown] await:&error]) {
             ConsoleWriteErr(@"Could not shutdown simulator");
             if (error) {
                 ConsoleWriteErr(@"%@", [error localizedDescription]);
@@ -405,7 +450,7 @@ static const FBSimulatorControl *_control;
         }
     }
 
-    if (![self waitForSimulatorState:FBSimulatorStateShutdown timeout:30]) {
+    if (![self waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
         ConsoleWriteErr(@"Timed out waiting for simulator to shutdown after 30 seconds");
         return NO;
     }
@@ -457,11 +502,11 @@ static const FBSimulatorControl *_control;
         BOOL success = NO;
         for (NSUInteger try = 1; try < tries; try++) {
             error = nil;
-            success = [applicationCommands installApplicationWithPath:app.path
-                                                                error:&error];
-            if (success) {
+            
+            if ([[applicationCommands installApplicationWithPath:app.path] await:&error]){
                 ConsoleWrite(@"Installed application on %@ of %@ attempts",
                              @(try), @(tries));
+                success = YES;
                 break;
             }
 
@@ -473,7 +518,6 @@ static const FBSimulatorControl *_control;
             } else {
                 // Any other error
                 ConsoleWriteErr(@"Error installing application: %@", error);
-                success = NO;
                 break;
             }
         }
@@ -572,8 +616,7 @@ static const FBSimulatorControl *_control;
     applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
 
     NSError *error = nil;
-    if (![applicationCommands uninstallApplicationWithBundleID:bundleID
-                                                         error:&error]) {
+    if (![[applicationCommands uninstallApplicationWithBundleID:bundleID] await:&error]) {
         ConsoleWriteErr(@"Error uninstalling app: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else {
@@ -582,8 +625,7 @@ static const FBSimulatorControl *_control;
             [self shutdown];
             [self boot];
 
-            if ([self.fbSimulator isApplicationInstalledWithBundleID:bundleID
-                                                               error:&error]) {
+            if ([self isInstalled:bundleID withError:&error]){
                 ConsoleWriteErr(@"Could not uninstall app %@", error);
                 return iOSReturnStatusCodeInternalError;
             }
@@ -609,8 +651,7 @@ static const FBSimulatorControl *_control;
     }
 
     NSError *error = nil;
-    FBSimulatorBridge *bridge = [FBSimulatorBridge bridgeForSimulator:self.fbSimulator
-                                                                error:&error];
+    FBSimulatorBridge *bridge = [[FBSimulatorBridge bridgeForSimulator:self.fbSimulator] await:&error];
     if (!bridge) {
         ConsoleWriteErr(@"Unable to fetch simulator bridge: %@");
         if (error) {
@@ -648,18 +689,17 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    FBProcessOutputConfiguration *outConfig;
-    outConfig = [FBProcessOutputConfiguration defaultForDeviceManager];
+    FBApplicationLaunchConfiguration *launchConfig = [[FBApplicationLaunchConfiguration alloc]
+                                                      initWithBundleID:bundleID
+                                                      bundleName:nil
+                                                      arguments:@[]
+                                                      environment:@{}
+                                                      waitForDebugger:NO
+                                                      io:FBProcessIO.outputToDevNull
+                                                      launchMode:FBApplicationLaunchModeRelaunchIfRunning];
+    
 
-    FBApplicationLaunchConfiguration *launchConfig;
-    launchConfig = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID
-                                                                    bundleName:nil
-                                                                     arguments:@[]
-                                                                   environment:@{}
-                                                               waitForDebugger:NO
-                                                                        output:outConfig];
-
-    if ([self.fbSimulator launchApplication:launchConfig error:&error]) {
+    if ([[self.fbSimulator launchApplication:launchConfig] await:&error]) {
         return iOSReturnStatusCodeEverythingOkay;
     } else {
         ConsoleWriteErr(@"Could not launch app %@ on simulator %@",
@@ -673,25 +713,21 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)launchApplicationWithConfiguration:(FBApplicationLaunchConfiguration *)configuration
                                      error:(NSError **)error {
-    return [self.fbSimulator launchApplication:configuration error:error];
+    return [[self.fbSimulator launchApplication:configuration] await:error] != nil;
 }
 
 - (iOSReturnStatusCode)killApp:(NSString *)bundleID {
-    BOOL result = [self.fbSimulator killApplicationWithBundleID:bundleID error:nil];
-
-    if (result) {
-        return iOSReturnStatusCodeEverythingOkay;
-    } else {
+    NSError *error = nil;
+    
+    if (![[self.fbSimulator killApplicationWithBundleID:bundleID] await:&error]){
         return iOSReturnStatusCodeFalse;
+    }
+    else{
+        return iOSReturnStatusCodeEverythingOkay;
     }
 }
 
 - (BOOL)isInstalled:(NSString *)bundleID withError:(NSError **)error {
-
-    if ([self.fbSimulator isApplicationInstalledWithBundleID:bundleID
-                                                       error:error]) {
-        return YES;
-    }
 
     NSDictionary *installedApps = [self.fbSimulator.device installedAppsWithError:error];
     if (installedApps[bundleID]) {
@@ -722,9 +758,9 @@ static const FBSimulatorControl *_control;
 }
 
 - (Application *)installedApp:(NSString *)bundleID {
+    NSError *error = nil;
     FBInstalledApplication *installedApp;
-    installedApp = [self.fbSimulator installedApplicationWithBundleID:bundleID
-                                                                error:nil];
+    installedApp = [[self.fbSimulator installedApplicationWithBundleID:bundleID] await:&error];
     if (!installedApp) {
         return nil;
     } else {
@@ -847,11 +883,11 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-+ (FBApplicationBundle *)app:(NSString *)appPath {
++ (FBBundleDescriptor *)app:(NSString *)appPath {
     NSError *error = nil;
 
-    FBApplicationBundle *app = [FBApplicationBundle applicationWithPath:appPath
-                                                                  error:&error];
+    FBBundleDescriptor *app = [FBBundleDescriptor bundleFromPath:appPath error:&error];
+    
     if (!app) {
         ConsoleWriteErr(@"Error creating SimulatorApplication for path %@: %@",
                         appPath, [error localizedDescription]);
@@ -861,13 +897,16 @@ static const FBSimulatorControl *_control;
 }
 
 + (FBApplicationLaunchConfiguration *)testRunnerLaunchConfig:(NSString *)testRunnerPath {
-    FBApplicationBundle *application = [self app:testRunnerPath];
+    FBBundleDescriptor *application = [self app:testRunnerPath];
 
-    return [FBApplicationLaunchConfiguration configurationWithApplication:application
-                                                                arguments:@[]
-                                                              environment:@{}
-                                                          waitForDebugger:NO
-                                                                   output:[FBProcessOutputConfiguration defaultForDeviceManager]];
+    return [[FBApplicationLaunchConfiguration alloc]
+            initWithBundleID:application.identifier
+            bundleName:application.name
+            arguments:@[]
+            environment:@{}
+            waitForDebugger:NO
+            io:FBProcessIO.outputToDevNull
+            launchMode:FBApplicationLaunchModeRelaunchIfRunning];
 }
 
 + (BOOL)iOS_GTE_9:(NSString *)versionString {
@@ -893,9 +932,8 @@ static const FBSimulatorControl *_control;
 
 + (FBSimulator *)simulatorWithConfiguration:(FBSimulatorConfiguration *)configuration {
     NSError *error = nil;
-    FBSimulator *simulator = [_control.pool allocateSimulatorWithConfiguration:configuration
-                                                                       options:FBSimulatorAllocationOptionsReuse
-                                                                         error:&error];
+    FBSimulator *simulator = [[_control.set createSimulatorWithConfiguration:configuration] await:&error];
+
     if (error) {
         ConsoleWriteErr(@"Error obtaining simulator: %@", error);
     }
@@ -960,14 +998,17 @@ testCaseDidStartForTestClass:(NSString *)testClass
 }
 
 - (id<FBControlCoreLogger>)info {
+    level = FBControlCoreLogLevelInfo;
     return self;
 }
 
 - (id<FBControlCoreLogger>)debug {
+    level = FBControlCoreLogLevelDebug;
     return self;
 }
 
 - (id<FBControlCoreLogger>)error {
+    level = FBControlCoreLogLevelError;
     return self;
 }
 
@@ -1013,23 +1054,23 @@ testCaseDidStartForTestClass:(NSString *)testClass
 
 - (NSString *)installPathForApplication:(NSString *)bundleID {
     FBInstalledApplication *installedApp;
-    installedApp = [self.fbSimulator installedApplicationWithBundleID:bundleID
-                                                                error:nil];
+    NSError *error = nil;
+    installedApp = [[self.fbSimulator installedApplicationWithBundleID:bundleID] await:&error];
     return installedApp.bundle.path;
 }
 
 - (BOOL)stageXctestConfigurationToTmpForRunner:(NSString *)runnerBundleIdentifier
                                            AUT:(NSString *)AUTBundleIdentifier
-                                                         error:(NSError **)error {
+                                         error:(NSError **)error {
     NSString *runnerInstalledPath = [self installPathForApplication:runnerBundleIdentifier];
     NSString *xctestBundlePath = [self xctestBundlePathForTestRunnerAtPath:runnerInstalledPath];
     NSString *AUTInstalledPath = [self installPathForApplication:AUTBundleIdentifier];
     NSString *uuid = [[NSUUID UUID] UUIDString];
-
+    
     NSString *xctestconfig = [XCTestConfigurationPlist plistWithXCTestInstallPath:xctestBundlePath
-                                                                 AUTHostPath:AUTInstalledPath
+                                                                      AUTHostPath:AUTInstalledPath
                                                               AUTBundleIdentifier:AUTBundleIdentifier
-                                                              runnerHostPath:runnerInstalledPath
+                                                                   runnerHostPath:runnerInstalledPath
                                                            runnerBundleIdentifier:runnerBundleIdentifier
                                                                 sessionIdentifier:uuid];
 
@@ -1078,5 +1119,72 @@ testCaseDidStartForTestClass:(NSString *)testClass
     ConsoleWrite(uuid);
     return YES;
 }
+
+- (nonnull id<FBControlCoreLogger>)withDateFormatEnabled:(BOOL)enabled {
+    return self;
+}
+
+
+- (nonnull id<FBControlCoreLogger>)withName:(nonnull NSString *)name {
+    return self;
+}
+
+- (void)debuggerAttached {
+    [self log:@"Debugger attached"];
+}
+
+- (void)didBeginExecutingTestPlan {
+}
+
+- (void)didCrashDuringTest:(nonnull NSError *)error {
+    [self logFormat:@"didCrashDuringTest: %@", error];
+}
+
+- (void)didFinishExecutingTestPlan {
+//TODO:
+}
+
+- (void)finishedWithSummary:(nonnull FBTestManagerResultSummary *)summary {
+    // didFinishExecutingTestPlan should be used to signify completion instead
+}
+
+- (void)handleExternalEvent:(nonnull NSString *)event {
+    [self logFormat:@"handleExternalEvent: %@", event];
+}
+
+- (BOOL)printReportWithError:(NSError *__autoreleasing  _Nullable * _Nullable)error {
+    [self logFormat:@"printReportWithError: %@", *error];
+    return NO;
+}
+
+- (void)processUnderTestDidExit {
+//TODO:
+}
+
+- (void)processWaitingForDebuggerWithProcessIdentifier:(pid_t)pid {
+    [self logFormat:@"Tests waiting for debugger. To debug run: lldb -p %d", pid];
+}
+
+- (void)testCaseDidFailForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method withMessage:(nonnull NSString *)message file:(nullable NSString *)file line:(NSUInteger)line {
+    [self logFormat:@"Got failure info for %@/%@", testClass, method];
+}
+
+- (void)testCaseDidFinishForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method withStatus:(FBTestReportStatus)status duration:(NSTimeInterval)duration logs:(nullable NSArray<NSString *> *)logs {
+//TODO:
+}
+
+- (void)testCaseDidStartForTestClass:(nonnull NSString *)testClass method:(nonnull NSString *)method {
+    //TODO:
+}
+
+- (void)testHadOutput:(nonnull NSString *)output {
+    [self logFormat:@"testHadOutput: %@", output];
+}
+
+- (void)testSuite:(nonnull NSString *)testSuite didStartAt:(nonnull NSString *)startTime {
+//TODO:
+}
+
+@synthesize level;
 
 @end

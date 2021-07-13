@@ -1,36 +1,47 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
-
-/* Portions Copyright © Microsoft Corporation. */
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- A Protocol for Classes that recieve Logger Messages.
+ The Log Level.
+ The Multiple Level exists so that composite loggers can decide whether to log individually.
+ */
+typedef NS_ENUM(NSUInteger, FBControlCoreLogLevel) {
+  FBControlCoreLogLevelError = 1,
+  FBControlCoreLogLevelInfo = 2,
+  FBControlCoreLogLevelDebug = 3,
+  FBControlCoreLogLevelMultiple = 1000,
+};
+
+@protocol FBDataConsumer;
+
+/**
+ A Protocol for Classes that receive Logger Messages.
  */
 @protocol FBControlCoreLogger <NSObject>
+
+#pragma mark Public Methods
 
 /**
  Logs a Message with the provided String.
 
- @param string the string to log.
- @return the reciever, for chaining.
+ @param message the message to log.
+ @return the receiver, for chaining.
  */
-- (id<FBControlCoreLogger>)log:(NSString *)string;
+- (id<FBControlCoreLogger>)log:(NSString *)message;
 
 /**
  Logs a Message with the provided Format String.
 
  @param format the Format String for the Logger.
- @return the reciever, for chaining.
+ @return the receiver, for chaining.
  */
 - (id<FBControlCoreLogger>)logFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
 
@@ -50,20 +61,56 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<FBControlCoreLogger>)error;
 
 /**
- Returns a Logger that will accept log values on the given queue.
+ Returns a Logger for a named 'facility' or 'tag'.
 
- @param queue the queue to accept log messages on.
+ @param name the name to apply to all messages.
  @return a new Logger that will allows logging of messages on the provided queue.
  */
-- (id<FBControlCoreLogger>)onQueue:(dispatch_queue_t)queue;
+- (id<FBControlCoreLogger>)withName:(NSString *)name;
 
 /**
- Returns a Logger that will prefix all messages with the given string
+ Enables or Disables date formatting in the logger.
 
- @param prefix the prefix to prepend to all messages.
- @return a new Logger that will allows logging of messages on the provided queue.
+ @param enabled YES to enable date formatting, NO otherwise.
+ @return a new Logger with the date formatting applied.
  */
-- (id<FBControlCoreLogger>)withPrefix:(NSString *)prefix;
+- (id<FBControlCoreLogger>)withDateFormatEnabled:(BOOL)enabled;
+
+#pragma mark Properties
+
+/**
+ The Prefix for the Logger, if set.
+ */
+@property (nonatomic, copy, nullable, readonly) NSString *name;
+
+/**
+ The Current Log Level
+ */
+@property (nonatomic, assign, readonly) FBControlCoreLogLevel level;
+
+@end
+
+/**
+  A composite logger that logs to many loggers
+ */
+@interface FBCompositeLogger : NSObject <FBControlCoreLogger>
+
+#pragma mark Initializers
+
+/**
+ The Designated Initializer.
+
+ @param loggers the loggers to log to.
+ @return a composite logger.
+ */
+- (instancetype)initWithLoggers:(NSArray<id<FBControlCoreLogger>> *)loggers;
+
+#pragma mark Properties
+
+/**
+  The loggers to log to.
+ */
+@property (nonatomic, strong, readonly) NSArray<id<FBControlCoreLogger>> *loggers;
 
 @end
 
@@ -73,22 +120,47 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FBControlCoreLogger : NSObject
 
 /**
- An implementation of `FBControlCoreLogger` that logs all events using ASL.
+ An implementation of `FBControlCoreLogger` that logs using the OS's default logging framework.
+ Optionally logs to stderr.
 
  @param writeToStdErr YES if all future log messages should be written to stderr, NO otherwise.
  @param debugLogging YES if Debug messages should be written to stderr, NO otherwise.
  @return an FBControlCoreLogger instance.
  */
-+ (id<FBControlCoreLogger>)systemLoggerWritingToStderrr:(BOOL)writeToStdErr withDebugLogging:(BOOL)debugLogging;
++ (id<FBControlCoreLogger>)systemLoggerWritingToStderr:(BOOL)writeToStdErr withDebugLogging:(BOOL)debugLogging;
 
 /**
- An implementation of `FBControlCoreLogger` that logs all to a file descriptor using ASL.
-
- @param fileDescriptor the file descriptor to log to, if 0 no file descriptor logging will occur.
- @param debugLogging YES if Debug messages should be written to stderr, NO otherwise.
- @return an FBControlCoreLogger instance.
+ Compose multiple loggers into one.
+ 
+ @param loggers the loggers to compose.
+ @return the composite logger.
  */
-+ (id<FBControlCoreLogger>)systemLoggerWritingToFileDescriptor:(int)fileDescriptor withDebugLogging:(BOOL)debugLogging;
++ (FBCompositeLogger *)compositeLoggerWithLoggers:(NSArray<id<FBControlCoreLogger>> *)loggers;
+
+/**
+ Log to a Consumer.
+
+ @param consumer the consumer to write data to.
+ @return a logger instance.
+ */
++ (id<FBControlCoreLogger>)loggerToConsumer:(id<FBDataConsumer>)consumer;
+
+/**
+ Log to a File Descriptor.
+
+ @param fileDescriptor the file descriptor to write to.
+ @param closeOnEndOfFile YES if the file descriptor should be closed on consumeEndOfFile, NO otherwise.
+ @return a logger instance.
+ */
++ (id<FBControlCoreLogger>)loggerToFileDescriptor:(int)fileDescriptor closeOnEndOfFile:(BOOL)closeOnEndOfFile;
+
+/**
+ Strips the newline and returns a nullable string if the string shouldn't be logged.
+
+ @param string the string to log.
+ @return the modifier string.
+ */
++ (nullable NSString *)loggableStringLine:(nullable NSString *)string;
 
 @end
 

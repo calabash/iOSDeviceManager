@@ -1,40 +1,33 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBControlCore/FBiOSTargetAction.h>
-#import <FBControlCore/FBJSONConversion.h>
+#import <FBControlCore/FBiOSTargetOperation.h>
 #import <FBControlCore/FBProcessLaunchConfiguration.h>
-
-@class FBApplicationBundle;
-@class FBBinaryDescriptor;
-@class FBProcessOutputConfiguration;
+/**
+ Launch Modes for an Applicaton
+ */
+typedef NS_ENUM(NSUInteger, FBApplicationLaunchMode) {
+  FBApplicationLaunchModeFailIfRunning = 0,
+  FBApplicationLaunchModeForegroundIfRunning = 1,
+  FBApplicationLaunchModeRelaunchIfRunning = 2,
+};
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class FBBinaryDescriptor;
+@class FBBundleDescriptor;
+@class FBProcessIO;
 
 /**
  A Value object with the information required to launch an Application.
  */
-@interface FBApplicationLaunchConfiguration : FBProcessLaunchConfiguration <FBiOSTargetAction>
-
-/**
- Creates and returns a new Configuration with the provided parameters.
-
- @param application the Application to Launch.
- @param arguments an NSArray<NSString *> of arguments to the process. Must not be nil.
- @param environment a NSDictionary<NSString *, NSString *> of the Environment of the launched Application process. Must not be nil.
- @param waitForDebugger a boolean describing whether the Application should stop after Launch and wait for a debugger to be attached.
- @param output the output configuration for the launched process.
- @returns a new Configuration Object with the arguments applied.
- */
-+ (instancetype)configurationWithApplication:(FBApplicationBundle *)application arguments:(NSArray<NSString *> *)arguments environment:(NSDictionary<NSString *, NSString *> *)environment waitForDebugger:(BOOL)waitForDebugger output:(FBProcessOutputConfiguration *)output;
+@interface FBApplicationLaunchConfiguration : FBProcessLaunchConfiguration
 
 /**
  Creates and returns a new Configuration with the provided parameters.
@@ -44,18 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
  @param arguments an NSArray<NSString *> of arguments to the process. Must not be nil.
  @param environment a NSDictionary<NSString *, NSString *> of the Environment of the launched Application process. Must not be nil.
  @param waitForDebugger a boolean describing whether the Application should stop after Launch and wait for a debugger to be attached.
- @param output the output configuration for the launched process.
- @returns a new Configuration Object with the arguments applied.
+ @param io the output configuration for the launched process.
+ @return a new Configuration Object with the arguments applied.
  */
-+ (instancetype)configurationWithBundleID:(NSString *)bundleID bundleName:(nullable NSString *)bundleName arguments:(NSArray<NSString *> *)arguments environment:(NSDictionary<NSString *, NSString *> *)environment waitForDebugger:(BOOL)waitForDebugger output:(FBProcessOutputConfiguration *)output;
 
-/**
- Adds output configuration.
-
- @param output output configuration
- @return new application launch configuration with changes applied.
- */
-- (instancetype)withOutput:(FBProcessOutputConfiguration *)output;
+- (instancetype)initWithBundleID:(NSString *)bundleID bundleName:(nullable NSString *)bundleName arguments:(NSArray<NSString *> *)arguments environment:(NSDictionary<NSString *, NSString *> *)environment waitForDebugger:(BOOL)waitForDebugger io:(FBProcessIO *)io launchMode:(FBApplicationLaunchMode)launchMode;
 
 /**
  The Bundle ID (CFBundleIdentifier) of the the Application to Launch. Will not be nil.
@@ -66,6 +52,11 @@ NS_ASSUME_NONNULL_BEGIN
  The Name (CFBundleName) of the the Application to Launch. May be nil.
  */
 @property (nullable, nonatomic, copy, readonly) NSString *bundleName;
+
+/**
+ An enum describing how to launch the application
+ */
+@property (nonatomic, assign, readonly) FBApplicationLaunchMode launchMode;
 
 /**
  A BOOL signalizing whether the application should wait for debugger to be attached immediately after launch.

@@ -1,23 +1,25 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-@class FBSimulator;
-@class FBSimulatorBootConfiguration;
+#import <FBControlCore/FBControlCore.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class FBSimulator;
+@class FBSimulatorBootConfiguration;
 
 /**
  A Strategy for Booting a Simulator's Bridge.
  */
 @interface FBSimulatorBootStrategy : NSObject
+
+#pragma mark Properties
 
 /**
  Creates and returns a new Strategy strategyWith the given configuration.
@@ -28,13 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)strategyWithConfiguration:(FBSimulatorBootConfiguration *)configuration simulator:(FBSimulator *)simulator;
 
+#pragma mark Public Methods
+
 /**
  Boots the Simulator.
 
- @param error an error out for any error that occurs.
- @return YES if successful, NO otherwise.
+ @return a future that resolves when the Simulator is booted.
  */
-- (BOOL)bootWithError:(NSError **)error;
+- (FBFuture<NSNull *> *)boot;
 
 @end
 

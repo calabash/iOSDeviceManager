@@ -1,10 +1,8 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <FBSimulatorControl/FBSimulatorConfiguration.h>
@@ -58,16 +56,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)oldestAvailableOS;
 
 /**
- Creates and returns a FBSimulatorConfiguration object that matches the provided device.
+ Creates and returns a FBSimulatorConfiguration object that matches the provided SimDevice.
+ Will fail if the Device Type or OS Version are not known by FBiOSTargetConfiguration.
 
- @param device the Device to infer SimulatorConfiguration from.
+ @param simDevice the SimDevice to infer Simulator Configuration from.
  @param error any error that occurs in the inference of a configuration
- @return A FBSimulatorConfiguration object that matches the device.
+ @return A FBSimulatorConfiguration object that matches the device, or nil if the configuration was unknown.
  */
-+ (instancetype)inferSimulatorConfigurationFromDevice:(SimDevice *)device error:(NSError **)error;
++ (nullable instancetype)inferSimulatorConfigurationFromDevice:(SimDevice *)simDevice error:(NSError **)error;
 
 /**
- Confirms that the Runtime requirements for the reciever's configurations are met.
+ Creates and returns a FBSimulatorConfiguration object that matches the provided SimDevice.
+ Will synthesize a configuration if the Device Type or OS Version are not known by FBiOSTargetConfiguration.
+
+ @param simDevice the SimDevice to infer a Simulator Configuration from.
+ @return A FBSimulatorConfiguration object that matches the device, providing a generic configuration where relevant.
+ */
++ (instancetype)inferSimulatorConfigurationFromDeviceSynthesizingMissing:(SimDevice *)simDevice;
+
+/**
+ Confirms that the Runtime requirements for the receiver's configurations are met.
  Since it is possible to construct configurations for a wide range of Device Types & Runtimes,
  it may be the case the configuration represents an OS Version or Device that is unavaiable.
 
@@ -78,6 +86,13 @@ NS_ASSUME_NONNULL_BEGIN
  @return YES if the Runtime requirements are met, NO otherwise.
  */
 - (BOOL)checkRuntimeRequirementsReturningError:(NSError **)error;
+
+/**
+ Obtains all supported OS Versions.
+
+ @return an Array of OS Versions.
+ */
++ (NSArray<FBOSVersion *> *)supportedOSVersions;
 
 /**
  Obtains the supported OS Versions for a Device.

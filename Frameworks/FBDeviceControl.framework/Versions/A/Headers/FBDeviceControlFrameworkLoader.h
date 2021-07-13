@@ -1,38 +1,29 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
-
-/* Portions Copyright © Microsoft Corporation. */
 
 #import <Foundation/Foundation.h>
 
 #import <FBControlCore/FBControlCore.h>
+
+#import <FBDeviceControl/FBAMDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FBControlCoreLogger;
 
 /**
- Loads Frameworks that FBDeviceControl depends on.
+ Loads Frameworks that FBDeviceControl depends on and initializes values.
  */
 @interface FBDeviceControlFrameworkLoader : FBControlCoreFrameworkLoader
 
-#pragma mark Initializers
-
 /**
- The Essential FBDeviceControl Frameworks.
+ The AMDevice Calls to use.
  */
-@property (nonatomic, strong, class, readonly) FBDeviceControlFrameworkLoader *essentialFrameworks;
-
-/**
- The Essential FBDeviceControl Frameworks.
- */
-@property (nonatomic, strong, class, readonly) FBDeviceControlFrameworkLoader *xcodeFrameworks;
+@property (nonatomic, assign, class, readonly) AMDCalls amDeviceCalls;
 
 @end
 

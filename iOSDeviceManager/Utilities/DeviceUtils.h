@@ -16,4 +16,5 @@
 + (NSString *)defaultDeviceID;
 + (NSArray<FBDevice *> *)availableDevices;
 + (NSArray<FBSimulator *> *)availableSimulators;
++ (FBFuture<FBDeviceSet *> *)deviceSet:(id<FBControlCoreLogger>)logger ecidFilter:(NSString *)ecidFilter;
 @end

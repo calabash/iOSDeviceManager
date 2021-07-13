@@ -1,17 +1,14 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
 #import <FBControlCore/FBiOSTarget.h>
-#import <FBControlCore/FBJSONConversion.h>
-#import <FBControlCore/FBControlCoreConfigurationVariants.h>
+#import <FBControlCore/FBiOSTargetConfiguration.h>
 #import <FBControlCore/FBArchitecture.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A Value representing a way of fetching Simulators.
  */
-@interface FBiOSTargetQuery : NSObject <NSCopying, FBJSONSerializable, FBJSONDeserializable>
+@interface FBiOSTargetQuery : NSObject <NSCopying>
 
 /**
  A Query that matches all iOS Targets.
@@ -69,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A Query that matches the given States.
 
- @param states the States to match against, as an NSIndexSet of FBSimulatorState enums.
+ @param states the States to match against, as an NSIndexSet of FBiOSTargetState enums.
  @return a new Target Query.
  */
 + (instancetype)states:(NSIndexSet *)states;
@@ -81,8 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param state the State to match against.
  @return a new Target Query.
  */
-+ (instancetype)state:(FBSimulatorState)state;
-- (instancetype)state:(FBSimulatorState)state;
++ (instancetype)state:(FBiOSTargetState)state;
+- (instancetype)state:(FBiOSTargetState)state;
 
 /**
  A Query that matches the given Architectures.
@@ -162,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param targets the targets to filter.
  @return a filtered array of targets.
  */
-- (NSArray<id<FBiOSTarget>> *)filter:(NSArray<id<FBiOSTarget>> *)targets;
+- (NSArray<id<FBiOSTargetInfo>> *)filter:(NSArray<id<FBiOSTargetInfo>> *)targets;
 
 /**
  Determines whether the Query excludes all of a specific target type.
@@ -185,7 +182,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) NSSet<NSString *> *udids;
 
 /**
- The States to match against, coerced from FBSimulatorState to an NSNumber Representation.
+ The States to match against, coerced from FBiOSTargetState to an NSNumber Representation.
  An Empty Set means that no State filtering will occur.
  */
 @property (nonatomic, readonly, copy) NSIndexSet *states;

@@ -91,7 +91,7 @@
 
     __block NSString *version = nil;
 
-    [[[FBRunLoopSpinner new] timeout:30] spinUntilTrue:^BOOL{
+    [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:30 untilTrue:^BOOL{
         version = [[Resources shared] TestRecorderVersionFromHost:@"127.0.0.1"];
         return version != nil;
     }];

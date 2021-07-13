@@ -1,15 +1,13 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
 
-#import <FBSimulatorControl/FBFramebufferSurface.h>
+#import <FBSimulatorControl/FBFramebuffer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,16 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  An object-container for an IOSurface, that can generate Images.
  */
-@interface FBSurfaceImageGenerator : NSObject <FBFramebufferSurfaceConsumer>
+@interface FBSurfaceImageGenerator : NSObject <FBFramebufferConsumer>
 
 /**
  Create and return a new Image Generator.
 
  @param scale the scale to use for the Image.
+ @param purpose the pupose of the image generator.
  @param logger the logger to use.
  @return a new Image Generator.
  */
-+ (instancetype)imageGeneratorWithScale:(NSDecimalNumber *)scale logger:(nullable id<FBControlCoreLogger>)logger;
++ (instancetype)imageGeneratorWithScale:(NSDecimalNumber *)scale purpose:(NSString *)purpose logger:(nullable id<FBControlCoreLogger>)logger;
 
 /**
  Return a CGImageRef.

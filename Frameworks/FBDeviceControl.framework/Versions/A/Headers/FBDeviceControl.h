@@ -1,22 +1,26 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-/* Portions Copyright © Microsoft Corporation. */
-
+#import <FBDeviceControl/FBAFCConnection.h>
+#import <FBDeviceControl/FBAMDefines.h>
+#import <FBDeviceControl/FBAMDevice+Private.h>
 #import <FBDeviceControl/FBAMDevice.h>
+#import <FBDeviceControl/FBAMRestorableDeviceManager.h>
 #import <FBDeviceControl/FBDevice.h>
-#import <FBDeviceControl/FBDeviceBitmapStream.h>
+#import <FBDeviceControl/FBDeviceActivationCommands.h>
+#import <FBDeviceControl/FBDeviceCommands.h>
 #import <FBDeviceControl/FBDeviceControlError.h>
 #import <FBDeviceControl/FBDeviceControlFrameworkLoader.h>
+#import <FBDeviceControl/FBDevicePowerCommands.h>
+#import <FBDeviceControl/FBDeviceRecoveryCommands.h>
 #import <FBDeviceControl/FBDeviceSet.h>
-#import <FBDeviceControl/FBDeviceApplicationCommands.h>
-#import <FBDeviceControl/FBDeviceXCTestCommands.h>
 #import <FBDeviceControl/FBDeviceVideo.h>
-#import <FBDeviceControl/FBDeviceVideoFileEncoder.h>
-#import <FBDeviceControl/FBiOSDeviceOperator.h>
+#import <FBDeviceControl/FBDeviceVideo.h>
+#import <FBDeviceControl/FBDeviceVideoStream.h>
+#import <FBDeviceControl/FBDeviceXCTestCommands.h>
+#import <FBDeviceControl/FBGDBClient.h>
+#import <FBDeviceControl/FBServiceConnectionClient.h>
