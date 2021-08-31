@@ -73,6 +73,8 @@ jobs:
 
   - script: |
       set -e
+      rm -rf calabash-codesign
+      [ -d "calabash-codesign" ] && rm -rf calabash-codesign
       git clone -b master https://$(CalabashKeychainGitHubAccessToken):x-oauth-basic@github.com/xamarinhq/calabash-codesign.git
       calabash-codesign/apple/create-keychain.sh
     displayName: "Download and install keychain"
