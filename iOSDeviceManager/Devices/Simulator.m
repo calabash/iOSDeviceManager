@@ -651,16 +651,15 @@ static const FBSimulatorControl *_control;
     }
 
     NSError *error = nil;
-    FBSimulatorBridge *bridge = [[FBSimulatorBridge bridgeForSimulator:self.fbSimulator] await:&error];
-    if (!bridge) {
-        ConsoleWriteErr(@"Unable to fetch simulator bridge: %@");
-        if (error) {
-            ConsoleWriteErr(@"%@", [error localizedDescription]);
-        }
-        return iOSReturnStatusCodeInternalError;
+    if (![[self.fbSimulator overrideLocationWithLongitude:lng latitude:lat] await:&error]){
+        ConsoleWriteErr(@"Device %@ doesn't support location simulation", [self uuid]);
+        return iOSReturnStatusCodeGenericFailure;
     }
 
-    [bridge setLocationWithLatitude:lat longitude:lng];
+    if (error) {
+        ConsoleWriteErr(@"Unable to set device location: %@", error);
+        return iOSReturnStatusCodeInternalError;
+    }
 
     return iOSReturnStatusCodeEverythingOkay;
 }
