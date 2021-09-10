@@ -17,24 +17,29 @@ jobs:
 
   strategy:
     matrix:
-      Catalina-Xcode-11.7:
-        IMAGE_POOL: 'macOS-10.15'
-        XCODE_VERSION: '11.7'
-      Catalina-Xcode-12.0:
-        IMAGE_POOL: 'macOS-10.15'
-        XCODE_VERSION: '12'
-      Catalina-Xcode-12.2:
-        IMAGE_POOL: 'macOS-10.15'
-        XCODE_VERSION: '12.2'
-      Catalina-Xcode-12.3:
-        IMAGE_POOL: 'macOS-10.15'
-        XCODE_VERSION: '12.3'
-      Catalina-Xcode-12.4:
-        IMAGE_POOL: 'macOS-10.15'
-        XCODE_VERSION: '12.4'
+#      Catalina-Xcode-11.7:
+#        IMAGE_POOL: 'macOS-10.15'
+#        XCODE_VERSION: '11.7'
+#      Catalina-Xcode-12.0:
+#        IMAGE_POOL: 'macOS-10.15'
+#        XCODE_VERSION: '12'
+#      Catalina-Xcode-12.2:
+#        IMAGE_POOL: 'macOS-10.15'
+#        XCODE_VERSION: '12.2'
+#      Catalina-Xcode-12.3:
+#        IMAGE_POOL: 'macOS-10.15'
+#        XCODE_VERSION: '12.3'
+#      Catalina-Xcode-12.4:
+#        IMAGE_POOL: 'macOS-10.15'
+#        XCODE_VERSION: '12.4'
+      BigSur-Xcode-13.0:
+        IMAGE_POOL: 'TestCloudPool2'
+        XCODE_VERSION: '13.0'
+
   timeoutInMinutes: 180
   pool:
-    vmImage: $(IMAGE_POOL)
+    #vmImage: $(IMAGE_POOL)
+    name: TestCloudPool2
   variables:
   - group: XTCRunTimeArtifactsCI
 
@@ -68,6 +73,8 @@ jobs:
 
   - script: |
       set -e
+      rm -rf calabash-codesign
+      [ -d "calabash-codesign" ] && rm -rf calabash-codesign
       git clone -b master https://$(CalabashKeychainGitHubAccessToken):x-oauth-basic@github.com/xamarinhq/calabash-codesign.git
       calabash-codesign/apple/create-keychain.sh
     displayName: "Download and install keychain"
