@@ -1,10 +1,16 @@
+### 3.9.0
+
+* Xcode 13 and 13.1 Support.
+* Started migration from idb fork to it's origin.
+* Fixed some bugs.
+
 ### 3.8.1
 
-Xcode 12.5 Support
+* Xcode 12.5 Support
 
 ### 3.8.0
 
-Xcode 12.4 Support
+* Xcode 12.4 Support
 
 ### 3.7.4
 
