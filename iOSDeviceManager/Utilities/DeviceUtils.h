@@ -5,6 +5,8 @@
 #import <Foundation/Foundation.h>
 #import <FBSimulatorControl/FBSimulatorControl.h>
 #import <FBDeviceControl/FBDeviceControl.h>
+#import <CoreSimulator/SimDevice.h>
+#import <CoreSimulator/SimDeviceBootInfo.h>
 
 @interface DeviceUtils : NSObject
 + (BOOL)isDeviceID:(NSString *)uuid;

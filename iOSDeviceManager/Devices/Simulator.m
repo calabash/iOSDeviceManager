@@ -7,13 +7,8 @@
 #import "XCTestConfigurationPlist.h"
 #import "XCAppDataBundle.h"
 #import <FBControlCore/FBControlCore.h>
-
-@interface SimDevice : NSObject
-
-- (BOOL)bootWithOptions:(NSDictionary *)options error:(NSError *__autoreleasing *)error;
-- (NSDictionary *)installedAppsWithError:(NSError **)error;
-
-@end
+#import <CoreSimulator/SimDevice.h>
+#import <CoreSimulator/SimDeviceBootInfo.h>
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
@@ -28,7 +23,6 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 - (BOOL)waitForSimulatorState:(FBiOSTargetState)state
                       timeout:(NSTimeInterval)timeout;
 - (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
-
 @end
 
 @implementation Simulator
@@ -92,25 +86,23 @@ static const FBSimulatorControl *_control;
 
     return [NSURL fileURLWithPath:path];
 }
+
 //taken from idb. Couldn't been imported - should be tracked.
 + (FBFuture<NSNull *> *)performBootVerification:(FBSimulator *)simulator
 {
-    NSArray<NSString *> *requiredServiceNames = [Simulator requiredSimulatorAppProcesses:simulator];
-    
-  return [[simulator
-    listServices]
-    onQueue:simulator.asyncQueue fmap:^ FBFuture<NSNull *> * (NSDictionary<NSString *, id> *services) {
-      NSDictionary<id, NSString *> *processIdentifiers = [NSDictionary
-        dictionaryWithObjects:requiredServiceNames
-        forKeys:[services objectsForKeys:requiredServiceNames notFoundMarker:NSNull.null]];
-      // At least on process has not launched yet.
-      if (processIdentifiers[NSNull.null]) {
-        return [[FBSimulatorError
-          describeFormat:@"Service %@ has not started", processIdentifiers[NSNull.null]]
-          failFuture];
-      }
-      return FBFuture.empty;
-    }];
+  SimDeviceBootInfo *bootInfo = simulator.device.bootStatus;
+  if (!bootInfo) {
+    return [[FBSimulatorError
+      describeFormat:@"No bootInfo for %@", simulator]
+      failFuture];
+  }
+//  [self updateBootInfo:bootInfo];
+  if (bootInfo.isTerminalStatus == NO) {
+    return [[FBSimulatorError
+      describeFormat:@"Not terminal status, status is %@", bootInfo]
+      failFuture];
+  }
+  return FBFuture.empty;
 }
 
 + (BOOL)waitForSimulatorAppServices:(FBSimulator *)fbSimulator {
@@ -125,36 +117,8 @@ static const FBSimulatorControl *_control;
         // No null values in the dictionary means all processes have started.
         return YES;
     }];
-    
-    return success;
-}
 
-//taken from idb. Couldn't been imported - should be tracked.
-+ (NSArray<NSString *> *)requiredSimulatorAppProcesses: (FBSimulator*)simulator {
-    FBControlCoreProductFamily family = simulator.productFamily;
-    if (family == FBControlCoreProductFamilyiPhone || family == FBControlCoreProductFamilyiPad) {
-      if (FBXcodeConfiguration.isXcode9OrGreater) {
-        return @[
-          @"com.apple.backboardd",
-          @"com.apple.mobile.installd",
-          @"com.apple.CoreSimulator.bridge",
-          @"com.apple.SpringBoard",
-        ];
-      }
-        return @[
-          @"com.apple.backboardd",
-          @"com.apple.mobile.installd",
-          @"com.apple.SimulatorBridge",
-          @"com.apple.SpringBoard",
-        ];
-    }
-    if (family == FBControlCoreProductFamilyAppleWatch || family == FBControlCoreProductFamilyAppleTV) {
-      return @[
-        @"com.apple.mobileassetd",
-        @"com.apple.nsurlsessiond",
-      ];
-    }
-    return @[];
+    return success;
 }
 
 + (iOSReturnStatusCode)launchSimulator:(Simulator *)simulator {
