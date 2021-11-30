@@ -301,6 +301,8 @@
 
 - (pid_t)processIdentifierForApplication:(NSString *)bundleIdentifier {
     NSError *error = nil;
+    //Check this if the target application doesn't start
+    //NSDictionary<NSString *, NSNumber *> * applications = [[self.fbDevice runningApplications] await:&error];
     NSNumber *PID = [[self.fbDevice processIDWithBundleID:bundleIdentifier] await:&error];
     if ([PID intValue] < 1) {
         return 0;

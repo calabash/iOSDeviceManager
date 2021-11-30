@@ -1,6 +1,5 @@
 #import "DeviceUtils.h"
 #import "ConsoleWriter.h"
-#import "SimDevice.h"
 #import "XcodeUtils.h"
 
 @interface NSString(Base64)
