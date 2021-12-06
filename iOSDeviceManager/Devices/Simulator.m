@@ -353,41 +353,30 @@ static const FBSimulatorControl *_control;
                            @"LAUNCHED_WITH_IOS_DEVICE_MANAGER"
                            ];
 
-    NSDictionary *configuration =
-    @{
-      NSWorkspaceLaunchConfigurationArguments : arguments,
-      NSWorkspaceLaunchConfigurationEnvironment : @{}
-      };
-
-    NSWorkspaceLaunchOptions options;
-    // NSWorkspaceLaunchAndHide - use this if launching simulator steals focus
-    // NSWorkspaceLaunchNewInstance - create a new Simulator.app window,
-    //                                even if one is already open.
-    options = NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation;
+    NSWorkspaceOpenConfiguration *configuration = [NSWorkspaceOpenConfiguration configuration];
+    configuration.arguments = arguments;
+    configuration.environment = @{};
+    configuration.activates = NO;
 
     NSURL *url = [Simulator simulatorAppURL];
-    NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-    NSRunningApplication *application;
-    application = [workspace launchApplicationAtURL:url
-                                            options:options
-                                      configuration:configuration
-                                              error:error];
+    [[NSWorkspace sharedWorkspace] openApplicationAtURL:url
+                      configuration:configuration
+                  completionHandler:^(NSRunningApplication *application, NSError *error) {
+        if (application != NULL) {
+            pid_t pid = [application processIdentifier];
+            FBProcessFetcher *fetcher = [FBProcessFetcher new];
+            FBProcessInfo *info = [fetcher processInfoFor:pid];
 
-    if (!application) {
-        ConsoleWriteErr(@"Could not launch Simulator.app for %@", self.fbSimulator);
-        return NO;
-    }
-
-    pid_t pid = [application processIdentifier];
-    FBProcessFetcher *fetcher = [FBProcessFetcher new];
-    FBProcessInfo *info = [fetcher processInfoFor:pid];
-
-    if (![info.arguments containsObject:self.uuid]) {
-        ConsoleWrite(@"Running simulator udid does not match %@", self.uuid);
-        ConsoleWrite(@"Restarting the simulator");
-        [Simulator killSimulatorApp];
-        return [self launchSimulatorApp:error];
-    }
+            if (![info.arguments containsObject:self.uuid]) {
+                ConsoleWrite(@"Running simulator udid does not match %@", self.uuid);
+                ConsoleWrite(@"Restarting the simulator");
+                [Simulator killSimulatorApp];
+                [self launchSimulatorApp:&error];
+            }
+        } else {
+            ConsoleWriteErr(@"Could not launch Simulator.app for %@", self.fbSimulator);
+        }
+    }];
 
     if(![Simulator waitForSimulatorAppServices:self.fbSimulator]) {
         ConsoleWriteErr(@"Timed out waiting for all simulator services to start");

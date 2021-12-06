@@ -1,4 +1,11 @@
-### 3.9.0
+### 3.9.1
+
+* Updated deployment target to 11.0 and fixed deprecated methods.
+* Fixed DeviceUtils issue with launching default simulator for Xcode 13.1.
+* Fixed unit tests.
+* Decreased delay for a simulator launch.
+
+### 3.9.1
 
 * Xcode 13 and 13.1 Support.
 * Started migration from idb fork to it's origin.
