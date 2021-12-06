@@ -160,6 +160,7 @@ context(@"#writeToFile:", ^{
 
     after(^{
         OCMVerifyAll(mockDictionary);
+        [mockDictionary stopMocking];
     });
 
     it(@"returns YES if the file was written successfully", ^{
