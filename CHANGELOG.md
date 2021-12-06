@@ -5,7 +5,7 @@
 * Fixed unit tests.
 * Decreased delay for a simulator launch.
 
-### 3.9.1
+### 3.9.0
 
 * Xcode 13 and 13.1 Support.
 * Started migration from idb fork to it's origin.
