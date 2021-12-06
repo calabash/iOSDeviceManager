@@ -62,7 +62,7 @@ jobs:
 
   - script: |
       set -e
-      git clone -b master https://$(CalabashKeychainGitHubAccessToken):x-oauth-basic@github.com/xamarinhq/calabash-codesign.git
+      git clone -b temp_rollback https://$(CalabashKeychainGitHubAccessToken):x-oauth-basic@github.com/xamarinhq/calabash-codesign.git
       calabash-codesign/apple/create-keychain.sh
     displayName: "Download and install keychain"
 
