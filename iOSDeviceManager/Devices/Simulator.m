@@ -54,26 +54,20 @@ static const FBSimulatorControl *_control;
         return nil;
     }
 
-    FBiOSTargetQuery *query = [FBiOSTargetQuery udids:@[uuid]];
-    NSArray <FBSimulator *> *results = [sims query:query];
-    if (results.count == 0) {
+    FBSimulator *simulatorFromUUID = [sims simulatorWithUDID:uuid];
+    if (!simulatorFromUUID) {
         ConsoleWriteErr(@"No simulators found for ID %@", uuid);
         return nil;
     }
 
-    simulator.fbSimulator = results[0];
+    simulator.fbSimulator = simulatorFromUUID;
 
     return simulator;
 }
 
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)simulator {
-    FBSimulatorConnection *connection = [[FBSimulatorConnection alloc]
-                                         initWithSimulator:simulator
-                                         framebuffer:nil
-                                         hid:nil];
-   
-    [[connection terminate] timeout:5 waitingFor:@"The Simulator Connection to teardown"];
-    
+    FBSimulatorLifecycleCommands *lifecycleCommands = [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
+    [lifecycleCommands disconnectWithTimeout:5 logger:nil];
     return [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
 }
 
@@ -81,9 +75,9 @@ static const FBSimulatorControl *_control;
     return [FBSimulatorApplicationCommands commandsWithTarget:simulator];
 }
 
+/// @return NSURL with path to Simulator app.
 + (NSURL *)simulatorAppURL {
-    NSString *path = [[FBBundleDescriptor xcodeSimulator] path];
-
+    NSString *path = [[FBXcodeConfiguration simulatorApp] path];
     return [NSURL fileURLWithPath:path];
 }
 
@@ -111,11 +105,13 @@ static const FBSimulatorControl *_control;
     
     return [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:120 untilTrue:^BOOL{
         NSError *error = nil;
+
         // No services running yet.
-        if (![[Simulator performBootVerification:fbSimulator] await:&error]) { return NO; }
-        
-        // No null values in the dictionary means all processes have started.
-        return YES;
+        if (![[Simulator performBootVerification:fbSimulator] await:&error]) {
+            return NO;
+        } else {
+            return YES;
+        }
     }];
 
     return success;
@@ -126,19 +122,20 @@ static const FBSimulatorControl *_control;
     if ([simulator waitForBootableState:&error]) {
 
         error = nil;
-        BOOL success = [simulator launchSimulatorApp:&error];
-        if (success) {
-            return iOSReturnStatusCodeEverythingOkay;
-        } else {
-            ConsoleWriteErr(@"Could not launch simulator. Retrying...");
-            [Simulator killSimulatorApp];
-            if (![simulator launchSimulatorApp:&error] && error) {
-                ConsoleWriteErr(@"Could not launch simulator.");
-                ConsoleWriteErr(@"%@", [error localizedDescription]);
-                return iOSReturnStatusCodeGenericFailure;
+        if (simulator.state == FBiOSTargetStateShutdown) {
+            BOOL success = [simulator launchSimulatorApp:&error];
+            if (success) {
+                return iOSReturnStatusCodeEverythingOkay;
+            } else {
+                ConsoleWriteErr(@"Could not launch simulator. Retrying...");
+                [Simulator killSimulatorApp];
+                if (![simulator launchSimulatorApp:&error] && error) {
+                    ConsoleWriteErr(@"Could not launch simulator.");
+                    ConsoleWriteErr(@"%@", [error localizedDescription]);
+                    return iOSReturnStatusCodeGenericFailure;
+                }
             }
         }
-
     } else {
         ConsoleWriteErr(@"Could not launch simulator");
         if (error) {
@@ -178,8 +175,7 @@ static const FBSimulatorControl *_control;
     }
 
     FBSimulatorSet *simulators = _control.set;
-    FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
-    NSArray <FBSimulator *> *results = [simulators query:query];
+    NSArray <FBSimulator *> *results = [simulators allSimulators];
     for (FBSimulator *simulator in results) {
         Simulator *sim = [Simulator withID:simulator.udid];
         if (![sim shutdown]) {
@@ -388,14 +384,12 @@ static const FBSimulatorControl *_control;
 
 - (BOOL)shutdown {
     NSError *error = nil;
+    SimDevice *simDevice = [self.fbSimulator device];
     if (self.state == FBiOSTargetStateShutdown) { return YES; }
-
-    FBSimulatorShutdownStrategy *strategy;
-    strategy = [FBSimulatorShutdownStrategy strategyWithSimulator:self.fbSimulator];
 
     if (self.state != FBiOSTargetStateShuttingDown ||
         self.state == FBiOSTargetStateShutdown) {
-        if (![[strategy shutdown] await:&error]) {
+        if (![simDevice shutdownWithError:&error]) {
             ConsoleWriteErr(@"Could not shutdown simulator");
             if (error) {
                 ConsoleWriteErr(@"%@", [error localizedDescription]);

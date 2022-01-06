@@ -339,13 +339,12 @@
 
 - (BOOL) isInstalled:(NSString *)bundleID withError:(NSError **)error {
     FBFuture *future = [[self.fbDevice
-      isApplicationInstalledWithBundleID:bundleID]
-      onQueue:self.fbDevice.workQueue fmap:^FBFuture<NSNull *> *(NSNumber *isInstalled) {
+      installedApplicationWithBundleID:bundleID]
+      onQueue:self.fbDevice.workQueue fmap:^FBFuture *(FBInstalledApplication *isInstalled) {
         return [FBFuture futureWithResult:isInstalled];
       }];
-    
-    NSNumber *isInstalled = [future await:error];
-    if (!isInstalled.boolValue) {
+
+    if (![future await:error]) {
         return NO;
     }
     else{
