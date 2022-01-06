@@ -313,7 +313,6 @@
 		421D28101E942AB5003C7F10 /* FileUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtilsTest.m; sourceTree = "<group>"; };
 		42CFBACB1F0FF70200357248 /* AppInfoCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppInfoCommand.h; path = iOSDeviceManager/Commands/AppInfoCommand.h; sourceTree = SOURCE_ROOT; };
 		42CFBACC1F0FF73800357248 /* AppInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppInfoCommand.m; path = iOSDeviceManager/Commands/AppInfoCommand.m; sourceTree = SOURCE_ROOT; };
-		474DA28F268F339E0052EA61 /* PrivateHeaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PrivateHeaders; sourceTree = "<group>"; };
 		47DE8C452695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FBDependentDylib+ApplePrivateDylibs.h"; path = "iOSDeviceManager/Utilities/FBLegacy/FBDependentDylib+ApplePrivateDylibs.h"; sourceTree = "<group>"; };
 		47DE8C462695F30500801F7E /* FBDependentDylib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBDependentDylib.h; path = iOSDeviceManager/Utilities/FBLegacy/FBDependentDylib.h; sourceTree = "<group>"; };
 		47DE8C472695F30500801F7E /* FBDependentDylib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBDependentDylib.m; path = iOSDeviceManager/Utilities/FBLegacy/FBDependentDylib.m; sourceTree = "<group>"; };
@@ -595,7 +594,6 @@
 			isa = PBXGroup;
 			children = (
 				F5169D261CFEAE5900252F52 /* LICENSE */,
-				474DA28F268F339E0052EA61 /* PrivateHeaders */,
 				89331D451CE222C7003C2E59 /* iOSDeviceManager */,
 				89EF4ACA1CFA614F006DCDC5 /* Tests */,
 				89331D441CE222C7003C2E59 /* Products */,
