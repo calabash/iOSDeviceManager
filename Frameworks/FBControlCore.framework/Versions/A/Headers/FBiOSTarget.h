@@ -12,6 +12,7 @@
 #import <FBControlCore/FBVideoStreamCommands.h>
 #import <FBControlCore/FBCrashLogCommands.h>
 #import <FBControlCore/FBDebuggerCommands.h>
+#import <FBControlCore/FBDapServerCommands.h>
 #import <FBControlCore/FBInstrumentsCommands.h>
 #import <FBControlCore/FBLogCommands.h>
 #import <FBControlCore/FBScreenshotCommands.h>
@@ -24,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class FBDeviceType;
 @class FBOSVersion;
 @class FBProcessInfo;
+@class FBTemporaryDirectory;
 @class FBiOSTargetDiagnostics;
 @class FBiOSTargetScreenInfo;
 @protocol FBControlCoreLogger;
@@ -127,7 +129,7 @@ extern FBiOSTargetStateString const FBiOSTargetStateStringUnknown;
 /**
  A protocol that defines an interactible and informational target.
  */
-@protocol FBiOSTarget <NSObject, FBiOSTargetInfo, FBApplicationCommands, FBVideoStreamCommands, FBCrashLogCommands, FBLogCommands, FBScreenshotCommands, FBVideoRecordingCommands, FBXCTestCommands, FBXCTraceRecordCommands, FBInstrumentsCommands, FBDebuggerCommands>
+@protocol FBiOSTarget <NSObject, FBiOSTargetInfo, FBApplicationCommands, FBVideoStreamCommands, FBCrashLogCommands, FBLogCommands, FBScreenshotCommands, FBVideoRecordingCommands, FBXCTestCommands, FBXCTraceRecordCommands, FBInstrumentsCommands>
 
 /**
  The Target's Logger.
@@ -140,7 +142,14 @@ extern FBiOSTargetStateString const FBiOSTargetStateStringUnknown;
 @property (nonatomic, copy, nullable, readonly) NSString *customDeviceSetPath;
 
 /**
- The Directory that the target uses to store per-target files on the host.
+ The directory that the target uses to store scratch files on the host.
+ */
+@property (nonatomic, strong, readonly) FBTemporaryDirectory *temporaryDirectory;
+
+/**
+ The directory that the target uses to store per-target files on the host.
+ This should only be used for storing files that need to be preserved over the lifespan of the target.
+ For example scratch or temporary files should *not* be stored here and -[FBiOSTarget temporaryDirectory] should be used instead..
  */
 @property (nonatomic, copy, readonly) NSString *auxillaryDirectory;
 
@@ -158,16 +167,6 @@ extern FBiOSTargetStateString const FBiOSTargetStateStringUnknown;
  The Screen Info for the Target.
  */
 @property (nonatomic, copy, nullable, readonly) FBiOSTargetScreenInfo *screenInfo;
-
-/**
- Process Information about the launchd process of the iOS Target. Currently only applies to Simulators.
- */
-@property (nonatomic, copy, nullable, readonly) FBProcessInfo *launchdProcess;
-
-/**
- Process Information about the Container Application of the iOS Target. Currently only applies to Simulators.
- */
-@property (nonatomic, copy, nullable, readonly) FBProcessInfo *containerApplication;
 
 /**
  The Queue to serialize work on.
@@ -189,6 +188,13 @@ extern FBiOSTargetStateString const FBiOSTargetStateStringUnknown;
  @return a Comparison Result.
  */
 - (NSComparisonResult)compare:(id<FBiOSTarget>)target;
+
+/**
+ If the target's bundle needs to be codesigned or not.
+
+ @return if it needs to be signed or not.
+ */
+- (BOOL)requiresBundlesToBeSigned;
 
 /**
   Env var replacements
@@ -219,30 +225,24 @@ extern FBiOSTargetState FBiOSTargetStateFromStateString(FBiOSTargetStateString s
 extern NSArray<NSString *> *FBiOSTargetTypeStringsFromTargetType(FBiOSTargetType targetType);
 
 /**
- The canonical enum representation of the state string.
- */
-extern FBiOSTargetType FBiOSTargetTypeFromTargetTypeStrings(NSArray<NSString *> *targetTypeStrings);
-
-/**
  A Default Comparison Function that can be called for different implementations of FBiOSTarget.
  */
 extern NSComparisonResult FBiOSTargetComparison(id<FBiOSTarget> left, id<FBiOSTarget> right);
 
 /**
- The default screenshot path for a target.
-
- @param storageDirectory the storage directory of the target to use.
- @return a file path.
+ Constructs a string description of the provided target.
  */
-extern NSString *FBiOSTargetDefaultScreenshotPath(NSString *storageDirectory);
+extern NSString *FBiOSTargetDescribe(id<FBiOSTargetInfo> target);
 
 /**
- The default video path for a target.
-
- @param storageDirectory the storage directory of the target to use.
- @return a file path.
+ Constructs an NSPredicate matching the specified UDID.
  */
-extern NSString *FBiOSTargetDefaultVideoPath(NSString *storageDirectory);
+extern NSPredicate *FBiOSTargetPredicateForUDID(NSString *udid);
+
+/**
+ Constructs an NSPredicate matching the specified UDIDs.
+ */
+extern NSPredicate *FBiOSTargetPredicateForUDIDs(NSArray<NSString *> *udids);
 
 #if defined __cplusplus
 };

@@ -37,6 +37,7 @@ extern FBXCTestType const FBXCTestTypeLogicTest;
  */
 extern FBXCTestType const FBXCTestTypeListTest;
 
+@class FBCodeCoverageConfiguration;
 @class FBXCTestDestination;
 @class FBXCTestShimConfiguration;
 
@@ -49,12 +50,7 @@ extern FBXCTestType const FBXCTestTypeListTest;
  The Default Initializer.
  This should not be called directly.
  */
-- (instancetype)initWithShims:(nullable FBXCTestShimConfiguration *)shims environment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout;
-
-/**
- The Shims to use for relevant test runs.
- */
-@property (nonatomic, copy, nullable, readonly) FBXCTestShimConfiguration *shims;
+- (instancetype)initWithEnvironment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout;
 
 /**
  The Environment Variables for the Process-Under-Test that is launched.
@@ -99,8 +95,6 @@ extern FBXCTestType const FBXCTestTypeListTest;
 
 @end
 
-@protocol FBXCTestProcessExecutor;
-
 /**
  A Test Configuration, specialized to the listing of Test Bundles.
  */
@@ -109,7 +103,7 @@ extern FBXCTestType const FBXCTestTypeListTest;
 /**
  The Designated Initializer.
  */
-+ (instancetype)configurationWithShims:(FBXCTestShimConfiguration *)shims environment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath runnerAppPath:(nullable NSString *)runnerAppPath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout;
++ (instancetype)configurationWithEnvironment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath runnerAppPath:(nullable NSString *)runnerAppPath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout;
 
 @property (nonatomic, copy, readonly) NSString *runnerAppPath;
 
@@ -158,7 +152,7 @@ extern FBXCTestType const FBXCTestTypeListTest;
 /**
  The Designated Initializer.
  */
-+ (instancetype)configurationWithShims:(FBXCTestShimConfiguration *)shims environment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout runnerAppPath:(NSString *)runnerAppPath testTargetAppPath:(nullable NSString *)testTargetAppPath testFilter:(nullable NSString *)testFilter videoRecordingPath:(nullable NSString *)videoRecordingPath testArtifactsFilenameGlobs:(nullable NSArray<NSString *> *)testArtifactsFilenameGlobs osLogPath:(nullable NSString *)osLogPath;
++ (instancetype)configurationWithEnvironment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout runnerAppPath:(NSString *)runnerAppPath testTargetAppPath:(nullable NSString *)testTargetAppPath testFilter:(nullable NSString *)testFilter videoRecordingPath:(nullable NSString *)videoRecordingPath testArtifactsFilenameGlobs:(nullable NSArray<NSString *> *)testArtifactsFilenameGlobs osLogPath:(nullable NSString *)osLogPath;
 
 @end
 
@@ -187,9 +181,9 @@ typedef NS_OPTIONS(NSUInteger, FBLogicTestMirrorLogs) {
 @property (nonatomic, readonly) FBLogicTestMirrorLogs mirroring;
 
 /**
- The path to the coverage file
+ The configuration for code coverage collection
 */
-@property (nonatomic, nullable, copy, readonly) NSString *coveragePath;
+@property (nonatomic, nullable, retain, readonly) FBCodeCoverageConfiguration *coverageConfiguration;
 
 /**
  The path to the test bundle binary
@@ -204,7 +198,7 @@ typedef NS_OPTIONS(NSUInteger, FBLogicTestMirrorLogs) {
 /**
  The Designated Initializer.
  */
-+ (instancetype)configurationWithShims:(FBXCTestShimConfiguration *)shims environment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout testFilter:(nullable NSString *)testFilter mirroring:(FBLogicTestMirrorLogs)mirroring coveragePath:(nullable NSString *)coveragePath binaryPath:(nullable NSString *)binaryPath logDirectoryPath:(nullable NSString *)logDirectoryPath;
++ (instancetype)configurationWithEnvironment:(NSDictionary<NSString *, NSString *> *)environment workingDirectory:(NSString *)workingDirectory testBundlePath:(NSString *)testBundlePath waitForDebugger:(BOOL)waitForDebugger timeout:(NSTimeInterval)timeout testFilter:(nullable NSString *)testFilter mirroring:(FBLogicTestMirrorLogs)mirroring coverageConfiguration:(nullable FBCodeCoverageConfiguration *)coverageConfiguration binaryPath:(nullable NSString *)binaryPath logDirectoryPath:(nullable NSString *)logDirectoryPath;
 
 @end
 

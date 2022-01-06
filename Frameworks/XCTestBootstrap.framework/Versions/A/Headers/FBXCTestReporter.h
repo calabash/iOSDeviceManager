@@ -25,10 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)processWaitingForDebuggerWithProcessIdentifier:(pid_t)pid;
 
-/**
- Called when a process has resumed after a debugger has been attached.
- */
-- (void)debuggerAttached;
 
 /**
  Called when the test plan has started executing.
@@ -39,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
  Called when the test plan has finished executing.
  */
 - (void)didFinishExecutingTestPlan;
-
 
 /**
  Called when the process under test exits
@@ -169,22 +164,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didCopiedTestArtifact:(nonnull NSString *)testArtifactFilename toPath:(nonnull NSString *)path;
 
 @end
-
-
-
-/**
- fbxtest's reporting protocol to handle log files.
- */
-@protocol FBXCTestReporterWithFiles <NSObject>
-
-/**
- Add log files contained in the directory to the report.
- @param logDirectoryPath the path to the log directory
- */
-- (void)setLogDirectoryPath:(NSString *)logDirectoryPath;
-
-@end
-
-
 
 NS_ASSUME_NONNULL_END

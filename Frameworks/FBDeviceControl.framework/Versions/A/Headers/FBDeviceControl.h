@@ -18,9 +18,7 @@
 #import <FBDeviceControl/FBDevicePowerCommands.h>
 #import <FBDeviceControl/FBDeviceRecoveryCommands.h>
 #import <FBDeviceControl/FBDeviceSet.h>
-#import <FBDeviceControl/FBDeviceVideo.h>
+#import <FBDeviceControl/FBDeviceSocketForwardingCommands.h>
 #import <FBDeviceControl/FBDeviceVideo.h>
 #import <FBDeviceControl/FBDeviceVideoStream.h>
 #import <FBDeviceControl/FBDeviceXCTestCommands.h>
-#import <FBDeviceControl/FBGDBClient.h>
-#import <FBDeviceControl/FBServiceConnectionClient.h>

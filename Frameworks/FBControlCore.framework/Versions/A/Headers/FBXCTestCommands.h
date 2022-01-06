@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FBXCTestReporter;
 
 /**
- Commands related to XCTest Execution.
+ Commands related to XCTest Execution via the "regular" managed test execution.
  */
 @protocol FBXCTestCommands <NSObject, FBiOSTargetCommand>
 
@@ -33,6 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (FBFuture<NSNull *> *)runTestWithLaunchConfiguration:(FBTestLaunchConfiguration *)testLaunchConfiguration reporter:(id<FBXCTestReporter>)reporter logger:(id<FBControlCoreLogger>)logger;
 
+@end
+
+/**
+ Supported on *some* platforms.
+ These commands require extensive platform support.
+ */
+@protocol FBXCTestExtendedCommands <FBXCTestCommands>
+
 /**
  Lists the testables for a provided test bundle.
 
@@ -43,11 +51,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (FBFuture<NSArray<NSString *> *> *)listTestsForBundleAtPath:(NSString *)bundlePath timeout:(NSTimeInterval)timeout withAppAtPath:(nullable NSString *)appPath;
 
 /**
+ Returns the platform specific shims.
+ */
+- (FBFuture<NSString *> *)extendedTestShim;
+
+/**
  Starts 'testmanagerd' connection and creates socket to it.
+ This can then be used in the process of test execution mediation.
 
  @return A future context wrapping the socket transport. The socket transport will be torn down when the context exits
  */
 - (FBFutureContext<NSNumber *> *)transportForTestManagerService;
+
+/**
+ The Path to the xctest executable.
+ */
+@property (nonatomic, copy, readonly) NSString *xctestPath;
 
 @end
 

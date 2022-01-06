@@ -12,9 +12,7 @@
  An Option Set for Direct Launching.
  */
 typedef NS_OPTIONS(NSUInteger, FBSimulatorBootOptions) {
-  FBSimulatorBootOptionsConnectBridge = 1 << 0, /** Connects the Simulator Bridge on boot, rather than lazily on-demand */
-  FBSimulatorBootOptionsEnableDirectLaunch = 1 << 1, /** Launches the Simulator via directly (via SimDevice) instead of with Simulator.app. Enables Framebuffer Connection. */
-  FBSimulatorBootOptionsUseNSWorkspace = 1 << 2, /** Uses -[NSWorkspace launchApplicationAtURL:options:configuration::error:] to launch Simulator.app */
+  FBSimulatorBootOptionsTieToProcessLifecycle = 1 << 1, /** When set, will tie the Simulator's lifecycle to that of the launching process. This means that when the process that performs the boot dies, the Simulator is shutdown automatically. */
   FBSimulatorBootOptionsVerifyUsable = 1 << 3, /** A Simulator can be report that it is 'Booted' very quickly but is not in Usable. Setting this option requires that the Simulator is 'Usable' before the boot API completes */
 };
 
@@ -24,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
  A Value Object for defining how to launch a Simulator.
  */
 @interface FBSimulatorBootConfiguration : NSObject <NSCopying>
+
+#pragma mark Properties
 
 /**
  Options for how the Simulator should be launched.
@@ -37,11 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, nullable, copy, readonly) NSDictionary<NSString *, NSString *> *environment;
 
-/**
- The Scale of the Framebuffer.
- */
-@property (nonatomic, nullable, copy, readonly) FBScale scale;
-
 #pragma mark Default Instance
 
 /**
@@ -49,35 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, class, readonly) FBSimulatorBootConfiguration *defaultConfiguration;
 
-#pragma mark Launch Options
-
 /**
- Updates the boot configuration with new options.
-
- @param options the options to update.
- @return a new FBSimulatorBootConfiguration with the arguments applied.
+ The Designated Initializer.
+ 
+ @param options the options to use.
+ @param environment the boot environment to use.
+ @return a FBSimulatorBootConfiguration instance.
  */
-- (instancetype)withOptions:(FBSimulatorBootOptions)options;
-
-#pragma mark Environment
-
-/**
- Updates the boot configuration with a new boot environment.
-
- @param environment the new boot environment.
- @return a new FBSimulatorBootConfiguration with the arguments applied.
- */
-- (instancetype)withBootEnvironment:(nullable NSDictionary<NSString *, NSString *> *)environment;
-
-#pragma mark Device Scale
-
-/**
- Updates the boot configuration with a new scale.
-
- @param scale the scale to update.
- @return a new FBSimulatorBootConfiguration with the arguments applied.
- */
-- (instancetype)withScale:(nullable FBScale)scale;
+- (instancetype)initWithOptions:(FBSimulatorBootOptions)options environment:(NSDictionary<NSString *, NSString *> *)environment;
 
 @end
 

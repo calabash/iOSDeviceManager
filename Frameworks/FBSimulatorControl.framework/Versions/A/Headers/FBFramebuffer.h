@@ -32,11 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)didReceiveDamageRect:(CGRect)rect;
 
-/**
- The Identifier of the Consumer.
- */
-@property (nonatomic, copy, readonly) NSString *consumerIdentifier;
-
 @end
 
 /**
@@ -75,11 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param consumer the consumer to attach.
  */
 - (void)detachConsumer:(id<FBFramebufferConsumer>)consumer;
-
-/**
- An Array of all attached consumers
- */
-- (NSArray<id<FBFramebufferConsumer>> *)attachedConsumers;
 
 /**
  Queries if the consumer is attached.
