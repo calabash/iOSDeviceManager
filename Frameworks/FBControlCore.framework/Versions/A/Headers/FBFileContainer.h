@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -26,6 +26,7 @@ extern FBFileContainerKind const FBFileContainerKindMedia;
 extern FBFileContainerKind const FBFileContainerKindProvisioningProfiles;
 extern FBFileContainerKind const FBFileContainerKindRoot;
 extern FBFileContainerKind const FBFileContainerKindSpringboardIcons;
+extern FBFileContainerKind const FBFileContainerKindSymbols;
 extern FBFileContainerKind const FBFileContainerKindWallpaper;
 
 @protocol FBDataConsumer;

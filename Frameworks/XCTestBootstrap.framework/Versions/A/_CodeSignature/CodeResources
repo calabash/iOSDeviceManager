@@ -10,11 +10,11 @@
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
-		xOlFdQJEMozVVZsX5oDc5mEoCOU=
+		mVLoQBHthRccY8cTKAjYODMadeQ=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		y8c/GDoCZzSQtqQaTn2nWSNpIPs=
+		CJOT6q9HQ48ZvlkgIq+0nilyha8=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -23,7 +23,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			4jlJk7k9AxRR7eq9PiVBlZhRaFA=
+			cQwEnwjbDkShr1uS+T/QgmJNC20=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -32,189 +32,189 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			M3ca6UFtK0hEn3oFX3X6BkaKSq1TIa1Mqeu/FlpL+Y0=
+			2glMmyy/a9GvyTr3ytNl+u2y5/X71SO8UELAGJntqac=
 			</data>
 		</dict>
 		<key>Headers/FBAttachment.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/VTCsCEqbodDYMJb4l8HkvNRfUlVLA1pYJCUCsCZyA0=
+			JNao5RCjAUhS2HugBgCoqXBU/IhEn/MDuA5VszMMV38=
 			</data>
 		</dict>
 		<key>Headers/FBCodeCoverageConfiguration.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TdDOTK5rjAyVKVTQZ0EDwjUXRcQPWr7pPJ+z9d4+QOk=
+			0sQ2GoKphKZE3LOVu8DPFzK9fjwOe88YXYmnsMcBMt0=
 			</data>
 		</dict>
 		<key>Headers/FBJSONTestReporter.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lPVA4ViHNqje1DOXKPJPyGdZWALpFW/pFtkVmbVjCFk=
+			DOen1/XeEi1PyA0VEUiIMTmPujHjP+S4wk/RbUWL6+o=
 			</data>
 		</dict>
 		<key>Headers/FBListTestStrategy.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KFV6Y9iHRFK/3h4Z/0UfiPYVzCBOvhKKp0Lz7pYaLu0=
+			0bKGcqLCuWUXLlO1lJvqzQVE5dMg8qXQ7bRY+amhuBw=
 			</data>
 		</dict>
 		<key>Headers/FBLogicReporterAdapter.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Fn8Uib8OzJtDEe3UlXWHlBOv08qiyBJA0+DKQrvY+io=
+			vHyOs1zJUwDZrIdiuvfUCzId9u7v1yKnRL+f9ncavwM=
 			</data>
 		</dict>
 		<key>Headers/FBLogicTestRunStrategy.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ydTzxRzRHMaMuYwoqi6nIpe3B68r5i8eBHgMFvBG+BY=
+			b21KUD1Po4M1gJ7TrFDVKcTkkK8iemB+9d90G6dqsCo=
 			</data>
 		</dict>
 		<key>Headers/FBLogicXCTestReporter.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/qHBpHZfYd6m1vnro8Bh2F/Cnzk5xApYE7bYvaf/Ick=
+			VntZ4FgsA67YEG16/5xWbaH4gnp26nW3s1MuwjbADUU=
 			</data>
 		</dict>
 		<key>Headers/FBMacDevice.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3tSKYtHx7at8Xxz0pHTpxh5+D8kbFrh92Yw6E4T0JlI=
+			LAxH2bmhwsNbe2lFZHTE8+qAPTq0fe8IdzxRD2IxFRI=
 			</data>
 		</dict>
 		<key>Headers/FBManagedTestRunStrategy.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wXFXNJAAGithuGYplG1b9OJ1AfJ9BvPChPnBtUjTZCU=
+			+hYrqDCQQcL/bvDowxQMOUX3L1EojDnLaBhYjolheaU=
 			</data>
 		</dict>
 		<key>Headers/FBOToolDynamicLibs.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nLIWCcXQkT6mI+kc77zuHjU0k4IR8G8n1b5k4DOQgNI=
+			gF+zBwvfxVyfMEIkkfpA8XRxse0YfrbZCxQg/cEToUI=
 			</data>
 		</dict>
 		<key>Headers/FBOToolOperation.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			usoQcamRat16m82cZFwFMlu/JQCyGo6iPLSB+ey2SDs=
+			elxGJBp7mTXlb+b+kKRecd/MaBk5BHWSFxb/d0J3G6Q=
 			</data>
 		</dict>
 		<key>Headers/FBTestConfiguration.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			SuS/3+iaWsjR01p0K+NMxK4oGC6K+iezxcqyjgs/EEg=
+			MY5BN7CkQ/i+lFi4eFcCbCLdHFAIea6bTubFPD/TfFc=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerAPIMediator.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			OKr8yTJAIao498ohRiKeibdYgWtgV/9bgBivT56O6/E=
+			owm6/zXQumF1daBKZAK4HKLejewQcwd8W94PLX8ami0=
 			</data>
 		</dict>
 		<key>Headers/FBTestManagerResultSummary.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			tmhVQB7+/ADnvCgjqtlCXZKDYUYtIs8QQS6a5ZhGDlU=
+			2+l8tnW5fDnUKlRgXo71xwM3vKhGIDV39ONARrhveYg=
 			</data>
 		</dict>
 		<key>Headers/FBTestRunnerConfiguration.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			b/vgY/ogqDiX33CbMvpqmuobYfLrZCQw3NKPNLN/g1Y=
+			gGtKFC6X7tPB7P6f6gkXK8MS4ghtj/jvtN1M5chb+8Y=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestConfiguration.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			K1xxAIEpQp12SVXj1UDKdObE72tl9X+eCzgh8TvRl2M=
+			pO0ld4AKURNvQJ7C/vPVcqrZ7sykPttAGKgfAJa07og=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestLogger.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			6eZLj/IuVyZDa8Y7Gq37Znou6TbStvgwNMMFxI1sja4=
+			EvI1pUaY7hesYxigIBk3rwdgwUwVPKDGE8sTSFc/av0=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestProcess.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FlnKvA0CSxJm1+X9QZZaflNW4ujnHijcynY8jYlU+Og=
+			Ry7orEQ+YAMQZqZNXYE/2V70xf9XeZRH1BmeuFDtsZ8=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestReporter.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			+gEmTUK5TY0R9CUvE8IXxk0FnXKUZnruDTDakF2f1RA=
+			ziUYJvolvFglZDZxiNTjrCb6wAJ5gdUV8t0ho6+gh/E=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestResultBundleParser.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3NMdklgnc4Jeu1sUE1igqYDaLuW2ddOXef8DyqCcJ8g=
+			M3k1QuvuVVwZYyCKRvMHKQzkb9XrLranvOvYFaEcmdE=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestResultToolOperation.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			QZA9i+jrPib0Deen7CMtMG2axFwPUFivKHYi5zmC0ms=
+			SzhlIzhFzaScBzlqym63VWgXsaR6ANe9Yjb7gMNFv3Q=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestRunner.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lMLXDHe2/QYCTudFbiU82+ZWBo24wFfYIhDprh4X3qE=
+			N7qZxGQNaSUjJ0yzBPrUV8oq/KQauj6vyr+Z8tsGj6w=
 			</data>
 		</dict>
 		<key>Headers/FBXcodeBuildOperation.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2sPiJJts+ld99RimmTyqaeA4fdBtVsT1xdiugaHCFyA=
+			+FmechxQGgvg9omjziY3HPH0scoTJ22tOTo0QwFff7s=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrap.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			kJw0mHBgz2qSglMZpAKqg1V/vNgviaXGeItvtOfwmC0=
+			3IPSmtTU+3TPmYSkuTUxZG/cARtBAsyFegJBGsXlpEA=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapError.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vkrx70S+il8B8nX6NgxcZOG4/UMzBkGZwptH3M+kPNE=
+			VFAvSUpk7o3ENMuVdEuVm0I6BsNhyLomJqg1FolN8E8=
 			</data>
 		</dict>
 		<key>Headers/XCTestBootstrapFrameworkLoader.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			7nFZ/zm8bWVOpo4xxPUPjlNWOGHaHt/02IYs+XFcJyc=
+			0h+EUSKsFac4IplHf/qb3cqdrivAR+wODPE5Zmu8JeI=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -228,7 +228,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			YC7if5XKV4sZ9mQ+ECZ4Zy6t+vV/e3b+hui/Wk3eWrw=
+			cQv5RE2UarmI0YnxFRsfiqPEA0V4eNGf5QRZCeL7jzE=
 			</data>
 		</dict>
 		<key>Resources/Info.plist</key>
@@ -242,14 +242,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qZDoy81Xx8Sj6AfYRQRAXDFJu1/FFkAEOPzaccdVoao=
+			wofn3WGkjcoVIYgfCmUmLbQAnKeKvgMHVlTmpV1UN7s=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			bxqB+OzJa+M5Vh7CYV/0bkZV7bKZul0ii2y39Sk5ZZ0=
+			lxgvVGzKUIU5En+jjUXQYAQAkzv38bop+bM3VzidJ6o=
 			</data>
 		</dict>
 	</dict>
