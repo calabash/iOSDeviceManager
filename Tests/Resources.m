@@ -977,7 +977,7 @@ static NSString *const kTmpDirectory = @".iOSDeviceManager/Tests/";
 // ^ find the lastest fingerprint
 - (CodesignIdentity *)KarlKrukowIdentityIOS {
     NSString *identityName = @"iPhone Developer: Karl Krukow (YTTN6Y2QS9)";
-    NSString *identityShasum = @"D5EBCB1632F980B97DA879AAD900DF3E560E8590";
+    NSString *identityShasum = @"45DA6A929D95DDD33D3CB5210D48AD7E7700DA27";
     return [[CodesignIdentity alloc] initWithShasum:identityShasum
                                                name:identityName];
 }

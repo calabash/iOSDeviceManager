@@ -176,9 +176,10 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
     NSError *error = nil;
     SimDevice *simDevice = [self.simulator.fbSimulator device];
-
-    XCTAssertEqual([simDevice shutdownWithError:&error], YES);
-    XCTAssertEqual([self.simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30], YES);
+    if ([self.simulator.fbSimulator state] != FBiOSTargetStateShutdown) {
+        XCTAssertEqual([simDevice shutdownWithError:&error], YES);
+        XCTAssertEqual([self.simulator waitForSimulatorState:FBiOSTargetStateShutdown timeout:30], YES);
+    }
 
     [[self.simulator.fbSimulator erase] await:&error];
     NSLog(@"Error is: %@\n", error);
@@ -186,32 +187,13 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
     XCTAssertEqual([Simulator eraseSimulator:self.simulator], iOSReturnStatusCodeEverythingOkay);
 }
 
-//- (void)testEraseSimulatorSuccess {
-//    id ClassMock = OCMClassMock([Simulator class]);
-//    id FBSimulatorShutdownStrategyClassMock = OCMClassMock([FBSimulatorShutdownStrategy class]);
-//    id fbSimMock = OCMPartialMock(self.simulator.fbSimulator);
-//
-//
-//    OCMExpect([ClassMock killSimulatorApp]).andReturn(iOSReturnStatusCodeEverythingOkay);
-//    OCMExpect([[FBSimulatorShutdownStrategyClassMock shutdown] await:[OCMArg anyObjectRef]]).andReturn(YES);
-//    OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
-//                                               timeout:30]).andReturn(YES);
-//    OCMExpect([[fbSimMock erase] await:[OCMArg anyObjectRef]]).andReturn(YES);
-//
-//    expect([Simulator eraseSimulator:self.instanceMock]).to.equal(iOSReturnStatusCodeEverythingOkay);
-//
-//    OCMVerifyAll(ClassMock);
-//    OCMVerifyAll(self.instanceMock);
-//}
-
 - (void)testEraseSimulatorShutdownFailure {
     id ClassMock = OCMClassMock([Simulator class]);
-    id SimDeviceMock = OCMPartialMock([self.simulator.fbSimulator device]);
     id fbSimMock = OCMPartialMock(self.simulator.fbSimulator);
     
     
     OCMExpect([ClassMock killSimulatorApp]).andReturn(iOSReturnStatusCodeEverythingOkay);
-    OCMExpect([SimDeviceMock shutdownWithError:[OCMArg anyObjectRef]]).andReturn(NO);
+    OCMExpect([[fbSimMock device] shutdownWithError:[OCMArg anyObjectRef]]).andReturn(NO);
     OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
                                                timeout:30]).andReturn(NO);
     OCMExpect([[fbSimMock erase] await:[OCMArg anyObjectRef]]).andReturn(YES);
@@ -243,11 +225,10 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 - (void)testEraseSimulatorFailure {
     id ClassMock = OCMClassMock([Simulator class]);
     id fbSimMock = OCMPartialMock(self.simulator.fbSimulator);
-    id SimDeviceMock = OCMPartialMock([self.simulator.fbSimulator device]);
     
     
     OCMExpect([ClassMock killSimulatorApp]).andReturn(iOSReturnStatusCodeEverythingOkay);
-    OCMExpect([SimDeviceMock shutdownWithError:[OCMArg anyObjectRef]]).andReturn(NO);
+    OCMExpect([[fbSimMock device] shutdownWithError:[OCMArg anyObjectRef]]).andReturn(NO);
     OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
                                                timeout:30]).andReturn(NO);
     OCMExpect([[fbSimMock erase] await:[OCMArg anyObjectRef]]).andReturn(NO);

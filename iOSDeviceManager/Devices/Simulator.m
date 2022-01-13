@@ -122,19 +122,15 @@ static const FBSimulatorControl *_control;
     if ([simulator waitForBootableState:&error]) {
 
         error = nil;
-        if (simulator.state == FBiOSTargetStateShutdown) {
-            BOOL success = [simulator launchSimulatorApp:&error];
-            if (success) {
-                return iOSReturnStatusCodeEverythingOkay;
-            } else {
-                ConsoleWriteErr(@"Could not launch simulator. Retrying...");
-                [Simulator killSimulatorApp];
-                if (![simulator launchSimulatorApp:&error] && error) {
-                    ConsoleWriteErr(@"Could not launch simulator.");
-                    ConsoleWriteErr(@"%@", [error localizedDescription]);
-                    return iOSReturnStatusCodeGenericFailure;
-                }
+        BOOL success = [simulator launchSimulatorApp:&error];
+        if (success) {
+            return iOSReturnStatusCodeEverythingOkay;
+        } else {
+            ConsoleWriteErr(@"Could not launch simulator.");
+            if (error) {
+                ConsoleWriteErr(@"%@", [error localizedDescription]);
             }
+            return iOSReturnStatusCodeGenericFailure;
         }
     } else {
         ConsoleWriteErr(@"Could not launch simulator");
@@ -640,12 +636,11 @@ static const FBSimulatorControl *_control;
     }
 
     if (![self launchSimulatorApp:&error]) {
-        ConsoleWriteErr(@"Could not launch the Simulator.app. Retrying...");
-        [Simulator killSimulatorApp];
-        if (![self launchSimulatorApp:&error] && error) {
+        ConsoleWriteErr(@"Could not launch the Simulator.app.");
+        if (error) {
             ConsoleWriteErr(@"%@", [error localizedDescription]);
-            return iOSReturnStatusCodeGenericFailure;
         }
+        return iOSReturnStatusCodeGenericFailure;
     }
 
     FBApplicationLaunchConfiguration *launchConfig = [[FBApplicationLaunchConfiguration alloc]
