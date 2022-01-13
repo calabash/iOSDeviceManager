@@ -356,26 +356,37 @@ static const FBSimulatorControl *_control;
     configuration.environment = @{};
     configuration.activates = YES;
     configuration.hides = YES;
+    
+    BOOL result = NO;
 
-    NSURL *url = [Simulator simulatorAppURL];
-    [[NSWorkspace sharedWorkspace] openApplicationAtURL:url
-                                          configuration:configuration
-                                      completionHandler:^(NSRunningApplication *application, NSError *error) {
-        if (application != NULL) {
-            pid_t pid = [application processIdentifier];
-            FBProcessFetcher *fetcher = [FBProcessFetcher new];
-            FBProcessInfo *info = [fetcher processInfoFor:pid];
+    for (int attemptsToLaunch = 0; attemptsToLaunch < 3; attemptsToLaunch++) {
+        NSURL *url = [Simulator simulatorAppURL];
+        [[NSWorkspace sharedWorkspace] openApplicationAtURL:url
+                                              configuration:configuration
+                                          completionHandler:^(NSRunningApplication *application, NSError *error) {
+            if (application != NULL) {
+                pid_t pid = [application processIdentifier];
+                FBProcessFetcher *fetcher = [FBProcessFetcher new];
+                FBProcessInfo *info = [fetcher processInfoFor:pid];
 
-            if (![info.arguments containsObject:self.uuid]) {
-                ConsoleWriteErr(@"Running simulator udid does not match %@", self.uuid);
+                if (![info.arguments containsObject:self.uuid]) {
+                    ConsoleWriteErr(@"Running simulator udid does not match %@", self.uuid);
+                }
+            } else {
+                ConsoleWriteErr(@"Could not launch Simulator.app for %@", self.fbSimulator);
             }
-        } else {
-            ConsoleWriteErr(@"Could not launch Simulator.app for %@", self.fbSimulator);
-        }
-    }];
+        }];
 
-    if(![Simulator waitForSimulatorAppServices:self.fbSimulator]) {
-        ConsoleWriteErr(@"Timed out waiting for all simulator services to start");
+        if(![Simulator waitForSimulatorAppServices:self.fbSimulator]) {
+            ConsoleWriteErr(@"Timed out waiting for all simulator services to start");
+            result = NO;
+        } else {
+            result = YES;
+            break;
+        }
+    }
+    if (!result) {
+        ConsoleWriteErr(@"Could not launch Simulator.app in 3 attempts.");
         return NO;
     } else {
         return YES;
