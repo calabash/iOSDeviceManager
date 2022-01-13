@@ -1,3 +1,9 @@
+### 3.9.2
+
+* Updated idb frameworks from version 1.1.6.
+* Fixed deprecations and reworked Simulator lifecycle methods.
+* Added support of Xcode 13.2.1.
+
 ### 3.9.1
 
 * Updated deployment target to 11.0 and fixed deprecated methods.
