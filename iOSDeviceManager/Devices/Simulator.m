@@ -367,6 +367,8 @@ static const FBSimulatorControl *_control;
 
                 if (![info.arguments containsObject:self.uuid]) {
                     ConsoleWriteErr(@"Running simulator udid does not match %@", self.uuid);
+                    ConsoleWriteErr(@"Restarting simulator...");
+                    [Simulator killSimulatorApp];
                 }
             } else {
                 ConsoleWriteErr(@"Could not launch Simulator.app for %@", self.fbSimulator);
