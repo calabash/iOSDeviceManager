@@ -346,6 +346,7 @@ static const FBSimulatorControl *_control;
 
     NSWorkspaceOpenConfiguration *configuration = [NSWorkspaceOpenConfiguration configuration];
     configuration.arguments = arguments;
+    configuration.hides = YES;
     
     BOOL result = NO;
 
