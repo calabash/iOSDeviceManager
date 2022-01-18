@@ -311,7 +311,7 @@ static const FBSimulatorControl *_control;
     FBiOSTargetState state = self.state;
     if (state == FBiOSTargetStateBooted || state == FBiOSTargetStateBooting) {
         if (![self waitForSimulatorState:FBiOSTargetStateBooted
-                                 timeout:30]) {
+                                 timeout:120]) {
             ConsoleWriteErr(@"Could not boot simulator");
             return NO;
         } else {
@@ -319,10 +319,7 @@ static const FBSimulatorControl *_control;
         }
     } else {
 
-        NSDictionary *options = @{};
-        SimDevice *simDevice = [self.fbSimulator device];
-        if (![simDevice bootWithOptions:options
-                                  error:&error]) {
+        if ([Simulator launchSimulator:self] != iOSReturnStatusCodeEverythingOkay){
             ConsoleWriteErr(@"Could not boot simulator");
             if (error) {
                 ConsoleWriteErr(@"%@", [error localizedDescription]);
@@ -330,7 +327,7 @@ static const FBSimulatorControl *_control;
             return NO;
         } else {
             if (![self waitForSimulatorState:FBiOSTargetStateBooted
-                                     timeout:30]) {
+                                     timeout:120]) {
                 ConsoleWriteErr(@"Could not boot simulator");
                 return NO;
             }
@@ -349,9 +346,6 @@ static const FBSimulatorControl *_control;
 
     NSWorkspaceOpenConfiguration *configuration = [NSWorkspaceOpenConfiguration configuration];
     configuration.arguments = arguments;
-    configuration.environment = @{};
-    configuration.activates = YES;
-    configuration.hides = YES;
     
     BOOL result = NO;
 
