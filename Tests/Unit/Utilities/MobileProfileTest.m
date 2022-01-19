@@ -59,7 +59,7 @@
     expect(profile.provisionedDevices.count).to.equal(97);
     expect(profile.provisionedDevices[0]).to.equal(@"9486119c3c9e4ac21e28862918ef0b77417df10a");
     expect(profile.teamIdentifier[0]).to.equal(@"FYD86LA7RE");
-    expect(profile.uuid).to.equal(@"9f62cbbb-8ee5-454c-bd49-d4fe8e442100");
+    expect(profile.uuid).to.equal(@"b103840e-71ca-4694-9d74-c42b263c54bb");
     expect(profile.teamName).to.equal(@"Karl Krukow");
     expect(profile.name).to.equal(@"CalabashWildcard");
     expect(profile.platform[0]).to.equal(@"iOS");

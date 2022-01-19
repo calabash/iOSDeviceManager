@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,11 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FBXCTestReporter;
-@protocol FBXCTestProcessExecutor;
-@protocol FBControlCoreLogger;
-
 @class FBListTestConfiguration;
+
+@protocol FBXCTestReporter;
+@protocol FBProcessSpawnCommands;
 
 /**
  A Runner for Listing Tests.
@@ -28,12 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Create and return a new Runner for listing tests on macOS.
 
- @param executor the Process Executor.
+ @param target the target to run against.
  @param configuration the the configuration to use.
- @param logger the logger to use.
  @return a new FBListTestStrategy instance.
  */
-+ (instancetype)strategyWithExecutor:(id<FBXCTestProcessExecutor>)executor configuration:(FBListTestConfiguration *)configuration logger:(id<FBControlCoreLogger>)logger;
+- (instancetype)initWithTarget:(id<FBiOSTarget, FBProcessSpawnCommands, FBXCTestExtendedCommands>)target configuration:(FBListTestConfiguration *)configuration logger:(id<FBControlCoreLogger>)logger;
 
 #pragma mark Public Methods
 

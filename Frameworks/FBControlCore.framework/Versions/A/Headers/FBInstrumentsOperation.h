@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FBControlCore/FBProcess.h>
 #import <FBControlCore/FBiOSTargetOperation.h>
 
 extern const NSTimeInterval DefaultInstrumentsOperationDuration; // Operation duration
@@ -17,7 +18,6 @@ extern const NSTimeInterval DefaultInstrumentsLaunchErrorTimeout; // Fail instru
 NS_ASSUME_NONNULL_BEGIN
 
 @class FBInstrumentsConfiguration;
-@class FBTask;
 
 @protocol FBControlCoreLogger;
 @protocol FBiOSTarget;
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Represents an operation of the instruments command-line.
  */
-@interface FBInstrumentsOperation : NSObject <FBiOSTargetOperation>
+@interface FBInstrumentsOperation : NSObject
 
 #pragma mark Initializers
 
@@ -39,11 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (FBFuture<FBInstrumentsOperation *> *)operationWithTarget:(id<FBiOSTarget>)target configuration:(FBInstrumentsConfiguration *)configuration logger:(id<FBControlCoreLogger>)logger;
 
-- (instancetype)initWithTask:(FBTask *)task traceDir:(NSURL *)traceDir configuration:(FBInstrumentsConfiguration *)configuration queue:(dispatch_queue_t)queue logger:(id<FBControlCoreLogger>)logger;
+- (instancetype)initWithTask:(FBProcess *)task traceDir:(NSURL *)traceDir configuration:(FBInstrumentsConfiguration *)configuration queue:(dispatch_queue_t)queue logger:(id<FBControlCoreLogger>)logger;
 
 #pragma mark Properties
 
-@property (nonatomic, strong, readonly) FBTask *task;
+@property (nonatomic, strong, readonly) FBProcess *task;
 @property (nonatomic, strong, readonly) dispatch_queue_t queue;
 
 /**

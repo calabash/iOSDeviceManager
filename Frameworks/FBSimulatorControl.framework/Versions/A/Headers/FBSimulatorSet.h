@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -14,8 +14,6 @@
 @class FBSimulatorConfiguration;
 @class FBSimulatorControl;
 @class FBSimulatorControlConfiguration;
-@class FBSimulatorProcessFetcher;
-@class FBiOSTargetQuery;
 @class SimDeviceSet;
 
 @protocol FBControlCoreLogger;
@@ -49,12 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Querying
 
 /**
- Fetches the Simulators from the Set, matching the query.
+ Fetches a Simulator matching the specified udid
 
- @param query the Query to query with.
- @return an array of matching Simulators.
+ @param udid the UDID of the Simulator to fetch.
+ @return an FBSimulator instance if one matches the provided udid, else nil
  */
-- (NSArray<FBSimulator *> *)query:(FBiOSTargetQuery *)query;
+- (nullable FBSimulator *)simulatorWithUDID:(NSString *)udid;
 
 #pragma mark Creation Methods
 
@@ -176,11 +174,6 @@ NS_ASSUME_NONNULL_BEGIN
  The SimDeviceSet to that is owned by the receiver.
  */
 @property (nonatomic, strong, readonly) SimDeviceSet *deviceSet;
-
-/**
- The FBProcessFetcher that is used to obtain Simulator Process Information.
- */
-@property (nonatomic, strong, readonly) FBSimulatorProcessFetcher *processFetcher;
 
 /**
  An NSArray<FBSimulator> of all Simulators in the Set.

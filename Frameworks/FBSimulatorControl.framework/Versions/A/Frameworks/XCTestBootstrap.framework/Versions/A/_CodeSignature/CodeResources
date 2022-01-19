@@ -6,15 +6,15 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		YcazxfMc9lmf3aGoSnWHtFyJXU8=
+		Pn50ZsyqFMXl9zAEYSnLUHwMyx8=
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
-		wDuLsLK0MO5mYl5oRv40GtPU3Kw=
+		mVLoQBHthRccY8cTKAjYODMadeQ=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		jh6g9UYVZVVK/JAPEE9RxCUJXeY=
+		CJOT6q9HQ48ZvlkgIq+0nilyha8=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -23,7 +23,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			RZwKGIeJBfsmvg7Jk99EGbIe4T0=
+			cQwEnwjbDkShr1uS+T/QgmJNC20=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.facebook.FBControlCore" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Karl Krukow (YTTN6Y2QS9)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -32,21 +32,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			0Jq1Zu5vOVEPWdGBgAsQ4yC5PapqMcDA/iyrY4ALQhg=
+			OmzlixfJuWkr7a3PizFdlW4EfLLqlILWf2GFFp8orxM=
 			</data>
 		</dict>
 		<key>Resources/libMaculator.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pfcesnY0uiVEcb1ZPc5fYsMoeHV2qI131+GrdQ3H2eM=
+			wofn3WGkjcoVIYgfCmUmLbQAnKeKvgMHVlTmpV1UN7s=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gTjxNGdABqNT94O2PzVVOOq/IdjcUy3b4b0MA8fdkLk=
+			lxgvVGzKUIU5En+jjUXQYAQAkzv38bop+bM3VzidJ6o=
 			</data>
 		</dict>
 	</dict>

@@ -54,26 +54,20 @@ static const FBSimulatorControl *_control;
         return nil;
     }
 
-    FBiOSTargetQuery *query = [FBiOSTargetQuery udids:@[uuid]];
-    NSArray <FBSimulator *> *results = [sims query:query];
-    if (results.count == 0) {
+    FBSimulator *simulatorFromUUID = [sims simulatorWithUDID:uuid];
+    if (!simulatorFromUUID) {
         ConsoleWriteErr(@"No simulators found for ID %@", uuid);
         return nil;
     }
 
-    simulator.fbSimulator = results[0];
+    simulator.fbSimulator = simulatorFromUUID;
 
     return simulator;
 }
 
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)simulator {
-    FBSimulatorConnection *connection = [[FBSimulatorConnection alloc]
-                                         initWithSimulator:simulator
-                                         framebuffer:nil
-                                         hid:nil];
-   
-    [[connection terminate] timeout:5 waitingFor:@"The Simulator Connection to teardown"];
-    
+    FBSimulatorLifecycleCommands *lifecycleCommands = [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
+    [lifecycleCommands disconnectWithTimeout:5 logger:nil];
     return [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
 }
 
@@ -81,9 +75,9 @@ static const FBSimulatorControl *_control;
     return [FBSimulatorApplicationCommands commandsWithTarget:simulator];
 }
 
+/// @return NSURL with path to Simulator app.
 + (NSURL *)simulatorAppURL {
-    NSString *path = [[FBBundleDescriptor xcodeSimulator] path];
-
+    NSString *path = [[FBXcodeConfiguration simulatorApp] path];
     return [NSURL fileURLWithPath:path];
 }
 
@@ -111,11 +105,13 @@ static const FBSimulatorControl *_control;
     
     return [NSRunLoop.currentRunLoop spinRunLoopWithTimeout:120 untilTrue:^BOOL{
         NSError *error = nil;
+
         // No services running yet.
-        if (![[Simulator performBootVerification:fbSimulator] await:&error]) { return NO; }
-        
-        // No null values in the dictionary means all processes have started.
-        return YES;
+        if (![[Simulator performBootVerification:fbSimulator] await:&error]) {
+            return NO;
+        } else {
+            return YES;
+        }
     }];
 
     return success;
@@ -130,13 +126,12 @@ static const FBSimulatorControl *_control;
         if (success) {
             return iOSReturnStatusCodeEverythingOkay;
         } else {
-            ConsoleWriteErr(@"Could not launch simulator");
+            ConsoleWriteErr(@"Could not launch simulator.");
             if (error) {
                 ConsoleWriteErr(@"%@", [error localizedDescription]);
             }
             return iOSReturnStatusCodeGenericFailure;
         }
-
     } else {
         ConsoleWriteErr(@"Could not launch simulator");
         if (error) {
@@ -176,8 +171,7 @@ static const FBSimulatorControl *_control;
     }
 
     FBSimulatorSet *simulators = _control.set;
-    FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
-    NSArray <FBSimulator *> *results = [simulators query:query];
+    NSArray <FBSimulator *> *results = [simulators allSimulators];
     for (FBSimulator *simulator in results) {
         Simulator *sim = [Simulator withID:simulator.udid];
         if (![sim shutdown]) {
@@ -317,7 +311,7 @@ static const FBSimulatorControl *_control;
     FBiOSTargetState state = self.state;
     if (state == FBiOSTargetStateBooted || state == FBiOSTargetStateBooting) {
         if (![self waitForSimulatorState:FBiOSTargetStateBooted
-                                 timeout:30]) {
+                                 timeout:120]) {
             ConsoleWriteErr(@"Could not boot simulator");
             return NO;
         } else {
@@ -325,10 +319,7 @@ static const FBSimulatorControl *_control;
         }
     } else {
 
-        NSDictionary *options = @{};
-        SimDevice *simDevice = [self.fbSimulator device];
-        if (![simDevice bootWithOptions:options
-                                  error:&error]) {
+        if ([Simulator launchSimulator:self] != iOSReturnStatusCodeEverythingOkay){
             ConsoleWriteErr(@"Could not boot simulator");
             if (error) {
                 ConsoleWriteErr(@"%@", [error localizedDescription]);
@@ -336,7 +327,7 @@ static const FBSimulatorControl *_control;
             return NO;
         } else {
             if (![self waitForSimulatorState:FBiOSTargetStateBooted
-                                     timeout:30]) {
+                                     timeout:120]) {
                 ConsoleWriteErr(@"Could not boot simulator");
                 return NO;
             }
@@ -355,46 +346,54 @@ static const FBSimulatorControl *_control;
 
     NSWorkspaceOpenConfiguration *configuration = [NSWorkspaceOpenConfiguration configuration];
     configuration.arguments = arguments;
-    configuration.environment = @{};
-    configuration.activates = NO;
+    configuration.hides = YES;
+    
+    BOOL result = NO;
 
-    NSURL *url = [Simulator simulatorAppURL];
-    [[NSWorkspace sharedWorkspace] openApplicationAtURL:url
-                      configuration:configuration
-                  completionHandler:^(NSRunningApplication *application, NSError *error) {
-        if (application != NULL) {
-            pid_t pid = [application processIdentifier];
-            FBProcessFetcher *fetcher = [FBProcessFetcher new];
-            FBProcessInfo *info = [fetcher processInfoFor:pid];
+    for (int attemptsToLaunch = 0; attemptsToLaunch < 3; attemptsToLaunch++) {
+        NSURL *url = [Simulator simulatorAppURL];
+        [[NSWorkspace sharedWorkspace] openApplicationAtURL:url
+                                              configuration:configuration
+                                          completionHandler:^(NSRunningApplication *application, NSError *error) {
+            if (application != NULL) {
+                pid_t pid = [application processIdentifier];
+                FBProcessFetcher *fetcher = [FBProcessFetcher new];
+                FBProcessInfo *info = [fetcher processInfoFor:pid];
 
-            if (![info.arguments containsObject:self.uuid]) {
-                ConsoleWrite(@"Running simulator udid does not match %@", self.uuid);
-                ConsoleWrite(@"Restarting the simulator");
-                [Simulator killSimulatorApp];
-                [self launchSimulatorApp:&error];
+                if (![info.arguments containsObject:self.uuid]) {
+                    ConsoleWriteErr(@"Running simulator udid does not match %@", self.uuid);
+                    ConsoleWriteErr(@"Restarting simulator...");
+                    [Simulator killSimulatorApp];
+                }
+            } else {
+                ConsoleWriteErr(@"Could not launch Simulator.app for %@", self.fbSimulator);
             }
+        }];
+
+        if(![Simulator waitForSimulatorAppServices:self.fbSimulator]) {
+            ConsoleWriteErr(@"Timed out waiting for all simulator services to start");
+            result = NO;
         } else {
-            ConsoleWriteErr(@"Could not launch Simulator.app for %@", self.fbSimulator);
+            result = YES;
+            break;
         }
-    }];
-
-    if(![Simulator waitForSimulatorAppServices:self.fbSimulator]) {
-        ConsoleWriteErr(@"Timed out waiting for all simulator services to start");
     }
-
-    return YES;
+    if (!result) {
+        ConsoleWriteErr(@"Could not launch Simulator.app in 3 attempts.");
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 - (BOOL)shutdown {
     NSError *error = nil;
+    SimDevice *simDevice = [self.fbSimulator device];
     if (self.state == FBiOSTargetStateShutdown) { return YES; }
-
-    FBSimulatorShutdownStrategy *strategy;
-    strategy = [FBSimulatorShutdownStrategy strategyWithSimulator:self.fbSimulator];
 
     if (self.state != FBiOSTargetStateShuttingDown ||
         self.state == FBiOSTargetStateShutdown) {
-        if (![[strategy shutdown] await:&error]) {
+        if (![simDevice shutdownWithError:&error]) {
             ConsoleWriteErr(@"Could not shutdown simulator");
             if (error) {
                 ConsoleWriteErr(@"%@", [error localizedDescription]);
@@ -634,7 +633,7 @@ static const FBSimulatorControl *_control;
     }
 
     if (![self launchSimulatorApp:&error]) {
-        ConsoleWriteErr(@"Could not launch the Simulator.app");
+        ConsoleWriteErr(@"Could not launch the Simulator.app.");
         if (error) {
             ConsoleWriteErr(@"%@", [error localizedDescription]);
         }

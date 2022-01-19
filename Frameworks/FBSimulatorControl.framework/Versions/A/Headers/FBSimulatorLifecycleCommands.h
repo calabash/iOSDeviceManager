@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class FBSimulator;
 @class FBSimulatorBootConfiguration;
 @class FBSimulatorBridge;
-@class FBSimulatorConnection;
 @class FBSimulatorHID;
 
 @protocol FBControlCoreLogger;
@@ -29,21 +28,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Boot/Shutdown
 
 /**
- Boots the Simulator with the default Simulator Launch Configuration.
- Will fail if the Simulator is currently booted.
-
- @return a Future that resolves when the Simulator is booted.
- */
-- (FBFuture<NSNull *> *)boot;
-
-/**
- Boots the Simulator with the default Simulator Launch Configuration.
+ Boots the Simulator with the provided configuration.
  Will fail if the Simulator is currently booted.
 
  @param configuration the configuration to boot with.
  @return a Future that resolves when the Simulator is booted.
  */
-- (FBFuture<NSNull *> *)bootWithConfiguration:(FBSimulatorBootConfiguration *)configuration;
+- (FBFuture<NSNull *> *)boot:(FBSimulatorBootConfiguration *)configuration;
 
 #pragma mark States
 
@@ -67,23 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Connection
 
 /**
- Connects to the FBSimulatorConnection.
-
- @return A Future wrapping the the Simulator Connection.
- */
-- (FBFuture<FBSimulatorConnection *> *)connect;
-
-/**
- Connects to the FBSimulatorConnection, using existing values.
-
- @param hid the hid to connect.
- @param framebuffer the framebuffer to connect.
- @return A Future wrapping the the Simulator Connection.
- */
-- (FBFuture<FBSimulatorConnection *> *)connectWithHID:(nullable FBSimulatorHID *)hid framebuffer:(nullable FBFramebuffer *)framebuffer;
-
-/**
- Disconnects from FBSimulatorConnection.
+ Disconnects from all of the underlying connection objects.
+ This should be called on shutdown of the Simulator.
 
  @param timeout the timeout in seconds to wait for all connected components to disconnect.
  @param logger a logger to log to
@@ -108,6 +84,15 @@ NS_ASSUME_NONNULL_BEGIN
  @return the Future wrapping the Framebuffer.
  */
 - (FBFuture<FBFramebuffer *> *)connectToFramebuffer;
+
+#pragma mark Bridge
+
+/**
+ Connects to the FBSimulatorHID instance.
+
+ @return a Future Wrapping the Simulator Bridge.
+ */
+- (FBFuture<FBSimulatorHID *> *)connectToHID;
 
 #pragma mark URLs
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -18,7 +18,7 @@ typedef CFTypeRef PrivateDevice;
 /**
  Abstract class for device-based discovery.
  */
-@interface FBDeviceManager<PublicDevice : id> : NSObject<FBiOSTargetSet>
+@interface FBDeviceManager<PublicDevice : id> : NSObject <FBiOSTargetSet>
 
 #pragma mark Initializers
 

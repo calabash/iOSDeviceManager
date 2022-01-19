@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -31,11 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param rect the damage rectangle.
  */
 - (void)didReceiveDamageRect:(CGRect)rect;
-
-/**
- The Identifier of the Consumer.
- */
-@property (nonatomic, copy, readonly) NSString *consumerIdentifier;
 
 @end
 
@@ -75,11 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param consumer the consumer to attach.
  */
 - (void)detachConsumer:(id<FBFramebufferConsumer>)consumer;
-
-/**
- An Array of all attached consumers
- */
-- (NSArray<id<FBFramebufferConsumer>> *)attachedConsumers;
 
 /**
  Queries if the consumer is attached.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -20,6 +20,14 @@ extern NSString *const FBXCTestShimDirectoryEnvironmentOverride;
  A Configuration object for the location of the Test Shims.
  */
 @interface FBXCTestShimConfiguration : NSObject <NSCopying>
+
+/**
+ Constructs or returned the singleton shim configuration
+
+ @param logger to use for logging.
+ @return a future wrapping the Shim Configuration.
+ */
++ (FBFuture<FBXCTestShimConfiguration *> *)sharedShimConfigurationWithLogger:(nullable id<FBControlCoreLogger>)logger;
 
 /**
  Constructs a Shim Configuration from the default base directory.

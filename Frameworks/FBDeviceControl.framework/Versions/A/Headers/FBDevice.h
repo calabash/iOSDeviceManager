@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,9 +8,11 @@
 #import <Foundation/Foundation.h>
 
 #import <FBControlCore/FBControlCore.h>
-#import <FBDeviceControl/FBDeviceCommands.h>
-#import <FBDeviceControl/FBDeviceRecoveryCommands.h>
 #import <FBDeviceControl/FBDeviceActivationCommands.h>
+#import <FBDeviceControl/FBDeviceCommands.h>
+#import <FBDeviceControl/FBDeviceDebugSymbolsCommands.h>
+#import <FBDeviceControl/FBDeviceRecoveryCommands.h>
+#import <FBDeviceControl/FBDeviceSocketForwardingCommands.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A class that represents an iOS Device.
  */
-@interface FBDevice : NSObject <FBiOSTarget, FBDeviceCommands, FBDiagnosticInformationCommands, FBLocationCommands, FBDeviceRecoveryCommands, FBDeviceActivationCommands, FBPowerCommands, FBDeveloperDiskImageCommands>
+@interface FBDevice : NSObject <FBiOSTarget, FBDebuggerCommands, FBDeviceCommands, FBDiagnosticInformationCommands, FBLocationCommands, FBDeviceRecoveryCommands, FBDeviceActivationCommands, FBPowerCommands, FBDeveloperDiskImageCommands, FBSocketForwardingCommands, FBDeviceDebugSymbolsCommands>
 
 /**
  The Device Set to which the Device Belongs.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import <FBControlCore/FBiOSTarget.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol FBiOSTargetSet;
 
@@ -57,4 +59,14 @@
  */
 @property (nonatomic, copy, readonly) NSArray<id<FBiOSTargetInfo>> *allTargetInfos;
 
+/**
+ Fetches a Target with by a UDID.
+
+ @param udid the UDID of the Device to Fetch.
+ @return a Target with the specified UDID, if one exists.
+ */
+- (nullable id<FBiOSTargetInfo>)targetWithUDID:(NSString *)udid;
+
 @end
+
+NS_ASSUME_NONNULL_END

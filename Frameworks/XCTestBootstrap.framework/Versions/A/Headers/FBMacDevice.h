@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  Class that can be used for operating on local Mac device
  */
-@interface FBMacDevice : NSObject <FBiOSTarget>
+@interface FBMacDevice : NSObject <FBiOSTarget, FBXCTestExtendedCommands, FBProcessSpawnCommands>
 
 - (instancetype)initWithLogger:(id<FBControlCoreLogger>)logger;
 
@@ -24,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
  - Removing all installed applications
  */
 - (FBFuture<NSNull *> *)restorePrimaryDeviceState;
-
-+ (nullable NSString *)resolveDeviceUDID;
 
 @end
 

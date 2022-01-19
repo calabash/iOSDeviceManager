@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FBControlCoreLogger;
-@protocol FBXCTestProcessExecutor;
+@protocol FBCrashLogCommands;
 
 /**
  A Platform-Agnostic utility class responsible for managing an xctest process.
@@ -28,12 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param process the process to inspect.
  @param timeout the timeout in seconds.
- @param crashLogDetection YES if crash log detection should be used, NO otherwise.
+ @param crashLogCommands if provided, crash log detection will be added. This implementation will be used for finding crash logs. If nil, then no crash detection will be used.
  @param queue the queue to use.
  @param logger the logger to log to.
  @return a future that resolves with the exit code.
  */
-+ (FBFuture<NSNumber *> *)ensureProcess:(id<FBLaunchedProcess>)process completesWithin:(NSTimeInterval)timeout withCrashLogDetection:(BOOL)crashLogDetection queue:(dispatch_queue_t)queue logger:(id<FBControlCoreLogger>)logger;
++ (FBFuture<NSNumber *> *)ensureProcess:(FBProcess *)process completesWithin:(NSTimeInterval)timeout crashLogCommands:(nullable id<FBCrashLogCommands>)crashLogCommands queue:(dispatch_queue_t)queue logger:(id<FBControlCoreLogger>)logger;
 
 /**
  Describe the exit code, if an error.
@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Performs a stackshot on the provided process id.
+ Does not terminate the process after performing the stackshot.
  Returns a future in the error state, with the stackshot in the error message.
 
  @param processIdentifier the process identifier of the process to stackshot.

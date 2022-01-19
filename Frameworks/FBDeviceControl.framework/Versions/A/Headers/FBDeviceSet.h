@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -31,14 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable instancetype)setWithLogger:(id<FBControlCoreLogger>)logger delegate:(nullable id<FBiOSTargetSetDelegate>)delegate ecidFilter:(nullable NSString *)ecidFilter error:(NSError **)error;
 
 #pragma mark Querying
-
-/**
- Fetches the Simulators from the Set, matching the query.
-
- @param query the Query to query with.
- @return an array of matching Simulators.
- */
-- (NSArray<FBDevice *> *)query:(FBiOSTargetQuery *)query;
 
 /**
  Fetches a Device with by a UDID.

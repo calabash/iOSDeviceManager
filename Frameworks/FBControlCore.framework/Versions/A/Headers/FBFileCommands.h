@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FBProvisioningProfileCommands;
 
 /**
- Defines an interface for interacting with the Data Container of Applications.
+  Defines an interface for obtaining "File Containers" for a variety of uses.
+  When a file container has been obtained, it can be manipulated using the FBFileContainer protocol.
  */
 @protocol FBFileCommands <NSObject, FBiOSTargetCommand>
 
@@ -26,6 +27,27 @@ NS_ASSUME_NONNULL_BEGIN
  @return a Future context that resolves with an implementation of the file container.
  */
 - (FBFutureContext<id<FBFileContainer>> *)fileCommandsForContainerApplication:(NSString *)bundleID;
+
+/**
+ Returns a file container for the target's auxillary directory.
+
+ @return a Future context that resolves with an implementation of the file container.
+ */
+- (FBFutureContext<id<FBFileContainer>> *)fileCommandsForAuxillary;
+
+/**
+ Returns a file container for all of the application containers.
+
+ @return a Future context that resolves with an implementation of the file container.
+ */
+- (FBFutureContext<id<FBFileContainer>> *)fileCommandsForApplicationContainers;
+
+/**
+ Returns a file container for all of the group containers.
+
+ @return a Future context that resolves with an implementation of the file container.
+ */
+- (FBFutureContext<id<FBFileContainer>> *)fileCommandsForGroupContainers;
 
 /**
  Returns a file container for the root of the filesystem
@@ -75,6 +97,13 @@ NS_ASSUME_NONNULL_BEGIN
  @return a Future context that resolves with an implementation of the file container.
  */
 - (FBFutureContext<id<FBFileContainer>> *)fileCommandsForDiskImages;
+
+/**
+ Returns a file container for manipulating device symbols.
+
+ @return a Future context that resolves with an implementation of the file container.
+ */
+- (FBFutureContext<id<FBFileContainer>> *)fileCommandsForSymbols;
 
 @end
 

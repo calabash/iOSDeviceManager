@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -23,14 +23,6 @@ extern NSString *const FBSimulatorControlErrorDomain;
  Helpers for constructing Errors representing errors in FBSimulatorControl & adding additional diagnosis.
  */
 @interface FBSimulatorError : FBControlCoreError
-
-/**
- Automatically attach Simulator diagnostic info.
-
- @param simulator the Simulator to obtain diagnostic information from.
- @return the receiver, for chaining.
- */
-- (instancetype)inSimulator:(FBSimulator *)simulator;
 
 @end
 

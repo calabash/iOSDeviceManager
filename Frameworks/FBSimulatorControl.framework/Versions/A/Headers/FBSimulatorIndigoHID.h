@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -41,13 +41,6 @@ typedef NS_ENUM(int, FBSimulatorHIDButton) {
  @return a new FBSimulatorIndigoHID instance if successful, nil otherwise.
  */
 + (nullable instancetype)simulatorKitHIDWithError:(NSError **)error;
-
-/**
- An implementation of FBSimulatorIndigoHID, by re-implementing SimulatorKit directly.
-
- @return a new FBSimulatorIndigoHID instance.
- */
-+ (instancetype)reimplemented;
 
 /**
  A Keyboard Event.

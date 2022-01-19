@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,15 +10,13 @@
 #import <FBControlCore/FBControlCore.h>
 
 #import <FBSimulatorControl/FBSimulatorAccessibilityCommands.h>
-#import <FBSimulatorControl/FBSimulatorApplicationCommands.h>
-#import <FBSimulatorControl/FBSimulatorFileCommands.h>
 #import <FBSimulatorControl/FBSimulatorKeychainCommands.h>
 #import <FBSimulatorControl/FBSimulatorLaunchCtlCommands.h>
 #import <FBSimulatorControl/FBSimulatorLifecycleCommands.h>
 #import <FBSimulatorControl/FBSimulatorMediaCommands.h>
+#import <FBSimulatorControl/FBSimulatorMemoryCommands.h>
 #import <FBSimulatorControl/FBSimulatorSettingsCommands.h>
-#import <FBSimulatorControl/FBSimulatorVideoRecordingCommands.h>
-#import <FBSimulatorControl/FBSimulatorXCTestCommands.h>
+#import <FBSimulatorControl/FBSimulatorNotificationCommands.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class FBAppleSimctlCommandExecutor;
 @class FBControlCoreLogger;
-@class FBProcessFetcher;
-@class FBProcessInfo;
 @class FBSimulatorConfiguration;
 @class FBSimulatorSet;
 @class SimDevice;
@@ -35,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  An implementation of FBiOSTarget for iOS Simulators.
  */
-@interface FBSimulator : NSObject <FBiOSTarget, FBLocationCommands, FBAccessibilityCommands, FBProcessSpawnCommands, FBFileCommands, FBSimulatorKeychainCommands, FBSimulatorSettingsCommands, FBSimulatorLifecycleCommands, FBSimulatorLaunchCtlCommands, FBSimulatorMediaCommands>
+@interface FBSimulator : NSObject <FBiOSTarget, FBAccessibilityCommands, FBMemoryCommands, FBFileCommands, FBLocationCommands, FBNotificationCommands, FBProcessSpawnCommands, FBSimulatorKeychainCommands, FBSimulatorSettingsCommands, FBSimulatorLifecycleCommands, FBSimulatorLaunchCtlCommands, FBSimulatorMediaCommands, FBXCTestExtendedCommands, FBDapServerCommand>
 
 #pragma mark Properties
 
@@ -68,11 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
  The FBSimulatorConfiguration representing this Simulator.
  */
 @property (nonatomic, copy, readonly, nullable) FBSimulatorConfiguration *configuration;
-
-/**
- The FBProcessInfo associated with the Container Application that launched the Simulator.
- */
-@property (nonatomic, copy, readonly, nullable) FBProcessInfo *containerApplication;
 
 /**
  A command executor for simctl
