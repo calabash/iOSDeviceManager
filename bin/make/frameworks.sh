@@ -3,16 +3,18 @@
 source bin/log.sh
 source bin/simctl.sh
 
-if [ -z "${FBSIMCONTROL_PATH}" ]; then
+IDB_COMPANION_VERSION="1.1.6"
+
+if [ -z "${IDB_FRAMEWORKS_PATH}" ]; then
   if [ -e "../idb" ]; then
-    FBSIMCONTROL_PATH="../idb"
+    IDB_FRAMEWORKS_PATH="/usr/local/Cellar/idb-companion/${IDB_COMPANION_VERSION}/Frameworks"
   fi
 fi
 
-if [ ! -d "${FBSIMCONTROL_PATH}" ]; then
+if [ ! -d "${IDB_FRAMEWORKS_PATH}" ]; then
   error "FBSimulatorControl does not exist at path:"
-  error "  ${FBSIMCONTROL_PATH}"
-  error "Set the FBSIMCONTROL_PATH=path/to/FBSimulatorControl or"
+  error "  ${IDB_FRAMEWORKS_PATH}"
+  error "Set the IDB_FRAMEWORKS_PATH=path/to/FBSimulatorControl or"
   error "checkout the calabash fork of the FBSimulatorControl repo to ../"
   exit 4
 fi
@@ -20,29 +22,20 @@ fi
 rm -rf ./Frameworks/*.framework
 OUTPUT_DIR="${PWD}/Frameworks"
 
-cp -a bin/idb/. ${FBSIMCONTROL_PATH}
-
-echo "${FBSIMCONTROL_PATH}"
-(cd "${FBSIMCONTROL_PATH}";
-
-#TODO: remove this and change relative way to /usr/local/Cellar/idb-companion/1.1.3
-make frameworks;
-
-xcrun ditto build/Release/FBControlCore.framework \
+xcrun ditto "${IDB_FRAMEWORKS_PATH}/FBControlCore.framework" \
   "${OUTPUT_DIR}/FBControlCore.framework" ;
 
-xcrun ditto build/Release/FBDeviceControl.framework \
+xcrun ditto "${IDB_FRAMEWORKS_PATH}/FBDeviceControl.framework" \
   "${OUTPUT_DIR}/FBDeviceControl.framework" ;
 
-xcrun ditto build/Release/FBSimulatorControl.framework \
+xcrun ditto "${IDB_FRAMEWORKS_PATH}/FBSimulatorControl.framework" \
   "${OUTPUT_DIR}/FBSimulatorControl.framework" ;
 
-xcrun ditto build/Release/XCTestBootstrap.framework \
+xcrun ditto "${IDB_FRAMEWORKS_PATH}/XCTestBootstrap.framework" \
   "${OUTPUT_DIR}/XCTestBootstrap.framework" ;
 
 rm -rf Makefile;
 rm -rf bin;
-)
 
 xcrun ditto ./Vendor/CocoaLumberjack.framework ${OUTPUT_DIR}/CocoaLumberjack.framework
 
