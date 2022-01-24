@@ -5,11 +5,11 @@ source bin/simctl.sh
 
 IDB_COMPANION_VERSION="1.1.6"
 
-if [ -z "${IDB_FRAMEWORKS_PATH}" ]; then
-  if [ -e "../idb" ]; then
+#if [ -z "${IDB_FRAMEWORKS_PATH}" ]; then
+#  if [ -e "../idb" ]; then
     IDB_FRAMEWORKS_PATH="/usr/local/Cellar/idb-companion/${IDB_COMPANION_VERSION}/Frameworks"
-  fi
-fi
+#  fi
+#fi
 
 if [ ! -d "${IDB_FRAMEWORKS_PATH}" ]; then
   error "FBSimulatorControl does not exist at path:"
@@ -33,9 +33,6 @@ xcrun ditto "${IDB_FRAMEWORKS_PATH}/FBSimulatorControl.framework" \
 
 xcrun ditto "${IDB_FRAMEWORKS_PATH}/XCTestBootstrap.framework" \
   "${OUTPUT_DIR}/XCTestBootstrap.framework" ;
-
-rm -rf Makefile;
-rm -rf bin;
 
 xcrun ditto ./Vendor/CocoaLumberjack.framework ${OUTPUT_DIR}/CocoaLumberjack.framework
 
