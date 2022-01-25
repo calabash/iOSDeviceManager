@@ -5,11 +5,9 @@ source bin/simctl.sh
 
 IDB_COMPANION_VERSION="1.1.6"
 
-#if [ -z "${IDB_FRAMEWORKS_PATH}" ]; then
-#  if [ -e "../idb" ]; then
-    IDB_FRAMEWORKS_PATH="/usr/local/Cellar/idb-companion/${IDB_COMPANION_VERSION}/Frameworks"
-#  fi
-#fi
+if [ -z "${IDB_FRAMEWORKS_PATH}" ]; then
+  IDB_FRAMEWORKS_PATH="/usr/local/Cellar/idb-companion/${IDB_COMPANION_VERSION}/Frameworks"
+fi
 
 if [ ! -d "${IDB_FRAMEWORKS_PATH}" ]; then
   error "FBSimulatorControl does not exist at path:"
