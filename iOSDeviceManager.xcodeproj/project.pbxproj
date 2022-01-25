@@ -47,6 +47,11 @@
 		84F11007279FF38300905A66 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; };
 		84F11008279FF38300905A66 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; };
 		84F11009279FF38300905A66 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; };
+		84F1100B279FF4F600905A66 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFC279FF38300905A66 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1100C279FF4F600905A66 /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1100D279FF4F600905A66 /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFB279FF38300905A66 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1100E279FF4F600905A66 /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFA279FF38300905A66 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1100F279FF4F600905A66 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
@@ -240,6 +245,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		84F1100A279FF4D700905A66 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Frameworks;
+			dstSubfolderSpec = 10;
+			files = (
+				84F1100B279FF4F600905A66 /* FBControlCore.framework in CopyFiles */,
+				84F1100C279FF4F600905A66 /* FBDeviceControl.framework in CopyFiles */,
+				84F1100D279FF4F600905A66 /* FBSimulatorControl.framework in CopyFiles */,
+				84F1100E279FF4F600905A66 /* XCTestBootstrap.framework in CopyFiles */,
+				84F1100F279FF4F600905A66 /* CocoaLumberjack.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		896F91FC1D36949A0013B0F4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -821,6 +840,7 @@
 				89331D3F1CE222C7003C2E59 /* Sources */,
 				42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
+				84F1100A279FF4D700905A66 /* CopyFiles */,
 			);
 			buildRules = (
 			);
