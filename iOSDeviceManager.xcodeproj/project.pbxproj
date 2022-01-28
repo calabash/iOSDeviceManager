@@ -43,15 +43,16 @@
 		84F11006279FF38300905A66 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFC279FF38300905A66 /* FBControlCore.framework */; };
 		84F11008279FF38300905A66 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; };
 		84F11009279FF38300905A66 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; };
-		84F1100B279FF4F600905A66 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFC279FF38300905A66 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		84F1100C279FF4F600905A66 /* FBDeviceControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		84F1100D279FF4F600905A66 /* FBSimulatorControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFB279FF38300905A66 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		84F1100E279FF4F600905A66 /* XCTestBootstrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84F10FFA279FF38300905A66 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		84F1100F279FF4F600905A66 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		84F1101027A13CAF00905A66 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFC279FF38300905A66 /* FBControlCore.framework */; };
-		84F1101127A13CBB00905A66 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; };
-		84F1101227A13CC800905A66 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFB279FF38300905A66 /* FBSimulatorControl.framework */; };
-		84F1101327A13CDE00905A66 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFA279FF38300905A66 /* XCTestBootstrap.framework */; };
+		84F1101427A142F400905A66 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		84F1101527A142F400905A66 /* CocoaLumberjack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1101727A142F600905A66 /* FBControlCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFC279FF38300905A66 /* FBControlCore.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		84F1101827A142F600905A66 /* FBControlCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFC279FF38300905A66 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1101927A142F700905A66 /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		84F1101A27A142F700905A66 /* FBDeviceControl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFD279FF38300905A66 /* FBDeviceControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1101B27A142F800905A66 /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFB279FF38300905A66 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		84F1101C27A142F800905A66 /* FBSimulatorControl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFB279FF38300905A66 /* FBSimulatorControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84F1101D27A142FA00905A66 /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFA279FF38300905A66 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		84F1101E27A142FA00905A66 /* XCTestBootstrap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84F10FFA279FF38300905A66 /* XCTestBootstrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93C81D392ED000154F08 /* StopSimulatingLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93C61D392ED000154F08 /* StopSimulatingLocationCommand.m */; };
@@ -202,7 +203,6 @@
 		F59364B01F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
 		F59364B11F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
-		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC17891DD4C5A5008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
 		F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -245,18 +245,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		84F1100A279FF4D700905A66 /* CopyFiles */ = {
+		84F1101627A142F400905A66 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
+			buildActionMask = 12;
+			dstPath = Frameworks;
 			dstSubfolderSpec = 10;
 			files = (
-				84F1100B279FF4F600905A66 /* FBControlCore.framework in CopyFiles */,
-				84F1100C279FF4F600905A66 /* FBDeviceControl.framework in CopyFiles */,
-				84F1100D279FF4F600905A66 /* FBSimulatorControl.framework in CopyFiles */,
-				84F1100E279FF4F600905A66 /* XCTestBootstrap.framework in CopyFiles */,
-				84F1100F279FF4F600905A66 /* CocoaLumberjack.framework in CopyFiles */,
+				84F1101527A142F400905A66 /* CocoaLumberjack.framework in Embed Frameworks */,
+				84F1101C27A142F800905A66 /* FBSimulatorControl.framework in Embed Frameworks */,
+				84F1101E27A142FA00905A66 /* XCTestBootstrap.framework in Embed Frameworks */,
+				84F1101827A142F600905A66 /* FBControlCore.framework in Embed Frameworks */,
+				84F1101A27A142F700905A66 /* FBDeviceControl.framework in Embed Frameworks */,
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		896F91FC1D36949A0013B0F4 /* CopyFiles */ = {
@@ -461,11 +462,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84F1101327A13CDE00905A66 /* XCTestBootstrap.framework in Frameworks */,
-				84F1101227A13CC800905A66 /* FBSimulatorControl.framework in Frameworks */,
-				84F1101127A13CBB00905A66 /* FBDeviceControl.framework in Frameworks */,
-				84F1101027A13CAF00905A66 /* FBControlCore.framework in Frameworks */,
-				F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */,
+				84F1101B27A142F800905A66 /* FBSimulatorControl.framework in Frameworks */,
+				84F1101427A142F400905A66 /* CocoaLumberjack.framework in Frameworks */,
+				84F1101D27A142FA00905A66 /* XCTestBootstrap.framework in Frameworks */,
+				84F1101927A142F700905A66 /* FBDeviceControl.framework in Frameworks */,
+				84F1101727A142F600905A66 /* FBControlCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -840,7 +841,7 @@
 				89331D3F1CE222C7003C2E59 /* Sources */,
 				42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
-				84F1100A279FF4D700905A66 /* CopyFiles */,
+				84F1101627A142F400905A66 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -966,7 +967,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			shellScript = "bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"\n";
 			showEnvVarsInLog = 0;
 		};
 		42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */ = {
@@ -1340,7 +1341,6 @@
 					"$(APPLE_SHARED_FRAMEWORKS_DIR)",
 					"$(DEVELOPER_LIBRARY_DIR)/PrivateFrameworks",
 					"$(SDKROOT)/System/Library/PrivateFrameworks",
-					"@executable_path/../Frameworks/**",
 				);
 				GCC_PREFIX_HEADER = "";
 				GENERATE_MASTER_OBJECT_FILE = NO;
@@ -1350,7 +1350,6 @@
 					"$(PROJECT_DIR)/Frameworks/**",
 				);
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"MTL_ENABLE_DEBUG_INFO[arch=*]" = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1394,7 +1393,6 @@
 					"$(APPLE_SHARED_FRAMEWORKS_DIR)",
 					"$(DEVELOPER_LIBRARY_DIR)/PrivateFrameworks",
 					"$(SDKROOT)/System/Library/PrivateFrameworks",
-					"@executable_path/../Frameworks/**",
 				);
 				GCC_PREFIX_HEADER = "";
 				GENERATE_MASTER_OBJECT_FILE = NO;
@@ -1404,7 +1402,6 @@
 					"$(PROJECT_DIR)/Frameworks/**",
 				);
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-weak_framework",
