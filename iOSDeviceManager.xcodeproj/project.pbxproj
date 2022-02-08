@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -909,7 +909,8 @@
 		89331D3B1CE222C7003C2E59 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1310;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1320;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
@@ -1364,22 +1365,8 @@
 					"$(SRCROOT)/PrivateHeaders",
 				);
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"MTL_ENABLE_DEBUG_INFO[arch=*]" = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-weak_framework",
-					DTXConnectionServices,
-					"-weak_framework",
-					DVTFoundation,
-					"-weak_framework",
-					IDEFoundation,
-					"-weak_framework",
-					IDEKit,
-					"-weak_library",
-					"$(DEVELOPER_DIR)/../PlugIns/IDEiOSSupportCore.ideplugin/Contents/MacOS/IDEiOSSupportCore",
-				);
-				PRIVATE_HEADERS_FOLDER_PATH = "$(SRCROOT)/PrivateHeaders";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
@@ -1416,20 +1403,7 @@
 					"$(SRCROOT)/PrivateHeaders",
 				);
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-weak_framework",
-					DTXConnectionServices,
-					"-weak_framework",
-					DVTFoundation,
-					"-weak_framework",
-					IDEFoundation,
-					"-weak_framework",
-					IDEKit,
-					"-weak_library",
-					"$(DEVELOPER_DIR)/../PlugIns/IDEiOSSupportCore.ideplugin/Contents/MacOS/IDEiOSSupportCore",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(SRCROOT)/PrivateHeaders";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1459,7 +1433,7 @@
 				INFOPLIST_FILE = Tests/UnitInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
@@ -1489,7 +1463,7 @@
 				INFOPLIST_FILE = Tests/UnitInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Unit;
@@ -1519,7 +1493,7 @@
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				OTHER_LDFLAGS = "";
@@ -1550,7 +1524,7 @@
 				INFOPLIST_FILE = Tests/IntegrationInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				OTHER_LDFLAGS = "";
