@@ -24,7 +24,7 @@ CONFIGURATION=Release
 XC_PROJECT="FBSimulatorControl.xcodeproj"
 
 function strip_framework() {
-  local FRAMEWORK_PATH="${BUILD_DIR}/Build/Products/${CONFIGURATION}/${1}"
+  local FRAMEWORK_PATH="${BUILD_DIR}/${CONFIGURATION}/${1}"
   if [ -d "$FRAMEWORK_PATH" ]; then
     rm -r "$FRAMEWORK_PATH"
   fi
@@ -41,7 +41,6 @@ function framework_build() {
     GCC_OPTIMIZATION_LEVEL=0 \
     ARCHS="x86_64" \
     VALID_ARCHS="x86_64" \
-    MACOSX_DEPLOYMENT_TARGET="10.13" \
     -SYMROOT="${BUILD_DIR}" \
     -OBJROOT="${BUILD_DIR}" \
     -project "${XC_PROJECT}" \
@@ -57,16 +56,14 @@ framework_build FBDeviceControl
 framework_build FBControlCore
 
 # See the Frameworks.xcconfig file for why this is necessary.
-strip_framework "FBSimulatorControlKit.framework/Versions/Current/Frameworks/FBSimulatorControl.framework"
-strip_framework "FBSimulatorControlKit.framework/Versions/Current/Frameworks/FBDeviceControl.framework"
-strip_framework "FBSimulatorControl.framework/Versions/Current/Frameworks/XCTestBootstrap.framework"
-strip_framework "FBSimulatorControl.framework/Versions/Current/Frameworks/FBControlCore.framework"
-strip_framework "FBSimulatorControl.framework/Versions/Current/Frameworks/CocoaLumberjack.framework"
-strip_framework "FBDeviceControl.framework/Versions/Current/Frameworks/XCTestBootstrap.framework"
-strip_framework "FBDeviceControl.framework/Versions/Current/Frameworks/FBControlCore.framework"
-strip_framework "FBDeviceControl.framework/Versions/Current/Frameworks/CocoaLumberjack.framework"
-strip_framework "XCTestBootstrap.framework/Versions/Current/Frameworks/FBControlCore.framework"
-strip_framework "XCTestBootstrap.framework/Versions/Current/Frameworks/CocoaLumberjack.framework"
-strip_framework "FBControlCore.framework/Versions/Current/Frameworks/CocoaLumberjack.framework"
+strip_framework "FBSimulatorControl.framework/Versions/A/Frameworks/XCTestBootstrap.framework"
+strip_framework "FBSimulatorControl.framework/Versions/A/Frameworks/FBControlCore.framework"
+strip_framework "FBSimulatorControl.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
+strip_framework "FBDeviceControl.framework/Versions/A/Frameworks/XCTestBootstrap.framework"
+strip_framework "FBDeviceControl.framework/Versions/A/Frameworks/FBControlCore.framework"
+strip_framework "FBDeviceControl.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
+strip_framework "XCTestBootstrap.framework/Versions/A/Frameworks/FBControlCore.framework"
+strip_framework "XCTestBootstrap.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
+strip_framework "FBControlCore.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
 
 osascript -e 'display notification "Finished building FBSimulatorControl" with title "iOSDeviceManager" subtitle "Make"'

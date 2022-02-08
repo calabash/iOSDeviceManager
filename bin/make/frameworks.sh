@@ -3,6 +3,10 @@
 source bin/log.sh
 source bin/simctl.sh
 
+banner "Preparing"
+
+IDB_VERSION="v1.1.6"
+
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   if [ -e "../idb" ]; then
     FBSIMCONTROL_PATH="../idb"
@@ -17,6 +21,14 @@ if [ ! -d "${FBSIMCONTROL_PATH}" ]; then
   exit 4
 fi
 
+banner "Checkout idb tag ${IDB_VERSION}"
+
+(cd "${FBSIMCONTROL_PATH}";
+git checkout $IDB_VERSION;
+)
+
+banner "Building idb frameworks inside idb's directory"
+
 rm -rf ./Frameworks/*.framework
 OUTPUT_DIR="${PWD}/Frameworks"
 
@@ -25,7 +37,6 @@ cp -a bin/idb/. ${FBSIMCONTROL_PATH}
 echo "${FBSIMCONTROL_PATH}"
 (cd "${FBSIMCONTROL_PATH}";
 
-#TODO: remove this and change relative way to /usr/local/Cellar/idb-companion/1.1.3
 make frameworks;
 
 xcrun ditto build/Release/FBControlCore.framework \
@@ -45,6 +56,8 @@ rm -rf bin;
 )
 
 xcrun ditto ./Vendor/CocoaLumberjack.framework ${OUTPUT_DIR}/CocoaLumberjack.framework
+
+banner "Signing frameworks"
 
 xcrun codesign \
 --force \
