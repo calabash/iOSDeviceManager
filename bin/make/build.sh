@@ -39,8 +39,8 @@ xcrun xcodebuild \
 rm -rf Products
 mkdir Products
 
-# Will dynamically link Products/../Frameworks at runtime
 ditto build/Release/iOSDeviceManager Products/iOSDeviceManager
+ditto build/Release/Frameworks Products/Frameworks
 
 install_with_ditto ThirdPartyNotices.txt Frameworks/ThirdPartyNotices.txt
 install_with_ditto Licenses/CocoaLumberjack.LICENSE Frameworks/CocoaLumberjack.LICENSE
