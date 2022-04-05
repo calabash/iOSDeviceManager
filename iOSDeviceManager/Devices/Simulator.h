@@ -8,8 +8,6 @@
 
 @interface Simulator : Device<FBXCTestReporter, FBControlCoreLogger>
 
-+ (NSURL *)simulatorAppURL;
-
 + (iOSReturnStatusCode)launchSimulator:(Simulator *)simulator;
 + (iOSReturnStatusCode)killSimulatorApp;
 + (iOSReturnStatusCode)eraseSimulator:(Simulator *)simulator;
