@@ -11,6 +11,7 @@
 @interface Simulator (TEST)
 
 - (BOOL)boot;
+- (BOOL)shutdown;
 - (FBSimulator *)fbSimulator;
 - (BOOL)waitForBootableState:(NSError *__autoreleasing *)error;
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
@@ -58,8 +59,17 @@
 - (void)testBoot {
     expect([self.simulator boot]).to.equal(YES);
 
-    // Safe to call in state Booted
+    // Safe to call in state Booted.
     expect([self.simulator boot]).to.equal(YES);
+}
+
+- (void)testShutdown {
+    expect([self.simulator boot]).to.equal(YES);
+
+    expect([self.simulator shutdown]).to.equal(YES);
+
+    // Safe to call in state Shutdown.
+    expect([self.simulator shutdown]).to.equal(YES);
 }
 
 - (void)testInstallPathAndContainerPathForApplication {

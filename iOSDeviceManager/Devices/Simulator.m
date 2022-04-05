@@ -18,8 +18,6 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 + (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
-- (FBiOSTargetState)state;
-- (NSString *)stateString;
 - (BOOL)waitForSimulatorState:(FBiOSTargetState)state
                       timeout:(NSTimeInterval)timeout;
 @end
