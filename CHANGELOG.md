@@ -1,3 +1,8 @@
+### 3.9.3
+
+* Refactored simulator lifecycle logic and updated tests.
+* Added support of Xcode 13.3.
+
 ### 3.9.2
 
 * Updated idb frameworks from version 1.1.6.
