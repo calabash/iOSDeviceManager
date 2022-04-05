@@ -21,6 +21,9 @@
 
 @interface SimulatorCLIIntegrationTests : TestCase
 
+@property (atomic, strong) Simulator *simulator;
+@property (atomic, strong) Application *app;
+
 - (NSString *)bundleVersionForInstalledTestApp;
 
 @end
@@ -28,8 +31,17 @@
 @implementation SimulatorCLIIntegrationTests
 
 - (void)setUp {
+    self.simulator = [Simulator withID:defaultSimUDID];
+    self.app = [Application withBundlePath:testApp(SIM)];
+    [Simulator killSimulatorApp];
     self.continueAfterFailure = NO;
     [super setUp];
+}
+
+- (void)tearDown {
+    self.simulator = nil;
+    self.app = nil;
+    [super tearDown];
 }
 
 - (NSString *)bundleVersionForInstalledTestApp {
@@ -39,54 +51,54 @@
 }
 
 - (void)testLaunchAndKillApp {
-    NSArray *args = @[kProgramName, @"kill-simulator", @"-d", [DeviceUtils defaultSimulatorID]];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    expect([self.simulator boot]).to.beTruthy();
 
-    args = @[kProgramName, @"launch-simulator", @"-d", [DeviceUtils defaultSimulatorID]];
-    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
-
-    args = @[kProgramName, @"is-installed", testAppID, @"-d", [DeviceUtils defaultSimulatorID]];
-    if ([CLI process:args] == iOSReturnStatusCodeFalse) {
-        args = @[kProgramName, @"install", testApp(SIM), @"-d", [DeviceUtils defaultSimulatorID]];
-        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    if (![self.simulator isInstalled:self.app.bundleID withError:nil]) {
+        expect(
+               [self.simulator installApp:self.app forceReinstall:true]
+               ).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 
-    args = @[kProgramName, @"launch-app", testAppID, @"-d", [DeviceUtils defaultSimulatorID]];
+    NSArray *args = @[kProgramName, @"launch-app", testAppID, @"-d", [DeviceUtils defaultSimulatorID]];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
     args = @[kProgramName, @"kill-app", testAppID, @"-d", [DeviceUtils defaultSimulatorID]];
     XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 }
 
-- (void)testInstallAndInjectResource {
+- (void)testLaunchSimulatorAndKillIt {
+    NSArray *args = @[kProgramName, @"launch-simulator", @"-d", [DeviceUtils defaultSimulatorID]];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
 
-    Application *app = [Application withBundlePath:testApp(SIM)];
-    Simulator *simulator = [Simulator withID:defaultSimUDID];
+    args = @[kProgramName, @"kill-simulator", @"-d", [DeviceUtils defaultSimulatorID]];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
+- (void)testInstallAndInjectResource {
 
     // --update-app flag is not working, so we must uninstall
     // When injecting resources, we should _always_ reinstall because
     // the version of the resources may have changed?
-    expect([Simulator killSimulatorApp]).to.equal(iOSReturnStatusCodeEverythingOkay);
-    expect([simulator boot]).to.beTruthy();
+    expect([self.simulator boot]).to.beTruthy();
 
-    if ([simulator isInstalled:app.bundleID withError:nil]) {
+    if ([self.simulator isInstalled:self.app.bundleID withError:nil]) {
         expect(
-               [simulator uninstallApp:app.bundleID]
+               [self.simulator uninstallApp:self.app.bundleID]
                ).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
 
     NSString *dylibPath = [[Resources shared] TestRecorderDylibPath];
     NSArray *args = @[kProgramName,
                       @"install",
-                      app.path,
-                      @"--device-id", simulator.uuid,
+                      self.app.path,
+                      @"--device-id", self.simulator.uuid,
                       @"--resources-path", dylibPath
                       ];
 
     expect([CLI process:args]).to.equal(iOSReturnStatusCodeEverythingOkay);
 
     expect(
-           [simulator launchApp:[app bundleID]]
+           [self.simulator launchApp:[self.app bundleID]]
            ).to.equal(iOSReturnStatusCodeEverythingOkay);
 
     __block NSString *version = nil;
