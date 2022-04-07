@@ -197,12 +197,6 @@
 		F59364B01F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
 		F59364B11F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
-		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
-		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
-		F5BC17891DD4C5A5008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
-		F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5CAA4531F4EC25000E48BFF /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */; };
 		F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */; };
 		F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
@@ -263,7 +257,6 @@
 				892A93CD1D3934B600154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93CE1D3934B600154F08 /* FBSimulatorControl.framework in CopyFiles */,
 				892A93CF1D3934B600154F08 /* XCTestBootstrap.framework in CopyFiles */,
-				F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +266,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */,
 				892A93C11D3928F800154F08 /* FBControlCore.framework in CopyFiles */,
 				892A93C21D3928F800154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93C31D3928F800154F08 /* FBSimulatorControl.framework in CopyFiles */,
@@ -297,7 +289,6 @@
 				F51AC6E11D6A40AC00BA3988 /* Expecta.framework in Copy Files */,
 				F51AC6E21D6A40AC00BA3988 /* OCMock.framework in Copy Files */,
 				F51AC6E31D6A40AC00BA3988 /* Specta.framework in Copy Files */,
-				F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,11 +427,9 @@
 		F556B1751F63C32900F949A6 /* XCTestConfigurationProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XCTestConfigurationProxy.h; path = iOSDeviceManager/Utilities/XCTestConfigurationProxy.h; sourceTree = SOURCE_ROOT; };
 		F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XCTestConfigurationProxy.m; path = iOSDeviceManager/Utilities/XCTestConfigurationProxy.m; sourceTree = SOURCE_ROOT; };
 		F556B1791F63C34500F949A6 /* XCTestConfigurationProxyTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationProxyTest.m; sourceTree = "<group>"; };
-		F564E2DF1F65015600EDC7EF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F564E2E11F650ED100EDC7EF /* XCTestConfigReadWriteCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XCTestConfigReadWriteCommand.h; path = iOSDeviceManager/Commands/XCTestConfigReadWriteCommand.h; sourceTree = SOURCE_ROOT; };
 		F564E2E21F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XCTestConfigReadWriteCommand.m; path = iOSDeviceManager/Commands/XCTestConfigReadWriteCommand.m; sourceTree = SOURCE_ROOT; };
 		F578F4671D70A3C4001FC3BE /* ResignTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResignTest.m; sourceTree = "<group>"; };
-		F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaLumberjack.LICENSE; sourceTree = "<group>"; };
 		F59364971F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadXCAppDataBundleCommand.m; path = iOSDeviceManager/Commands/UploadXCAppDataBundleCommand.m; sourceTree = SOURCE_ROOT; };
 		F59364981F3F2EA900EB72BE /* UploadXCAppDataBundleCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadXCAppDataBundleCommand.h; path = iOSDeviceManager/Commands/UploadXCAppDataBundleCommand.h; sourceTree = SOURCE_ROOT; };
 		F593649A1F3F37CB00EB72BE /* XCAppDataBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCAppDataBundle.h; path = iOSDeviceManager/Utilities/XCAppDataBundle.h; sourceTree = SOURCE_ROOT; };
@@ -453,7 +442,6 @@
 		F59364AD1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadXCTestConfigurationCommand.h; path = iOSDeviceManager/Commands/UploadXCTestConfigurationCommand.h; sourceTree = SOURCE_ROOT; };
 		F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadXCTestConfigurationCommand.m; path = iOSDeviceManager/Commands/UploadXCTestConfigurationCommand.m; sourceTree = SOURCE_ROOT; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
-		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhysicalDeviceTest.m; sourceTree = "<group>"; };
 		F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationPlistTest.m; sourceTree = "<group>"; };
 		F5D437FF1E8BA3210036C80D /* XCTestConfigurationPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCTestConfigurationPlist.h; path = iOSDeviceManager/Utilities/XCTestConfigurationPlist.h; sourceTree = SOURCE_ROOT; };
@@ -479,7 +467,6 @@
 			files = (
 				89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */,
 				89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */,
-				F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */,
 				89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */,
 				89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */,
 			);
@@ -491,7 +478,6 @@
 			files = (
 				F5F7054C1D68BAA90096E9D4 /* FBControlCore.framework in Frameworks */,
 				F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */,
-				F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */,
 				F5F7054D1D68BAA90096E9D4 /* FBDeviceControl.framework in Frameworks */,
 				F5F7054E1D68BAA90096E9D4 /* FBSimulatorControl.framework in Frameworks */,
 				F51AC6DC1D6A3F4600BA3988 /* Specta.framework in Frameworks */,
@@ -506,7 +492,6 @@
 			files = (
 				F5D5840C1D6A03C0007B0D11 /* FBControlCore.framework in Frameworks */,
 				F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */,
-				F5BC17891DD4C5A5008DB949 /* CocoaLumberjack.framework in Frameworks */,
 				F5D5840D1D6A03C0007B0D11 /* FBDeviceControl.framework in Frameworks */,
 				F5D5840E1D6A03C0007B0D11 /* FBSimulatorControl.framework in Frameworks */,
 				F51AC6DD1D6A3F4700BA3988 /* Specta.framework in Frameworks */,
@@ -729,8 +714,6 @@
 		89F6DB391D37F75F006A0FD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F564E2DF1F65015600EDC7EF /* XCTest.framework */,
-				F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */,
 				89F6DB311D37F746006A0FD5 /* FBControlCore.framework */,
 				89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */,
 				89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */,
@@ -751,7 +734,6 @@
 		F5169D271CFEAE5900252F52 /* Licenses */ = {
 			isa = PBXGroup;
 			children = (
-				F57BF4581DC382420074747F /* CocoaLumberjack.LICENSE */,
 				F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */,
 			);
 			path = Licenses;

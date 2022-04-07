@@ -31,7 +31,7 @@ xcrun xcodebuild \
   -sdk macosx \
   ARCHS="x86_64" \
   VALID_ARCHS="x86_64" \
-  GCC_TREAT_WARNINGS_AS_ERRORS=YES \
+  GCC_TREAT_WARNINGS_AS_ERRORS=NO \
   GCC_GENERATE_TEST_COVERAGE_FILES=NO \
   GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
   build | $XC_PIPE
@@ -42,5 +42,4 @@ mkdir Products
 ditto build/Release/iOSDeviceManager Products/iOSDeviceManager
 
 install_with_ditto ThirdPartyNotices.txt Frameworks/ThirdPartyNotices.txt
-install_with_ditto Licenses/CocoaLumberjack.LICENSE Frameworks/CocoaLumberjack.LICENSE
 install_with_ditto Licenses/FBSimulatorControl.LICENSE Frameworks/FBSimulatorControl.LICENSE

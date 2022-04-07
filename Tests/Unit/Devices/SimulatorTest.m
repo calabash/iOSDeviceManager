@@ -163,13 +163,6 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
                    containsString:@"Could not boot simulator from this state:"]);
 }
 
-- (void)testSimulatorAppURL {
-    NSURL *url = [Simulator simulatorAppURL];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    expect([manager fileExistsAtPath:url.path]).to.beTruthy();
-}
-
-
 - (void)testEraseSimulatorSuccess {
 
     XCTAssertEqual([Simulator killSimulatorApp], iOSReturnStatusCodeEverythingOkay);

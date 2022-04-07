@@ -55,16 +55,7 @@ rm -rf Makefile;
 rm -rf bin;
 )
 
-xcrun ditto ./Vendor/CocoaLumberjack.framework ${OUTPUT_DIR}/CocoaLumberjack.framework
-
 banner "Signing frameworks"
-
-xcrun codesign \
---force \
---deep \
---sign "Mac Developer: Karl Krukow (YTTN6Y2QS9)" \
---keychain "${HOME}/.calabash/Calabash.keychain" \
-"Frameworks/CocoaLumberjack.framework"
 
 xcrun codesign \
 --force \

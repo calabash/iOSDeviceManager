@@ -58,12 +58,8 @@ framework_build FBControlCore
 # See the Frameworks.xcconfig file for why this is necessary.
 strip_framework "FBSimulatorControl.framework/Versions/A/Frameworks/XCTestBootstrap.framework"
 strip_framework "FBSimulatorControl.framework/Versions/A/Frameworks/FBControlCore.framework"
-strip_framework "FBSimulatorControl.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
 strip_framework "FBDeviceControl.framework/Versions/A/Frameworks/XCTestBootstrap.framework"
 strip_framework "FBDeviceControl.framework/Versions/A/Frameworks/FBControlCore.framework"
-strip_framework "FBDeviceControl.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
 strip_framework "XCTestBootstrap.framework/Versions/A/Frameworks/FBControlCore.framework"
-strip_framework "XCTestBootstrap.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
-strip_framework "FBControlCore.framework/Versions/A/Frameworks/CocoaLumberjack.framework"
 
 osascript -e 'display notification "Finished building FBSimulatorControl" with title "iOSDeviceManager" subtitle "Make"'

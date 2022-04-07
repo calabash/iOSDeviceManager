@@ -1,9 +1,7 @@
-
 #import "ShellResult.h"
 #import "ConsoleWriter.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
-static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+//LOGFIXstatic const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @interface ShellResult ()
 
@@ -126,11 +124,11 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 - (void)logStdoutAndStderr {
     if (!self.didTimeOut) {
-        DDLogInfo(@"EXEC: %@", self.command);
+//LOGFIX        DDLogInfo(@"EXEC: %@", self.command);
 
         if (self.stdoutStr && self.stdoutStr.length != 0) {
-            DDLogInfo(@"=== STDOUT ===");
-            DDLogInfo(@"%@", self.stdoutStr);
+//LOGFIX            DDLogInfo(@"=== STDOUT ===");
+//LOGFIX            DDLogInfo(@"%@", self.stdoutStr);
         }
 
         if (self.stderrStr && self.stderrStr.length != 0) {

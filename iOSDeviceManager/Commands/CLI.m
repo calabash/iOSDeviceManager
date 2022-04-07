@@ -1,5 +1,3 @@
-
-#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "iOSDeviceManagementCommand.h"
 #import "ConsoleWriter.h"
 #import <objc/runtime.h>
@@ -13,7 +11,7 @@
 #import "LaunchSimulatorCommand.h"
 #import "EraseSimulatorCommand.h"
 
-static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+//LOGFIXstatic const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation CLI
 
@@ -185,7 +183,7 @@ static NSMutableDictionary <NSString *, Class> *commandClasses;
             //If exit non-0, print usage.
             iOSReturnStatusCode ret = [command execute:parsedArgs];
 
-            DDLogVerbose(@"%@ ==> %@ %@", [command name], @(ret), parsedArgs);
+            //LOGFIX DDLogVerbose(@"%@ ==> %@ %@", [command name], @(ret), parsedArgs);
 
             if (ret != iOSReturnStatusCodeEverythingOkay &&
                 ret != iOSReturnStatusCodeFalse) {

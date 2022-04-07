@@ -1,16 +1,15 @@
-
+#import <AppKit/NSRunningApplication.h>
 #import "Simulator.h"
 #import "AppUtils.h"
 #import "Codesigner.h"
 #import "ConsoleWriter.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "XCTestConfigurationPlist.h"
 #import "XCAppDataBundle.h"
 #import <FBControlCore/FBControlCore.h>
 #import <CoreSimulator/SimDevice.h>
 #import <CoreSimulator/SimDeviceBootInfo.h>
 
-static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+//LOGFIXstatic const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @interface Simulator()
 
@@ -673,7 +672,7 @@ static const FBSimulatorControl *_control;
 + (BOOL)iOS_GTE_9:(NSString *)versionString {
     NSArray <NSString *> *components = [versionString componentsSeparatedByString:@" "];
     if (components.count < 2) {
-        DDLogWarn(@"Unparseable version string: %@", versionString);
+        //LOGFIXDDLogWarn(@"Unparseable version string: %@", versionString);
         return YES;
     }
     NSString *versionNumberString = components[1];
@@ -686,55 +685,55 @@ static const FBSimulatorControl *_control;
                         versionString);
         return NO;
     }
-    DDLogInfo(@"%@ is valid for testing.", versionString);
+    //LOGFIXDDLogInfo(@"%@ is valid for testing.", versionString);
     return YES;
 }
 
 #pragma mark - Test Reporter Methods
 
 - (void)testManagerMediatorDidBeginExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
                   testSuite:(NSString *)testSuite
                  didStartAt:(NSString *)startTime {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFinishForTestClass:(NSString *)testClass method:(NSString *)method withStatus:(FBTestReportStatus)status duration:(NSTimeInterval)duration {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator testCaseDidFailForTestClass:(NSString *)testClass method:(NSString *)method withMessage:(NSString *)message file:(NSString *)file line:(NSUInteger)line {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testBundleReadyWithProtocolVersion:(NSInteger)protocolVersion
              minimumVersion:(NSInteger)minimumVersion {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
 testCaseDidStartForTestClass:(NSString *)testClass
                      method:(NSString *)method {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediator:(FBTestManagerAPIMediator *)mediator
         finishedWithSummary:(FBTestManagerResultSummary *)summary {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 - (void)testManagerMediatorDidFinishExecutingTestPlan:(FBTestManagerAPIMediator *)mediator {
-    DDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    //LOGFIXDDLogInfo(@"[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
     self.testingComplete = YES;
 }
 
 #pragma mark - FBControlCoreLogger
 - (id<FBControlCoreLogger>)log:(NSString *)string {
-    DDLogInfo(@"%@", string);
+    //LOGFIXDDLogInfo(@"%@", string);
     return self;
 }
 
@@ -743,7 +742,7 @@ testCaseDidStartForTestClass:(NSString *)testClass
     va_start(args, format);
     id str = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
-    DDLogInfo(@"%@", str);
+    //LOGFIXDDLogInfo(@"%@", str);
     return self;
 }
 
