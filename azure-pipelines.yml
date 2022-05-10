@@ -21,18 +21,12 @@ jobs:
 
   strategy:
     matrix:
-      BigSur-Xcode-12.5:
-        IMAGE_POOL: 'macOS-11'
-        XCODE_VERSION: '12.5'
-      BigSur-Xcode-13.0:
-        IMAGE_POOL: 'macOS-11'
-        XCODE_VERSION: '13.0'
-      BigSur-Xcode-13.1:
-        IMAGE_POOL: 'macOS-11'
-        XCODE_VERSION: '13.1'
       BigSur-Xcode-13.2:
         IMAGE_POOL: 'macOS-11'
         XCODE_VERSION: '13.2'
+      Monterey-Xcode-13.3.1:
+        IMAGE_POOL: 'macOS-12'
+        XCODE_VERSION: '13.3.1'
   timeoutInMinutes: 180
   pool:
     vmImage: $(IMAGE_POOL)
