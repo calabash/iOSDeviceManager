@@ -153,6 +153,9 @@
 		B9C08F032073A0070032997D /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
 		B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
 		B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
+		DDBD1A6827FF435500B51A39 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD1A6727FF435500B51A39 /* Logger.m */; };
+		DDBD1A6927FF435500B51A39 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD1A6727FF435500B51A39 /* Logger.m */; };
+		DDBD1A6A27FF435500B51A39 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD1A6727FF435500B51A39 /* Logger.m */; };
 		F5004F551F7BCB73006CE0E0 /* XCTestConfigurationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */; };
 		F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
 		F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
@@ -411,6 +414,8 @@
 		B980C157206CA08600879BBD /* ClearAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClearAppDataCommand.m; path = iOSDeviceManager/Commands/ClearAppDataCommand.m; sourceTree = "<group>"; };
 		B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadXCAppDataCommand.h; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.h; sourceTree = "<group>"; };
 		B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadXCAppDataCommand.m; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.m; sourceTree = "<group>"; };
+		DDBD1A6627FF435500B51A39 /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
+		DDBD1A6727FF435500B51A39 /* Logger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 		F51AC6D21D6A3F3300BA3988 /* Expecta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Expecta.framework; path = Carthage/Build/Mac/Expecta.framework; sourceTree = SOURCE_ROOT; };
@@ -691,6 +696,8 @@
 			children = (
 				89C29E181DAE69C500282526 /* ConsoleWriter.h */,
 				89C29E191DAE69C500282526 /* ConsoleWriter.m */,
+				DDBD1A6627FF435500B51A39 /* Logger.h */,
+				DDBD1A6727FF435500B51A39 /* Logger.m */,
 			);
 			name = Logging;
 			sourceTree = "<group>";
@@ -1009,6 +1016,7 @@
 				892DE4F61D23109000E1902C /* CommandOption.m in Sources */,
 				892DE5091D2378AA00E1902C /* KillSimulatorCommand.m in Sources */,
 				47DE8C4A2695F30500801F7E /* FBDependentDylib+ApplePrivateDylibs.m in Sources */,
+				DDBD1A6827FF435500B51A39 /* Logger.m in Sources */,
 				42CFBACD1F0FF73800357248 /* AppInfoCommand.m in Sources */,
 				89B50D801D466BB800F34D67 /* AppUtils.m in Sources */,
 				892DE49F1D22F84200E1902C /* PhysicalDevice.m in Sources */,
@@ -1064,6 +1072,7 @@
 				F53764981D67A1FB009457C8 /* Resources.m in Sources */,
 				A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */,
 				B2E68E191E38170E001D5D89 /* ResignCommand.m in Sources */,
+				DDBD1A6927FF435500B51A39 /* Logger.m in Sources */,
 				F556B1781F63C32900F949A6 /* XCTestConfigurationProxy.m in Sources */,
 				892DE5101D237A0800E1902C /* InstallAppCommand.m in Sources */,
 				892DE4F71D23109000E1902C /* CommandOption.m in Sources */,
@@ -1149,6 +1158,7 @@
 				B296D7031E31474800D365F3 /* CodesignIdentity.m in Sources */,
 				F5D584051D6A0387007B0D11 /* LaunchSimulatorCommand.m in Sources */,
 				B296D7041E31475200D365F3 /* Entitlements.m in Sources */,
+				DDBD1A6A27FF435500B51A39 /* Logger.m in Sources */,
 				B296378C1E3FC23800200661 /* KillAppCommand.m in Sources */,
 				B296D7081E31489A00D365F3 /* ShasumProvider.m in Sources */,
 				F564E2E51F650ED100EDC7EF /* XCTestConfigReadWriteCommand.m in Sources */,
