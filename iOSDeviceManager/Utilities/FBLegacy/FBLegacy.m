@@ -16,38 +16,38 @@
 //legacy frameworks that are required for .xcappdata container download and upload
 + (FBWeakFramework *)DevToolsFoundation
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsFoundation.framework" requiredClassNames:@[]];
 }
 
 + (FBWeakFramework *)DevToolsSupport
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsSupport.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsSupport.framework" requiredClassNames:@[]];
 }
 
 + (FBWeakFramework *)DevToolsCore
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsCore.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsCore.framework" requiredClassNames:@[]];
 }
 
 
 + (FBWeakFramework *)IBAutolayoutFoundation
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IBAutolayoutFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IBAutolayoutFoundation.framework" requiredClassNames:@[]];
 }
 
 + (FBWeakFramework *)IDEKit
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEKit.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEKit.framework" requiredClassNames:@[]];
 }
 
 + (FBWeakFramework *)DebugHierarchyFoundation
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyFoundation.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyFoundation.framework" requiredClassNames:@[]];
 }
 
 + (FBWeakFramework *)DebugHierarchyKit
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyKit.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DebugHierarchyKit.framework" requiredClassNames:@[]];
 }
 
 //functons that are required for .xcappdata container download and upload
@@ -55,19 +55,18 @@
 {
   id<FBControlCoreLogger> logger = FBControlCoreGlobalConfiguration.defaultLogger;
   NSError *error = nil;
-    BOOL result = [FBWeakFrameworkLoader loadPrivateFrameworks:frameworks logger:logger error:&error];
-  
-  if (result) {
-    return;
-  }
-  NSString *message = [NSString stringWithFormat:@"Failed to load private frameworks with error %@", error];
+    for(FBWeakFramework *framework in frameworks) {
+        if(![framework loadWithLogger:logger error:&error]) {
+            NSString *message = [NSString stringWithFormat:@"Failed to load private frameworks with error %@", error];
 
-  // Log the message.
-  [logger.error log:message];
-  // Assertions give a better message in the crash report.
-  NSAssert(NO, message);
-  // However if assertions are compiled out, then we still need to abort.
-  abort();
+            // Log the message.
+            [logger.error log:message];
+            // Assertions give a better message in the crash report.
+            NSAssert(NO, message);
+            // However if assertions are compiled out, then we still need to abort.
+            abort();
+        }
+    }
 }
 
 /**
@@ -85,22 +84,18 @@ DVT contains an old set of functions
     
     NSMutableArray<FBWeakFramework *> *frameworks = [[NSMutableArray alloc] init];
     
-    FBWeakFramework *mobileDeviceFramework = [FBWeakFramework frameworkWithPath:@"/System/Library/PrivateFrameworks/MobileDevice.framework" requiredClassNames:@[]  requiredFrameworks:@[] rootPermitted:NO];
+    FBWeakFramework *mobileDeviceFramework = [FBWeakFramework frameworkWithPath:@"/System/Library/PrivateFrameworks/MobileDevice.framework" requiredClassNames:@[] rootPermitted:NO];
     
     [frameworks addObject:mobileDeviceFramework];
     
-    FBWeakFramework *dtxConnectionFramework = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DTXConnectionServices.framework" requiredClassNames:@[@"DTXConnection", @"DTXRemoteInvocationReceipt"]  requiredFrameworks:@[] rootPermitted:NO];
+    FBWeakFramework *dtxConnectionFramework = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DTXConnectionServices.framework" requiredClassNames:@[@"DTXConnection", @"DTXRemoteInvocationReceipt"]];
     [frameworks addObject:dtxConnectionFramework];
     
-    FBWeakFramework *ideFoundationFramework = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEFoundation.framework" requiredClassNames:@[@"IDEFoundationTestInitializer"]  requiredFrameworks:@[] rootPermitted:NO];
+    FBWeakFramework *ideFoundationFramework = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEFoundation.framework" requiredClassNames:@[@"IDEFoundationTestInitializer"]];
     
     [frameworks addObject:ideFoundationFramework];
     
-    FBWeakFramework *ideiOSSupportCorePlugin = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.ideplugin" requiredClassNames:@[@"DVTiPhoneSimulator"]  requiredFrameworks:@[
-        [self DevToolsFoundation],
-        [self DevToolsSupport],
-        [self DevToolsCore],
-    ] rootPermitted:NO];
+    FBWeakFramework *ideiOSSupportCorePlugin = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.ideplugin" requiredClassNames:@[@"DVTiPhoneSimulator"]];
     
     [frameworks addObject:ideiOSSupportCorePlugin];
     

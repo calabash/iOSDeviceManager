@@ -5,7 +5,7 @@ source bin/simctl.sh
 
 banner "Preparing"
 
-IDB_VERSION="v1.1.6"
+IDB_VERSION="v1.1.7"
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   if [ -e "../idb" ]; then
