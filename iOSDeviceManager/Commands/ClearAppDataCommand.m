@@ -73,6 +73,11 @@ static NSString *const APP_PATH_OPTION_NAME = @"app-path";
         [Device generateXCAppDataBundleAtPath:emptyXcappdataPath overwrite:YES];
         [device uploadXCAppDataBundle:emptyXcappdataPath forApplication:bundleId];
     }
+    @catch(NSException *e) {
+        ConsoleWriteErr(@"Unable to clear XCAppData.");
+        ConsoleWriteErr(@"Error: %@", e.description);
+        return iOSReturnStatusCodeInternalError;
+    }
     @finally {
         NSError *error;
         NSFileManager *fileManager = [NSFileManager defaultManager];
