@@ -168,6 +168,8 @@
 		DD4E0BAA288044DC006501FC /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4E0BA9288044DC006501FC /* IDMLogger.m */; };
 		DD4E0BAE28804EC8006501FC /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0BAD28804EC8006501FC /* CocoaLumberjack.xcframework */; };
 		DD4E0BB028804EF9006501FC /* CocoaLumberjack.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4E0BAD28804EC8006501FC /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD4E0BB128805280006501FC /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4E0BA9288044DC006501FC /* IDMLogger.m */; };
+		DD4E0BB228805280006501FC /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4E0BA9288044DC006501FC /* IDMLogger.m */; };
 		F5004F551F7BCB73006CE0E0 /* XCTestConfigurationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */; };
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
@@ -1155,6 +1157,7 @@
 				421D28111E942AB5003C7F10 /* FileUtilsTest.m in Sources */,
 				B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */,
 				47DE8C4F2695F4F800801F7E /* FBLegacy.m in Sources */,
+				DD4E0BB128805280006501FC /* IDMLogger.m in Sources */,
 				42148DFC1EA5672700625741 /* VersionCommand.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
@@ -1206,6 +1209,7 @@
 				F5D583F51D6A035F007B0D11 /* main.m in Sources */,
 				F5D583FE1D6A0387007B0D11 /* Command.m in Sources */,
 				F5D438041E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
+				DD4E0BB228805280006501FC /* IDMLogger.m in Sources */,
 				F54ACEDF1E8A687700BC36DA /* MachClock.m in Sources */,
 				F5D584061D6A0387007B0D11 /* SimulateLocationCommand.m in Sources */,
 				F5D584031D6A0387007B0D11 /* KillSimulatorCommand.m in Sources */,
