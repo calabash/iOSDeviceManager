@@ -1,10 +1,10 @@
 
 #import "CLI.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "IDMLogger.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        [iOSDeviceManagerLogging startLumberjackLogging];
+        [IDMLogger startLumberjackLogging];
         return (int)[CLI process:[NSProcessInfo processInfo].arguments];
     }
 }
