@@ -150,7 +150,7 @@ const double EPSILON = 0.001;
 
 + (NSString *)defaultSimulator {
     NSUInteger major = XcodeUtils.versionMajor + 2;
-    NSUInteger minor = XcodeUtils.versionMinor;
+    NSUInteger minor = XcodeUtils.versionMinor+1;
 
     if(XcodeUtils.versionMajor == 10 && XcodeUtils.versionMinor == 3) {
         minor = 4;

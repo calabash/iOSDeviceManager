@@ -20,6 +20,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 + (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 - (BOOL)waitForSimulatorState:(FBiOSTargetState)state
                       timeout:(NSTimeInterval)timeout;
+- (FBiOSTargetState)state;
 @end
 
 @implementation Simulator
@@ -159,13 +160,17 @@ static const FBSimulatorControl *_control;
         return YES;
     } else {
         ConsoleWriteErr(@"Couldn't resolve simulator state '%@' in '%@' seconds.",
-                        FBiOSTargetStateStringFromState(state), timeout);
+                        FBiOSTargetStateStringFromState(state), [NSString stringWithFormat:@"%f", timeout]);
         if (error) {
             ConsoleWriteErr(@"%@", [error localizedDescription]);
         }
         return NO;
     }
 }
+
+- (FBiOSTargetState)state {
+    return self.fbSimulator.state;
+};
 
 /// Performs boot of Simulator.
 - (BOOL)boot {
@@ -180,16 +185,16 @@ static const FBSimulatorControl *_control;
                                                                                                 environment:@{}];
 
     // Check if Simulator is already booted or is being booted right now.
-    if (self.fbSimulator.state == FBiOSTargetStateBooted) {
+    if (self.state == FBiOSTargetStateBooted) {
         ConsoleWrite(@"Simulator is already booted.");
         return YES;
-    } else if (self.fbSimulator.state == FBiOSTargetStateBooting) {
+    } else if (self.state == FBiOSTargetStateBooting) {
         ConsoleWrite(@"Simulator is booting right now. Waiting to complete...");
         return [self waitForSimulatorState:FBiOSTargetStateBooted timeout:30];
     }
 
     // We can only boot from shutdown state.
-    if (self.fbSimulator.state == FBiOSTargetStateShuttingDown) {
+    if (self.state == FBiOSTargetStateShuttingDown) {
         if (![self waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
             return NO;
         }
@@ -223,9 +228,9 @@ static const FBSimulatorControl *_control;
     NSError *error = nil;
 
     // Checking if Simulator is in shutdown to avoid error.
-    if (self.fbSimulator.state == FBiOSTargetStateShutdown) {
+    if (self.state == FBiOSTargetStateShutdown) {
         return YES;
-    } else if (self.fbSimulator.state == FBiOSTargetStateShuttingDown) {
+    } else if (self.state == FBiOSTargetStateShuttingDown) {
 
         // If it is shutting down right now then wait until it will be completed.
         return [self waitForSimulatorState:FBiOSTargetStateShutdown timeout:30];
