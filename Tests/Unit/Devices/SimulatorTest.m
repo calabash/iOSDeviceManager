@@ -39,29 +39,23 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
     [super tearDown];
 }
 
-//- (void)testLaunchSuccess {
-//    XCTAssertEqual([Simulator launchSimulator:self.simulator], iOSReturnStatusCodeEverythingOkay);
-//    XCTAssertEqual([self.simulator waitForSimulatorState:FBiOSTargetStateBooted timeout:30], YES);
-//    XCTAssertEqual([self.simulator boot], YES);
-//}
-
 - (void)testLaunchSuccess {
-    OCMExpect([self.instanceMock boot]).andReturn(YES);
+    OCMStub([self.instanceMock boot]).andReturn(YES);
     
     iOSReturnStatusCode actual = [Simulator launchSimulator:self.instanceMock];
     expect(actual).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
 - (void)testLaunchWaitingForBootableStateFailed {
-    OCMExpect([self.instanceMock boot]).andReturn(NO);
+    OCMStub([self.instanceMock boot]).andReturn(NO);
 
     iOSReturnStatusCode actual = [Simulator launchSimulator:self.instanceMock];
     expect(actual).to.equal(iOSReturnStatusCodeGenericFailure);
 }
 
 - (void)testLaunchLaunchingSimulatorAppFailed {
-    OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateBooted timeout:30]).andReturn(YES);
-    OCMExpect([self.instanceMock boot]).andReturn(NO);
+    OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateBooted timeout:30]).andReturn(YES);
+    OCMStub([self.instanceMock boot]).andReturn(NO);
 
     iOSReturnStatusCode actual = [Simulator launchSimulator:self.instanceMock];
     expect(actual).to.equal(iOSReturnStatusCodeGenericFailure);
@@ -82,7 +76,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 - (void)testWaitForBootableStateWithStateBootingSuccess {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateBooting);
-    OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateBooted
+    OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateBooted
                                        timeout:30]).andReturn(YES);
 
     expect([self.instanceMock boot]).to.beTruthy();
@@ -91,7 +85,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 - (void)testWaitForBootableStateWithStateBootingFailure {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateBooting);
-    OCMExpect([self.instanceMock waitForSimulatorState:(FBiOSTargetState)FBiOSTargetStateBooted
+    OCMStub([self.instanceMock waitForSimulatorState:(FBiOSTargetState)FBiOSTargetStateBooted
                                        timeout:30]).andReturn(NO);
 
     expect([self.instanceMock boot]).to.beFalsy();
@@ -100,7 +94,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 - (void)testWaitForBootableWithStateShuttingDownSuccess {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateShuttingDown);
-    OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
+    OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
                                        timeout:30]).andReturn(YES);
 
     expect([self.instanceMock boot]).to.beTruthy();
@@ -108,7 +102,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 - (void)testWaitForBootableStateWithStateShuttingDownFailure {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateShuttingDown);
-    OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
+    OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
                                        timeout:30]).andReturn(NO);
 
     expect([self.instanceMock boot]).to.beFalsy();
@@ -116,7 +110,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 - (void)testWaitForBootableStateWithStateCreatingSuccess {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateCreating);
-    OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
+    OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
                                        timeout:30]).andReturn(YES);
 
     expect([self.instanceMock boot]).to.beTruthy();
@@ -124,7 +118,7 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 
 - (void)testWaitForBootableStateWithStateCreatingFailure {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateCreating);
-    OCMExpect([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
+    OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
                                        timeout:30]).andReturn(NO);
 
     expect([self.instanceMock boot]).to.beTruthy();
