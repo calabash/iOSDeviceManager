@@ -184,19 +184,46 @@ static const FBSimulatorControl *_control;
     FBSimulatorBootConfiguration *bootConfiguration = [[FBSimulatorBootConfiguration alloc] initWithOptions:bootOptions
                                                                                                 environment:@{}];
 
-    // Check if Simulator is already booted or is being booted right now.
-    if (self.state == FBiOSTargetStateBooted) {
-        ConsoleWrite(@"Simulator is already booted.");
-        return YES;
-    } else if (self.state == FBiOSTargetStateBooting) {
-        ConsoleWrite(@"Simulator is booting right now. Waiting to complete...");
-        return [self waitForSimulatorState:FBiOSTargetStateBooted timeout:30];
-    }
+    FBiOSTargetState currentSimulatorState = self.state;
+    switch(currentSimulatorState) {
+        // Check if Simulator is already booted or is being booted right now.
+        case FBiOSTargetStateBooted: {
+            ConsoleWrite(@"Simulator is already booted.");
+            return YES;
+        }
 
-    // We can only boot from shutdown state.
-    if (self.state == FBiOSTargetStateShuttingDown) {
-        if (![self waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
+        case FBiOSTargetStateBooting: {
+            ConsoleWrite(@"Simulator is booting right now. Waiting to complete...");
+            return [self waitForSimulatorState:FBiOSTargetStateBooted timeout:30];
+        }
+
+        // We can only boot from shutdown state.
+        case FBiOSTargetStateShuttingDown: {
+            ConsoleWrite(@"Simulator is shutting down right now. Waiting to complete...");
+            if (![self waitForSimulatorState:FBiOSTargetStateShutdown timeout:30]) {
+                return NO;
+            } else break;
+        }
+        case FBiOSTargetStateCreating: {
+            ConsoleWrite(@"Simulator is creating now. Waiting to complete...");
+            if ([self waitForSimulatorState:FBiOSTargetStateBooted timeout:120]) {
+                ConsoleWrite(@"Simulator now is in booted state.");
+                return YES;
+            } else {
+                if (![self waitForSimulatorState:FBiOSTargetStateShutdown timeout:120]) {
+                    return NO;
+                } else break;
+            }
+        }
+        case FBiOSTargetStateUnknown:
+        case FBiOSTargetStateDFU:
+        case FBiOSTargetStateRecovery:
+        case FBiOSTargetStateRestoreOS: {
+            ConsoleWriteErr(@"Simulator is in '%@' state. Unable to boot it from this state.", FBiOSTargetStateStringFromState(currentSimulatorState));
             return NO;
+        }
+        case FBiOSTargetStateShutdown: {
+            break;
         }
     }
 
