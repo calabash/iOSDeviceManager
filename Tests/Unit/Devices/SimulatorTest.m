@@ -119,15 +119,16 @@ typedef BOOL (^CBXWaitUntilTrueBlock)(void);
 - (void)testWaitForBootableStateWithStateCreatingFailure {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateCreating);
     OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateShutdown
-                                       timeout:30]).andReturn(NO);
+                                       timeout:120]).andReturn(NO);
+    OCMStub([self.instanceMock waitForSimulatorState:FBiOSTargetStateBooted timeout:120]).andReturn(NO);
 
-    expect([self.instanceMock boot]).to.beTruthy();
+    expect([self.instanceMock boot]).to.beFalsy();
 }
 
 - (void)testWaitForBootableStateBootingWithStateUnknown {
     OCMStub([self.instanceMock state]).andReturn(FBiOSTargetStateUnknown);
 
-    expect([self.instanceMock boot]).to.beTruthy();
+    expect([self.instanceMock boot]).to.beFalsy();
 }
 
 - (void)testEraseSimulatorSuccess {
