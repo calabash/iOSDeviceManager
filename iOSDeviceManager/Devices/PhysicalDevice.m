@@ -357,7 +357,7 @@
     BOOL installed = [self isInstalled:bundleID withError:&error];
 
     if (error) {
-        if ([[error localizedDescription] containsString:@"is not installed."]) {
+        if ([[error description] containsString:@"is not installed."]) {
             ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], error);
             @throw [NSException exceptionWithName:@"IsInstalledAppException"
                                            reason:@"Unable to determine if application is installed"
