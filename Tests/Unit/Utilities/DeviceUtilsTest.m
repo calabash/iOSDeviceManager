@@ -55,7 +55,7 @@
     OCMStub([MockXcodeUtils versionMinor]).andReturn(0);
     
     NSString *actualName = [DeviceUtils defaultSimulator];
-    NSString *expectedName = @"iPhone 11 (14.0)";
+    NSString *expectedName = @"iPhone 12 (14.0)";
     expect(actualName).to.equal(expectedName);
 }
 
