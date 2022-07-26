@@ -159,6 +159,9 @@
 		DD062D7B288A857D00164B2C /* CocoaLumberjack.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DD062D7C288A858600164B2C /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; };
 		DD062D7D288A859000164B2C /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; };
+		DD062D80288FDF9D00164B2C /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD062D7F288FDF9D00164B2C /* IDMLogger.m */; };
+		DD062D81288FDFB300164B2C /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD062D7F288FDF9D00164B2C /* IDMLogger.m */; };
+		DD062D82288FDFB300164B2C /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD062D7F288FDF9D00164B2C /* IDMLogger.m */; };
 		DD4E0B8A28803848006501FC /* Expecta.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8928803848006501FC /* Expecta.xcframework */; };
 		DD4E0B8C28803866006501FC /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8B28803866006501FC /* OCMock.xcframework */; };
 		DD4E0B8E28803886006501FC /* Specta.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8D28803886006501FC /* Specta.xcframework */; };
@@ -171,9 +174,6 @@
 		DD4E0B95288039C6006501FC /* Specta.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4E0B8D28803886006501FC /* Specta.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DD4E0B96288039D8006501FC /* Expecta.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4E0B8928803848006501FC /* Expecta.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DD4E0B97288039E8006501FC /* OCMock.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4E0B8B28803866006501FC /* OCMock.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DD4E0BAA288044DC006501FC /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4E0BA9288044DC006501FC /* IDMLogger.m */; };
-		DD4E0BB128805280006501FC /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4E0BA9288044DC006501FC /* IDMLogger.m */; };
-		DD4E0BB228805280006501FC /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4E0BA9288044DC006501FC /* IDMLogger.m */; };
 		F5004F551F7BCB73006CE0E0 /* XCTestConfigurationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */; };
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
@@ -434,11 +434,11 @@
 		B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadXCAppDataCommand.h; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.h; sourceTree = "<group>"; };
 		B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadXCAppDataCommand.m; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.m; sourceTree = "<group>"; };
 		DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CocoaLumberjack.xcframework; path = Vendor/CocoaLumberjack.xcframework; sourceTree = "<group>"; };
+		DD062D7E288FDF9D00164B2C /* IDMLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDMLogger.h; path = iOSDeviceManager/Utilities/Logging/IDMLogger.h; sourceTree = "<group>"; };
+		DD062D7F288FDF9D00164B2C /* IDMLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDMLogger.m; path = iOSDeviceManager/Utilities/Logging/IDMLogger.m; sourceTree = "<group>"; };
 		DD4E0B8928803848006501FC /* Expecta.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Expecta.xcframework; path = Carthage/Build/Mac/Expecta.xcframework; sourceTree = "<group>"; };
 		DD4E0B8B28803866006501FC /* OCMock.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OCMock.xcframework; path = Carthage/Build/Mac/OCMock.xcframework; sourceTree = "<group>"; };
 		DD4E0B8D28803886006501FC /* Specta.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Specta.xcframework; path = Carthage/Build/Mac/Specta.xcframework; sourceTree = "<group>"; };
-		DD4E0BA8288044DC006501FC /* IDMLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDMLogger.h; sourceTree = "<group>"; };
-		DD4E0BA9288044DC006501FC /* IDMLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IDMLogger.m; sourceTree = "<group>"; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 		F51AC6D21D6A3F3300BA3988 /* Expecta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Expecta.framework; path = Carthage/Build/Mac/Expecta.framework; sourceTree = SOURCE_ROOT; };
@@ -722,10 +722,10 @@
 		89C29E1D1DAE69CC00282526 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				DD062D7E288FDF9D00164B2C /* IDMLogger.h */,
+				DD062D7F288FDF9D00164B2C /* IDMLogger.m */,
 				89C29E181DAE69C500282526 /* ConsoleWriter.h */,
 				89C29E191DAE69C500282526 /* ConsoleWriter.m */,
-				DD4E0BA8288044DC006501FC /* IDMLogger.h */,
-				DD4E0BA9288044DC006501FC /* IDMLogger.m */,
 			);
 			name = Logging;
 			sourceTree = "<group>";
@@ -1040,7 +1040,7 @@
 				42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */,
 				B980C15B206CF30B00879BBD /* DownloadXCAppDataCommand.m in Sources */,
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
-				DD4E0BAA288044DC006501FC /* IDMLogger.m in Sources */,
+				DD062D80288FDF9D00164B2C /* IDMLogger.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B2E68E181E38170E001D5D89 /* ResignCommand.m in Sources */,
 				B296378A1E3FC23800200661 /* KillAppCommand.m in Sources */,
@@ -1165,7 +1165,7 @@
 				421D28111E942AB5003C7F10 /* FileUtilsTest.m in Sources */,
 				B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */,
 				47DE8C4F2695F4F800801F7E /* FBLegacy.m in Sources */,
-				DD4E0BB128805280006501FC /* IDMLogger.m in Sources */,
+				DD062D81288FDFB300164B2C /* IDMLogger.m in Sources */,
 				42148DFC1EA5672700625741 /* VersionCommand.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
@@ -1217,7 +1217,7 @@
 				F5D583F51D6A035F007B0D11 /* main.m in Sources */,
 				F5D583FE1D6A0387007B0D11 /* Command.m in Sources */,
 				F5D438041E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
-				DD4E0BB228805280006501FC /* IDMLogger.m in Sources */,
+				DD062D82288FDFB300164B2C /* IDMLogger.m in Sources */,
 				F54ACEDF1E8A687700BC36DA /* MachClock.m in Sources */,
 				F5D584061D6A0387007B0D11 /* SimulateLocationCommand.m in Sources */,
 				F5D584031D6A0387007B0D11 /* KillSimulatorCommand.m in Sources */,
