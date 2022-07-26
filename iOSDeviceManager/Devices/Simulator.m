@@ -170,7 +170,7 @@ static const FBSimulatorControl *_control;
 
 - (FBiOSTargetState)state {
     return self.fbSimulator.state;
-};
+}
 
 /// Performs boot of Simulator.
 - (BOOL)boot {

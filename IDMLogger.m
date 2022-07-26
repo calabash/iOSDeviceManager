@@ -1,11 +1,3 @@
-//
-//  IDMLogger.m
-//  iOSDeviceManager
-//
-//  Created by Ilya Bausov on 7/14/22.
-//  Copyright © 2022 Microsoft. All rights reserved.
-//
-
 #import "IDMLogger.h"
 #import "CocoaLumberjack/DDTTYLogger.h"
 #import "CocoaLumberjack/DDFileLogger.h"
@@ -162,8 +154,8 @@ static NSString *const IDMLogFormatterDateFormatterKey = @"sh.calaba-IDMLogForma
   NSString *logLevel;
   switch (logMessage.flag) {
     case DDLogFlagError    : logLevel = @"ERROR"; break;
-    case DDLogFlagWarning  : logLevel = @" WARN"; break;
-    case DDLogFlagInfo     : logLevel = @ "INFO"; break;
+    case DDLogFlagWarning  : logLevel = @"WARN"; break;
+    case DDLogFlagInfo     : logLevel = @"INFO"; break;
     case DDLogFlagDebug    : logLevel = @"DEBUG"; break;
     default                : logLevel = @"DEBUG"; break;
   }
