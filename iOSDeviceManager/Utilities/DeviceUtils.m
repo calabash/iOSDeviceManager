@@ -152,18 +152,34 @@ const double EPSILON = 0.001;
     NSUInteger major = XcodeUtils.versionMajor + 2;
     NSUInteger minor = XcodeUtils.versionMinor;
 
-    if(XcodeUtils.versionMajor == 10 && XcodeUtils.versionMinor == 3) {
+    if (XcodeUtils.versionMajor == 10 && XcodeUtils.versionMinor == 3) {
         minor = 4;
     }
 
-    if(XcodeUtils.versionMajor == 13 && XcodeUtils.versionMinor == 1) {
-        minor = 0;
+    if (XcodeUtils.versionMajor == 13) {
+
+        // Xcode 13.0 and 13.1.
+        if (XcodeUtils.versionMinor < 2) {
+            minor = 0;
+        }
+
+        // Xcode 13.2.
+        if (XcodeUtils.versionMinor == 2) {
+            minor = 2;
+        }
+
+        // All other Xcode 13.x with minor version higher than 2;
+        if (XcodeUtils.versionMinor > 2) {
+            minor = XcodeUtils.versionMinor + 1;
+        }
+
+        return [NSString stringWithFormat:@"iPhone 13 (%lu.%lu)", major, minor];
     }
 
     NSString *deviceVersion;
 
-    if (XcodeUtils.versionMajor == 11) {
-        deviceVersion = @"11";
+    if (XcodeUtils.versionMajor >= 11) {
+        deviceVersion = [NSString stringWithFormat:@"%lu", XcodeUtils.versionMajor];
     } else if (XcodeUtils.versionMajor == 10) {
         if (XcodeUtils.versionMinor < 2) {
             deviceVersion = @"XS";

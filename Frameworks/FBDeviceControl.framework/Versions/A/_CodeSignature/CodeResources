@@ -6,11 +6,11 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		zVQjx3doVMiMDO9sY2Ul/9pusTQ=
+		YnLCHq/FfBepxNJ4pEPZ/lZy6QU=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		CJOT6q9HQ48ZvlkgIq+0nilyha8=
+		5+VastQSOJfKxzITnR9APEEAgM4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -19,7 +19,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uUETlUDfGztEmuLTjLJzjsebn3ksnLDygselw7kzMys=
+			mGuBYpxY7VzcMeadVjrJkap2xwJ6lRbc+rWuHtfBNd8=
 			</data>
 		</dict>
 		<key>Headers/FBAMDefines.h</key>
@@ -96,7 +96,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wEG+hKXdWQBSsXOcK27rtT6mkhbpalvTn5f7DPHxl9M=
+			VQU28aOVZj5jHO0eABUWxR0QJW1/nyr6ihVHCHOeW50=
 			</data>
 		</dict>
 		<key>Headers/FBDeviceManager.h</key>
@@ -180,14 +180,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			kBvS9fAm4EG6WONTxgPFYBN2sT9RBWJ3G41XIop8R0I=
+			k0qYgi77kaQFAQUKFDDIfBDOlRxz5ADv66zzUyzgs+s=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lxgvVGzKUIU5En+jjUXQYAQAkzv38bop+bM3VzidJ6o=
+			g0PrESsd5YIzS9uGtxKJ/ojaoR182x1bYrpwSoqFTck=
 			</data>
 		</dict>
 	</dict>

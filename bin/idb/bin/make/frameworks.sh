@@ -39,8 +39,6 @@ function framework_build() {
     DEBUG_INFORMATION_FORMAT=dwarf-with-dsym \
     ENABLE_TESTABILITY=NO \
     GCC_OPTIMIZATION_LEVEL=0 \
-    ARCHS="x86_64" \
-    VALID_ARCHS="x86_64" \
     -SYMROOT="${BUILD_DIR}" \
     -OBJROOT="${BUILD_DIR}" \
     -project "${XC_PROJECT}" \

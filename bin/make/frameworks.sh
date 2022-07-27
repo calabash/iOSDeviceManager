@@ -5,7 +5,7 @@ source bin/simctl.sh
 
 banner "Preparing"
 
-IDB_VERSION="v1.1.6"
+IDB_VERSION="v1.1.7"
 
 if [ -z "${FBSIMCONTROL_PATH}" ]; then
   if [ -e "../idb" ]; then
@@ -55,16 +55,7 @@ rm -rf Makefile;
 rm -rf bin;
 )
 
-xcrun ditto ./Vendor/CocoaLumberjack.framework ${OUTPUT_DIR}/CocoaLumberjack.framework
-
 banner "Signing frameworks"
-
-xcrun codesign \
---force \
---deep \
---sign "Mac Developer: Karl Krukow (YTTN6Y2QS9)" \
---keychain "${HOME}/.calabash/Calabash.keychain" \
-"Frameworks/CocoaLumberjack.framework"
 
 xcrun codesign \
 --force \

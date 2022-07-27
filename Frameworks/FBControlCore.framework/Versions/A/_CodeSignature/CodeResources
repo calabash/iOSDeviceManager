@@ -6,15 +6,15 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		GbLV3ZiN7pFv6atYlHtq+hQxxzY=
+		uWv/NLfVMZi11FOn3bCGT9qfHuw=
 		</data>
 		<key>Resources/libMaculator.dylib</key>
 		<data>
-		mVLoQBHthRccY8cTKAjYODMadeQ=
+		jVy/IHAkL2tFi36d5BzfXEVm7fQ=
 		</data>
 		<key>Resources/libShimulator.dylib</key>
 		<data>
-		CJOT6q9HQ48ZvlkgIq+0nilyha8=
+		5+VastQSOJfKxzITnR9APEEAgM4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -100,21 +100,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+estBIGKqJmpeV+zz1tQsSQQM1iqZbsgvcoQGFOEtTk=
+			58IzXKqFuvJtMknxsNTx0nVwXVGPF5O1u9042oudXyQ=
 			</data>
 		</dict>
 		<key>Headers/FBConcurrentCollectionOperations.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qWQ9Gs67gKWjB55tRWDbMKOtVVpIzVItddbjHjYNZz8=
+			WK4Zuqvrjn0xsxGDrwVWc4m8QuY7qcThJ8vldkK1598=
 			</data>
 		</dict>
 		<key>Headers/FBControlCore.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KkFwWSTlEod2Oe5oWaN0bhUqBRmoo2W5DQJPHMlz+z0=
+			Ve6zwFzIcTtTa4mMsr43CHP01wlpvB+Ap4L4OHV6WY4=
 			</data>
 		</dict>
 		<key>Headers/FBControlCoreError.h</key>
@@ -261,7 +261,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			X34BIVwoM1bM/jQ40x7mUN+bG+Awm1jPmwxRoHL/CkQ=
+			pxNaCxT6wTspNNTg4jS9pxaarfBnjJQZWfLivKmhF+4=
 			</data>
 		</dict>
 		<key>Headers/FBFileReader.h</key>
@@ -541,21 +541,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			0c/mxotE0sbSeOfZzqZQX2BZpygKisA/Rxe+myJo/TE=
+			Jcv/7Auu9XqiIrZcVRJ27JL7+hWfDQfFXowvqcm6d4U=
 			</data>
 		</dict>
 		<key>Headers/FBWeakFramework.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			o09sccTFWr/HJqRMBBku5a7xsFUKNM9UO2XWvDtIU08=
-			</data>
-		</dict>
-		<key>Headers/FBWeakFrameworkLoader.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			2kIMorinvxcKq3kpZfKq39XtsFVtcD9tc2BsVFvjnbo=
+			sTjWYJUHz5VlXjhvLCG9zznA1/SpGtjBSjFrii/dwwQ=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestCommands.h</key>
@@ -611,7 +604,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Lzp1nEEjSsHfj3HPLbjf7UI3P0LF4oaz27CuAq/GdVc=
+			/v2iRaUWcL2xWaP87vr58yQBXDRD50yQnyPxxqI0rig=
 			</data>
 		</dict>
 		<key>Headers/FBiOSTargetCommandForwarder.h</key>
@@ -660,21 +653,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			yKxvmWxPvTrx3JwMutPAPWWNau4JBQB2OrkLwHhPjxc=
+			AYnyt+fckMfOkvwGtsL95qXw7M5FzjZDCtPjeby0Qj4=
 			</data>
 		</dict>
 		<key>Resources/libMaculator.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wofn3WGkjcoVIYgfCmUmLbQAnKeKvgMHVlTmpV1UN7s=
+			nANlf7R1q0m2NTWUKgOeb4LFbWZurimPniVoQLOytec=
 			</data>
 		</dict>
 		<key>Resources/libShimulator.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lxgvVGzKUIU5En+jjUXQYAQAkzv38bop+bM3VzidJ6o=
+			g0PrESsd5YIzS9uGtxKJ/ojaoR182x1bYrpwSoqFTck=
 			</data>
 		</dict>
 	</dict>

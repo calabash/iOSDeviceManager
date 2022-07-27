@@ -21,9 +21,7 @@
 + (BOOL)loadXCTestFramework:(FBWeakFramework *)framework {
     id<FBControlCoreLogger> logger = FBControlCoreGlobalConfiguration.defaultLogger;
     NSError *error = nil;
-    if (![FBWeakFrameworkLoader loadPrivateFrameworks:@[framework]
-                                               logger:logger
-                                                error:&error]) {
+    if (![framework loadWithLogger:logger error:&error]) {
         ConsoleWriteErr(@"Could not load XCTest.framework");
         ConsoleWriteErr(@"%@", [error localizedDescription]);
         return NO;

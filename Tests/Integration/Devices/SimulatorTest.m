@@ -229,4 +229,22 @@
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
 }
 
+- (void)testClearAppDataCLI {
+    expect([self.simulator boot]).to.beTruthy();
+    
+    Application *app = [Application withBundlePath:testApp(SIM)];
+    
+    if (![self.simulator isInstalled:app.bundleID withError:nil]) {
+        expect([self.simulator installApp:app
+                        resourcesToInject:nil
+                           forceReinstall:NO]).to.equal(iOSReturnStatusCodeEverythingOkay);
+    }
+    
+    expect(
+           [CLI process:@[kProgramName,
+                          @"clear-app-data",
+                          app.bundleID,
+                          self.simulator.uuid]]).to.equal(iOSReturnStatusCodeEverythingOkay);
+}
+
 @end

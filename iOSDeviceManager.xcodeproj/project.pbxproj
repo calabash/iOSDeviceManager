@@ -153,19 +153,28 @@
 		B9C08F032073A0070032997D /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
 		B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
 		B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
+		DD062D78288A7E9800164B2C /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; };
+		DD062D79288A7E9800164B2C /* CocoaLumberjack.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DD062D7A288A857200164B2C /* CocoaLumberjack.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD062D7B288A857D00164B2C /* CocoaLumberjack.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD062D7C288A858600164B2C /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; };
+		DD062D7D288A859000164B2C /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; };
+		DD062D80288FDF9D00164B2C /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD062D7F288FDF9D00164B2C /* IDMLogger.m */; };
+		DD062D81288FDFB300164B2C /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD062D7F288FDF9D00164B2C /* IDMLogger.m */; };
+		DD062D82288FDFB300164B2C /* IDMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD062D7F288FDF9D00164B2C /* IDMLogger.m */; };
+		DD4E0B8A28803848006501FC /* Expecta.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8928803848006501FC /* Expecta.xcframework */; };
+		DD4E0B8C28803866006501FC /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8B28803866006501FC /* OCMock.xcframework */; };
+		DD4E0B8E28803886006501FC /* Specta.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8D28803886006501FC /* Specta.xcframework */; };
+		DD4E0B8F2880394A006501FC /* Expecta.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8928803848006501FC /* Expecta.xcframework */; };
+		DD4E0B902880394F006501FC /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8B28803866006501FC /* OCMock.xcframework */; };
+		DD4E0B9128803954006501FC /* Specta.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4E0B8D28803886006501FC /* Specta.xcframework */; };
+		DD4E0B9228803979006501FC /* Specta.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = DD4E0B8D28803886006501FC /* Specta.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD4E0B9328803985006501FC /* Expecta.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = DD4E0B8928803848006501FC /* Expecta.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD4E0B942880399E006501FC /* OCMock.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = DD4E0B8B28803866006501FC /* OCMock.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD4E0B95288039C6006501FC /* Specta.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4E0B8D28803886006501FC /* Specta.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD4E0B96288039D8006501FC /* Expecta.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4E0B8928803848006501FC /* Expecta.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD4E0B97288039E8006501FC /* OCMock.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4E0B8B28803866006501FC /* OCMock.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5004F551F7BCB73006CE0E0 /* XCTestConfigurationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F556B1761F63C32900F949A6 /* XCTestConfigurationProxy.m */; };
-		F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
-		F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; };
-		F51AC6DA1D6A3F4200BA3988 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; };
-		F51AC6DB1D6A3F4300BA3988 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; };
-		F51AC6DC1D6A3F4600BA3988 /* Specta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D41D6A3F3300BA3988 /* Specta.framework */; };
-		F51AC6DD1D6A3F4700BA3988 /* Specta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51AC6D41D6A3F3300BA3988 /* Specta.framework */; };
-		F51AC6DE1D6A408E00BA3988 /* Expecta.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6DF1D6A408E00BA3988 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6E01D6A408E00BA3988 /* Specta.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F51AC6D41D6A3F3300BA3988 /* Specta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6E11D6A40AC00BA3988 /* Expecta.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F51AC6D21D6A3F3300BA3988 /* Expecta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6E21D6A40AC00BA3988 /* OCMock.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F51AC6D31D6A3F3300BA3988 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F51AC6E31D6A40AC00BA3988 /* Specta.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F51AC6D41D6A3F3300BA3988 /* Specta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
 		F53764981D67A1FB009457C8 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
@@ -197,12 +206,6 @@
 		F59364B01F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
 		F59364B11F42FC6600EB72BE /* UploadXCTestConfigurationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */; };
 		F5A705AD1D67C38D006F05B5 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = F5A705AC1D67C38D006F05B5 /* Resources */; };
-		F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
-		F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
-		F5BC17891DD4C5A5008DB949 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; };
-		F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5CAA4531F4EC25000E48BFF /* PhysicalDeviceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */; };
 		F5D0F61A1E6870CC00749462 /* XCTestConfigurationPlistTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */; };
 		F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D438001E8BA3210036C80D /* XCTestConfigurationPlist.m */; };
@@ -263,7 +266,6 @@
 				892A93CD1D3934B600154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93CE1D3934B600154F08 /* FBSimulatorControl.framework in CopyFiles */,
 				892A93CF1D3934B600154F08 /* XCTestBootstrap.framework in CopyFiles */,
-				F5BC178C1DD4C61C008DB949 /* CocoaLumberjack.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,15 +275,26 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F5BC178A1DD4C5FF008DB949 /* CocoaLumberjack.framework in CopyFiles */,
+				DD062D7A288A857200164B2C /* CocoaLumberjack.xcframework in CopyFiles */,
 				892A93C11D3928F800154F08 /* FBControlCore.framework in CopyFiles */,
 				892A93C21D3928F800154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93C31D3928F800154F08 /* FBSimulatorControl.framework in CopyFiles */,
 				892A93C41D3928F800154F08 /* XCTestBootstrap.framework in CopyFiles */,
-				F51AC6DE1D6A408E00BA3988 /* Expecta.framework in CopyFiles */,
-				F51AC6DF1D6A408E00BA3988 /* OCMock.framework in CopyFiles */,
-				F51AC6E01D6A408E00BA3988 /* Specta.framework in CopyFiles */,
+				DD4E0B96288039D8006501FC /* Expecta.xcframework in CopyFiles */,
+				DD4E0B97288039E8006501FC /* OCMock.xcframework in CopyFiles */,
+				DD4E0B95288039C6006501FC /* Specta.xcframework in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD4E0B9B28803D84006501FC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DD062D79288A7E9800164B2C /* CocoaLumberjack.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F5D584111D6A03DB007B0D11 /* Copy Files */ = {
@@ -290,14 +303,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DD062D7B288A857D00164B2C /* CocoaLumberjack.xcframework in Copy Files */,
 				F5D584121D6A03EA007B0D11 /* FBControlCore.framework in Copy Files */,
 				F5D584131D6A03EA007B0D11 /* FBDeviceControl.framework in Copy Files */,
 				F5D584141D6A03EA007B0D11 /* FBSimulatorControl.framework in Copy Files */,
 				F5D584151D6A03EA007B0D11 /* XCTestBootstrap.framework in Copy Files */,
-				F51AC6E11D6A40AC00BA3988 /* Expecta.framework in Copy Files */,
-				F51AC6E21D6A40AC00BA3988 /* OCMock.framework in Copy Files */,
-				F51AC6E31D6A40AC00BA3988 /* Specta.framework in Copy Files */,
-				F5BC178B1DD4C613008DB949 /* CocoaLumberjack.framework in Copy Files */,
+				DD4E0B9328803985006501FC /* Expecta.xcframework in Copy Files */,
+				DD4E0B942880399E006501FC /* OCMock.xcframework in Copy Files */,
+				DD4E0B9228803979006501FC /* Specta.xcframework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,6 +433,12 @@
 		B980C157206CA08600879BBD /* ClearAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClearAppDataCommand.m; path = iOSDeviceManager/Commands/ClearAppDataCommand.m; sourceTree = "<group>"; };
 		B980C159206CF30B00879BBD /* DownloadXCAppDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadXCAppDataCommand.h; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.h; sourceTree = "<group>"; };
 		B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadXCAppDataCommand.m; path = iOSDeviceManager/Commands/DownloadXCAppDataCommand.m; sourceTree = "<group>"; };
+		DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CocoaLumberjack.xcframework; path = Vendor/CocoaLumberjack.xcframework; sourceTree = "<group>"; };
+		DD062D7E288FDF9D00164B2C /* IDMLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDMLogger.h; path = iOSDeviceManager/Utilities/Logging/IDMLogger.h; sourceTree = "<group>"; };
+		DD062D7F288FDF9D00164B2C /* IDMLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDMLogger.m; path = iOSDeviceManager/Utilities/Logging/IDMLogger.m; sourceTree = "<group>"; };
+		DD4E0B8928803848006501FC /* Expecta.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Expecta.xcframework; path = Carthage/Build/Mac/Expecta.xcframework; sourceTree = "<group>"; };
+		DD4E0B8B28803866006501FC /* OCMock.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OCMock.xcframework; path = Carthage/Build/Mac/OCMock.xcframework; sourceTree = "<group>"; };
+		DD4E0B8D28803886006501FC /* Specta.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Specta.xcframework; path = Carthage/Build/Mac/Specta.xcframework; sourceTree = "<group>"; };
 		F5169D261CFEAE5900252F52 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F5169D281CFEAE5900252F52 /* FBSimulatorControl.LICENSE */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = FBSimulatorControl.LICENSE; sourceTree = "<group>"; };
 		F51AC6D21D6A3F3300BA3988 /* Expecta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Expecta.framework; path = Carthage/Build/Mac/Expecta.framework; sourceTree = SOURCE_ROOT; };
@@ -453,7 +472,6 @@
 		F59364AD1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadXCTestConfigurationCommand.h; path = iOSDeviceManager/Commands/UploadXCTestConfigurationCommand.h; sourceTree = SOURCE_ROOT; };
 		F59364AE1F42FC6100EB72BE /* UploadXCTestConfigurationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadXCTestConfigurationCommand.m; path = iOSDeviceManager/Commands/UploadXCTestConfigurationCommand.m; sourceTree = SOURCE_ROOT; };
 		F5A705AC1D67C38D006F05B5 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
-		F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Frameworks/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		F5CAA4521F4EC25000E48BFF /* PhysicalDeviceTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhysicalDeviceTest.m; sourceTree = "<group>"; };
 		F5D0F6191E6870CC00749462 /* XCTestConfigurationPlistTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCTestConfigurationPlistTest.m; sourceTree = "<group>"; };
 		F5D437FF1E8BA3210036C80D /* XCTestConfigurationPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCTestConfigurationPlist.h; path = iOSDeviceManager/Utilities/XCTestConfigurationPlist.h; sourceTree = SOURCE_ROOT; };
@@ -479,7 +497,7 @@
 			files = (
 				89F6DB351D37F746006A0FD5 /* FBControlCore.framework in Frameworks */,
 				89F6DB361D37F746006A0FD5 /* FBDeviceControl.framework in Frameworks */,
-				F5BC17871DD4C59A008DB949 /* CocoaLumberjack.framework in Frameworks */,
+				DD062D78288A7E9800164B2C /* CocoaLumberjack.xcframework in Frameworks */,
 				89F6DB371D37F746006A0FD5 /* FBSimulatorControl.framework in Frameworks */,
 				89F6DB381D37F746006A0FD5 /* XCTestBootstrap.framework in Frameworks */,
 			);
@@ -489,13 +507,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD062D7D288A859000164B2C /* CocoaLumberjack.xcframework in Frameworks */,
 				F5F7054C1D68BAA90096E9D4 /* FBControlCore.framework in Frameworks */,
-				F51AC6D81D6A3F3E00BA3988 /* Expecta.framework in Frameworks */,
-				F5BC17881DD4C5A4008DB949 /* CocoaLumberjack.framework in Frameworks */,
+				DD4E0B8A28803848006501FC /* Expecta.xcframework in Frameworks */,
 				F5F7054D1D68BAA90096E9D4 /* FBDeviceControl.framework in Frameworks */,
 				F5F7054E1D68BAA90096E9D4 /* FBSimulatorControl.framework in Frameworks */,
-				F51AC6DC1D6A3F4600BA3988 /* Specta.framework in Frameworks */,
-				F51AC6DA1D6A3F4200BA3988 /* OCMock.framework in Frameworks */,
+				DD4E0B8E28803886006501FC /* Specta.xcframework in Frameworks */,
+				DD4E0B8C28803866006501FC /* OCMock.xcframework in Frameworks */,
 				F5F7054F1D68BAA90096E9D4 /* XCTestBootstrap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -504,13 +522,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD062D7C288A858600164B2C /* CocoaLumberjack.xcframework in Frameworks */,
 				F5D5840C1D6A03C0007B0D11 /* FBControlCore.framework in Frameworks */,
-				F51AC6D91D6A3F3E00BA3988 /* Expecta.framework in Frameworks */,
-				F5BC17891DD4C5A5008DB949 /* CocoaLumberjack.framework in Frameworks */,
+				DD4E0B8F2880394A006501FC /* Expecta.xcframework in Frameworks */,
 				F5D5840D1D6A03C0007B0D11 /* FBDeviceControl.framework in Frameworks */,
 				F5D5840E1D6A03C0007B0D11 /* FBSimulatorControl.framework in Frameworks */,
-				F51AC6DD1D6A3F4700BA3988 /* Specta.framework in Frameworks */,
-				F51AC6DB1D6A3F4300BA3988 /* OCMock.framework in Frameworks */,
+				DD4E0B9128803954006501FC /* Specta.xcframework in Frameworks */,
+				DD4E0B902880394F006501FC /* OCMock.xcframework in Frameworks */,
 				F5D5840F1D6A03C0007B0D11 /* XCTestBootstrap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -704,6 +722,8 @@
 		89C29E1D1DAE69CC00282526 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				DD062D7E288FDF9D00164B2C /* IDMLogger.h */,
+				DD062D7F288FDF9D00164B2C /* IDMLogger.m */,
 				89C29E181DAE69C500282526 /* ConsoleWriter.h */,
 				89C29E191DAE69C500282526 /* ConsoleWriter.m */,
 			);
@@ -729,8 +749,11 @@
 		89F6DB391D37F75F006A0FD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */,
+				DD4E0B8D28803886006501FC /* Specta.xcframework */,
+				DD4E0B8B28803866006501FC /* OCMock.xcframework */,
+				DD4E0B8928803848006501FC /* Expecta.xcframework */,
 				F564E2DF1F65015600EDC7EF /* XCTest.framework */,
-				F5BC17861DD4C59A008DB949 /* CocoaLumberjack.framework */,
 				89F6DB311D37F746006A0FD5 /* FBControlCore.framework */,
 				89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */,
 				89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */,
@@ -857,6 +880,7 @@
 				42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
 				89331D411CE222C7003C2E59 /* CopyFiles */,
+				DD4E0B9B28803D84006501FC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1016,6 +1040,7 @@
 				42148DFB1EA5671B00625741 /* VersionCommand.m in Sources */,
 				B980C15B206CF30B00879BBD /* DownloadXCAppDataCommand.m in Sources */,
 				B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */,
+				DD062D80288FDF9D00164B2C /* IDMLogger.m in Sources */,
 				F5D438021E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
 				B2E68E181E38170E001D5D89 /* ResignCommand.m in Sources */,
 				B296378A1E3FC23800200661 /* KillAppCommand.m in Sources */,
@@ -1140,6 +1165,7 @@
 				421D28111E942AB5003C7F10 /* FileUtilsTest.m in Sources */,
 				B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */,
 				47DE8C4F2695F4F800801F7E /* FBLegacy.m in Sources */,
+				DD062D81288FDFB300164B2C /* IDMLogger.m in Sources */,
 				42148DFC1EA5672700625741 /* VersionCommand.m in Sources */,
 				B296D6FF1E3144E000D365F3 /* ShasumProvider.m in Sources */,
 				634246262850AC2A5D9CBB9E /* ShellRunnerTest.m in Sources */,
@@ -1191,6 +1217,7 @@
 				F5D583F51D6A035F007B0D11 /* main.m in Sources */,
 				F5D583FE1D6A0387007B0D11 /* Command.m in Sources */,
 				F5D438041E8BA3210036C80D /* XCTestConfigurationPlist.m in Sources */,
+				DD062D82288FDFB300164B2C /* IDMLogger.m in Sources */,
 				F54ACEDF1E8A687700BC36DA /* MachClock.m in Sources */,
 				F5D584061D6A0387007B0D11 /* SimulateLocationCommand.m in Sources */,
 				F5D584031D6A0387007B0D11 /* KillSimulatorCommand.m in Sources */,

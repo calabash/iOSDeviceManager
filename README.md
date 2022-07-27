@@ -9,7 +9,7 @@ physical iOS devices.
 
 ### Requirements
 
-* Xcode >= 9.4.1; Xcode 10.* preferred.
+* Xcode >= 12; Xcode 13.* preferred.
 * ruby >= 2.3.1
 
 ### Code Signing
@@ -65,9 +65,9 @@ We commit the frameworks to source control to avoid having to run
 frameworks, run `carthage update` and commit the Cartfile.resolved and
 frameworks changes to git.
 
-### FBSimulatorControl
+### idb
 
-The calabash fork of FBSimulatorControl is expected to be located `../`
+The idb's repository is expected to be located `../`
 relative to this directory. Checkout the branch you want to build and
 run: `make frameworks` to build and install.
 
