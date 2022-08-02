@@ -27,8 +27,8 @@
     device.uuid = uuid;
 
     NSError *err;
-    
-    FBDeviceSet *deviceSet = [[DeviceUtils deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&err];
+
+    FBDeviceSet *deviceSet = [FBDeviceSet setWithLogger:FBControlCoreGlobalConfiguration.defaultLogger delegate:nil ecidFilter:nil error:&err];
     FBDevice *fbDevice = [deviceSet deviceWithUDID:uuid];
 
     if (!fbDevice) {
