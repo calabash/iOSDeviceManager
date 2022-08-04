@@ -90,13 +90,15 @@ const double EPSILON = 0.001;
 
 //taken from idb
 + (FBFuture<FBDeviceSet *> *)deviceSet:(id<FBControlCoreLogger>)logger ecidFilter:(NSString *)ecidFilter {
-  return [[FBFuture
-    onQueue:dispatch_get_main_queue() resolveValue:^ FBDeviceSet * (NSError **error) {
-      FBDeviceSet *deviceSet = [FBDeviceSet setWithLogger:logger delegate:nil ecidFilter:ecidFilter error:error];
-      if (!deviceSet) {
-        return nil;
-      }
-      return deviceSet;
+    return [[FBFuture onQueue:dispatch_get_main_queue() resolveValue:^ FBDeviceSet * (NSError **error) {
+        if(![FBDeviceControlFrameworkLoader.new loadPrivateFrameworks:logger error:error]) {
+            return nil;
+        }
+        FBDeviceSet *deviceSet = [FBDeviceSet setWithLogger:logger delegate:nil ecidFilter:ecidFilter error:error];
+        if (!deviceSet) {
+            return nil;
+        }
+        return deviceSet;
     }]
     delay:0.2]; // This is needed to give the Restorable Devices time to populate.
 }
