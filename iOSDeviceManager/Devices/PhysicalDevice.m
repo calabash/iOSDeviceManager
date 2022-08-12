@@ -26,10 +26,18 @@
 
     device.uuid = uuid;
 
-    NSError *err;
+    static NSError *err;
 
-    FBDeviceSet *deviceSet = [FBDeviceSet setWithLogger:FBControlCoreGlobalConfiguration.defaultLogger delegate:nil ecidFilter:nil error:&err];
-    FBDevice *fbDevice = [deviceSet deviceWithUDID:uuid];
+    static dispatch_once_t onceToken = 0;
+    static FBDevice *fbDevice;
+    
+    dispatch_once(&onceToken, ^{
+        NSError *error = nil;
+        FBDeviceSet *deviceSet = [[DeviceUtils deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&error];
+        
+        fbDevice = [deviceSet deviceWithUDID:uuid];
+        err = error;
+    });
 
     if (!fbDevice) {
         ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);

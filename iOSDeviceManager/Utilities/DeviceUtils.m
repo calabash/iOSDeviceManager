@@ -100,7 +100,7 @@ const double EPSILON = 0.001;
         }
         return deviceSet;
     }]
-    delay:0.2]; // This is needed to give the Restorable Devices time to populate.
+    delay:5.0]; // This is needed to give the Restorable Devices time to populate.
 }
 
 + (NSArray<FBDevice *> *)availableDevices {
@@ -108,7 +108,9 @@ const double EPSILON = 0.001;
     static NSArray<FBDevice *> *m_availableDevices;
     
     dispatch_once(&onceToken, ^{
-        FBDeviceSet *deviceSet = [[self deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:nil];
+        NSError *error = nil;
+        FBDeviceSet *deviceSet = [[self deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&error];
+        
         m_availableDevices = [deviceSet allDevices];
     });
     return m_availableDevices;
