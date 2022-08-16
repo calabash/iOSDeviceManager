@@ -17,7 +17,6 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 @property (nonatomic, strong) FBSimulator *fbSimulator;
 
 + (FBSimulatorLifecycleCommands *)lifecycleCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
-+ (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)fbSimulator;
 - (BOOL)waitForSimulatorState:(FBiOSTargetState)state
                       timeout:(NSTimeInterval)timeout;
 - (FBiOSTargetState)state;
@@ -69,12 +68,6 @@ static const FBSimulatorControl *_control;
     FBSimulatorLifecycleCommands *lifecycleCommands = [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
     [lifecycleCommands disconnectWithTimeout:5 logger:nil];
     return [FBSimulatorLifecycleCommands commandsWithTarget:simulator];
-}
-
-/// Returns `FBSimulatorApplicationCommands` with commands to operate on Simulator's installed applications.
-/// @param simulator `FBSimulator` to return commands for.
-+ (FBSimulatorApplicationCommands *)applicationCommandsWithFBSimulator:(FBSimulator *)simulator {
-    return [FBSimulatorApplicationCommands commandsWithTarget:simulator];
 }
 
 /// Launches Simulator.
@@ -311,17 +304,14 @@ static const FBSimulatorControl *_control;
                  withCodesignIdentity:nil
                     resourcesToInject:resourcePaths];
 
-        FBSimulatorApplicationCommands *applicationCommands;
-        applicationCommands = [Simulator
-                               applicationCommandsWithFBSimulator:self.fbSimulator];
-
         NSUInteger tries = 5;
         NSError *error = nil;
         BOOL success = NO;
         for (NSUInteger try = 1; try < tries; try++) {
             error = nil;
             
-            if ([[applicationCommands installApplicationWithPath:app.path] await:&error]){
+            if ([[self.fbSimulator  installApplicationWithPath:app.path] await:&error]){
+                
                 ConsoleWrite(@"Installed application on %@ of %@ attempts",
                              @(try), @(tries));
                 success = YES;
@@ -410,11 +400,8 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
-    FBSimulatorApplicationCommands *applicationCommands;
-    applicationCommands = [Simulator applicationCommandsWithFBSimulator:self.fbSimulator];
-
     NSError *error = nil;
-    if (![[applicationCommands uninstallApplicationWithBundleID:bundleID] await:&error]) {
+    if (![[self.fbSimulator uninstallApplicationWithBundleID:bundleID] await:&error]) {
         ConsoleWriteErr(@"Error uninstalling app: %@", error);
         return iOSReturnStatusCodeInternalError;
     } else {

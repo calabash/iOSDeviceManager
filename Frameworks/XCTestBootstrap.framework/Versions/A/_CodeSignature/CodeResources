@@ -6,15 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		TVubgQRsxyInZhv5EVSCA/zNFlg=
-		</data>
-		<key>Resources/libMaculator.dylib</key>
-		<data>
-		jVy/IHAkL2tFi36d5BzfXEVm7fQ=
-		</data>
-		<key>Resources/libShimulator.dylib</key>
-		<data>
-		5+VastQSOJfKxzITnR9APEEAgM4=
+		+f+lNSnv8m5xdokmLuHpP4WBYrc=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -30,7 +22,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			JNao5RCjAUhS2HugBgCoqXBU/IhEn/MDuA5VszMMV38=
+			UHqZI0hkhCBIVLH2G+NEXlwM5ksBk8bql3EqWTizjag=
 			</data>
 		</dict>
 		<key>Headers/FBCodeCoverageConfiguration.h</key>
@@ -142,7 +134,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EvI1pUaY7hesYxigIBk3rwdgwUwVPKDGE8sTSFc/av0=
+			KkAVjm1hjBCQQggxii5FrnFLuIwc9kAolw+NvW1CCDQ=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestProcess.h</key>
@@ -156,14 +148,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ziUYJvolvFglZDZxiNTjrCb6wAJ5gdUV8t0ho6+gh/E=
+			3BYxDtmAsf+8wH1YOfIgWbJD2YodqaGNMEqXak9s/Cg=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestResultBundleParser.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			M3k1QuvuVVwZYyCKRvMHKQzkb9XrLranvOvYFaEcmdE=
+			kPwI87tFy1DtkqSWmbO5ztCcA/MT1wsFVHVpy02rc84=
 			</data>
 		</dict>
 		<key>Headers/FBXCTestResultToolOperation.h</key>
@@ -226,21 +218,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dSlMUT/pXKdILvUSWO2OyjdtmzUPiIPUEd6/R+5FDdA=
-			</data>
-		</dict>
-		<key>Resources/libMaculator.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			nANlf7R1q0m2NTWUKgOeb4LFbWZurimPniVoQLOytec=
-			</data>
-		</dict>
-		<key>Resources/libShimulator.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			g0PrESsd5YIzS9uGtxKJ/ojaoR182x1bYrpwSoqFTck=
+			jyu9KkrXE+VjtKxIUuI06j9Y6oNgRlK8JdDGOmaGfg0=
 			</data>
 		</dict>
 	</dict>
