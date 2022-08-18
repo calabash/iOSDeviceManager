@@ -138,40 +138,6 @@ static DVTiOSDevice * _dvtDevice;
 + (DVTiOSDevice*)dvtDevice { return _dvtDevice; }
 //@dynamic dvtDevice;
 
-+ (void)fetchApplications:(FBDevice *)fbDevice
-{
-    
-    [FBLegacy loadDVTFrameworks];
-    
-    // It seems that searching for a device that does not exist will cause all available devices/simulators etc. to be cached.
-    // There's probably a better way of fetching all the available devices, but this appears to work well enough.
-    // This means that all the cached available devices can then be found.
-    
-    DVTDeviceManager *deviceManager = [objc_lookUpClass("DVTDeviceManager") defaultDeviceManager];
-    ConsoleWriteErr(@"Quering device manager for %f seconds to cache devices");
-    [deviceManager searchForDevicesWithType:nil options:@{@"id" : @"I_DONT_EXIST_AT_ALL"} timeout:2 error:nil];
-    ConsoleWriteErr(@"Finished querying devices to cache them");
-    
-    NSDictionary<NSString *, DVTiOSDevice *> *dvtDevices = [self keyDVTDevicesByUDID:[objc_lookUpClass("DVTiOSDevice") alliOSDevices]];
-    
-    _dvtDevice = dvtDevices[fbDevice.udid];
-    
-    NSError *e;
-    
-    if (!self.dvtDevice.applications) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-            DVTFuture *future = self.dvtDevice.token.fetchApplications;
-            [future waitUntilFinished];
-        });
-    }
-    //added by myself - without this line the dvtDevice variable contains no applications
-    [[fbDevice installedApplications] await:&e];//NSArray<FBInstalledApplication *> * apps =
-    while (!self.dvtDevice.applications){
-        usleep(500);
-        ConsoleWriteErr(@"Wait for the applications");
-    }
-}
-
 + (BOOL)uploadApplicationDataAtPath:(NSString *)path bundleID:(NSString *)bundleID error:(NSError **)error
 {
     if(FBLegacy.dvtDevice == nil){

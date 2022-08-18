@@ -430,8 +430,6 @@
         ConsoleWriteErr(@"Error creating data dir: %@", e);
         return iOSReturnStatusCodeGenericFailure;
     }
-
-    [FBLegacy fetchApplications:self.fbDevice];
     
     if (![FBLegacy downloadApplicationDataToPath:xcappdataPath bundleID:bundleID error:&e]) {
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
@@ -480,7 +478,6 @@
 - (iOSReturnStatusCode)downloadXCAppDataBundleForApplication:(NSString *)bundleIdentifier
                                                       toPath:(NSString *)path{
     NSError *e;
-    [FBLegacy fetchApplications:self.fbDevice];
 
     if (![FBLegacy downloadApplicationDataToPath:path bundleID:bundleIdentifier error:&e]) {
         ConsoleWriteErr(@"Unable to download app data for %@ to %@: %@",
@@ -497,8 +494,7 @@
     if (![XCAppDataBundle isValid:xcappdata]) {
         return iOSReturnStatusCodeGenericFailure;
     }
-
-    [FBLegacy fetchApplications:self.fbDevice];
+    
     NSError *error = nil;
 
     if(![FBLegacy uploadApplicationDataAtPath:xcappdata bundleID:bundleIdentifier error:&error]){
