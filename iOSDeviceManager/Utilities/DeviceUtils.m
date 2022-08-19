@@ -103,17 +103,22 @@ const double EPSILON = 0.001;
     delay:5.0]; // This is needed to give the Restorable Devices time to populate.
 }
 
-+ (NSArray<FBDevice *> *)availableDevices {
++ (FBDeviceSet *)deviceSet {
     static dispatch_once_t onceToken = 0;
-    static NSArray<FBDevice *> *m_availableDevices;
-    
+    static FBDeviceSet *deviceSet;
     dispatch_once(&onceToken, ^{
         NSError *error = nil;
-        FBDeviceSet *deviceSet = [[self deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&error];
-        
-        m_availableDevices = [deviceSet allDevices];
+        deviceSet = [[self deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&error];
+        if (error) {
+            ConsoleWriteErr(@"Error getting the device set: %@", error);
+            @throw [NSException exceptionWithName:@"GenericException" reason:@"Failed getting device set" userInfo:nil];
+        }
     });
-    return m_availableDevices;
+    return deviceSet;
+}
+
++ (NSArray<FBDevice *> *)availableDevices {
+    return [[self deviceSet] allDevices];
 }
 
 

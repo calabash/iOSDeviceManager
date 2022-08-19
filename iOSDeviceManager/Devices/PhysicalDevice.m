@@ -25,22 +25,11 @@
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
 
     device.uuid = uuid;
-
-    static NSError *err;
-
-    static dispatch_once_t onceToken = 0;
     static FBDevice *fbDevice;
-    
-    dispatch_once(&onceToken, ^{
-        NSError *error = nil;
-        FBDeviceSet *deviceSet = [[DeviceUtils deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&error];
-        
-        fbDevice = [deviceSet deviceWithUDID:uuid];
-        err = error;
-    });
+    fbDevice = [[DeviceUtils deviceSet] deviceWithUDID:uuid];
 
     if (!fbDevice) {
-        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
+        ConsoleWriteErr(@"Error getting device with ID %@.", uuid);
         return nil;
     }
 
