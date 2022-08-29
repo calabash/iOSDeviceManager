@@ -25,8 +25,7 @@
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
 
     device.uuid = uuid;
-    static FBDevice *fbDevice;
-    fbDevice = [[DeviceUtils deviceSet] deviceWithUDID:uuid];
+    FBDevice *fbDevice = [[DeviceUtils deviceSet] deviceWithUDID:uuid];
 
     if (!fbDevice) {
         ConsoleWriteErr(@"Error getting device with ID %@.", uuid);
