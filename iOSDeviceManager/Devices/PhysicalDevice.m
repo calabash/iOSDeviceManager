@@ -25,14 +25,10 @@
     PhysicalDevice* device = [[PhysicalDevice alloc] init];
 
     device.uuid = uuid;
-
-    NSError *err;
-    
-    FBDeviceSet *deviceSet = [[DeviceUtils deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&err];
-    FBDevice *fbDevice = [deviceSet deviceWithUDID:uuid];
+    FBDevice *fbDevice = [[DeviceUtils deviceSet] deviceWithUDID:uuid];
 
     if (!fbDevice) {
-        ConsoleWriteErr(@"Error getting device with ID %@: %@", uuid, err);
+        ConsoleWriteErr(@"Error getting device with ID %@.", uuid);
         return nil;
     }
 

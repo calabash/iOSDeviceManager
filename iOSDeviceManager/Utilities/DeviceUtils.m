@@ -90,26 +90,35 @@ const double EPSILON = 0.001;
 
 //taken from idb
 + (FBFuture<FBDeviceSet *> *)deviceSet:(id<FBControlCoreLogger>)logger ecidFilter:(NSString *)ecidFilter {
-  return [[FBFuture
-    onQueue:dispatch_get_main_queue() resolveValue:^ FBDeviceSet * (NSError **error) {
-      FBDeviceSet *deviceSet = [FBDeviceSet setWithLogger:logger delegate:nil ecidFilter:ecidFilter error:error];
-      if (!deviceSet) {
-        return nil;
-      }
-      return deviceSet;
+    return [[FBFuture onQueue:dispatch_get_main_queue() resolveValue:^ FBDeviceSet * (NSError **error) {
+        if(![FBDeviceControlFrameworkLoader.new loadPrivateFrameworks:logger error:error]) {
+            return nil;
+        }
+        FBDeviceSet *deviceSet = [FBDeviceSet setWithLogger:logger delegate:nil ecidFilter:ecidFilter error:error];
+        if (!deviceSet) {
+            return nil;
+        }
+        return deviceSet;
     }]
-    delay:0.2]; // This is needed to give the Restorable Devices time to populate.
+    delay:5.0]; // This is needed to give the Restorable Devices time to populate.
+}
+
++ (FBDeviceSet *)deviceSet {
+    static dispatch_once_t onceToken = 0;
+    static FBDeviceSet *deviceSet;
+    dispatch_once(&onceToken, ^{
+        NSError *error = nil;
+        deviceSet = [[self deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:&error];
+        if (error) {
+            ConsoleWriteErr(@"Error getting the device set: %@", error);
+            @throw [NSException exceptionWithName:@"GenericException" reason:@"Failed getting device set" userInfo:nil];
+        }
+    });
+    return deviceSet;
 }
 
 + (NSArray<FBDevice *> *)availableDevices {
-    static dispatch_once_t onceToken = 0;
-    static NSArray<FBDevice *> *m_availableDevices;
-    
-    dispatch_once(&onceToken, ^{
-        FBDeviceSet *deviceSet = [[self deviceSet:FBControlCoreGlobalConfiguration.defaultLogger ecidFilter:nil] await:nil];
-        m_availableDevices = [deviceSet allDevices];
-    });
-    return m_availableDevices;
+    return [[self deviceSet] allDevices];
 }
 
 
