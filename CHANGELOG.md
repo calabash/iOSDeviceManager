@@ -1,3 +1,10 @@
+### 3.9.4
+
+* Fixed bug with clearing AppData on physical devices.
+* Fixed bug with getting physical devices.
+* Updated idb's frameworks version to 1.1.7.
+* Updated dependencies.
+
 ### 3.9.3
 
 * Refactored simulator lifecycle logic and updated tests.
