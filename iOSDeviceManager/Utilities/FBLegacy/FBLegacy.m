@@ -29,6 +29,10 @@
     return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsCore.framework" requiredClassNames:@[]];
 }
 
++ (FBWeakFramework *)AssetCatalogFoundation
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/AssetCatalogFoundation.framework" requiredClassNames:@[]];
+}
 
 + (FBWeakFramework *)IBAutolayoutFoundation
 {
@@ -95,11 +99,22 @@ DVT contains an old set of functions
     
     [frameworks addObject:ideFoundationFramework];
     
+    ///IDEiOSSupportCore loading doesn't work without these three frameworks loading
+    [frameworks addObject:[self DevToolsFoundation]];
+    [frameworks addObject:[self DevToolsSupport]];
+    [frameworks addObject:[self DevToolsCore]];
+    
+    
     FBWeakFramework *ideiOSSupportCorePlugin = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.ideplugin" requiredClassNames:@[@"DVTiPhoneSimulator"]];
     
     [frameworks addObject:ideiOSSupportCorePlugin];
+    ///
     
+    ///IBAutolayoutFoundation loading doesn't work without AssetCatalogFoundation framework loading
+    [frameworks addObject:[self AssetCatalogFoundation]];
     [frameworks addObject:[self IBAutolayoutFoundation]];
+    ///
+
     [frameworks addObject:[self IDEKit]];
     
     [frameworks addObject:[self DebugHierarchyFoundation]];
