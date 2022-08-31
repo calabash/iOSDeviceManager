@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		0IV7Jt4CFg40uIhzoPYYASUtCFI=
+		WW0VXr6RWL4bcPat+a70MENnYgA=
 		</data>
 		<key>CBX.xctestconfiguration</key>
 		<data>
@@ -38,19 +38,19 @@
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
 		<data>
-		Q8TjiTZiFmL/dsm4G8C7FvE4MGU=
+		kz0kCeGNYGotOXd9DErN+jsHxhw=
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>
 		<data>
-		KrbbohHj3NfFebJVto3PvxsTEtU=
+		k3NnHfYjVeiPcfXwiZBE0VXOneE=
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
 		<data>
-		pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
+		D6Pr0B/Q0JehL9mC4iAKRT0J7i8=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		vjkCmfnHcK+cGB0KC6gvbMAUS4o=
+		m/uQsJGEI6eGZEHvSWvTZHXZ49s=
 		</data>
 		<key>LICENSE</key>
 		<data>
@@ -67,11 +67,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0IV7Jt4CFg40uIhzoPYYASUtCFI=
+			WW0VXr6RWL4bcPat+a70MENnYgA=
 			</data>
 			<key>hash2</key>
 			<data>
-			IvCq/dRXHIYsCS1uZ4WGH2bkNAFLYOsmRpiBfQHDWMM=
+			5lnr1fHJMNCDm4NcbLeTygXIPb9VIpvJJKrs1xRHKkg=
 			</data>
 		</dict>
 		<key>CBX.xctestconfiguration</key>
@@ -155,33 +155,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Q8TjiTZiFmL/dsm4G8C7FvE4MGU=
+			kz0kCeGNYGotOXd9DErN+jsHxhw=
 			</data>
 			<key>hash2</key>
 			<data>
-			LTyCI6vISR4jPsp6CsRegSlrlFCjWmraa9Yyc8IRPXM=
+			fx1F7TPwQl9f+luLNQTgcEMZKe/dOl6f8ZtziVIhRRE=
 			</data>
 		</dict>
 		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KrbbohHj3NfFebJVto3PvxsTEtU=
+			k3NnHfYjVeiPcfXwiZBE0VXOneE=
 			</data>
 			<key>hash2</key>
 			<data>
-			/v2Xzl22YnjMKuL3tpbzcvxzf7LM56+GAOUBxn2iiCQ=
+			twII03K5UvOw+zIYjmBglUiHIq9fKeMfkBnefDfT5kk=
 			</data>
 		</dict>
 		<key>Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
+			D6Pr0B/Q0JehL9mC4iAKRT0J7i8=
 			</data>
 			<key>hash2</key>
 			<data>
-			7eIWFjTDTbkUwfySphKjTiHStiuN3o2jG0Q/IiKbeg8=
+			b4R6cDtMdDgD1alER+dsvZMBKZw9h9+OkKli7D/7BGY=
 			</data>
 		</dict>
 		<key>LICENSE</key>
