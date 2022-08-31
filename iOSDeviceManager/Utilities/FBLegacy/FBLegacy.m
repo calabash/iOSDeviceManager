@@ -39,6 +39,29 @@
     return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IBAutolayoutFoundation.framework" requiredClassNames:@[]];
 }
 
+
++ (FBWeakFramework *)DVTDeveloperModeHelper
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DVTDeveloperModeHelper.framework" requiredClassNames:@[]];
+}
+
++ (FBWeakFramework *)DTGraphKit
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DTGraphKit.framework" requiredClassNames:@[]];
+}
+
+
++ (FBWeakFramework *)DVTProductsUI
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DVTProductsUI.framework" requiredClassNames:@[]];
+}
+
+
++ (FBWeakFramework *)DVTAnalyticsKit
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DVTAnalyticsKit.framework" requiredClassNames:@[]];
+}
+
 + (FBWeakFramework *)IDEKit
 {
     return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IDEKit.framework" requiredClassNames:@[]];
@@ -115,6 +138,15 @@ DVT contains an old set of functions
     [frameworks addObject:[self IBAutolayoutFoundation]];
     ///
 
+    [frameworks addObject:[self IBAutolayoutFoundation]];
+    
+    ///IDEKit loading doesn't work without DVTDeveloperModeHelper framework loading
+    [frameworks addObject:[self DVTDeveloperModeHelper]];
+    [frameworks addObject:[self DTGraphKit]];
+    
+    [frameworks addObject:[self DVTProductsUI]];
+    [frameworks addObject:[self DVTAnalyticsKit]];
+    
     [frameworks addObject:[self IDEKit]];
     
     [frameworks addObject:[self DebugHierarchyFoundation]];
