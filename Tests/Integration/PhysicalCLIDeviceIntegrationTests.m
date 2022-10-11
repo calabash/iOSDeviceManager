@@ -70,6 +70,32 @@
 
 }
 
+
+- (void)testClearAppData {
+    if (!device_available()) { return; }
+    NSArray *args = @[
+                      kProgramName, @"is-installed",
+                      testAppID,
+                      @"-d", defaultDeviceUDID
+                      ];
+
+    if ([CLI process:args] == iOSReturnStatusCodeFalse) {
+        args = @[
+                 kProgramName, @"install",
+                 testApp(ARM),
+                 @"-d", defaultDeviceUDID
+                 ];
+        XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+    }
+
+    args = @[
+        kProgramName, @"clear-app-data",
+        testApp(ARM)
+    ];
+    XCTAssertEqual([CLI process:args], iOSReturnStatusCodeEverythingOkay);
+}
+
+
 - (void)testLaunchAndKillApp {
     if (!device_available()) { return; }
     NSArray *args = @[
