@@ -355,9 +355,9 @@
     if (error) {
         if ([[error description] containsString:@"is not installed."]) {
             ConsoleWriteErr(@"Error checking if %@ is installed to %@: %@", bundleID, [self uuid], error);
-            @throw [NSException exceptionWithName:@"IsInstalledAppException"
-                                           reason:@"Unable to determine if application is installed"
-                                         userInfo:nil];
+//            @throw [NSException exceptionWithName:@"IsInstalledAppException"
+//                                           reason:@"Unable to determine if application is installed"
+//                                         userInfo:nil];
         }
     }
 

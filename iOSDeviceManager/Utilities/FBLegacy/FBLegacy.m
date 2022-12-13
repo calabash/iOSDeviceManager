@@ -12,27 +12,75 @@
 
 @implementation FBLegacy
 
+static BOOL atLeastXcode14;
 ////
 //legacy frameworks that are required for .xcappdata container download and upload
 + (FBWeakFramework *)DevToolsFoundation
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsFoundation.framework" requiredClassNames:@[]];
+    if (atLeastXcode14){
+        return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/DevToolsFoundation.framework" requiredClassNames:@[]];
+    }
+    else{
+        return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsFoundation.framework" requiredClassNames:@[]];
+    }
 }
 
 + (FBWeakFramework *)DevToolsSupport
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsSupport.framework" requiredClassNames:@[]];
+    if (atLeastXcode14){
+        return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/DevToolsSupport.framework" requiredClassNames:@[]];
+    }
+    else{
+        return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsSupport.framework" requiredClassNames:@[]];
+    }
 }
 
 + (FBWeakFramework *)DevToolsCore
 {
-    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsCore.framework" requiredClassNames:@[]];
+    if (atLeastXcode14){
+        return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/DevToolsCore.framework" requiredClassNames:@[]];
+    }
+    else{
+        return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/DevToolsCore.framework" requiredClassNames:@[]];
+    }
 }
 
++ (FBWeakFramework *)DVTKit
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DVTKit.framework" requiredClassNames:@[]];
+}
+
++ (FBWeakFramework *)AssetCatalogFoundation
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/AssetCatalogFoundation.framework" requiredClassNames:@[]];
+}
 
 + (FBWeakFramework *)IBAutolayoutFoundation
 {
     return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../Frameworks/IBAutolayoutFoundation.framework" requiredClassNames:@[]];
+}
+
+
++ (FBWeakFramework *)DVTDeveloperModeHelper
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DVTDeveloperModeHelper.framework" requiredClassNames:@[]];
+}
+
++ (FBWeakFramework *)DTGraphKit
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DTGraphKit.framework" requiredClassNames:@[]];
+}
+
+
++ (FBWeakFramework *)DVTProductsUI
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DVTProductsUI.framework" requiredClassNames:@[]];
+}
+
+
++ (FBWeakFramework *)DVTAnalyticsKit
+{
+    return [FBWeakFramework xcodeFrameworkWithRelativePath:@"../SharedFrameworks/DVTAnalyticsKit.framework" requiredClassNames:@[]];
 }
 
 + (FBWeakFramework *)IDEKit
@@ -74,6 +122,12 @@ Load all frameworks and libraries that are required by DVT
 DVT contains an old set of functions
 */
 +(void)loadDVTFrameworks{
+    
+    NSDecimalNumber *xcodeVersion = FBXcodeConfiguration.xcodeVersionNumber;
+    NSDecimalNumber *xcode14 = [NSDecimalNumber decimalNumberWithString:@"14"];
+
+    atLeastXcode14 = [xcodeVersion compare:xcode14] != NSOrderedAscending;
+    
     NSError *err;
     
     for (FBDependentDylib *dylib in [FBDependentDylib SwiftDylibs]) {
@@ -95,11 +149,39 @@ DVT contains an old set of functions
     
     [frameworks addObject:ideFoundationFramework];
     
-    FBWeakFramework *ideiOSSupportCorePlugin = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.ideplugin" requiredClassNames:@[@"DVTiPhoneSimulator"]];
+    ///IDEiOSSupportCore loading doesn't work without these three frameworks loading
+    [frameworks addObject:[self DevToolsFoundation]];
+    [frameworks addObject:[self DevToolsSupport]];
+    [frameworks addObject:[self DevToolsCore]];
     
-    [frameworks addObject:ideiOSSupportCorePlugin];
     
+    if (atLeastXcode14){
+        FBWeakFramework *ideiOSSupportCoreFramework = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.framework" requiredClassNames:@[@"IDEFoundationTestInitializer"]];
+
+        [frameworks addObject:ideiOSSupportCoreFramework];
+    }
+    else{
+        FBWeakFramework *ideiOSSupportCorePlugin = [FBWeakFramework xcodeFrameworkWithRelativePath:@"../PlugIns/IDEiOSSupportCore.ideplugin" requiredClassNames:@[@"DVTiPhoneSimulator"]];
+
+        [frameworks addObject:ideiOSSupportCorePlugin];
+    }
+    ///
+    
+    ///IBAutolayoutFoundation loading doesn't work without AssetCatalogFoundation and DVTKit frameworks loading
+    [frameworks addObject:[self AssetCatalogFoundation]];
+    if (atLeastXcode14){
+        [frameworks addObject:[self DVTKit]];
+    }
     [frameworks addObject:[self IBAutolayoutFoundation]];
+    ///
+    
+    ///IDEKit loading doesn't work without DVTDeveloperModeHelper framework loading
+    [frameworks addObject:[self DVTDeveloperModeHelper]];
+    [frameworks addObject:[self DTGraphKit]];
+    
+    [frameworks addObject:[self DVTProductsUI]];
+    [frameworks addObject:[self DVTAnalyticsKit]];
+    
     [frameworks addObject:[self IDEKit]];
     
     [frameworks addObject:[self DebugHierarchyFoundation]];

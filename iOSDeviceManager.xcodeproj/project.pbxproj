@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1BFFACA028BE4C3D005045AA /* CocoaLumberjack.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		411B5769216DF48100913A9E /* XcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 411B5768216DF48100913A9E /* XcodeUtils.m */; };
 		411B576A216DF48100913A9E /* XcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 411B5768216DF48100913A9E /* XcodeUtils.m */; };
 		411B576B216DF48100913A9E /* XcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 411B5768216DF48100913A9E /* XcodeUtils.m */; };
@@ -262,6 +263,7 @@
 			dstPath = Frameworks;
 			dstSubfolderSpec = 10;
 			files = (
+				1BFFACA028BE4C3D005045AA /* CocoaLumberjack.xcframework in CopyFiles */,
 				892A93CC1D3934B600154F08 /* FBControlCore.framework in CopyFiles */,
 				892A93CD1D3934B600154F08 /* FBDeviceControl.framework in CopyFiles */,
 				892A93CE1D3934B600154F08 /* FBSimulatorControl.framework in CopyFiles */,
@@ -1007,7 +1009,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"";
+			shellScript = "bin/xcode-build-phase/gitversioning-before.sh \"iOSDeviceManager/IDMVersionDefines.h\"\n";
 			showEnvVarsInLog = 0;
 		};
 		42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */ = {

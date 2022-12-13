@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		0IV7Jt4CFg40uIhzoPYYASUtCFI=
+		zoCFwAnGfKe18P2IsTdHqRjlukM=
 		</data>
 		<key>CBX.xctestconfiguration</key>
 		<data>
@@ -38,19 +38,19 @@
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
 		<data>
-		gM6NZl9MygMfQIDNg80q77pNu+w=
+		FwwRm3gERF5U9nIzhgVi/2Eg7YM=
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>
 		<data>
-		KrbbohHj3NfFebJVto3PvxsTEtU=
+		IvAty6XXykJ/pSztWWZO0UdFjbY=
 		</data>
 		<key>Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
 		<data>
-		pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
+		M5YU/AeJUOShd0sua5eZI8sud1U=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		z/OSgBrNvVb4sLjsLV6ZiLoRYow=
+		jT0538DfoXdGftkXvSwEGMfVGlM=
 		</data>
 		<key>LICENSE</key>
 		<data>
@@ -65,21 +65,13 @@
 	<dict>
 		<key>Assets.car</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			0IV7Jt4CFg40uIhzoPYYASUtCFI=
-			</data>
 			<key>hash2</key>
 			<data>
-			IvCq/dRXHIYsCS1uZ4WGH2bkNAFLYOsmRpiBfQHDWMM=
+			ibv8EnfpBx+KsJPidFJtCsYWVivX0DVXmug116N4zRU=
 			</data>
 		</dict>
 		<key>CBX.xctestconfiguration</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			hK7jXKb6UZc+5uPSNPbAZ0AETXM=
-			</data>
 			<key>hash2</key>
 			<data>
 			MCyO4aarN4EckDdq2+Gz1UOdLVAmHyRXbRPF6ccM8rs=
@@ -87,10 +79,6 @@
 		</dict>
 		<key>CocoaAsyncSocket.LICENSE</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			GRPWdnZ7Esaiw1/H/e7pyeMkJTk=
-			</data>
 			<key>hash2</key>
 			<data>
 			Epg8eGo04mr7iQNVyRu733yxNlErVhny/xSitltT9XM=
@@ -98,10 +86,6 @@
 		</dict>
 		<key>CocoaHTTPServer.LICENSE</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			IbLGcJJv24WYzM8w833UQg0KcDc=
-			</data>
 			<key>hash2</key>
 			<data>
 			tB033aiOVJnwdVLZ181vvRzcIfne8hzYqUmB6s4qHs8=
@@ -109,10 +93,6 @@
 		</dict>
 		<key>CocoaLumberjack.LICENSE</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			S9METBeN4Z6dm/Kn5jrPjovQm5M=
-			</data>
 			<key>hash2</key>
 			<data>
 			zBpt658epQ1bu/SXsviPCaTVsJVrEFVHgFlGO+KiBWo=
@@ -120,10 +100,6 @@
 		</dict>
 		<key>DeviceAgent-device.xctestrun</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			h8+XkyPXYPiVHqoYYBmu6h64ha8=
-			</data>
 			<key>hash2</key>
 			<data>
 			pMyVvd5TjSCY8jekM4RWPi0zct2TVNX/kTwqy+mzrxo=
@@ -131,10 +107,6 @@
 		</dict>
 		<key>DeviceAgent-simulator-template.xctestrun</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			a3oQNxGy8Cqy/e1yxmccE+NWxEg=
-			</data>
 			<key>hash2</key>
 			<data>
 			iTdpuPr2WxcvWFSadKurfPm0IHBjvQjF57wz5K5CXbI=
@@ -142,10 +114,6 @@
 		</dict>
 		<key>Facebook-WebDriverAgent.LICENSE</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			mW6baz+r31kxrUqjLglkLBm3pX4=
-			</data>
 			<key>hash2</key>
 			<data>
 			2ZEMa6XkwprkFe486HXJ4Ypg2LxNf+LC0QTbKnGLG7Q=
@@ -153,43 +121,27 @@
 		</dict>
 		<key>Frameworks/CocoaLumberjack.framework/CocoaLumberjack</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			gM6NZl9MygMfQIDNg80q77pNu+w=
-			</data>
 			<key>hash2</key>
 			<data>
-			Pr5FvLSs9x9VCTj+V3Zq7j8SpinY1XjpPqee4mGrGD0=
+			PVixNAdbDRAB6PIdP3Ab99bHegnoz5oY3wds8vE2Z1c=
 			</data>
 		</dict>
 		<key>Frameworks/CocoaLumberjack.framework/Info.plist</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			KrbbohHj3NfFebJVto3PvxsTEtU=
-			</data>
 			<key>hash2</key>
 			<data>
-			/v2Xzl22YnjMKuL3tpbzcvxzf7LM56+GAOUBxn2iiCQ=
+			muHeuCPZKOqke+OoYyskzj/bhSuKKRqSIv/JgqGflK4=
 			</data>
 		</dict>
 		<key>Frameworks/CocoaLumberjack.framework/_CodeSignature/CodeResources</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			pbTNGYvOa3JwiZ1/vcvMr3Sv1+c=
-			</data>
 			<key>hash2</key>
 			<data>
-			7eIWFjTDTbkUwfySphKjTiHStiuN3o2jG0Q/IiKbeg8=
+			fxExPWPUVvHBmQZZzeNMiIUxUi4E/uouhNLW9D+29NA=
 			</data>
 		</dict>
 		<key>LICENSE</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			CIL434yrMSzYMt5INXuvhxF7RJI=
-			</data>
 			<key>hash2</key>
 			<data>
 			TAUR9kdHnh7EaT6S1njn9pYpmpaEdJiJhn1+d62gEBM=
@@ -197,10 +149,6 @@
 		</dict>
 		<key>RoutingHTTPServer.LICENSE</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			GOQuZwp7cOh2MHsfbu99dQGvY2w=
-			</data>
 			<key>hash2</key>
 			<data>
 			d2hXwuje0Ap5WKFT1jCD7AS21SlNZ9mT4T2slQFlr1Y=
