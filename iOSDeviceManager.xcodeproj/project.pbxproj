@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -155,7 +155,6 @@
 		B9C08F042073A01D0032997D /* ClearAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C157206CA08600879BBD /* ClearAppDataCommand.m */; };
 		B9C08F052073A01D0032997D /* DownloadXCAppDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B980C15A206CF30B00879BBD /* DownloadXCAppDataCommand.m */; };
 		DD062D78288A7E9800164B2C /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; };
-		DD062D79288A7E9800164B2C /* CocoaLumberjack.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DD062D7A288A857200164B2C /* CocoaLumberjack.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DD062D7B288A857D00164B2C /* CocoaLumberjack.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DD062D7C288A858600164B2C /* CocoaLumberjack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD062D77288A7E9800164B2C /* CocoaLumberjack.xcframework */; };
@@ -286,17 +285,6 @@
 				DD4E0B97288039E8006501FC /* OCMock.xcframework in CopyFiles */,
 				DD4E0B95288039C6006501FC /* Specta.xcframework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD4E0B9B28803D84006501FC /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				DD062D79288A7E9800164B2C /* CocoaLumberjack.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F5D584111D6A03DB007B0D11 /* Copy Files */ = {
@@ -882,7 +870,6 @@
 				42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */,
 				89331D401CE222C7003C2E59 /* Frameworks */,
 				89331D411CE222C7003C2E59 /* CopyFiles */,
-				DD4E0B9B28803D84006501FC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -936,7 +923,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
@@ -999,13 +986,17 @@
 /* Begin PBXShellScriptBuildPhase section */
 		42D2EC9D1EC143AA00A37F4D /* Run Script - Update IDMVersionDefines.h */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
 			name = "Run Script - Update IDMVersionDefines.h";
 			outputPaths = (
+				"$(PROJECT_DIR)/iOSDeviceManager/IDMVersionDefines.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1014,6 +1005,7 @@
 		};
 		42D2EC9E1EC143AD00A37F4D /* Run Script - Revert IDMVersionDefines.h */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1288,6 +1280,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1346,6 +1339,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1375,6 +1369,7 @@
 				APPLE_SHARED_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../SharedFrameworks";
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1416,6 +1411,7 @@
 				APPLE_SHARED_FRAMEWORKS_DIR = "$(DEVELOPER_DIR)/../SharedFrameworks";
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1454,6 +1450,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1485,6 +1482,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,6 +1514,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1548,6 +1547,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer: Karl Krukow (YTTN6Y2QS9)";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = FYD86LA7RE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
