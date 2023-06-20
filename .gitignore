@@ -10,14 +10,7 @@ IDEWorkspaceChecks.plist
 
 reports/*.xml
 reports/*.json
-Carthage/Checkouts
-Carthage/Build/iOS
-Carthage/Build/tvOS
-Carthage/Build/**/*.version
-Carthage/Build/**/*.bcsymbolmap
-!Carthage/Build/Mac/Expecta.framework*
-!Carthage/Build/Mac/Specta.framework*
-!Carthage/Build/Mac/OCMock.framework*
+Carthage
 
 ## OSS
 Frameworks/ThirdPartyNotices.txt
